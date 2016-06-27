@@ -31,7 +31,15 @@
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-themes</artifactId>
         </dependency>
+        
+        <!-- Vaadin addons -->
+        <dependency>
+			<groupId>org.vaadin</groupId>
+			<artifactId>viritin</artifactId>
+			<version>1.52</version>
+		</dependency>
 
+		<!-- Project dependencies -->
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>dungeonsstory-backend</artifactId>
@@ -47,10 +55,10 @@
 
         <!-- Bean validation implementation -->
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>5.1.0.CR1</version>
-        </dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>5.2.4.Final</version>
+		</dependency>
 
         <!-- Testing -->
         <dependency>

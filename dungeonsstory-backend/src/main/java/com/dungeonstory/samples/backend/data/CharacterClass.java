@@ -1,0 +1,78 @@
+package com.dungeonstory.samples.backend.data;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+@SuppressWarnings("serial")
+@Entity
+@IdClass(CharacterClassId.class)
+public class CharacterClass implements Serializable {
+	@Id
+	@Column(name = "characterId")
+	private Long characterId;
+
+	@Id
+	@Column(name = "classId")
+	private Long classId;
+
+	@Column(name = "classLevel")
+	private int classLevel;
+
+	@ManyToOne
+	@JoinColumn(name = "characterId", updatable = false, insertable = false)
+	private Character character;
+
+	@ManyToOne
+	@JoinColumn(name = "classId", updatable = false, insertable = false)
+	private Class classe;
+
+	public CharacterClass() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public Long getCharacterId() {
+		return characterId;
+	}
+
+	public void setCharacterId(Long characterId) {
+		this.characterId = characterId;
+	}
+
+	public Long getClassId() {
+		return classId;
+	}
+
+	public void setClassId(Long classId) {
+		this.classId = classId;
+	}
+
+	public Character getCharacter() {
+		return character;
+	}
+
+	public void setCharacter(Character character) {
+		this.character = character;
+	}
+
+	public int getClassLevel() {
+		return classLevel;
+	}
+
+	public void setClassLevel(int classLevel) {
+		this.classLevel = classLevel;
+	}
+
+	public Class getClasse() {
+		return classe;
+	}
+
+	public void setClasse(Class classe) {
+		this.classe = classe;
+	}
+}
