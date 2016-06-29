@@ -1,4 +1,4 @@
-package com.dungeonstory.samples.about;
+package com.dungeonstory.view;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;

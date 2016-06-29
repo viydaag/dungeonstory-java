@@ -39,7 +39,7 @@ public class BeanGrid<T> extends Grid {
         // get a partial update for the grid
         BeanItem<T> item = getContainer().getItem(bean);
         if (item != null) {
-            // Updated product
+            // Updated bean
             MethodProperty<T> p = (MethodProperty<T>) item.getItemProperty("id");
             p.fireValueChange();
         } else {

@@ -13415,7 +13415,7 @@ div.v-layout.v-horizontal.v-widget {
 	padding: 32px !important;
 }
 
-.dungeonstory .v-ui[width-range~="0-800px"] .main-screen {
+.dungeonstory .v-ui[width-range~="0-800px"] .main-layout {
 	padding-top: 32px;
 }
 
@@ -13534,4 +13534,18 @@ div.v-layout.v-horizontal.v-widget {
 
 .dungeonstory .align-right {
 	text-align: right;
+}
+
+.dungeonstory .navbar {
+	width: 250px;
+	position: relative;
+}
+
+.dungeonstory .navbar .valo-menu-item, .dungeonstory .navbar .valo-menu-title {
+	text-align: left;
+}
+
+.dungeonstory .navbar .logout {
+	position: absolute;
+	bottom: 10px;
 }

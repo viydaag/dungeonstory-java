@@ -152,7 +152,9 @@ public class SampleCrudView extends CssLayout implements View {
 
     public void refreshProduct(Product product) {
         grid.refresh(product);
-        grid.scrollTo(product);
+        if (product != null) {
+        	grid.scrollTo(product);
+        }
     }
 
     public void removeProduct(Product product) {

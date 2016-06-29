@@ -1,6 +1,7 @@
 package com.dungeonstory.samples.backend.data;
 
 import java.util.Date;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -36,7 +37,7 @@ public abstract class AbstractTimestampEntity {
 		return id;
 	}
 
-	protected void setId(Long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -56,5 +57,29 @@ public abstract class AbstractTimestampEntity {
 	@PreUpdate
 	protected void onUpdate() {
 		updated = new Date();
+	}
+	
+	@Override
+	public int hashCode() {
+		int hash = 5;
+        hash = 43 * hash + Objects.hashCode(this.id);
+        return hash;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AbstractTimestampEntity other = (AbstractTimestampEntity) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
 }

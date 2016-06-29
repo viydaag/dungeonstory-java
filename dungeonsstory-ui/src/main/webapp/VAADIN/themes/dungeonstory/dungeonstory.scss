@@ -204,7 +204,7 @@ $v-layout-spacing-horizontal: round($v-unit-size / 1.8) !default;
   // No top menu on the login view, login screen layout changes
   .v-ui[width-range~="0-800px"] {
 
-    .main-screen {
+    .main-layout {
       padding-top: $v-unit-size;
     }
     // TODO also move loading indicator if using the hack above
@@ -344,6 +344,22 @@ $v-layout-spacing-horizontal: round($v-unit-size / 1.8) !default;
   // For aligning in grid until #15438 is done
   .align-right {
   	text-align: right;
+  }
+  
+  // Navigation bar
+  .navbar {
+    width: 250px;
+    position: relative;
+
+    .valo-menu-item,
+    .valo-menu-title {
+      text-align: left;
+    }
+
+    .logout {
+      position: absolute;
+      bottom: 10px;
+    }
   }
 
 }

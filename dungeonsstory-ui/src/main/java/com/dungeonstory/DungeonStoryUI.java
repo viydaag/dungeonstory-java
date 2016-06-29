@@ -2,12 +2,17 @@ package com.dungeonstory;
 
 import javax.servlet.annotation.WebServlet;
 
-import com.dungeonstory.samples.MainScreen;
+
+
+
+
+import com.dungeonstory.event.NavigationEvent;
 import com.dungeonstory.samples.authentication.AccessControl;
 import com.dungeonstory.samples.authentication.BasicAccessControl;
 import com.dungeonstory.samples.authentication.LoginScreen;
 import com.dungeonstory.samples.authentication.LoginScreen.LoginListener;
-
+import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.annotations.Viewport;
@@ -31,6 +36,10 @@ import com.vaadin.ui.themes.ValoTheme;
 @Widgetset("com.dungeonstory.DSWidgetset")
 public class DungeonStoryUI extends UI {
 
+
+	private static final long serialVersionUID = -5249908238351407763L;
+	
+	private EventBus eventBus;
     private AccessControl accessControl = new BasicAccessControl();
 
     @Override
@@ -38,6 +47,9 @@ public class DungeonStoryUI extends UI {
         Responsive.makeResponsive(this);
         setLocale(vaadinRequest.getLocale());
         getPage().setTitle("DungeonStory");
+        
+        setupEventBus();
+        
         if (!accessControl.isUserSignedIn()) {
             setContent(new LoginScreen(accessControl, new LoginListener() {
                 @Override
@@ -53,7 +65,7 @@ public class DungeonStoryUI extends UI {
     protected void showMainView() {
         addStyleName(ValoTheme.UI_WITH_MENU);
         setContent(new MainScreen(DungeonStoryUI.this));
-        getNavigator().navigateTo(getNavigator().getState());
+//        getNavigator().navigateTo(getNavigator().getState());
     }
 
     public static DungeonStoryUI get() {
@@ -63,9 +75,32 @@ public class DungeonStoryUI extends UI {
     public AccessControl getAccessControl() {
         return accessControl;
     }
+    
+    private void setupEventBus() {
+        eventBus = new EventBus((throwable, subscriberExceptionContext) -> {
+            // log error
+            throwable.printStackTrace();
+        });
+        eventBus.register(this);
+    }
+
+    public static DungeonStoryUI getCurrent() {
+        return (DungeonStoryUI) UI.getCurrent();
+    }
+
+    public static EventBus getEventBus() {
+        return getCurrent().eventBus;
+    }
+    
+    @Subscribe
+    public void navigateTo(NavigationEvent view) {
+        getNavigator().navigateTo(view.getViewName());
+    }
 
     @WebServlet(urlPatterns = "/*", name = "DungeonStoryUIServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = DungeonStoryUI.class, productionMode = false)
     public static class DungeonStoryUIServlet extends VaadinServlet {
+    	
+		private static final long serialVersionUID = 4139296258602945675L;
     }
 }

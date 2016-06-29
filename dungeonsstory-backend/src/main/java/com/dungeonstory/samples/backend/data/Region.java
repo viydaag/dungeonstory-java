@@ -10,6 +10,7 @@ import javax.validation.constraints.Size;
 @SuppressWarnings("serial")
 @Entity
 public class Region extends AbstractTimestampEntity implements Serializable {
+	
 	@Size(min = 3)
 	@NotNull
 	@Column(name = "name", unique = true, nullable = false)
