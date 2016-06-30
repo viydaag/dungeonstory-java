@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 @Entity
 public class Skill extends AbstractTimestampEntity implements Serializable {
 
+	private static Long idSkill = 1L;
+	
 	@Column(name = "name", unique = true)
 	private String name;
 
@@ -43,7 +45,14 @@ public class Skill extends AbstractTimestampEntity implements Serializable {
 	private List<ClassSkill> classes;
 
 	public Skill() {
-		// TODO Auto-generated constructor stub
+		super();
+		setId(idSkill++);
+	}
+	
+	public Skill(String name, Ability ability) {
+		this();
+		this.name = name;
+		this.keyAbility = ability;
 	}
 
 	public String getName() {

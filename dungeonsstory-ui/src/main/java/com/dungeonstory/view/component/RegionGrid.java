@@ -9,7 +9,6 @@ public class RegionGrid extends BeanGrid<Region> {
 
 	public RegionGrid(Class<Region> beanClass) {
 		super(beanClass);
-//		addColumn("id");
 		setColumnOrder("name", "shortDescription", "description");
 	}
 

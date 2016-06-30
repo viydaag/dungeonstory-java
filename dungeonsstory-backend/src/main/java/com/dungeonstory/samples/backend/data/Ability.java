@@ -11,6 +11,8 @@ import javax.persistence.Table;
 @Table(name = "Ability")
 public class Ability extends AbstractTimestampEntity implements Serializable {
 
+	private static Long idAbility = 1L;
+	
 	@Column(name = "name", unique = true)
 	private String name;
 
@@ -21,11 +23,12 @@ public class Ability extends AbstractTimestampEntity implements Serializable {
 	private String abbreviation;
 
 	public Ability() {
-
+		super();
+		setId(idAbility++);
 	}
 
 	public Ability(String name, String abbreviation, String description) {
-		super();
+		this();
 		this.name = name;
 		this.abbreviation = abbreviation;
 		this.description = description;

@@ -2,14 +2,18 @@ package com.dungeonstory.samples.backend.mock;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 
+import com.dungeonstory.samples.backend.data.Ability;
 import com.dungeonstory.samples.backend.data.Availability;
 import com.dungeonstory.samples.backend.data.Category;
 import com.dungeonstory.samples.backend.data.Product;
+import com.dungeonstory.samples.backend.data.Skill;
 
 public class MockDataGenerator {
     private static int nextCategoryId = 1;
@@ -36,6 +40,36 @@ public class MockDataGenerator {
             "feeling down", "debugging", "running barefoot",
             "speaking to a big audience", "creating software", "giant needles",
             "elephants", "keeping your wife happy" };
+    
+    private static final String storedAbilities[][] = new String[][] {
+    	{"Force", "FOR"},
+    	{"Dextérité", "DEX"},
+    	{"Constitution", "CON"},
+    	{"Intelligence", "INT"},
+    	{"Sagesse", "SAG"},
+    	{"Charisme", "CHA"}
+    };
+    
+    private static final String storedSkills[][] = new String[][] {
+    	{"Athlétisme", "1"},
+    	{"Acrobatie", "2"},
+    	{"Vol à la tire", "2"},
+    	{"Furtivité", "2"},
+    	{"Arcane", "4"},
+    	{"Histoire", "4"},
+    	{"Investigation", "4"},
+    	{"Nature", "4"},
+    	{"Religion", "4"},
+    	{"Manipulation des animaux", "5"},
+    	{"Perspicacité", "5"},
+    	{"Soin", "5"},
+    	{"Perception", "5"},
+    	{"Survie", "5"},
+    	{"Tromperie", "6"},
+    	{"Intimidation", "6"},
+    	{"Performance", "6"},
+    	{"Persuasion", "6"}
+    };
 
     static List<Category> createCategories() {
         List<Category> categories = new ArrayList<Category>();
@@ -55,6 +89,24 @@ public class MockDataGenerator {
         }
 
         return products;
+    }
+    
+    static List<Ability> createAbilities() {
+        List<Ability> abilities = new ArrayList<Ability>();
+        for (String[] ability : storedAbilities) {
+        	abilities.add(new Ability(ability[0], ability[1], ""));
+        }
+        return abilities;
+    }
+    
+    static List<Skill> createSkills() {
+        List<Skill> skills = new ArrayList<Skill>();
+        Collection<Ability> abilities = MockDataService.getInstance().getAllAbilities();
+        for (String[] skill : storedSkills) {
+        	Optional<Ability> ability = abilities.stream().filter(a -> a.getId().equals(Long.valueOf(skill[1]))).findFirst();
+        	skills.add(new Skill(skill[0], ability.get()));
+        }
+        return skills;
     }
 
     private static Category createCategory(String name) {

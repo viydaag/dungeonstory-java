@@ -1,10 +1,13 @@
 package com.dungeonstory.samples.backend.mock;
 
+import java.util.Collection;
 import java.util.List;
 
 import com.dungeonstory.samples.backend.DataService;
+import com.dungeonstory.samples.backend.data.Ability;
 import com.dungeonstory.samples.backend.data.Category;
 import com.dungeonstory.samples.backend.data.Product;
+import com.dungeonstory.samples.backend.data.Skill;
 
 /**
  * Mock data model. This implementation has very simplistic locking and does not
@@ -12,29 +15,47 @@ import com.dungeonstory.samples.backend.data.Product;
  */
 public class MockDataService extends DataService {
 
-    private static MockDataService INSTANCE;
+	private static final long serialVersionUID = 1413016825631815194L;
 
-    private List<Product> products;
-    private List<Category> categories;
-    private int nextProductId = 0;
+	private static MockDataService INSTANCE;
+
+    private static List<Ability> abilities;
+    private static List<Skill> skills;
+    
+    private static List<Product> products;
+    private static List<Category> categories;
+    private static int nextProductId = 0;
 
     private MockDataService() {
+    	
+    }
+
+	private static void init() {
+		abilities = MockDataGenerator.createAbilities();
+    	skills = MockDataGenerator.createSkills();
+    	
         categories = MockDataGenerator.createCategories();
         products = MockDataGenerator.createProducts(categories);
         nextProductId = products.size() + 1;
-    }
+	}
 
     public synchronized static DataService getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new MockDataService();
+            init();
         }
         return INSTANCE;
     }
 
     @Override
-    public synchronized List<Product> getAllProducts() {
-        return products;
+    public synchronized List<Ability> getAllAbilities() {
+        return abilities;
     }
+    
+    @Override
+	public Collection<Product> getAllProducts() {
+		return products;
+	}
 
     @Override
     public synchronized List<Category> getAllCategories() {
@@ -79,4 +100,10 @@ public class MockDataService extends DataService {
         }
         products.remove(p);
     }
+
+	@Override
+	public Collection<Skill> getAllSkills() {
+		return skills;
+	}
+
 }

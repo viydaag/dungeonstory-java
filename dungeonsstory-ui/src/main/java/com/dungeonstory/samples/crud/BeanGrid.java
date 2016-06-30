@@ -60,6 +60,14 @@ public class BeanGrid<T> extends Grid {
     public void remove(T bean) {
         getContainer().removeItem(bean);
     }
+    
+    public void withColumns(Object... columns) {
+    	setColumnOrder(columns);
+    	removeAllColumns();
+    	for (Object column : columns) {
+			addColumn(column);
+		}
+    }
 
 
 }

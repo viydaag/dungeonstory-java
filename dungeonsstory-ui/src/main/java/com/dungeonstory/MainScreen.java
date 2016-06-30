@@ -8,6 +8,7 @@ import com.dungeonstory.view.ErrorView;
 import com.dungeonstory.view.HomeView;
 import com.dungeonstory.view.LevelView;
 import com.dungeonstory.view.RegionView;
+import com.dungeonstory.view.SkillView;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.ui.CssLayout;
@@ -88,6 +89,7 @@ public class MainScreen extends HorizontalLayout {
     	addView(HomeView.class);
 		addView(RegionView.class);
 		addView(LevelView.class);
+		addView(SkillView.class);
 	}
 
 	/**
@@ -96,21 +98,25 @@ public class MainScreen extends HorizontalLayout {
     private void addView(Class<? extends View> viewClass) {
         ViewConfig viewConfig = viewClass.getAnnotation(ViewConfig.class);
 
-        switch (viewConfig.createMode()) {
-            case ALWAYS_NEW:
-                navigator.addView(viewConfig.uri(), viewClass);
-                break;
-            case LAZY_INIT:
-                navigator.addProvider(new LazyProvider(viewConfig.uri(), viewClass));
-                break;
-            case EAGER_INIT:
-                try {
-                    navigator.addView(viewConfig.uri(), viewClass.newInstance());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        if (viewConfig == null) {
+        	System.out.println("ViewConfig est absent pour la vue " + viewClass.getSimpleName());
+        } else {
+	        switch (viewConfig.createMode()) {
+	            case ALWAYS_NEW:
+	                navigator.addView(viewConfig.uri(), viewClass);
+	                break;
+	            case LAZY_INIT:
+	                navigator.addProvider(new LazyProvider(viewConfig.uri(), viewClass));
+	                break;
+	            case EAGER_INIT:
+	                try {
+	                    navigator.addView(viewConfig.uri(), viewClass.newInstance());
+	                } catch (Exception e) {
+	                    e.printStackTrace();
+	                }
+	        }
+	        navBar.addView(viewConfig.uri(), viewConfig.displayName());
         }
-        navBar.addView(viewConfig.uri(), viewConfig.displayName());
     }
 
     // notify the view menu about view changes so that it can display which view
