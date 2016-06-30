@@ -4,11 +4,14 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.validation.constraints.NotNull;
 
-@SuppressWarnings("serial")
 @Entity
 public class Alignment extends AbstractTimestampEntity implements Serializable {
 
+	private static final long serialVersionUID = -518798894253295092L;
+
+	@NotNull
 	@Column(name = "name", unique = true)
 	private String name;
 
@@ -19,11 +22,11 @@ public class Alignment extends AbstractTimestampEntity implements Serializable {
 	private String description;
 
 	public Alignment() {
-
+		super();
 	}
 
 	public Alignment(String name, String shortDescription, String description) {
-		super();
+		this();
 		this.name = name;
 		this.shortDescription = shortDescription;
 		this.description = description;

@@ -10,12 +10,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-@SuppressWarnings("serial")
 @Entity
 @IdClass(ClassLevelBonusFeatId.class)
 @Table(name = "ClassLevelBonusFeat")
-public class ClassLevelBonusFeat extends AbstractTimestampEntity implements
-		Serializable {
+public class ClassLevelBonusFeat extends AbstractTimestampEntity implements	Serializable {
+
+	private static final long serialVersionUID = 5198775399118036404L;
+
 	@Id
 	@Column(name = "classId")
 	private Long classId;

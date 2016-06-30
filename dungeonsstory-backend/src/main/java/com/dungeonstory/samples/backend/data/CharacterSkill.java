@@ -9,6 +9,7 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+@Deprecated	//use CharacterProficientSkill for 5e edition
 @SuppressWarnings("serial")
 @Entity
 @IdClass(CharacterSkillId.class)

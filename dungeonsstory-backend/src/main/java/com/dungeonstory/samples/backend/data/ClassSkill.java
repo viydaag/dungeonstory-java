@@ -9,10 +9,12 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-@SuppressWarnings("serial")
 @Entity
 @IdClass(ClassSkillId.class)
 public class ClassSkill implements Serializable {
+
+	private static final long serialVersionUID = -694396032772798310L;
+
 	@Id
 	@Column(name = "classId")
 	private Long classId;

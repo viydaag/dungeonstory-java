@@ -18,6 +18,15 @@ public class BeanGrid<T> extends Grid {
 
         BeanItemContainer<T> container = new BeanItemContainer<T>(beanClass);
         setContainerDataSource(container);
+        
+        Column idColumn = getColumn("id");
+		if (idColumn != null) {
+			removeColumn("id");
+		}
+        Column versionColumn = getColumn("version");
+		if (versionColumn != null) {
+			removeColumn("version");
+		}
 	}
 	
 	protected BeanItemContainer<T> getContainer() {

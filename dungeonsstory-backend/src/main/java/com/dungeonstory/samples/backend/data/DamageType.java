@@ -6,20 +6,21 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-@SuppressWarnings("serial")
 @Entity
-@Table(name = "Ability")
+@Table(name = "DamageType")
 public class DamageType extends AbstractTimestampEntity implements Serializable {
 
+	private static final long serialVersionUID = -8021182556188719646L;
+	
 	@Column(name = "name", unique = true)
 	private String name;
 
 	public DamageType() {
-
+		super();
 	}
 
 	public DamageType(String name) {
-		super();
+		this();
 		this.name = name;
 	}
 

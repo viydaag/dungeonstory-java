@@ -14,41 +14,52 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
-@SuppressWarnings("serial")
 @Entity
 public class Level implements Serializable {
+
+	private static final long serialVersionUID = 4749488433122909200L;
+
+	private static Long levelId = 1L;
 	
 	@Id
+	@NotNull
 	@Column(name = "id", unique = true)
-	private int id;		//id is the level number
-	
+	private Long id; // id is the level number
+
 	@Version
 	private int version;
 
+	@NotNull
 	@Min(value = 0)
 	@Column(name = "maxExperience")
 	private long maxExperience;
 
+	@NotNull
 	@Min(value = 0)
-	@Column(name = "bonusFeat")
-	private boolean hasBonusFeat;
+	@Column(name = "proficiencyBonus")
+	private int proficiencyBonus;
 
-	@Min(value = 0)
-	@Column(name = "bonusAbilityScore")
-	private boolean hasBonusAbilityScore;
+	// @Min(value = 0)
+	// @Column(name = "bonusFeat")
+	// private boolean hasBonusFeat;
 
-	@Min(value = 0)
-	@Column(name = "maxClassSkillRanks")
-	private int maxClassSkillRanks;
+	//TODO : move in classLevelBonus
+//	@Column(name = "bonusAbilityScore")
+//	private boolean hasBonusAbilityScore;
 
-	@Min(value = 0)
-	@Column(name = "maxCrossClassSkillRanks")
-	private int maxCrossClassSkillRanks;
+	// @Min(value = 0)
+	// @Column(name = "maxClassSkillRanks")
+	// private int maxClassSkillRanks;
+	//
+	// @Min(value = 0)
+	// @Column(name = "maxCrossClassSkillRanks")
+	// private int maxCrossClassSkillRanks;
 
 	@OneToMany(mappedBy = "level")
 	private List<ClassLevelBonus> classBonuses;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "created", nullable = false)
 	private Date created;
@@ -58,14 +69,21 @@ public class Level implements Serializable {
 	private Date updated;
 
 	public Level() {
-		// TODO Auto-generated constructor stub
+		super();
+		this.id = levelId++;
 	}
 
-	public int getId() {
+	public Level(long maxExperience, int proficiencyBonus) {
+		this();
+		this.maxExperience = maxExperience;
+		this.proficiencyBonus = proficiencyBonus;
+	}
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	protected void setId(Long id) {
 		this.id = id;
 	}
 
@@ -77,38 +95,46 @@ public class Level implements Serializable {
 		this.maxExperience = maxExperience;
 	}
 
-	public boolean isHasBonusFeat() {
-		return hasBonusFeat;
+	// public boolean isHasBonusFeat() {
+	// return hasBonusFeat;
+	// }
+	//
+	// public void setHasBonusFeat(boolean hasBonusFeat) {
+	// this.hasBonusFeat = hasBonusFeat;
+	// }
+
+	public int getProficiencyBonus() {
+		return proficiencyBonus;
 	}
 
-	public void setHasBonusFeat(boolean hasBonusFeat) {
-		this.hasBonusFeat = hasBonusFeat;
+	public void setProficiencyBonus(int proficiencyBonus) {
+		this.proficiencyBonus = proficiencyBonus;
 	}
 
-	public boolean isHasBonusAbilityScore() {
-		return hasBonusAbilityScore;
-	}
+//	public boolean isHasBonusAbilityScore() {
+//		return hasBonusAbilityScore;
+//	}
+//
+//	public void setHasBonusAbilityScore(boolean hasBonusAbilityScore) {
+//		this.hasBonusAbilityScore = hasBonusAbilityScore;
+//	}
 
-	public void setHasBonusAbilityScore(boolean hasBonusAbilityScore) {
-		this.hasBonusAbilityScore = hasBonusAbilityScore;
-	}
+	// public int getMaxClassSkillRanks() {
+	// return maxClassSkillRanks;
+	// }
+	//
+	// public void setMaxClassSkillRanks(int maxClassSkillRanks) {
+	// this.maxClassSkillRanks = maxClassSkillRanks;
+	// }
+	//
+	// public int getMaxCrossClassSkillRanks() {
+	// return maxCrossClassSkillRanks;
+	// }
+	//
+	// public void setMaxCrossClassSkillRanks(int maxCrossClassSkillRanks) {
+	// this.maxCrossClassSkillRanks = maxCrossClassSkillRanks;
+	// }
 
-	public int getMaxClassSkillRanks() {
-		return maxClassSkillRanks;
-	}
-
-	public void setMaxClassSkillRanks(int maxClassSkillRanks) {
-		this.maxClassSkillRanks = maxClassSkillRanks;
-	}
-
-	public int getMaxCrossClassSkillRanks() {
-		return maxCrossClassSkillRanks;
-	}
-
-	public void setMaxCrossClassSkillRanks(int maxCrossClassSkillRanks) {
-		this.maxCrossClassSkillRanks = maxCrossClassSkillRanks;
-	}
-	
 	public int getVersion() {
 		return version;
 	}

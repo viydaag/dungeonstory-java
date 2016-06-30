@@ -1,4 +1,4 @@
-package com.dungeonstory.view;
+package com.dungeonstory.view.component;
 
 import com.dungeonstory.samples.backend.data.Region;
 import com.dungeonstory.samples.crud.BeanGrid;
@@ -9,7 +9,8 @@ public class RegionGrid extends BeanGrid<Region> {
 
 	public RegionGrid(Class<Region> beanClass) {
 		super(beanClass);
-		setColumnOrder("id", "name", "shortDescription", "description");
+//		addColumn("id");
+		setColumnOrder("name", "shortDescription", "description");
 	}
 
 }

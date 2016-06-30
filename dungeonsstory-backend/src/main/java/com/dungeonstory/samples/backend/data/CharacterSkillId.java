@@ -2,6 +2,7 @@ package com.dungeonstory.samples.backend.data;
 
 import java.io.Serializable;
 
+@Deprecated
 @SuppressWarnings("serial")
 public class CharacterSkillId implements Serializable {
 	private Long characterId;

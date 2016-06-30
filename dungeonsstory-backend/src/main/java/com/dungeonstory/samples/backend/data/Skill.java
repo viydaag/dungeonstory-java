@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -23,17 +24,20 @@ public class Skill extends AbstractTimestampEntity implements Serializable {
 	@JoinColumn(name = "keyAbilityId", nullable = false)
 	private Ability keyAbility;
 
-	@Column(name = "armorCheckPenalty", nullable = false)
-	private int armorCheckPenalty;
+//	@Column(name = "armorCheckPenalty", nullable = false)
+//	private int armorCheckPenalty;
+//
+//	@Column(name = "tryAgain", nullable = false)
+//	private boolean tryAgain;
+//
+//	@Column(name = "trained", nullable = false)
+//	private boolean trained;
 
-	@Column(name = "tryAgain", nullable = false)
-	private boolean tryAgain;
-
-	@Column(name = "trained", nullable = false)
-	private boolean trained;
-
-	@OneToMany(mappedBy = "skill")
-	private List<CharacterSkill> characters;
+//	@OneToMany(mappedBy = "skill")
+//	private List<CharacterSkill> characters;
+	
+	@ManyToMany(mappedBy = "skills")
+    private List<Character> characters;
 
 	@OneToMany(mappedBy = "skill")
 	private List<ClassSkill> classes;
@@ -66,35 +70,35 @@ public class Skill extends AbstractTimestampEntity implements Serializable {
 		this.keyAbility = keyAbility;
 	}
 
-	public int getArmorCheckPenalty() {
-		return armorCheckPenalty;
-	}
+//	public int getArmorCheckPenalty() {
+//		return armorCheckPenalty;
+//	}
+//
+//	public void setArmorCheckPenalty(int armorCheckPenalty) {
+//		this.armorCheckPenalty = armorCheckPenalty;
+//	}
+//
+//	public boolean isTryAgain() {
+//		return tryAgain;
+//	}
+//
+//	public void setTryAgain(boolean tryAgain) {
+//		this.tryAgain = tryAgain;
+//	}
+//
+//	public boolean isTrained() {
+//		return trained;
+//	}
+//
+//	public void setTrained(boolean trained) {
+//		this.trained = trained;
+//	}
 
-	public void setArmorCheckPenalty(int armorCheckPenalty) {
-		this.armorCheckPenalty = armorCheckPenalty;
-	}
-
-	public boolean isTryAgain() {
-		return tryAgain;
-	}
-
-	public void setTryAgain(boolean tryAgain) {
-		this.tryAgain = tryAgain;
-	}
-
-	public boolean isTrained() {
-		return trained;
-	}
-
-	public void setTrained(boolean trained) {
-		this.trained = trained;
-	}
-
-	public List<CharacterSkill> getCharacters() {
+	public List<Character> getCharacters() {
 		return characters;
 	}
 
-	public void setCharacters(List<CharacterSkill> characters) {
+	public void setCharacters(List<Character> characters) {
 		this.characters = characters;
 	}
 

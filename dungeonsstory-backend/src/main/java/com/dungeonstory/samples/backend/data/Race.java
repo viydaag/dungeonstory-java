@@ -11,11 +11,12 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-@SuppressWarnings("serial")
 @Entity
 @Table(name = "Race")
 public class Race extends AbstractTimestampEntity implements Serializable {
 	
+	private static final long serialVersionUID = -8654082699083199159L;
+
 	@NotNull
 	@Column(name = "name", nullable = false)
 	private String name;
@@ -26,21 +27,33 @@ public class Race extends AbstractTimestampEntity implements Serializable {
 	@Column(name = "description", columnDefinition = "TEXT")
 	private String description;
 
+	@NotNull
+	@Min(value = 0)
 	@Column(name = "strModifier")
 	private int strModifier;
 
+	@NotNull
+	@Min(value = 0)
 	@Column(name = "dexModifier")
 	private int dexModifier;
 
+	@NotNull
+	@Min(value = 0)
 	@Column(name = "conModifier")
 	private int conModifier;
 
+	@NotNull
+	@Min(value = 0)
 	@Column(name = "intModifier")
 	private int intModifier;
 
+	@NotNull
+	@Min(value = 0)
 	@Column(name = "wisModifier")
 	private int wisModifier;
 
+	@NotNull
+	@Min(value = 0)
 	@Column(name = "chaModifier")
 	private int chaModifier;
 
@@ -79,6 +92,7 @@ public class Race extends AbstractTimestampEntity implements Serializable {
 	@Column(name = "heightModifier")
 	private String heightModifier;
 
+	@Deprecated
 	@ManyToOne
 	@JoinColumn(name = "favoredClassId")
 	private Class favoredClass;

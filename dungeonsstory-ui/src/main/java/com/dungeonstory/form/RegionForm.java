@@ -1,5 +1,7 @@
 package com.dungeonstory.form;
 
+import org.vaadin.viritin.fields.MTextArea;
+import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.form.AbstractForm;
 
 import com.dungeonstory.samples.backend.data.Region;
@@ -27,10 +29,10 @@ public class RegionForm extends AbstractForm<Region> {
 	protected Component createContent() {
 		FormLayout layout = new FormLayout();
 
-		name = new TextField("Nom");
-		shortDescription = new TextField("Description courte");
-		description = new TextArea("Description");
-
+		name = new MTextField("Nom");
+		shortDescription = new MTextField("Description courte");
+		description = new MTextArea("Description").withFullWidth();
+		
 		layout.addComponent(name);
 		layout.addComponent(shortDescription);
 		layout.addComponent(description);

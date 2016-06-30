@@ -9,11 +9,13 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToMany;
 
-@SuppressWarnings("serial")
 @Entity
 public class Feat extends AbstractTimestampEntity implements Serializable {
-	public enum FeatType {
-		GENERAL, ITEM_CREATION, METAMAGIC
+
+	private static final long serialVersionUID = 291837938711381342L;
+
+	public enum FeatUsage {
+		PASSIVE, ACTION, REACTION
 	}
 
 	@Column(name = "name", unique = true, nullable = false)
@@ -23,8 +25,8 @@ public class Feat extends AbstractTimestampEntity implements Serializable {
 	private String description;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "type", nullable = false)
-	private FeatType type;
+	@Column(name = "usage", nullable = false)
+	private FeatUsage usage;
 
 	@ManyToMany(mappedBy = "feats")
 	private List<Character> characters;
@@ -33,11 +35,11 @@ public class Feat extends AbstractTimestampEntity implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Feat(String name, String description, FeatType type) {
+	public Feat(String name, String description, FeatUsage type) {
 		super();
 		this.name = name;
 		this.description = description;
-		this.type = type;
+		this.usage = type;
 	}
 
 	public String getName() {
@@ -56,12 +58,12 @@ public class Feat extends AbstractTimestampEntity implements Serializable {
 		this.description = description;
 	}
 
-	public FeatType getType() {
-		return type;
+	public FeatUsage getType() {
+		return usage;
 	}
 
-	public void setType(FeatType type) {
-		this.type = type;
+	public void setType(FeatUsage type) {
+		this.usage = type;
 	}
 
 }

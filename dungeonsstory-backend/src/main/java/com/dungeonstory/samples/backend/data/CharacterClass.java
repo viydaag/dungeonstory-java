@@ -9,10 +9,12 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-@SuppressWarnings("serial")
 @Entity
 @IdClass(CharacterClassId.class)
 public class CharacterClass implements Serializable {
+
+	private static final long serialVersionUID = -2633155753784402849L;
+
 	@Id
 	@Column(name = "characterId")
 	private Long characterId;

@@ -2,8 +2,10 @@ package com.dungeonstory.samples.backend.data;
 
 import java.io.Serializable;
 
-@SuppressWarnings("serial")
 public class ClassLevelBonusFeatId implements Serializable {
+	
+	private static final long serialVersionUID = 6085535553525670809L;
+
 	private Long classId;
 
 	private Long levelId;

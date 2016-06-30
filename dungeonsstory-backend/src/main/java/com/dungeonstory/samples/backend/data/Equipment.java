@@ -12,12 +12,14 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 
-@SuppressWarnings("serial")
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "type")
 @Table(name = "Equipment")
 public class Equipment extends AbstractTimestampEntity implements Serializable {
+
+	private static final long serialVersionUID = 1146171037304994442L;
+
 	public enum EquipmentType {
 		ARMOR, WEAPON, RING, AMULET, BRACER, BOOT, BELT, UTIL
 	}

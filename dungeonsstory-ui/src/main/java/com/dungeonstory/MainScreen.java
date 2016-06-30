@@ -6,6 +6,7 @@ import com.dungeonstory.util.PageTitleUpdater;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.ErrorView;
 import com.dungeonstory.view.HomeView;
+import com.dungeonstory.view.LevelView;
 import com.dungeonstory.view.RegionView;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
@@ -85,7 +86,8 @@ public class MainScreen extends HorizontalLayout {
     
     private void registerViews() {
     	addView(HomeView.class);
-		addView(RegionView.class);		
+		addView(RegionView.class);
+		addView(LevelView.class);
 	}
 
 	/**

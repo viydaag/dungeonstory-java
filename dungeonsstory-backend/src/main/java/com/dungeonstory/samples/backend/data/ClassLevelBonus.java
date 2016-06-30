@@ -30,22 +30,25 @@ public class ClassLevelBonus extends AbstractTimestampEntity implements Serializ
 	@ManyToOne
 	@JoinColumn(name = "levelId", updatable = false, insertable = false)
 	private Level level;
+	
+	@Column(name = "abilityScoreImprovement")
+	private boolean hasAbilityScoreImprovement;
 
-	@Min(value = 0)
-	@Column(name = "baseAttackBonus")
-	private int baseAttackBonus;
-
-	@Min(value = 0)
-	@Column(name = "fortSave")
-	private int fortSave;
-
-	@Min(value = 0)
-	@Column(name = "refSave")
-	private int refSave;
-
-	@Min(value = 0)
-	@Column(name = "willSave")
-	private int willSave;
+//	@Min(value = 0)
+//	@Column(name = "baseAttackBonus")
+//	private int baseAttackBonus;
+//
+//	@Min(value = 0)
+//	@Column(name = "fortSave")
+//	private int fortSave;
+//
+//	@Min(value = 0)
+//	@Column(name = "refSave")
+//	private int refSave;
+//
+//	@Min(value = 0)
+//	@Column(name = "willSave")
+//	private int willSave;
 
 	@Min(value = 0)
 	@Column(name = "armorClassBonus")

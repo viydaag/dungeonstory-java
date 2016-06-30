@@ -4,6 +4,7 @@ import com.dungeonstory.form.RegionForm;
 import com.dungeonstory.samples.backend.data.Region;
 import com.dungeonstory.util.VerticalSpacedLayout;
 import com.dungeonstory.util.ViewConfig;
+import com.dungeonstory.view.component.RegionGrid;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
@@ -18,10 +19,6 @@ public class RegionView extends VerticalSpacedLayout implements View {
 
 	private static final long serialVersionUID = 5117755861151432771L;
 
-	public static final String VIEW_NAME = "Region";
-	
-	private static Long regionId = 0L;
-	
 	private Label titre;
 	private RegionForm form;
 	private RegionGrid grid;
@@ -33,19 +30,21 @@ public class RegionView extends VerticalSpacedLayout implements View {
 		titre = new Label(form.toString());
 		
 		Button addNew = new Button("", FontAwesome.PLUS);
-	    Button delete = new Button("", FontAwesome.TRASH_O);
+//	    Button delete = new Button("", FontAwesome.TRASH_O);
 	    
 	    addNew.addClickListener(this::addNew);
-	    delete.addClickListener(this::deleteSelected);
-	    HorizontalLayout boutonLayout = new HorizontalLayout(addNew, delete);
+//	    delete.addClickListener(this::deleteSelected);
+	    HorizontalLayout boutonLayout = new HorizontalLayout(addNew);
 	    
 	    form.setEntity(null);
 	    
 	    //ajout handlers pour boutons
         form.setSavedHandler(this::entrySaved);
         form.setResetHandler(this::entryReset);
+        form.setDeleteHandler(this::deleteSelected);
         form.setSaveCaption("Enregistrer");
         form.setCancelCaption("Annuler");
+        form.setDeleteCaption("Supprimer");
         
         grid.addSelectionListener(selectionEvent -> {entrySelected();});
         
@@ -53,8 +52,6 @@ public class RegionView extends VerticalSpacedLayout implements View {
 	}
 	
 	public void entrySaved(Region region) {
-    	
-		region.setId(regionId++);
     	grid.refresh(region);
     	form.setEntity(null);
     	grid.scrollTo(region);
@@ -69,22 +66,28 @@ public class RegionView extends VerticalSpacedLayout implements View {
     public void entrySelected() {
     	form.setEntity(grid.getSelectedRow() == null ? new Region() : grid.getSelectedRow());
     	form.focusFirst();
+//    	form.getDeleteButton().setVisible(true);
     }
     
     private void addNew(Button.ClickEvent e) {
     	form.setEntity(new Region());
+//    	form.getDeleteButton().setVisible(false);
     }
 
-    private void deleteSelected(Button.ClickEvent e) {
-    	Region bien = grid.getSelectedRow();
-//    	bienEpargneService.remove(bien);
-		grid.remove(bien);
+//    private void deleteSelected(Button.ClickEvent e) {
+//    	Region bien = grid.getSelectedRow();
+//		grid.remove(bien);
+//    	form.setEntity(null);
+//    }
+    
+    private void deleteSelected(Region region) {
+		grid.remove(region);
     	form.setEntity(null);
     }
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		// TODO Auto-generated method stub
+		// TODO : set le data dans le container de la grid
 
 	}
 

@@ -7,10 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
-@SuppressWarnings("serial")
 @Entity
 public class ArmorType extends AbstractTimestampEntity implements Serializable {
-	public enum ProfiencyType {
+	
+	private static final long serialVersionUID = 6701206243601789036L;
+
+	public enum ProficiencyType {
 		LIGHT, MEDIUM, HEAVY, SHIELD
 	}
 
@@ -20,9 +22,9 @@ public class ArmorType extends AbstractTimestampEntity implements Serializable {
 	@Column(name = "description", columnDefinition = "TEXT")
 	private String description;
 
-	@Column(name = "profiencyType", nullable = false)
+	@Column(name = "proficiencyType", nullable = false)
 	@Enumerated(EnumType.STRING)
-	private ProfiencyType profiencyType;
+	private ProficiencyType proficiencyType;
 
 	@Column(name = "maxDexBonus", nullable = false)
 	private int maxDexBonus;
@@ -43,17 +45,17 @@ public class ArmorType extends AbstractTimestampEntity implements Serializable {
 	private int speed;
 
 	public ArmorType() {
-		// TODO Auto-generated constructor stub
+		super();
 	}
 
 	public ArmorType(String name, String description,
-			ProfiencyType profiencyType, int maxDexBonus, int baseArmorClass,
+			ProficiencyType proficiencyType, int maxDexBonus, int baseArmorClass,
 			int baseArmorCheckPenalty, int baseArcaneSpellFailure,
 			int baseWeight, int speed) {
-		super();
+		this();
 		this.name = name;
 		this.description = description;
-		this.profiencyType = profiencyType;
+		this.proficiencyType = proficiencyType;
 		this.maxDexBonus = maxDexBonus;
 		this.baseArmorClass = baseArmorClass;
 		this.baseArmorCheckPenalty = baseArmorCheckPenalty;
@@ -78,12 +80,12 @@ public class ArmorType extends AbstractTimestampEntity implements Serializable {
 		this.description = description;
 	}
 
-	public ProfiencyType getProfiencyType() {
-		return profiencyType;
+	public ProficiencyType getProficiencyType() {
+		return proficiencyType;
 	}
 
-	public void setProfiencyType(ProfiencyType profiencyType) {
-		this.profiencyType = profiencyType;
+	public void setProficiencyType(ProficiencyType proficiencyType) {
+		this.proficiencyType = proficiencyType;
 	}
 
 	public int getMaxDexBonus() {

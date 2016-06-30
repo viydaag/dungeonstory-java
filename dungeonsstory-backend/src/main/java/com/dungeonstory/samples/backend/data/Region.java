@@ -5,13 +5,14 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
-@SuppressWarnings("serial")
 @Entity
 public class Region extends AbstractTimestampEntity implements Serializable {
 	
-	@Size(min = 3)
+	private static final long serialVersionUID = -6174866486503922786L;
+
+	private static Long idRegion = 1L;
+	
 	@NotNull
 	@Column(name = "name", unique = true, nullable = false)
 	private String name;
@@ -23,11 +24,12 @@ public class Region extends AbstractTimestampEntity implements Serializable {
 	private String description;
 
 	public Region() {
-
+		super();
+		setId(idRegion++);
 	}
 
 	public Region(String name) {
-		super();
+		this();
 		this.name = name;
 	}
 

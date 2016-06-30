@@ -9,156 +9,130 @@ import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-@SuppressWarnings("serial")
 @Entity
-public class FeatPrerequisite extends AbstractTimestampEntity implements Serializable
-{
-    
-    public enum PrerequisiteType
-    {
-        FEAT,
-        ABILITY,
-        ATTACK_BONUS,
-        LEVEL,
-        CLASSE,
-        SKILL
-    }
-    
-    @ManyToOne
-    @JoinColumn(name = "featId", nullable=false)
-    private Feat feat;
-    
-    @Enumerated(EnumType.STRING)
-    @Column(name = "type", nullable = false)
-    private PrerequisiteType type;
-    
-    @JoinColumn(name = "featPrerequisiteId", nullable=true)
-    private FeatPrerequisite featPrerequisite;
-    
-    @JoinColumn(name = "abilityId", nullable=true)
-    private Ability ability;
-    
-    @Column(name = "abilityValue")
-    private int abilityValue;
-    
-    @Column(name = "baseAttackBonus")
-    private int baseAttackBonus;
-    
-    @Column(name = "level")
-    private int level;
-    
-    @JoinColumn(name = "classId", nullable=true)
-    private Class classe;
-    
-    @JoinColumn(name = "skillId", nullable=true)
-    private Skill skill;
-    
-    @Column(name = "skillRank")
-    private int skillRank;
-    
-    public FeatPrerequisite()
-    {
-        // TODO Auto-generated constructor stub
-    }
+public class FeatPrerequisite extends AbstractTimestampEntity implements Serializable {
 
-    public Feat getFeat()
-    {
-        return feat;
-    }
+	private static final long serialVersionUID = 2932393218427906016L;
 
-    public void setFeat(Feat feat)
-    {
-        this.feat = feat;
-    }
+	//TODO : réviser les types
+	public enum PrerequisiteType {
+		FEAT, ABILITY, ATTACK_BONUS, LEVEL, CLASSE, SKILL
+	}
 
-    public PrerequisiteType getType()
-    {
-        return type;
-    }
+	@ManyToOne
+	@JoinColumn(name = "featId", nullable = false)
+	private Feat feat;
 
-    public void setType(PrerequisiteType type)
-    {
-        this.type = type;
-    }
+	@Enumerated(EnumType.STRING)
+	@Column(name = "type", nullable = false)
+	private PrerequisiteType type;
 
-    public FeatPrerequisite getFeatPrerequisite()
-    {
-        return featPrerequisite;
-    }
+	@JoinColumn(name = "featPrerequisiteId", nullable = true)
+	private FeatPrerequisite featPrerequisite;
 
-    public void setFeatPrerequisite(FeatPrerequisite featPrerequisite)
-    {
-        this.featPrerequisite = featPrerequisite;
-    }
+	@JoinColumn(name = "abilityId", nullable = true)
+	private Ability ability;
 
-    public Ability getAbility()
-    {
-        return ability;
-    }
+	@Column(name = "abilityValue")
+	private int abilityValue;
 
-    public void setAbility(Ability ability)
-    {
-        this.ability = ability;
-    }
+	@Column(name = "baseAttackBonus")
+	private int baseAttackBonus;
 
-    public int getAbilityValue()
-    {
-        return abilityValue;
-    }
+	@Column(name = "level")
+	private int level;
 
-    public void setAbilityValue(int abilityValue)
-    {
-        this.abilityValue = abilityValue;
-    }
+	@JoinColumn(name = "classId", nullable = true)
+	private Class classe;
 
-    public int getBaseAttackBonus()
-    {
-        return baseAttackBonus;
-    }
+	@JoinColumn(name = "skillId", nullable = true)
+	private Skill skill;
 
-    public void setBaseAttackBonus(int baseAttackBonus)
-    {
-        this.baseAttackBonus = baseAttackBonus;
-    }
+	@Column(name = "skillRank")
+	private int skillRank;
 
-    public int getLevel()
-    {
-        return level;
-    }
+	public FeatPrerequisite() {
+		// TODO Auto-generated constructor stub
+	}
 
-    public void setLevel(int level)
-    {
-        this.level = level;
-    }
+	public Feat getFeat() {
+		return feat;
+	}
 
-    public Class getClasse()
-    {
-        return classe;
-    }
+	public void setFeat(Feat feat) {
+		this.feat = feat;
+	}
 
-    public void setClasse(Class classe)
-    {
-        this.classe = classe;
-    }
+	public PrerequisiteType getType() {
+		return type;
+	}
 
-    public Skill getSkill()
-    {
-        return skill;
-    }
+	public void setType(PrerequisiteType type) {
+		this.type = type;
+	}
 
-    public void setSkill(Skill skill)
-    {
-        this.skill = skill;
-    }
+	public FeatPrerequisite getFeatPrerequisite() {
+		return featPrerequisite;
+	}
 
-    public int getSkillRank()
-    {
-        return skillRank;
-    }
+	public void setFeatPrerequisite(FeatPrerequisite featPrerequisite) {
+		this.featPrerequisite = featPrerequisite;
+	}
 
-    public void setSkillRank(int skillRank)
-    {
-        this.skillRank = skillRank;
-    }
+	public Ability getAbility() {
+		return ability;
+	}
+
+	public void setAbility(Ability ability) {
+		this.ability = ability;
+	}
+
+	public int getAbilityValue() {
+		return abilityValue;
+	}
+
+	public void setAbilityValue(int abilityValue) {
+		this.abilityValue = abilityValue;
+	}
+
+	public int getBaseAttackBonus() {
+		return baseAttackBonus;
+	}
+
+	public void setBaseAttackBonus(int baseAttackBonus) {
+		this.baseAttackBonus = baseAttackBonus;
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	public Class getClasse() {
+		return classe;
+	}
+
+	public void setClasse(Class classe) {
+		this.classe = classe;
+	}
+
+	public Skill getSkill() {
+		return skill;
+	}
+
+	public void setSkill(Skill skill) {
+		this.skill = skill;
+	}
+
+	public int getSkillRank() {
+		return skillRank;
+	}
+
+	public void setSkillRank(int skillRank) {
+		this.skillRank = skillRank;
+	}
 
 }

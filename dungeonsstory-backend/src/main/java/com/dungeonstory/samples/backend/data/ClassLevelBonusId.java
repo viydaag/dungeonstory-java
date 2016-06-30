@@ -2,36 +2,32 @@ package com.dungeonstory.samples.backend.data;
 
 import java.io.Serializable;
 
-@SuppressWarnings("serial")
-public class ClassLevelBonusId implements Serializable
-{
-    private Long classId;
-    
-    private Long levelId;
-    
-    public ClassLevelBonusId()
-    {
-        // TODO Auto-generated constructor stub
-    }
+public class ClassLevelBonusId implements Serializable {
 
-    public Long getClassId()
-    {
-        return classId;
-    }
+	private static final long serialVersionUID = -348590476654163585L;
 
-    public void setClassId(Long classId)
-    {
-        this.classId = classId;
-    }
+	private Long classId;
 
-    public Long getLevelId()
-    {
-        return levelId;
-    }
+	private Long levelId;
 
-    public void setLevelId(Long levelId)
-    {
-        this.levelId = levelId;
-    }
+	public ClassLevelBonusId() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public Long getClassId() {
+		return classId;
+	}
+
+	public void setClassId(Long classId) {
+		this.classId = classId;
+	}
+
+	public Long getLevelId() {
+		return levelId;
+	}
+
+	public void setLevelId(Long levelId) {
+		this.levelId = levelId;
+	}
 
 }

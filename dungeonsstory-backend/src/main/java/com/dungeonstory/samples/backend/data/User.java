@@ -14,11 +14,13 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-@SuppressWarnings("serial")
 @Entity
 @Table(name = "User")
 @NamedQuery(name = User.findByUsername, query = "SELECT u FROM User u WHERE u.username = :username")
 public class User extends AbstractTimestampEntity implements Serializable {
+
+	private static final long serialVersionUID = -8735932805533401960L;
+
 	public static final String findByUsername = "User.findByUsername";
 
 	public enum UserStatus {
