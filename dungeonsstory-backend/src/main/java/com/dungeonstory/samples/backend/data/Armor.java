@@ -1,7 +1,5 @@
 package com.dungeonstory.samples.backend.data;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -14,7 +12,7 @@ import javax.validation.constraints.Min;
 @Entity
 @DiscriminatorValue("ARMOR")
 @Table(name = "Armor")
-public class Armor extends Equipment implements Serializable {
+public class Armor extends Equipment {
 
 	private static final long serialVersionUID = 4293636155389332201L;
 

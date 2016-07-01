@@ -6,10 +6,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-@SuppressWarnings("serial")
 @Entity
 @Table(name = "Ability")
 public class Ability extends AbstractTimestampEntity implements Serializable {
+
+	private static final long serialVersionUID = 851333358232556465L;
 
 	private static Long idAbility = 1L;
 	

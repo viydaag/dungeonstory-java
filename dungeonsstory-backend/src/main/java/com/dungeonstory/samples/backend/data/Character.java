@@ -46,6 +46,11 @@ public class Character extends AbstractTimestampEntity implements Serializable
     @OneToOne(mappedBy="character")
     @JoinColumn(name="userId", nullable=false)
     private User user;
+	
+	@NotNull
+    @ManyToOne
+    @JoinColumn(name = "raceId", nullable=false)
+    private Race race;
     
 	@NotNull
     @Min(value = 1)
@@ -88,6 +93,9 @@ public class Character extends AbstractTimestampEntity implements Serializable
     @ManyToOne
     @JoinColumn(name = "adventureId", nullable=true)
     private Adventure adventure;
+    
+    @OneToMany(mappedBy = "character")
+    private List<Message> messages;
 
 //    @OneToMany(mappedBy = "character")
 //    private List<CharacterSkill> skills;
@@ -108,6 +116,9 @@ public class Character extends AbstractTimestampEntity implements Serializable
         joinColumns=@JoinColumn(name="characterId", referencedColumnName="id"),
         inverseJoinColumns=@JoinColumn(name="skillId", referencedColumnName="id"))
     private List<Skill> skills;
+    
+    @OneToMany(mappedBy = "character")
+    private List<CharacterEquipment> equipment;
 
 	public Character() {
 		// TODO Auto-generated constructor stub
