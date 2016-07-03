@@ -13,7 +13,7 @@ import javax.validation.constraints.Min;
 @SuppressWarnings("serial")
 @Entity
 @IdClass(ClassLevelBonusId.class)
-public class ClassLevelBonus extends AbstractTimestampEntity implements Serializable {
+public class ClassLevelBonus implements Serializable {
 	
 	@Id
 	@Column(name = "classId")
@@ -100,6 +100,142 @@ public class ClassLevelBonus extends AbstractTimestampEntity implements Serializ
 
 	public ClassLevelBonus() {
 		// TODO Auto-generated constructor stub
+	}
+
+	public Long getClassId() {
+		return classId;
+	}
+
+	public void setClassId(Long classId) {
+		this.classId = classId;
+	}
+
+	public Long getLevelId() {
+		return levelId;
+	}
+
+	public void setLevelId(Long levelId) {
+		this.levelId = levelId;
+	}
+
+	public Class getClasse() {
+		return classe;
+	}
+
+	public void setClasse(Class classe) {
+		this.classe = classe;
+	}
+
+	public Level getLevel() {
+		return level;
+	}
+
+	public void setLevel(Level level) {
+		this.level = level;
+	}
+
+	public boolean isHasAbilityScoreImprovement() {
+		return hasAbilityScoreImprovement;
+	}
+
+	public void setHasAbilityScoreImprovement(boolean hasAbilityScoreImprovement) {
+		this.hasAbilityScoreImprovement = hasAbilityScoreImprovement;
+	}
+
+	public int getArmorClassBonus() {
+		return armorClassBonus;
+	}
+
+	public void setArmorClassBonus(int armorClassBonus) {
+		this.armorClassBonus = armorClassBonus;
+	}
+
+	public int getSpellBonus() {
+		return spellBonus;
+	}
+
+	public void setSpellBonus(int spellBonus) {
+		this.spellBonus = spellBonus;
+	}
+
+	public int getSpellPerDay0() {
+		return spellPerDay0;
+	}
+
+	public void setSpellPerDay0(int spellPerDay0) {
+		this.spellPerDay0 = spellPerDay0;
+	}
+
+	public int getSpellPerDay1() {
+		return spellPerDay1;
+	}
+
+	public void setSpellPerDay1(int spellPerDay1) {
+		this.spellPerDay1 = spellPerDay1;
+	}
+
+	public int getSpellPerDay2() {
+		return spellPerDay2;
+	}
+
+	public void setSpellPerDay2(int spellPerDay2) {
+		this.spellPerDay2 = spellPerDay2;
+	}
+
+	public int getSpellPerDay3() {
+		return spellPerDay3;
+	}
+
+	public void setSpellPerDay3(int spellPerDay3) {
+		this.spellPerDay3 = spellPerDay3;
+	}
+
+	public int getSpellPerDay4() {
+		return spellPerDay4;
+	}
+
+	public void setSpellPerDay4(int spellPerDay4) {
+		this.spellPerDay4 = spellPerDay4;
+	}
+
+	public int getSpellPerDay5() {
+		return spellPerDay5;
+	}
+
+	public void setSpellPerDay5(int spellPerDay5) {
+		this.spellPerDay5 = spellPerDay5;
+	}
+
+	public int getSpellPerDay6() {
+		return spellPerDay6;
+	}
+
+	public void setSpellPerDay6(int spellPerDay6) {
+		this.spellPerDay6 = spellPerDay6;
+	}
+
+	public int getSpellPerDay7() {
+		return spellPerDay7;
+	}
+
+	public void setSpellPerDay7(int spellPerDay7) {
+		this.spellPerDay7 = spellPerDay7;
+	}
+
+	public int getSpellPerDay8() {
+		return spellPerDay8;
+	}
+
+	public void setSpellPerDay8(int spellPerDay8) {
+		this.spellPerDay8 = spellPerDay8;
+	}
+
+	public int getSpellPerDay9() {
+		return spellPerDay9;
+	}
+
+	public void setSpellPerDay9(int spellPerDay9) {
+		this.spellPerDay9 = spellPerDay9;
 	}
 
 }

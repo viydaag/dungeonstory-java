@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Entity
 @IdClass(ClassLevelBonusFeatId.class)
 @Table(name = "ClassLevelBonusFeat")
-public class ClassLevelBonusFeat extends AbstractTimestampEntity implements	Serializable {
+public class ClassLevelBonusFeat implements	Serializable {
 
 	private static final long serialVersionUID = 5198775399118036404L;
 
@@ -43,6 +43,54 @@ public class ClassLevelBonusFeat extends AbstractTimestampEntity implements	Seri
 
 	public ClassLevelBonusFeat() {
 		// TODO Auto-generated constructor stub
+	}
+
+	public Long getClassId() {
+		return classId;
+	}
+
+	public void setClassId(Long classId) {
+		this.classId = classId;
+	}
+
+	public Long getLevelId() {
+		return levelId;
+	}
+
+	public void setLevelId(Long levelId) {
+		this.levelId = levelId;
+	}
+
+	public Long getFeatId() {
+		return featId;
+	}
+
+	public void setFeatId(Long featId) {
+		this.featId = featId;
+	}
+
+	public Class getClasse() {
+		return classe;
+	}
+
+	public void setClasse(Class classe) {
+		this.classe = classe;
+	}
+
+	public Level getLevel() {
+		return level;
+	}
+
+	public void setLevel(Level level) {
+		this.level = level;
+	}
+
+	public Feat getFeat() {
+		return feat;
+	}
+
+	public void setFeat(Feat feat) {
+		this.feat = feat;
 	}
 
 }

@@ -3,6 +3,7 @@ package com.dungeonstory.samples.backend.data;
 import java.io.Serializable;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
@@ -11,8 +12,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-import com.dungeonstory.samples.backend.data.ArmorType.ProficiencyType;
-
+@Entity
 public class WeaponType extends AbstractTimestampEntity implements Serializable {
 
 	private static final long serialVersionUID = -5780288141494436969L;

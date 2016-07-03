@@ -8,8 +8,10 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "Feat")
 public class Feat extends AbstractTimestampEntity implements Serializable {
 
 	private static final long serialVersionUID = 291837938711381342L;
@@ -25,7 +27,7 @@ public class Feat extends AbstractTimestampEntity implements Serializable {
 	private String description;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "usage", nullable = false)
+	@Column(name = "featUsage", nullable = false)
 	private FeatUsage usage;
 
 	@ManyToMany(mappedBy = "feats")

@@ -23,6 +23,7 @@ public abstract class AbstractTimestampEntity {
 	private Long id;
 	
 	@Version
+	@Column(name = "version")
 	private int version;
 
 	@Temporal(TemporalType.TIMESTAMP)
