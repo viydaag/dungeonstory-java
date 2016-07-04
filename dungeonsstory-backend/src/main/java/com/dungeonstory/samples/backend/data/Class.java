@@ -6,11 +6,14 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.Min;
 
-@SuppressWarnings("serial")
 @Entity
+@Table(name = "Class")
 public class Class extends AbstractTimestampEntity implements Serializable {
+
+	private static final long serialVersionUID = 4948845539537092288L;
 
 	@Column(name = "name", nullable = false)
 	private String name;

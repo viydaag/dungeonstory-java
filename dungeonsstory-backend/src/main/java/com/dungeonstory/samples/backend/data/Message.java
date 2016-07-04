@@ -33,4 +33,48 @@ public class Message extends AbstractTimestampEntity implements Serializable {
 	@Column(name = "isXpGiven")
 	private boolean isXpGiven;
 
+	public Message() {
+		super();
+	}
+	
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	public Adventure getAdventure() {
+		return adventure;
+	}
+
+	public void setAdventure(Adventure adventure) {
+		this.adventure = adventure;
+	}
+
+	public Character getCharacter() {
+		return character;
+	}
+
+	public void setCharacter(Character character) {
+		this.character = character;
+	}
+
+	public boolean isXpGiven() {
+		return isXpGiven;
+	}
+
+	public void setXpGiven(boolean isXpGiven) {
+		this.isXpGiven = isXpGiven;
+	}
+
 }

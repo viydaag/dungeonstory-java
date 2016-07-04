@@ -6,10 +6,13 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
-@SuppressWarnings("serial")
 @Entity
+@Table(name = "AccessRole")
 public class AccessRole extends AbstractTimestampEntity implements Serializable {
+
+	private static final long serialVersionUID = 6653338145666517351L;
 
 	@Column(name = "name", unique = true)
 	private String name;

@@ -4,9 +4,11 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(name = "Region")
 public class Region extends AbstractTimestampEntity implements Serializable {
 	
 	private static final long serialVersionUID = -6174866486503922786L;

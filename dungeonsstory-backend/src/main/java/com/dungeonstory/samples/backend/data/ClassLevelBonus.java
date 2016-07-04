@@ -8,13 +8,16 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.Min;
 
-@SuppressWarnings("serial")
 @Entity
 @IdClass(ClassLevelBonusId.class)
+@Table(name = "ClassLevelBonus")
 public class ClassLevelBonus implements Serializable {
 	
+	private static final long serialVersionUID = 2087402735649166519L;
+
 	@Id
 	@Column(name = "classId")
 	private Long classId;

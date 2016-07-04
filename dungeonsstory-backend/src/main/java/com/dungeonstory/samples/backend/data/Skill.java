@@ -9,10 +9,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
-@SuppressWarnings("serial")
 @Entity
+@Table(name = "Skill")
 public class Skill extends AbstractTimestampEntity implements Serializable {
+
+	private static final long serialVersionUID = -2967904843715939261L;
 
 	private static Long idSkill = 1L;
 	

@@ -8,7 +8,7 @@ import javax.persistence.Persistence;
 
 public class TestDB {
 
-	private static final String PERSISTENCE_UNIT_NAME = "dungeonstory";
+	private static final String PERSISTENCE_UNIT_NAME = "dungeonstory-hsql";
 	  private static EntityManagerFactory factory;
 
 	  public static void main(String[] args) {

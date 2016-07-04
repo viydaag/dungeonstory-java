@@ -8,11 +8,13 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 @Entity
+@Table(name = "WeaponType")
 public class WeaponType extends AbstractTimestampEntity implements Serializable {
 
 	private static final long serialVersionUID = -5780288141494436969L;

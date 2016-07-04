@@ -10,9 +10,11 @@ import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(name = "Adventure")
 public class Adventure extends AbstractTimestampEntity implements Serializable {
 	
 	private static final long serialVersionUID = 2976001308437054432L;

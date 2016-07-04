@@ -6,8 +6,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "ArmorType")
 public class ArmorType extends AbstractTimestampEntity implements Serializable {
 	
 	private static final long serialVersionUID = 6701206243601789036L;

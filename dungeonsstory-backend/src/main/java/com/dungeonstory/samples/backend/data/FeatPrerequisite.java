@@ -8,8 +8,10 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "FeatPrerequisite")
 public class FeatPrerequisite extends AbstractTimestampEntity implements Serializable {
 
 	private static final long serialVersionUID = 2932393218427906016L;

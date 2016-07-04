@@ -8,9 +8,11 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
 @IdClass(CharacterClassId.class)
+@Table(name = "CharacterClass")
 public class CharacterClass implements Serializable {
 
 	private static final long serialVersionUID = -2633155753784402849L;

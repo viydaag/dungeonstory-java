@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
@@ -17,6 +18,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(name = "Level")
 public class Level implements Serializable {
 
 	private static final long serialVersionUID = 4749488433122909200L;
@@ -25,10 +27,11 @@ public class Level implements Serializable {
 	
 	@Id
 	@NotNull
-	@Column(name = "id", unique = true)
+	@Column(name = "id")
 	private Long id; // id is the level number
 
 	@Version
+	@Column(name = "version")
 	private int version;
 
 	@NotNull

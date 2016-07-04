@@ -4,9 +4,11 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(name = "Alignment")
 public class Alignment extends AbstractTimestampEntity implements Serializable {
 
 	private static final long serialVersionUID = -518798894253295092L;

@@ -2,8 +2,10 @@ package com.dungeonstory.samples.backend.data;
 
 import java.io.Serializable;
 
-@SuppressWarnings("serial")
 public class CharacterClassId implements Serializable {
+
+	private static final long serialVersionUID = 6205978746903824877L;
+
 	private Long characterId;
 
 	private Long classId;

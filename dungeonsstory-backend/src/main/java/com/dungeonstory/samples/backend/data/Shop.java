@@ -3,8 +3,12 @@ package com.dungeonstory.samples.backend.data;
 import java.io.Serializable;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+@Entity
+@Table(name = "Shop")
 public class Shop extends AbstractTimestampEntity implements Serializable {
 	
 	private static final long serialVersionUID = 4969359354645768702L;
