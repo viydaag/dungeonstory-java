@@ -2,11 +2,10 @@ package com.dungeonstory.samples.crud;
 
 import java.util.Collection;
 
-import com.dungeonstory.samples.backend.DataService;
-import com.dungeonstory.samples.backend.data.Availability;
-import com.dungeonstory.samples.backend.data.Category;
-import com.dungeonstory.samples.backend.data.Product;
-
+import com.dungeonstory.backend.DataService;
+import com.dungeonstory.backend.data.Availability;
+import com.dungeonstory.backend.data.Category;
+import com.dungeonstory.backend.data.Product;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;

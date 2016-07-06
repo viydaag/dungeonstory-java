@@ -1,9 +1,9 @@
 package com.dungeonstory.view;
 
+import com.dungeonstory.backend.DataService;
+import com.dungeonstory.backend.data.Region;
+import com.dungeonstory.backend.data.Skill;
 import com.dungeonstory.form.RegionForm;
-import com.dungeonstory.samples.backend.DataService;
-import com.dungeonstory.samples.backend.data.Region;
-import com.dungeonstory.samples.backend.data.Skill;
 import com.dungeonstory.util.VerticalSpacedLayout;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.component.RegionGrid;

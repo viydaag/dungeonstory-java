@@ -4,8 +4,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-import com.dungeonstory.samples.AttributeExtension;
-
+import com.dungeonstory.AttributeExtension;
 import com.vaadin.data.util.converter.StringToIntegerConverter;
 import com.vaadin.ui.TextField;
 

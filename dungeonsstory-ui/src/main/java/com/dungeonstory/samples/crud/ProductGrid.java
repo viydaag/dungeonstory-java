@@ -3,9 +3,8 @@ package com.dungeonstory.samples.crud;
 import java.util.Collection;
 import java.util.Locale;
 
-import com.dungeonstory.samples.backend.data.Availability;
-import com.dungeonstory.samples.backend.data.Product;
-
+import com.dungeonstory.backend.data.Availability;
+import com.dungeonstory.backend.data.Product;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.MethodProperty;

@@ -1,6 +1,6 @@
 package com.dungeonstory.view;
 
-import com.dungeonstory.samples.backend.data.Level;
+import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.util.VerticalSpacedLayout;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.component.LevelGrid;

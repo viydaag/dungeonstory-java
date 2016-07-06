@@ -1,10 +1,11 @@
 package com.dungeonstory.samples.crud;
 
 import com.dungeonstory.DungeonStoryUI;
-import com.dungeonstory.samples.backend.DataService;
-import com.dungeonstory.samples.backend.data.Product;
+import com.dungeonstory.backend.DataService;
+import com.dungeonstory.backend.data.Product;
 
 import java.io.Serializable;
+
 import com.vaadin.server.Page;
 
 /**
