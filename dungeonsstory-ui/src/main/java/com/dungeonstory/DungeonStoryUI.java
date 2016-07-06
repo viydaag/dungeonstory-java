@@ -6,11 +6,12 @@ import javax.servlet.annotation.WebServlet;
 
 
 
+
+import com.dungeonstory.authentication.AccessControl;
+import com.dungeonstory.authentication.BasicAccessControl;
+import com.dungeonstory.authentication.LoginScreen;
+import com.dungeonstory.authentication.LoginScreen.LoginListener;
 import com.dungeonstory.event.NavigationEvent;
-import com.dungeonstory.samples.authentication.AccessControl;
-import com.dungeonstory.samples.authentication.BasicAccessControl;
-import com.dungeonstory.samples.authentication.LoginScreen;
-import com.dungeonstory.samples.authentication.LoginScreen.LoginListener;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.annotations.Theme;

@@ -2,7 +2,7 @@ package com.dungeonstory.view.component;
 
 import java.util.ArrayList;
 
-import com.dungeonstory.samples.backend.data.Level;
+import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.samples.crud.BeanGrid;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 

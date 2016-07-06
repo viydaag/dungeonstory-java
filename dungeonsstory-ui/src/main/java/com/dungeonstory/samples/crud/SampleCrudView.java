@@ -2,10 +2,9 @@ package com.dungeonstory.samples.crud;
 
 import java.util.Collection;
 
-import com.dungeonstory.samples.ResetButtonForTextField;
-import com.dungeonstory.samples.backend.DataService;
-import com.dungeonstory.samples.backend.data.Product;
-
+import com.dungeonstory.ResetButtonForTextField;
+import com.dungeonstory.backend.DataService;
+import com.dungeonstory.backend.data.Product;
 import com.vaadin.event.FieldEvents;
 import com.vaadin.event.SelectionEvent;
 import com.vaadin.event.SelectionEvent.SelectionListener;

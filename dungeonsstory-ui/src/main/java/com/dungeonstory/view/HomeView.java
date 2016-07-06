@@ -1,6 +1,6 @@
 package com.dungeonstory.view;
 
-import com.dungeonstory.samples.authentication.CurrentUser;
+import com.dungeonstory.authentication.CurrentUser;
 import com.dungeonstory.util.DSTheme;
 import com.dungeonstory.util.VerticalSpacedLayout;
 import com.dungeonstory.util.ViewConfig;

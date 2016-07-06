@@ -4,7 +4,7 @@ import org.vaadin.viritin.fields.MTextArea;
 import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.form.AbstractForm;
 
-import com.dungeonstory.samples.backend.data.Region;
+import com.dungeonstory.backend.data.Region;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextArea;
