@@ -95,7 +95,7 @@ public class Race extends AbstractTimestampEntity implements Serializable {
 	@Deprecated
 	@ManyToOne
 	@JoinColumn(name = "favoredClassId")
-	private Class favoredClass;
+	private DSClass favoredClass;
 
 	public Race() {
 		super();
@@ -234,11 +234,11 @@ public class Race extends AbstractTimestampEntity implements Serializable {
 		this.heightModifier = heightModifier;
 	}
 
-	public Class getFavoredClass() {
+	public DSClass getFavoredClass() {
 		return favoredClass;
 	}
 
-	public void setFavoredClass(Class favoredClass) {
+	public void setFavoredClass(DSClass favoredClass) {
 		this.favoredClass = favoredClass;
 	}
 

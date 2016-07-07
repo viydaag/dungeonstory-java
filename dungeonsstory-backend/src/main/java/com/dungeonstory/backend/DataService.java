@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import com.dungeonstory.backend.data.Ability;
 import com.dungeonstory.backend.data.Category;
+import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.backend.data.Product;
 import com.dungeonstory.backend.data.Skill;
 import com.dungeonstory.backend.mock.MockDataService;
@@ -33,5 +34,7 @@ public abstract class DataService implements Serializable {
     public static DataService get() {
         return MockDataService.getInstance();
     }
+
+    public abstract Collection<Level> getAllLevels();
 
 }

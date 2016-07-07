@@ -1,5 +1,6 @@
 package com.dungeonstory.view;
 
+import com.dungeonstory.backend.DataService;
 import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.util.VerticalSpacedLayout;
 import com.dungeonstory.util.ViewConfig;
@@ -37,8 +38,7 @@ public class LevelView extends VerticalSpacedLayout implements View {
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		// TODO set level from backend
-
+		grid.setData(DataService.get().getAllLevels());
 	}
 	
 	private void addNew(Button.ClickEvent e) {

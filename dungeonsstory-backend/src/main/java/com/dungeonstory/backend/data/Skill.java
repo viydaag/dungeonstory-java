@@ -122,4 +122,9 @@ public class Skill extends AbstractTimestampEntity implements Serializable {
 		this.classes = classes;
 	}
 
+    @Override
+    public String toString() {
+        return name;
+    }
+
 }

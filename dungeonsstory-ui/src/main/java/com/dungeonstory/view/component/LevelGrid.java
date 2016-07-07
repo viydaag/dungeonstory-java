@@ -21,10 +21,10 @@ public class LevelGrid extends BeanGrid<Level> {
 		levelColumn.setHeaderCaption("Niveau");
 		setColumnOrder("id", "proficiencyBonus", "maxExperience");
 		
-		Level level1 = new Level(1000L, 1);
-		ArrayList<Level> data = new ArrayList<Level>();
-		data.add(level1);
-		setData(data);
+//		Level level1 = new Level(1000L, 1);
+//		ArrayList<Level> data = new ArrayList<Level>();
+//		data.add(level1);
+//		setData(data);
 	}
 	
 	public void addRow(Level level) {

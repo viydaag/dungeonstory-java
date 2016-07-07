@@ -6,6 +6,7 @@ import java.util.List;
 import com.dungeonstory.backend.DataService;
 import com.dungeonstory.backend.data.Ability;
 import com.dungeonstory.backend.data.Category;
+import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.backend.data.Product;
 import com.dungeonstory.backend.data.Skill;
 
@@ -21,6 +22,7 @@ public class MockDataService extends DataService {
 
     private static List<Ability> abilities;
     private static List<Skill> skills;
+    private static List<Level> levels;
     
     private static List<Product> products;
     private static List<Category> categories;
@@ -33,6 +35,7 @@ public class MockDataService extends DataService {
 	private static void init() {
 		abilities = MockDataGenerator.createAbilities();
     	skills = MockDataGenerator.createSkills();
+    	levels = MockDataGenerator.createLevels();
     	
         categories = MockDataGenerator.createCategories();
         products = MockDataGenerator.createProducts(categories);
@@ -105,5 +108,10 @@ public class MockDataService extends DataService {
 	public Collection<Skill> getAllSkills() {
 		return skills;
 	}
+
+    @Override
+    public Collection<Level> getAllLevels() {
+        return levels;
+    }
 
 }

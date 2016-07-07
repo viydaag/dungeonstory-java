@@ -12,6 +12,7 @@ import java.util.Set;
 import com.dungeonstory.backend.data.Ability;
 import com.dungeonstory.backend.data.Availability;
 import com.dungeonstory.backend.data.Category;
+import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.backend.data.Product;
 import com.dungeonstory.backend.data.Skill;
 
@@ -70,6 +71,11 @@ public class MockDataGenerator {
     	{"Performance", "6"},
     	{"Persuasion", "6"}
     };
+    
+    private static final Integer[][] storedLevels = new Integer[][] {
+        {1, 1000, 1},
+        {2, 2000, 2}
+    };
 
     static List<Category> createCategories() {
         List<Category> categories = new ArrayList<Category>();
@@ -107,6 +113,14 @@ public class MockDataGenerator {
         	skills.add(new Skill(skill[0], ability.get()));
         }
         return skills;
+    }
+    
+    static List<Level> createLevels() {
+        List<Level> levels = new ArrayList<Level>();
+        for (Integer[] level : storedLevels) {
+            levels.add(new Level(level[1], level[2]));
+        }
+        return levels;
     }
 
     private static Category createCategory(String name) {

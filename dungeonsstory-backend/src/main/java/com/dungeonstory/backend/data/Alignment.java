@@ -12,6 +12,8 @@ import javax.validation.constraints.NotNull;
 public class Alignment extends AbstractTimestampEntity implements Serializable {
 
 	private static final long serialVersionUID = -518798894253295092L;
+	
+	private static Long idAlign = 1L;
 
 	@NotNull
 	@Column(name = "name", unique = true)
@@ -25,6 +27,7 @@ public class Alignment extends AbstractTimestampEntity implements Serializable {
 
 	public Alignment() {
 		super();
+		setId(idAlign++);
 	}
 
 	public Alignment(String name, String shortDescription, String description) {

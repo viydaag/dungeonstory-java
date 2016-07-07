@@ -10,9 +10,11 @@ import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 
-@SuppressWarnings("serial")
 public class RegionForm extends AbstractForm<Region> {
-	private TextField name;
+
+    private static final long serialVersionUID = 1416085344583485158L;
+    
+    private TextField name;
 	private TextField shortDescription;
 	private TextArea description;
 

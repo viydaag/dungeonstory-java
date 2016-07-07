@@ -34,7 +34,7 @@ public class CharacterClass implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "classId", updatable = false, insertable = false)
-	private Class classe;
+	private DSClass classe;
 
 	public CharacterClass() {
 		// TODO Auto-generated constructor stub
@@ -72,11 +72,11 @@ public class CharacterClass implements Serializable {
 		this.classLevel = classLevel;
 	}
 
-	public Class getClasse() {
+	public DSClass getClasse() {
 		return classe;
 	}
 
-	public void setClasse(Class classe) {
+	public void setClasse(DSClass classe) {
 		this.classe = classe;
 	}
 }

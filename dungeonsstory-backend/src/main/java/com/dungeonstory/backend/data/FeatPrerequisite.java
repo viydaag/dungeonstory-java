@@ -45,7 +45,7 @@ public class FeatPrerequisite extends AbstractTimestampEntity implements Seriali
 	private int level;
 
 	@JoinColumn(name = "classId", nullable = true)
-	private Class classe;
+	private DSClass classe;
 
 	@JoinColumn(name = "skillId", nullable = true)
 	private Skill skill;
@@ -113,11 +113,11 @@ public class FeatPrerequisite extends AbstractTimestampEntity implements Seriali
 		this.level = level;
 	}
 
-	public Class getClasse() {
+	public DSClass getClasse() {
 		return classe;
 	}
 
-	public void setClasse(Class classe) {
+	public void setClasse(DSClass classe) {
 		this.classe = classe;
 	}
 
