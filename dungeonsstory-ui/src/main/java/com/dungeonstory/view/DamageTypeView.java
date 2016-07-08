@@ -1,10 +1,11 @@
 package com.dungeonstory.view;
 
-import com.dungeonstory.backend.data.Region;
-import com.dungeonstory.form.RegionForm;
+import com.dungeonstory.backend.DataService;
+import com.dungeonstory.backend.data.DamageType;
+import com.dungeonstory.form.DamageTypeForm;
 import com.dungeonstory.util.VerticalSpacedLayout;
 import com.dungeonstory.util.ViewConfig;
-import com.dungeonstory.view.component.RegionGrid;
+import com.dungeonstory.view.component.DamageTypeGrid;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
@@ -14,19 +15,19 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
 
-@ViewConfig(uri = "regions", displayName = "Régions")
-public class RegionView extends VerticalSpacedLayout implements View {
+@ViewConfig(uri = "damageTypes", displayName = "Types de dommages")
+public class DamageTypeView extends VerticalSpacedLayout implements View {
 
-	private static final long serialVersionUID = 5117755861151432771L;
-
-	private Label titre;
-	private RegionForm form;
-	private RegionGrid grid;
+    private static final long serialVersionUID = 2197369530490492330L;
+    
+    private Label titre;
+	private DamageTypeForm form;
+	private DamageTypeGrid grid;
 	
-	public RegionView() {
+	public DamageTypeView() {
 		
-		form = new RegionForm();
-		grid = new RegionGrid();
+		form = new DamageTypeForm();
+		grid = new DamageTypeGrid();
 		titre = new Label(form.toString());
 		
 		Button addNew = new Button("", FontAwesome.PLUS);
@@ -46,44 +47,35 @@ public class RegionView extends VerticalSpacedLayout implements View {
         addComponents(titre, boutonLayout, form, grid);
 	}
 	
-	public void entrySaved(Region region) {
-    	grid.refresh(region);
+	public void entrySaved(DamageType damageType) {
+    	grid.refresh(damageType);
     	form.setEntity(null);
-    	grid.scrollTo(region);
+    	grid.scrollTo(damageType);
     	
     	Notification.show("Saved!", Type.HUMANIZED_MESSAGE);
     }
     
-    public void entryReset(Region region) {
+    public void entryReset(DamageType damageType) {
     	form.getFieldGroup().discard();
     }
     
     public void entrySelected() {
-    	form.setEntity(grid.getSelectedRow() == null ? new Region() : grid.getSelectedRow());
+    	form.setEntity(grid.getSelectedRow() == null ? new DamageType() : grid.getSelectedRow());
     	form.focusFirst();
-//    	form.getDeleteButton().setVisible(true);
     }
     
     private void addNew(Button.ClickEvent e) {
-    	form.setEntity(new Region());
-//    	form.getDeleteButton().setVisible(false);
+    	form.setEntity(new DamageType());
     }
 
-//    private void deleteSelected(Button.ClickEvent e) {
-//    	Region bien = grid.getSelectedRow();
-//		grid.remove(bien);
-//    	form.setEntity(null);
-//    }
-    
-    private void deleteSelected(Region region) {
-		grid.remove(region);
+    private void deleteSelected(DamageType damageType) {
+		grid.remove(damageType);
     	form.setEntity(null);
     }
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		// TODO : set le data dans le container de la grid
-
+		grid.setData(DataService.get().getAllDamageTypes());
 	}
 
 }

@@ -7,8 +7,8 @@ public class ClassGrid extends BeanGrid<DSClass> {
 
 	private static final long serialVersionUID = -2219582474895040784L;
 
-	public ClassGrid(Class<DSClass> beanClass) {
-		super(beanClass);
+	public ClassGrid() {
+		super(DSClass.class);
 		withColumns("name", "shortDescription");
 	}
 

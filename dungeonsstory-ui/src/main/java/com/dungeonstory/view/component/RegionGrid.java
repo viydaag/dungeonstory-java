@@ -7,8 +7,8 @@ public class RegionGrid extends BeanGrid<Region> {
 
 	private static final long serialVersionUID = -2219582474895040784L;
 
-	public RegionGrid(Class<Region> beanClass) {
-		super(beanClass);
+	public RegionGrid() {
+		super(Region.class);
 		setColumnOrder("name", "shortDescription", "description");
 	}
 

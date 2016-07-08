@@ -10,8 +10,10 @@ import java.util.Random;
 import java.util.Set;
 
 import com.dungeonstory.backend.data.Ability;
+import com.dungeonstory.backend.data.Alignment;
 import com.dungeonstory.backend.data.Availability;
 import com.dungeonstory.backend.data.Category;
+import com.dungeonstory.backend.data.DamageType;
 import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.backend.data.Product;
 import com.dungeonstory.backend.data.Skill;
@@ -49,6 +51,32 @@ public class MockDataGenerator {
     	{"Intelligence", "INT"},
     	{"Sagesse", "SAG"},
     	{"Charisme", "CHA"}
+    };
+    
+    private static final String storedAlignment[][] = new String[][] {
+        {"Loyal Bon"},
+        {"Neutre Bon"},
+        {"Chaotique Bon"},
+        {"Loyal Neutre"},
+        {"Neutre strict"},
+        {"Chaotique Neutre"},
+        {"Loyal Mauvais"},
+        {"Neutre Mauvais"},
+        {"Chaotique Mauvais"}
+    };
+    
+    private static final String storedDamageType[][] = new String[][] {
+        {"Tranchant"},
+        {"Contandant"},
+        {"Perçant"},
+        {"Feu"},
+        {"Froid"},
+        {"Acide"},
+        {"Électricité"},
+        {"Nécrotique"},
+        {"Force"},
+        {"Magique"},
+        {"Radiant"},
     };
     
     private static final String storedSkills[][] = new String[][] {
@@ -103,6 +131,22 @@ public class MockDataGenerator {
         	abilities.add(new Ability(ability[0], ability[1], ""));
         }
         return abilities;
+    }
+    
+    static List<Alignment> createAlignments() {
+        List<Alignment> alignments = new ArrayList<Alignment>();
+        for (String[] alignment : storedAlignment) {
+            alignments.add(new Alignment(alignment[0], "", ""));
+        }
+        return alignments;
+    }
+    
+    static List<DamageType> createDamageTypes() {
+        List<DamageType> types = new ArrayList<DamageType>();
+        for (String[] type : storedDamageType) {
+            types.add(new DamageType(type[0]));
+        }
+        return types;
     }
     
     static List<Skill> createSkills() {

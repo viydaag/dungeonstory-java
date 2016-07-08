@@ -69,5 +69,14 @@ public class BeanGrid<T> extends Grid {
 		}
     }
 
+    public void withHeaderCaption(String... header) {
+        if (header.length != getColumns().size()) {
+            throw new IllegalArgumentException("The header captions must be equal to the column number.");
+        }
+        for (int i = 0; i < getColumns().size(); i++) {
+            Object propertyId = getColumns().get(i).getPropertyId();
+            getColumn(propertyId).setHeaderCaption(header[i]);
+        }
+    }
 
 }

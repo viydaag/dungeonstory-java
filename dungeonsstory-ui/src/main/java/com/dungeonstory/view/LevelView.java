@@ -23,14 +23,12 @@ public class LevelView extends VerticalSpacedLayout implements View {
 	private LevelGrid grid;
 	
 	public LevelView() {
-		grid = new LevelGrid(Level.class);
+		grid = new LevelGrid();
 		titre = new Label("Niveaux");
 		
 		Button addNew = new Button("", FontAwesome.PLUS);
-//	    Button delete = new Button("", FontAwesome.TRASH_O);
 	    
 	    addNew.addClickListener(this::addNew);
-//	    delete.addClickListener(this::deleteSelected);
 	    HorizontalLayout boutonLayout = new HorizontalLayout(addNew);
 	    
 	    addComponents(titre, boutonLayout, grid);

@@ -26,14 +26,12 @@ public class SkillView extends VerticalSpacedLayout implements View {
 	
 	public SkillView() {
 		form = new SkillForm();
-		grid = new SkillGrid(Skill.class);
+		grid = new SkillGrid();
 		titre = new Label(form.toString());
 		
 		Button addNew = new Button("", FontAwesome.PLUS);
-//	    Button delete = new Button("", FontAwesome.TRASH_O);
 	    
 	    addNew.addClickListener(this::addNew);
-//	    delete.addClickListener(this::deleteSelected);
 	    HorizontalLayout boutonLayout = new HorizontalLayout(addNew);
 	    
 	    form.setEntity(null);
@@ -42,9 +40,6 @@ public class SkillView extends VerticalSpacedLayout implements View {
         form.setSavedHandler(this::entrySaved);
         form.setResetHandler(this::entryReset);
         form.setDeleteHandler(this::deleteSelected);
-        form.setSaveCaption("Enregistrer");
-        form.setCancelCaption("Annuler");
-        form.setDeleteCaption("Supprimer");
         
         grid.addSelectionListener(selectionEvent -> {entrySelected();});
         

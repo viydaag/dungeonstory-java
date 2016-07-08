@@ -5,7 +5,9 @@ import com.dungeonstory.util.LazyProvider;
 import com.dungeonstory.util.PageTitleUpdater;
 import com.dungeonstory.util.VerticalSpacedLayout;
 import com.dungeonstory.util.ViewConfig;
+import com.dungeonstory.view.AlignmentView;
 import com.dungeonstory.view.ClassView;
+import com.dungeonstory.view.DamageTypeView;
 import com.dungeonstory.view.ErrorView;
 import com.dungeonstory.view.HomeView;
 import com.dungeonstory.view.LevelView;
@@ -90,10 +92,15 @@ public class MainScreen extends HorizontalLayout {
     
     private void registerViews() {
     	addView(HomeView.class);
-		addView(RegionView.class);
-		addView(LevelView.class);
-		addView(SkillView.class);
-		addView(ClassView.class);
+    	
+    	if (DungeonStoryUI.get().getAccessControl().isUserInRole("admin")) {
+    		addView(RegionView.class);
+    		addView(LevelView.class);
+    		addView(SkillView.class);
+    		addView(ClassView.class);
+    		addView(DamageTypeView.class);
+    		addView(AlignmentView.class);
+    	}
 	}
 
 	/**

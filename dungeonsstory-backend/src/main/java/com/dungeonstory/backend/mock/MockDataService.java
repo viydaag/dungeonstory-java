@@ -5,7 +5,9 @@ import java.util.List;
 
 import com.dungeonstory.backend.DataService;
 import com.dungeonstory.backend.data.Ability;
+import com.dungeonstory.backend.data.Alignment;
 import com.dungeonstory.backend.data.Category;
+import com.dungeonstory.backend.data.DamageType;
 import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.backend.data.Product;
 import com.dungeonstory.backend.data.Skill;
@@ -23,6 +25,8 @@ public class MockDataService extends DataService {
     private static List<Ability> abilities;
     private static List<Skill> skills;
     private static List<Level> levels;
+    private static List<Alignment> alignments;
+    private static List<DamageType> damageTypes;
     
     private static List<Product> products;
     private static List<Category> categories;
@@ -36,6 +40,8 @@ public class MockDataService extends DataService {
 		abilities = MockDataGenerator.createAbilities();
     	skills = MockDataGenerator.createSkills();
     	levels = MockDataGenerator.createLevels();
+    	alignments = MockDataGenerator.createAlignments();
+    	damageTypes = MockDataGenerator.createDamageTypes();
     	
         categories = MockDataGenerator.createCategories();
         products = MockDataGenerator.createProducts(categories);
@@ -112,6 +118,16 @@ public class MockDataService extends DataService {
     @Override
     public Collection<Level> getAllLevels() {
         return levels;
+    }
+
+    @Override
+    public Collection<Alignment> getAllAlignments() {
+        return alignments;
+    }
+
+    @Override
+    public Collection<DamageType> getAllDamageTypes() {
+        return damageTypes;
     }
 
 }

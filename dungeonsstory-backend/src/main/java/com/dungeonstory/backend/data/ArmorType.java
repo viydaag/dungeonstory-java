@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "ArmorType")
@@ -18,6 +19,7 @@ public class ArmorType extends AbstractTimestampEntity implements Serializable {
 		LIGHT, MEDIUM, HEAVY, SHIELD
 	}
 
+	@NotNull
 	@Column(name = "name", nullable = false)
 	private String name;
 

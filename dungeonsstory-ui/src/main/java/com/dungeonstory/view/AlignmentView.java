@@ -1,10 +1,11 @@
 package com.dungeonstory.view;
 
-import com.dungeonstory.backend.data.Region;
-import com.dungeonstory.form.RegionForm;
+import com.dungeonstory.backend.DataService;
+import com.dungeonstory.backend.data.Alignment;
+import com.dungeonstory.form.AlignmentForm;
 import com.dungeonstory.util.VerticalSpacedLayout;
 import com.dungeonstory.util.ViewConfig;
-import com.dungeonstory.view.component.RegionGrid;
+import com.dungeonstory.view.component.AlignmentGrid;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
@@ -14,19 +15,19 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
 
-@ViewConfig(uri = "regions", displayName = "Régions")
-public class RegionView extends VerticalSpacedLayout implements View {
+@ViewConfig(uri = "alignments", displayName = "Alignements")
+public class AlignmentView extends VerticalSpacedLayout implements View {
 
-	private static final long serialVersionUID = 5117755861151432771L;
-
-	private Label titre;
-	private RegionForm form;
-	private RegionGrid grid;
+    private static final long serialVersionUID = 4239959044896030062L;
+    
+    private Label titre;
+	private AlignmentForm form;
+	private AlignmentGrid grid;
 	
-	public RegionView() {
+	public AlignmentView() {
 		
-		form = new RegionForm();
-		grid = new RegionGrid();
+		form = new AlignmentForm();
+		grid = new AlignmentGrid();
 		titre = new Label(form.toString());
 		
 		Button addNew = new Button("", FontAwesome.PLUS);
@@ -46,44 +47,35 @@ public class RegionView extends VerticalSpacedLayout implements View {
         addComponents(titre, boutonLayout, form, grid);
 	}
 	
-	public void entrySaved(Region region) {
-    	grid.refresh(region);
+	public void entrySaved(Alignment alignment) {
+    	grid.refresh(alignment);
     	form.setEntity(null);
-    	grid.scrollTo(region);
+    	grid.scrollTo(alignment);
     	
     	Notification.show("Saved!", Type.HUMANIZED_MESSAGE);
     }
     
-    public void entryReset(Region region) {
+    public void entryReset(Alignment alignment) {
     	form.getFieldGroup().discard();
     }
     
     public void entrySelected() {
-    	form.setEntity(grid.getSelectedRow() == null ? new Region() : grid.getSelectedRow());
+    	form.setEntity(grid.getSelectedRow() == null ? new Alignment() : grid.getSelectedRow());
     	form.focusFirst();
-//    	form.getDeleteButton().setVisible(true);
     }
     
     private void addNew(Button.ClickEvent e) {
-    	form.setEntity(new Region());
-//    	form.getDeleteButton().setVisible(false);
+    	form.setEntity(new Alignment());
     }
 
-//    private void deleteSelected(Button.ClickEvent e) {
-//    	Region bien = grid.getSelectedRow();
-//		grid.remove(bien);
-//    	form.setEntity(null);
-//    }
-    
-    private void deleteSelected(Region region) {
-		grid.remove(region);
+    private void deleteSelected(Alignment alignment) {
+		grid.remove(alignment);
     	form.setEntity(null);
     }
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		// TODO : set le data dans le container de la grid
-
+		grid.setData(DataService.get().getAllAlignments());
 	}
 
 }

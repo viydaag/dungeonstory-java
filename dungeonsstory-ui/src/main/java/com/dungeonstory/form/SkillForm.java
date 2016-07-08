@@ -14,7 +14,7 @@ import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 
-public class SkillForm extends AbstractForm<Skill> {
+public class SkillForm extends DSAbstractForm<Skill> {
 
     private static final long serialVersionUID = -4123881637907722632L;
     

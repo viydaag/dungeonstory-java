@@ -1,7 +1,5 @@
 package com.dungeonstory.view.component;
 
-import java.util.ArrayList;
-
 import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.samples.crud.BeanGrid;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
@@ -10,8 +8,8 @@ public class LevelGrid extends BeanGrid<Level> {
 
 	private static final long serialVersionUID = -2219582474895040784L;
 
-	public LevelGrid(Class<Level> beanClass) {
-		super(beanClass);
+	public LevelGrid() {
+		super(Level.class);
 		
 		setEditorEnabled(true);
 		setEditorFieldGroup(new BeanFieldGroup<Level>(Level.class));

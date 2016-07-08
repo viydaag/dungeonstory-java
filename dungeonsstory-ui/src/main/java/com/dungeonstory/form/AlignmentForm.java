@@ -2,28 +2,30 @@ package com.dungeonstory.form;
 
 import org.vaadin.viritin.fields.MTextArea;
 import org.vaadin.viritin.fields.MTextField;
+import org.vaadin.viritin.form.AbstractForm;
 
+import com.dungeonstory.backend.data.Alignment;
 import com.dungeonstory.backend.data.Region;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 
-public class RegionForm extends DSAbstractForm<Region> {
+public class AlignmentForm extends DSAbstractForm<Alignment> {
 
-    private static final long serialVersionUID = 1416085344583485158L;
+    private static final long serialVersionUID = -9195608720966852469L;
     
     private TextField name;
 	private TextField shortDescription;
 	private TextArea description;
 
-	public RegionForm() {
-	    super();
+	public AlignmentForm() {
+
 	}
 
 	@Override
 	public String toString() {
-		return "Regions";
+		return "Alignements";
 	}
 
 	@Override

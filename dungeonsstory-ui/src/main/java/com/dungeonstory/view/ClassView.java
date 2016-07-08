@@ -26,14 +26,12 @@ public class ClassView extends VerticalSpacedLayout implements View {
 	public ClassView() {
 	    
 		form = new ClassForm();
-		grid = new ClassGrid(DSClass.class);
+		grid = new ClassGrid();
 		titre = new Label(form.toString());
 		
 		Button addNew = new Button("", FontAwesome.PLUS);
-//	    Button delete = new Button("", FontAwesome.TRASH_O);
 	    
 	    addNew.addClickListener(this::addNew);
-//	    delete.addClickListener(this::deleteSelected);
 	    HorizontalLayout boutonLayout = new HorizontalLayout(addNew);
 	    
 	    form.setEntity(null);
@@ -42,9 +40,6 @@ public class ClassView extends VerticalSpacedLayout implements View {
         form.setSavedHandler(this::entrySaved);
         form.setResetHandler(this::entryReset);
         form.setDeleteHandler(this::deleteSelected);
-        form.setSaveCaption("Enregistrer");
-        form.setCancelCaption("Annuler");
-        form.setDeleteCaption("Supprimer");
         
         grid.addSelectionListener(selectionEvent -> {entrySelected();});
         
@@ -54,23 +49,26 @@ public class ClassView extends VerticalSpacedLayout implements View {
 	public void entrySaved(DSClass region) {
     	grid.refresh(region);
     	form.setEntity(null);
+    	form.closePopup();
     	grid.scrollTo(region);
     	
     	Notification.show("Saved!", Type.HUMANIZED_MESSAGE);
     }
     
     public void entryReset(DSClass region) {
-    	form.getFieldGroup().discard();
+        form.setEntity(null);
+        form.closePopup();
     }
     
     public void entrySelected() {
     	form.setEntity(grid.getSelectedRow() == null ? new DSClass() : grid.getSelectedRow());
+    	form.openInModalPopup();
     	form.focusFirst();
-//    	form.getDeleteButton().setVisible(true);
     }
     
     private void addNew(Button.ClickEvent e) {
     	form.setEntity(new DSClass());
+    	form.openInModalPopup();
 //    	form.getDeleteButton().setVisible(false);
     }
 
@@ -83,6 +81,7 @@ public class ClassView extends VerticalSpacedLayout implements View {
     private void deleteSelected(DSClass region) {
 		grid.remove(region);
     	form.setEntity(null);
+    	form.closePopup();
     }
 
 	@Override

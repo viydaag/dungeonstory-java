@@ -6,7 +6,6 @@ import org.vaadin.viritin.fields.ElementCollectionField;
 import org.vaadin.viritin.fields.MTextArea;
 import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.fields.TypedSelect;
-import org.vaadin.viritin.form.AbstractForm;
 
 import com.dungeonstory.backend.DataService;
 import com.dungeonstory.backend.data.ClassLevelBonus;
@@ -20,7 +19,7 @@ import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 
-public class ClassForm extends AbstractForm<DSClass> {
+public class ClassForm extends DSAbstractForm<DSClass> {
 
     private static final long serialVersionUID = -4123881637907722632L;
     
@@ -38,9 +37,9 @@ public class ClassForm extends AbstractForm<DSClass> {
         CheckBox hasAbilityScoreImprovement = new CheckBox();
     }
 
-	public ClassForm() {
-	    super();
-	}
+    public ClassForm() {
+        super();
+    }
 
 	@Override
 	public String toString() {
