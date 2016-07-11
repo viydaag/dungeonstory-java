@@ -75,7 +75,9 @@ public class BeanGrid<T> extends Grid {
         }
         for (int i = 0; i < getColumns().size(); i++) {
             Object propertyId = getColumns().get(i).getPropertyId();
-            getColumn(propertyId).setHeaderCaption(header[i]);
+            if (header[i] != null) {
+                getColumn(propertyId).setHeaderCaption(header[i]);
+            }
         }
     }
 

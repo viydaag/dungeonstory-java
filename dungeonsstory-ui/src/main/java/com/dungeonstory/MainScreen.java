@@ -6,6 +6,7 @@ import com.dungeonstory.util.PageTitleUpdater;
 import com.dungeonstory.util.VerticalSpacedLayout;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.AlignmentView;
+import com.dungeonstory.view.ArmorTypeView;
 import com.dungeonstory.view.ClassView;
 import com.dungeonstory.view.DamageTypeView;
 import com.dungeonstory.view.ErrorView;
@@ -101,6 +102,7 @@ public class MainScreen extends HorizontalLayout {
     		addView(DamageTypeView.class);
     		addView(AlignmentView.class);
     		addView(WeaponTypeView.class);
+    		addView(ArmorTypeView.class);
     	}
 	}
 

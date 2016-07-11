@@ -3,10 +3,12 @@ package com.dungeonstory.form;
 
 import org.vaadin.viritin.fields.CaptionGenerator;
 import org.vaadin.viritin.fields.EnumSelect;
+import org.vaadin.viritin.fields.MCheckBox;
 import org.vaadin.viritin.fields.MTextArea;
 import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.fields.TypedSelect;
 
+import com.dungeonstory.FormCheckBox;
 import com.dungeonstory.backend.DataService;
 import com.dungeonstory.backend.data.DamageType;
 import com.dungeonstory.backend.data.WeaponType;
@@ -32,7 +34,7 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
 	private EnumSelect<RangeType> rangeType;
 	private TextField baseDamage;
 	private TypedSelect<DamageType> damageType;
-	private CheckBox isReach;
+	private FormCheckBox isReach;
 	private TextField baseWeight;
 
 	@Override
@@ -49,14 +51,16 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
 		proficiencyType = new EnumSelect<ProficiencyType>("Type de compétence");
 		handleType = new EnumSelect<HandleType>("Type");
 		usageType = new EnumSelect<UsageType>("Type d'usage");
-		rangeType = new EnumSelect<RangeType>("Type d'arme à distance");
+		rangeType = new EnumSelect<RangeType>("Type de portée");
 		baseDamage = new MTextField("Dommage de base");
-		isReach = new CheckBox("Portée longue");
+		isReach = new FormCheckBox("Portée longue");
 		baseWeight = new MTextField("Poids de base (lbs)");
 		
 		damageType = new TypedSelect<DamageType>("Type de dommage", DataService.get().getAllDamageTypes());
 		damageType.setCaptionGenerator(new CaptionGenerator<DamageType>() {
             
+            private static final long serialVersionUID = 9011176307449121578L;
+
             @Override
             public String getCaption(DamageType option) {
                 return option.getName();
