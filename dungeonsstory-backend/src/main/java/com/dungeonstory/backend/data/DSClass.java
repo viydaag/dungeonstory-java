@@ -98,5 +98,10 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
     public void setLevelBonuses(List<ClassLevelBonus> levelBonuses) {
         this.levelBonuses = levelBonuses;
     }
+    
+    @Override
+    public String toString() {
+        return getName();
+    }
 
 }

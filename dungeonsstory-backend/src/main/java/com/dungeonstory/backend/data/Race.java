@@ -241,5 +241,10 @@ public class Race extends AbstractTimestampEntity implements Serializable {
 	public void setFavoredClass(DSClass favoredClass) {
 		this.favoredClass = favoredClass;
 	}
+	
+	@Override
+    public String toString() {
+        return getName();
+    }
 
 }

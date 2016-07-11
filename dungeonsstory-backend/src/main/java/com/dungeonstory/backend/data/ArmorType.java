@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -26,13 +27,18 @@ public class ArmorType extends AbstractTimestampEntity implements Serializable {
 	@Column(name = "description", columnDefinition = "TEXT")
 	private String description;
 
+	@NotNull
 	@Column(name = "proficiencyType", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private ProficiencyType proficiencyType;
 
+	@NotNull
+	@Min(value = 0)
 	@Column(name = "maxDexBonus", nullable = false)
 	private int maxDexBonus;
 
+	@NotNull
+    @Min(value = 0)
 	@Column(name = "baseArmorClass", nullable = false)
 	private int baseArmorClass;
 
@@ -42,9 +48,12 @@ public class ArmorType extends AbstractTimestampEntity implements Serializable {
 	@Column(name = "baseArcaneSpellFailure", nullable = false)
 	private int baseArcaneSpellFailure = 0;
 
+	@NotNull
+    @Min(value = 0)
 	@Column(name = "baseWeight", nullable = false)
 	private int baseWeight;
 
+    @Min(value = 0)
 	@Column(name = "speed", nullable = false)
 	private int speed;
 
@@ -139,4 +148,9 @@ public class ArmorType extends AbstractTimestampEntity implements Serializable {
 	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
+	
+	@Override
+    public String toString() {
+        return getName();
+    }
 }

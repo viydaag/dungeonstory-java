@@ -147,11 +147,11 @@ public class WeaponType extends AbstractTimestampEntity implements Serializable 
 		this.damageType = damageType;
 	}
 
-	public boolean isReach() {
+	public boolean getIsReach() {
 		return isReach;
 	}
 
-	public void setReach(boolean isReach) {
+	public void setIsReach(boolean isReach) {
 		this.isReach = isReach;
 	}
 
@@ -162,5 +162,10 @@ public class WeaponType extends AbstractTimestampEntity implements Serializable 
 	public void setBaseWeight(int baseWeight) {
 		this.baseWeight = baseWeight;
 	}
+	
+	@Override
+    public String toString() {
+        return getName();
+    }
 
 }

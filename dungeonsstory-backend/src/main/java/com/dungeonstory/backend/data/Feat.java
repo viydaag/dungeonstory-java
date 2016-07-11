@@ -67,5 +67,10 @@ public class Feat extends AbstractTimestampEntity implements Serializable {
 	public void setType(FeatUsage type) {
 		this.usage = type;
 	}
+	
+	@Override
+    public String toString() {
+        return getName();
+    }
 
 }

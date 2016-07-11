@@ -109,4 +109,9 @@ public class Equipment extends AbstractTimestampEntity implements Serializable {
 	public void setSellable(boolean isSellable) {
 		this.isSellable = isSellable;
 	}
+	
+	@Override
+    public String toString() {
+        return getName();
+    }
 }
