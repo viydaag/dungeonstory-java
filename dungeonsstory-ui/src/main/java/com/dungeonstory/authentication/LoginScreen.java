@@ -10,11 +10,13 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.FormLayout;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.themes.ValoTheme;
 
 /**
@@ -28,11 +30,18 @@ public class LoginScreen extends CssLayout {
     private Button forgotPassword;
     private LoginListener loginListener;
     private AccessControl accessControl;
+    private VerticalLayout centeringLayout;
+    
+    private Button newUserButton;
+    private NewUserForm newUserForm;
+    private Button newUserFormSave;
+    private Button newUserFormCancel;
 
     public LoginScreen(AccessControl accessControl, LoginListener loginListener) {
         this.loginListener = loginListener;
         this.accessControl = accessControl;
         buildUI();
+        buildNewUserForm();
         username.focus();
     }
 
@@ -45,7 +54,7 @@ public class LoginScreen extends CssLayout {
         // layout to center login form when there is sufficient screen space
         // - see the theme for how this is made responsive for various screen
         // sizes
-        VerticalLayout centeringLayout = new VerticalLayout();
+        centeringLayout = new VerticalLayout();
         centeringLayout.setStyleName("centering-layout");
         centeringLayout.addComponent(loginForm);
         centeringLayout.setComponentAlignment(loginForm,
@@ -65,9 +74,9 @@ public class LoginScreen extends CssLayout {
         loginForm.setSizeUndefined();
         loginForm.setMargin(false);
 
-        loginForm.addComponent(username = new TextField("Username", "admin"));
+        loginForm.addComponent(username = new TextField("Utilisateur", "admin"));
         username.setWidth(15, Unit.EM);
-        loginForm.addComponent(password = new PasswordField("Password"));
+        loginForm.addComponent(password = new PasswordField("Mot de passe"));
         password.setWidth(15, Unit.EM);
         password.setDescription("Write anything");
         CssLayout buttons = new CssLayout();
@@ -97,7 +106,55 @@ public class LoginScreen extends CssLayout {
             }
         });
         forgotPassword.addStyleName(ValoTheme.BUTTON_LINK);
+        
+        buttons.addComponent(newUserButton = new Button("Nouvel utilisateur"));
+        newUserButton.addClickListener(new Button.ClickListener() {
+            
+            @Override
+            public void buttonClick(ClickEvent event) {
+                centeringLayout.removeAllComponents();
+                centeringLayout.addComponent(newUserForm);
+                centeringLayout.setComponentAlignment(newUserForm,
+                        Alignment.MIDDLE_CENTER);
+            }
+        });
         return loginForm;
+    }
+    
+    private Component buildNewUserForm() {
+        newUserForm = new NewUserForm();
+        
+        newUserFormSave = new Button("Envoyer");
+        newUserFormCancel = new Button("Annuler");
+        
+        newUserFormSave.addClickListener(new Button.ClickListener() {
+            
+            @Override
+            public void buttonClick(ClickEvent event) {
+                // TODO valider les champs
+                // TODO Save user in db
+            }
+        });
+        
+        newUserFormCancel.addClickListener(new Button.ClickListener() {
+            
+            @Override
+            public void buttonClick(ClickEvent event) {
+                centeringLayout.removeAllComponents();
+                Component loginForm = buildLoginForm();
+                centeringLayout.addComponent(loginForm);
+                centeringLayout.setComponentAlignment(loginForm,
+                        Alignment.MIDDLE_CENTER);
+            }
+        });
+        
+        HorizontalLayout buttons = new HorizontalLayout();
+        buttons.setSpacing(true);
+        buttons.addComponents(newUserFormSave, newUserFormCancel);
+        
+        newUserForm.addComponents(buttons);
+        
+        return newUserForm;
     }
 
     private CssLayout buildLoginInformation() {
