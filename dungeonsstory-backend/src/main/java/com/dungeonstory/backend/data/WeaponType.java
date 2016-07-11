@@ -77,10 +77,90 @@ public class WeaponType extends AbstractTimestampEntity implements Serializable 
 	@NotNull
 	@Min(value = 0)
 	@Column(name = "baseWeight")
-	private boolean baseWeight;
+	private int baseWeight;
 
 	public WeaponType() {
 		super();
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public ProficiencyType getProficiencyType() {
+		return proficiencyType;
+	}
+
+	public void setProficiencyType(ProficiencyType proficiencyType) {
+		this.proficiencyType = proficiencyType;
+	}
+
+	public HandleType getHandleType() {
+		return handleType;
+	}
+
+	public void setHandleType(HandleType handleType) {
+		this.handleType = handleType;
+	}
+
+	public UsageType getUsageType() {
+		return usageType;
+	}
+
+	public void setUsageType(UsageType usageType) {
+		this.usageType = usageType;
+	}
+
+	public RangeType getRangeType() {
+		return rangeType;
+	}
+
+	public void setRangeType(RangeType rangeType) {
+		this.rangeType = rangeType;
+	}
+
+	public String getBaseDamage() {
+		return baseDamage;
+	}
+
+	public void setBaseDamage(String baseDamage) {
+		this.baseDamage = baseDamage;
+	}
+
+	public DamageType getDamageType() {
+		return damageType;
+	}
+
+	public void setDamageType(DamageType damageType) {
+		this.damageType = damageType;
+	}
+
+	public boolean isReach() {
+		return isReach;
+	}
+
+	public void setReach(boolean isReach) {
+		this.isReach = isReach;
+	}
+
+	public int getBaseWeight() {
+		return baseWeight;
+	}
+
+	public void setBaseWeight(int baseWeight) {
+		this.baseWeight = baseWeight;
 	}
 
 }

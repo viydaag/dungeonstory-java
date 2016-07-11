@@ -4,7 +4,6 @@ import org.vaadin.viritin.fields.CaptionGenerator;
 import org.vaadin.viritin.fields.MTextArea;
 import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.fields.TypedSelect;
-import org.vaadin.viritin.form.AbstractForm;
 
 import com.dungeonstory.backend.DataService;
 import com.dungeonstory.backend.data.Ability;

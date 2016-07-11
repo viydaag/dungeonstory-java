@@ -36,8 +36,8 @@
 			<property name="eclipselink.logging.level" value="FINE" />
 			<property name="eclipselink.ddlgen-terminate-statements" value="true" />
 			<!-- property name="eclipselink.ddl-generation" value="create-or-extend-tables" /-->
-			<!-- property name="eclipselink.ddl-generation" value="drop-and-create-tables" /-->
-			<property name="eclipselink.ddl-generation" value="create-tables" />
+			<property name="eclipselink.ddl-generation" value="drop-and-create-tables" />
+			<!-- property name="eclipselink.ddl-generation" value="create-tables" /-->
 			<property name="eclipselink.ddl-generation.output-mode" value="both" />
 		</properties>
 	</persistence-unit>

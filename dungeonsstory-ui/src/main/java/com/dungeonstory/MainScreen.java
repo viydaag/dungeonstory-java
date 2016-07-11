@@ -13,9 +13,9 @@ import com.dungeonstory.view.HomeView;
 import com.dungeonstory.view.LevelView;
 import com.dungeonstory.view.RegionView;
 import com.dungeonstory.view.SkillView;
+import com.dungeonstory.view.WeaponTypeView;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
-import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 
@@ -100,6 +100,7 @@ public class MainScreen extends HorizontalLayout {
     		addView(ClassView.class);
     		addView(DamageTypeView.class);
     		addView(AlignmentView.class);
+    		addView(WeaponTypeView.class);
     	}
 	}
 

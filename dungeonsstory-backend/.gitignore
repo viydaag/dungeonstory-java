@@ -1,2 +1,4 @@
 /target/
 /.settings/
+/createDDL.sql
+/dropDDL.sql
