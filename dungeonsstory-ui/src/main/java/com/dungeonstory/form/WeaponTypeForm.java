@@ -3,9 +3,10 @@ package com.dungeonstory.form;
 
 import org.vaadin.viritin.fields.CaptionGenerator;
 import org.vaadin.viritin.fields.EnumSelect;
-import org.vaadin.viritin.fields.MCheckBox;
 import org.vaadin.viritin.fields.MTextArea;
 import org.vaadin.viritin.fields.MTextField;
+import org.vaadin.viritin.fields.MValueChangeEvent;
+import org.vaadin.viritin.fields.MValueChangeListener;
 import org.vaadin.viritin.fields.TypedSelect;
 
 import com.dungeonstory.FormCheckBox;
@@ -15,8 +16,8 @@ import com.dungeonstory.backend.data.WeaponType;
 import com.dungeonstory.backend.data.WeaponType.HandleType;
 import com.dungeonstory.backend.data.WeaponType.ProficiencyType;
 import com.dungeonstory.backend.data.WeaponType.RangeType;
+import com.dungeonstory.backend.data.WeaponType.SizeType;
 import com.dungeonstory.backend.data.WeaponType.UsageType;
-import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextArea;
@@ -29,12 +30,16 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
 	private TextField name;
 	private TextArea description;
 	private EnumSelect<ProficiencyType> proficiencyType;
+	private EnumSelect<SizeType> sizeType;
 	private EnumSelect<HandleType> handleType;
 	private EnumSelect<UsageType> usageType;
 	private EnumSelect<RangeType> rangeType;
-	private TextField baseDamage;
+	private TextField oneHandBaseDamage;
+	private TextField twoHandBaseDamage;
 	private TypedSelect<DamageType> damageType;
 	private FormCheckBox isReach;
+	private FormCheckBox isFinesse;
+	private FormCheckBox isLoading;
 	private TextField baseWeight;
 
 	@Override
@@ -49,11 +54,15 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
 		name = new MTextField("Nom");
 		description = new MTextArea("Description").withFullWidth();
 		proficiencyType = new EnumSelect<ProficiencyType>("Type de compétence");
+		sizeType = new EnumSelect<SizeType>("Taille");
 		handleType = new EnumSelect<HandleType>("Type");
 		usageType = new EnumSelect<UsageType>("Type d'usage");
 		rangeType = new EnumSelect<RangeType>("Type de portée");
-		baseDamage = new MTextField("Dommage de base");
+		oneHandBaseDamage = new MTextField("Dommage à 1 main");
+		twoHandBaseDamage = new MTextField("Dommage à 2 mains");
 		isReach = new FormCheckBox("Portée longue");
+		isFinesse = new FormCheckBox("Finesse (choix dextérité ou force)");
+		isLoading = new FormCheckBox("Chargement requis");
 		baseWeight = new MTextField("Poids de base (lbs)");
 		
 		damageType = new TypedSelect<DamageType>("Type de dommage", DataService.get().getAllDamageTypes());
@@ -67,19 +76,89 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
             }
         });
 		
+		handleType.addMValueChangeListener(createHandleTypeValueChangeListener());
+		usageType.addMValueChangeListener(createUsageTypeValueChangeListener());
+		
 		layout.addComponent(name);
 		layout.addComponent(description);
 		layout.addComponent(proficiencyType);
+		layout.addComponent(sizeType);
 		layout.addComponent(handleType);
 		layout.addComponent(usageType);
 		layout.addComponent(rangeType);
-		layout.addComponent(baseDamage);
+		layout.addComponent(oneHandBaseDamage);
+		layout.addComponent(twoHandBaseDamage);
 		layout.addComponent(damageType);
 		layout.addComponent(isReach);
+		layout.addComponent(isFinesse);
+		layout.addComponent(isLoading);
 		layout.addComponent(baseWeight);
 		layout.addComponent(getToolbar());
 
 		return layout;
 	}
+
+    private MValueChangeListener<UsageType> createUsageTypeValueChangeListener() {
+        return new MValueChangeListener<UsageType>() {
+
+            @Override
+            public void valueChange(MValueChangeEvent<UsageType> event) {
+                switch (event.getValue()) {
+                    case RANGE:
+                        rangeType.setVisible(true);
+                        rangeType.setReadOnly(false);
+                        isReach.setVisible(false);
+                        isReach.setValue(false);
+                        break;
+                    case MELEE_RANGE:
+                        rangeType.setVisible(true);
+                        rangeType.setValue(RangeType.THROWN);
+                        rangeType.setReadOnly(true);
+                        break;
+                    case MELEE:
+                    default:
+                        rangeType.setReadOnly(false);
+                        rangeType.setValue(null);
+                        rangeType.setVisible(false);
+                        isLoading.setVisible(false);
+                        isLoading.setValue(false);
+                        break;
+                }
+                
+            }
+        };
+    }
+
+    private MValueChangeListener<HandleType> createHandleTypeValueChangeListener() {
+        return new MValueChangeListener<HandleType>() {
+            
+            @Override
+            public void valueChange(MValueChangeEvent<HandleType> event) {
+                switch (event.getValue()) {
+                    case ONE_HANDED:
+                        oneHandBaseDamage.setVisible(true);
+                        twoHandBaseDamage.setVisible(false);
+                        twoHandBaseDamage.setValue(null);
+                        break;
+                    case TWO_HANDED:
+                        oneHandBaseDamage.setVisible(false);
+                        oneHandBaseDamage.setValue(null);
+                        twoHandBaseDamage.setVisible(true);
+                        break;
+                    case VERSATILE:
+                        oneHandBaseDamage.setVisible(true);
+                        twoHandBaseDamage.setVisible(true);
+                        break;
+                    default:
+                        oneHandBaseDamage.setVisible(false);
+                        oneHandBaseDamage.setValue(null);
+                        twoHandBaseDamage.setVisible(false);
+                        twoHandBaseDamage.setValue(null);
+                        break;
+                }
+                
+            }
+        };
+    }
 
 }
