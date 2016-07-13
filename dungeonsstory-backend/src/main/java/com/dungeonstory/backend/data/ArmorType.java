@@ -42,7 +42,6 @@ public class ArmorType extends AbstractTimestampEntity implements Serializable {
 	@Column(name = "baseArmorClass", nullable = false)
 	private int baseArmorClass;
 
-	@NotNull
 	@Column(name = "stealthDisavantage", nullable = false)
 	private boolean stealthDisavantage;
 	

@@ -2,10 +2,8 @@ package com.dungeonstory.form;
 
 import org.vaadin.viritin.fields.MTextArea;
 import org.vaadin.viritin.fields.MTextField;
-import org.vaadin.viritin.form.AbstractForm;
 
 import com.dungeonstory.backend.data.Alignment;
-import com.dungeonstory.backend.data.Region;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextArea;
@@ -20,7 +18,7 @@ public class AlignmentForm extends DSAbstractForm<Alignment> {
 	private TextArea description;
 
 	public AlignmentForm() {
-
+	    super();
 	}
 
 	@Override

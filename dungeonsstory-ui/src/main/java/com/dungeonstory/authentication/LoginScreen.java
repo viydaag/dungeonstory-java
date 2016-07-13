@@ -24,18 +24,20 @@ import com.vaadin.ui.themes.ValoTheme;
  */
 public class LoginScreen extends CssLayout {
 
-    private TextField username;
-    private PasswordField password;
-    private Button login;
-    private Button forgotPassword;
-    private LoginListener loginListener;
-    private AccessControl accessControl;
-    private VerticalLayout centeringLayout;
-    
-    private Button newUserButton;
-    private NewUserForm newUserForm;
-    private Button newUserFormSave;
-    private Button newUserFormCancel;
+    private static final long serialVersionUID = 3185061373532915991L;
+
+    private TextField         username;
+    private PasswordField     password;
+    private Button            login;
+    private Button            forgotPassword;
+    private LoginListener     loginListener;
+    private AccessControl     accessControl;
+    private VerticalLayout    centeringLayout;
+
+    private Button            newUserButton;
+    private NewUserForm       newUserForm;
+    private Button            newUserFormSave;
+    private Button            newUserFormCancel;
 
     public LoginScreen(AccessControl accessControl, LoginListener loginListener) {
         this.loginListener = loginListener;
@@ -57,8 +59,7 @@ public class LoginScreen extends CssLayout {
         centeringLayout = new VerticalLayout();
         centeringLayout.setStyleName("centering-layout");
         centeringLayout.addComponent(loginForm);
-        centeringLayout.setComponentAlignment(loginForm,
-                Alignment.MIDDLE_CENTER);
+        centeringLayout.setComponentAlignment(loginForm, Alignment.MIDDLE_CENTER);
 
         // information text about logging in
         CssLayout loginInformation = buildLoginInformation();
@@ -83,77 +84,94 @@ public class LoginScreen extends CssLayout {
         buttons.setStyleName("buttons");
         loginForm.addComponent(buttons);
 
-        buttons.addComponent(login = new Button("Login"));
+        login = new Button("Login");
         login.setDisableOnClick(true);
-        login.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-                try {
-                    login();
-                } finally {
-                    login.setEnabled(true);
-                }
+        login.addClickListener(e -> {
+            try {
+                login();
+            } finally {
+                login.setEnabled(true);
             }
         });
+        buttons.addComponent(login);
+        //        login.addClickListener(new Button.ClickListener() {
+        //            @Override
+        //            public void buttonClick(Button.ClickEvent event) {
+        //                try {
+        //                    login();
+        //                } finally {
+        //                    login.setEnabled(true);
+        //                }
+        //            }
+        //        });
         login.setClickShortcut(ShortcutAction.KeyCode.ENTER);
         login.addStyleName(ValoTheme.BUTTON_FRIENDLY);
 
-        buttons.addComponent(forgotPassword = new Button("Forgot password?"));
-        forgotPassword.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-                showNotification(new Notification("Hint: Try anything"));
-            }
-        });
+        forgotPassword = new Button("Forgot password?");
         forgotPassword.addStyleName(ValoTheme.BUTTON_LINK);
-        
-        buttons.addComponent(newUserButton = new Button("Nouvel utilisateur"));
-        newUserButton.addClickListener(new Button.ClickListener() {
-            
-            @Override
-            public void buttonClick(ClickEvent event) {
-                centeringLayout.removeAllComponents();
-                centeringLayout.addComponent(newUserForm);
-                centeringLayout.setComponentAlignment(newUserForm,
-                        Alignment.MIDDLE_CENTER);
-            }
+        forgotPassword.addClickListener(e -> showNotification(new Notification("Hint: Try anything")));
+        //        forgotPassword.addClickListener(new Button.ClickListener() {
+        //            @Override
+        //            public void buttonClick(Button.ClickEvent event) {
+        //                showNotification(new Notification("Hint: Try anything"));
+        //            }
+        //        });
+
+        buttons.addComponent(forgotPassword);
+
+        newUserButton = new Button("Nouvel utilisateur");
+        newUserButton.addClickListener(e -> {
+            centeringLayout.removeAllComponents();
+            centeringLayout.addComponent(newUserForm);
+            centeringLayout.setComponentAlignment(newUserForm, Alignment.MIDDLE_CENTER);
         });
+        buttons.addComponent(newUserButton);
+        //        newUserButton.addClickListener(new Button.ClickListener() {
+        //            
+        //            @Override
+        //            public void buttonClick(ClickEvent event) {
+        //                centeringLayout.removeAllComponents();
+        //                centeringLayout.addComponent(newUserForm);
+        //                centeringLayout.setComponentAlignment(newUserForm,
+        //                        Alignment.MIDDLE_CENTER);
+        //            }
+        //        });
         return loginForm;
     }
-    
+
     private Component buildNewUserForm() {
         newUserForm = new NewUserForm();
-        
+
         newUserFormSave = new Button("Envoyer");
+        newUserFormSave.addStyleName(ValoTheme.BUTTON_FRIENDLY);
         newUserFormCancel = new Button("Annuler");
-        
+
         newUserFormSave.addClickListener(new Button.ClickListener() {
-            
+
             @Override
             public void buttonClick(ClickEvent event) {
                 // TODO valider les champs
                 // TODO Save user in db
             }
         });
-        
+
         newUserFormCancel.addClickListener(new Button.ClickListener() {
-            
+
             @Override
             public void buttonClick(ClickEvent event) {
                 centeringLayout.removeAllComponents();
                 Component loginForm = buildLoginForm();
                 centeringLayout.addComponent(loginForm);
-                centeringLayout.setComponentAlignment(loginForm,
-                        Alignment.MIDDLE_CENTER);
+                centeringLayout.setComponentAlignment(loginForm, Alignment.MIDDLE_CENTER);
             }
         });
-        
+
         HorizontalLayout buttons = new HorizontalLayout();
         buttons.setSpacing(true);
         buttons.addComponents(newUserFormSave, newUserFormCancel);
-        
+
         newUserForm.addComponents(buttons);
-        
+
         return newUserForm;
     }
 
@@ -172,8 +190,7 @@ public class LoginScreen extends CssLayout {
         if (accessControl.signIn(username.getValue(), password.getValue())) {
             loginListener.loginSuccessful();
         } else {
-            showNotification(new Notification("Login failed",
-                    "Please check your username and password and try again.",
+            showNotification(new Notification("Login failed", "Please check your username and password and try again.",
                     Notification.Type.HUMANIZED_MESSAGE));
             username.focus();
         }
