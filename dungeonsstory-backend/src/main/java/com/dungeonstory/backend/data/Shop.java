@@ -39,4 +39,9 @@ public class Shop extends AbstractTimestampEntity implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	@Override
+    public String toString() {
+        return getName();
+    }
 }

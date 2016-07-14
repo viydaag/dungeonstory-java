@@ -3,16 +3,22 @@ package com.dungeonstory;
 import com.dungeonstory.util.DSTheme;
 import com.dungeonstory.util.LazyProvider;
 import com.dungeonstory.util.PageTitleUpdater;
+import com.dungeonstory.util.VerticalSpacedLayout;
 import com.dungeonstory.util.ViewConfig;
+import com.dungeonstory.view.AlignmentView;
+import com.dungeonstory.view.ArmorTypeView;
+import com.dungeonstory.view.ClassView;
+import com.dungeonstory.view.DamageTypeView;
 import com.dungeonstory.view.ErrorView;
 import com.dungeonstory.view.HomeView;
 import com.dungeonstory.view.LevelView;
 import com.dungeonstory.view.RegionView;
 import com.dungeonstory.view.SkillView;
+import com.dungeonstory.view.WeaponTypeView;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
-import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.VerticalLayout;
 
 /**
  * Content of the UI when the user is logged in.
@@ -24,7 +30,7 @@ public class MainScreen extends HorizontalLayout {
 	private static final long serialVersionUID = -6331656609834870730L;
 	
 //	private Menu menu;
-	private CssLayout viewContainer;
+	private VerticalLayout viewContainer;
 	private NavBar navBar;
     private Navigator navigator;
 
@@ -64,7 +70,7 @@ public class MainScreen extends HorizontalLayout {
     private void initLayout() {
     	navBar = new NavBar();
     	
-    	viewContainer = new CssLayout();
+    	viewContainer = new VerticalSpacedLayout();
         viewContainer.addStyleName(DSTheme.VALO_CONTENT);
         viewContainer.setSizeFull();
         
@@ -87,9 +93,17 @@ public class MainScreen extends HorizontalLayout {
     
     private void registerViews() {
     	addView(HomeView.class);
-		addView(RegionView.class);
-		addView(LevelView.class);
-		addView(SkillView.class);
+    	
+    	if (DungeonStoryUI.get().getAccessControl().isUserInRole("admin")) {
+    		addView(RegionView.class);
+    		addView(LevelView.class);
+    		addView(SkillView.class);
+    		addView(ClassView.class);
+    		addView(DamageTypeView.class);
+    		addView(AlignmentView.class);
+    		addView(WeaponTypeView.class);
+    		addView(ArmorTypeView.class);
+    	}
 	}
 
 	/**

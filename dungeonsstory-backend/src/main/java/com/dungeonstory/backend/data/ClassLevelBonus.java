@@ -28,7 +28,7 @@ public class ClassLevelBonus implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "classId", updatable = false, insertable = false)
-	private Class classe;
+	private DSClass classe;
 
 	@ManyToOne
 	@JoinColumn(name = "levelId", updatable = false, insertable = false)
@@ -102,7 +102,7 @@ public class ClassLevelBonus implements Serializable {
 	private int spellPerDay9;
 
 	public ClassLevelBonus() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public Long getClassId() {
@@ -121,11 +121,11 @@ public class ClassLevelBonus implements Serializable {
 		this.levelId = levelId;
 	}
 
-	public Class getClasse() {
+	public DSClass getClasse() {
 		return classe;
 	}
 
-	public void setClasse(Class classe) {
+	public void setClasse(DSClass classe) {
 		this.classe = classe;
 	}
 

@@ -11,8 +11,8 @@ import javax.persistence.ManyToOne;
 
 @Deprecated	//use CharacterProficientSkill for 5e edition
 @SuppressWarnings("serial")
-@Entity
-@IdClass(CharacterSkillId.class)
+//@Entity
+//@IdClass(CharacterSkillId.class)
 public class CharacterSkill implements Serializable {
 	@Id
 	@Column(name = "characterId")

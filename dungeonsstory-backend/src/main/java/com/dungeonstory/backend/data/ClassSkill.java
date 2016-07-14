@@ -8,8 +8,10 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "ClassSkill")
 @IdClass(ClassSkillId.class)
 public class ClassSkill implements Serializable {
 
@@ -25,7 +27,7 @@ public class ClassSkill implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "classId", updatable = false, insertable = false)
-	private Class classe;
+	private DSClass classe;
 
 	@ManyToOne
 	@JoinColumn(name = "skillId", updatable = false, insertable = false)
@@ -51,11 +53,11 @@ public class ClassSkill implements Serializable {
 		this.skillId = skillId;
 	}
 
-	public Class getClasse() {
+	public DSClass getClasse() {
 		return classe;
 	}
 
-	public void setClasse(Class klass) {
+	public void setClasse(DSClass klass) {
 		this.classe = klass;
 	}
 

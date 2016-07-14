@@ -21,4 +21,5 @@ public class DSTheme extends ValoTheme {
     public static final String LAYOUT_VIEW = "layout-view";
     
     public static final String VALO_CONTENT = "valo-content";
+    public static final String SCROLLABLE = "v-scrollable";
 }

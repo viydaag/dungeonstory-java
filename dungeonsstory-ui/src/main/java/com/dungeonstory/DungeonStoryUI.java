@@ -2,15 +2,11 @@ package com.dungeonstory;
 
 import javax.servlet.annotation.WebServlet;
 
-
-
-
-
-
 import com.dungeonstory.authentication.AccessControl;
 import com.dungeonstory.authentication.BasicAccessControl;
 import com.dungeonstory.authentication.LoginScreen;
 import com.dungeonstory.authentication.LoginScreen.LoginListener;
+import com.dungeonstory.event.LogoutEvent;
 import com.dungeonstory.event.NavigationEvent;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
@@ -18,9 +14,11 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.annotations.Viewport;
 import com.vaadin.annotations.Widgetset;
+import com.vaadin.server.Page;
 import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.themes.ValoTheme;
 
@@ -96,6 +94,14 @@ public class DungeonStoryUI extends UI {
     @Subscribe
     public void navigateTo(NavigationEvent view) {
         getNavigator().navigateTo(view.getViewName());
+    }
+    
+    @Subscribe
+    public void logout(LogoutEvent logoutEvent) {
+        // Don't invalidate the underlying HTTP session if you are using it for something else
+        VaadinSession.getCurrent().getSession().invalidate();
+        VaadinSession.getCurrent().close();
+        Page.getCurrent().reload();
     }
 
     @WebServlet(urlPatterns = "/*", name = "DungeonStoryUIServlet", asyncSupported = true)

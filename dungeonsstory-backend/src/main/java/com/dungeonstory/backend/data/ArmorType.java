@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "ArmorType")
@@ -18,31 +20,43 @@ public class ArmorType extends AbstractTimestampEntity implements Serializable {
 		LIGHT, MEDIUM, HEAVY, SHIELD
 	}
 
+	@NotNull
 	@Column(name = "name", nullable = false)
 	private String name;
 
 	@Column(name = "description", columnDefinition = "TEXT")
 	private String description;
 
+	@NotNull
 	@Column(name = "proficiencyType", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private ProficiencyType proficiencyType;
 
+	@NotNull
+	@Min(value = 0)
 	@Column(name = "maxDexBonus", nullable = false)
 	private int maxDexBonus;
 
+	@NotNull
+    @Min(value = 0)
 	@Column(name = "baseArmorClass", nullable = false)
 	private int baseArmorClass;
 
-	@Column(name = "baseArmorCheckPenalty", nullable = false)
-	private int baseArmorCheckPenalty = 0;
+	@Column(name = "stealthDisavantage", nullable = false)
+	private boolean stealthDisavantage;
+	
+	// The minimum strength to be able to wear the armor.
+	@NotNull
+    @Min(value = 0)
+    @Column(name = "minStrength", nullable = false)
+	private int minStrength;
 
-	@Column(name = "baseArcaneSpellFailure", nullable = false)
-	private int baseArcaneSpellFailure = 0;
-
+	@NotNull
+    @Min(value = 0)
 	@Column(name = "baseWeight", nullable = false)
 	private int baseWeight;
 
+    @Min(value = 0)
 	@Column(name = "speed", nullable = false)
 	private int speed;
 
@@ -52,7 +66,7 @@ public class ArmorType extends AbstractTimestampEntity implements Serializable {
 
 	public ArmorType(String name, String description,
 			ProficiencyType proficiencyType, int maxDexBonus, int baseArmorClass,
-			int baseArmorCheckPenalty, int baseArcaneSpellFailure,
+			boolean stealthDisavantage, int minStrength,
 			int baseWeight, int speed) {
 		this();
 		this.name = name;
@@ -60,8 +74,8 @@ public class ArmorType extends AbstractTimestampEntity implements Serializable {
 		this.proficiencyType = proficiencyType;
 		this.maxDexBonus = maxDexBonus;
 		this.baseArmorClass = baseArmorClass;
-		this.baseArmorCheckPenalty = baseArmorCheckPenalty;
-		this.baseArcaneSpellFailure = baseArcaneSpellFailure;
+		this.stealthDisavantage = stealthDisavantage;
+		this.minStrength = minStrength;
 		this.baseWeight = baseWeight;
 		this.speed = speed;
 	}
@@ -106,22 +120,6 @@ public class ArmorType extends AbstractTimestampEntity implements Serializable {
 		this.baseArmorClass = baseArmorClass;
 	}
 
-	public int getBaseArmorCheckPenalty() {
-		return baseArmorCheckPenalty;
-	}
-
-	public void setBaseArmorCheckPenalty(int baseArmorCheckPenalty) {
-		this.baseArmorCheckPenalty = baseArmorCheckPenalty;
-	}
-
-	public int getBaseArcaneSpellFailure() {
-		return baseArcaneSpellFailure;
-	}
-
-	public void setBaseArcaneSpellFailure(int baseArcaneSpellFailure) {
-		this.baseArcaneSpellFailure = baseArcaneSpellFailure;
-	}
-
 	public int getBaseWeight() {
 		return baseWeight;
 	}
@@ -130,11 +128,32 @@ public class ArmorType extends AbstractTimestampEntity implements Serializable {
 		this.baseWeight = baseWeight;
 	}
 
-	public int getSpeed() {
+	public boolean getStealthDisavantage() {
+        return stealthDisavantage;
+    }
+
+    public void setStealthDisavantage(boolean stealthDisavantage) {
+        this.stealthDisavantage = stealthDisavantage;
+    }
+
+    public int getMinStrength() {
+        return minStrength;
+    }
+
+    public void setMinStrength(int minStrength) {
+        this.minStrength = minStrength;
+    }
+
+    public int getSpeed() {
 		return speed;
 	}
 
 	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
+	
+	@Override
+    public String toString() {
+        return getName();
+    }
 }

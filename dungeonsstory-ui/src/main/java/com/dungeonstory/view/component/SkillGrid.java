@@ -7,8 +7,8 @@ public class SkillGrid extends BeanGrid<Skill> {
 
 	private static final long serialVersionUID = 5108019895920968099L;
 
-	public SkillGrid(Class<Skill> beanClass) {
-		super(beanClass);
+	public SkillGrid() {
+		super(Skill.class);
 		
 		getContainer().addNestedContainerBean("keyAbility");
 		withColumns("name", "keyAbility.name");

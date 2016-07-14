@@ -1,0 +1,33 @@
+package com.dungeonstory.authentication;
+
+import org.vaadin.viritin.fields.EmailField;
+
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.FormLayout;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.PasswordField;
+import com.vaadin.ui.TextField;
+import com.vaadin.ui.VerticalLayout;
+
+public class NewUserForm extends FormLayout {
+
+    private static final long serialVersionUID = -2396287642826582387L;
+    
+    private TextField username = new TextField("Nom d'utilisateur");
+    private PasswordField password = new PasswordField("Mot de passe");
+    private TextField name = new TextField("Nom");
+    private EmailField email = new EmailField("Email");
+
+    public NewUserForm() {
+        super();
+        
+        addStyleName("login-form");
+        setSizeUndefined();
+        setMargin(false);
+        setSpacing(true);
+        
+        addComponents(username, password, name, email);
+    }
+
+}

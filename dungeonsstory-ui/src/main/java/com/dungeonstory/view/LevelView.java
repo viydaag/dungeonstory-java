@@ -1,5 +1,6 @@
 package com.dungeonstory.view;
 
+import com.dungeonstory.backend.DataService;
 import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.util.VerticalSpacedLayout;
 import com.dungeonstory.util.ViewConfig;
@@ -22,14 +23,12 @@ public class LevelView extends VerticalSpacedLayout implements View {
 	private LevelGrid grid;
 	
 	public LevelView() {
-		grid = new LevelGrid(Level.class);
+		grid = new LevelGrid();
 		titre = new Label("Niveaux");
 		
 		Button addNew = new Button("", FontAwesome.PLUS);
-//	    Button delete = new Button("", FontAwesome.TRASH_O);
 	    
 	    addNew.addClickListener(this::addNew);
-//	    delete.addClickListener(this::deleteSelected);
 	    HorizontalLayout boutonLayout = new HorizontalLayout(addNew);
 	    
 	    addComponents(titre, boutonLayout, grid);
@@ -37,8 +36,7 @@ public class LevelView extends VerticalSpacedLayout implements View {
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		// TODO set level from backend
-
+		grid.setData(DataService.get().getAllLevels());
 	}
 	
 	private void addNew(Button.ClickEvent e) {

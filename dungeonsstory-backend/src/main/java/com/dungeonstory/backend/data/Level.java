@@ -155,5 +155,10 @@ public class Level implements Serializable {
 	protected void onUpdate() {
 		updated = new Date();
 	}
+	
+	@Override
+	public String toString() {
+	    return levelId.toString();
+	}
 
 }

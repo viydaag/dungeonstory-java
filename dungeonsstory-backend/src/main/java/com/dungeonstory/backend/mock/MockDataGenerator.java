@@ -10,8 +10,11 @@ import java.util.Random;
 import java.util.Set;
 
 import com.dungeonstory.backend.data.Ability;
+import com.dungeonstory.backend.data.Alignment;
 import com.dungeonstory.backend.data.Availability;
 import com.dungeonstory.backend.data.Category;
+import com.dungeonstory.backend.data.DamageType;
+import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.backend.data.Product;
 import com.dungeonstory.backend.data.Skill;
 
@@ -50,6 +53,32 @@ public class MockDataGenerator {
     	{"Charisme", "CHA"}
     };
     
+    private static final String storedAlignment[][] = new String[][] {
+        {"Loyal Bon"},
+        {"Neutre Bon"},
+        {"Chaotique Bon"},
+        {"Loyal Neutre"},
+        {"Neutre strict"},
+        {"Chaotique Neutre"},
+        {"Loyal Mauvais"},
+        {"Neutre Mauvais"},
+        {"Chaotique Mauvais"}
+    };
+    
+    private static final String storedDamageType[][] = new String[][] {
+        {"Tranchant"},
+        {"Contandant"},
+        {"Perçant"},
+        {"Feu"},
+        {"Froid"},
+        {"Acide"},
+        {"Électricité"},
+        {"Nécrotique"},
+        {"Force"},
+        {"Magique"},
+        {"Radiant"},
+    };
+    
     private static final String storedSkills[][] = new String[][] {
     	{"Athlétisme", "1"},
     	{"Acrobatie", "2"},
@@ -69,6 +98,11 @@ public class MockDataGenerator {
     	{"Intimidation", "6"},
     	{"Performance", "6"},
     	{"Persuasion", "6"}
+    };
+    
+    private static final Integer[][] storedLevels = new Integer[][] {
+        {1, 1000, 1},
+        {2, 2000, 2}
     };
 
     static List<Category> createCategories() {
@@ -99,6 +133,22 @@ public class MockDataGenerator {
         return abilities;
     }
     
+    static List<Alignment> createAlignments() {
+        List<Alignment> alignments = new ArrayList<Alignment>();
+        for (String[] alignment : storedAlignment) {
+            alignments.add(new Alignment(alignment[0], "", ""));
+        }
+        return alignments;
+    }
+    
+    static List<DamageType> createDamageTypes() {
+        List<DamageType> types = new ArrayList<DamageType>();
+        for (String[] type : storedDamageType) {
+            types.add(new DamageType(type[0]));
+        }
+        return types;
+    }
+    
     static List<Skill> createSkills() {
         List<Skill> skills = new ArrayList<Skill>();
         Collection<Ability> abilities = MockDataService.getInstance().getAllAbilities();
@@ -107,6 +157,14 @@ public class MockDataGenerator {
         	skills.add(new Skill(skill[0], ability.get()));
         }
         return skills;
+    }
+    
+    static List<Level> createLevels() {
+        List<Level> levels = new ArrayList<Level>();
+        for (Integer[] level : storedLevels) {
+            levels.add(new Level(level[1], level[2]));
+        }
+        return levels;
     }
 
     private static Category createCategory(String name) {

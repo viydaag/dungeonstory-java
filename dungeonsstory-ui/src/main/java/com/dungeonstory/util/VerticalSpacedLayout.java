@@ -7,8 +7,11 @@ import com.vaadin.ui.VerticalLayout;
  */
 public class VerticalSpacedLayout extends VerticalLayout {
 
+    private static final long serialVersionUID = -4252014787205844669L;
+
     public VerticalSpacedLayout() {
         setMargin(true);
         setSpacing(true);
+        addStyleName(DSTheme.SCROLLABLE);
     }
 }
