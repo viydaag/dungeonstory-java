@@ -16,6 +16,7 @@ import com.dungeonstory.backend.data.Category;
 import com.dungeonstory.backend.data.DamageType;
 import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.backend.data.Product;
+import com.dungeonstory.backend.data.Region;
 import com.dungeonstory.backend.data.Skill;
 
 public class MockDataGenerator {
@@ -104,6 +105,11 @@ public class MockDataGenerator {
         {1, 1000, 1},
         {2, 2000, 2}
     };
+    
+    private static final String[][] storedRegions = new String[][] {
+        {"test region"},
+        {"another region"}
+    };
 
     static List<Category> createCategories() {
         List<Category> categories = new ArrayList<Category>();
@@ -149,7 +155,7 @@ public class MockDataGenerator {
         return types;
     }
     
-    static List<Skill> createSkills() {
+    public static List<Skill> createSkills() {
         List<Skill> skills = new ArrayList<Skill>();
         Collection<Ability> abilities = MockDataService.getInstance().getAllAbilities();
         for (String[] skill : storedSkills) {
@@ -157,6 +163,14 @@ public class MockDataGenerator {
         	skills.add(new Skill(skill[0], ability.get()));
         }
         return skills;
+    }
+    
+    public static List<Region> createRegions() {
+        List<Region> regions = new ArrayList<Region>();
+        for (String[] region : storedRegions) {
+            regions.add(new Region(region[0]));
+        }
+        return regions;
     }
     
     static List<Level> createLevels() {

@@ -14,8 +14,10 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import com.dungeonstory.backend.repository.Entity;
+
 @MappedSuperclass
-public abstract class AbstractTimestampEntity {
+public abstract class AbstractTimestampEntity implements Entity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +40,7 @@ public abstract class AbstractTimestampEntity {
 		return id;
 	}
 
-	protected void setId(Long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
