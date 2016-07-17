@@ -1,6 +1,7 @@
 package com.dungeonstory.view;
 
 import com.dungeonstory.backend.data.Region;
+import com.dungeonstory.backend.service.impl.RegionService;
 import com.dungeonstory.form.RegionForm;
 import com.dungeonstory.util.VerticalSpacedLayout;
 import com.dungeonstory.util.ViewConfig;
@@ -23,11 +24,14 @@ public class RegionView extends VerticalSpacedLayout implements View {
 	private RegionForm form;
 	private RegionGrid grid;
 	
+	private RegionService service;
+	
 	public RegionView() {
 		
 		form = new RegionForm();
 		grid = new RegionGrid();
 		titre = new Label(form.toString());
+		service = new RegionService();
 		
 		Button addNew = new Button("", FontAwesome.PLUS);
 	    
@@ -47,6 +51,10 @@ public class RegionView extends VerticalSpacedLayout implements View {
 	}
 	
 	public void entrySaved(Region region) {
+		//save to database
+		service.saveOrUpdate(region);
+		
+		//refresh ui
     	grid.refresh(region);
     	form.setEntity(null);
     	grid.scrollTo(region);
@@ -55,7 +63,7 @@ public class RegionView extends VerticalSpacedLayout implements View {
     }
     
     public void entryReset(Region region) {
-    	form.getFieldGroup().discard();
+    	form.setEntity(service.read(region.getId()));
     }
     
     public void entrySelected() {
@@ -65,7 +73,7 @@ public class RegionView extends VerticalSpacedLayout implements View {
     }
     
     private void addNew(Button.ClickEvent e) {
-    	form.setEntity(new Region());
+    	form.setEntity(service.create());
 //    	form.getDeleteButton().setVisible(false);
     }
 
@@ -78,12 +86,12 @@ public class RegionView extends VerticalSpacedLayout implements View {
     private void deleteSelected(Region region) {
 		grid.remove(region);
     	form.setEntity(null);
+    	service.delete(region);
     }
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		// TODO : set le data dans le container de la grid
-
+		grid.setData(service.findAll());
 	}
 
 }

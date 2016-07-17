@@ -6,22 +6,34 @@ import java.util.HashSet;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 public abstract class AbstractRepository<E extends Entity, K extends Serializable> implements Repository<E, K> {
 
-    @PersistenceContext
-    protected EntityManager entityManager;
+	
+	private static final String         PERSISTENCE_UNIT_HSQL_NAME  = "dungeonstory-hsql2";
+    private static final String         PERSISTENCE_UNIT_MYSQL_NAME = "dungeonstory-mysql";
+	
+	protected static EntityManagerFactory factory;
+//    @PersistenceContext(unitName="dungeonstory-hsql")
+    protected static EntityManager entityManager;
 
     public AbstractRepository() {
         super();
+        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_HSQL_NAME);
+        entityManager = factory.createEntityManager();
     }
 
     @Override
-    public void create(E entity) {
+    public synchronized void create(E entity) {
+    	EntityTransaction transac = entityManager.getTransaction();
+        transac.begin();
         entityManager.persist(entity);
         flushAndCloseEntityManager();
+        transac.commit();
     }
 
     /**
@@ -30,11 +42,15 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
      * @param entity
      */
     @Override
-    public void delete(E entity) {
+    public synchronized void delete(E entity) {
         if (entity.getId() == null) {
             return;
         }
+        EntityTransaction transac = entityManager.getTransaction();
+        transac.begin();
+        entityManager.remove(entity);
         flushAndCloseEntityManager();
+        transac.commit();
     }
 
     /**
@@ -43,7 +59,7 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
      * @param key
      */
     @Override
-    public void delete(K key) {
+    public synchronized void delete(K key) {
         if (key == null) {
             return;
         }
@@ -54,7 +70,7 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
     }
 
     @Override
-    public void delete(Collection<E> entitySet) {
+    public synchronized void delete(Collection<E> entitySet) {
         for (E entity : entitySet) {
             delete(entity);
         }
@@ -75,8 +91,9 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
     }
 
     @Override
-    public void refresh(E entity) {
-        entityManager.refresh(this);
+    public synchronized void refresh(E entity) {
+    	
+        entityManager.refresh(entity);
     }
 
     @Override
@@ -99,13 +116,16 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
     }
 
     public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
+    	AbstractRepository.entityManager = entityManager;
     }
 
     @Override
     public E update(E entity) {
+    	EntityTransaction transac = entityManager.getTransaction();
+        transac.begin();
         E result = entityManager.merge(entity);
         flushAndCloseEntityManager();
+        transac.commit();
         return result;
     }
 
@@ -116,8 +136,8 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
      * By flushing and closing the entity manager, these objects can be free.
      */
     private void flushAndCloseEntityManager(){
-        entityManager.flush();
-        entityManager.close();
+//        entityManager.flush();
+//        entityManager.close();
     }
 
 }

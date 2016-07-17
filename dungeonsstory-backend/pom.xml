@@ -36,19 +36,6 @@
 		    <version>2.3.2</version>
 		</dependency>
 		
-		<dependency>
-            <groupId>org.apache.deltaspike.modules</groupId>
-            <artifactId>deltaspike-data-module-api</artifactId>
-            <version>${deltaspike.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.deltaspike.modules</groupId>
-            <artifactId>deltaspike-data-module-impl</artifactId>
-            <version>${deltaspike.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-
         <!-- Testing -->
         <dependency>
             <groupId>junit</groupId>

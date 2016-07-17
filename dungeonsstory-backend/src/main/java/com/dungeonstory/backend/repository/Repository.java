@@ -9,6 +9,7 @@ public interface Repository<E extends Entity, K extends Serializable> {
     *
     * @param entity
     *            the entity to create
+     * @return 
     */
    void create(E entity);
 
