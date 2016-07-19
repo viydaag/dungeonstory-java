@@ -3,6 +3,9 @@ package com.dungeonstory.view.component;
 import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.samples.crud.BeanGrid;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
+import com.vaadin.data.fieldgroup.FieldGroup.CommitEvent;
+import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
+import com.vaadin.data.fieldgroup.FieldGroup.CommitHandler;
 
 public class LevelGrid extends BeanGrid<Level> {
 

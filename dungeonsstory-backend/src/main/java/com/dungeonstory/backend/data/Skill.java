@@ -17,7 +17,7 @@ public class Skill extends AbstractTimestampEntity implements Serializable {
 
 	private static final long serialVersionUID = -2967904843715939261L;
 
-	private static Long idSkill = 1L;
+//	private static Long idSkill = 1L;
 	
 	@Column(name = "name", unique = true)
 	private String name;
@@ -49,7 +49,7 @@ public class Skill extends AbstractTimestampEntity implements Serializable {
 
 	public Skill() {
 		super();
-		setId(idSkill++);
+//		setId(idSkill++);
 	}
 	
 	public Skill(String name, Ability ability) {

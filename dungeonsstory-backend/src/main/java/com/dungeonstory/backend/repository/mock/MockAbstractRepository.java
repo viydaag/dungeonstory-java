@@ -1,5 +1,6 @@
 package com.dungeonstory.backend.repository.mock;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -50,7 +51,7 @@ public abstract class MockAbstractRepository<E extends Entity> implements Reposi
 
     @Override
     public Collection<E> findAll() {
-        return entities.values();
+        return new ArrayList<E>(entities.values());
     }
 
     @Override

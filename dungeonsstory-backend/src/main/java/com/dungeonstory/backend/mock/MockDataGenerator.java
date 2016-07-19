@@ -18,6 +18,7 @@ import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.backend.data.Product;
 import com.dungeonstory.backend.data.Region;
 import com.dungeonstory.backend.data.Skill;
+import com.dungeonstory.backend.service.mock.MockAbilityService;
 
 public class MockDataGenerator {
     private static int nextCategoryId = 1;
@@ -131,7 +132,7 @@ public class MockDataGenerator {
         return products;
     }
     
-    static List<Ability> createAbilities() {
+    public static List<Ability> createAbilities() {
         List<Ability> abilities = new ArrayList<Ability>();
         for (String[] ability : storedAbilities) {
         	abilities.add(new Ability(ability[0], ability[1], ""));
@@ -139,7 +140,7 @@ public class MockDataGenerator {
         return abilities;
     }
     
-    static List<Alignment> createAlignments() {
+    public static List<Alignment> createAlignments() {
         List<Alignment> alignments = new ArrayList<Alignment>();
         for (String[] alignment : storedAlignment) {
             alignments.add(new Alignment(alignment[0], "", ""));
@@ -147,7 +148,7 @@ public class MockDataGenerator {
         return alignments;
     }
     
-    static List<DamageType> createDamageTypes() {
+    public static List<DamageType> createDamageTypes() {
         List<DamageType> types = new ArrayList<DamageType>();
         for (String[] type : storedDamageType) {
             types.add(new DamageType(type[0]));
@@ -157,10 +158,13 @@ public class MockDataGenerator {
     
     public static List<Skill> createSkills() {
         List<Skill> skills = new ArrayList<Skill>();
-        Collection<Ability> abilities = MockDataService.getInstance().getAllAbilities();
+//        Collection<Ability> abilities = MockDataService.getInstance().getAllAbilities();
+        Collection<Ability> abilities = MockAbilityService.getInstance().findAll();
         for (String[] skill : storedSkills) {
         	Optional<Ability> ability = abilities.stream().filter(a -> a.getId().equals(Long.valueOf(skill[1]))).findFirst();
-        	skills.add(new Skill(skill[0], ability.get()));
+        	if (ability.isPresent()) {
+        	    skills.add(new Skill(skill[0], ability.get()));
+        	}
         }
         return skills;
     }
@@ -173,7 +177,7 @@ public class MockDataGenerator {
         return regions;
     }
     
-    static List<Level> createLevels() {
+    public static List<Level> createLevels() {
         List<Level> levels = new ArrayList<Level>();
         for (Integer[] level : storedLevels) {
             levels.add(new Level(level[1], level[2]));

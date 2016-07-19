@@ -16,7 +16,7 @@ public class TestRegionService {
 
     @Test
     public void testMockRegionService() {
-        MockRegionService service = new MockRegionService();
+        MockRegionService service = MockRegionService.getInstance();
         
         Collection<Region> allRegions = service.findAll();
         assertNotNull(allRegions);
@@ -40,7 +40,7 @@ public class TestRegionService {
     
     @Test
     public void testRegionService() throws Exception {
-        RegionService service = new RegionService();
+        RegionService service = RegionService.getInstance();
         
         service.create(new Region("My region"));
         

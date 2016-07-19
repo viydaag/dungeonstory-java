@@ -7,10 +7,19 @@ import com.dungeonstory.backend.service.AbstractDataService;
 
 public class RegionService extends AbstractDataService<Region, Long> {
 
-	public RegionService() {
-		super();
-		setEntityFactory(new RegionFactory());
-		setRepository(new RegionRepository());
-	}
-	
+    private static RegionService instance = null;
+
+    public static synchronized RegionService getInstance() {
+        if (instance == null) {
+            instance = new RegionService();
+        }
+        return instance;
+    }
+
+    private RegionService() {
+        super();
+        setEntityFactory(new RegionFactory());
+        setRepository(new RegionRepository());
+    }
+
 }

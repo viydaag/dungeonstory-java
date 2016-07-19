@@ -15,6 +15,7 @@ public abstract class DSAbstractForm<T> extends AbstractForm<T> {
         setSaveCaption("Enregistrer");
         setCancelCaption("Annuler");
         setDeleteCaption("");
+        setModalWindowTitle("");
         getDeleteButton().setIcon(FontAwesome.TRASH_O);
     }
 

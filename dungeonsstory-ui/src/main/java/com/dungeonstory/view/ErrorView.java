@@ -14,6 +14,8 @@ import com.vaadin.ui.themes.Reindeer;
  */
 public class ErrorView extends VerticalLayout implements View {
 
+    private static final long serialVersionUID = 1350610251823871404L;
+    
     private Label explanation;
 
     public ErrorView() {
