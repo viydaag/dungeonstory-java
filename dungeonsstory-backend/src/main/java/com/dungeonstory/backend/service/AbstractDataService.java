@@ -2,6 +2,7 @@ package com.dungeonstory.backend.service;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 
 import com.dungeonstory.backend.factory.Factory;
 import com.dungeonstory.backend.repository.Entity;
@@ -56,7 +57,7 @@ public abstract class AbstractDataService<E extends Entity, K extends Serializab
     }
 
     @Override
-    public Collection<E> findAll() {
+    public List<E> findAll() {
         return entityRepository.findAll();
     }
 

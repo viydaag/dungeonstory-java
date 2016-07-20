@@ -1,6 +1,5 @@
 package com.dungeonstory.view;
 
-import com.dungeonstory.backend.DataService;
 import com.dungeonstory.backend.data.ArmorType;
 import com.dungeonstory.form.ArmorTypeForm;
 import com.dungeonstory.util.VerticalSpacedLayout;

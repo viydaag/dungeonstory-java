@@ -80,7 +80,7 @@ public class WeaponType extends AbstractTimestampEntity implements Serializable 
 	@Enumerated(EnumType.STRING)
 	private UsageType usageType;
 	
-	@Column(name = "rangeType", nullable = false)
+	@Column(name = "rangeType")
 	@Enumerated(EnumType.STRING)
 	private RangeType rangeType;
 	
@@ -94,7 +94,7 @@ public class WeaponType extends AbstractTimestampEntity implements Serializable 
 	
 	@NotNull
 	@ManyToOne
-	@JoinColumn(name = "damageTypeId")
+	@JoinColumn(name = "damageTypeId", nullable = false)
 	private DamageType damageType;
 	
 	@Column(name = "isReach")
@@ -121,7 +121,18 @@ public class WeaponType extends AbstractTimestampEntity implements Serializable 
 		super();
 	}
 
-	public String getName() {
+	public WeaponType(String name, ProficiencyType proficiencyType, SizeType sizeType, HandleType handleType,
+            UsageType usageType, DamageType damageType) {
+        this();
+        this.name = name;
+        this.proficiencyType = proficiencyType;
+        this.sizeType = sizeType;
+        this.handleType = handleType;
+        this.usageType = usageType;
+        this.damageType = damageType;
+    }
+
+    public String getName() {
 		return name;
 	}
 

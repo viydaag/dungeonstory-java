@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 
 import com.dungeonstory.backend.repository.Entity;
@@ -50,7 +51,7 @@ public abstract class MockAbstractRepository<E extends Entity> implements Reposi
     }
 
     @Override
-    public Collection<E> findAll() {
+    public List<E> findAll() {
         return new ArrayList<E>(entities.values());
     }
 

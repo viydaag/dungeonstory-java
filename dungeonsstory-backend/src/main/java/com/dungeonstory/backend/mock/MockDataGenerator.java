@@ -10,6 +10,7 @@ import java.util.Random;
 import java.util.Set;
 
 import com.dungeonstory.backend.data.Ability;
+import com.dungeonstory.backend.data.AccessRole;
 import com.dungeonstory.backend.data.Alignment;
 import com.dungeonstory.backend.data.Availability;
 import com.dungeonstory.backend.data.Category;
@@ -18,15 +19,12 @@ import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.backend.data.Product;
 import com.dungeonstory.backend.data.Region;
 import com.dungeonstory.backend.data.Skill;
+import com.dungeonstory.backend.data.User;
+import com.dungeonstory.backend.data.User.UserStatus;
 import com.dungeonstory.backend.service.mock.MockAbilityService;
 
 public class MockDataGenerator {
-    private static int nextCategoryId = 1;
-    private static int nextProductId = 1;
-    private static final Random random = new Random(1);
-    private static final String categoryNames[] = new String[] {
-            "Children's books", "Best sellers", "Romance", "Mystery",
-            "Thriller", "Sci-fi", "Non-fiction", "Cookbooks" };
+
 
     private static String[] word1 = new String[] { "The art of", "Mastering",
             "The secrets of", "Avoiding", "For fun and profit: ",
@@ -111,27 +109,15 @@ public class MockDataGenerator {
         {"test region"},
         {"another region"}
     };
-
-    static List<Category> createCategories() {
-        List<Category> categories = new ArrayList<Category>();
-        for (String name : categoryNames) {
-            Category c = createCategory(name);
-            categories.add(c);
-        }
-        return categories;
-
-    }
-
-    static List<Product> createProducts(List<Category> categories) {
-        List<Product> products = new ArrayList<Product>();
-        for (int i = 0; i < 100; i++) {
-            Product p = createProduct(categories);
-            products.add(p);
-        }
-
-        return products;
-    }
     
+    private static final String[][] storedUsers = new String[][] {
+        {"admin", "admin", "admin", "ACTIVE"},
+        {"test", "test", "user", "ACTIVE"},
+        {"inactive", "inactive", "user", "INACTIVE"},
+        {"waiting", "waiting", "user", "WAITING_FOR_APPROBATION"}
+    };
+
+   
     public static List<Ability> createAbilities() {
         List<Ability> abilities = new ArrayList<Ability>();
         for (String[] ability : storedAbilities) {
@@ -185,44 +171,13 @@ public class MockDataGenerator {
         return levels;
     }
 
-    private static Category createCategory(String name) {
-        Category c = new Category();
-        c.setId(nextCategoryId++);
-        c.setName(name);
-        return c;
-    }
-
-    private static Product createProduct(List<Category> categories) {
-        Product p = new Product();
-        p.setId(nextProductId++);
-        p.setProductName(generateName());
-
-        p.setPrice(new BigDecimal((random.nextInt(250) + 50) / 10.0));
-        p.setAvailability(Availability.values()[random.nextInt(Availability
-                .values().length)]);
-        if (p.getAvailability() == Availability.AVAILABLE) {
-            p.setStockCount(random.nextInt(523));
+    public static List<User> createUsers() {
+        List<User> users = new ArrayList<User>();
+        for (String[] user : storedUsers) {
+            AccessRole role = new AccessRole(user[2]);
+            users.add(new User(user[0], user[1], role, "", "", UserStatus.valueOf(user[3])));
         }
-
-        p.setCategory(getCategory(categories, 1, 2));
-        return p;
-    }
-
-    private static Set<Category> getCategory(List<Category> categories,
-            int min, int max) {
-        int nr = random.nextInt(max) + min;
-        HashSet<Category> productCategories = new HashSet<Category>();
-        for (int i = 0; i < nr; i++) {
-            productCategories.add(categories.get(random.nextInt(categories
-                    .size())));
-        }
-
-        return productCategories;
-    }
-
-    private static String generateName() {
-        return word1[random.nextInt(word1.length)] + " "
-                + word2[random.nextInt(word2.length)];
+        return users;
     }
 
 }

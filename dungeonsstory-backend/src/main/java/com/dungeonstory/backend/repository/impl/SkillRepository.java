@@ -6,7 +6,7 @@ import com.dungeonstory.backend.repository.AbstractRepository;
 public class SkillRepository extends AbstractRepository<Skill, Long> {
 
     @Override
-    protected Class<? extends Skill> getEntityClass() {
+    protected Class<Skill> getEntityClass() {
         return Skill.class;
     }
 

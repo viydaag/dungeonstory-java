@@ -55,12 +55,12 @@ public class User extends AbstractTimestampEntity implements Serializable {
 	private Character character;
 
 	public User() {
-
+	    super();
 	}
 
 	public User(String username, String password, AccessRole role, String name,
 			String email, UserStatus status) {
-		super();
+		this();
 		this.username = username;
 		this.password = password;
 		this.role = role;
@@ -70,7 +70,7 @@ public class User extends AbstractTimestampEntity implements Serializable {
 	}
 
 	public User(String username) {
-		super();
+		this();
 		this.username = username;
 		this.password = "";
 		this.status = UserStatus.ACTIVE;

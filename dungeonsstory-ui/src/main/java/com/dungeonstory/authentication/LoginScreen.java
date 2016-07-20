@@ -2,6 +2,10 @@ package com.dungeonstory.authentication;
 
 import java.io.Serializable;
 
+import com.dungeonstory.backend.data.User;
+import com.dungeonstory.backend.service.mock.MockUserService;
+import com.vaadin.data.fieldgroup.BeanFieldGroup;
+import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.Page;
 import com.vaadin.shared.ui.label.ContentMode;
@@ -39,9 +43,12 @@ public class LoginScreen extends CssLayout {
     private Button            newUserFormSave;
     private Button            newUserFormCancel;
 
+    private MockUserService       service;
+
     public LoginScreen(AccessControl accessControl, LoginListener loginListener) {
         this.loginListener = loginListener;
         this.accessControl = accessControl;
+        this.service = MockUserService.getInstance();
         buildUI();
         buildNewUserForm();
         username.focus();
@@ -122,6 +129,7 @@ public class LoginScreen extends CssLayout {
         newUserButton = new Button("Nouvel utilisateur");
         newUserButton.addClickListener(e -> {
             centeringLayout.removeAllComponents();
+//            newUserForm.clear();
             centeringLayout.addComponent(newUserForm);
             centeringLayout.setComponentAlignment(newUserForm, Alignment.MIDDLE_CENTER);
         });
@@ -142,6 +150,13 @@ public class LoginScreen extends CssLayout {
     private Component buildNewUserForm() {
         newUserForm = new NewUserForm();
 
+        User user = new User();
+        
+        BeanFieldGroup<User> binder = new BeanFieldGroup<User>(User.class);
+        binder.setItemDataSource(user);
+        binder.bindMemberFields(newUserForm);
+        binder.setBuffered(true);
+
         newUserFormSave = new Button("Envoyer");
         newUserFormSave.addStyleName(ValoTheme.BUTTON_FRIENDLY);
         newUserFormCancel = new Button("Annuler");
@@ -150,8 +165,12 @@ public class LoginScreen extends CssLayout {
 
             @Override
             public void buttonClick(ClickEvent event) {
-                // TODO valider les champs
-                // TODO Save user in db
+                try {
+                    binder.commit();
+                } catch (CommitException e) {
+                    showNotification(new Notification(e.getLocalizedMessage(), Notification.Type.ERROR_MESSAGE));
+                    newUserForm.setValidationVisible(true);
+                }
             }
         });
 

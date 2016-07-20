@@ -10,7 +10,6 @@ import org.vaadin.viritin.fields.MValueChangeListener;
 import org.vaadin.viritin.fields.TypedSelect;
 
 import com.dungeonstory.FormCheckBox;
-import com.dungeonstory.backend.DataService;
 import com.dungeonstory.backend.data.DamageType;
 import com.dungeonstory.backend.data.WeaponType;
 import com.dungeonstory.backend.data.WeaponType.HandleType;
@@ -18,6 +17,7 @@ import com.dungeonstory.backend.data.WeaponType.ProficiencyType;
 import com.dungeonstory.backend.data.WeaponType.RangeType;
 import com.dungeonstory.backend.data.WeaponType.SizeType;
 import com.dungeonstory.backend.data.WeaponType.UsageType;
+import com.dungeonstory.backend.service.impl.DamageTypeService;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextArea;
@@ -41,6 +41,8 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
 	private FormCheckBox isFinesse;
 	private FormCheckBox isLoading;
 	private TextField baseWeight;
+	
+	private DamageTypeService damageTypeService = DamageTypeService.getInstance();
 
 	@Override
 	public String toString() {
@@ -65,7 +67,7 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
 		isLoading = new FormCheckBox("Chargement requis");
 		baseWeight = new MTextField("Poids de base (lbs)");
 		
-		damageType = new TypedSelect<DamageType>("Type de dommage", DataService.get().getAllDamageTypes());
+		damageType = new TypedSelect<DamageType>("Type de dommage", damageTypeService.findAll());
 		damageType.setCaptionGenerator(new CaptionGenerator<DamageType>() {
             
             private static final long serialVersionUID = 9011176307449121578L;
@@ -101,6 +103,8 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
     private MValueChangeListener<UsageType> createUsageTypeValueChangeListener() {
         return new MValueChangeListener<UsageType>() {
 
+            private static final long serialVersionUID = 1L;
+
             @Override
             public void valueChange(MValueChangeEvent<UsageType> event) {
                 switch (event.getValue()) {
@@ -131,7 +135,9 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
 
     private MValueChangeListener<HandleType> createHandleTypeValueChangeListener() {
         return new MValueChangeListener<HandleType>() {
-            
+
+            private static final long serialVersionUID = 1L;
+
             @Override
             public void valueChange(MValueChangeEvent<HandleType> event) {
                 switch (event.getValue()) {

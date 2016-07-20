@@ -6,7 +6,7 @@ import com.dungeonstory.backend.repository.AbstractRepository;
 public class ClassRepository extends AbstractRepository<DSClass, Long> {
 
     @Override
-    protected Class<? extends DSClass> getEntityClass() {
+    protected Class<DSClass> getEntityClass() {
         return DSClass.class;
     }
 

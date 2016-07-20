@@ -6,7 +6,7 @@ import com.dungeonstory.backend.repository.AbstractRepository;
 public class AlignmentRepository extends AbstractRepository<Alignment, Long> {
 
     @Override
-    protected Class<? extends Alignment> getEntityClass() {
+    protected Class<Alignment> getEntityClass() {
         return Alignment.class;
     }
 

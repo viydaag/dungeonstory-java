@@ -2,6 +2,7 @@ package com.dungeonstory.backend.repository;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 
 public interface Repository<E extends Entity, K extends Serializable> {
 
@@ -37,7 +38,7 @@ public interface Repository<E extends Entity, K extends Serializable> {
     *
     * @return the entity list found
     */
-   Collection<E> findAll();
+   List<E> findAll();
 
    /**
     *

@@ -12,6 +12,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.persistence.Table;
+import javax.persistence.TypedQuery;
 
 public abstract class AbstractRepository<E extends Entity, K extends Serializable> implements Repository<E, K> {
 
@@ -94,15 +95,15 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
 
     @Override
     public List<E> findAll() {
-        Query query = entityManager.createQuery("SELECT o FROM " + getEntityClass().getName() + " o");
+        TypedQuery<E> query = entityManager.createQuery("SELECT o FROM " + getTableName() + " o", getEntityClass());
         return query.getResultList();
     }
 
-    protected abstract Class<? extends E> getEntityClass();
+    protected abstract Class<E> getEntityClass();
 
     @Override
     public E read(K key) {
-        E result = (E) entityManager.find(getEntityClass(), key);
+        E result = entityManager.find(getEntityClass(), key);
         return result;
     }
 

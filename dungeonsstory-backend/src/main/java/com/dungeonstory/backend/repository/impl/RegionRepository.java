@@ -6,7 +6,7 @@ import com.dungeonstory.backend.repository.AbstractRepository;
 public class RegionRepository extends AbstractRepository<Region, Long> {
 
     @Override
-    protected Class<? extends Region> getEntityClass() {
+    protected Class<Region> getEntityClass() {
         return Region.class;
     }
 

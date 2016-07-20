@@ -40,7 +40,7 @@ public class BasicAccessControl implements AccessControl {
     public boolean isUserInRole(String role) {
         if ("admin".equals(role)) {
             // Only the "admin" user is in the "admin" role
-            return getPrincipalName().equals("admin");
+            return getRoleName().equals("admin");
         }
 
         // All users are in all non-admin roles
@@ -48,7 +48,7 @@ public class BasicAccessControl implements AccessControl {
     }
 
     @Override
-    public String getPrincipalName() {
+    public String getRoleName() {
     	if (isUserSignedIn()) {
     		return CurrentUser.get().getUsername();
     	}
