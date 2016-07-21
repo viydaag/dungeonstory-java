@@ -196,7 +196,7 @@ public class MockDataGenerator {
             for (String[] tab : storedWeaponTypes) {
                 WeaponType type = new WeaponType(tab[0], ProficiencyType.valueOf(tab[1]), SizeType.valueOf(tab[2]),
                         HandleType.valueOf(tab[3]), UsageType.valueOf(tab[4]), damageTypes.iterator().next());
-//                type.setRangeType(RangeType.valueOf(tab[5]));
+                type.setRangeType(RangeType.valueOf(tab[5]));
                 type.setOneHandBaseDamage(tab[6]);
                 type.setBaseWeight(Integer.parseInt(tab[7]));
                 types.add(type);
