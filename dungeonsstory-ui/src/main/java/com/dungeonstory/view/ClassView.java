@@ -3,6 +3,7 @@ package com.dungeonstory.view;
 import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.impl.ClassService;
+import com.dungeonstory.backend.service.mock.MockClassService;
 import com.dungeonstory.form.ClassForm;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.samples.crud.BeanGrid;
@@ -31,7 +32,7 @@ public class ClassView extends AbstractCrudView<DSClass> implements CrudView<DSC
 
     @Override
     public DataService<DSClass, Long> getDataService() {
-        return ClassService.getInstance();
+        return MockClassService.getInstance();
     }
 
 }

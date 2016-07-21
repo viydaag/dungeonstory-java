@@ -41,7 +41,9 @@ public class DsAccessControl implements AccessControl {
     @Override
     public String getRoleName() {
         if (isUserSignedIn()) {
-            return CurrentUser.get().getRole().getName();
+            if (CurrentUser.get().getRole() != null) {
+                return CurrentUser.get().getRole().getName();
+            }
         }
         return "";
     }

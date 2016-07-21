@@ -17,7 +17,8 @@ import com.dungeonstory.backend.data.WeaponType.ProficiencyType;
 import com.dungeonstory.backend.data.WeaponType.RangeType;
 import com.dungeonstory.backend.data.WeaponType.SizeType;
 import com.dungeonstory.backend.data.WeaponType.UsageType;
-import com.dungeonstory.backend.service.impl.DamageTypeService;
+import com.dungeonstory.backend.service.DataService;
+import com.dungeonstory.backend.service.mock.MockDamageTypeService;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextArea;
@@ -42,7 +43,7 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
 	private FormCheckBox isLoading;
 	private TextField baseWeight;
 	
-	private DamageTypeService damageTypeService = DamageTypeService.getInstance();
+	private DataService<DamageType, Long> damageTypeService = MockDamageTypeService.getInstance();
 
 	@Override
 	public String toString() {

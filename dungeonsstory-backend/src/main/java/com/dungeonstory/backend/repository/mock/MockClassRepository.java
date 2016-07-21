@@ -1,6 +1,9 @@
 package com.dungeonstory.backend.repository.mock;
 
+import java.util.List;
+
 import com.dungeonstory.backend.data.DSClass;
+import com.dungeonstory.backend.mock.MockDataGenerator;
 
 public class MockClassRepository extends MockAbstractRepository<DSClass> {
     
@@ -12,9 +15,8 @@ public class MockClassRepository extends MockAbstractRepository<DSClass> {
 
     @Override
     public void init() {
-        //TODO
-//        List<DSClass> list = MockDataGenerator.createAbilities();
-//        list.stream().forEach(this::create);
+        List<DSClass> list = MockDataGenerator.createClasses();
+        list.stream().forEach(this::create);
     }
 
     @Override

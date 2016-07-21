@@ -1,6 +1,9 @@
 package com.dungeonstory.backend.repository.mock;
 
+import java.util.List;
+
 import com.dungeonstory.backend.data.WeaponType;
+import com.dungeonstory.backend.mock.MockDataGenerator;
 
 public class MockWeaponTypeRepository extends MockAbstractRepository<WeaponType> {
     
@@ -12,9 +15,8 @@ public class MockWeaponTypeRepository extends MockAbstractRepository<WeaponType>
 
     @Override
     public void init() {
-        //TODO
-//        List<WeaponType> list = MockDataGenerator.createAbilities();
-//        list.stream().forEach(this::create);
+        List<WeaponType> list = MockDataGenerator.createWeaponTypes();
+        list.stream().forEach(this::create);
     }
 
     @Override

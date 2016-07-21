@@ -1,49 +1,32 @@
 package com.dungeonstory.backend.mock;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
-import java.util.Set;
 
 import com.dungeonstory.backend.data.Ability;
 import com.dungeonstory.backend.data.AccessRole;
 import com.dungeonstory.backend.data.Alignment;
-import com.dungeonstory.backend.data.Availability;
-import com.dungeonstory.backend.data.Category;
+import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.data.DamageType;
 import com.dungeonstory.backend.data.Level;
-import com.dungeonstory.backend.data.Product;
 import com.dungeonstory.backend.data.Region;
 import com.dungeonstory.backend.data.Skill;
 import com.dungeonstory.backend.data.User;
 import com.dungeonstory.backend.data.User.UserStatus;
+import com.dungeonstory.backend.data.WeaponType;
+import com.dungeonstory.backend.data.WeaponType.HandleType;
+import com.dungeonstory.backend.data.WeaponType.ProficiencyType;
+import com.dungeonstory.backend.data.WeaponType.RangeType;
+import com.dungeonstory.backend.data.WeaponType.SizeType;
+import com.dungeonstory.backend.data.WeaponType.UsageType;
 import com.dungeonstory.backend.service.mock.MockAbilityService;
+import com.dungeonstory.backend.service.mock.MockDamageTypeService;
 
 public class MockDataGenerator {
 
 
-    private static String[] word1 = new String[] { "The art of", "Mastering",
-            "The secrets of", "Avoiding", "For fun and profit: ",
-            "How to fail at", "10 important facts about",
-            "The ultimate guide to", "Book of", "Surviving", "Encyclopedia of",
-            "Very much", "Learning the basics of", "The cheap way to",
-            "Being awesome at", "The life changer:", "The Vaadin way:",
-            "Becoming one with", "Beginners guide to",
-            "The complete visual guide to", "The mother of all references:" };
-
-    private static String[] word2 = new String[] { "gardening",
-            "living a healthy life", "designing tree houses", "home security",
-            "intergalaxy travel", "meditation", "ice hockey",
-            "children's education", "computer programming", "Vaadin TreeTable",
-            "winter bathing", "playing the cello", "dummies", "rubber bands",
-            "feeling down", "debugging", "running barefoot",
-            "speaking to a big audience", "creating software", "giant needles",
-            "elephants", "keeping your wife happy" };
-    
     private static final String storedAbilities[][] = new String[][] {
     	{"Force", "FOR"},
     	{"Dextérité", "DEX"},
@@ -110,11 +93,28 @@ public class MockDataGenerator {
         {"another region"}
     };
     
+    private static final String[][] storedClass = new String[][] {
+        {"Guerrier"},
+        {"Mage"},
+        {"Voleur"},
+        {"Barde"},
+        {"Sorcier"},
+        {"Paladin"},
+        {"Rodeur"},
+        {"Druide"},
+        {"Clerc"},
+        {"Barbare"},
+    };
+    
     private static final String[][] storedUsers = new String[][] {
         {"admin", "admin", "admin", "ACTIVE"},
         {"test", "test", "user", "ACTIVE"},
         {"inactive", "inactive", "user", "INACTIVE"},
         {"waiting", "waiting", "user", "WAITING_FOR_APPROBATION"}
+    };
+    
+    private static final String[][] storedWeaponTypes = new String[][] {
+        {"Dague", "SIMPLE", "LIGHT", "ONE_HANDED", "MELEE_RANGE", "THROWN", "1d4", "1"}
     };
 
    
@@ -144,7 +144,6 @@ public class MockDataGenerator {
     
     public static List<Skill> createSkills() {
         List<Skill> skills = new ArrayList<Skill>();
-//        Collection<Ability> abilities = MockDataService.getInstance().getAllAbilities();
         Collection<Ability> abilities = MockAbilityService.getInstance().findAll();
         for (String[] skill : storedSkills) {
         	Optional<Ability> ability = abilities.stream().filter(a -> a.getId().equals(Long.valueOf(skill[1]))).findFirst();
@@ -179,5 +178,32 @@ public class MockDataGenerator {
         }
         return users;
     }
+    
+    public static List<DSClass> createClasses() {
+        List<DSClass> classes = new ArrayList<DSClass>();
+        for (String[] tab : storedClass) {
+            DSClass dsClass = new DSClass();
+            dsClass.setName(tab[0]);
+            classes.add(dsClass);
+        }
+        return classes;
+    }
+    
+    public static List<WeaponType> createWeaponTypes() {
+        List<WeaponType> types = new ArrayList<WeaponType>();
+        Collection<DamageType> damageTypes = MockDamageTypeService.getInstance().findAll();
+        if (!damageTypes.isEmpty()) {
+            for (String[] tab : storedWeaponTypes) {
+                WeaponType type = new WeaponType(tab[0], ProficiencyType.valueOf(tab[1]), SizeType.valueOf(tab[2]),
+                        HandleType.valueOf(tab[3]), UsageType.valueOf(tab[4]), damageTypes.iterator().next());
+//                type.setRangeType(RangeType.valueOf(tab[5]));
+                type.setOneHandBaseDamage(tab[6]);
+                type.setBaseWeight(Integer.parseInt(tab[7]));
+                types.add(type);
+            }
+        }
+        return types;
+    }
+    
 
 }
