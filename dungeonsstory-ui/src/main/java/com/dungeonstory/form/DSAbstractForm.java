@@ -1,5 +1,6 @@
 package com.dungeonstory.form;
 
+import org.vaadin.viritin.MBeanFieldGroup;
 import org.vaadin.viritin.form.AbstractForm;
 
 import com.vaadin.server.FontAwesome;
@@ -15,7 +16,23 @@ public abstract class DSAbstractForm<T> extends AbstractForm<T> {
         setSaveCaption("Enregistrer");
         setCancelCaption("Annuler");
         setDeleteCaption("");
+        setModalWindowTitle("");
         getDeleteButton().setIcon(FontAwesome.TRASH_O);
+    }
+    
+    public MBeanFieldGroup<T> setEntity(T entity) {
+        beforeSetEntity();
+        MBeanFieldGroup<T> fieldgroup = super.setEntity(entity);
+        afterSetEntity();
+        return fieldgroup;
+    }
+    
+    public void beforeSetEntity() {
+        
+    }
+    
+    public void afterSetEntity() {
+        
     }
 
 }

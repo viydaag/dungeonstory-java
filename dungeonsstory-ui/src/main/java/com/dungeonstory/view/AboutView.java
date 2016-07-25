@@ -12,6 +12,8 @@ import com.vaadin.ui.VerticalLayout;
 
 public class AboutView extends VerticalLayout implements View {
 
+    private static final long serialVersionUID = -2859906686491127658L;
+    
     public static final String VIEW_NAME = "About";
 
     public AboutView() {

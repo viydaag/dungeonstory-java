@@ -7,11 +7,13 @@ import org.vaadin.viritin.fields.MTextArea;
 import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.fields.TypedSelect;
 
-import com.dungeonstory.backend.DataService;
 import com.dungeonstory.backend.data.ClassLevelBonus;
 import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.backend.data.Skill;
+import com.dungeonstory.backend.service.DataService;
+import com.dungeonstory.backend.service.impl.LevelService;
+import com.dungeonstory.backend.service.mock.MockSkillService;
 import com.dungeonstory.view.component.DSSubSetSelector;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
@@ -29,6 +31,9 @@ public class ClassForm extends DSAbstractForm<DSClass> {
 //	private ComboBox keyAbility;
 	ElementCollectionField<ClassLevelBonus> levelBonuses;
 	DSSubSetSelector<Skill> baseSkills;
+	
+	DataService<Skill, Long> skillService = MockSkillService.getInstance();
+	DataService<Level, Long> levelService = LevelService.getInstance();
 	
     public static class ClassLevelBonusRow {
 //        TypedSelect<Level> level = new TypedSelect<Level>("Niveau");
@@ -59,7 +64,8 @@ public class ClassForm extends DSAbstractForm<DSClass> {
 		baseSkills.setVisibleProperties("name", "keyAbility.name");
 		baseSkills.setColumnHeader("name", "Nom");
 		baseSkills.setColumnHeader("keyAbility.name", "Attribut clé");
-		baseSkills.setOptions((List<Skill>)DataService.get().getAllSkills());
+		baseSkills.setOptions((List<Skill>) skillService.findAll());
+//		baseSkills.setOptions((List<Skill>)DataService.get().getAllSkills());
 //		baseSkills.setNewItemsAllowed(false);
 //		baseSkills.setValue(new HashSet<Skill>()); //nothing selected
 		
@@ -70,7 +76,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
                     // The ManyToOne field needs its options to be populated
                     // Note, if there is lots of rows, it would be better to share
                     // the list of addresstypes
-        		    row.level.setOptions(DataService.get().getAllLevels());
+        		    row.level.setOptions(levelService.findAll());
                     return row;
 		        }
 		);

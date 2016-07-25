@@ -5,9 +5,10 @@ import org.vaadin.viritin.fields.MTextArea;
 import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.fields.TypedSelect;
 
-import com.dungeonstory.backend.DataService;
 import com.dungeonstory.backend.data.Ability;
 import com.dungeonstory.backend.data.Skill;
+import com.dungeonstory.backend.service.DataService;
+import com.dungeonstory.backend.service.mock.MockAbilityService;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextArea;
@@ -22,6 +23,8 @@ public class SkillForm extends DSAbstractForm<Skill> {
 //	private ComboBox keyAbility;
 //	ElementCollectionField<Ability> keyAbility;
 	private TypedSelect<Ability> keyAbility;
+	
+	private DataService<Ability, Long> abilityService = MockAbilityService.getInstance();
 
 	public SkillForm() {
 	    super();
@@ -40,9 +43,11 @@ public class SkillForm extends DSAbstractForm<Skill> {
 		description = new MTextArea("Description").withFullWidth();
 //		keyAbility = new ComboBox("Attribut clé", DataService.get().getAllAbilities());
 //		keyAbility = new ElementCollectionField<Ability>(Ability.class, Ability.class).withCaption("Attribut clé");
-		keyAbility = new TypedSelect<Ability>("Attribut clé", DataService.get().getAllAbilities());
+		keyAbility = new TypedSelect<Ability>("Attribut clé", abilityService.findAll());
 		keyAbility.setCaptionGenerator(new CaptionGenerator<Ability>() {
             
+            private static final long serialVersionUID = -3188362153311215227L;
+
             @Override
             public String getCaption(Ability option) {
                 return option.getName();

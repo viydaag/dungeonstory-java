@@ -4,6 +4,7 @@ import javax.servlet.annotation.WebServlet;
 
 import com.dungeonstory.authentication.AccessControl;
 import com.dungeonstory.authentication.BasicAccessControl;
+import com.dungeonstory.authentication.DsAccessControl;
 import com.dungeonstory.authentication.LoginScreen;
 import com.dungeonstory.authentication.LoginScreen.LoginListener;
 import com.dungeonstory.event.LogoutEvent;
@@ -39,7 +40,7 @@ public class DungeonStoryUI extends UI {
 	private static final long serialVersionUID = -5249908238351407763L;
 	
 	private EventBus eventBus;
-    private AccessControl accessControl = new BasicAccessControl();
+    private AccessControl accessControl = new DsAccessControl();
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {

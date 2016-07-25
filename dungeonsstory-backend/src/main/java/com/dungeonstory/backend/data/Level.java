@@ -17,13 +17,14 @@ import javax.persistence.Version;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+
 @Entity
 @Table(name = "Level")
-public class Level implements Serializable {
+public class Level implements com.dungeonstory.backend.repository.Entity, Serializable {
 
 	private static final long serialVersionUID = 4749488433122909200L;
 
-	private static Long levelId = 1L;
+//	private static Long levelId = 1L;
 	
 	@Id
 	@NotNull
@@ -73,7 +74,7 @@ public class Level implements Serializable {
 
 	public Level() {
 		super();
-		this.id = levelId++;
+//		this.id = levelId++;
 	}
 
 	public Level(long maxExperience, int proficiencyBonus) {
@@ -86,7 +87,7 @@ public class Level implements Serializable {
 		return id;
 	}
 
-	protected void setId(Long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -158,7 +159,7 @@ public class Level implements Serializable {
 	
 	@Override
 	public String toString() {
-	    return levelId.toString();
+	    return getId().toString();
 	}
 
 }

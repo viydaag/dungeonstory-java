@@ -10,7 +10,6 @@ import org.vaadin.viritin.fields.MValueChangeListener;
 import org.vaadin.viritin.fields.TypedSelect;
 
 import com.dungeonstory.FormCheckBox;
-import com.dungeonstory.backend.DataService;
 import com.dungeonstory.backend.data.DamageType;
 import com.dungeonstory.backend.data.WeaponType;
 import com.dungeonstory.backend.data.WeaponType.HandleType;
@@ -18,6 +17,8 @@ import com.dungeonstory.backend.data.WeaponType.ProficiencyType;
 import com.dungeonstory.backend.data.WeaponType.RangeType;
 import com.dungeonstory.backend.data.WeaponType.SizeType;
 import com.dungeonstory.backend.data.WeaponType.UsageType;
+import com.dungeonstory.backend.service.DataService;
+import com.dungeonstory.backend.service.mock.MockDamageTypeService;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextArea;
@@ -41,6 +42,10 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
 	private FormCheckBox isFinesse;
 	private FormCheckBox isLoading;
 	private TextField baseWeight;
+	
+	private DataService<DamageType, Long> damageTypeService = MockDamageTypeService.getInstance();
+	
+	MValueChangeListener<UsageType> usageListener;
 
 	@Override
 	public String toString() {
@@ -65,7 +70,7 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
 		isLoading = new FormCheckBox("Chargement requis");
 		baseWeight = new MTextField("Poids de base (lbs)");
 		
-		damageType = new TypedSelect<DamageType>("Type de dommage", DataService.get().getAllDamageTypes());
+		damageType = new TypedSelect<DamageType>("Type de dommage", damageTypeService.findAll());
 		damageType.setCaptionGenerator(new CaptionGenerator<DamageType>() {
             
             private static final long serialVersionUID = 9011176307449121578L;
@@ -77,7 +82,9 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
         });
 		
 		handleType.addMValueChangeListener(createHandleTypeValueChangeListener());
-		usageType.addMValueChangeListener(createUsageTypeValueChangeListener());
+		
+		usageListener = createUsageTypeValueChangeListener();
+		usageType.addMValueChangeListener(usageListener);
 		
 		layout.addComponent(name);
 		layout.addComponent(description);
@@ -101,37 +108,20 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
     private MValueChangeListener<UsageType> createUsageTypeValueChangeListener() {
         return new MValueChangeListener<UsageType>() {
 
+            private static final long serialVersionUID = 1L;
+
             @Override
             public void valueChange(MValueChangeEvent<UsageType> event) {
-                switch (event.getValue()) {
-                    case RANGE:
-                        rangeType.setVisible(true);
-                        rangeType.setReadOnly(false);
-                        isReach.setVisible(false);
-                        isReach.setValue(false);
-                        break;
-                    case MELEE_RANGE:
-                        rangeType.setVisible(true);
-                        rangeType.setValue(RangeType.THROWN);
-                        rangeType.setReadOnly(true);
-                        break;
-                    case MELEE:
-                    default:
-                        rangeType.setReadOnly(false);
-                        rangeType.setValue(null);
-                        rangeType.setVisible(false);
-                        isLoading.setVisible(false);
-                        isLoading.setValue(false);
-                        break;
-                }
-                
+                initRangeType(event.getValue());
             }
         };
     }
 
     private MValueChangeListener<HandleType> createHandleTypeValueChangeListener() {
         return new MValueChangeListener<HandleType>() {
-            
+
+            private static final long serialVersionUID = 1L;
+
             @Override
             public void valueChange(MValueChangeEvent<HandleType> event) {
                 switch (event.getValue()) {
@@ -159,6 +149,51 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
                 
             }
         };
+    }
+    
+    @Override
+    public void beforeSetEntity() {
+        
+        //prevent the binding to cause read-only exception while setting the value
+        if (rangeType != null) {
+            rangeType.setReadOnly(false);
+        }
+        if (usageType != null) {
+            usageType.removeMValueChangeListener(usageListener);
+        }
+    }
+    
+    @Override
+    public void afterSetEntity() {
+        usageType.addMValueChangeListener(usageListener);
+        initRangeType(usageType.getValue());
+    }
+
+    private void initRangeType(UsageType usage) {
+        if (usage != null) {
+            switch (usage) {
+                case RANGE:
+                    rangeType.setVisible(true);
+                    rangeType.setReadOnly(false);
+                    isReach.setVisible(false);
+                    isReach.setValue(false);
+                    break;
+                case MELEE_RANGE:
+                    rangeType.setReadOnly(false);
+                    rangeType.setVisible(true);
+                    rangeType.setValue(RangeType.THROWN);
+                    rangeType.setReadOnly(true);
+                    break;
+                case MELEE:
+                default:
+                    rangeType.setReadOnly(false);
+                    rangeType.setValue(null);
+                    rangeType.setVisible(false);
+                    isLoading.setVisible(false);
+                    isLoading.setValue(false);
+                    break;
+            }
+        }
     }
 
 }

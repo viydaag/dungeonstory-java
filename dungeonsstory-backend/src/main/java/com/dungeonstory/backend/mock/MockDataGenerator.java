@@ -1,49 +1,34 @@
 package com.dungeonstory.backend.mock;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
-import java.util.Set;
 
 import com.dungeonstory.backend.data.Ability;
+import com.dungeonstory.backend.data.AccessRole;
 import com.dungeonstory.backend.data.Alignment;
-import com.dungeonstory.backend.data.Availability;
-import com.dungeonstory.backend.data.Category;
+import com.dungeonstory.backend.data.ArmorType;
+import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.data.DamageType;
 import com.dungeonstory.backend.data.Level;
-import com.dungeonstory.backend.data.Product;
+import com.dungeonstory.backend.data.Race;
+import com.dungeonstory.backend.data.Region;
 import com.dungeonstory.backend.data.Skill;
+import com.dungeonstory.backend.data.User;
+import com.dungeonstory.backend.data.User.UserStatus;
+import com.dungeonstory.backend.data.WeaponType;
+import com.dungeonstory.backend.data.WeaponType.HandleType;
+import com.dungeonstory.backend.data.WeaponType.ProficiencyType;
+import com.dungeonstory.backend.data.WeaponType.RangeType;
+import com.dungeonstory.backend.data.WeaponType.SizeType;
+import com.dungeonstory.backend.data.WeaponType.UsageType;
+import com.dungeonstory.backend.service.mock.MockAbilityService;
+import com.dungeonstory.backend.service.mock.MockDamageTypeService;
 
 public class MockDataGenerator {
-    private static int nextCategoryId = 1;
-    private static int nextProductId = 1;
-    private static final Random random = new Random(1);
-    private static final String categoryNames[] = new String[] {
-            "Children's books", "Best sellers", "Romance", "Mystery",
-            "Thriller", "Sci-fi", "Non-fiction", "Cookbooks" };
 
-    private static String[] word1 = new String[] { "The art of", "Mastering",
-            "The secrets of", "Avoiding", "For fun and profit: ",
-            "How to fail at", "10 important facts about",
-            "The ultimate guide to", "Book of", "Surviving", "Encyclopedia of",
-            "Very much", "Learning the basics of", "The cheap way to",
-            "Being awesome at", "The life changer:", "The Vaadin way:",
-            "Becoming one with", "Beginners guide to",
-            "The complete visual guide to", "The mother of all references:" };
 
-    private static String[] word2 = new String[] { "gardening",
-            "living a healthy life", "designing tree houses", "home security",
-            "intergalaxy travel", "meditation", "ice hockey",
-            "children's education", "computer programming", "Vaadin TreeTable",
-            "winter bathing", "playing the cello", "dummies", "rubber bands",
-            "feeling down", "debugging", "running barefoot",
-            "speaking to a big audience", "creating software", "giant needles",
-            "elephants", "keeping your wife happy" };
-    
     private static final String storedAbilities[][] = new String[][] {
     	{"Force", "FOR"},
     	{"Dextérité", "DEX"},
@@ -104,28 +89,46 @@ public class MockDataGenerator {
         {1, 1000, 1},
         {2, 2000, 2}
     };
-
-    static List<Category> createCategories() {
-        List<Category> categories = new ArrayList<Category>();
-        for (String name : categoryNames) {
-            Category c = createCategory(name);
-            categories.add(c);
-        }
-        return categories;
-
-    }
-
-    static List<Product> createProducts(List<Category> categories) {
-        List<Product> products = new ArrayList<Product>();
-        for (int i = 0; i < 100; i++) {
-            Product p = createProduct(categories);
-            products.add(p);
-        }
-
-        return products;
-    }
     
-    static List<Ability> createAbilities() {
+    private static final String[][] storedRegions = new String[][] {
+        {"test region"},
+        {"another region"}
+    };
+    
+    private static final String[][] storedClass = new String[][] {
+        {"Guerrier"},
+        {"Mage"},
+        {"Voleur"},
+        {"Barde"},
+        {"Sorcier"},
+        {"Paladin"},
+        {"Rodeur"},
+        {"Druide"},
+        {"Clerc"},
+        {"Barbare"},
+    };
+    
+    private static final String[][] storedUsers = new String[][] {
+        {"admin", "admin", "admin", "ACTIVE"},
+        {"test", "test", "user", "ACTIVE"},
+        {"inactive", "inactive", "user", "INACTIVE"},
+        {"waiting", "waiting", "user", "WAITING_FOR_APPROBATION"}
+    };
+    
+    private static final String[][] storedWeaponTypes = new String[][] {
+        {"Dague", "SIMPLE", "LIGHT", "ONE_HANDED", "MELEE_RANGE", "THROWN", "1d4", "1"}
+    };
+    
+    private static final String[][] storedArmorTypes = new String[][] {
+        {"Cuir", "LIGHT", "-1", "12", "false", "1", "1"}
+    };
+    
+    private static final String[][] storedRaces = new String[][] {
+        {"Humain", "1", "1", "1", "1", "1", "1", "16", "60", "1d6", "65", "1d8", "150", "1d20"}
+    };
+
+   
+    public static List<Ability> createAbilities() {
         List<Ability> abilities = new ArrayList<Ability>();
         for (String[] ability : storedAbilities) {
         	abilities.add(new Ability(ability[0], ability[1], ""));
@@ -133,7 +136,7 @@ public class MockDataGenerator {
         return abilities;
     }
     
-    static List<Alignment> createAlignments() {
+    public static List<Alignment> createAlignments() {
         List<Alignment> alignments = new ArrayList<Alignment>();
         for (String[] alignment : storedAlignment) {
             alignments.add(new Alignment(alignment[0], "", ""));
@@ -141,7 +144,7 @@ public class MockDataGenerator {
         return alignments;
     }
     
-    static List<DamageType> createDamageTypes() {
+    public static List<DamageType> createDamageTypes() {
         List<DamageType> types = new ArrayList<DamageType>();
         for (String[] type : storedDamageType) {
             types.add(new DamageType(type[0]));
@@ -149,17 +152,27 @@ public class MockDataGenerator {
         return types;
     }
     
-    static List<Skill> createSkills() {
+    public static List<Skill> createSkills() {
         List<Skill> skills = new ArrayList<Skill>();
-        Collection<Ability> abilities = MockDataService.getInstance().getAllAbilities();
+        Collection<Ability> abilities = MockAbilityService.getInstance().findAll();
         for (String[] skill : storedSkills) {
         	Optional<Ability> ability = abilities.stream().filter(a -> a.getId().equals(Long.valueOf(skill[1]))).findFirst();
-        	skills.add(new Skill(skill[0], ability.get()));
+        	if (ability.isPresent()) {
+        	    skills.add(new Skill(skill[0], ability.get()));
+        	}
         }
         return skills;
     }
     
-    static List<Level> createLevels() {
+    public static List<Region> createRegions() {
+        List<Region> regions = new ArrayList<Region>();
+        for (String[] region : storedRegions) {
+            regions.add(new Region(region[0]));
+        }
+        return regions;
+    }
+    
+    public static List<Level> createLevels() {
         List<Level> levels = new ArrayList<Level>();
         for (Integer[] level : storedLevels) {
             levels.add(new Level(level[1], level[2]));
@@ -167,44 +180,78 @@ public class MockDataGenerator {
         return levels;
     }
 
-    private static Category createCategory(String name) {
-        Category c = new Category();
-        c.setId(nextCategoryId++);
-        c.setName(name);
-        return c;
-    }
-
-    private static Product createProduct(List<Category> categories) {
-        Product p = new Product();
-        p.setId(nextProductId++);
-        p.setProductName(generateName());
-
-        p.setPrice(new BigDecimal((random.nextInt(250) + 50) / 10.0));
-        p.setAvailability(Availability.values()[random.nextInt(Availability
-                .values().length)]);
-        if (p.getAvailability() == Availability.AVAILABLE) {
-            p.setStockCount(random.nextInt(523));
+    public static List<User> createUsers() {
+        List<User> users = new ArrayList<User>();
+        for (String[] user : storedUsers) {
+            AccessRole role = new AccessRole(user[2]);
+            users.add(new User(user[0], user[1], role, "", "", UserStatus.valueOf(user[3])));
         }
-
-        p.setCategory(getCategory(categories, 1, 2));
-        return p;
+        return users;
     }
-
-    private static Set<Category> getCategory(List<Category> categories,
-            int min, int max) {
-        int nr = random.nextInt(max) + min;
-        HashSet<Category> productCategories = new HashSet<Category>();
-        for (int i = 0; i < nr; i++) {
-            productCategories.add(categories.get(random.nextInt(categories
-                    .size())));
+    
+    public static List<DSClass> createClasses() {
+        List<DSClass> classes = new ArrayList<DSClass>();
+        for (String[] tab : storedClass) {
+            DSClass dsClass = new DSClass();
+            dsClass.setName(tab[0]);
+            classes.add(dsClass);
         }
-
-        return productCategories;
+        return classes;
+    }
+    
+    public static List<WeaponType> createWeaponTypes() {
+        List<WeaponType> types = new ArrayList<WeaponType>();
+        Collection<DamageType> damageTypes = MockDamageTypeService.getInstance().findAll();
+        if (!damageTypes.isEmpty()) {
+            for (String[] tab : storedWeaponTypes) {
+                WeaponType type = new WeaponType(tab[0], ProficiencyType.valueOf(tab[1]), SizeType.valueOf(tab[2]),
+                        HandleType.valueOf(tab[3]), UsageType.valueOf(tab[4]), damageTypes.iterator().next());
+                type.setRangeType(RangeType.valueOf(tab[5]));
+                type.setOneHandBaseDamage(tab[6]);
+                type.setBaseWeight(Integer.parseInt(tab[7]));
+                types.add(type);
+            }
+        }
+        return types;
+    }
+    
+    public static List<ArmorType> createArmorTypes() {
+        List<ArmorType> types = new ArrayList<ArmorType>();
+            for (String[] tab : storedArmorTypes) {
+                Integer maxDexBonus = tab[2] == null ? null : Integer.valueOf(tab[2]);
+                ArmorType.ProficiencyType armorProficiency = ArmorType.ProficiencyType.valueOf(tab[1]);
+                int armorClass = Integer.parseInt(tab[3]);
+                boolean stealthDisavantage = Boolean.parseBoolean(tab[4]);
+                int minStrength = Integer.parseInt(tab[5]);
+                int weight = Integer.parseInt(tab[6]);
+                ArmorType type = new ArmorType(tab[0], "", armorProficiency, maxDexBonus,
+                        armorClass, stealthDisavantage, minStrength, weight, 10);
+                types.add(type);
+            }
+        return types;
     }
 
-    private static String generateName() {
-        return word1[random.nextInt(word1.length)] + " "
-                + word2[random.nextInt(word2.length)];
+    public static List<Race> createRaces() {
+        List<Race> races = new ArrayList<Race>();
+        for (String[] tab : storedRaces) {
+            Race race = new Race(tab[0]);
+            race.setStrModifier(Integer.parseInt(tab[1]));
+            race.setDexModifier(Integer.parseInt(tab[2]));
+            race.setConModifier(Integer.parseInt(tab[3]));
+            race.setIntModifier(Integer.parseInt(tab[4]));
+            race.setWisModifier(Integer.parseInt(tab[5]));
+            race.setChaModifier(Integer.parseInt(tab[6]));
+            race.setMinAge(Integer.parseInt(tab[7]));
+            race.setMaxAge(Integer.parseInt(tab[8]));
+            race.setAgeModifier(tab[9]);
+            race.setAverageHeight(Integer.parseInt(tab[10]));
+            race.setHeightModifier(tab[11]);
+            race.setAverageWeight(Integer.parseInt(tab[12]));
+            race.setWeightModifier(tab[13]);
+            races.add(race);
+        }
+        return races;
     }
+    
 
 }
