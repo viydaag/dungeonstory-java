@@ -69,7 +69,8 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
 
         //refresh ui
         closeForm();
-        grid.refresh(entity);
+//        grid.refresh(entity);
+        grid.setData(service.findAll());
         grid.scrollTo(entity);
 
         Notification.show("Saved!", Type.HUMANIZED_MESSAGE);

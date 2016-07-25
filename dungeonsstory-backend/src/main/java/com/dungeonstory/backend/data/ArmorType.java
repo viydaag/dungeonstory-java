@@ -13,122 +13,124 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "ArmorType")
 public class ArmorType extends AbstractTimestampEntity implements Serializable {
-	
-	private static final long serialVersionUID = 6701206243601789036L;
 
-	public enum ProficiencyType {
-		LIGHT, MEDIUM, HEAVY, SHIELD
-	}
+    private static final long serialVersionUID = 6701206243601789036L;
 
-	@NotNull
-	@Column(name = "name", nullable = false)
-	private String name;
+    public static final int NO_MAX_DEX_BONUS = -1;
 
-	@Column(name = "description", columnDefinition = "TEXT")
-	private String description;
+    public static final int MINIMUM_STRENGTH = 1;
 
-	@NotNull
-	@Column(name = "proficiencyType", nullable = false)
-	@Enumerated(EnumType.STRING)
-	private ProficiencyType proficiencyType;
+    public enum ProficiencyType {
+        LIGHT, MEDIUM, HEAVY, SHIELD
+    }
 
-	@NotNull
-	@Min(value = 0)
-	@Column(name = "maxDexBonus", nullable = false)
-	private int maxDexBonus;
+    @NotNull
+    @Column(name = "name", nullable = false)
+    private String name;
 
-	@NotNull
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
+
+    @NotNull
+    @Column(name = "proficiencyType", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private ProficiencyType proficiencyType;
+
+    @NotNull
+    @Min(value = NO_MAX_DEX_BONUS)
+    @Column(name = "maxDexBonus", nullable = false)
+    private int maxDexBonus = NO_MAX_DEX_BONUS;
+
+    @NotNull
     @Min(value = 0)
-	@Column(name = "baseArmorClass", nullable = false)
-	private int baseArmorClass;
+    @Column(name = "baseArmorClass", nullable = false)
+    private int baseArmorClass;
 
-	@Column(name = "stealthDisavantage", nullable = false)
-	private boolean stealthDisavantage;
-	
-	// The minimum strength to be able to wear the armor.
-	@NotNull
-    @Min(value = 0)
+    @Column(name = "stealthDisavantage", nullable = false)
+    private boolean stealthDisavantage;
+
+    // The minimum strength to be able to wear the armor.
+    @NotNull
+    @Min(value = MINIMUM_STRENGTH)
     @Column(name = "minStrength", nullable = false)
-	private int minStrength;
+    private int minStrength = MINIMUM_STRENGTH;
 
-	@NotNull
+    @NotNull
     @Min(value = 0)
-	@Column(name = "baseWeight", nullable = false)
-	private int baseWeight;
+    @Column(name = "baseWeight", nullable = false)
+    private int baseWeight;
 
     @Min(value = 0)
-	@Column(name = "speed", nullable = false)
-	private int speed;
+    @Column(name = "speed", nullable = false)
+    private int speed;
 
-	public ArmorType() {
-		super();
-	}
+    public ArmorType() {
+        super();
+    }
 
-	public ArmorType(String name, String description,
-			ProficiencyType proficiencyType, int maxDexBonus, int baseArmorClass,
-			boolean stealthDisavantage, int minStrength,
-			int baseWeight, int speed) {
-		this();
-		this.name = name;
-		this.description = description;
-		this.proficiencyType = proficiencyType;
-		this.maxDexBonus = maxDexBonus;
-		this.baseArmorClass = baseArmorClass;
-		this.stealthDisavantage = stealthDisavantage;
-		this.minStrength = minStrength;
-		this.baseWeight = baseWeight;
-		this.speed = speed;
-	}
+    public ArmorType(String name, String description, ProficiencyType proficiencyType, int maxDexBonus,
+            int baseArmorClass, boolean stealthDisavantage, int minStrength, int baseWeight, int speed) {
+        this();
+        this.name = name;
+        this.description = description;
+        this.proficiencyType = proficiencyType;
+        this.maxDexBonus = maxDexBonus;
+        this.baseArmorClass = baseArmorClass;
+        this.stealthDisavantage = stealthDisavantage;
+        this.minStrength = minStrength;
+        this.baseWeight = baseWeight;
+        this.speed = speed;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public ProficiencyType getProficiencyType() {
-		return proficiencyType;
-	}
+    public ProficiencyType getProficiencyType() {
+        return proficiencyType;
+    }
 
-	public void setProficiencyType(ProficiencyType proficiencyType) {
-		this.proficiencyType = proficiencyType;
-	}
+    public void setProficiencyType(ProficiencyType proficiencyType) {
+        this.proficiencyType = proficiencyType;
+    }
 
-	public int getMaxDexBonus() {
-		return maxDexBonus;
-	}
+    public int getMaxDexBonus() {
+        return maxDexBonus;
+    }
 
-	public void setMaxDexBonus(int maxDexBonus) {
-		this.maxDexBonus = maxDexBonus;
-	}
+    public void setMaxDexBonus(int maxDexBonus) {
+        this.maxDexBonus = maxDexBonus;
+    }
 
-	public int getBaseArmorClass() {
-		return baseArmorClass;
-	}
+    public int getBaseArmorClass() {
+        return baseArmorClass;
+    }
 
-	public void setBaseArmorClass(int baseArmorClass) {
-		this.baseArmorClass = baseArmorClass;
-	}
+    public void setBaseArmorClass(int baseArmorClass) {
+        this.baseArmorClass = baseArmorClass;
+    }
 
-	public int getBaseWeight() {
-		return baseWeight;
-	}
+    public int getBaseWeight() {
+        return baseWeight;
+    }
 
-	public void setBaseWeight(int baseWeight) {
-		this.baseWeight = baseWeight;
-	}
+    public void setBaseWeight(int baseWeight) {
+        this.baseWeight = baseWeight;
+    }
 
-	public boolean getStealthDisavantage() {
+    public boolean getStealthDisavantage() {
         return stealthDisavantage;
     }
 
@@ -145,14 +147,14 @@ public class ArmorType extends AbstractTimestampEntity implements Serializable {
     }
 
     public int getSpeed() {
-		return speed;
-	}
+        return speed;
+    }
 
-	public void setSpeed(int speed) {
-		this.speed = speed;
-	}
-	
-	@Override
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
+    @Override
     public String toString() {
         return getName();
     }

@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -49,8 +50,9 @@ public class TestWeaponTypeService {
         WeaponTypeService service = WeaponTypeService.getInstance();
         DamageTypeService dmService = DamageTypeService.getInstance();
         
-        dmService.create(new DamageType("test"));
-        DamageType dm = dmService.read(1L);
+        dmService.create(new DamageType("un type de dommage"));
+        List<DamageType> findAll = dmService.findAll();
+        DamageType dm = findAll.get(findAll.size() - 1);
         assertNotNull(dm);
         service.create(new WeaponType("test weapon", ProficiencyType.SIMPLE, SizeType.MEDIUM, HandleType.TWO_HANDED, UsageType.MELEE, dm)); 
         

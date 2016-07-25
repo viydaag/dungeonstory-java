@@ -55,10 +55,11 @@ public class TestDamageTypeService {
         DamageType dm2 = service.findAll().iterator().next();
         assertEquals("My Test Name", dm2.getName());
         
+        int size = allDamageTypes.size();
         service.delete(dm2);
         allDamageTypes = service.findAll();
         assertNotNull(allDamageTypes);
-        assertTrue(allDamageTypes.size() == 0);
+        assertTrue(allDamageTypes.size() < size);
     }
 
 }

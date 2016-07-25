@@ -8,6 +8,7 @@ import java.util.Optional;
 import com.dungeonstory.backend.data.Ability;
 import com.dungeonstory.backend.data.AccessRole;
 import com.dungeonstory.backend.data.Alignment;
+import com.dungeonstory.backend.data.ArmorType;
 import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.data.DamageType;
 import com.dungeonstory.backend.data.Level;
@@ -116,6 +117,10 @@ public class MockDataGenerator {
     private static final String[][] storedWeaponTypes = new String[][] {
         {"Dague", "SIMPLE", "LIGHT", "ONE_HANDED", "MELEE_RANGE", "THROWN", "1d4", "1"}
     };
+    
+    private static final String[][] storedArmorTypes = new String[][] {
+        {"Cuir", "LIGHT", "-1", "12", "false", "1", "1"}
+    };
 
    
     public static List<Ability> createAbilities() {
@@ -202,6 +207,22 @@ public class MockDataGenerator {
                 types.add(type);
             }
         }
+        return types;
+    }
+    
+    public static List<ArmorType> createArmorTypes() {
+        List<ArmorType> types = new ArrayList<ArmorType>();
+            for (String[] tab : storedArmorTypes) {
+                Integer maxDexBonus = tab[2] == null ? null : Integer.valueOf(tab[2]);
+                ArmorType.ProficiencyType armorProficiency = ArmorType.ProficiencyType.valueOf(tab[1]);
+                int armorClass = Integer.parseInt(tab[3]);
+                boolean stealthDisavantage = Boolean.parseBoolean(tab[4]);
+                int minStrength = Integer.parseInt(tab[5]);
+                int weight = Integer.parseInt(tab[6]);
+                ArmorType type = new ArmorType(tab[0], "", armorProficiency, maxDexBonus,
+                        armorClass, stealthDisavantage, minStrength, weight, 10);
+                types.add(type);
+            }
         return types;
     }
     
