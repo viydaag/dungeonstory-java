@@ -10,7 +10,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 
@@ -18,7 +17,6 @@ import javax.validation.constraints.Min;
 @Table(name = "Equipment")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
-@PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
 public class Equipment extends AbstractTimestampEntity implements Serializable {
 
 	private static final long serialVersionUID = 1146171037304994442L;

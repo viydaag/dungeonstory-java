@@ -5,12 +5,14 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
 @Entity
 @DiscriminatorValue("ARMOR")
+@PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
 @Table(name = "Armor")
 public class Armor extends Equipment {
 

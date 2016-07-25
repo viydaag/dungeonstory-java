@@ -12,6 +12,7 @@ import com.dungeonstory.view.DamageTypeView;
 import com.dungeonstory.view.ErrorView;
 import com.dungeonstory.view.HomeView;
 import com.dungeonstory.view.LevelView;
+import com.dungeonstory.view.RaceView;
 import com.dungeonstory.view.RegionView;
 import com.dungeonstory.view.SkillView;
 import com.dungeonstory.view.WeaponTypeView;
@@ -95,12 +96,13 @@ public class MainScreen extends HorizontalLayout {
     	addView(HomeView.class);
     	
     	if (DungeonStoryUI.get().getAccessControl().isUserInRole("admin")) {
+    	    addView(AlignmentView.class);
     		addView(RegionView.class);
     		addView(LevelView.class);
     		addView(SkillView.class);
     		addView(ClassView.class);
     		addView(DamageTypeView.class);
-    		addView(AlignmentView.class);
+    		addView(RaceView.class);
     		addView(WeaponTypeView.class);
     		addView(ArmorTypeView.class);
     	}

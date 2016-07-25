@@ -12,6 +12,7 @@ import com.dungeonstory.backend.data.ArmorType;
 import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.data.DamageType;
 import com.dungeonstory.backend.data.Level;
+import com.dungeonstory.backend.data.Race;
 import com.dungeonstory.backend.data.Region;
 import com.dungeonstory.backend.data.Skill;
 import com.dungeonstory.backend.data.User;
@@ -121,6 +122,10 @@ public class MockDataGenerator {
     private static final String[][] storedArmorTypes = new String[][] {
         {"Cuir", "LIGHT", "-1", "12", "false", "1", "1"}
     };
+    
+    private static final String[][] storedRaces = new String[][] {
+        {"Humain", "1", "1", "1", "1", "1", "1", "16", "60", "1d6", "65", "1d8", "150", "1d20"}
+    };
 
    
     public static List<Ability> createAbilities() {
@@ -224,6 +229,28 @@ public class MockDataGenerator {
                 types.add(type);
             }
         return types;
+    }
+
+    public static List<Race> createRaces() {
+        List<Race> races = new ArrayList<Race>();
+        for (String[] tab : storedRaces) {
+            Race race = new Race(tab[0]);
+            race.setStrModifier(Integer.parseInt(tab[1]));
+            race.setDexModifier(Integer.parseInt(tab[2]));
+            race.setConModifier(Integer.parseInt(tab[3]));
+            race.setIntModifier(Integer.parseInt(tab[4]));
+            race.setWisModifier(Integer.parseInt(tab[5]));
+            race.setChaModifier(Integer.parseInt(tab[6]));
+            race.setMinAge(Integer.parseInt(tab[7]));
+            race.setMaxAge(Integer.parseInt(tab[8]));
+            race.setAgeModifier(tab[9]);
+            race.setAverageHeight(Integer.parseInt(tab[10]));
+            race.setHeightModifier(tab[11]);
+            race.setAverageWeight(Integer.parseInt(tab[12]));
+            race.setWeightModifier(tab[13]);
+            races.add(race);
+        }
+        return races;
     }
     
 
