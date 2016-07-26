@@ -169,6 +169,7 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
         initRangeType(usageType.getValue());
     }
 
+    @SuppressWarnings("unchecked")
     private void initRangeType(UsageType usage) {
         if (usage != null) {
             switch (usage) {

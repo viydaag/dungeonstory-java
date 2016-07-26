@@ -15,12 +15,11 @@ public class MockClassService extends AbstractDataService<DSClass, Long> {
         }
         return instance;
     }
-    
+
     private MockClassService() {
         super();
         setEntityFactory(new ClassFactory());
         setRepository(new MockClassRepository());
     }
-    
-    
+
 }

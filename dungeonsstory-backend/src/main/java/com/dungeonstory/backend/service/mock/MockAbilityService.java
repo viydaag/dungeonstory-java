@@ -15,12 +15,11 @@ public class MockAbilityService extends AbstractDataService<Ability, Long> {
         }
         return instance;
     }
-    
+
     private MockAbilityService() {
         super();
         setEntityFactory(new AbilityFactory());
         setRepository(new MockAbilityRepository());
     }
-    
-    
+
 }

@@ -15,12 +15,11 @@ public class MockSkillService extends AbstractDataService<Skill, Long> {
         }
         return instance;
     }
-    
+
     private MockSkillService() {
         super();
         setEntityFactory(new SkillFactory());
         setRepository(new MockSkillRepository());
     }
-    
-    
+
 }

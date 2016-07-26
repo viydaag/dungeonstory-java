@@ -15,12 +15,11 @@ public class MockWeaponTypeService extends AbstractDataService<WeaponType, Long>
         }
         return instance;
     }
-    
+
     private MockWeaponTypeService() {
         super();
         setEntityFactory(new WeaponTypeFactory());
         setRepository(new MockWeaponTypeRepository());
     }
-    
-    
+
 }

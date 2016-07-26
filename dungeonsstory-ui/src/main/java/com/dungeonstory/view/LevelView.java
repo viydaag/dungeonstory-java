@@ -37,11 +37,14 @@ public class LevelView extends VerticalSpacedLayout implements View {
 	    
 	    grid.getEditorFieldGroup().addCommitHandler(new CommitHandler() {
             
+            private static final long serialVersionUID = 8024962379061308819L;
+
             @Override
             public void preCommit(CommitEvent commitEvent) throws CommitException {
                 //nothing
             }
             
+            @SuppressWarnings("unchecked")
             @Override
             public void postCommit(CommitEvent commitEvent) throws CommitException {
                 //only after the data is available in the grid, the beau can be persisted

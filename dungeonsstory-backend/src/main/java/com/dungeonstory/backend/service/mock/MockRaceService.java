@@ -15,12 +15,11 @@ public class MockRaceService extends AbstractDataService<Race, Long> {
         }
         return instance;
     }
-    
+
     private MockRaceService() {
         super();
         setEntityFactory(new RaceFactory());
         setRepository(new MockRaceRepository());
     }
-    
-    
+
 }

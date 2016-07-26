@@ -16,7 +16,7 @@ public class MockUserService extends AbstractDataService<User, Long> {
         }
         return instance;
     }
-    
+
     private MockUserService() {
         super();
         setEntityFactory(new UserFactory());
@@ -26,6 +26,5 @@ public class MockUserService extends AbstractDataService<User, Long> {
     public User findByUsername(String username) {
         return ((MockUserRepository) entityRepository).findByUsername(username);
     }
-    
-    
+
 }

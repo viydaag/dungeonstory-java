@@ -6,7 +6,7 @@ import com.dungeonstory.backend.data.DamageType;
 import com.dungeonstory.backend.mock.MockDataGenerator;
 
 public class MockDamageTypeRepository extends MockAbstractRepository<DamageType> {
-    
+
     private static Long idDamageType = 1L;
 
     public MockDamageTypeRepository() {

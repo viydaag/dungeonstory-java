@@ -15,12 +15,11 @@ public class MockArmorTypeService extends AbstractDataService<ArmorType, Long> {
         }
         return instance;
     }
-    
+
     private MockArmorTypeService() {
         super();
         setEntityFactory(new ArmorTypeFactory());
         setRepository(new MockArmorTypeRepository());
     }
-    
-    
+
 }

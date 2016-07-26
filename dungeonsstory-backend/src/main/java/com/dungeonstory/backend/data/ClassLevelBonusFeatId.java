@@ -3,87 +3,87 @@ package com.dungeonstory.backend.data;
 import java.io.Serializable;
 
 public class ClassLevelBonusFeatId implements Serializable {
-	
-	private static final long serialVersionUID = 6085535553525670809L;
 
-	private Long classId;
+    private static final long serialVersionUID = 6085535553525670809L;
 
-	private Long levelId;
+    private Long classId;
 
-	private Long featId;
+    private Long levelId;
 
-	public ClassLevelBonusFeatId() {
-		// TODO Auto-generated constructor stub
-	}
+    private Long featId;
 
-	public Long getClassId() {
-		return classId;
-	}
+    public ClassLevelBonusFeatId() {
 
-	public void setClassId(Long classId) {
-		this.classId = classId;
-	}
+    }
 
-	public Long getLevelId() {
-		return levelId;
-	}
+    public Long getClassId() {
+        return classId;
+    }
 
-	public void setLevelId(Long levelId) {
-		this.levelId = levelId;
-	}
+    public void setClassId(Long classId) {
+        this.classId = classId;
+    }
 
-	public Long getFeatId() {
-		return featId;
-	}
+    public Long getLevelId() {
+        return levelId;
+    }
 
-	public void setFeatId(Long featId) {
-		this.featId = featId;
-	}
+    public void setLevelId(Long levelId) {
+        this.levelId = levelId;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((classId == null) ? 0 : classId.hashCode());
-		result = prime * result + ((featId == null) ? 0 : featId.hashCode());
-		result = prime * result + ((levelId == null) ? 0 : levelId.hashCode());
-		return result;
-	}
+    public Long getFeatId() {
+        return featId;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (!(obj instanceof ClassLevelBonusFeatId)) {
-			return false;
-		}
-		ClassLevelBonusFeatId other = (ClassLevelBonusFeatId) obj;
-		if (classId == null) {
-			if (other.classId != null) {
-				return false;
-			}
-		} else if (!classId.equals(other.classId)) {
-			return false;
-		}
-		if (featId == null) {
-			if (other.featId != null) {
-				return false;
-			}
-		} else if (!featId.equals(other.featId)) {
-			return false;
-		}
-		if (levelId == null) {
-			if (other.levelId != null) {
-				return false;
-			}
-		} else if (!levelId.equals(other.levelId)) {
-			return false;
-		}
-		return true;
-	}
+    public void setFeatId(Long featId) {
+        this.featId = featId;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((classId == null) ? 0 : classId.hashCode());
+        result = prime * result + ((featId == null) ? 0 : featId.hashCode());
+        result = prime * result + ((levelId == null) ? 0 : levelId.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof ClassLevelBonusFeatId)) {
+            return false;
+        }
+        ClassLevelBonusFeatId other = (ClassLevelBonusFeatId) obj;
+        if (classId == null) {
+            if (other.classId != null) {
+                return false;
+            }
+        } else if (!classId.equals(other.classId)) {
+            return false;
+        }
+        if (featId == null) {
+            if (other.featId != null) {
+                return false;
+            }
+        } else if (!featId.equals(other.featId)) {
+            return false;
+        }
+        if (levelId == null) {
+            if (other.levelId != null) {
+                return false;
+            }
+        } else if (!levelId.equals(other.levelId)) {
+            return false;
+        }
+        return true;
+    }
 
 }

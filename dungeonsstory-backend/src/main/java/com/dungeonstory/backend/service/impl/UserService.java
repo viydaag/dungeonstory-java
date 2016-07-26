@@ -21,7 +21,7 @@ public class UserService extends AbstractDataService<User, Long> {
         setEntityFactory(new UserFactory());
         setRepository(new UserRepository());
     }
-    
+
     public User findByUsername(String username) {
         return ((UserRepository) entityRepository).findByUsername(username);
     }

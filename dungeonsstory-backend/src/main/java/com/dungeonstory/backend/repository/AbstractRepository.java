@@ -16,14 +16,13 @@ import javax.persistence.TypedQuery;
 
 public abstract class AbstractRepository<E extends Entity, K extends Serializable> implements Repository<E, K> {
 
-	
-	private static final String         PERSISTENCE_UNIT_HSQL_NAME  = "dungeonstory-hsql2";
-    private static final String         PERSISTENCE_UNIT_MYSQL_NAME = "dungeonstory-mysql";
-	
-	protected static EntityManagerFactory factory;
-//    @PersistenceContext(unitName="dungeonstory-hsql")
+    private static final String PERSISTENCE_UNIT_HSQL_NAME  = "dungeonstory-hsql2";
+    private static final String PERSISTENCE_UNIT_MYSQL_NAME = "dungeonstory-mysql";
+
+    protected static EntityManagerFactory factory;
+    //    @PersistenceContext(unitName="dungeonstory-hsql")
     protected static EntityManager entityManager;
-    
+
     private String tableName;
 
     public AbstractRepository() {
@@ -34,7 +33,7 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
 
     @Override
     public synchronized void create(E entity) {
-    	EntityTransaction transac = entityManager.getTransaction();
+        EntityTransaction transac = entityManager.getTransaction();
         transac.begin();
         entityManager.persist(entity);
         flushAndCloseEntityManager();
@@ -109,7 +108,7 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
 
     @Override
     public synchronized void refresh(E entity) {
-    	
+
         entityManager.refresh(entity);
     }
 
@@ -133,12 +132,12 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
     }
 
     public void setEntityManager(EntityManager entityManager) {
-    	AbstractRepository.entityManager = entityManager;
+        AbstractRepository.entityManager = entityManager;
     }
 
     @Override
     public E update(E entity) {
-    	EntityTransaction transac = entityManager.getTransaction();
+        EntityTransaction transac = entityManager.getTransaction();
         transac.begin();
         E result = entityManager.merge(entity);
         flushAndCloseEntityManager();
@@ -152,9 +151,9 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
      * a reference to the entity manager and can never be garbaged.
      * By flushing and closing the entity manager, these objects can be free.
      */
-    private void flushAndCloseEntityManager(){
-//        entityManager.flush();
-//        entityManager.close();
+    private void flushAndCloseEntityManager() {
+        //        entityManager.flush();
+        //        entityManager.close();
     }
 
 }

@@ -20,68 +20,67 @@ import javax.validation.constraints.NotNull;
 @Table(name = "Class")
 public class DSClass extends AbstractTimestampEntity implements Serializable {
 
-	private static final long serialVersionUID = 4948845539537092288L;
+    private static final long serialVersionUID = 4948845539537092288L;
 
-	@NotNull
-	@Column(name = "name", nullable = false)
-	private String name;
+    @NotNull
+    @Column(name = "name", nullable = false)
+    private String name;
 
-	@Column(name = "shortDescription")
-	private String shortDescription;
+    @Column(name = "shortDescription")
+    private String shortDescription;
 
-	@Column(name = "description", columnDefinition = "TEXT")
-	private String description;
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
 
-	@Min(value = 0)
-	@Column(name = "lifePointPerLevel", nullable = false)
-	private int lifePointPerLevel;
+    @Min(value = 0)
+    @Column(name = "lifePointPerLevel", nullable = false)
+    private int lifePointPerLevel;
 
-	@ManyToMany
-    @JoinTable(
-        name="ClassSkill",
-        joinColumns={@JoinColumn(name="classId", referencedColumnName="id")},
-        inverseJoinColumns={@JoinColumn(name="skillId", referencedColumnName="id")})
-	private Set<Skill> baseSkills;
+    @ManyToMany
+    @JoinTable(name = "ClassSkill", joinColumns = {
+        @JoinColumn(name = "classId", referencedColumnName = "id") }, 
+            inverseJoinColumns = { @JoinColumn(name = "skillId", referencedColumnName = "id") })
+    private Set<Skill> baseSkills;
 
-	@OneToMany(mappedBy = "classe")
-	private List<ClassLevelBonus> levelBonuses;
+    @OneToMany(mappedBy = "classe")
+    private List<ClassLevelBonus> levelBonuses;
 
-	public DSClass() {
-	    baseSkills = new HashSet<Skill>();
-	    levelBonuses = new ArrayList<ClassLevelBonus>();
-	}
+    public DSClass() {
+        baseSkills = new HashSet<Skill>();
+        levelBonuses = new ArrayList<ClassLevelBonus>();
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getShortDescription() {
-		return shortDescription;
-	}
+    public String getShortDescription() {
+        return shortDescription;
+    }
 
-	public void setShortDescription(String shortDescription) {
-		this.shortDescription = shortDescription;
-	}
+    public void setShortDescription(String shortDescription) {
+        this.shortDescription = shortDescription;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public int getLifePointPerLevel() {
-		return lifePointPerLevel;
-	}
+    public int getLifePointPerLevel() {
+        return lifePointPerLevel;
+    }
 
-	public void setLifePointPerLevel(int lifePointPerLevel) {
-		this.lifePointPerLevel = lifePointPerLevel;
-	}
+    public void setLifePointPerLevel(int lifePointPerLevel) {
+        this.lifePointPerLevel = lifePointPerLevel;
+    }
 
     public Set<Skill> getBaseSkills() {
         return baseSkills;
@@ -98,7 +97,7 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
     public void setLevelBonuses(List<ClassLevelBonus> levelBonuses) {
         this.levelBonuses = levelBonuses;
     }
-    
+
     @Override
     public String toString() {
         return getName();

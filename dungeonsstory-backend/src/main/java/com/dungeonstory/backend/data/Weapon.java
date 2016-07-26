@@ -15,33 +15,33 @@ import javax.validation.constraints.Pattern;
 @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
 @Table(name = "Weapon")
 public class Weapon extends Equipment {
-	
-	private static final long serialVersionUID = 4509403800242686338L;
 
-	@NotNull
-	@Pattern(regexp = "\\d+d\\d+")
-	@Column(name = "damage")
-	private String damage;
-	
-	@NotNull
-	@Pattern(regexp = "\\d+d\\d+")
-	@Column(name = "additionalDamage")
-	private String additionalDamage;
-	
-	@NotNull
-	@ManyToOne
-	@JoinColumn(name = "additionalDamageTypeId")
-	private DamageType additionalDamageType;
-	
-	@Column(name = "magicalBonus")
-	private int magicalBonus;
-	
-	@ManyToOne
-	@JoinColumn(name = "weaponTypeId")
-	private WeaponType weaponType;
+    private static final long serialVersionUID = 4509403800242686338L;
 
-	public Weapon() {
-		super();
-	}
+    @NotNull
+    @Pattern(regexp = "\\d+d\\d+")
+    @Column(name = "damage")
+    private String damage;
+
+    @NotNull
+    @Pattern(regexp = "\\d+d\\d+")
+    @Column(name = "additionalDamage")
+    private String additionalDamage;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "additionalDamageTypeId")
+    private DamageType additionalDamageType;
+
+    @Column(name = "magicalBonus")
+    private int magicalBonus;
+
+    @ManyToOne
+    @JoinColumn(name = "weaponTypeId")
+    private WeaponType weaponType;
+
+    public Weapon() {
+        super();
+    }
 
 }

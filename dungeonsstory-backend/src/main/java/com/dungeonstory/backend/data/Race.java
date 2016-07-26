@@ -14,235 +14,235 @@ import javax.validation.constraints.Pattern;
 @Entity
 @Table(name = "Race")
 public class Race extends AbstractTimestampEntity implements Serializable {
-	
-	private static final long serialVersionUID = -8654082699083199159L;
 
-	@NotNull
-	@Column(name = "name", nullable = false)
-	private String name;
+    private static final long serialVersionUID = -8654082699083199159L;
 
-	@Column(name = "shortDescription")
-	private String shortDescription;
+    @NotNull
+    @Column(name = "name", nullable = false)
+    private String name;
 
-	@Column(name = "description", columnDefinition = "TEXT")
-	private String description;
+    @Column(name = "shortDescription")
+    private String shortDescription;
 
-	@NotNull
-	@Min(value = 0)
-	@Column(name = "strModifier")
-	private int strModifier;
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
 
-	@NotNull
-	@Min(value = 0)
-	@Column(name = "dexModifier")
-	private int dexModifier;
+    @NotNull
+    @Min(value = 0)
+    @Column(name = "strModifier")
+    private int strModifier;
 
-	@NotNull
-	@Min(value = 0)
-	@Column(name = "conModifier")
-	private int conModifier;
+    @NotNull
+    @Min(value = 0)
+    @Column(name = "dexModifier")
+    private int dexModifier;
 
-	@NotNull
-	@Min(value = 0)
-	@Column(name = "intModifier")
-	private int intModifier;
+    @NotNull
+    @Min(value = 0)
+    @Column(name = "conModifier")
+    private int conModifier;
 
-	@NotNull
-	@Min(value = 0)
-	@Column(name = "wisModifier")
-	private int wisModifier;
+    @NotNull
+    @Min(value = 0)
+    @Column(name = "intModifier")
+    private int intModifier;
 
-	@NotNull
-	@Min(value = 0)
-	@Column(name = "chaModifier")
-	private int chaModifier;
+    @NotNull
+    @Min(value = 0)
+    @Column(name = "wisModifier")
+    private int wisModifier;
 
-	@NotNull
-	@Min(value = 0)
-	@Column(name = "minAge")
-	private int minAge;
+    @NotNull
+    @Min(value = 0)
+    @Column(name = "chaModifier")
+    private int chaModifier;
 
-	@NotNull
-	@Min(value = 0)
-	@Column(name = "maxAge")
-	private int maxAge;
+    @NotNull
+    @Min(value = 0)
+    @Column(name = "minAge")
+    private int minAge;
 
-	@NotNull
-	@Min(value = 0)
-	@Column(name = "averageHeight")
-	private int averageHeight;
+    @NotNull
+    @Min(value = 0)
+    @Column(name = "maxAge")
+    private int maxAge;
 
-	@NotNull
-	@Min(value = 0)
-	@Column(name = "averageWeight")
-	private int averageWeight;
+    @NotNull
+    @Min(value = 0)
+    @Column(name = "averageHeight")
+    private int averageHeight;
 
-	@NotNull
-	@Pattern(regexp = "\\d+d\\d+")
-	@Column(name = "ageModifier")
-	private String ageModifier;
+    @NotNull
+    @Min(value = 0)
+    @Column(name = "averageWeight")
+    private int averageWeight;
 
-	@NotNull
-	@Pattern(regexp = "\\d+d\\d+")
-	@Column(name = "weightModifier")
-	private String weightModifier;
+    @NotNull
+    @Pattern(regexp = "\\d+d\\d+")
+    @Column(name = "ageModifier")
+    private String ageModifier;
 
-	@NotNull
-	@Pattern(regexp = "\\d+d\\d+")
-	@Column(name = "heightModifier")
-	private String heightModifier;
+    @NotNull
+    @Pattern(regexp = "\\d+d\\d+")
+    @Column(name = "weightModifier")
+    private String weightModifier;
 
-	@Deprecated
-	@ManyToOne
-	@JoinColumn(name = "favoredClassId")
-	private DSClass favoredClass;
+    @NotNull
+    @Pattern(regexp = "\\d+d\\d+")
+    @Column(name = "heightModifier")
+    private String heightModifier;
 
-	public Race() {
-		super();
-	}
+    @Deprecated
+    @ManyToOne
+    @JoinColumn(name = "favoredClassId")
+    private DSClass favoredClass;
 
-	public Race(String name) {
-		super();
-		this.name = name;
-	}
+    public Race() {
+        super();
+    }
 
-	public String getName() {
-		return name;
-	}
+    public Race(String name) {
+        super();
+        this.name = name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getShortDescription() {
-		return shortDescription;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setShortDescription(String shortDescription) {
-		this.shortDescription = shortDescription;
-	}
+    public String getShortDescription() {
+        return shortDescription;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public void setShortDescription(String shortDescription) {
+        this.shortDescription = shortDescription;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public Integer getStrModifier() {
-		return strModifier;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public void setStrModifier(Integer strModifier) {
-		this.strModifier = strModifier.intValue();
-	}
+    public Integer getStrModifier() {
+        return strModifier;
+    }
 
-	public int getDexModifier() {
-		return dexModifier;
-	}
+    public void setStrModifier(Integer strModifier) {
+        this.strModifier = strModifier.intValue();
+    }
 
-	public void setDexModifier(int dexModifier) {
-		this.dexModifier = dexModifier;
-	}
+    public int getDexModifier() {
+        return dexModifier;
+    }
 
-	public int getConModifier() {
-		return conModifier;
-	}
+    public void setDexModifier(int dexModifier) {
+        this.dexModifier = dexModifier;
+    }
 
-	public void setConModifier(int conModifier) {
-		this.conModifier = conModifier;
-	}
+    public int getConModifier() {
+        return conModifier;
+    }
 
-	public int getIntModifier() {
-		return intModifier;
-	}
+    public void setConModifier(int conModifier) {
+        this.conModifier = conModifier;
+    }
 
-	public void setIntModifier(int intModifier) {
-		this.intModifier = intModifier;
-	}
+    public int getIntModifier() {
+        return intModifier;
+    }
 
-	public int getWisModifier() {
-		return wisModifier;
-	}
+    public void setIntModifier(int intModifier) {
+        this.intModifier = intModifier;
+    }
 
-	public void setWisModifier(int wisModifier) {
-		this.wisModifier = wisModifier;
-	}
+    public int getWisModifier() {
+        return wisModifier;
+    }
 
-	public int getChaModifier() {
-		return chaModifier;
-	}
+    public void setWisModifier(int wisModifier) {
+        this.wisModifier = wisModifier;
+    }
 
-	public void setChaModifier(int chaModifier) {
-		this.chaModifier = chaModifier;
-	}
+    public int getChaModifier() {
+        return chaModifier;
+    }
 
-	public int getMinAge() {
-		return minAge;
-	}
+    public void setChaModifier(int chaModifier) {
+        this.chaModifier = chaModifier;
+    }
 
-	public void setMinAge(int minAge) {
-		this.minAge = minAge;
-	}
+    public int getMinAge() {
+        return minAge;
+    }
 
-	public int getMaxAge() {
-		return maxAge;
-	}
+    public void setMinAge(int minAge) {
+        this.minAge = minAge;
+    }
 
-	public void setMaxAge(int maxAge) {
-		this.maxAge = maxAge;
-	}
+    public int getMaxAge() {
+        return maxAge;
+    }
 
-	public int getAverageHeight() {
-		return averageHeight;
-	}
+    public void setMaxAge(int maxAge) {
+        this.maxAge = maxAge;
+    }
 
-	public void setAverageHeight(int averageHeight) {
-		this.averageHeight = averageHeight;
-	}
+    public int getAverageHeight() {
+        return averageHeight;
+    }
 
-	public int getAverageWeight() {
-		return averageWeight;
-	}
+    public void setAverageHeight(int averageHeight) {
+        this.averageHeight = averageHeight;
+    }
 
-	public void setAverageWeight(int averageWeight) {
-		this.averageWeight = averageWeight;
-	}
+    public int getAverageWeight() {
+        return averageWeight;
+    }
 
-	public String getAgeModifier() {
-		return ageModifier;
-	}
+    public void setAverageWeight(int averageWeight) {
+        this.averageWeight = averageWeight;
+    }
 
-	public void setAgeModifier(String ageModifier) {
-		this.ageModifier = ageModifier;
-	}
+    public String getAgeModifier() {
+        return ageModifier;
+    }
 
-	public String getWeightModifier() {
-		return weightModifier;
-	}
+    public void setAgeModifier(String ageModifier) {
+        this.ageModifier = ageModifier;
+    }
 
-	public void setWeightModifier(String weightModifier) {
-		this.weightModifier = weightModifier;
-	}
+    public String getWeightModifier() {
+        return weightModifier;
+    }
 
-	public String getHeightModifier() {
-		return heightModifier;
-	}
+    public void setWeightModifier(String weightModifier) {
+        this.weightModifier = weightModifier;
+    }
 
-	public void setHeightModifier(String heightModifier) {
-		this.heightModifier = heightModifier;
-	}
+    public String getHeightModifier() {
+        return heightModifier;
+    }
 
-	public DSClass getFavoredClass() {
-		return favoredClass;
-	}
+    public void setHeightModifier(String heightModifier) {
+        this.heightModifier = heightModifier;
+    }
 
-	public void setFavoredClass(DSClass favoredClass) {
-		this.favoredClass = favoredClass;
-	}
-	
-	@Override
+    public DSClass getFavoredClass() {
+        return favoredClass;
+    }
+
+    public void setFavoredClass(DSClass favoredClass) {
+        this.favoredClass = favoredClass;
+    }
+
+    @Override
     public String toString() {
         return getName();
     }

@@ -6,7 +6,7 @@ import com.dungeonstory.backend.data.Alignment;
 import com.dungeonstory.backend.mock.MockDataGenerator;
 
 public class MockAlignmentRepository extends MockAbstractRepository<Alignment> {
-    
+
     private static Long idAlignment = 1L;
 
     public MockAlignmentRepository() {

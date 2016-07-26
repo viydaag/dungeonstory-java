@@ -9,9 +9,9 @@ import com.dungeonstory.backend.repository.impl.LevelRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
 
 public class LevelService extends AbstractDataService<Level, Long> {
-    
+
     private static LevelService instance = null;
-    
+
     public static synchronized LevelService getInstance() {
         if (instance == null) {
             instance = new LevelService();
@@ -19,13 +19,13 @@ public class LevelService extends AbstractDataService<Level, Long> {
         return instance;
     }
 
-	private LevelService() {
-		super();
-		setEntityFactory(new LevelFactory());
-		setRepository(new LevelRepository());
-	}
-	
-	@Override
+    private LevelService() {
+        super();
+        setEntityFactory(new LevelFactory());
+        setRepository(new LevelRepository());
+    }
+
+    @Override
     public Level create() {
         Level level = super.create();
         Collection<Level> allLevels = entityRepository.findAll();
@@ -37,5 +37,5 @@ public class LevelService extends AbstractDataService<Level, Long> {
         }
         return level;
     }
-	
+
 }

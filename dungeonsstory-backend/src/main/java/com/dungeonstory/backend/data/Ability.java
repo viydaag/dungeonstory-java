@@ -10,55 +10,55 @@ import javax.persistence.Table;
 @Table(name = "Ability")
 public class Ability extends AbstractTimestampEntity implements Serializable {
 
-	private static final long serialVersionUID = 851333358232556465L;
+    private static final long serialVersionUID = 851333358232556465L;
 
-	@Column(name = "name", unique = true)
-	private String name;
+    @Column(name = "name", unique = true)
+    private String name;
 
-	@Column(name = "description", columnDefinition = "TEXT")
-	private String description;
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
 
-	@Column(name = "abbreviation", length = 3)
-	private String abbreviation;
+    @Column(name = "abbreviation", length = 3)
+    private String abbreviation;
 
-	public Ability() {
-		super();
-	}
+    public Ability() {
+        super();
+    }
 
-	public Ability(String name, String abbreviation, String description) {
-		this();
-		this.name = name;
-		this.abbreviation = abbreviation;
-		this.description = description;
-	}
+    public Ability(String name, String abbreviation, String description) {
+        this();
+        this.name = name;
+        this.abbreviation = abbreviation;
+        this.description = description;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getAbbreviation() {
-		return abbreviation;
-	}
+    public String getAbbreviation() {
+        return abbreviation;
+    }
 
-	public void setAbbreviation(String abbreviation) {
-		this.abbreviation = abbreviation;
-	}
+    public void setAbbreviation(String abbreviation) {
+        this.abbreviation = abbreviation;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
-	@Override
-	public String toString() {
-	    return getName();
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
 
 }

@@ -15,12 +15,11 @@ public class MockAlignmentService extends AbstractDataService<Alignment, Long> {
         }
         return instance;
     }
-    
+
     private MockAlignmentService() {
         super();
         setEntityFactory(new AlignmentFactory());
         setRepository(new MockAlignmentRepository());
     }
-    
-    
+
 }

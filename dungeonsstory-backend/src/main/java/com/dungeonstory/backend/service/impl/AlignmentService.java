@@ -15,11 +15,11 @@ public class AlignmentService extends AbstractDataService<Alignment, Long> {
         }
         return instance;
     }
-    
-	private AlignmentService() {
-		super();
-		setEntityFactory(new AlignmentFactory());
-		setRepository(new AlignmentRepository());
-	}
-	
+
+    private AlignmentService() {
+        super();
+        setEntityFactory(new AlignmentFactory());
+        setRepository(new AlignmentRepository());
+    }
+
 }

@@ -33,12 +33,14 @@ public class MailTestApp {
     // https://security.google.com/settings/security/apppasswords
     private static final String YOUR_GMAIL_PASSWORD = "xxx";
 
-    private static final ServerConfig serverConfigSMTP = new ServerConfig("smtp.gmail.com", 25, YOUR_GMAIL_ADDRESS, YOUR_GMAIL_PASSWORD);
-    private static final ServerConfig serverConfigTLS = new ServerConfig("smtp.gmail.com", 587, YOUR_GMAIL_ADDRESS, YOUR_GMAIL_PASSWORD);
-    private static final ServerConfig serverConfigSSL = new ServerConfig("smtp.gmail.com", 465, YOUR_GMAIL_ADDRESS, YOUR_GMAIL_PASSWORD);
+    private static final ServerConfig serverConfigSMTP = new ServerConfig("smtp.gmail.com", 25, YOUR_GMAIL_ADDRESS,
+            YOUR_GMAIL_PASSWORD);
+    private static final ServerConfig serverConfigTLS  = new ServerConfig("smtp.gmail.com", 587, YOUR_GMAIL_ADDRESS,
+            YOUR_GMAIL_PASSWORD);
+    private static final ServerConfig serverConfigSSL  = new ServerConfig("smtp.gmail.com", 465, YOUR_GMAIL_ADDRESS,
+            YOUR_GMAIL_PASSWORD);
 
-    public static void main(final String[] args)
-            throws Exception {
+    public static void main(final String[] args) throws Exception {
         clearConfigProperties();
 
         final Email emailNormal = new Email();
@@ -70,15 +72,13 @@ public class MailTestApp {
         new Mailer(serverConfigTLS, TransportStrategy.SMTP_TLS, proxyconfig).sendMail(email);
         new Mailer(serverConfigSSL, TransportStrategy.SMTP_SSL).sendMail(email);
     }
-    
-    public static void setResolvedProperties(Map<Property, Object> value)
-            throws Exception {
+
+    public static void setResolvedProperties(Map<Property, Object> value) throws Exception {
         Field field = makeAccessible(ConfigLoader.class.getDeclaredField("RESOLVED_PROPERTIES"));
         field.set(null, value);
     }
 
-    private static Field makeAccessible(Field field)
-            throws NoSuchFieldException, IllegalAccessException {
+    private static Field makeAccessible(Field field) throws NoSuchFieldException, IllegalAccessException {
         field.setAccessible(true);
         Field modifiersField = Field.class.getDeclaredField("modifiers");
         modifiersField.setAccessible(true);
@@ -86,8 +86,7 @@ public class MailTestApp {
         return field;
     }
 
-    public static void clearConfigProperties()
-            throws Exception {
+    public static void clearConfigProperties() throws Exception {
         setResolvedProperties(new HashMap<Property, Object>());
     }
 }

@@ -15,58 +15,58 @@ import javax.persistence.Table;
 @IdClass(ClassSkillId.class)
 public class ClassSkill implements Serializable {
 
-	private static final long serialVersionUID = -694396032772798310L;
+    private static final long serialVersionUID = -694396032772798310L;
 
-	@Id
-	@Column(name = "classId")
-	private Long classId;
+    @Id
+    @Column(name = "classId")
+    private Long classId;
 
-	@Id
-	@Column(name = "skillId")
-	private Long skillId;
+    @Id
+    @Column(name = "skillId")
+    private Long skillId;
 
-	@ManyToOne
-	@JoinColumn(name = "classId", updatable = false, insertable = false)
-	private DSClass classe;
+    @ManyToOne
+    @JoinColumn(name = "classId", updatable = false, insertable = false)
+    private DSClass classe;
 
-	@ManyToOne
-	@JoinColumn(name = "skillId", updatable = false, insertable = false)
-	private Skill skill;
+    @ManyToOne
+    @JoinColumn(name = "skillId", updatable = false, insertable = false)
+    private Skill skill;
 
-	public ClassSkill() {
-		// TODO Auto-generated constructor stub
-	}
+    public ClassSkill() {
 
-	public Long getClassId() {
-		return classId;
-	}
+    }
 
-	public void setClassId(Long classId) {
-		this.classId = classId;
-	}
+    public Long getClassId() {
+        return classId;
+    }
 
-	public Long getSkillId() {
-		return skillId;
-	}
+    public void setClassId(Long classId) {
+        this.classId = classId;
+    }
 
-	public void setSkillId(Long skillId) {
-		this.skillId = skillId;
-	}
+    public Long getSkillId() {
+        return skillId;
+    }
 
-	public DSClass getClasse() {
-		return classe;
-	}
+    public void setSkillId(Long skillId) {
+        this.skillId = skillId;
+    }
 
-	public void setClasse(DSClass klass) {
-		this.classe = klass;
-	}
+    public DSClass getClasse() {
+        return classe;
+    }
 
-	public Skill getSkill() {
-		return skill;
-	}
+    public void setClasse(DSClass klass) {
+        this.classe = klass;
+    }
 
-	public void setSkill(Skill skill) {
-		this.skill = skill;
-	}
+    public Skill getSkill() {
+        return skill;
+    }
+
+    public void setSkill(Skill skill) {
+        this.skill = skill;
+    }
 
 }

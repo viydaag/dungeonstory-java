@@ -17,111 +17,97 @@ import javax.validation.constraints.Pattern;
 @Table(name = "WeaponType")
 public class WeaponType extends AbstractTimestampEntity implements Serializable {
 
-	private static final long serialVersionUID = -5780288141494436969L;
-	
-//	public enum WeaponProperty {
-//	    LIGHT,
-//	    HEAVY,
-//	    ONE_HANDED,
-//	    TWO_HANDED,
-//	    VERSATILE,
-//	    FINESSE,
-//	    AMMUNITION,
-//	    THROWN,
-//	    LOADING,
-//	    REACH
-//	    
-//	}
-	
-	public enum ProficiencyType {
-		SIMPLE, MARTIAL
-	}
-	
-	public enum SizeType {
+    private static final long serialVersionUID = -5780288141494436969L;
+
+    public enum ProficiencyType {
+        SIMPLE, MARTIAL
+    }
+
+    public enum SizeType {
         LIGHT, MEDIUM, HEAVY
     }
-	
-	public enum HandleType {
-		ONE_HANDED, TWO_HANDED, VERSATILE
-	}
-	
-	public enum UsageType {
-		MELEE, RANGE, MELEE_RANGE
-	}
-	
-	public enum RangeType {
-	    AMMUNITION, THROWN
-	}
-	
-	@NotNull
-	@Column(name = "name", nullable = false)
-	private String name;
 
-	@Column(name = "description", columnDefinition = "TEXT")
-	private String description;
-	
-	@NotNull
-	@Column(name = "proficiencyType", nullable = false)
-	@Enumerated(EnumType.STRING)
-	private ProficiencyType proficiencyType;
-	
-	@NotNull
+    public enum HandleType {
+        ONE_HANDED, TWO_HANDED, VERSATILE
+    }
+
+    public enum UsageType {
+        MELEE, RANGE, MELEE_RANGE
+    }
+
+    public enum RangeType {
+        AMMUNITION, THROWN
+    }
+
+    @NotNull
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
+
+    @NotNull
+    @Column(name = "proficiencyType", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private ProficiencyType proficiencyType;
+
+    @NotNull
     @Column(name = "sizeType", nullable = false)
     @Enumerated(EnumType.STRING)
     private SizeType sizeType;
-	
-	@NotNull
-	@Column(name = "handleType", nullable = false)
-	@Enumerated(EnumType.STRING)
-	private HandleType handleType;
-	
-	@NotNull
-	@Column(name = "usageType", nullable = false)
-	@Enumerated(EnumType.STRING)
-	private UsageType usageType;
-	
-	@Column(name = "rangeType")
-	@Enumerated(EnumType.STRING)
-	private RangeType rangeType;
-	
-	@Pattern(regexp = "\\d+d\\d+")
-	@Column(name = "oneHandBaseDamage")
-	private String oneHandBaseDamage;
-	
-	@Pattern(regexp = "\\d+d\\d+")
+
+    @NotNull
+    @Column(name = "handleType", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private HandleType handleType;
+
+    @NotNull
+    @Column(name = "usageType", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private UsageType usageType;
+
+    @Column(name = "rangeType")
+    @Enumerated(EnumType.STRING)
+    private RangeType rangeType;
+
+    @Pattern(regexp = "\\d+d\\d+")
+    @Column(name = "oneHandBaseDamage")
+    private String oneHandBaseDamage;
+
+    @Pattern(regexp = "\\d+d\\d+")
     @Column(name = "twoHandBaseDamage")
     private String twoHandBaseDamage;
-	
-	@NotNull
-	@ManyToOne
-	@JoinColumn(name = "damageTypeId", nullable = false)
-	private DamageType damageType;
-	
-	@Column(name = "isReach")
-	private boolean isReach;
-	
-	@Column(name = "isFinesse")
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "damageTypeId", nullable = false)
+    private DamageType damageType;
+
+    @Column(name = "isReach")
+    private boolean isReach;
+
+    @Column(name = "isFinesse")
     private boolean isFinesse;
-	
-	@Column(name = "isLoading")
+
+    @Column(name = "isLoading")
     private boolean isLoading;
-	
-	@NotNull
-	@Min(value = 0)
-	@Column(name = "baseWeight")
-	private int baseWeight;
-	
-//	@ElementCollection
-//	@CollectionTable(name = "WeaponProperties")
-//	@Column(name = "property")
-//	@Enumerated(EnumType.STRING)
-//	private Set<WeaponProperty> weaponProperties;
 
-	public WeaponType() {
-		super();
-	}
+    @NotNull
+    @Min(value = 0)
+    @Column(name = "baseWeight")
+    private int baseWeight;
 
-	public WeaponType(String name, ProficiencyType proficiencyType, SizeType sizeType, HandleType handleType,
+    //	@ElementCollection
+    //	@CollectionTable(name = "WeaponProperties")
+    //	@Column(name = "property")
+    //	@Enumerated(EnumType.STRING)
+    //	private Set<WeaponProperty> weaponProperties;
+
+    public WeaponType() {
+        super();
+    }
+
+    public WeaponType(String name, ProficiencyType proficiencyType, SizeType sizeType, HandleType handleType,
             UsageType usageType, DamageType damageType) {
         this();
         this.name = name;
@@ -133,30 +119,30 @@ public class WeaponType extends AbstractTimestampEntity implements Serializable 
     }
 
     public String getName() {
-		return name;
-	}
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public ProficiencyType getProficiencyType() {
-		return proficiencyType;
-	}
+    public ProficiencyType getProficiencyType() {
+        return proficiencyType;
+    }
 
-	public void setProficiencyType(ProficiencyType proficiencyType) {
-		this.proficiencyType = proficiencyType;
-	}
+    public void setProficiencyType(ProficiencyType proficiencyType) {
+        this.proficiencyType = proficiencyType;
+    }
 
-	public SizeType getSizeType() {
+    public SizeType getSizeType() {
         return sizeType;
     }
 
@@ -165,38 +151,38 @@ public class WeaponType extends AbstractTimestampEntity implements Serializable 
     }
 
     public HandleType getHandleType() {
-		return handleType;
-	}
+        return handleType;
+    }
 
-	public void setHandleType(HandleType handleType) {
-		this.handleType = handleType;
-	}
+    public void setHandleType(HandleType handleType) {
+        this.handleType = handleType;
+    }
 
-	public UsageType getUsageType() {
-		return usageType;
-	}
+    public UsageType getUsageType() {
+        return usageType;
+    }
 
-	public void setUsageType(UsageType usageType) {
-		this.usageType = usageType;
-	}
+    public void setUsageType(UsageType usageType) {
+        this.usageType = usageType;
+    }
 
-	public RangeType getRangeType() {
-		return rangeType;
-	}
+    public RangeType getRangeType() {
+        return rangeType;
+    }
 
-	public void setRangeType(RangeType rangeType) {
-		this.rangeType = rangeType;
-	}
+    public void setRangeType(RangeType rangeType) {
+        this.rangeType = rangeType;
+    }
 
-	public String getOneHandBaseDamage() {
-		return oneHandBaseDamage;
-	}
+    public String getOneHandBaseDamage() {
+        return oneHandBaseDamage;
+    }
 
-	public void setOneHandBaseDamage(String baseDamage) {
-		this.oneHandBaseDamage = baseDamage;
-	}
+    public void setOneHandBaseDamage(String baseDamage) {
+        this.oneHandBaseDamage = baseDamage;
+    }
 
-	public String getTwoHandBaseDamage() {
+    public String getTwoHandBaseDamage() {
         return twoHandBaseDamage;
     }
 
@@ -205,22 +191,22 @@ public class WeaponType extends AbstractTimestampEntity implements Serializable 
     }
 
     public DamageType getDamageType() {
-		return damageType;
-	}
+        return damageType;
+    }
 
-	public void setDamageType(DamageType damageType) {
-		this.damageType = damageType;
-	}
+    public void setDamageType(DamageType damageType) {
+        this.damageType = damageType;
+    }
 
-	public boolean getIsReach() {
-		return isReach;
-	}
+    public boolean getIsReach() {
+        return isReach;
+    }
 
-	public void setIsReach(boolean isReach) {
-		this.isReach = isReach;
-	}
+    public void setIsReach(boolean isReach) {
+        this.isReach = isReach;
+    }
 
-	public boolean getIsFinesse() {
+    public boolean getIsFinesse() {
         return isFinesse;
     }
 
@@ -237,20 +223,20 @@ public class WeaponType extends AbstractTimestampEntity implements Serializable 
     }
 
     public int getBaseWeight() {
-		return baseWeight;
-	}
+        return baseWeight;
+    }
 
-	public void setBaseWeight(int baseWeight) {
-		this.baseWeight = baseWeight;
-	}
-	
-//	public Set<WeaponProperty> getWeaponProperties() {
-//        return weaponProperties;
-//    }
-//
-//    public void setWeaponProperties(Set<WeaponProperty> weaponProperties) {
-//        this.weaponProperties = weaponProperties;
-//    }
+    public void setBaseWeight(int baseWeight) {
+        this.baseWeight = baseWeight;
+    }
+
+    //	public Set<WeaponProperty> getWeaponProperties() {
+    //        return weaponProperties;
+    //    }
+    //
+    //    public void setWeaponProperties(Set<WeaponProperty> weaponProperties) {
+    //        this.weaponProperties = weaponProperties;
+    //    }
 
     @Override
     public String toString() {

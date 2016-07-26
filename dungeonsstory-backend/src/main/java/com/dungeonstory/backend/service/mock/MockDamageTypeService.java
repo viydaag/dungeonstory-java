@@ -15,12 +15,11 @@ public class MockDamageTypeService extends AbstractDataService<DamageType, Long>
         }
         return instance;
     }
-    
+
     private MockDamageTypeService() {
         super();
         setEntityFactory(new DamageTypeFactory());
         setRepository(new MockDamageTypeRepository());
     }
-    
-    
+
 }

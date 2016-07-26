@@ -15,12 +15,11 @@ public class MockRegionService extends AbstractDataService<Region, Long> {
         }
         return instance;
     }
-    
+
     private MockRegionService() {
         super();
         setEntityFactory(new RegionFactory());
         setRepository(new MockRegionRepository());
     }
-    
-    
+
 }

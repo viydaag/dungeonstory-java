@@ -15,11 +15,11 @@ public class ClassService extends AbstractDataService<DSClass, Long> {
         }
         return instance;
     }
-    
-	private ClassService() {
-		super();
-		setEntityFactory(new ClassFactory());
-		setRepository(new ClassRepository());
-	}
-	
+
+    private ClassService() {
+        super();
+        setEntityFactory(new ClassFactory());
+        setRepository(new ClassRepository());
+    }
+
 }

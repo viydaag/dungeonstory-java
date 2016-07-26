@@ -17,85 +17,84 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "DSCharacter")
-public class Character extends AbstractTimestampEntity implements Serializable
-{
-	private static final long serialVersionUID = -967001655180847193L;
+public class Character extends AbstractTimestampEntity implements Serializable {
+    private static final long serialVersionUID = -967001655180847193L;
 
-	@NotNull
-	@Column(name="name", nullable=false)
+    @NotNull
+    @Column(name = "name", nullable = false)
     private String name;
-    
-	@NotNull
-    @Column(name="gender", nullable=false)
+
+    @NotNull
+    @Column(name = "gender", nullable = false)
     private char gender;
-    
-	@NotNull
+
+    @NotNull
     @Min(value = 0)
-    @Column(name="age", nullable=false)
+    @Column(name = "age", nullable = false)
     private int age;
-    
-	@NotNull
+
+    @NotNull
     @Min(value = 0)
-    @Column(name="weight", nullable=false)
+    @Column(name = "weight", nullable = false)
     private int weight;
-    
-	@NotNull
+
+    @NotNull
     @Min(value = 0)
-    @Column(name="heigth", nullable=false)
+    @Column(name = "heigth", nullable = false)
     private int heigth;
-    
-	@NotNull
-    @OneToOne(mappedBy="character")
-    @JoinColumn(name="userId", nullable=false)
+
+    @NotNull
+    @OneToOne(mappedBy = "character")
+    @JoinColumn(name = "userId", nullable = false)
     private User user;
-	
-	@NotNull
-    @ManyToOne
-    @JoinColumn(name = "raceId", nullable=false)
-    private Race race;
-    
-	@NotNull
-    @Min(value = 1)
-    @Column(name="level", nullable=false)
-    private int level;
-    
-	@NotNull
-    @Min(value = 0)
-    @Column(name="experience", nullable=false)
-    private long experience;
-    
-	@NotNull
-    @Min(value = 0)
-    @Column(name="lifePoints", nullable=false)
-    private int lifePoints;
-    
-	@NotNull
-    @Min(value = 0)
-    @Column(name="baseArmorClass", nullable=false)
-    private int baseArmorClass;
-    
-    @Column(name="background", columnDefinition="TEXT")
-    private String background;
-    
-    @Column(name="look", columnDefinition="TEXT")
-    private String look;
-    
-    @Column(name="personnality", columnDefinition="TEXT")
-    private String personnality;
-    
+
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "alignmentId", nullable=false)
+    @JoinColumn(name = "raceId", nullable = false)
+    private Race race;
+
+    @NotNull
+    @Min(value = 1)
+    @Column(name = "level", nullable = false)
+    private int level;
+
+    @NotNull
+    @Min(value = 0)
+    @Column(name = "experience", nullable = false)
+    private long experience;
+
+    @NotNull
+    @Min(value = 0)
+    @Column(name = "lifePoints", nullable = false)
+    private int lifePoints;
+
+    @NotNull
+    @Min(value = 0)
+    @Column(name = "baseArmorClass", nullable = false)
+    private int baseArmorClass;
+
+    @Column(name = "background", columnDefinition = "TEXT")
+    private String background;
+
+    @Column(name = "look", columnDefinition = "TEXT")
+    private String look;
+
+    @Column(name = "personnality", columnDefinition = "TEXT")
+    private String personnality;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "alignmentId", nullable = false)
     private Alignment alignment;
-    
+
     @ManyToOne
-    @JoinColumn(name = "regionId", nullable=false)
+    @JoinColumn(name = "regionId", nullable = false)
     private Region region;
-    
+
     @ManyToOne
-    @JoinColumn(name = "adventureId", nullable=true)
+    @JoinColumn(name = "adventureId", nullable = true)
     private Adventure adventure;
-    
+
     @OneToMany(mappedBy = "character")
     private List<Message> messages;
 
@@ -122,8 +121,8 @@ public class Character extends AbstractTimestampEntity implements Serializable
     @OneToMany(mappedBy = "character")
     private List<CharacterEquipment> equipment;
 
-	public Character() {
-		// TODO Auto-generated constructor stub
-	}
+    public Character() {
+
+    }
 
 }
