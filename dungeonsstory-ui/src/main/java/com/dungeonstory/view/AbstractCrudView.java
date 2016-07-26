@@ -15,13 +15,16 @@ import com.vaadin.ui.Notification.Type;
 
 public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedLayout implements CrudView<T> {
 
-    private static final long    serialVersionUID = -6564885112560677215L;
+    private static final long serialVersionUID = -6564885112560677215L;
 
     private Label                titre;
     private DSAbstractForm<T>    form;
     private BeanGrid<T>          grid;
     private DataService<T, Long> service;
-    private boolean              isFormPopup      = false;
+
+    private boolean isFormPopup     = false;
+    private boolean isCreateAllowed = true;
+    private boolean isDeleteAllowed = true;
 
     public abstract DSAbstractForm<T> getForm();
 
@@ -39,17 +42,23 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
         if (form != null) {
             titre = new Label(form.toString());
 
-            Button addNew = new Button("", FontAwesome.PLUS);
-
-            addNew.addClickListener(this::addNew);
-            boutonLayout = new HorizontalLayout(addNew);
+            if (isCreateAllowed()) {
+                Button addNew = new Button("", FontAwesome.PLUS);
+                addNew.addClickListener(this::addNew);
+                boutonLayout = new HorizontalLayout(addNew);
+            }
 
             form.setEntity(null);
 
             //ajout handlers pour boutons
             form.setSavedHandler(this::entrySaved);
             form.setResetHandler(this::entryReset);
-            form.setDeleteHandler(this::deleteSelected);
+
+            if (isDeleteAllowed()) {
+                form.setDeleteHandler(this::deleteSelected);
+            } else {
+                form.getDeleteButton().setVisible(false);
+            }
         }
 
         grid.addSelectionListener(selectionEvent -> {
@@ -69,7 +78,7 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
 
         //refresh ui
         closeForm();
-//        grid.refresh(entity);
+        //        grid.refresh(entity);
         grid.setData(service.findAll());
         grid.scrollTo(entity);
 
@@ -112,13 +121,29 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
     public void enter(ViewChangeEvent event) {
         grid.setData(service.findAll());
     }
-    
+
     public boolean isFormPopup() {
         return isFormPopup;
     }
 
     public void setFormPopup(boolean isFormPopup) {
         this.isFormPopup = isFormPopup;
+    }
+
+    public boolean isCreateAllowed() {
+        return isCreateAllowed;
+    }
+
+    public void setCreateAllowed(boolean isCreateAllowed) {
+        this.isCreateAllowed = isCreateAllowed;
+    }
+
+    public boolean isDeleteAllowed() {
+        return isDeleteAllowed;
+    }
+
+    public void setDeleteAllowed(boolean isDeleteAllowed) {
+        this.isDeleteAllowed = isDeleteAllowed;
     }
 
 }

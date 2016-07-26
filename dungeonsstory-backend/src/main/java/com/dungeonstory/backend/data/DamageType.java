@@ -16,7 +16,7 @@ public class DamageType extends AbstractTimestampEntity implements Serializable 
     private static Long idDamageType = 1L;
 
     @NotNull
-    @Column(name = "name", unique = true)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
     @Column(name = "description")

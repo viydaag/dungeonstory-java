@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "AccessRole")
@@ -14,7 +15,8 @@ public class AccessRole extends AbstractTimestampEntity implements Serializable 
 
     private static final long serialVersionUID = 6653338145666517351L;
 
-    @Column(name = "name", unique = true)
+    @NotNull
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
     @OneToMany(mappedBy = "role")

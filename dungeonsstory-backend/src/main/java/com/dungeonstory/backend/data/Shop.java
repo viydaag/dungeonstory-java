@@ -14,7 +14,7 @@ public class Shop extends AbstractTimestampEntity implements Serializable {
     private static final long serialVersionUID = 4969359354645768702L;
 
     @NotNull
-    @Column(name = "name", unique = true)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
     @Column(name = "description", columnDefinition = "TEXT")

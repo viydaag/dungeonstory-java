@@ -12,6 +12,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "Equipment")
@@ -25,6 +26,7 @@ public class Equipment extends AbstractTimestampEntity implements Serializable {
         ARMOR, WEAPON, RING, AMULET, BRACER, BOOT, BELT, UTIL
     }
 
+    @NotNull
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 

@@ -18,7 +18,7 @@ public class Race extends AbstractTimestampEntity implements Serializable {
     private static final long serialVersionUID = -8654082699083199159L;
 
     @NotNull
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
     @Column(name = "shortDescription")

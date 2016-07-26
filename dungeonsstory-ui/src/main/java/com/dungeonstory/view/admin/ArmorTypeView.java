@@ -1,4 +1,4 @@
-package com.dungeonstory.view;
+package com.dungeonstory.view.admin;
 
 import com.dungeonstory.backend.data.ArmorType;
 import com.dungeonstory.backend.service.DataService;
@@ -7,6 +7,7 @@ import com.dungeonstory.form.ArmorTypeForm;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.samples.crud.BeanGrid;
 import com.dungeonstory.util.ViewConfig;
+import com.dungeonstory.view.AbstractCrudView;
 import com.dungeonstory.view.component.ArmorTypeGrid;
 
 @ViewConfig(uri = "armorTypes", displayName = "Types d'armure")

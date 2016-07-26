@@ -23,7 +23,7 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
     private static final long serialVersionUID = 4948845539537092288L;
 
     @NotNull
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
     @Column(name = "shortDescription")

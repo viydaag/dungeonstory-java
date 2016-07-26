@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "Ability")
@@ -12,7 +13,8 @@ public class Ability extends AbstractTimestampEntity implements Serializable {
 
     private static final long serialVersionUID = 851333358232556465L;
 
-    @Column(name = "name", unique = true)
+    @NotNull
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
     @Column(name = "description", columnDefinition = "TEXT")

@@ -1,4 +1,4 @@
-package com.dungeonstory.view;
+package com.dungeonstory.view.admin;
 
 import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.backend.service.impl.LevelService;

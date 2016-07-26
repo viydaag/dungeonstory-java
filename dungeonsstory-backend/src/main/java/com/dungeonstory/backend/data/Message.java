@@ -19,6 +19,7 @@ public class Message extends AbstractTimestampEntity implements Serializable {
     @Column(name = "title", nullable = false)
     private String title;
 
+    @NotNull
     @Column(name = "text", columnDefinition = "TEXT")
     private String text;
 

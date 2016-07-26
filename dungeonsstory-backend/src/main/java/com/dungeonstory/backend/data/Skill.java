@@ -10,6 +10,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "Skill")
@@ -17,7 +18,8 @@ public class Skill extends AbstractTimestampEntity implements Serializable {
 
     private static final long serialVersionUID = -2967904843715939261L;
 
-    @Column(name = "name", unique = true)
+    @NotNull
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
     @Column(name = "description", columnDefinition = "TEXT")
