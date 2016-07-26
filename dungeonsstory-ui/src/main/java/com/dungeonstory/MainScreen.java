@@ -10,6 +10,7 @@ import com.dungeonstory.view.ArmorTypeView;
 import com.dungeonstory.view.ClassView;
 import com.dungeonstory.view.DamageTypeView;
 import com.dungeonstory.view.ErrorView;
+import com.dungeonstory.view.FeatView;
 import com.dungeonstory.view.HomeView;
 import com.dungeonstory.view.LevelView;
 import com.dungeonstory.view.RaceView;
@@ -30,7 +31,6 @@ public class MainScreen extends HorizontalLayout {
 	
 	private static final long serialVersionUID = -6331656609834870730L;
 	
-//	private Menu menu;
 	private VerticalLayout viewContainer;
 	private NavBar navBar;
     private Navigator navigator;
@@ -42,30 +42,7 @@ public class MainScreen extends HorizontalLayout {
         setSizeFull();
         
         initLayout();
-        setupNavigator();
-
-//        CssLayout viewContainer = new CssLayout();
-//        viewContainer.addStyleName("valo-content");
-//        viewContainer.setSizeFull();
-
-//		navigator = new Navigator(ui, viewContainer);
-//		navigator.setErrorView(ErrorView.class);
-		
-//		menu = new Menu(navigator);
-//		menu.addView(new SampleCrudView(), SampleCrudView.VIEW_NAME,
-//				SampleCrudView.VIEW_NAME, FontAwesome.EDIT);
-//		menu.addView(new AboutView(), AboutView.VIEW_NAME, AboutView.VIEW_NAME,
-//				FontAwesome.INFO_CIRCLE);
-//		menu.addView(new RegionView(), RegionView.VIEW_NAME,
-//				RegionView.VIEW_NAME, null);
-
-//        navigator.addViewChangeListener(viewChangeListener);
-//        navigator.addViewChangeListener(new PageTitleUpdater());
-
-//        addComponent(menu);
-//        addComponent(viewContainer);
-//        setExpandRatio(viewContainer, 1);
-        
+        setupNavigator();        
     }
     
     private void initLayout() {
@@ -100,6 +77,7 @@ public class MainScreen extends HorizontalLayout {
     		addView(RegionView.class);
     		addView(LevelView.class);
     		addView(SkillView.class);
+    		addView(FeatView.class);
     		addView(ClassView.class);
     		addView(DamageTypeView.class);
     		addView(RaceView.class);
@@ -109,7 +87,7 @@ public class MainScreen extends HorizontalLayout {
 	}
 
 	/**
-     * Registers av given view to the navigator and adds it to the NavBar
+     * Registers a given view to the navigator and adds it to the NavBar
      */
     private void addView(Class<? extends View> viewClass) {
         ViewConfig viewConfig = viewClass.getAnnotation(ViewConfig.class);
@@ -135,21 +113,4 @@ public class MainScreen extends HorizontalLayout {
         }
     }
 
-    // notify the view menu about view changes so that it can display which view
-    // is currently active
-//    ViewChangeListener viewChangeListener = new ViewChangeListener() {
-//
-//		private static final long serialVersionUID = -7163291894890818701L;
-//
-//		@Override
-//        public boolean beforeViewChange(ViewChangeEvent event) {
-//            return true;
-//        }
-//
-//        @Override
-//        public void afterViewChange(ViewChangeEvent event) {
-//            menu.setActiveView(event.getViewName());
-//        }
-//
-//    };
 }
