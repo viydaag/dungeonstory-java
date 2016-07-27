@@ -44,6 +44,9 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
 
     @OneToMany(mappedBy = "classe")
     private List<ClassLevelBonus> levelBonuses;
+    
+    @OneToMany(mappedBy = "classe")
+    private List<ClassLevelBonusFeat> featBonuses;
 
     public DSClass() {
         baseSkills = new HashSet<Skill>();

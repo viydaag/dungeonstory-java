@@ -1,7 +1,9 @@
 package com.dungeonstory.view.admin;
 
+import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.Region;
 import com.dungeonstory.backend.service.DataService;
+import com.dungeonstory.backend.service.impl.RegionService;
 import com.dungeonstory.backend.service.mock.MockRegionService;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.form.RegionForm;
@@ -31,7 +33,10 @@ public class RegionView extends AbstractCrudView<Region> {
 
     @Override
     public DataService<Region, Long> getDataService() {
-        return MockRegionService.getInstance();
+        if (Configuration.getInstance().isMock()) {
+            return MockRegionService.getInstance();
+        }
+        return RegionService.getInstance();
     }
 
 }

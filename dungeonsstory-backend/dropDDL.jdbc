@@ -1,65 +1,68 @@
-ALTER TABLE ClassSkill DROP FOREIGN KEY FK_ClassSkill_skillId;
-ALTER TABLE ClassSkill DROP FOREIGN KEY FK_ClassSkill_classId;
-ALTER TABLE CharacterEquipment DROP FOREIGN KEY FK_CharacterEquipment_characterId;
-ALTER TABLE CharacterEquipment DROP FOREIGN KEY FK_CharacterEquipment_equipmentId;
-ALTER TABLE WeaponType DROP FOREIGN KEY FK_WeaponType_damageTypeId;
-ALTER TABLE FeatPrerequisite DROP FOREIGN KEY FK_FeatPrerequisite_featId;
-ALTER TABLE FeatPrerequisite DROP FOREIGN KEY FK_FeatPrerequisite_classId;
-ALTER TABLE FeatPrerequisite DROP FOREIGN KEY FK_FeatPrerequisite_abilityId;
-ALTER TABLE FeatPrerequisite DROP FOREIGN KEY FK_FeatPrerequisite_featPrerequisiteId;
-ALTER TABLE FeatPrerequisite DROP FOREIGN KEY FK_FeatPrerequisite_skillId;
-ALTER TABLE Race DROP FOREIGN KEY FK_Race_favoredClassId;
-ALTER TABLE Weapon DROP FOREIGN KEY FK_Weapon_additionalDamageTypeId;
-ALTER TABLE Weapon DROP FOREIGN KEY FK_Weapon_weaponTypeId;
-ALTER TABLE Weapon DROP FOREIGN KEY FK_Weapon_id;
-ALTER TABLE Armor DROP FOREIGN KEY FK_Armor_id;
-ALTER TABLE Armor DROP FOREIGN KEY FK_Armor_armorTypeId;
-ALTER TABLE Adventure DROP FOREIGN KEY FK_Adventure_creatorId;
-ALTER TABLE DSCharacter DROP FOREIGN KEY FK_DSCharacter_raceId;
-ALTER TABLE DSCharacter DROP FOREIGN KEY FK_DSCharacter_regionId;
-ALTER TABLE DSCharacter DROP FOREIGN KEY FK_DSCharacter_alignmentId;
-ALTER TABLE DSCharacter DROP FOREIGN KEY FK_DSCharacter_adventureId;
-ALTER TABLE CharacterClass DROP FOREIGN KEY FK_CharacterClass_classId;
-ALTER TABLE CharacterClass DROP FOREIGN KEY FK_CharacterClass_characterId;
-ALTER TABLE User DROP FOREIGN KEY FK_User_CHARACTER_id;
-ALTER TABLE User DROP FOREIGN KEY FK_User_roleId;
-ALTER TABLE ClassLevelBonus DROP FOREIGN KEY FK_ClassLevelBonus_levelId;
-ALTER TABLE ClassLevelBonus DROP FOREIGN KEY FK_ClassLevelBonus_classId;
-ALTER TABLE Skill DROP FOREIGN KEY FK_Skill_keyAbilityId;
-ALTER TABLE Message DROP FOREIGN KEY FK_Message_adventureId;
-ALTER TABLE Message DROP FOREIGN KEY FK_Message_characterId;
-ALTER TABLE ClassLevelBonusFeat DROP FOREIGN KEY FK_ClassLevelBonusFeat_levelId;
-ALTER TABLE ClassLevelBonusFeat DROP FOREIGN KEY FK_ClassLevelBonusFeat_classId;
-ALTER TABLE ClassLevelBonusFeat DROP FOREIGN KEY FK_ClassLevelBonusFeat_featId;
-ALTER TABLE CharacterFeat DROP FOREIGN KEY FK_CharacterFeat_featId;
-ALTER TABLE CharacterFeat DROP FOREIGN KEY FK_CharacterFeat_characterId;
-ALTER TABLE CharacterProficientSkill DROP FOREIGN KEY FK_CharacterProficientSkill_characterId;
-ALTER TABLE CharacterProficientSkill DROP FOREIGN KEY FK_CharacterProficientSkill_skillId;
-DROP TABLE ClassSkill;
-DROP TABLE Class;
-DROP TABLE Region;
-DROP TABLE CharacterEquipment;
-DROP TABLE Ability;
-DROP TABLE Shop;
-DROP TABLE WeaponType;
-DROP TABLE Level;
-DROP TABLE FeatPrerequisite;
-DROP TABLE Race;
-DROP TABLE Alignment;
-DROP TABLE Equipment;
-DROP TABLE Weapon;
-DROP TABLE Armor;
-DROP TABLE Adventure;
-DROP TABLE DSCharacter;
-DROP TABLE CharacterClass;
-DROP TABLE AccessRole;
-DROP TABLE User;
-DROP TABLE ArmorType;
-DROP TABLE DamageType;
-DROP TABLE ClassLevelBonus;
-DROP TABLE Skill;
-DROP TABLE Feat;
-DROP TABLE Message;
-DROP TABLE ClassLevelBonusFeat;
-DROP TABLE CharacterFeat;
-DROP TABLE CharacterProficientSkill;
+ALTER TABLE CharacterClass DROP FOREIGN KEY FK_CharacterClass_classId
+ALTER TABLE CharacterClass DROP FOREIGN KEY FK_CharacterClass_characterId
+ALTER TABLE ClassLevelBonus DROP FOREIGN KEY FK_ClassLevelBonus_levelId
+ALTER TABLE ClassLevelBonus DROP FOREIGN KEY FK_ClassLevelBonus_classId
+ALTER TABLE ClassLevelBonusFeat DROP FOREIGN KEY FK_ClassLevelBonusFeat_levelId
+ALTER TABLE ClassLevelBonusFeat DROP FOREIGN KEY FK_ClassLevelBonusFeat_classId
+ALTER TABLE ClassLevelBonusFeat DROP FOREIGN KEY FK_ClassLevelBonusFeat_featId
+ALTER TABLE ClassSkill DROP FOREIGN KEY FK_ClassSkill_skillId
+ALTER TABLE ClassSkill DROP FOREIGN KEY FK_ClassSkill_classId
+ALTER TABLE CharacterEquipment DROP FOREIGN KEY FK_CharacterEquipment_characterId
+ALTER TABLE CharacterEquipment DROP FOREIGN KEY FK_CharacterEquipment_equipmentId
+ALTER TABLE WeaponType DROP FOREIGN KEY FK_WeaponType_damageTypeId
+ALTER TABLE FeatPrerequisite DROP FOREIGN KEY FK_FeatPrerequisite_featId
+ALTER TABLE FeatPrerequisite DROP FOREIGN KEY FK_FeatPrerequisite_classId
+ALTER TABLE FeatPrerequisite DROP FOREIGN KEY FK_FeatPrerequisite_abilityId
+ALTER TABLE FeatPrerequisite DROP FOREIGN KEY FK_FeatPrerequisite_featPrerequisiteId
+ALTER TABLE FeatPrerequisite DROP FOREIGN KEY FK_FeatPrerequisite_skillId
+ALTER TABLE Race DROP FOREIGN KEY FK_Race_favoredClassId
+ALTER TABLE Weapon DROP FOREIGN KEY FK_Weapon_additionalDamageTypeId
+ALTER TABLE Weapon DROP FOREIGN KEY FK_Weapon_weaponTypeId
+ALTER TABLE Weapon DROP FOREIGN KEY FK_Weapon_id
+ALTER TABLE ShopEquipment DROP FOREIGN KEY FK_ShopEquipment_shopId
+ALTER TABLE ShopEquipment DROP FOREIGN KEY FK_ShopEquipment_equipmentId
+ALTER TABLE Armor DROP FOREIGN KEY FK_Armor_id
+ALTER TABLE Armor DROP FOREIGN KEY FK_Armor_armorTypeId
+ALTER TABLE Adventure DROP FOREIGN KEY FK_Adventure_creatorId
+ALTER TABLE DSCharacter DROP FOREIGN KEY FK_DSCharacter_raceId
+ALTER TABLE DSCharacter DROP FOREIGN KEY FK_DSCharacter_regionId
+ALTER TABLE DSCharacter DROP FOREIGN KEY FK_DSCharacter_alignmentId
+ALTER TABLE DSCharacter DROP FOREIGN KEY FK_DSCharacter_adventureId
+ALTER TABLE User DROP FOREIGN KEY FK_User_roleId
+ALTER TABLE User DROP FOREIGN KEY FK_User_characterId
+ALTER TABLE Skill DROP FOREIGN KEY FK_Skill_keyAbilityId
+ALTER TABLE Message DROP FOREIGN KEY FK_Message_adventureId
+ALTER TABLE Message DROP FOREIGN KEY FK_Message_characterId
+ALTER TABLE CharacterFeat DROP FOREIGN KEY FK_CharacterFeat_featId
+ALTER TABLE CharacterFeat DROP FOREIGN KEY FK_CharacterFeat_characterId
+ALTER TABLE CharacterProficientSkill DROP FOREIGN KEY FK_CharacterProficientSkill_characterId
+ALTER TABLE CharacterProficientSkill DROP FOREIGN KEY FK_CharacterProficientSkill_skillId
+DROP TABLE Class
+DROP TABLE Ability
+DROP TABLE Alignment
+DROP TABLE CharacterClass
+DROP TABLE ArmorType
+DROP TABLE DamageType
+DROP TABLE ClassLevelBonus
+DROP TABLE Feat
+DROP TABLE ClassLevelBonusFeat
+DROP TABLE ClassSkill
+DROP TABLE Region
+DROP TABLE CharacterEquipment
+DROP TABLE Shop
+DROP TABLE WeaponType
+DROP TABLE Level
+DROP TABLE FeatPrerequisite
+DROP TABLE Race
+DROP TABLE Equipment
+DROP TABLE Weapon
+DROP TABLE ShopEquipment
+DROP TABLE Armor
+DROP TABLE Adventure
+DROP TABLE DSCharacter
+DROP TABLE AccessRole
+DROP TABLE User
+DROP TABLE Skill
+DROP TABLE Message
+DROP TABLE CharacterFeat
+DROP TABLE CharacterProficientSkill

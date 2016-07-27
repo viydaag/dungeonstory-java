@@ -8,6 +8,7 @@ import org.vaadin.viritin.fields.TypedSelect;
 import com.dungeonstory.backend.data.Ability;
 import com.dungeonstory.backend.data.Skill;
 import com.dungeonstory.backend.service.DataService;
+import com.dungeonstory.backend.service.impl.AbilityService;
 import com.dungeonstory.backend.service.mock.MockAbilityService;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
@@ -24,7 +25,7 @@ public class SkillForm extends DSAbstractForm<Skill> {
 //	ElementCollectionField<Ability> keyAbility;
 	private TypedSelect<Ability> keyAbility;
 	
-	private DataService<Ability, Long> abilityService = MockAbilityService.getInstance();
+	private DataService<Ability, Long> abilityService = AbilityService.getInstance();
 
 	public SkillForm() {
 	    super();

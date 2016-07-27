@@ -1,7 +1,6 @@
 package com.dungeonstory.backend.repository;
 
 import java.io.Serializable;
-import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -11,8 +10,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-import javax.persistence.Table;
 import javax.persistence.TypedQuery;
+
+import com.dungeonstory.backend.Configuration;
 
 public abstract class AbstractRepository<E extends Entity, K extends Serializable> implements Repository<E, K> {
 
@@ -20,14 +20,18 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
     private static final String PERSISTENCE_UNIT_MYSQL_NAME = "dungeonstory-mysql";
 
     protected static EntityManagerFactory factory;
-    //    @PersistenceContext(unitName="dungeonstory-hsql")
     protected static EntityManager entityManager;
 
     private String tableName;
 
     public AbstractRepository() {
         super();
-        factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_HSQL_NAME);
+        if (Configuration.getInstance().getDatabaseType().equals("hsql")) {
+            factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_HSQL_NAME);
+        } else {
+            factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_MYSQL_NAME);
+        }
+        
         entityManager = factory.createEntityManager();
     }
 
@@ -76,11 +80,11 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
     private String getTableName() {
         if (tableName == null) {
             tableName = getEntityClass().getName();
-            Annotation annotation = getEntityClass().getAnnotation(Table.class);
-            if (annotation != null) {
-                Table tableAnnotation = (Table) annotation;
-                tableName = tableAnnotation.name();
-            }
+//            Annotation annotation = getEntityClass().getAnnotation(Table.class);
+//            if (annotation != null) {
+//                Table tableAnnotation = (Table) annotation;
+//                tableName = tableAnnotation.name();
+//            }
         }
         return tableName;
     }

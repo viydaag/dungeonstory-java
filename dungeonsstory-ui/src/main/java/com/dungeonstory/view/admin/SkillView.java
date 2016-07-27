@@ -1,7 +1,9 @@
 package com.dungeonstory.view.admin;
 
+import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.Skill;
 import com.dungeonstory.backend.service.DataService;
+import com.dungeonstory.backend.service.impl.SkillService;
 import com.dungeonstory.backend.service.mock.MockSkillService;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.form.SkillForm;
@@ -27,7 +29,10 @@ public class SkillView extends AbstractCrudView<Skill> {
 
     @Override
     public DataService<Skill, Long> getDataService() {
-        return MockSkillService.getInstance();
+        if (Configuration.getInstance().isMock()) {
+            return MockSkillService.getInstance();
+        }
+        return SkillService.getInstance();
     }
 
 

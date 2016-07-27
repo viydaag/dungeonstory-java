@@ -3,17 +3,21 @@ package com.dungeonstory.form;
 import java.util.List;
 
 import org.vaadin.viritin.fields.ElementCollectionField;
+import org.vaadin.viritin.fields.ElementCollectionTable;
 import org.vaadin.viritin.fields.MTextArea;
 import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.fields.TypedSelect;
 
 import com.dungeonstory.backend.data.ClassLevelBonus;
+import com.dungeonstory.backend.data.ClassLevelBonusFeat;
 import com.dungeonstory.backend.data.DSClass;
+import com.dungeonstory.backend.data.Feat;
 import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.backend.data.Skill;
 import com.dungeonstory.backend.service.DataService;
+import com.dungeonstory.backend.service.impl.FeatService;
 import com.dungeonstory.backend.service.impl.LevelService;
-import com.dungeonstory.backend.service.mock.MockSkillService;
+import com.dungeonstory.backend.service.impl.SkillService;
 import com.dungeonstory.view.component.DSSubSetSelector;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
@@ -29,17 +33,23 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     private TextField shortDescription;
 	private TextArea description;
 //	private ComboBox keyAbility;
-	ElementCollectionField<ClassLevelBonus> levelBonuses;
-	DSSubSetSelector<Skill> baseSkills;
+	private DSSubSetSelector<Skill> baseSkills;
+	private ElementCollectionField<ClassLevelBonus> levelBonuses;
+	private ElementCollectionTable<ClassLevelBonusFeat> featBonuses;
 	
-	DataService<Skill, Long> skillService = MockSkillService.getInstance();
+	
+	DataService<Skill, Long> skillService = SkillService.getInstance();
 	DataService<Level, Long> levelService = LevelService.getInstance();
+	DataService<Feat, Long> featService = FeatService.getInstance();
 	
     public static class ClassLevelBonusRow {
-//        TypedSelect<Level> level = new TypedSelect<Level>("Niveau");
-//        CheckBox hasAbilityScoreImprovement = new CheckBox("Amélioration attribut");
         TypedSelect<Level> level = new TypedSelect<Level>();
         CheckBox hasAbilityScoreImprovement = new CheckBox();
+    }
+    
+    public static class ClassLevelBonusFeatRow {
+        TypedSelect<Level> level = new TypedSelect<Level>();
+        TypedSelect<Feat> feat = new TypedSelect<Feat>();
     }
 
     public ClassForm() {
@@ -65,7 +75,6 @@ public class ClassForm extends DSAbstractForm<DSClass> {
 		baseSkills.setColumnHeader("name", "Nom");
 		baseSkills.setColumnHeader("keyAbility.name", "Attribut clé");
 		baseSkills.setOptions((List<Skill>) skillService.findAll());
-//		baseSkills.setOptions((List<Skill>)DataService.get().getAllSkills());
 //		baseSkills.setNewItemsAllowed(false);
 //		baseSkills.setValue(new HashSet<Skill>()); //nothing selected
 		
@@ -83,23 +92,24 @@ public class ClassForm extends DSAbstractForm<DSClass> {
 		levelBonuses.setPropertyHeader("level", "Niveau");
 		levelBonuses.setPropertyHeader("hasAbilityScoreImprovement", "Amélioration attribut");
 		
-		    
-//		keyAbility = new ComboBox("Attribut clé", DataService.get().getAllAbilities());
-//		keyAbility = new ElementCollectionField<Ability>(Ability.class, Ability.class).withCaption("Attribut clé");
-//		keyAbility = new TypedSelect<Ability>("Attribut clé", DataService.get().getAllAbilities());
-//		keyAbility.setCaptionGenerator(new CaptionGenerator<Ability>() {
-//            
-//            @Override
-//            public String getCaption(Ability option) {
-//                return option.getName();
-//            }
-//        });
+		featBonuses = new ElementCollectionTable<ClassLevelBonusFeat>(ClassLevelBonusFeat.class, ClassLevelBonusFeatRow.class)
+                .withCaption("Bonus de classe")
+                .withEditorInstantiator(() -> {
+                    ClassLevelBonusFeatRow row = new ClassLevelBonusFeatRow();
+                    row.level.setOptions(levelService.findAll());
+                    row.feat.setOptions(featService.findAll());
+                    return row;
+                }
+        );
+		featBonuses.setPropertyHeader("level", "Niveau");
+		featBonuses.setPropertyHeader("feat", "Don");
 		
 		layout.addComponent(name);
 		layout.addComponent(description);
 		layout.addComponent(shortDescription);
 		layout.addComponent(baseSkills);
 		layout.addComponent(levelBonuses);
+		layout.addComponent(featBonuses);
 		layout.addComponent(getToolbar());
 
 		return layout;

@@ -1,10 +1,12 @@
 package com.dungeonstory.view.admin;
 
+import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.Feat;
 import com.dungeonstory.backend.service.DataService;
+import com.dungeonstory.backend.service.impl.FeatService;
 import com.dungeonstory.backend.service.mock.MockFeatService;
-import com.dungeonstory.form.FeatForm;
 import com.dungeonstory.form.DSAbstractForm;
+import com.dungeonstory.form.FeatForm;
 import com.dungeonstory.samples.crud.BeanGrid;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.AbstractCrudView;
@@ -27,7 +29,10 @@ public class FeatView extends AbstractCrudView<Feat> {
 
     @Override
     public DataService<Feat, Long> getDataService() {
-        return MockFeatService.getInstance();
+        if (Configuration.getInstance().isMock()) {
+            return MockFeatService.getInstance();
+        }
+        return FeatService.getInstance();
     }
 
 }

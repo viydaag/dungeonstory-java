@@ -1,7 +1,10 @@
 package com.dungeonstory.view.admin;
 
+import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.Level;
+import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.impl.LevelService;
+import com.dungeonstory.backend.service.mock.MockLevelService;
 import com.dungeonstory.util.VerticalSpacedLayout;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.component.LevelGrid;
@@ -23,12 +26,16 @@ public class LevelView extends VerticalSpacedLayout implements View {
 	private Label titre;
 	private LevelGrid grid;
 	
-	private LevelService service;
+	private DataService<Level, Long> service;
 	
 	public LevelView() {
 		grid = new LevelGrid();
 		titre = new Label("Niveaux");
-		service = LevelService.getInstance();
+		if (Configuration.getInstance().isMock()) {
+            service = MockLevelService.getInstance();
+        } else {
+            service = LevelService.getInstance();
+        }
 		
 		Button addNew = new Button("", FontAwesome.PLUS);
 	    

@@ -16,6 +16,7 @@ import com.dungeonstory.backend.data.Feat.FeatUsage;
 import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.backend.data.Race;
 import com.dungeonstory.backend.data.Region;
+import com.dungeonstory.backend.data.Shop;
 import com.dungeonstory.backend.data.Skill;
 import com.dungeonstory.backend.data.User;
 import com.dungeonstory.backend.data.User.UserStatus;
@@ -183,7 +184,7 @@ public class MockDataGenerator {
     public static List<Level> createLevels() {
         List<Level> levels = new ArrayList<Level>();
         for (Integer[] level : storedLevels) {
-            levels.add(new Level(level[1], level[2]));
+            levels.add(new Level(level[0], level[1], level[2]));
         }
         return levels;
     }
@@ -267,6 +268,11 @@ public class MockDataGenerator {
             feats.add(new Feat(tab[0], "", FeatUsage.valueOf(tab[1])));
         }
         return feats;
+    }
+
+    public static List<Shop> createShops() {
+        // TODO Auto-generated method stub
+        return null;
     }
     
 

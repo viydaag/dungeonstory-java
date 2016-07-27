@@ -13,6 +13,11 @@ import javax.validation.constraints.Min;
 @Entity
 @DiscriminatorValue("ARMOR")
 @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
+//@AttributeOverrides({
+//    @AttributeOverride(name="created", column=@Column(name="created")),
+//    @AttributeOverride(name="updated", column=@Column(name="updated")),
+//    @AttributeOverride(name="version", column=@Column(name="version"))
+//})
 @Table(name = "Armor")
 public class Armor extends Equipment {
 

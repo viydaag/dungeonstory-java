@@ -1,7 +1,9 @@
 package com.dungeonstory.view.admin;
 
+import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.WeaponType;
 import com.dungeonstory.backend.service.DataService;
+import com.dungeonstory.backend.service.impl.WeaponTypeService;
 import com.dungeonstory.backend.service.mock.MockWeaponTypeService;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.form.WeaponTypeForm;
@@ -31,7 +33,10 @@ public class WeaponTypeView extends AbstractCrudView<WeaponType> {
 
     @Override
     public DataService<WeaponType, Long> getDataService() {
-        return MockWeaponTypeService.getInstance();
+        if (Configuration.getInstance().isMock()) {
+            return MockWeaponTypeService.getInstance();
+        }
+        return WeaponTypeService.getInstance();
     }
 
 }

@@ -20,5 +20,21 @@ public class CharacterProficientSkill implements Serializable {
     public CharacterProficientSkill() {
         // TODO Auto-generated constructor stub
     }
+    
+    public Long getCharacterId() {
+        return characterId;
+    }
+
+    public void setCharacterId(Long characterId) {
+        this.characterId = characterId;
+    }
+
+    public Long getSkillId() {
+        return skillId;
+    }
+
+    public void setSkillId(Long skillId) {
+        this.skillId = skillId;
+    }
 
 }

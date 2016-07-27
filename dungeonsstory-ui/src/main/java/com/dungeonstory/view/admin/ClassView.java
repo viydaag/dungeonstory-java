@@ -1,5 +1,6 @@
 package com.dungeonstory.view.admin;
 
+import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.impl.ClassService;
@@ -34,7 +35,10 @@ public class ClassView extends AbstractCrudView<DSClass> implements CrudView<DSC
 
     @Override
     public DataService<DSClass, Long> getDataService() {
-        return MockClassService.getInstance();
+        if (Configuration.getInstance().isMock()) {
+            return MockClassService.getInstance();
+        }
+        return ClassService.getInstance();
     }
 
 }

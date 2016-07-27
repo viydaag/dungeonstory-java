@@ -1,6 +1,7 @@
 package com.dungeonstory.backend.data;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
@@ -10,6 +11,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -49,6 +51,9 @@ public class Equipment extends AbstractTimestampEntity implements Serializable {
 
     @Column(name = "isSellable", nullable = false)
     private boolean isSellable;
+    
+    @OneToMany(mappedBy = "equipment")
+    private List<ShopEquipment> shopEquipments;
 
     public Equipment() {
 
@@ -108,6 +113,14 @@ public class Equipment extends AbstractTimestampEntity implements Serializable {
 
     public void setSellable(boolean isSellable) {
         this.isSellable = isSellable;
+    }
+
+    public List<ShopEquipment> getShopEquipments() {
+        return shopEquipments;
+    }
+
+    public void setShopEquipments(List<ShopEquipment> shopEquipments) {
+        this.shopEquipments = shopEquipments;
     }
 
     @Override

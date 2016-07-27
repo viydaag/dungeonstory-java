@@ -11,8 +11,7 @@ import org.junit.Test;
 
 public class TestPersistenceUnit {
 
-    private static final String         PERSISTENCE_UNIT_HSQL_NAME  = "dungeonstory-hsql";
-    private static final String         PERSISTENCE_UNIT_HSQL2_NAME = "dungeonstory-hsql2";
+    private static final String         PERSISTENCE_UNIT_HSQL_NAME = "dungeonstory-hsql2";
     private static final String         PERSISTENCE_UNIT_MYSQL_NAME = "dungeonstory-mysql";
     private static EntityManagerFactory factory;
 
@@ -37,18 +36,6 @@ public class TestPersistenceUnit {
             // em.persist(todo);
             // em.getTransaction().commit();
             //
-            em.close();
-        } catch (Exception e) {
-            fail(e.getLocalizedMessage());
-        }
-
-    }
-
-    @Test
-    public void testHsql2() {
-        try {
-            factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_HSQL2_NAME);
-            EntityManager em = factory.createEntityManager();
             em.close();
         } catch (Exception e) {
             fail(e.getLocalizedMessage());

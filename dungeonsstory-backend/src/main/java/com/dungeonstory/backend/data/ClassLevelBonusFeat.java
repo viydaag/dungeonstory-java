@@ -42,7 +42,7 @@ public class ClassLevelBonusFeat implements Serializable {
     private Feat feat;
 
     public ClassLevelBonusFeat() {
-        // TODO Auto-generated constructor stub
+        
     }
 
     public Long getClassId() {

@@ -11,8 +11,9 @@
 			<property name="javax.persistence.jdbc.user" value="sa"/>
       		<property name="javax.persistence.jdbc.password" value="" />
       		<property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbcDriver"/>
-			<property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:mem:test;sql.syntax_mys=true"/>
-		
+ 			<property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:mem:test;sql.syntax_mys=true"/>
+			<!-- property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:file:target/ds;sql.syntax_mys=true"/-->
+			<property name="eclipselink.ddl-generation" value="create-tables" />
 			<property name="eclipselink.logging.level" value="FINE" />
 			<property name="eclipselink.ddlgen-terminate-statements" value="true" />
 			<property name="javax.persistence.schema-generation.database.action" value="create"/>
@@ -21,40 +22,40 @@
 		</properties>
 	</persistence-unit>
 
-	<persistence-unit name="dungeonstory-hsql" transaction-type="RESOURCE_LOCAL">
-		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-		<exclude-unlisted-classes>false</exclude-unlisted-classes>
-		<properties>
-			<property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbcDriver" />
-			<property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:mem:test;sql.syntax_mys=true" />
-      		<property name="javax.persistence.jdbc.user" value="sa" />
-      		<property name="javax.persistence.jdbc.password" value="" />
+<!-- 	<persistence-unit name="dungeonstory-hsql" transaction-type="RESOURCE_LOCAL"> -->
+<!-- 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider> -->
+<!-- 		<exclude-unlisted-classes>false</exclude-unlisted-classes> -->
+<!-- 		<properties> -->
+<!-- 			<property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbcDriver" /> -->
+<!-- 			<property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:file:target/ds;sql.syntax_mys=true" /> -->
+<!--       		<property name="javax.persistence.jdbc.user" value="sa" /> -->
+<!--       		<property name="javax.persistence.jdbc.password" value="" /> -->
 		
-			<property name="eclipselink.logging.level" value="FINE" />
-			<property name="eclipselink.ddlgen-terminate-statements" value="true" />
+<!-- 			<property name="eclipselink.logging.level" value="FINE" /> -->
+<!-- 			<property name="eclipselink.ddlgen-terminate-statements" value="true" /> -->
 			<!-- property name="eclipselink.ddl-generation" value="create-or-extend-tables" /-->
 			<!-- property name="eclipselink.ddl-generation" value="drop-and-create-tables" /-->
-			<property name="eclipselink.ddl-generation" value="create-tables" />
-			<property name="eclipselink.ddl-generation.output-mode" value="both" />
+<!-- 			<property name="eclipselink.ddl-generation" value="create-tables" /> -->
+			
 			<!-- property name="eclipselink.ddl-generation.output-mode" value="database" /-->
-		</properties>
-	</persistence-unit>
+<!-- 		</properties> -->
+<!-- 	</persistence-unit> -->
 	
 	<persistence-unit name="dungeonstory-mysql" transaction-type="RESOURCE_LOCAL">
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<properties>
-			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
-			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/dungeon_story_java" />
-			<property name="javax.persistence.jdbc.user" value="root" />
 			<property name="javax.persistence.jdbc.password" value="root" />
 	
 			<property name="eclipselink.logging.level" value="FINE" />
-			<property name="eclipselink.ddlgen-terminate-statements" value="true" />
+			<property name="eclipsel-ddlgen-terminate-statements" value="true" />
 			<!-- property name="eclipselink.ddl-generation" value="create-or-extend-tables" /-->
 			<property name="eclipselink.ddl-generation" value="drop-and-create-tables" />
 			<!-- property name="eclipselink.ddl-generation" value="create-tables" /-->
 			<property name="eclipselink.ddl-generation.output-mode" value="both" />
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/dungeon_story_java"/>
+			<property name="javax.persistence.jdbc.user" value="root"/>
 		</properties>
 	</persistence-unit>
 

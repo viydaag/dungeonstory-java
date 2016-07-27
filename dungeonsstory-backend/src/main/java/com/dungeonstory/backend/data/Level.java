@@ -57,8 +57,9 @@ public class Level implements com.dungeonstory.backend.repository.Entity, Serial
         super();
     }
 
-    public Level(long maxExperience, int proficiencyBonus) {
+    public Level(long id, long maxExperience, int proficiencyBonus) {
         this();
+        this.id = id;
         this.maxExperience = maxExperience;
         this.proficiencyBonus = proficiencyBonus;
     }

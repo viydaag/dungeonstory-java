@@ -45,7 +45,6 @@ public class Character extends AbstractTimestampEntity implements Serializable {
 
     @NotNull
     @OneToOne(mappedBy = "character")
-    @JoinColumn(name = "userId", nullable = false)
     private User user;
 
     @NotNull
