@@ -66,7 +66,11 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
         });
 
         if (form != null) {
-            addComponents(titre, boutonLayout, form, grid);
+            addComponent(titre);
+            if (isCreateAllowed()) {
+                addComponent(boutonLayout);
+            }
+            addComponents(form, grid);
         } else {
             addComponents(titre, grid);
         }
@@ -97,11 +101,13 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
     }
 
     public void entrySelected() {
-        form.setEntity(grid.getSelectedRow() == null ? service.create() : grid.getSelectedRow());
-        if (isFormPopup()) {
-            form.openInModalPopup();
+        if (form != null) {
+            form.setEntity(grid.getSelectedRow() == null ? service.create() : grid.getSelectedRow());
+            if (isFormPopup()) {
+                form.openInModalPopup();
+            }
+            form.focusFirst();
         }
-        form.focusFirst();
     }
 
     public void addNew(Button.ClickEvent e) {

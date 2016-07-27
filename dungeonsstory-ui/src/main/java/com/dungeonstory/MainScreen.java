@@ -15,6 +15,7 @@ import com.dungeonstory.view.admin.FeatView;
 import com.dungeonstory.view.admin.LevelView;
 import com.dungeonstory.view.admin.RaceView;
 import com.dungeonstory.view.admin.RegionView;
+import com.dungeonstory.view.admin.ShopView;
 import com.dungeonstory.view.admin.SkillView;
 import com.dungeonstory.view.admin.WeaponTypeView;
 import com.vaadin.navigator.Navigator;
@@ -83,6 +84,7 @@ public class MainScreen extends HorizontalLayout {
     		addView(RaceView.class);
     		addView(WeaponTypeView.class);
     		addView(ArmorTypeView.class);
+    		addView(ShopView.class);
     	}
 	}
 
