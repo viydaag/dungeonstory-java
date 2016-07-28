@@ -1,5 +1,6 @@
 package com.dungeonstory.backend.service.impl;
 
+import com.dungeonstory.backend.data.ClassLevelBonusFeat;
 import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.factory.impl.ClassFactory;
 import com.dungeonstory.backend.repository.impl.ClassRepository;
@@ -20,6 +21,10 @@ public class ClassService extends AbstractDataService<DSClass, Long> {
         super();
         setEntityFactory(new ClassFactory());
         setRepository(new ClassRepository());
+    }
+    
+    public void deleteClassLevelBonusFeat(ClassLevelBonusFeat bonusFeat) {
+        ((ClassRepository) entityRepository).deleteClassLevelBonusFeat(bonusFeat);
     }
 
 }

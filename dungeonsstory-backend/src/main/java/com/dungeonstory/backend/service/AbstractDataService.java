@@ -55,6 +55,11 @@ public abstract class AbstractDataService<E extends Entity, K extends Serializab
     public void delete(Collection<E> entitySet) {
         entityRepository.delete(entitySet);
     }
+    
+    @Override
+    public void refresh(E entity) {
+        entityRepository.refresh(entity);
+    }
 
     @Override
     public List<E> findAll() {

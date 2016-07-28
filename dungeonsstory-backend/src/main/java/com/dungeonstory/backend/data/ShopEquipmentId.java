@@ -6,36 +6,36 @@ public class ShopEquipmentId implements Serializable {
     
     private static final long serialVersionUID = -2402263208904335944L;
 
-    private Long shopId;
+    private Long shop;
 
-    private Long equipmentId;
+    private Long equipment;
 
     public ShopEquipmentId() {
         super();
     }
 
-    public Long getShopId() {
-        return shopId;
+    public Long getShop() {
+        return shop;
     }
 
-    public void setShopId(Long shopId) {
-        this.shopId = shopId;
+    public void setShop(Long shopId) {
+        this.shop = shopId;
     }
 
-    public Long getEquipmentId() {
-        return equipmentId;
+    public Long getEquipment() {
+        return equipment;
     }
 
-    public void setEquipmentId(Long equipmentId) {
-        this.equipmentId = equipmentId;
+    public void setEquipment(Long equipmentId) {
+        this.equipment = equipmentId;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((equipmentId == null) ? 0 : equipmentId.hashCode());
-        result = prime * result + ((shopId == null) ? 0 : shopId.hashCode());
+        result = prime * result + ((equipment == null) ? 0 : equipment.hashCode());
+        result = prime * result + ((shop == null) ? 0 : shop.hashCode());
         return result;
     }
 
@@ -51,18 +51,18 @@ public class ShopEquipmentId implements Serializable {
             return false;
         }
         ShopEquipmentId other = (ShopEquipmentId) obj;
-        if (equipmentId == null) {
-            if (other.equipmentId != null) {
+        if (equipment == null) {
+            if (other.equipment != null) {
                 return false;
             }
-        } else if (!equipmentId.equals(other.equipmentId)) {
+        } else if (!equipment.equals(other.equipment)) {
             return false;
         }
-        if (shopId == null) {
-            if (other.shopId != null) {
+        if (shop == null) {
+            if (other.shop != null) {
                 return false;
             }
-        } else if (!shopId.equals(other.shopId)) {
+        } else if (!shop.equals(other.shop)) {
             return false;
         }
         return true;

@@ -2,7 +2,6 @@ package com.dungeonstory.backend.data;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
@@ -18,39 +17,17 @@ public class ClassSkill implements Serializable {
     private static final long serialVersionUID = -694396032772798310L;
 
     @Id
-    @Column(name = "classId")
-    private Long classId;
-
-    @Id
-    @Column(name = "skillId")
-    private Long skillId;
-
     @ManyToOne
-    @JoinColumn(name = "classId", updatable = false, insertable = false)
+    @JoinColumn(name = "classId")
     private DSClass classe;
 
+    @Id
     @ManyToOne
-    @JoinColumn(name = "skillId", updatable = false, insertable = false)
+    @JoinColumn(name = "skillId")
     private Skill skill;
 
     public ClassSkill() {
 
-    }
-
-    public Long getClassId() {
-        return classId;
-    }
-
-    public void setClassId(Long classId) {
-        this.classId = classId;
-    }
-
-    public Long getSkillId() {
-        return skillId;
-    }
-
-    public void setSkillId(Long skillId) {
-        this.skillId = skillId;
     }
 
     public DSClass getClasse() {

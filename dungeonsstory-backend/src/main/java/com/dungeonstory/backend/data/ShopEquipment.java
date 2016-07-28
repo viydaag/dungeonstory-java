@@ -14,12 +14,14 @@ import javax.persistence.Table;
 public class ShopEquipment {
 
     @Id
-    @Column(name = "shopId")
-    private Long shopId;
-
+    @ManyToOne
+    @JoinColumn(name = "shopId")
+    private Shop shop;
+    
     @Id
-    @Column(name = "equipmentId")
-    private Long equipmentId;
+    @ManyToOne
+    @JoinColumn(name = "equipmentId")
+    private Equipment equipment;
     
     @Column(name = "quantity")
     private int quantity;
@@ -27,48 +29,8 @@ public class ShopEquipment {
     @Column(name = "unitPrice")
     private int unitPrice;
     
-    @ManyToOne
-    @JoinColumn(name = "shopId", updatable = false, insertable = false)
-    private Shop shop;
-    
-    @ManyToOne
-    @JoinColumn(name = "equipmentId", updatable = false, insertable = false)
-    private Equipment equipment;
-    
     public ShopEquipment() {
         super();
-    }
-
-    public Long getShopId() {
-        return shopId;
-    }
-
-    public void setShopId(Long shopId) {
-        this.shopId = shopId;
-    }
-
-    public Long getEquipmentId() {
-        return equipmentId;
-    }
-
-    public void setEquipmentId(Long equipmentId) {
-        this.equipmentId = equipmentId;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public int getUnitPrice() {
-        return unitPrice;
-    }
-
-    public void setUnitPrice(int unitPrice) {
-        this.unitPrice = unitPrice;
     }
 
     public Shop getShop() {
@@ -85,6 +47,22 @@ public class ShopEquipment {
 
     public void setEquipment(Equipment equipment) {
         this.equipment = equipment;
+    }
+    
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public int getUnitPrice() {
+        return unitPrice;
+    }
+
+    public void setUnitPrice(int unitPrice) {
+        this.unitPrice = unitPrice;
     }
 
 }

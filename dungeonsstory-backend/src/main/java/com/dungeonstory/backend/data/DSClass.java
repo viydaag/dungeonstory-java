@@ -6,21 +6,28 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import org.eclipse.persistence.annotations.PrivateOwned;
+
 @Entity
 @Table(name = "Class")
+@NamedQuery(name = DSClass.deleteClassLevelBonusFeat, query = "DELETE FROM ClassLevelBonusFeat c WHERE c.classe = :classe AND c.level = :level AND c.feat = :feat")
 public class DSClass extends AbstractTimestampEntity implements Serializable {
 
     private static final long serialVersionUID = 4948845539537092288L;
+    
+    public static final String deleteClassLevelBonusFeat =  "Class.deleteClassLevelBonusFeat";
 
     @NotNull
     @Column(name = "name", nullable = false, unique = true)
@@ -42,15 +49,18 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
             inverseJoinColumns = { @JoinColumn(name = "skillId", referencedColumnName = "id") })
     private Set<Skill> baseSkills;
 
-    @OneToMany(mappedBy = "classe")
+    @OneToMany(mappedBy = "classe", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @PrivateOwned   //means that a class level bonus will be deleted if not attached to a class
     private List<ClassLevelBonus> levelBonuses;
     
-    @OneToMany(mappedBy = "classe")
+    @OneToMany(mappedBy = "classe", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @PrivateOwned   //means that a class level bonus feat will be deleted if not attached to a class
     private List<ClassLevelBonusFeat> featBonuses;
 
     public DSClass() {
         baseSkills = new HashSet<Skill>();
         levelBonuses = new ArrayList<ClassLevelBonus>();
+        featBonuses = new ArrayList<ClassLevelBonusFeat>();
     }
 
     public String getName() {
@@ -99,6 +109,14 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
 
     public void setLevelBonuses(List<ClassLevelBonus> levelBonuses) {
         this.levelBonuses = levelBonuses;
+    }
+
+    public List<ClassLevelBonusFeat> getFeatBonuses() {
+        return featBonuses;
+    }
+
+    public void setFeatBonuses(List<ClassLevelBonusFeat> featBonuses) {
+        this.featBonuses = featBonuses;
     }
 
     @Override

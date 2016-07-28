@@ -56,10 +56,11 @@ public class TestFeatService {
         Feat feat2 = service.findAll().iterator().next();
         assertEquals("My Test Name", feat2.getName());
 
+        int size = allFeats.size();
         service.delete(feat2);
         allFeats = service.findAll();
         assertNotNull(allFeats);
-        assertTrue(allFeats.size() == 0);
+        assertTrue(size > allFeats.size());
     }
 
 }

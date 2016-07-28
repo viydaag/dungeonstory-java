@@ -6,36 +6,36 @@ public class ClassSkillId implements Serializable {
 
     private static final long serialVersionUID = 7546960040742042357L;
 
-    private Long classId;
+    private Long classe;
 
-    private Long skillId;
+    private Long skill;
 
     public ClassSkillId() {
 
     }
 
-    public Long getClassId() {
-        return classId;
+    public Long getClasse() {
+        return classe;
     }
 
-    public void setClassId(Long classId) {
-        this.classId = classId;
+    public void setClasse(Long classId) {
+        this.classe = classId;
     }
 
-    public Long getSkillId() {
-        return skillId;
+    public Long getSkill() {
+        return skill;
     }
 
-    public void setSkillId(Long skillId) {
-        this.skillId = skillId;
+    public void setSkill(Long skillId) {
+        this.skill = skillId;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((classId == null) ? 0 : classId.hashCode());
-        result = prime * result + ((skillId == null) ? 0 : skillId.hashCode());
+        result = prime * result + ((classe == null) ? 0 : classe.hashCode());
+        result = prime * result + ((skill == null) ? 0 : skill.hashCode());
         return result;
     }
 
@@ -51,18 +51,18 @@ public class ClassSkillId implements Serializable {
             return false;
         }
         ClassSkillId other = (ClassSkillId) obj;
-        if (classId == null) {
-            if (other.classId != null) {
+        if (classe == null) {
+            if (other.classe != null) {
                 return false;
             }
-        } else if (!classId.equals(other.classId)) {
+        } else if (!classe.equals(other.classe)) {
             return false;
         }
-        if (skillId == null) {
-            if (other.skillId != null) {
+        if (skill == null) {
+            if (other.skill != null) {
                 return false;
             }
-        } else if (!skillId.equals(other.skillId)) {
+        } else if (!skill.equals(other.skill)) {
             return false;
         }
         return true;

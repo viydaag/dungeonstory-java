@@ -17,10 +17,10 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
 
     private static final long serialVersionUID = -6564885112560677215L;
 
-    private Label                titre;
-    private DSAbstractForm<T>    form;
-    private BeanGrid<T>          grid;
-    private DataService<T, Long> service;
+    private Label                  titre;
+    protected DSAbstractForm<T>    form;
+    protected BeanGrid<T>          grid;
+    protected DataService<T, Long> service;
 
     private boolean isFormPopup     = false;
     private boolean isCreateAllowed = true;
@@ -76,9 +76,10 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
         }
     }
 
+    @Override
     public void entrySaved(T entity) {
         //save to database
-        service.create(entity);
+        service.saveOrUpdate(entity);
 
         //refresh ui
         closeForm();
@@ -89,17 +90,19 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
         Notification.show("Saved!", Type.HUMANIZED_MESSAGE);
     }
 
-    private void closeForm() {
+    protected void closeForm() {
         form.setEntity(null);
         if (isFormPopup()) {
             form.closePopup();
         }
     }
 
+    @Override
     public void entryReset(T entity) {
         closeForm();
     }
 
+    @Override
     public void entrySelected() {
         if (form != null) {
             form.setEntity(grid.getSelectedRow() == null ? service.create() : grid.getSelectedRow());
@@ -117,6 +120,7 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
         }
     }
 
+    @Override
     public void deleteSelected(T entity) {
         grid.remove(entity);
         closeForm();

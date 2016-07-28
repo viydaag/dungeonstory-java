@@ -3,6 +3,7 @@ package com.dungeonstory.backend.data;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -22,7 +23,7 @@ public class Shop extends AbstractTimestampEntity implements Serializable {
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
     
-    @OneToMany(mappedBy = "shop")
+    @OneToMany(mappedBy = "shop", cascade = CascadeType.PERSIST)
     private List<ShopEquipment> shopEquipments;
 
     public Shop() {

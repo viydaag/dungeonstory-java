@@ -6,36 +6,36 @@ public class CharacterClassId implements Serializable {
 
     private static final long serialVersionUID = 6205978746903824877L;
 
-    private Long characterId;
+    private Long character;
 
-    private Long classId;
+    private Long classe;
 
     public CharacterClassId() {
         // TODO Auto-generated constructor stub
     }
 
-    public Long getCharacterId() {
-        return characterId;
+    public Long getCharacter() {
+        return character;
     }
 
-    public void setCharacterId(Long characterId) {
-        this.characterId = characterId;
+    public void setCharacter(Long characterId) {
+        this.character = characterId;
     }
 
-    public Long getClassId() {
-        return classId;
+    public Long getClasse() {
+        return classe;
     }
 
-    public void setClassId(Long classId) {
-        this.classId = classId;
+    public void setClasse(Long classId) {
+        this.classe = classId;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((characterId == null) ? 0 : characterId.hashCode());
-        result = prime * result + ((classId == null) ? 0 : classId.hashCode());
+        result = prime * result + ((character == null) ? 0 : character.hashCode());
+        result = prime * result + ((classe == null) ? 0 : classe.hashCode());
         return result;
     }
 
@@ -51,18 +51,18 @@ public class CharacterClassId implements Serializable {
             return false;
         }
         CharacterClassId other = (CharacterClassId) obj;
-        if (characterId == null) {
-            if (other.characterId != null) {
+        if (character == null) {
+            if (other.character != null) {
                 return false;
             }
-        } else if (!characterId.equals(other.characterId)) {
+        } else if (!character.equals(other.character)) {
             return false;
         }
-        if (classId == null) {
-            if (other.classId != null) {
+        if (classe == null) {
+            if (other.classe != null) {
                 return false;
             }
-        } else if (!classId.equals(other.classId)) {
+        } else if (!classe.equals(other.classe)) {
             return false;
         }
         return true;

@@ -19,19 +19,13 @@ public class ClassLevelBonus implements Serializable {
     private static final long serialVersionUID = 2087402735649166519L;
 
     @Id
-    @Column(name = "classId")
-    private Long classId;
-
-    @Id
-    @Column(name = "levelId")
-    private Long levelId;
-
     @ManyToOne
-    @JoinColumn(name = "classId", updatable = false, insertable = false)
+    @JoinColumn(name = "classId")
     private DSClass classe;
 
+    @Id
     @ManyToOne
-    @JoinColumn(name = "levelId", updatable = false, insertable = false)
+    @JoinColumn(name = "levelId")
     private Level level;
 
     @Column(name = "abilityScoreImprovement")
@@ -103,22 +97,6 @@ public class ClassLevelBonus implements Serializable {
 
     public ClassLevelBonus() {
 
-    }
-
-    public Long getClassId() {
-        return classId;
-    }
-
-    public void setClassId(Long classId) {
-        this.classId = classId;
-    }
-
-    public Long getLevelId() {
-        return levelId;
-    }
-
-    public void setLevelId(Long levelId) {
-        this.levelId = levelId;
     }
 
     public DSClass getClasse() {

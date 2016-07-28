@@ -72,9 +72,12 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
             return;
         }
 
+        EntityTransaction transac = entityManager.getTransaction();
+        transac.begin();
         Query query = entityManager.createQuery("DELETE FROM " + getTableName() + " o WHERE o.id = :id");
         query.setParameter("id", key);
         query.executeUpdate();
+        transac.commit();
     }
 
     private String getTableName() {

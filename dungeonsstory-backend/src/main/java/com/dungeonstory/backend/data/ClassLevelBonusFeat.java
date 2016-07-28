@@ -2,7 +2,6 @@ package com.dungeonstory.backend.data;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
@@ -18,55 +17,29 @@ public class ClassLevelBonusFeat implements Serializable {
     private static final long serialVersionUID = 5198775399118036404L;
 
     @Id
-    @Column(name = "classId")
-    private Long classId;
-
-    @Id
-    @Column(name = "levelId")
-    private Long levelId;
-
-    @Id
-    @Column(name = "featId")
-    private Long featId;
-
     @ManyToOne
-    @JoinColumn(name = "classId", updatable = false, insertable = false)
+    @JoinColumn(name = "classId")
     private DSClass classe;
 
+    @Id
     @ManyToOne
-    @JoinColumn(name = "levelId", updatable = false, insertable = false)
+    @JoinColumn(name = "levelId")
     private Level level;
 
+    @Id
     @ManyToOne
-    @JoinColumn(name = "featId", updatable = false, insertable = false)
+    @JoinColumn(name = "featId")
     private Feat feat;
 
     public ClassLevelBonusFeat() {
-        
+        super();
     }
 
-    public Long getClassId() {
-        return classId;
-    }
-
-    public void setClassId(Long classId) {
-        this.classId = classId;
-    }
-
-    public Long getLevelId() {
-        return levelId;
-    }
-
-    public void setLevelId(Long levelId) {
-        this.levelId = levelId;
-    }
-
-    public Long getFeatId() {
-        return featId;
-    }
-
-    public void setFeatId(Long featId) {
-        this.featId = featId;
+    public ClassLevelBonusFeat(DSClass classe, Level level, Feat feat) {
+        this();
+        this.classe = classe;
+        this.level = level;
+        this.feat = feat;
     }
 
     public DSClass getClasse() {

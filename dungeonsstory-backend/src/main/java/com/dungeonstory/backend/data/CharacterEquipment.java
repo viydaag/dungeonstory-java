@@ -20,13 +20,15 @@ public class CharacterEquipment implements Serializable {
     private static final long serialVersionUID = 8452886623922049968L;
 
     @Id
-    @Column(name = "characterId")
-    private Long characterId;
+    @ManyToOne
+    @JoinColumn(name = "characterId")
+    private Character character;
 
     @Id
-    @Column(name = "equipmentId")
-    private Long equipmentId;
-
+    @ManyToOne
+    @JoinColumn(name = "equipmentId")
+    private Equipment equipment;
+    
     @Min(value = 1)
     @Column(name = "quantity")
     private int quantity;
@@ -35,32 +37,24 @@ public class CharacterEquipment implements Serializable {
     @Column(name = "sellableValue")
     private BigDecimal sellableValue;
 
-    @ManyToOne
-    @JoinColumn(name = "characterId", updatable = false, insertable = false)
-    private Character character;
-
-    @ManyToOne
-    @JoinColumn(name = "equipmentId", updatable = false, insertable = false)
-    private Equipment equipment;
-
     public CharacterEquipment() {
         super();
     }
-
-    public Long getCharacterId() {
-        return characterId;
+    
+    public Character getCharacter() {
+        return character;
     }
 
-    public void setCharacterId(Long characterId) {
-        this.characterId = characterId;
+    public void setCharacter(Character character) {
+        this.character = character;
     }
 
-    public Long getEquipmentId() {
-        return equipmentId;
+    public Equipment getEquipment() {
+        return equipment;
     }
 
-    public void setEquipmentId(Long equipmentId) {
-        this.equipmentId = equipmentId;
+    public void setEquipment(Equipment equipment) {
+        this.equipment = equipment;
     }
 
     public int getQuantity() {
@@ -77,22 +71,6 @@ public class CharacterEquipment implements Serializable {
 
     public void setSellableValue(BigDecimal sellableValue) {
         this.sellableValue = sellableValue;
-    }
-
-    public Character getCharacter() {
-        return character;
-    }
-
-    public void setCharacter(Character character) {
-        this.character = character;
-    }
-
-    public Equipment getEquipment() {
-        return equipment;
-    }
-
-    public void setEquipment(Equipment equipment) {
-        this.equipment = equipment;
     }
 
 }

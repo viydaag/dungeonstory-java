@@ -6,36 +6,36 @@ public class CharacterEquipmentId implements Serializable {
 
     private static final long serialVersionUID = 4916486290491053123L;
 
-    private Long characterId;
+    private Long character;
 
-    private Long equipmentId;
+    private Long equipment;
 
     public CharacterEquipmentId() {
         super();
     }
 
-    public Long getCharacterId() {
-        return characterId;
+    public Long getCharacter() {
+        return character;
     }
 
-    public void setCharacterId(Long characterId) {
-        this.characterId = characterId;
+    public void setCharacter(Long characterId) {
+        this.character = characterId;
     }
 
-    public Long getEquipmentId() {
-        return equipmentId;
+    public Long getEquipment() {
+        return equipment;
     }
 
-    public void setEquipmentId(Long equipmentId) {
-        this.equipmentId = equipmentId;
+    public void setEquipment(Long equipmentId) {
+        this.equipment = equipmentId;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((characterId == null) ? 0 : characterId.hashCode());
-        result = prime * result + ((equipmentId == null) ? 0 : equipmentId.hashCode());
+        result = prime * result + ((character == null) ? 0 : character.hashCode());
+        result = prime * result + ((equipment == null) ? 0 : equipment.hashCode());
         return result;
     }
 
@@ -51,18 +51,18 @@ public class CharacterEquipmentId implements Serializable {
             return false;
         }
         CharacterEquipmentId other = (CharacterEquipmentId) obj;
-        if (characterId == null) {
-            if (other.characterId != null) {
+        if (character == null) {
+            if (other.character != null) {
                 return false;
             }
-        } else if (!characterId.equals(other.characterId)) {
+        } else if (!character.equals(other.character)) {
             return false;
         }
-        if (equipmentId == null) {
-            if (other.equipmentId != null) {
+        if (equipment == null) {
+            if (other.equipment != null) {
                 return false;
             }
-        } else if (!equipmentId.equals(other.equipmentId)) {
+        } else if (!equipment.equals(other.equipment)) {
             return false;
         }
         return true;

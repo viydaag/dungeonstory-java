@@ -6,36 +6,36 @@ public class ClassLevelBonusId implements Serializable {
 
     private static final long serialVersionUID = -348590476654163585L;
 
-    private Long classId;
+    private Long classe;
 
-    private Long levelId;
+    private Long level;
 
     public ClassLevelBonusId() {
 
     }
 
-    public Long getClassId() {
-        return classId;
+    public Long getClasse() {
+        return classe;
     }
 
-    public void setClassId(Long classId) {
-        this.classId = classId;
+    public void setClasse(Long classe) {
+        this.classe = classe;
     }
 
-    public Long getLevelId() {
-        return levelId;
+    public Long getLevel() {
+        return level;
     }
 
-    public void setLevelId(Long levelId) {
-        this.levelId = levelId;
+    public void setLevel(Long level) {
+        this.level = level;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((classId == null) ? 0 : classId.hashCode());
-        result = prime * result + ((levelId == null) ? 0 : levelId.hashCode());
+        result = prime * result + ((classe == null) ? 0 : classe.hashCode());
+        result = prime * result + ((level == null) ? 0 : level.hashCode());
         return result;
     }
 
@@ -51,18 +51,18 @@ public class ClassLevelBonusId implements Serializable {
             return false;
         }
         ClassLevelBonusId other = (ClassLevelBonusId) obj;
-        if (classId == null) {
-            if (other.classId != null) {
+        if (classe == null) {
+            if (other.classe != null) {
                 return false;
             }
-        } else if (!classId.equals(other.classId)) {
+        } else if (!classe.equals(other.classe)) {
             return false;
         }
-        if (levelId == null) {
-            if (other.levelId != null) {
+        if (level == null) {
+            if (other.level != null) {
                 return false;
             }
-        } else if (!levelId.equals(other.levelId)) {
+        } else if (!level.equals(other.level)) {
             return false;
         }
         return true;
