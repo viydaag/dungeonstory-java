@@ -112,7 +112,6 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
 
     @Override
     public synchronized void refresh(E entity) {
-
         entityManager.refresh(entity);
     }
 

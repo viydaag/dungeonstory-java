@@ -7,6 +7,7 @@ import com.dungeonstory.util.VerticalSpacedLayout;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.ErrorView;
 import com.dungeonstory.view.HomeView;
+import com.dungeonstory.view.admin.AbilityView;
 import com.dungeonstory.view.admin.AlignmentView;
 import com.dungeonstory.view.admin.ArmorTypeView;
 import com.dungeonstory.view.admin.ClassView;
@@ -74,6 +75,7 @@ public class MainScreen extends HorizontalLayout {
     	addView(HomeView.class);
     	
     	if (DungeonStoryUI.get().getAccessControl().isUserInRole("admin")) {
+    	    addView(AbilityView.class);
     	    addView(AlignmentView.class);
     		addView(RegionView.class);
     		addView(LevelView.class);
