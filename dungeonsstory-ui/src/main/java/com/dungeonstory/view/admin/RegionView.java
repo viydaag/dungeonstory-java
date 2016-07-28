@@ -7,9 +7,9 @@ import com.dungeonstory.backend.service.impl.RegionService;
 import com.dungeonstory.backend.service.mock.MockRegionService;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.form.RegionForm;
-import com.dungeonstory.samples.crud.BeanGrid;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.AbstractCrudView;
+import com.dungeonstory.view.component.BeanGrid;
 import com.dungeonstory.view.component.RegionGrid;
 
 @ViewConfig(uri = "regions", displayName = "Régions")

@@ -7,9 +7,9 @@ import com.dungeonstory.backend.service.impl.FeatService;
 import com.dungeonstory.backend.service.mock.MockFeatService;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.form.FeatForm;
-import com.dungeonstory.samples.crud.BeanGrid;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.AbstractCrudView;
+import com.dungeonstory.view.component.BeanGrid;
 import com.dungeonstory.view.component.FeatGrid;
 
 @ViewConfig(uri = "feats", displayName = "Dons")

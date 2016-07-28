@@ -1,7 +1,6 @@
 package com.dungeonstory.view.component;
 
 import com.dungeonstory.backend.data.Shop;
-import com.dungeonstory.samples.crud.BeanGrid;
 
 public class ShopGrid extends BeanGrid<Shop> {
 

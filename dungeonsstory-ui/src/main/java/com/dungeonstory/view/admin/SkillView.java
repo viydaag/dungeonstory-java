@@ -7,9 +7,9 @@ import com.dungeonstory.backend.service.impl.SkillService;
 import com.dungeonstory.backend.service.mock.MockSkillService;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.form.SkillForm;
-import com.dungeonstory.samples.crud.BeanGrid;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.AbstractCrudView;
+import com.dungeonstory.view.component.BeanGrid;
 import com.dungeonstory.view.component.SkillGrid;
 
 @ViewConfig(uri = "skills", displayName = "Talents")

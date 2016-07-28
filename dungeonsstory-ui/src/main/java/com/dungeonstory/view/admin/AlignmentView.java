@@ -7,10 +7,10 @@ import com.dungeonstory.backend.service.impl.AlignmentService;
 import com.dungeonstory.backend.service.mock.MockAlignmentService;
 import com.dungeonstory.form.AlignmentForm;
 import com.dungeonstory.form.DSAbstractForm;
-import com.dungeonstory.samples.crud.BeanGrid;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.AbstractCrudView;
 import com.dungeonstory.view.component.AlignmentGrid;
+import com.dungeonstory.view.component.BeanGrid;
 
 @ViewConfig(uri = "alignments", displayName = "Alignements")
 public class AlignmentView extends AbstractCrudView<Alignment> {

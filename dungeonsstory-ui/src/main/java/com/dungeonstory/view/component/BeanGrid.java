@@ -1,4 +1,4 @@
-package com.dungeonstory.samples.crud;
+package com.dungeonstory.view.component;
 
 import java.util.Collection;
 

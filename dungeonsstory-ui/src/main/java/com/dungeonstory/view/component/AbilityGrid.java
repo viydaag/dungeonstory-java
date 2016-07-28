@@ -1,7 +1,6 @@
 package com.dungeonstory.view.component;
 
 import com.dungeonstory.backend.data.Ability;
-import com.dungeonstory.samples.crud.BeanGrid;
 
 public class AbilityGrid extends BeanGrid<Ability> {
 

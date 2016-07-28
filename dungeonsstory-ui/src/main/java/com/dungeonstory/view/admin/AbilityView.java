@@ -7,10 +7,10 @@ import com.dungeonstory.backend.service.impl.AbilityService;
 import com.dungeonstory.backend.service.mock.MockAbilityService;
 import com.dungeonstory.form.AbilityForm;
 import com.dungeonstory.form.DSAbstractForm;
-import com.dungeonstory.samples.crud.BeanGrid;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.AbstractCrudView;
 import com.dungeonstory.view.component.AbilityGrid;
+import com.dungeonstory.view.component.BeanGrid;
 
 @ViewConfig(uri = "abilities", displayName = "Capacités")
 public class AbilityView extends AbstractCrudView<Ability> {

@@ -1,7 +1,6 @@
 package com.dungeonstory.view.component;
 
 import com.dungeonstory.backend.data.Feat;
-import com.dungeonstory.samples.crud.BeanGrid;
 
 public class FeatGrid extends BeanGrid<Feat> {
 

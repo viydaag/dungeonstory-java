@@ -19,7 +19,6 @@ import com.dungeonstory.backend.data.WeaponType.SizeType;
 import com.dungeonstory.backend.data.WeaponType.UsageType;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.impl.DamageTypeService;
-import com.dungeonstory.backend.service.mock.MockDamageTypeService;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextArea;

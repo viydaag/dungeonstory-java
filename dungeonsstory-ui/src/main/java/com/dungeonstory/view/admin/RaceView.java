@@ -7,9 +7,9 @@ import com.dungeonstory.backend.service.impl.RaceService;
 import com.dungeonstory.backend.service.mock.MockRaceService;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.form.RaceForm;
-import com.dungeonstory.samples.crud.BeanGrid;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.AbstractCrudView;
+import com.dungeonstory.view.component.BeanGrid;
 import com.dungeonstory.view.component.RaceGrid;
 
 @ViewConfig(uri = "races", displayName = "Races")

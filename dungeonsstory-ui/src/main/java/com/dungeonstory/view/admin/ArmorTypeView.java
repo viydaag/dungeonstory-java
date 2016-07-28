@@ -7,10 +7,10 @@ import com.dungeonstory.backend.service.impl.ArmorTypeService;
 import com.dungeonstory.backend.service.mock.MockArmorTypeService;
 import com.dungeonstory.form.ArmorTypeForm;
 import com.dungeonstory.form.DSAbstractForm;
-import com.dungeonstory.samples.crud.BeanGrid;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.AbstractCrudView;
 import com.dungeonstory.view.component.ArmorTypeGrid;
+import com.dungeonstory.view.component.BeanGrid;
 
 @ViewConfig(uri = "armorTypes", displayName = "Types d'armure")
 public class ArmorTypeView extends AbstractCrudView<ArmorType> {

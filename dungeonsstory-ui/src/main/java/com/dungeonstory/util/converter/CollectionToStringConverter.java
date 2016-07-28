@@ -1,4 +1,4 @@
-package com.dungeonstory.samples.crud;
+package com.dungeonstory.util.converter;
 
 import java.util.Collection;
 import java.util.Locale;

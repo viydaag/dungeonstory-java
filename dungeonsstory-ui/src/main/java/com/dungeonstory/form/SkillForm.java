@@ -9,7 +9,6 @@ import com.dungeonstory.backend.data.Ability;
 import com.dungeonstory.backend.data.Skill;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.impl.AbilityService;
-import com.dungeonstory.backend.service.mock.MockAbilityService;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextArea;
@@ -21,8 +20,6 @@ public class SkillForm extends DSAbstractForm<Skill> {
     
     private TextField name;
 	private TextArea description;
-//	private ComboBox keyAbility;
-//	ElementCollectionField<Ability> keyAbility;
 	private TypedSelect<Ability> keyAbility;
 	
 	private DataService<Ability, Long> abilityService = AbilityService.getInstance();
@@ -42,8 +39,6 @@ public class SkillForm extends DSAbstractForm<Skill> {
 
 		name = new MTextField("Nom");
 		description = new MTextArea("Description").withFullWidth();
-//		keyAbility = new ComboBox("Attribut clé", DataService.get().getAllAbilities());
-//		keyAbility = new ElementCollectionField<Ability>(Ability.class, Ability.class).withCaption("Attribut clé");
 		keyAbility = new TypedSelect<Ability>("Attribut clé", abilityService.findAll());
 		keyAbility.setCaptionGenerator(new CaptionGenerator<Ability>() {
             

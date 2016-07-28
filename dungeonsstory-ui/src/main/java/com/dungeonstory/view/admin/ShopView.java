@@ -7,9 +7,9 @@ import com.dungeonstory.backend.service.impl.ShopService;
 import com.dungeonstory.backend.service.mock.MockShopService;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.form.ShopForm;
-import com.dungeonstory.samples.crud.BeanGrid;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.AbstractCrudView;
+import com.dungeonstory.view.component.BeanGrid;
 import com.dungeonstory.view.component.ShopGrid;
 
 @ViewConfig(uri = "shops", displayName = "Magasins")

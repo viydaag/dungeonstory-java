@@ -1,7 +1,6 @@
 package com.dungeonstory.view.component;
 
 import com.dungeonstory.backend.data.Race;
-import com.dungeonstory.samples.crud.BeanGrid;
 
 public class RaceGrid extends BeanGrid<Race> {
 

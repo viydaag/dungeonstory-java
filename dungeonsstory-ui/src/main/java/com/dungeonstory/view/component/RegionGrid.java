@@ -1,7 +1,6 @@
 package com.dungeonstory.view.component;
 
 import com.dungeonstory.backend.data.Region;
-import com.dungeonstory.samples.crud.BeanGrid;
 
 public class RegionGrid extends BeanGrid<Region> {
 

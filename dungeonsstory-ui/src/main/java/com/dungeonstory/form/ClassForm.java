@@ -32,7 +32,6 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     private TextField name;
     private TextField shortDescription;
 	private TextArea description;
-//	private ComboBox keyAbility;
 	private DSSubSetSelector<Skill> baseSkills;
 	private ElementCollectionField<ClassLevelBonus> levelBonuses;
 	private ElementCollectionTable<ClassLevelBonusFeat> featBonuses;
