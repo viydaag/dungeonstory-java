@@ -12,6 +12,7 @@ import com.dungeonstory.view.admin.AlignmentView;
 import com.dungeonstory.view.admin.ArmorTypeView;
 import com.dungeonstory.view.admin.ClassView;
 import com.dungeonstory.view.admin.DamageTypeView;
+import com.dungeonstory.view.admin.EquipmentView;
 import com.dungeonstory.view.admin.FeatView;
 import com.dungeonstory.view.admin.LevelView;
 import com.dungeonstory.view.admin.RaceView;
@@ -87,6 +88,7 @@ public class MainScreen extends HorizontalLayout {
     		addView(WeaponTypeView.class);
     		addView(ArmorTypeView.class);
     		addView(ShopView.class);
+    		addView(EquipmentView.class);
     	}
 	}
 

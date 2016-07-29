@@ -25,7 +25,7 @@ public class Equipment extends AbstractTimestampEntity implements Serializable {
     private static final long serialVersionUID = 1146171037304994442L;
 
     public enum EquipmentType {
-        ARMOR, WEAPON, RING, AMULET, BRACER, BOOT, BELT, UTIL
+        ARMOR, WEAPON, RING, AMULET, BRACER, BOOT, BELT, TOOL
     }
 
     @NotNull
@@ -99,19 +99,19 @@ public class Equipment extends AbstractTimestampEntity implements Serializable {
         this.type = type;
     }
 
-    public boolean isPurchasable() {
+    public boolean getIsPurchasable() {
         return isPurchasable;
     }
 
-    public void setPurchasable(boolean isPurchasable) {
+    public void setIsPurchasable(boolean isPurchasable) {
         this.isPurchasable = isPurchasable;
     }
 
-    public boolean isSellable() {
+    public boolean getIsSellable() {
         return isSellable;
     }
 
-    public void setSellable(boolean isSellable) {
+    public void setIsSellable(boolean isSellable) {
         this.isSellable = isSellable;
     }
 

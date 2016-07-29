@@ -17,7 +17,9 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
 
     private static final long serialVersionUID = -6564885112560677215L;
 
-    private Label                  titre;
+    private Label                  title;
+    private HorizontalLayout       buttonLayout;
+    
     protected DSAbstractForm<T>    form;
     protected BeanGrid<T>          grid;
     protected DataService<T, Long> service;
@@ -38,14 +40,31 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
         grid = getGrid();
         service = getDataService();
 
-        HorizontalLayout boutonLayout = null;
+        initForm();
+
+        grid.addSelectionListener(selectionEvent -> {
+            entrySelected();
+        });
+
         if (form != null) {
-            titre = new Label(form.toString());
+            addComponent(title);
+            if (isCreateAllowed()) {
+                addComponent(buttonLayout);
+            }
+            addComponents(form, grid);
+        } else {
+            addComponents(grid);
+        }
+    }
+
+    protected void initForm() {
+        if (form != null) {
+            title = new Label(form.toString());
 
             if (isCreateAllowed()) {
                 Button addNew = new Button("", FontAwesome.PLUS);
                 addNew.addClickListener(this::addNew);
-                boutonLayout = new HorizontalLayout(addNew);
+                buttonLayout = new HorizontalLayout(addNew);
             }
 
             form.setEntity(null);
@@ -59,20 +78,6 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
             } else {
                 form.getDeleteButton().setVisible(false);
             }
-        }
-
-        grid.addSelectionListener(selectionEvent -> {
-            entrySelected();
-        });
-
-        if (form != null) {
-            addComponent(titre);
-            if (isCreateAllowed()) {
-                addComponent(boutonLayout);
-            }
-            addComponents(form, grid);
-        } else {
-            addComponents(titre, grid);
         }
     }
 
@@ -154,6 +159,10 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
 
     public void setDeleteAllowed(boolean isDeleteAllowed) {
         this.isDeleteAllowed = isDeleteAllowed;
+    }
+
+    protected void setService(DataService<T, Long> service) {
+        this.service = service;
     }
 
 }
