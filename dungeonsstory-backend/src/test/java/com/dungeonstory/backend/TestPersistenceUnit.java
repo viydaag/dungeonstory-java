@@ -1,12 +1,11 @@
 package com.dungeonstory.backend;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class TestPersistenceUnit {
@@ -44,7 +43,6 @@ public class TestPersistenceUnit {
     }
 
     @Test
-    @Ignore
     public void testMysql() {
         try {
             factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_MYSQL_NAME);
