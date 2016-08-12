@@ -8,8 +8,8 @@ public class EquipmentGrid extends BeanGrid<Equipment> {
 
     public EquipmentGrid() {
 		super(Equipment.class);
-		withColumns("name", "description");
-		withHeaderCaption("Nom", "Description");
+		withColumns("name", "type", "description");
+		withHeaderCaption("Nom", "Type", "Description");
 	}
 
 }

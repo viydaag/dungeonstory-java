@@ -7,8 +7,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 
 @Entity
 @DiscriminatorValue("ARMOR")
@@ -26,14 +24,6 @@ public class Armor extends Equipment {
     @Column(name = "acBonus")
     private int acBonus;
 
-    @Column(name = "armorCheckPenalty")
-    private int armorCheckPenalty = 0;
-
-    @Column(name = "arcaneSpellFailure")
-    @Min(value = 0)
-    @Max(value = 100)
-    private int arcaneSpellFailure = 0;
-
     @Column(name = "magicalAcBonus")
     private int magicalAcBonus = 0;
 
@@ -45,11 +35,9 @@ public class Armor extends Equipment {
         super();
     }
 
-    public Armor(int acBonus, int armorCheckPenalty, int arcaneSpellFailure, int magicalAcBonus, ArmorType armorType) {
+    public Armor(int acBonus, int magicalAcBonus, ArmorType armorType) {
         this();
         this.acBonus = acBonus;
-        this.armorCheckPenalty = armorCheckPenalty;
-        this.arcaneSpellFailure = arcaneSpellFailure;
         this.magicalAcBonus = magicalAcBonus;
         this.armorType = armorType;
     }
@@ -60,22 +48,6 @@ public class Armor extends Equipment {
 
     public void setAcBonus(int acBonus) {
         this.acBonus = acBonus;
-    }
-
-    public int getArmorCheckPenalty() {
-        return armorCheckPenalty;
-    }
-
-    public void setArmorCheckPenalty(int armorCheckPenalty) {
-        this.armorCheckPenalty = armorCheckPenalty;
-    }
-
-    public int getArcaneSpellFailure() {
-        return arcaneSpellFailure;
-    }
-
-    public void setArcaneSpellFailure(int arcaneSpellFailure) {
-        this.arcaneSpellFailure = arcaneSpellFailure;
     }
 
     public int getMagicalAcBonus() {

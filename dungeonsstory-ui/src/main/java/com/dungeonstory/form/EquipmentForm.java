@@ -1,6 +1,7 @@
 package com.dungeonstory.form;
 
 import org.vaadin.viritin.fields.EnumSelect;
+import org.vaadin.viritin.fields.IntegerField;
 import org.vaadin.viritin.fields.MTextArea;
 import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.fields.MValueChangeEvent;
@@ -8,13 +9,22 @@ import org.vaadin.viritin.fields.MValueChangeListener;
 import org.vaadin.viritin.fields.TypedSelect;
 
 import com.dungeonstory.FormCheckBox;
+import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.Armor;
 import com.dungeonstory.backend.data.ArmorType;
+import com.dungeonstory.backend.data.DamageType;
 import com.dungeonstory.backend.data.Equipment;
 import com.dungeonstory.backend.data.Equipment.EquipmentType;
 import com.dungeonstory.backend.data.Weapon;
+import com.dungeonstory.backend.data.WeaponType;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.impl.ArmorTypeService;
+import com.dungeonstory.backend.service.impl.DamageTypeService;
+import com.dungeonstory.backend.service.impl.WeaponTypeService;
+import com.dungeonstory.backend.service.mock.MockArmorTypeService;
+import com.dungeonstory.backend.service.mock.MockDamageTypeService;
+import com.dungeonstory.backend.service.mock.MockWeaponTypeService;
+import com.dungeonstory.util.field.DoubleField;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextArea;
@@ -22,127 +32,219 @@ import com.vaadin.ui.TextField;
 
 public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
 
-    private static final long serialVersionUID = -5986264153168207722L;
+	private static final long serialVersionUID = -5986264153168207722L;
 
-    private TextField                 name;
-    private EnumSelect<EquipmentType> type;
-    private TextArea                  description;
-    private FormCheckBox              isPurchasable;
-    private FormCheckBox              isSellable;
+	private TextField				  name;
+	private EnumSelect<EquipmentType> type;
+	private TextArea				  description;
+	private DoubleField				  weight;
+	private FormCheckBox			  isPurchasable;
+	private FormCheckBox			  isSellable;
+	private FormCheckBox			  isMagical;
 
-    //Armor fields
-    private TypedSelect<ArmorType> armorType;
+	// Armor fields
+	private TypedSelect<ArmorType> armorType;
+	private IntegerField		   acBonus;
+	private IntegerField		   magicalAcBonus;
 
-    private EquipmentType                oldType          = null;
-    private DataService<ArmorType, Long> armorTypeService = ArmorTypeService.getInstance();
+	// Weapon fields
+	private TypedSelect<WeaponType>	weaponType;
+	private TextField				oneHandDamage;
+	private TextField				twoHandDamage;
+	private TextField				additionalDamage;
+	private TypedSelect<DamageType>	additionalDamageType;
+	private IntegerField			magicalBonus;
 
-    public EquipmentForm() {
-        super();
-    }
+	private EquipmentType oldType = null;
 
-    @Override
-    public String toString() {
-        return "Équipements";
-    }
+	private DataService<ArmorType, Long>  armorTypeService;
+	private DataService<WeaponType, Long> weaponTypeService;
+	private DataService<DamageType, Long> damageTypeService;
 
-    @Override
-    protected Component createContent() {
-        FormLayout layout = new FormLayout();
+	public EquipmentForm() {
+		super();
+		if (Configuration.getInstance().isMock()) {
+			armorTypeService = MockArmorTypeService.getInstance();
+			weaponTypeService = MockWeaponTypeService.getInstance();
+			damageTypeService = MockDamageTypeService.getInstance();
+		} else {
+			armorTypeService = ArmorTypeService.getInstance();
+			weaponTypeService = WeaponTypeService.getInstance();
+			damageTypeService = DamageTypeService.getInstance();
+		}
+	}
 
-        name = new MTextField("Nom");
-        type = new EnumSelect<EquipmentType>("Type");
-        description = new MTextArea("Description").withFullWidth();
-        isPurchasable = new FormCheckBox("Peut être acheté");
-        isSellable = new FormCheckBox("Peut être vendu");
+	@Override
+	public String toString() {
+		return "Équipements";
+	}
 
-        armorType = new TypedSelect<ArmorType>("Type d'armure", armorTypeService.findAll());
+	@Override
+	protected Component createContent() {
+		FormLayout layout = new FormLayout();
 
-        type.addMValueChangeListener(new MValueChangeListener<EquipmentType>() {
+		name = new MTextField("Nom");
+		type = new EnumSelect<EquipmentType>("Type");
+		description = new MTextArea("Description").withFullWidth();
+		weight = new DoubleField("Poids (en lbs)");
+		isPurchasable = new FormCheckBox("Peut être acheté");
+		isSellable = new FormCheckBox("Peut être vendu");
+		isMagical = new FormCheckBox("Magique");
 
-            private static final long serialVersionUID = -4907705123852819323L;
+		armorType = new TypedSelect<ArmorType>("Type d'armure", armorTypeService.findAll());
+		acBonus = new IntegerField("Classe d'armure bonus");
+		magicalAcBonus = new IntegerField("Classe d'armure magique bonus");
 
-            @Override
-            public void valueChange(MValueChangeEvent<EquipmentType> event) {
-                EquipmentType type = event.getValue();
-                initEntity(type);
-            }
+		weaponType = new TypedSelect<WeaponType>("Type d'arme", weaponTypeService.findAll());
+		oneHandDamage = new MTextField("Dommages à une main");
+		twoHandDamage = new MTextField("Dommages à deux main");
+		additionalDamage = new MTextField("Dommages additionnels");
+		additionalDamageType = new TypedSelect<DamageType>("Type dommages additionnels", damageTypeService.findAll());
+		magicalBonus = new IntegerField("Bonus magique");
 
-        });
+		type.addMValueChangeListener(createTypeChangeListener());
+		weaponType.addMValueChangeListener(createWeaponTypeChangeListener());
+		armorType.addMValueChangeListener(createArmorTypeChangeListener());
 
-        layout.addComponent(name);
-        layout.addComponent(type);
-        layout.addComponent(description);
-        layout.addComponent(isPurchasable);
-        layout.addComponent(isSellable);
-        layout.addComponent(armorType);
-        layout.addComponent(getToolbar());
+		layout.addComponent(name);
+		layout.addComponent(type);
+		layout.addComponent(description);
+		layout.addComponent(isPurchasable);
+		layout.addComponent(isSellable);
+		layout.addComponent(isMagical);
 
-        initEntity(type.getValue());
+		layout.addComponents(armorType, acBonus, magicalAcBonus);
+		layout.addComponents(weaponType, oneHandDamage, twoHandDamage, additionalDamage, additionalDamageType,
+		        magicalAcBonus);
+		
+		layout.addComponent(weight);
 
-        return layout;
-    }
+		layout.addComponent(getToolbar());
 
-    @SuppressWarnings("unchecked")
-    private void initEntity(EquipmentType type) {
-        if (type == null) {
-            showArmorFields(false);
-            showWeaponFields(false);
-        } else if (typeChanged(oldType, type)) {
-            Equipment equip = null;
-            switch (type) {
-                case ARMOR:
-                    equip = new Armor();
-                    showArmorFields(true);
-                    showWeaponFields(false);
-                    break;
-                case WEAPON:
-                    equip = new Weapon();
-                    showArmorFields(false);
-                    showWeaponFields(true);
-                    break;
-                default:
-                    equip = new Equipment();
-                    showArmorFields(false);
-                    showWeaponFields(false);
-                    break;
-            }
-            equip.setName(name.getValue());
-            equip.setType(type);
-            equip.setDescription(description.getValue());
-            equip.setIsPurchasable(isPurchasable.getValue());
-            equip.setIsSellable(isSellable.getValue());
-            setEntity((T) equip);
-        }
-        oldType = type;
-    }
+		initEntity(type.getValue());
 
-    private void showArmorFields(boolean visible) {
-        armorType.setVisible(visible);
-        if (!visible) {
-            armorType.clear();
-        }
-    }
+		return layout;
+	}
 
-    private void showWeaponFields(boolean visible) {
 
-    }
+	private MValueChangeListener<EquipmentType> createTypeChangeListener() {
+		return new MValueChangeListener<EquipmentType>() {
 
-    private boolean typeChanged(EquipmentType type1, EquipmentType type2) {
-        if ((type1 == null && type2 != null) || (type1 != null && type2 == null)) {
-            return true;
-        }
-        if (type1 == EquipmentType.ARMOR && type2 != EquipmentType.ARMOR) {
-            return true;
-        }
-        if (type1 == EquipmentType.WEAPON && type2 != EquipmentType.WEAPON) {
-            return true;
-        }
-        if (type2 == EquipmentType.ARMOR && type1 != EquipmentType.ARMOR) {
-            return true;
-        }
-        if (type2 == EquipmentType.WEAPON && type1 != EquipmentType.WEAPON) {
-            return true;
-        }
-        return false;
-    }
+			private static final long serialVersionUID = -4907705123852819323L;
+
+			@Override
+			public void valueChange(MValueChangeEvent<EquipmentType> event) {
+				EquipmentType type = event.getValue();
+				initEntity(type);
+			}
+		};
+	}
+	
+	private MValueChangeListener<ArmorType> createArmorTypeChangeListener() {
+		return new MValueChangeListener<ArmorType>() {
+
+			private static final long serialVersionUID = 4768217107409472231L;
+
+			@Override
+			public void valueChange(MValueChangeEvent<ArmorType> event) {
+				ArmorType currentarmorType = event.getValue();
+				weight.setValue((double) currentarmorType.getBaseWeight());
+			}
+		};
+	}
+
+	private MValueChangeListener<WeaponType> createWeaponTypeChangeListener() {
+		return new MValueChangeListener<WeaponType>() {
+
+			private static final long serialVersionUID = 4768217107409472231L;
+
+			@Override
+			public void valueChange(MValueChangeEvent<WeaponType> event) {
+				WeaponType currentweaponType = event.getValue();
+				oneHandDamage.setValue(currentweaponType.getOneHandBaseDamage());
+				twoHandDamage.setValue(currentweaponType.getTwoHandBaseDamage());
+			}
+		};
+	}
+
+	@SuppressWarnings("unchecked")
+	private void initEntity(EquipmentType type) {
+		if (type == null) {
+			showArmorFields(false);
+			showWeaponFields(false);
+		} else if (typeChanged(oldType, type)) {
+			Equipment equip = null;
+			switch (type) {
+			case ARMOR:
+				equip = new Armor();
+				showArmorFields(true);
+				showWeaponFields(false);
+				break;
+			case WEAPON:
+				equip = new Weapon();
+				showArmorFields(false);
+				showWeaponFields(true);
+				break;
+			default:
+				equip = new Equipment();
+				showArmorFields(false);
+				showWeaponFields(false);
+				break;
+			}
+			equip.setName(name.getValue());
+			equip.setType(type);
+			equip.setDescription(description.getValue());
+			equip.setIsPurchasable(isPurchasable.getValue());
+			equip.setIsSellable(isSellable.getValue());
+			setEntity((T) equip);
+		}
+		oldType = type;
+	}
+
+	private void showArmorFields(boolean visible) {
+		armorType.setVisible(visible);
+		acBonus.setVisible(visible);
+		magicalAcBonus.setVisible(visible);
+		if (!visible) {
+			armorType.clear();
+			acBonus.setValue(0);
+			magicalAcBonus.setValue(0);
+		}
+	}
+
+	private void showWeaponFields(boolean visible) {
+		weaponType.setVisible(visible);
+		oneHandDamage.setVisible(visible);
+		twoHandDamage.setVisible(visible);
+		additionalDamage.setVisible(visible);
+		additionalDamageType.setVisible(visible);
+		magicalBonus.setVisible(visible);
+		if (!visible) {
+			weaponType.clear();
+			oneHandDamage.clear();
+			twoHandDamage.clear();
+			additionalDamage.clear();
+			additionalDamageType.clear();
+			magicalBonus.setValue(0);
+		}
+	}
+
+	private boolean typeChanged(EquipmentType type1, EquipmentType type2) {
+		if ((type1 == null && type2 != null) || (type1 != null && type2 == null)) {
+			return true;
+		}
+		if (type1 == EquipmentType.ARMOR && type2 != EquipmentType.ARMOR) {
+			return true;
+		}
+		if (type1 == EquipmentType.WEAPON && type2 != EquipmentType.WEAPON) {
+			return true;
+		}
+		if (type2 == EquipmentType.ARMOR && type1 != EquipmentType.ARMOR) {
+			return true;
+		}
+		if (type2 == EquipmentType.WEAPON && type1 != EquipmentType.WEAPON) {
+			return true;
+		}
+		return false;
+	}
 }

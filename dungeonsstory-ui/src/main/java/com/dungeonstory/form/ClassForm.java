@@ -18,7 +18,7 @@ import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.impl.FeatService;
 import com.dungeonstory.backend.service.impl.LevelService;
 import com.dungeonstory.backend.service.impl.SkillService;
-import com.dungeonstory.view.component.DSSubSetSelector;
+import com.dungeonstory.util.field.DSSubSetSelector;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;

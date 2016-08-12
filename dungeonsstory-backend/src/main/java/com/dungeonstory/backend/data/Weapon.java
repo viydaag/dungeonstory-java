@@ -18,17 +18,18 @@ public class Weapon extends Equipment {
 
     private static final long serialVersionUID = 4509403800242686338L;
 
-    @NotNull
     @Pattern(regexp = "\\d+d\\d+")
-    @Column(name = "damage")
-    private String damage;
+    @Column(name = "oneHandDamage")
+    private String oneHandDamage;
+    
+    @Pattern(regexp = "\\d+d\\d+")
+    @Column(name = "twoHandDamage")
+    private String twoHandDamage;
 
-    @NotNull
     @Pattern(regexp = "\\d+d\\d+")
     @Column(name = "additionalDamage")
     private String additionalDamage;
 
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "additionalDamageTypeId")
     private DamageType additionalDamageType;
@@ -36,6 +37,7 @@ public class Weapon extends Equipment {
     @Column(name = "magicalBonus")
     private int magicalBonus;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "weaponTypeId")
     private WeaponType weaponType;

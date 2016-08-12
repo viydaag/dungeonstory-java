@@ -27,10 +27,10 @@ public class TestAbilityService {
         ability.setName("My Test Name");
         service.update(ability);
 
-        Ability region2 = service.findAll().iterator().next();
-        assertEquals("My Test Name", region2.getName());
+        Ability ability2 = service.findAll().iterator().next();
+        assertEquals("My Test Name", ability2.getName());
 
-        service.delete(region2);
+        service.delete(ability2);
         allAbilitys = service.findAll();
         assertNotNull(allAbilitys);
         assertEquals(size - 1, allAbilitys.size());
@@ -48,17 +48,18 @@ public class TestAbilityService {
         assertNotNull(allAbilitys);
         assertTrue(allAbilitys.size() > 0);
 
-        Ability region = allAbilitys.toArray(new Ability[0])[0];
-        region.setName("My Test Name");
-        service.update(region);
+        Ability ability = allAbilitys.toArray(new Ability[0])[0];
+        ability.setName("My Test Name");
+        service.update(ability);
 
-        Ability region2 = service.findAll().iterator().next();
-        assertEquals("My Test Name", region2.getName());
+        Ability ability2 = service.findAll().iterator().next();
+        assertEquals("My Test Name", ability2.getName());
 
-        service.delete(region2);
+        int size = allAbilitys.size();
+        service.delete(ability2);
         allAbilitys = service.findAll();
         assertNotNull(allAbilitys);
-        assertTrue(allAbilitys.size() == 0);
+        assertEquals(size - 1, allAbilitys.size());
     }
 
 }
