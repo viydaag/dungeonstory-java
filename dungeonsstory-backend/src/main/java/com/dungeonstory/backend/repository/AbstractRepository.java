@@ -56,9 +56,10 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
         }
         EntityTransaction transac = entityManager.getTransaction();
         transac.begin();
-        entityManager.remove(entity);
-        flushAndCloseEntityManager();
+        E entity2 = entityManager.getReference(getEntityClass(), entity.getId());
+        entityManager.remove(entity2);
         transac.commit();
+
     }
 
     /**

@@ -148,7 +148,9 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
 			@Override
 			public void valueChange(MValueChangeEvent<ArmorType> event) {
 				ArmorType currentarmorType = event.getValue();
-				weight.setValue((double) currentarmorType.getBaseWeight());
+				if (currentarmorType != null) {
+					weight.setValue((double) currentarmorType.getBaseWeight());
+				}
 			}
 		};
 	}
@@ -161,8 +163,10 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
 			@Override
 			public void valueChange(MValueChangeEvent<WeaponType> event) {
 				WeaponType currentweaponType = event.getValue();
-				oneHandDamage.setValue(currentweaponType.getOneHandBaseDamage());
-				twoHandDamage.setValue(currentweaponType.getTwoHandBaseDamage());
+				if (currentweaponType != null) {
+    				oneHandDamage.setValue(currentweaponType.getOneHandBaseDamage());
+    				twoHandDamage.setValue(currentweaponType.getTwoHandBaseDamage());
+				}
 			}
 		};
 	}

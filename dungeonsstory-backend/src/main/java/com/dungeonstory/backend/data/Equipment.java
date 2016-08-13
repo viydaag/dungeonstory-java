@@ -24,6 +24,7 @@ public class Equipment extends AbstractTimestampEntity implements Serializable {
 
     private static final long serialVersionUID = 1146171037304994442L;
 
+    //TODO: creer une sous-classe pour chaque type ayant chacun un discriminator value.
     public enum EquipmentType {
         ARMOR, WEAPON, RING, AMULET, BRACER, BOOT, BELT, TOOL
     }
@@ -42,6 +43,7 @@ public class Equipment extends AbstractTimestampEntity implements Serializable {
     @Column(name = "isMagical", nullable = false)
     private boolean isMagical;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
     private EquipmentType type;

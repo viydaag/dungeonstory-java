@@ -46,4 +46,52 @@ public class Weapon extends Equipment {
         super();
     }
 
+	public String getOneHandDamage() {
+		return oneHandDamage;
+	}
+
+	public void setOneHandDamage(String oneHandDamage) {
+		this.oneHandDamage = oneHandDamage;
+	}
+
+	public String getTwoHandDamage() {
+		return twoHandDamage;
+	}
+
+	public void setTwoHandDamage(String twoHandDamage) {
+		this.twoHandDamage = twoHandDamage;
+	}
+
+	public String getAdditionalDamage() {
+		return additionalDamage;
+	}
+
+	public void setAdditionalDamage(String additionalDamage) {
+		this.additionalDamage = additionalDamage;
+	}
+
+	public DamageType getAdditionalDamageType() {
+		return additionalDamageType;
+	}
+
+	public void setAdditionalDamageType(DamageType additionalDamageType) {
+		this.additionalDamageType = additionalDamageType;
+	}
+
+	public int getMagicalBonus() {
+		return magicalBonus;
+	}
+
+	public void setMagicalBonus(int magicalBonus) {
+		this.magicalBonus = magicalBonus;
+	}
+
+	public WeaponType getWeaponType() {
+		return weaponType;
+	}
+
+	public void setWeaponType(WeaponType weaponType) {
+		this.weaponType = weaponType;
+	}
+
 }
