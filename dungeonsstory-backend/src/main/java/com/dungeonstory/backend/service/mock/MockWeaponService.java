@@ -7,7 +7,9 @@ import com.dungeonstory.backend.service.AbstractDataService;
 
 public class MockWeaponService extends AbstractDataService<Weapon, Long> {
 
-    private static MockWeaponService instance = null;
+	private static final long serialVersionUID = 2185489528706097579L;
+	
+	private static MockWeaponService instance = null;
 
     public static synchronized MockWeaponService getInstance() {
         if (instance == null) {

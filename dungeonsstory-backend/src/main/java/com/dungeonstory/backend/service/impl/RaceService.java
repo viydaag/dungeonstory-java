@@ -7,7 +7,9 @@ import com.dungeonstory.backend.service.AbstractDataService;
 
 public class RaceService extends AbstractDataService<Race, Long> {
 
-    private static RaceService instance = null;
+	private static final long serialVersionUID = -5279870991334827589L;
+	
+	private static RaceService instance = null;
 
     public static synchronized RaceService getInstance() {
         if (instance == null) {

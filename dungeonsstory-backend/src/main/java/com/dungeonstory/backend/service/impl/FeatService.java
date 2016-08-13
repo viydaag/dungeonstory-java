@@ -7,7 +7,9 @@ import com.dungeonstory.backend.service.AbstractDataService;
 
 public class FeatService extends AbstractDataService<Feat, Long> {
 
-    private static FeatService instance = null;
+	private static final long serialVersionUID = -904004337605184211L;
+	
+	private static FeatService instance = null;
 
     public static synchronized FeatService getInstance() {
         if (instance == null) {

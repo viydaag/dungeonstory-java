@@ -7,7 +7,9 @@ import com.dungeonstory.backend.service.AbstractDataService;
 
 public class DamageTypeService extends AbstractDataService<DamageType, Long> {
 
-    private static DamageTypeService instance = null;
+	private static final long serialVersionUID = 661540660335270613L;
+	
+	private static DamageTypeService instance = null;
 
     public static synchronized DamageTypeService getInstance() {
         if (instance == null) {

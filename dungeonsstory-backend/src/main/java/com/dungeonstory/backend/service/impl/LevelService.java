@@ -10,7 +10,9 @@ import com.dungeonstory.backend.service.AbstractDataService;
 
 public class LevelService extends AbstractDataService<Level, Long> {
 
-    private static LevelService instance = null;
+	private static final long serialVersionUID = -201247987303396553L;
+	
+	private static LevelService instance = null;
 
     public static synchronized LevelService getInstance() {
         if (instance == null) {

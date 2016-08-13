@@ -7,7 +7,9 @@ import com.dungeonstory.backend.service.AbstractDataService;
 
 public class ShopService extends AbstractDataService<Shop, Long> {
 
-    private static ShopService instance = null;
+	private static final long serialVersionUID = 4967508150181211443L;
+	
+	private static ShopService instance = null;
 
     public static synchronized ShopService getInstance() {
         if (instance == null) {

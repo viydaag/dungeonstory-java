@@ -7,7 +7,9 @@ import com.dungeonstory.backend.service.AbstractDataService;
 
 public class MockShopService extends AbstractDataService<Shop, Long> {
 
-    private static MockShopService instance = null;
+	private static final long serialVersionUID = 4229387191031685630L;
+	
+	private static MockShopService instance = null;
 
     public static synchronized MockShopService getInstance() {
         if (instance == null) {

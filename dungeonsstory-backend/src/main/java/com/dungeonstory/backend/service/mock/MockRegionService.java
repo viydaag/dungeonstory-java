@@ -7,7 +7,9 @@ import com.dungeonstory.backend.service.AbstractDataService;
 
 public class MockRegionService extends AbstractDataService<Region, Long> {
 
-    private static MockRegionService instance = null;
+	private static final long serialVersionUID = -64652677610198619L;
+	
+	private static MockRegionService instance = null;
 
     public static synchronized MockRegionService getInstance() {
         if (instance == null) {

@@ -7,7 +7,9 @@ import com.dungeonstory.backend.service.AbstractDataService;
 
 public class SkillService extends AbstractDataService<Skill, Long> {
 
-    private static SkillService instance = null;
+	private static final long serialVersionUID = -5037432994965855361L;
+	
+	private static SkillService instance = null;
 
     public static synchronized SkillService getInstance() {
         if (instance == null) {

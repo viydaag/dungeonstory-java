@@ -7,7 +7,9 @@ import com.dungeonstory.backend.service.AbstractDataService;
 
 public class UserService extends AbstractDataService<User, Long> {
 
-    private static UserService instance = null;
+	private static final long serialVersionUID = 2368180652957632605L;
+	
+	private static UserService instance = null;
 
     public static synchronized UserService getInstance() {
         if (instance == null) {

@@ -8,7 +8,9 @@ import com.dungeonstory.backend.service.AbstractDataService;
 
 public class ClassService extends AbstractDataService<DSClass, Long> {
 
-    private static ClassService instance = null;
+	private static final long serialVersionUID = -188893833207480803L;
+	
+	private static ClassService instance = null;
 
     public static synchronized ClassService getInstance() {
         if (instance == null) {

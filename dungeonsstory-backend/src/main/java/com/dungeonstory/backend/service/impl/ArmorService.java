@@ -7,7 +7,9 @@ import com.dungeonstory.backend.service.AbstractDataService;
 
 public class ArmorService extends AbstractDataService<Armor, Long> {
 
-    private static ArmorService instance = null;
+	private static final long serialVersionUID = -3422908566947579837L;
+	
+	private static ArmorService instance = null;
 
     public static synchronized ArmorService getInstance() {
         if (instance == null) {

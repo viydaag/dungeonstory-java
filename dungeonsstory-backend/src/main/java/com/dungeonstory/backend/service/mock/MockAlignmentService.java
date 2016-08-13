@@ -7,7 +7,9 @@ import com.dungeonstory.backend.service.AbstractDataService;
 
 public class MockAlignmentService extends AbstractDataService<Alignment, Long> {
 
-    private static MockAlignmentService instance = null;
+	private static final long serialVersionUID = 5669347444406948099L;
+	
+	private static MockAlignmentService instance = null;
 
     public static synchronized MockAlignmentService getInstance() {
         if (instance == null) {
