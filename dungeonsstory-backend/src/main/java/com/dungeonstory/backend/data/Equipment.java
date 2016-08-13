@@ -20,13 +20,32 @@ import javax.validation.constraints.NotNull;
 @Table(name = "Equipment")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
-public class Equipment extends AbstractTimestampEntity implements Serializable {
+public abstract class Equipment extends AbstractTimestampEntity implements Serializable {
 
     private static final long serialVersionUID = 1146171037304994442L;
 
     //TODO: creer une sous-classe pour chaque type ayant chacun un discriminator value.
     public enum EquipmentType {
-        ARMOR, WEAPON, RING, AMULET, BRACER, BOOT, BELT, TOOL
+    	
+    	ARMOR(new Armor()), 
+    	WEAPON(new Weapon()), 
+    	RING(new Ring()), 
+    	AMULET(new Amulet()), 
+    	BRACER(new Bracer()), 
+    	BOOT(new Boot()), 
+    	BELT(new Belt()), 
+    	TOOL(new Tool());
+    	
+    	private Equipment equipment;
+    	
+    	private EquipmentType(Equipment equipment) {
+    		this.equipment = equipment;
+    	}
+
+		public final Equipment getEquipment() {
+			return equipment;
+		}
+        
     }
 
     @NotNull

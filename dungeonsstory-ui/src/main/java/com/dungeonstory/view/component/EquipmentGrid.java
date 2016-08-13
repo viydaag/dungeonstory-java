@@ -1,6 +1,9 @@
 package com.dungeonstory.view.component;
 
 import com.dungeonstory.backend.data.Equipment;
+import com.vaadin.data.util.converter.StringToBooleanConverter;
+import com.vaadin.server.FontAwesome;
+import com.vaadin.ui.renderers.HtmlRenderer;
 
 public class EquipmentGrid extends BeanGrid<Equipment> {
 
@@ -8,8 +11,18 @@ public class EquipmentGrid extends BeanGrid<Equipment> {
 
     public EquipmentGrid() {
 		super(Equipment.class);
-		withColumns("name", "type", "description");
-		withHeaderCaption("Nom", "Type", "Description");
+		withColumns("name", "type", "description", "isPurchasable", "isSellable");
+		withHeaderCaption("Nom", "Type", "Description", "Achetable", "Vendable");
+		
+		getColumn("isPurchasable").setRenderer(new HtmlRenderer(),
+            new StringToBooleanConverter(
+                FontAwesome.CHECK_CIRCLE_O.getHtml(),
+                FontAwesome.CIRCLE_O.getHtml()));
+		
+		getColumn("isSellable").setRenderer(new HtmlRenderer(),
+	            new StringToBooleanConverter(
+	                FontAwesome.CHECK_CIRCLE_O.getHtml(),
+	                FontAwesome.CIRCLE_O.getHtml()));
 	}
 
 }

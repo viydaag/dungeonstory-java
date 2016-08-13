@@ -10,12 +10,10 @@ import org.vaadin.viritin.fields.TypedSelect;
 
 import com.dungeonstory.FormCheckBox;
 import com.dungeonstory.backend.Configuration;
-import com.dungeonstory.backend.data.Armor;
 import com.dungeonstory.backend.data.ArmorType;
 import com.dungeonstory.backend.data.DamageType;
 import com.dungeonstory.backend.data.Equipment;
 import com.dungeonstory.backend.data.Equipment.EquipmentType;
-import com.dungeonstory.backend.data.Weapon;
 import com.dungeonstory.backend.data.WeaponType;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.impl.ArmorTypeService;
@@ -180,17 +178,46 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
 			Equipment equip = null;
 			switch (type) {
 			case ARMOR:
-				equip = new Armor();
+				equip = type.getEquipment();
 				showArmorFields(true);
 				showWeaponFields(false);
 				break;
 			case WEAPON:
-				equip = new Weapon();
+				equip = type.getEquipment();
 				showArmorFields(false);
 				showWeaponFields(true);
 				break;
+			case BRACER:
+				equip = type.getEquipment();
+				showArmorFields(false);
+				showWeaponFields(false);
+				break;
+			case AMULET:
+				equip = type.getEquipment();
+				showArmorFields(false);
+				showWeaponFields(false);
+				break;
+			case BELT:
+				equip = type.getEquipment();
+				showArmorFields(false);
+				showWeaponFields(false);
+				break;
+			case RING:
+				equip = type.getEquipment();
+				showArmorFields(false);
+				showWeaponFields(false);
+				break;
+			case BOOT:
+				equip = type.getEquipment();
+				showArmorFields(false);
+				showWeaponFields(false);
+				break;
+			case TOOL:
+				equip = type.getEquipment();
+				showArmorFields(false);
+				showWeaponFields(false);
+				break;
 			default:
-				equip = new Equipment();
 				showArmorFields(false);
 				showWeaponFields(false);
 				break;
