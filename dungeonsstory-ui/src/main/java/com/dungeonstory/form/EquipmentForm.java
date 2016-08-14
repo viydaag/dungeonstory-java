@@ -15,6 +15,7 @@ import com.dungeonstory.backend.data.DamageType;
 import com.dungeonstory.backend.data.Equipment;
 import com.dungeonstory.backend.data.Equipment.EquipmentType;
 import com.dungeonstory.backend.data.WeaponType;
+import com.dungeonstory.backend.data.WeaponType.HandleType;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.impl.ArmorTypeService;
 import com.dungeonstory.backend.service.impl.DamageTypeService;
@@ -114,7 +115,7 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
 		layout.addComponents(armorType, acBonus, magicalAcBonus);
 		layout.addComponents(weaponType, oneHandDamage, twoHandDamage, additionalDamage, additionalDamageType,
 		        magicalAcBonus);
-		
+
 		layout.addComponent(weight);
 
 		layout.addComponent(getToolbar());
@@ -123,7 +124,6 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
 
 		return layout;
 	}
-
 
 	private MValueChangeListener<EquipmentType> createTypeChangeListener() {
 		return new MValueChangeListener<EquipmentType>() {
@@ -137,7 +137,7 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
 			}
 		};
 	}
-	
+
 	private MValueChangeListener<ArmorType> createArmorTypeChangeListener() {
 		return new MValueChangeListener<ArmorType>() {
 
@@ -162,8 +162,22 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
 			public void valueChange(MValueChangeEvent<WeaponType> event) {
 				WeaponType currentweaponType = event.getValue();
 				if (currentweaponType != null) {
-    				oneHandDamage.setValue(currentweaponType.getOneHandBaseDamage());
-    				twoHandDamage.setValue(currentweaponType.getTwoHandBaseDamage());
+					if (currentweaponType.getHandleType() == HandleType.ONE_HANDED
+					        || currentweaponType.getHandleType() == HandleType.VERSATILE) {
+						oneHandDamage.setVisible(true);
+						oneHandDamage.setValue(currentweaponType.getOneHandBaseDamage());
+						if (currentweaponType.getHandleType() == HandleType.ONE_HANDED) {
+							twoHandDamage.setVisible(false);
+						}
+					}
+					if (currentweaponType.getHandleType() == HandleType.TWO_HANDED
+					        || currentweaponType.getHandleType() == HandleType.VERSATILE) {
+						twoHandDamage.setVisible(true);
+						twoHandDamage.setValue(currentweaponType.getTwoHandBaseDamage());
+						if (currentweaponType.getHandleType() == HandleType.TWO_HANDED) {
+							oneHandDamage.setVisible(false);
+						}
+					}
 				}
 			}
 		};
