@@ -11,15 +11,15 @@ import com.dungeonstory.backend.repository.Entity;
 import com.dungeonstory.backend.repository.Repository;
 
 public abstract class MockAbstractRepository<E extends Entity> implements Repository<E, Long> {
-    
+
     protected Map<Long, E> entities = new HashMap<Long, E>();
-    
+
     public MockAbstractRepository() {
         init();
     }
-    
+
     public abstract void init();
-    
+
     /**
      * This method is a manual replacement for database id generation.
      * @param entity
@@ -28,13 +28,13 @@ public abstract class MockAbstractRepository<E extends Entity> implements Reposi
 
     @Override
     public void create(E entity) {
-    	setId(entity);
+        setId(entity);
         entities.put(entity.getId(), entity);
     }
 
     @Override
     public void delete(E entity) {
-        entities.remove(entity.getId());        
+        entities.remove(entity.getId());
     }
 
     @Override
@@ -47,7 +47,7 @@ public abstract class MockAbstractRepository<E extends Entity> implements Reposi
         for (E entity : entitySet) {
             delete(entity);
         }
-        
+
     }
 
     @Override
@@ -63,7 +63,7 @@ public abstract class MockAbstractRepository<E extends Entity> implements Reposi
     @Override
     public void refresh(E entity) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
@@ -95,7 +95,7 @@ public abstract class MockAbstractRepository<E extends Entity> implements Reposi
             entities.put(entity.getId(), entity);
             return entity;
         }
-        
+
         throw new IllegalArgumentException("No entity with id " + entity.getId() + " found");
     }
 

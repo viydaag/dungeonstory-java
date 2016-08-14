@@ -10,53 +10,53 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "Region")
 public class Region extends AbstractTimestampEntity implements Serializable {
-	
-	private static final long serialVersionUID = -6174866486503922786L;
 
-	@NotNull
-	@Column(name = "name", unique = true, nullable = false)
-	private String name;
+    private static final long serialVersionUID = -6174866486503922786L;
 
-	@Column(name = "shortDescription")
-	private String shortDescription;
+    @NotNull
+    @Column(name = "name", unique = true, nullable = false)
+    private String name;
 
-	@Column(name = "description", columnDefinition = "TEXT")
-	private String description;
+    @Column(name = "shortDescription")
+    private String shortDescription;
 
-	public Region() {
-		super();
-	}
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
 
-	public Region(String name) {
-		this();
-		this.name = name;
-	}
+    public Region() {
+        super();
+    }
 
-	public String getName() {
-		return name;
-	}
+    public Region(String name) {
+        this();
+        this.name = name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getShortDescription() {
-		return shortDescription;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setShortDescription(String shortDescription) {
-		this.shortDescription = shortDescription;
-	}
+    public String getShortDescription() {
+        return shortDescription;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public void setShortDescription(String shortDescription) {
+        this.shortDescription = shortDescription;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
-	@Override
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Override
     public String toString() {
         return getName();
     }

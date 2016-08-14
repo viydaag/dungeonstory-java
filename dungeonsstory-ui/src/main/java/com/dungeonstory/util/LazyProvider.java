@@ -8,6 +8,9 @@ import com.vaadin.navigator.View;
  * same instance on subsequent calls.
  */
 public class LazyProvider extends Navigator.ClassBasedViewProvider {
+
+    private static final long serialVersionUID = 68235210211038026L;
+    
     private View view;
 
     public LazyProvider(String viewName, Class<? extends View> viewClass) {

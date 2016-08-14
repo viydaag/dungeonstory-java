@@ -6,7 +6,7 @@ import com.dungeonstory.backend.data.Ability;
 import com.dungeonstory.backend.mock.MockDataGenerator;
 
 public class MockAbilityRepository extends MockAbstractRepository<Ability> {
-    
+
     private static Long idAbility = 1L;
 
     public MockAbilityRepository() {

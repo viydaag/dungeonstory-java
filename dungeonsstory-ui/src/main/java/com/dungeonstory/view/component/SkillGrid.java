@@ -1,7 +1,6 @@
 package com.dungeonstory.view.component;
 
 import com.dungeonstory.backend.data.Skill;
-import com.dungeonstory.samples.crud.BeanGrid;
 
 public class SkillGrid extends BeanGrid<Skill> {
 

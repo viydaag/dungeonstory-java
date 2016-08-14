@@ -1,7 +1,6 @@
 package com.dungeonstory.view.component;
 
 import com.dungeonstory.backend.data.Alignment;
-import com.dungeonstory.samples.crud.BeanGrid;
 
 public class AlignmentGrid extends BeanGrid<Alignment> {
 

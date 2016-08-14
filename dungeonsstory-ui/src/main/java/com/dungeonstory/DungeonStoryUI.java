@@ -3,7 +3,6 @@ package com.dungeonstory;
 import javax.servlet.annotation.WebServlet;
 
 import com.dungeonstory.authentication.AccessControl;
-import com.dungeonstory.authentication.BasicAccessControl;
 import com.dungeonstory.authentication.DsAccessControl;
 import com.dungeonstory.authentication.LoginScreen;
 import com.dungeonstory.authentication.LoginScreen.LoginListener;
@@ -52,6 +51,9 @@ public class DungeonStoryUI extends UI {
         
         if (!accessControl.isUserSignedIn()) {
             setContent(new LoginScreen(accessControl, new LoginListener() {
+
+                private static final long serialVersionUID = 917942908442238610L;
+
                 @Override
                 public void loginSuccessful() {
                     showMainView();

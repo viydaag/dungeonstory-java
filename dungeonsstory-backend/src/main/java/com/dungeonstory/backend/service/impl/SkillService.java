@@ -6,9 +6,11 @@ import com.dungeonstory.backend.repository.impl.SkillRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
 
 public class SkillService extends AbstractDataService<Skill, Long> {
-    
-    private static SkillService instance = null;
-    
+
+	private static final long serialVersionUID = -5037432994965855361L;
+	
+	private static SkillService instance = null;
+
     public static synchronized SkillService getInstance() {
         if (instance == null) {
             instance = new SkillService();
@@ -16,10 +18,10 @@ public class SkillService extends AbstractDataService<Skill, Long> {
         return instance;
     }
 
-	private SkillService() {
-		super();
-		setEntityFactory(new SkillFactory());
-		setRepository(new SkillRepository());
-	}
-	
+    private SkillService() {
+        super();
+        setEntityFactory(new SkillFactory());
+        setRepository(new SkillRepository());
+    }
+
 }

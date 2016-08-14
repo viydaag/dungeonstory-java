@@ -7,7 +7,9 @@ import com.dungeonstory.backend.service.AbstractDataService;
 
 public class MockWeaponTypeService extends AbstractDataService<WeaponType, Long> {
 
-    private static MockWeaponTypeService instance = null;
+	private static final long serialVersionUID = 5408240455537708490L;
+	
+	private static MockWeaponTypeService instance = null;
 
     public static synchronized MockWeaponTypeService getInstance() {
         if (instance == null) {
@@ -15,12 +17,11 @@ public class MockWeaponTypeService extends AbstractDataService<WeaponType, Long>
         }
         return instance;
     }
-    
+
     private MockWeaponTypeService() {
         super();
         setEntityFactory(new WeaponTypeFactory());
         setRepository(new MockWeaponTypeRepository());
     }
-    
-    
+
 }

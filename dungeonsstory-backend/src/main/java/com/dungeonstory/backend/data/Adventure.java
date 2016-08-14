@@ -16,67 +16,67 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "Adventure")
 public class Adventure extends AbstractTimestampEntity implements Serializable {
-	
-	private static final long serialVersionUID = 2976001308437054432L;
 
-	public enum AdventureStatus {
-		OPENED, STARTED, CLOSED, CANCELLED
-	}
+    private static final long serialVersionUID = 2976001308437054432L;
 
-	@NotNull
-	@Column(name = "name", nullable = false)
-	private String name;
+    public enum AdventureStatus {
+        OPENED, STARTED, CLOSED, CANCELLED
+    }
 
-	@Column(name = "description", columnDefinition = "TEXT")
-	private String description;
+    @NotNull
+    @Column(name = "name", nullable = false)
+    private String name;
 
-	@NotNull
-	@ManyToOne
-	@JoinColumn(name = "creatorId")
-	private User creator;
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
 
-	@NotNull
-	@Column(name = "status", nullable = false)
-	@Enumerated(EnumType.STRING)
-	private AdventureStatus status;
-	
-	@OneToMany(mappedBy="adventure")
-	private List<Message> messages;
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "creatorId")
+    private User creator;
 
-	public Adventure() {
-		super();
-	}
+    @NotNull
+    @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private AdventureStatus status;
 
-	public String getName() {
-		return name;
-	}
+    @OneToMany(mappedBy = "adventure")
+    private List<Message> messages;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public Adventure() {
+        super();
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public User getCreator() {
-		return creator;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setCreator(User creator) {
-		this.creator = creator;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public AdventureStatus getStatus() {
-		return status;
-	}
+    public User getCreator() {
+        return creator;
+    }
 
-	public void setStatus(AdventureStatus status) {
-		this.status = status;
-	}
+    public void setCreator(User creator) {
+        this.creator = creator;
+    }
+
+    public AdventureStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(AdventureStatus status) {
+        this.status = status;
+    }
 
 }

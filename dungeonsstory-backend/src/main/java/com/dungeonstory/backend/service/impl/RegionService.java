@@ -7,7 +7,9 @@ import com.dungeonstory.backend.service.AbstractDataService;
 
 public class RegionService extends AbstractDataService<Region, Long> {
 
-    private static RegionService instance = null;
+	private static final long serialVersionUID = -170719357049601722L;
+	
+	private static RegionService instance = null;
 
     public static synchronized RegionService getInstance() {
         if (instance == null) {

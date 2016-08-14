@@ -17,82 +17,60 @@ import javax.validation.constraints.Min;
 @Table(name = "CharacterEquipment")
 public class CharacterEquipment implements Serializable {
 
-	private static final long serialVersionUID = 8452886623922049968L;
+    private static final long serialVersionUID = 8452886623922049968L;
 
-	@Id
-	@Column(name = "characterId")
-	private Long characterId;
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "characterId")
+    private Character character;
 
-	@Id
-	@Column(name = "equipmentId")
-	private Long equipmentId;
-	
-	@Min(value = 1)
-	@Column(name = "quantity")
-	private int quantity;
-	
-	@Min(value = 0)
-	@Column(name = "sellableValue")
-	private BigDecimal sellableValue;
-	
-	@ManyToOne
-	@JoinColumn(name = "characterId", updatable = false, insertable = false)
-	private Character character;
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "equipmentId")
+    private Equipment equipment;
+    
+    @Min(value = 1)
+    @Column(name = "quantity")
+    private int quantity;
 
-	@ManyToOne
-	@JoinColumn(name = "equipmentId", updatable = false, insertable = false)
-	private Equipment equipment;
+    @Min(value = 0)
+    @Column(name = "sellableValue")
+    private BigDecimal sellableValue;
 
-	public CharacterEquipment() {
-		super();
-	}
+    public CharacterEquipment() {
+        super();
+    }
+    
+    public Character getCharacter() {
+        return character;
+    }
 
-	public Long getCharacterId() {
-		return characterId;
-	}
+    public void setCharacter(Character character) {
+        this.character = character;
+    }
 
-	public void setCharacterId(Long characterId) {
-		this.characterId = characterId;
-	}
+    public Equipment getEquipment() {
+        return equipment;
+    }
 
-	public Long getEquipmentId() {
-		return equipmentId;
-	}
+    public void setEquipment(Equipment equipment) {
+        this.equipment = equipment;
+    }
 
-	public void setEquipmentId(Long equipmentId) {
-		this.equipmentId = equipmentId;
-	}
+    public int getQuantity() {
+        return quantity;
+    }
 
-	public int getQuantity() {
-		return quantity;
-	}
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
+    public BigDecimal getSellableValue() {
+        return sellableValue;
+    }
 
-	public BigDecimal getSellableValue() {
-		return sellableValue;
-	}
-
-	public void setSellableValue(BigDecimal sellableValue) {
-		this.sellableValue = sellableValue;
-	}
-
-	public Character getCharacter() {
-		return character;
-	}
-
-	public void setCharacter(Character character) {
-		this.character = character;
-	}
-
-	public Equipment getEquipment() {
-		return equipment;
-	}
-
-	public void setEquipment(Equipment equipment) {
-		this.equipment = equipment;
-	}
+    public void setSellableValue(BigDecimal sellableValue) {
+        this.sellableValue = sellableValue;
+    }
 
 }

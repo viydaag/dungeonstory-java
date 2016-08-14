@@ -10,9 +10,7 @@ public class LoginService {
     private MockUserService service = MockUserService.getInstance();
 
     public User login(String username, String password) throws LoginException {
-//        if (!username.isEmpty() && !password.isEmpty()) {
-//            return new User(username);
-//        }
+
         User user = service.findByUsername(username);
         if (user == null || !user.getPassword().equals(password)) {
             throw new LoginException();

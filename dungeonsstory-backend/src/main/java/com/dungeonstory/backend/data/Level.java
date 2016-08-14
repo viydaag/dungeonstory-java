@@ -17,149 +17,98 @@ import javax.persistence.Version;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-
 @Entity
 @Table(name = "Level")
 public class Level implements com.dungeonstory.backend.repository.Entity, Serializable {
 
-	private static final long serialVersionUID = 4749488433122909200L;
+    private static final long serialVersionUID = 4749488433122909200L;
 
-//	private static Long levelId = 1L;
-	
-	@Id
-	@NotNull
-	@Column(name = "id")
-	private Long id; // id is the level number
+    @Id
+    @NotNull
+    @Column(name = "id")
+    private Long id; // id is the level number
 
-	@Version
-	@Column(name = "version")
-	private int version;
+    @Version
+    @Column(name = "version")
+    private int version;
 
-	@NotNull
-	@Min(value = 0)
-	@Column(name = "maxExperience")
-	private long maxExperience;
+    @NotNull
+    @Min(value = 0)
+    @Column(name = "maxExperience")
+    private long maxExperience;
 
-	@NotNull
-	@Min(value = 0)
-	@Column(name = "proficiencyBonus")
-	private int proficiencyBonus;
+    @NotNull
+    @Min(value = 0)
+    @Column(name = "proficiencyBonus")
+    private int proficiencyBonus;
 
-	// @Min(value = 0)
-	// @Column(name = "bonusFeat")
-	// private boolean hasBonusFeat;
+    @OneToMany(mappedBy = "level")
+    private List<ClassLevelBonus> classBonuses;
 
-	//TODO : move in classLevelBonus
-//	@Column(name = "bonusAbilityScore")
-//	private boolean hasBonusAbilityScore;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created", nullable = false)
+    private Date created;
 
-	// @Min(value = 0)
-	// @Column(name = "maxClassSkillRanks")
-	// private int maxClassSkillRanks;
-	//
-	// @Min(value = 0)
-	// @Column(name = "maxCrossClassSkillRanks")
-	// private int maxCrossClassSkillRanks;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "updated", nullable = false)
+    private Date updated;
 
-	@OneToMany(mappedBy = "level")
-	private List<ClassLevelBonus> classBonuses;
+    public Level() {
+        super();
+    }
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "created", nullable = false)
-	private Date created;
+    public Level(long id, long maxExperience, int proficiencyBonus) {
+        this();
+        this.id = id;
+        this.maxExperience = maxExperience;
+        this.proficiencyBonus = proficiencyBonus;
+    }
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "updated", nullable = false)
-	private Date updated;
+    public Long getId() {
+        return id;
+    }
 
-	public Level() {
-		super();
-//		this.id = levelId++;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public Level(long maxExperience, int proficiencyBonus) {
-		this();
-		this.maxExperience = maxExperience;
-		this.proficiencyBonus = proficiencyBonus;
-	}
+    public long getMaxExperience() {
+        return maxExperience;
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public void setMaxExperience(long maxExperience) {
+        this.maxExperience = maxExperience;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public int getProficiencyBonus() {
+        return proficiencyBonus;
+    }
 
-	public long getMaxExperience() {
-		return maxExperience;
-	}
+    public void setProficiencyBonus(int proficiencyBonus) {
+        this.proficiencyBonus = proficiencyBonus;
+    }
 
-	public void setMaxExperience(long maxExperience) {
-		this.maxExperience = maxExperience;
-	}
+    public int getVersion() {
+        return version;
+    }
 
-	// public boolean isHasBonusFeat() {
-	// return hasBonusFeat;
-	// }
-	//
-	// public void setHasBonusFeat(boolean hasBonusFeat) {
-	// this.hasBonusFeat = hasBonusFeat;
-	// }
+    public void setVersion(int version) {
+        this.version = version;
+    }
 
-	public int getProficiencyBonus() {
-		return proficiencyBonus;
-	}
+    @PrePersist
+    protected void onCreate() {
+        updated = created = new Date();
+    }
 
-	public void setProficiencyBonus(int proficiencyBonus) {
-		this.proficiencyBonus = proficiencyBonus;
-	}
+    @PreUpdate
+    protected void onUpdate() {
+        updated = new Date();
+    }
 
-//	public boolean isHasBonusAbilityScore() {
-//		return hasBonusAbilityScore;
-//	}
-//
-//	public void setHasBonusAbilityScore(boolean hasBonusAbilityScore) {
-//		this.hasBonusAbilityScore = hasBonusAbilityScore;
-//	}
-
-	// public int getMaxClassSkillRanks() {
-	// return maxClassSkillRanks;
-	// }
-	//
-	// public void setMaxClassSkillRanks(int maxClassSkillRanks) {
-	// this.maxClassSkillRanks = maxClassSkillRanks;
-	// }
-	//
-	// public int getMaxCrossClassSkillRanks() {
-	// return maxCrossClassSkillRanks;
-	// }
-	//
-	// public void setMaxCrossClassSkillRanks(int maxCrossClassSkillRanks) {
-	// this.maxCrossClassSkillRanks = maxCrossClassSkillRanks;
-	// }
-
-	public int getVersion() {
-		return version;
-	}
-
-	public void setVersion(int version) {
-		this.version = version;
-	}
-
-	@PrePersist
-	protected void onCreate() {
-		updated = created = new Date();
-	}
-
-	@PreUpdate
-	protected void onUpdate() {
-		updated = new Date();
-	}
-	
-	@Override
-	public String toString() {
-	    return getId().toString();
-	}
+    @Override
+    public String toString() {
+        return getId().toString();
+    }
 
 }

@@ -7,7 +7,9 @@ import com.dungeonstory.backend.service.AbstractDataService;
 
 public class AbilityService extends AbstractDataService<Ability, Long> {
 
-    private static AbilityService instance = null;
+	private static final long serialVersionUID = 6468595169787824606L;
+	
+	private static AbilityService instance = null;
 
     public static synchronized AbilityService getInstance() {
         if (instance == null) {

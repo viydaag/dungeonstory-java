@@ -55,6 +55,13 @@ public interface DataService<E extends Entity, K extends Serializable> {
     * @return the entity read
     */
    E read(K key);
+   
+   /**
+    * Refresh the state of the instance from the database, 
+    * overwriting changes made to the entity, if any. 
+    * @param entity
+    */
+   void refresh(E entity);
 
    /**
     *

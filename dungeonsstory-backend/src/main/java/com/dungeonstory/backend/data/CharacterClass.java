@@ -9,74 +9,54 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @IdClass(CharacterClassId.class)
 @Table(name = "CharacterClass")
 public class CharacterClass implements Serializable {
 
-	private static final long serialVersionUID = -2633155753784402849L;
+    private static final long serialVersionUID = -2633155753784402849L;
 
-	@Id
-	@Column(name = "characterId")
-	private Long characterId;
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "characterId")
+    private Character character;
 
-	@Id
-	@Column(name = "classId")
-	private Long classId;
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "classId")
+    private DSClass classe;
+    
+    @NotNull
+    @Column(name = "classLevel")
+    private int classLevel;
 
-	@Column(name = "classLevel")
-	private int classLevel;
+    public CharacterClass() {
+        // TODO Auto-generated constructor stub
+    }
 
-	@ManyToOne
-	@JoinColumn(name = "characterId", updatable = false, insertable = false)
-	private Character character;
+    public Character getCharacter() {
+        return character;
+    }
 
-	@ManyToOne
-	@JoinColumn(name = "classId", updatable = false, insertable = false)
-	private DSClass classe;
+    public void setCharacter(Character character) {
+        this.character = character;
+    }
+    
+    public DSClass getClasse() {
+        return classe;
+    }
 
-	public CharacterClass() {
-		// TODO Auto-generated constructor stub
-	}
+    public void setClasse(DSClass classe) {
+        this.classe = classe;
+    }
 
-	public Long getCharacterId() {
-		return characterId;
-	}
+    public int getClassLevel() {
+        return classLevel;
+    }
 
-	public void setCharacterId(Long characterId) {
-		this.characterId = characterId;
-	}
-
-	public Long getClassId() {
-		return classId;
-	}
-
-	public void setClassId(Long classId) {
-		this.classId = classId;
-	}
-
-	public Character getCharacter() {
-		return character;
-	}
-
-	public void setCharacter(Character character) {
-		this.character = character;
-	}
-
-	public int getClassLevel() {
-		return classLevel;
-	}
-
-	public void setClassLevel(int classLevel) {
-		this.classLevel = classLevel;
-	}
-
-	public DSClass getClasse() {
-		return classe;
-	}
-
-	public void setClasse(DSClass classe) {
-		this.classe = classe;
-	}
+    public void setClassLevel(int classLevel) {
+        this.classLevel = classLevel;
+    }
 }

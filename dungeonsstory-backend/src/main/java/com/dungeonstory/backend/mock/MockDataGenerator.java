@@ -11,9 +11,12 @@ import com.dungeonstory.backend.data.Alignment;
 import com.dungeonstory.backend.data.ArmorType;
 import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.data.DamageType;
+import com.dungeonstory.backend.data.Feat;
+import com.dungeonstory.backend.data.Feat.FeatUsage;
 import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.backend.data.Race;
 import com.dungeonstory.backend.data.Region;
+import com.dungeonstory.backend.data.Shop;
 import com.dungeonstory.backend.data.Skill;
 import com.dungeonstory.backend.data.User;
 import com.dungeonstory.backend.data.User.UserStatus;
@@ -126,6 +129,12 @@ public class MockDataGenerator {
     private static final String[][] storedRaces = new String[][] {
         {"Humain", "1", "1", "1", "1", "1", "1", "16", "60", "1d6", "65", "1d8", "150", "1d20"}
     };
+    
+    private static final String[][] storedFeats = new String[][] {
+        {"feat1", "ACTION"},
+        {"feat2", "PASSIVE"},
+        {"feat3", "REACTION"}
+    };
 
    
     public static List<Ability> createAbilities() {
@@ -175,7 +184,7 @@ public class MockDataGenerator {
     public static List<Level> createLevels() {
         List<Level> levels = new ArrayList<Level>();
         for (Integer[] level : storedLevels) {
-            levels.add(new Level(level[1], level[2]));
+            levels.add(new Level(level[0], level[1], level[2]));
         }
         return levels;
     }
@@ -251,6 +260,19 @@ public class MockDataGenerator {
             races.add(race);
         }
         return races;
+    }
+
+    public static List<Feat> createFeats() {
+        List<Feat> feats = new ArrayList<Feat>();
+        for (String[] tab : storedFeats) {
+            feats.add(new Feat(tab[0], "", FeatUsage.valueOf(tab[1])));
+        }
+        return feats;
+    }
+
+    public static List<Shop> createShops() {
+        // TODO Auto-generated method stub
+        return null;
     }
     
 

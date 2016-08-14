@@ -1,7 +1,6 @@
 package com.dungeonstory.view.component;
 
 import com.dungeonstory.backend.data.WeaponType;
-import com.dungeonstory.samples.crud.BeanGrid;
 import com.vaadin.data.util.converter.StringToBooleanConverter;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Grid;

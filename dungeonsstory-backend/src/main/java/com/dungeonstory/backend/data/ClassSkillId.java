@@ -3,70 +3,69 @@ package com.dungeonstory.backend.data;
 import java.io.Serializable;
 
 public class ClassSkillId implements Serializable {
-	
-	private static final long serialVersionUID = 7546960040742042357L;
 
-	private Long classId;
+    private static final long serialVersionUID = 7546960040742042357L;
 
-	private Long skillId;
+    private Long classe;
 
-	public ClassSkillId() {
-		// TODO Auto-generated constructor stub
-	}
+    private Long skill;
 
-	public Long getClassId() {
-		return classId;
-	}
+    public ClassSkillId() {
 
-	public void setClassId(Long classId) {
-		this.classId = classId;
-	}
+    }
 
-	public Long getSkillId() {
-		return skillId;
-	}
+    public Long getClasse() {
+        return classe;
+    }
 
-	public void setSkillId(Long skillId) {
-		this.skillId = skillId;
-	}
+    public void setClasse(Long classId) {
+        this.classe = classId;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((classId == null) ? 0 : classId.hashCode());
-		result = prime * result + ((skillId == null) ? 0 : skillId.hashCode());
-		return result;
-	}
+    public Long getSkill() {
+        return skill;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (!(obj instanceof ClassSkillId)) {
-			return false;
-		}
-		ClassSkillId other = (ClassSkillId) obj;
-		if (classId == null) {
-			if (other.classId != null) {
-				return false;
-			}
-		} else if (!classId.equals(other.classId)) {
-			return false;
-		}
-		if (skillId == null) {
-			if (other.skillId != null) {
-				return false;
-			}
-		} else if (!skillId.equals(other.skillId)) {
-			return false;
-		}
-		return true;
-	}
+    public void setSkill(Long skillId) {
+        this.skill = skillId;
+    }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((classe == null) ? 0 : classe.hashCode());
+        result = prime * result + ((skill == null) ? 0 : skill.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof ClassSkillId)) {
+            return false;
+        }
+        ClassSkillId other = (ClassSkillId) obj;
+        if (classe == null) {
+            if (other.classe != null) {
+                return false;
+            }
+        } else if (!classe.equals(other.classe)) {
+            return false;
+        }
+        if (skill == null) {
+            if (other.skill != null) {
+                return false;
+            }
+        } else if (!skill.equals(other.skill)) {
+            return false;
+        }
+        return true;
+    }
 
 }

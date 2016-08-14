@@ -11,59 +11,56 @@ import javax.validation.constraints.NotNull;
 @Table(name = "Alignment")
 public class Alignment extends AbstractTimestampEntity implements Serializable {
 
-	private static final long serialVersionUID = -518798894253295092L;
-	
-	private static Long idAlign = 1L;
+    private static final long serialVersionUID = -518798894253295092L;
 
-	@NotNull
-	@Column(name = "name", unique = true)
-	private String name;
+    @NotNull
+    @Column(name = "name", unique = true)
+    private String name;
 
-	@Column(name = "shortDescription")
-	private String shortDescription;
+    @Column(name = "shortDescription")
+    private String shortDescription;
 
-	@Column(name = "description", columnDefinition = "TEXT")
-	private String description;
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
 
-	public Alignment() {
-		super();
-		setId(idAlign++);
-	}
+    public Alignment() {
+        super();
+    }
 
-	public Alignment(String name, String shortDescription, String description) {
-		this();
-		this.name = name;
-		this.shortDescription = shortDescription;
-		this.description = description;
-	}
+    public Alignment(String name, String shortDescription, String description) {
+        this();
+        this.name = name;
+        this.shortDescription = shortDescription;
+        this.description = description;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getShortDescription() {
-		return shortDescription;
-	}
+    public String getShortDescription() {
+        return shortDescription;
+    }
 
-	public void setShortDescription(String shortDescription) {
-		this.shortDescription = shortDescription;
-	}
+    public void setShortDescription(String shortDescription) {
+        this.shortDescription = shortDescription;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
-	@Override
-	public String toString() {
-	    return getName();
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
 
 }

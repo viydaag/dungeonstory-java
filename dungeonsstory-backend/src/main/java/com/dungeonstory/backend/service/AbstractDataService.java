@@ -8,7 +8,7 @@ import com.dungeonstory.backend.factory.Factory;
 import com.dungeonstory.backend.repository.Entity;
 import com.dungeonstory.backend.repository.Repository;
 
-public abstract class AbstractDataService<E extends Entity, K extends Serializable> implements DataService<E, K> {
+public abstract class AbstractDataService<E extends Entity, K extends Serializable> implements DataService<E, K>, Serializable {
 
     protected Repository<E, K> entityRepository;
     protected Factory<E> entityFactory;
@@ -54,6 +54,11 @@ public abstract class AbstractDataService<E extends Entity, K extends Serializab
     @Override
     public void delete(Collection<E> entitySet) {
         entityRepository.delete(entitySet);
+    }
+    
+    @Override
+    public void refresh(E entity) {
+        entityRepository.refresh(entity);
     }
 
     @Override

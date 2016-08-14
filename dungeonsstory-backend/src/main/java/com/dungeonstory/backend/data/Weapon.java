@@ -15,33 +15,83 @@ import javax.validation.constraints.Pattern;
 @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
 @Table(name = "Weapon")
 public class Weapon extends Equipment {
-	
-	private static final long serialVersionUID = 4509403800242686338L;
 
-	@NotNull
-	@Pattern(regexp = "\\d+d\\d+")
-	@Column(name = "damage")
-	private String damage;
-	
-	@NotNull
-	@Pattern(regexp = "\\d+d\\d+")
-	@Column(name = "additionalDamage")
-	private String additionalDamage;
-	
-	@NotNull
-	@ManyToOne
-	@JoinColumn(name = "additionalDamageTypeId")
-	private DamageType additionalDamageType;
-	
-	@Column(name = "magicalBonus")
-	private int magicalBonus;
-	
-	@ManyToOne
-	@JoinColumn(name = "weaponTypeId")
-	private WeaponType weaponType;
+    private static final long serialVersionUID = 4509403800242686338L;
 
-	public Weapon() {
-		super();
+    @Pattern(regexp = "\\d+d\\d+")
+    @Column(name = "oneHandDamage")
+    private String oneHandDamage;
+    
+    @Pattern(regexp = "\\d+d\\d+")
+    @Column(name = "twoHandDamage")
+    private String twoHandDamage;
+
+    @Pattern(regexp = "\\d+d\\d+")
+    @Column(name = "additionalDamage")
+    private String additionalDamage;
+
+    @ManyToOne
+    @JoinColumn(name = "additionalDamageTypeId")
+    private DamageType additionalDamageType;
+
+    @Column(name = "magicalBonus")
+    private int magicalBonus;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "weaponTypeId")
+    private WeaponType weaponType;
+
+    public Weapon() {
+        super();
+    }
+
+	public String getOneHandDamage() {
+		return oneHandDamage;
+	}
+
+	public void setOneHandDamage(String oneHandDamage) {
+		this.oneHandDamage = oneHandDamage;
+	}
+
+	public String getTwoHandDamage() {
+		return twoHandDamage;
+	}
+
+	public void setTwoHandDamage(String twoHandDamage) {
+		this.twoHandDamage = twoHandDamage;
+	}
+
+	public String getAdditionalDamage() {
+		return additionalDamage;
+	}
+
+	public void setAdditionalDamage(String additionalDamage) {
+		this.additionalDamage = additionalDamage;
+	}
+
+	public DamageType getAdditionalDamageType() {
+		return additionalDamageType;
+	}
+
+	public void setAdditionalDamageType(DamageType additionalDamageType) {
+		this.additionalDamageType = additionalDamageType;
+	}
+
+	public int getMagicalBonus() {
+		return magicalBonus;
+	}
+
+	public void setMagicalBonus(int magicalBonus) {
+		this.magicalBonus = magicalBonus;
+	}
+
+	public WeaponType getWeaponType() {
+		return weaponType;
+	}
+
+	public void setWeaponType(WeaponType weaponType) {
+		this.weaponType = weaponType;
 	}
 
 }

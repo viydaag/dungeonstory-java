@@ -7,7 +7,9 @@ import com.dungeonstory.backend.service.AbstractDataService;
 
 public class AlignmentService extends AbstractDataService<Alignment, Long> {
 
-    private static AlignmentService instance = null;
+	private static final long serialVersionUID = 6724779422597105026L;
+	
+	private static AlignmentService instance = null;
 
     public static synchronized AlignmentService getInstance() {
         if (instance == null) {
@@ -15,11 +17,11 @@ public class AlignmentService extends AbstractDataService<Alignment, Long> {
         }
         return instance;
     }
-    
-	private AlignmentService() {
-		super();
-		setEntityFactory(new AlignmentFactory());
-		setRepository(new AlignmentRepository());
-	}
-	
+
+    private AlignmentService() {
+        super();
+        setEntityFactory(new AlignmentFactory());
+        setRepository(new AlignmentRepository());
+    }
+
 }

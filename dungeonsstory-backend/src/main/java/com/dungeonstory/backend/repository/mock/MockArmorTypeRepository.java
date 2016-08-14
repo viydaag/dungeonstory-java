@@ -6,7 +6,7 @@ import com.dungeonstory.backend.data.ArmorType;
 import com.dungeonstory.backend.mock.MockDataGenerator;
 
 public class MockArmorTypeRepository extends MockAbstractRepository<ArmorType> {
-    
+
     private static Long idArmorType = 1L;
 
     public MockArmorTypeRepository() {

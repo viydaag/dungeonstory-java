@@ -18,71 +18,71 @@ import com.dungeonstory.backend.repository.Entity;
 
 @MappedSuperclass
 public abstract class AbstractTimestampEntity implements Entity {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private Long id;
-	
-	@Version
-	@Column(name = "version")
-	private int version;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "created", nullable = false)
-	private Date created;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "updated", nullable = false)
-	private Date updated;
+    @Version
+    @Column(name = "version")
+    private int version;
 
-	public Long getId() {
-		return id;
-	}
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created", nullable = false)
+    private Date created;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "updated", nullable = false)
+    private Date updated;
 
-	public int getVersion() {
-		return version;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setVersion(int version) {
-		this.version = version;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	@PrePersist
-	protected void onCreate() {
-		updated = created = new Date();
-	}
+    public int getVersion() {
+        return version;
+    }
 
-	@PreUpdate
-	protected void onUpdate() {
-		updated = new Date();
-	}
-	
-	@Override
-	public int hashCode() {
-		int hash = 5;
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        updated = created = new Date();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updated = new Date();
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
         hash = 43 * hash + Objects.hashCode(this.id);
         return hash;
-	}
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		AbstractTimestampEntity other = (AbstractTimestampEntity) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        AbstractTimestampEntity other = (AbstractTimestampEntity) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        return true;
+    }
 }

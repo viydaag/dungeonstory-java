@@ -2,7 +2,6 @@ package com.dungeonstory.backend.data;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
@@ -13,84 +12,58 @@ import javax.persistence.Table;
 @Entity
 @IdClass(ClassLevelBonusFeatId.class)
 @Table(name = "ClassLevelBonusFeat")
-public class ClassLevelBonusFeat implements	Serializable {
+public class ClassLevelBonusFeat implements Serializable {
 
-	private static final long serialVersionUID = 5198775399118036404L;
+    private static final long serialVersionUID = 5198775399118036404L;
 
-	@Id
-	@Column(name = "classId")
-	private Long classId;
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "classId")
+    private DSClass classe;
 
-	@Id
-	@Column(name = "levelId")
-	private Long levelId;
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "levelId")
+    private Level level;
 
-	@Id
-	@Column(name = "featId")
-	private Long featId;
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "featId")
+    private Feat feat;
 
-	@ManyToOne
-	@JoinColumn(name = "classId", updatable = false, insertable = false)
-	private DSClass classe;
+    public ClassLevelBonusFeat() {
+        super();
+    }
 
-	@ManyToOne
-	@JoinColumn(name = "levelId", updatable = false, insertable = false)
-	private Level level;
+    public ClassLevelBonusFeat(DSClass classe, Level level, Feat feat) {
+        this();
+        this.classe = classe;
+        this.level = level;
+        this.feat = feat;
+    }
 
-	@ManyToOne
-	@JoinColumn(name = "featId", updatable = false, insertable = false)
-	private Feat feat;
+    public DSClass getClasse() {
+        return classe;
+    }
 
-	public ClassLevelBonusFeat() {
-		// TODO Auto-generated constructor stub
-	}
+    public void setClasse(DSClass classe) {
+        this.classe = classe;
+    }
 
-	public Long getClassId() {
-		return classId;
-	}
+    public Level getLevel() {
+        return level;
+    }
 
-	public void setClassId(Long classId) {
-		this.classId = classId;
-	}
+    public void setLevel(Level level) {
+        this.level = level;
+    }
 
-	public Long getLevelId() {
-		return levelId;
-	}
+    public Feat getFeat() {
+        return feat;
+    }
 
-	public void setLevelId(Long levelId) {
-		this.levelId = levelId;
-	}
-
-	public Long getFeatId() {
-		return featId;
-	}
-
-	public void setFeatId(Long featId) {
-		this.featId = featId;
-	}
-
-	public DSClass getClasse() {
-		return classe;
-	}
-
-	public void setClasse(DSClass classe) {
-		this.classe = classe;
-	}
-
-	public Level getLevel() {
-		return level;
-	}
-
-	public void setLevel(Level level) {
-		this.level = level;
-	}
-
-	public Feat getFeat() {
-		return feat;
-	}
-
-	public void setFeat(Feat feat) {
-		this.feat = feat;
-	}
+    public void setFeat(Feat feat) {
+        this.feat = feat;
+    }
 
 }

@@ -7,7 +7,9 @@ import com.dungeonstory.backend.service.AbstractDataService;
 
 public class MockRaceService extends AbstractDataService<Race, Long> {
 
-    private static MockRaceService instance = null;
+	private static final long serialVersionUID = 7176060836514456145L;
+	
+	private static MockRaceService instance = null;
 
     public static synchronized MockRaceService getInstance() {
         if (instance == null) {
@@ -15,12 +17,11 @@ public class MockRaceService extends AbstractDataService<Race, Long> {
         }
         return instance;
     }
-    
+
     private MockRaceService() {
         super();
         setEntityFactory(new RaceFactory());
         setRepository(new MockRaceRepository());
     }
-    
-    
+
 }

@@ -6,7 +6,7 @@ import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.mock.MockDataGenerator;
 
 public class MockClassRepository extends MockAbstractRepository<DSClass> {
-    
+
     private static Long idClass = 1L;
 
     public MockClassRepository() {

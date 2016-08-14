@@ -54,6 +54,7 @@ public class User extends AbstractTimestampEntity implements Serializable {
     private UserStatus status;
 
     @OneToOne
+    @JoinColumn(name="characterId")
     private Character character;
 
     public User() {
