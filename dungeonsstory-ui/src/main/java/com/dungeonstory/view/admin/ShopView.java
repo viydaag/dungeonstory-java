@@ -43,9 +43,11 @@ public class ShopView extends AbstractCrudView<Shop> {
     public void entrySaved(Shop entity) {
 
         //set shop for each nested objects
-        List<ShopEquipment> shopEquipments = new ArrayList<ShopEquipment>(entity.getShopEquipments());
-        shopEquipments.stream().forEach(equip -> equip.setShop(entity));
-        entity.setShopEquipments(shopEquipments);
+        if (entity.getShopEquipments() != null) {
+            List<ShopEquipment> shopEquipments = new ArrayList<ShopEquipment>(entity.getShopEquipments());
+            shopEquipments.stream().forEach(equip -> equip.setShop(entity));
+            entity.setShopEquipments(shopEquipments);
+        }
         
         //save to database with nested objects
         super.entrySaved(entity);

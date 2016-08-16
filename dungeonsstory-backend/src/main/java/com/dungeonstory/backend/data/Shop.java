@@ -28,6 +28,7 @@ public class Shop extends AbstractTimestampEntity implements Serializable {
     @OneToMany(mappedBy = "shop", cascade = CascadeType.PERSIST)
     private List<ShopEquipment> shopEquipments;
     
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "cityId")
     private City city;
