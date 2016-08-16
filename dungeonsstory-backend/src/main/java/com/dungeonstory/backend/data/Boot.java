@@ -14,5 +14,10 @@ public class Boot extends Equipment {
 	public Boot() {
 		super();
 	}
+	
+	@Override
+    public String toString() {
+        return getName();
+    }
 
 }

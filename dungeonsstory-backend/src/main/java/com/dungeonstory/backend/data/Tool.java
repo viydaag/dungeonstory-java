@@ -14,5 +14,10 @@ public class Tool extends Equipment {
 	public Tool() {
 		super();
 	}
+	
+	@Override
+    public String toString() {
+        return getName();
+    }
 
 }

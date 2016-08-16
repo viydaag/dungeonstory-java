@@ -1,7 +1,11 @@
 package com.dungeonstory.view.admin;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.Shop;
+import com.dungeonstory.backend.data.ShopEquipment;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.impl.ShopService;
 import com.dungeonstory.backend.service.mock.MockShopService;
@@ -33,6 +37,18 @@ public class ShopView extends AbstractCrudView<Shop> {
             return MockShopService.getInstance();
         }
         return ShopService.getInstance();
+    }
+    
+    @Override
+    public void entrySaved(Shop entity) {
+
+        //set shop for each nested objects
+        List<ShopEquipment> shopEquipments = new ArrayList<ShopEquipment>(entity.getShopEquipments());
+        shopEquipments.stream().forEach(equip -> equip.setShop(entity));
+        entity.setShopEquipments(shopEquipments);
+        
+        //save to database with nested objects
+        super.entrySaved(entity);
     }
 
 }

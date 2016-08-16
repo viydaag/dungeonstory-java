@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -25,6 +27,10 @@ public class Shop extends AbstractTimestampEntity implements Serializable {
     
     @OneToMany(mappedBy = "shop", cascade = CascadeType.PERSIST)
     private List<ShopEquipment> shopEquipments;
+    
+    @ManyToOne
+    @JoinColumn(name = "cityId")
+    private City city;
 
     public Shop() {
 
@@ -54,7 +60,15 @@ public class Shop extends AbstractTimestampEntity implements Serializable {
         this.shopEquipments = shopEquipments;
     }
 
-    @Override
+    public City getCity() {
+		return city;
+	}
+
+	public void setCity(City city) {
+		this.city = city;
+	}
+
+	@Override
     public String toString() {
         return getName();
     }

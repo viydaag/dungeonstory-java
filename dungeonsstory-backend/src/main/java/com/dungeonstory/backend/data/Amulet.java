@@ -14,5 +14,10 @@ public class Amulet extends Equipment {
 	public Amulet() {
 		super();
 	}
+	
+	@Override
+    public String toString() {
+        return getName();
+    }
 
 }
