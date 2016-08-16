@@ -62,6 +62,11 @@ public class BeanGrid<T> extends Grid {
     }
     
     public void withColumns(Object... columns) {
+        for (Object column : columns) {
+            if (((String)column).contains(".")) {
+                getContainer().addNestedContainerProperty((String) column);
+            }
+        }
     	setColumnOrder(columns);
     	removeAllColumns();
     	for (Object column : columns) {
