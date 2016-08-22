@@ -14,5 +14,10 @@ public class Bracer extends Equipment {
 	public Bracer() {
 		super();
 	}
+	
+	@Override
+    public String toString() {
+        return getName();
+    }
 
 }

@@ -1,5 +1,7 @@
 package com.dungeonstory.backend.data;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -11,9 +13,11 @@ import javax.persistence.Table;
 @Entity
 @IdClass(ShopEquipmentId.class)
 @Table(name = "ShopEquipment")
-public class ShopEquipment {
+public class ShopEquipment implements Serializable {
 
-    @Id
+	private static final long serialVersionUID = 6542587794911854312L;
+
+	@Id
     @ManyToOne
     @JoinColumn(name = "shopId")
     private Shop shop;

@@ -8,8 +8,8 @@ public class ShopGrid extends BeanGrid<Shop> {
 
     public ShopGrid() {
 		super(Shop.class);
-		withColumns("name");
-		withHeaderCaption("Nom");
+		withColumns("name", "city.name");
+		withHeaderCaption("Nom du magasin", "Ville");
 	}
 
 }
