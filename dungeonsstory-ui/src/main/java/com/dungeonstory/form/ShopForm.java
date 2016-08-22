@@ -35,7 +35,7 @@ public class ShopForm extends DSAbstractForm<Shop> {
 	private DataService<City, Long>	cityService		 = null;
 
 	public static class ShopEquipmentRow {
-		TypedSelect<Equipment> equipment = new TypedSelect<Equipment>();
+		TypedSelect<Equipment> equipment = new TypedSelect<Equipment>(Equipment.class);
 		IntegerField		   quantity	 = new IntegerField();
 		IntegerField		   unitPrice = new IntegerField();
 	}
