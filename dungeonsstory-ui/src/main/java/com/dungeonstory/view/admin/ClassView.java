@@ -58,18 +58,7 @@ public class ClassView extends AbstractCrudView<DSClass> implements CrudView<DSC
         levelBonuses.stream().forEach(levelBonus -> levelBonus.setClasse(entity));
         entity.setLevelBonuses(levelBonuses);
         
-        //remove the class bonus feats manually if some were removed in the form
-//        if (entity.getId() != null) {
-//            
-//            DSClass currentClass = service.read(entity.getId());
-//            service.refresh(currentClass);
-//            List<ClassLevelBonusFeat> currentFeats = new ArrayList<ClassLevelBonusFeat>(currentClass.getFeatBonuses());
-//            //calculate the difference between persisted feats and new feats
-//            //remaining feats will be removed since they are not in the new feat list
-//            currentFeats.removeAll(feats);
-//            
-//            currentFeats.stream().forEach(feat -> ((ClassService) service).deleteClassLevelBonusFeat(feat));
-//        }
+        //nested entities are automatically removed with the annotation @PrivateOwned
         
         //save to database with nested objects
         super.entrySaved(entity);

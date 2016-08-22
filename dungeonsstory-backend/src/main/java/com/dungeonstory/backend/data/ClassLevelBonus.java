@@ -48,10 +48,6 @@ public class ClassLevelBonus implements Serializable {
     //	private int willSave;
 
     @Min(value = 0)
-    @Column(name = "armorClassBonus")
-    private int armorClassBonus;
-
-    @Min(value = 0)
     @Column(name = "spellBonus")
     private int spellBonus;
 
@@ -121,14 +117,6 @@ public class ClassLevelBonus implements Serializable {
 
     public void setHasAbilityScoreImprovement(boolean hasAbilityScoreImprovement) {
         this.hasAbilityScoreImprovement = hasAbilityScoreImprovement;
-    }
-
-    public int getArmorClassBonus() {
-        return armorClassBonus;
-    }
-
-    public void setArmorClassBonus(int armorClassBonus) {
-        this.armorClassBonus = armorClassBonus;
     }
 
     public int getSpellBonus() {
