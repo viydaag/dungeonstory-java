@@ -20,6 +20,7 @@ import com.dungeonstory.view.admin.RaceView;
 import com.dungeonstory.view.admin.RegionView;
 import com.dungeonstory.view.admin.ShopView;
 import com.dungeonstory.view.admin.SkillView;
+import com.dungeonstory.view.admin.SpellView;
 import com.dungeonstory.view.admin.WeaponTypeView;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
@@ -79,13 +80,14 @@ public class MainScreen extends HorizontalLayout {
     	if (DungeonStoryUI.get().getAccessControl().isUserInRole("admin")) {
     	    addView(AbilityView.class);
     	    addView(AlignmentView.class);
+    	    addView(DamageTypeView.class);
     		addView(RegionView.class);
     		addView(CityView.class);
     		addView(LevelView.class);
     		addView(SkillView.class);
     		addView(FeatView.class);
+    		addView(SpellView.class);
     		addView(ClassView.class);
-    		addView(DamageTypeView.class);
     		addView(RaceView.class);
     		addView(WeaponTypeView.class);
     		addView(ArmorTypeView.class);
