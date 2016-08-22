@@ -9,8 +9,11 @@ import com.vaadin.data.util.converter.Converter;
  * A converter that allows displaying a collection as a comma separated list of
  * strings.
  */
+@SuppressWarnings("rawtypes")
 public class CollectionToStringConverter implements
         Converter<String, Collection> {
+
+    private static final long serialVersionUID = 2735322733987431192L;
 
     @Override
     public Collection convertToModel(String value,

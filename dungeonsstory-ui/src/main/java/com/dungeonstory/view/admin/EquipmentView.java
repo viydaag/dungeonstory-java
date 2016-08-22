@@ -25,11 +25,13 @@ public class EquipmentView<T extends Equipment> extends AbstractCrudView<T> {
         return new EquipmentForm<T>();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public BeanGrid<T> getGrid() {
         return (BeanGrid<T>) new EquipmentGrid();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public DataService<T, Long> getDataService() {
         if (Configuration.getInstance().isMock()) {
@@ -57,6 +59,7 @@ public class EquipmentView<T extends Equipment> extends AbstractCrudView<T> {
         super.deleteSelected(entity);
     }
 
+    @SuppressWarnings("unchecked")
     private void initDataService(T entity) {
         if (entity == null || entity.getType() == null) {
             setService((DataService<T, Long>) EquipmentService.getInstance());

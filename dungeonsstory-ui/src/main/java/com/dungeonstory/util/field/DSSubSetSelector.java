@@ -17,6 +17,7 @@ public class DSSubSetSelector<T> extends SubSetSelector<T> {
         super(elementType);
     }
     
+    @SuppressWarnings("rawtypes")
     @Override
     public void setPropertyDataSource(Property newDataSource) {
         if (newDataSource != null) {

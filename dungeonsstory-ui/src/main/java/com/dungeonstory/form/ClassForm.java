@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
-import org.vaadin.viritin.fields.CaptionGenerator;
 import org.vaadin.viritin.fields.ElementCollectionField;
 import org.vaadin.viritin.fields.ElementCollectionTable;
 import org.vaadin.viritin.fields.IntegerField;
