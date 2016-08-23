@@ -1,9 +1,11 @@
 package com.dungeonstory.backend.data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -14,9 +16,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+
+import org.eclipse.persistence.annotations.PrivateOwned;
 
 @Entity
 @Table(name = "Spell")
@@ -89,17 +93,6 @@ public class Spell extends AbstractTimestampEntity implements Serializable {
         CYLINDER,
         LINE,
         SPHERE
-    }
-    
-    public enum EffectType {
-        DAMAGE,
-        DAMAGE_AND_CONDITION,
-        CURE,
-        ADD_CONDITION,
-        REMOVE_CONDITION,
-        SUMMON,
-        PROTECTION,
-        OTHER
     }
     
     @NotNull
@@ -186,21 +179,14 @@ public class Spell extends AbstractTimestampEntity implements Serializable {
     @Column(name = "higherLevel")
     private boolean higherLevel;
     
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "effectType")
-    private EffectType effectType;
-    
-    @Pattern(regexp = "\\d+d\\d+([\\+\\-]\\d+)*")   //NdN(+/-)N
-    @Column(name = "damage")
-    private String damage;
-    
-    @ManyToOne
-    @JoinColumn(name = "damageTypeId")
-    private DamageType damageType;          //used in case of damage or protection
-    
-    //TODO Conditions
-    
+    @OneToMany(mappedBy = "spell", cascade = {CascadeType.ALL})
+    @PrivateOwned
+    private List<SpellEffect> effects;
+
+    public Spell() {
+        super();
+        effects = new ArrayList<SpellEffect>();
+    }
 
     public String getName() {
         return name;
@@ -354,27 +340,12 @@ public class Spell extends AbstractTimestampEntity implements Serializable {
         this.higherLevel = higherLevel;
     }
 
-    public EffectType getEffectType() {
-        return effectType;
+    public List<SpellEffect> getEffects() {
+        return effects;
     }
 
-    public void setEffectType(EffectType effectType) {
-        this.effectType = effectType;
+    public void setEffects(List<SpellEffect> effects) {
+        this.effects = effects;
     }
 
-    public String getDamage() {
-        return damage;
-    }
-
-    public void setDamage(String damage) {
-        this.damage = damage;
-    }
-
-    public DamageType getDamageType() {
-        return damageType;
-    }
-
-    public void setDamageType(DamageType damageType) {
-        this.damageType = damageType;
-    }
 }
