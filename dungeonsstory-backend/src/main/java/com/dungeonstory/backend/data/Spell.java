@@ -36,22 +36,19 @@ public class Spell extends AbstractTimestampEntity implements Serializable {
     }
     
     public enum ComponentType {
-//        V("Verbal"),
-//        G("Gestuel"),
-//        M("Materiel");
-//        
-//        private String name;
-//        
-//        private ComponentType() {};
-//        
-//        private ComponentType(String name) {
-//            this.name = name;
-//        }
-//
-//        public String getName() {
-//            return name;
-//        }
-        V,G,M;
+        V("Verbal"),
+        G("Gestuel"),
+        M("Materiel");
+        
+        private String name;
+        
+        private ComponentType(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
     }
     
     public enum CastingTime {
