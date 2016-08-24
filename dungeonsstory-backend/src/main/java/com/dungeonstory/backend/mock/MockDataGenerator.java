@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import com.dungeonstory.backend.data.Ability;
 import com.dungeonstory.backend.data.AccessRole;
+import com.dungeonstory.backend.data.AccessRole.RoleType;
 import com.dungeonstory.backend.data.Alignment;
 import com.dungeonstory.backend.data.ArmorType;
 import com.dungeonstory.backend.data.DSClass;
@@ -112,10 +113,10 @@ public class MockDataGenerator {
     };
     
     private static final String[][] storedUsers = new String[][] {
-        {"admin", "admin", "admin", "ACTIVE"},
-        {"test", "test", "user", "ACTIVE"},
-        {"inactive", "inactive", "user", "INACTIVE"},
-        {"waiting", "waiting", "user", "WAITING_FOR_APPROBATION"}
+        {"admin", "admin", "admin", "ADMIN", "ACTIVE"},
+        {"test", "test", "user", "PLAYER", "ACTIVE"},
+        {"inactive", "inactive", "user", "PLAYER", "INACTIVE"},
+        {"waiting", "waiting", "user", "PLAYER", "WAITING_FOR_APPROBATION"}
     };
     
     private static final String[][] storedWeaponTypes = new String[][] {
@@ -192,8 +193,8 @@ public class MockDataGenerator {
     public static List<User> createUsers() {
         List<User> users = new ArrayList<User>();
         for (String[] user : storedUsers) {
-            AccessRole role = new AccessRole(user[2]);
-            users.add(new User(user[0], user[1], role, "", "", UserStatus.valueOf(user[3])));
+            AccessRole role = new AccessRole(user[2], RoleType.valueOf(user[3]));
+            users.add(new User(user[0], user[1], role, "", "", UserStatus.valueOf(user[4])));
         }
         return users;
     }

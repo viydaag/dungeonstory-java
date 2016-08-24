@@ -49,7 +49,7 @@ public class User extends AbstractTimestampEntity implements Serializable {
     @Column(name = "email", nullable = false)
     private String email;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     @Column(name = "status", nullable = false)
     private UserStatus status;
 

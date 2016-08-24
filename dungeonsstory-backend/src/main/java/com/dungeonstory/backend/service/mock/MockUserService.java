@@ -4,8 +4,9 @@ import com.dungeonstory.backend.data.User;
 import com.dungeonstory.backend.factory.impl.UserFactory;
 import com.dungeonstory.backend.repository.mock.MockUserRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
+import com.dungeonstory.backend.service.UserDataService;
 
-public class MockUserService extends AbstractDataService<User, Long> {
+public class MockUserService extends AbstractDataService<User, Long> implements UserDataService {
 
 	private static final long serialVersionUID = 6562852964392301569L;
 	
@@ -24,6 +25,7 @@ public class MockUserService extends AbstractDataService<User, Long> {
         setRepository(new MockUserRepository());
     }
 
+    @Override
     public User findByUsername(String username) {
         return ((MockUserRepository) entityRepository).findByUsername(username);
     }
