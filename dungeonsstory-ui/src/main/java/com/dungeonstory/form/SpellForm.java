@@ -40,7 +40,6 @@ import com.dungeonstory.backend.service.mock.MockEquipmentService;
 import com.dungeonstory.util.field.DSSubSetSelector;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
-import com.vaadin.ui.GridLayout.Area;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 
@@ -158,33 +157,69 @@ public class SpellForm extends DSAbstractForm<Spell> {
         effects = new ElementCollectionField<SpellEffect>(SpellEffect.class, SpellEffectRow.class).withCaption("Effets")
                 .withEditorInstantiator(() -> {
                     SpellEffectRow row = new SpellEffectRow();
-                    // The ManyToOne field needs its options to be populated
                     row.effectType.setOptions(Arrays.asList(EffectType.values()));
                     row.condition.setOptions(Arrays.asList(Condition.values()));
                     row.damageType.setOptions(damageTypeService.findAll());
+                    
                     row.effectType.addMValueChangeListener(new MValueChangeListener<EffectType>() {
-                        
+
+                        private static final long serialVersionUID = 5150637627258948217L;
+
                         @Override
                         public void valueChange(MValueChangeEvent<EffectType> event) {
-                            System.out.println(event.getProperty().toString());
-//                            Area damageArea = effects.getLayout().getComponentArea(row.damage);
-//                            Area damageTypeArea = effects.getLayout().getComponentArea(row.damageType);
-//                            Area armorClassArea = effects.getLayout().getComponentArea(row.armorClass);
-//                            Area conditionArea = effects.getLayout().getComponentArea(row.armorClass);
-//                            if (componentArea != null) {
-//                                System.out.println("column = " + componentArea.getColumn1() +","+ componentArea.getColumn2());
-//                                System.out.println("row = " + componentArea.getRow1() +","+ componentArea.getRow2());
-//                                System.out.println("-------");
-//                            }
+                            
                             if (event != null && event.getValue() != null) {
-                                if (event.getValue() == EffectType.DAMAGE) {
+                                switch (event.getValue()) {
+                                case DAMAGE:
+                                    row.damage.setVisible(true);
+                                    row.damageType.setVisible(true);
+                                    row.armorClass.setVisible(false);
                                     row.condition.setVisible(false);
+                                    break;
+                                case CURE:
+                                    row.damage.setVisible(true);
+                                    row.damageType.setVisible(false);
+                                    row.armorClass.setVisible(false);
+                                    row.condition.setVisible(false);
+                                    break;
+                                case ADD_CONDITION:
+                                case REMOVE_CONDITION:
+                                    row.damage.setVisible(false);
+                                    row.damageType.setVisible(false);
+                                    row.armorClass.setVisible(false);
+                                    row.condition.setVisible(true);
+                                    break;
+                                case PROTECTION:
+                                    row.damage.setVisible(false);
+                                    row.damageType.setVisible(false);
+                                    row.armorClass.setVisible(true);
+                                    row.condition.setVisible(false);
+                                    break;
+                                case RESISTANCE:
+                                    row.damage.setVisible(false);
+                                    row.damageType.setVisible(true);
+                                    row.armorClass.setVisible(false);
+                                    row.condition.setVisible(false);
+                                    break;
+                                case SUMMON:
+                                case OTHER:
+                                    row.damage.setVisible(false);
+                                    row.damageType.setVisible(false);
+                                    row.armorClass.setVisible(false);
+                                    row.condition.setVisible(false);
+                                    break;
                                 }
+                            } else {
+                                row.damage.setVisible(false);
+                                row.damageType.setVisible(false);
+                                row.armorClass.setVisible(false);
+                                row.condition.setVisible(false);
                             }
                         }
                     });
                     return row;
                 });
+        
         effects.setPropertyHeader("effectType", "Effet");
         effects.setPropertyHeader("damage", "Dommage");
         effects.setPropertyHeader("damageType", "Type dommage");
@@ -219,7 +254,6 @@ public class SpellForm extends DSAbstractForm<Spell> {
         showAreaOfEffect();
         showCastingTime();
         showComponents();
-        //		showDamage();
         showDuration();
         showRange();
 
@@ -247,11 +281,5 @@ public class SpellForm extends DSAbstractForm<Spell> {
     private void showRange() {
         rangeValueInFeet.setVisible(range.getValue() == RangeType.DISTANCE);
     }
-
-    //	private void showDamage() {
-    //		damage.setVisible(
-    //		        effectType.getValue() == EffectType.DAMAGE || effectType.getValue() == EffectType.DAMAGE_AND_CONDITION);
-    //		damageType.setVisible(
-    //		        effectType.getValue() == EffectType.DAMAGE || effectType.getValue() == EffectType.DAMAGE_AND_CONDITION);
-    //	}
+    
 }
