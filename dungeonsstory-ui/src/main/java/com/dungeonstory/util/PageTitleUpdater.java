@@ -5,23 +5,23 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Page;
 
 public class PageTitleUpdater implements ViewChangeListener {
-	
-	private static final long serialVersionUID = -1286678743159472768L;
 
-	@Override
-	public boolean beforeViewChange(ViewChangeEvent event) {
-		return true;
-	}
+    private static final long serialVersionUID = -1286678743159472768L;
 
-	@Override
-	public void afterViewChange(ViewChangeEvent event) {
+    @Override
+    public boolean beforeViewChange(ViewChangeEvent event) {
+        return true;
+    }
 
-		View view = event.getNewView();
-		ViewConfig viewConfig = view.getClass().getAnnotation(ViewConfig.class);
+    @Override
+    public void afterViewChange(ViewChangeEvent event) {
 
-		if (viewConfig != null) {
-			Page.getCurrent().setTitle(viewConfig.displayName());
-		}
+        View view = event.getNewView();
+        ViewConfig viewConfig = view.getClass().getAnnotation(ViewConfig.class);
 
-	}
+        if (viewConfig != null) {
+            Page.getCurrent().setTitle(viewConfig.displayName());
+        }
+
+    }
 }

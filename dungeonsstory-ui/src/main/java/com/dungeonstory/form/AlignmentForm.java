@@ -12,33 +12,36 @@ import com.vaadin.ui.TextField;
 public class AlignmentForm extends DSAbstractForm<Alignment> {
 
     private static final long serialVersionUID = -9195608720966852469L;
-    
+
     private TextField name;
-	private TextField shortDescription;
-	private TextArea description;
+    private TextField abbreviation;
+    private TextField shortDescription;
+    private TextArea  description;
 
-	public AlignmentForm() {
-	    super();
-	}
+    public AlignmentForm() {
+        super();
+    }
 
-	@Override
-	public String toString() {
-		return "Alignements";
-	}
+    @Override
+    public String toString() {
+        return "Alignements";
+    }
 
-	@Override
-	protected Component createContent() {
-		FormLayout layout = new FormLayout();
+    @Override
+    protected Component createContent() {
+        FormLayout layout = new FormLayout();
 
-		name = new MTextField("Nom");
-		shortDescription = new MTextField("Description courte");
-		description = new MTextArea("Description").withFullWidth();
-		
-		layout.addComponent(name);
-		layout.addComponent(shortDescription);
-		layout.addComponent(description);
-		layout.addComponent(getToolbar());
+        name = new MTextField("Nom");
+        abbreviation = new MTextField("Abbréviation");
+        shortDescription = new MTextField("Description courte").withFullWidth();
+        description = new MTextArea("Description").withFullWidth();
 
-		return layout;
-	}
+        layout.addComponent(name);
+        layout.addComponent(abbreviation);
+        layout.addComponent(shortDescription);
+        layout.addComponent(description);
+        layout.addComponent(getToolbar());
+
+        return layout;
+    }
 }

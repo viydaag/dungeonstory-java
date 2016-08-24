@@ -64,10 +64,6 @@ public class ArmorType extends AbstractTimestampEntity implements Serializable {
     @Column(name = "baseWeight", nullable = false)
     private int baseWeight;
 
-    @Min(value = 0)
-    @Column(name = "speed", nullable = false)
-    private int speed;
-
     public ArmorType() {
         super();
     }
@@ -83,7 +79,6 @@ public class ArmorType extends AbstractTimestampEntity implements Serializable {
         this.stealthDisavantage = stealthDisavantage;
         this.minStrength = minStrength;
         this.baseWeight = baseWeight;
-        this.speed = speed;
     }
 
     public String getName() {
@@ -148,14 +143,6 @@ public class ArmorType extends AbstractTimestampEntity implements Serializable {
 
     public void setMinStrength(int minStrength) {
         this.minStrength = minStrength;
-    }
-
-    public int getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
     }
 
     @Override

@@ -12,33 +12,33 @@ import com.vaadin.ui.TextField;
 public class AbilityForm extends DSAbstractForm<Ability> {
 
     private static final long serialVersionUID = -9195608720966852469L;
-    
+
     private TextField name;
-	private TextField abbreviation;
-	private TextArea description;
+    private TextField abbreviation;
+    private TextArea  description;
 
-	public AbilityForm() {
-	    super();
-	}
+    public AbilityForm() {
+        super();
+    }
 
-	@Override
-	public String toString() {
-		return "Capacité";
-	}
+    @Override
+    public String toString() {
+        return "Capacité";
+    }
 
-	@Override
-	protected Component createContent() {
-		FormLayout layout = new FormLayout();
+    @Override
+    protected Component createContent() {
+        FormLayout layout = new FormLayout();
 
-		name = new MTextField("Nom");
-		abbreviation = new MTextField("Abbréviation");
-		description = new MTextArea("Description").withFullWidth();
-		
-		layout.addComponent(name);
-		layout.addComponent(abbreviation);
-		layout.addComponent(description);
-		layout.addComponent(getToolbar());
+        name = new MTextField("Nom");
+        abbreviation = new MTextField("Abbréviation");
+        description = new MTextArea("Description").withFullWidth();
 
-		return layout;
-	}
+        layout.addComponent(name);
+        layout.addComponent(abbreviation);
+        layout.addComponent(description);
+        layout.addComponent(getToolbar());
+
+        return layout;
+    }
 }

@@ -12,30 +12,30 @@ import com.vaadin.ui.TextField;
 public class DamageTypeForm extends DSAbstractForm<DamageType> {
 
     private static final long serialVersionUID = 1416085344583485158L;
-    
+
     private TextField name;
-	private TextArea description;
+    private TextArea  description;
 
-	public DamageTypeForm() {
-	    super();
-	}
+    public DamageTypeForm() {
+        super();
+    }
 
-	@Override
-	public String toString() {
-		return "Types de dommage";
-	}
+    @Override
+    public String toString() {
+        return "Types de dommage";
+    }
 
-	@Override
-	protected Component createContent() {
-		FormLayout layout = new FormLayout();
+    @Override
+    protected Component createContent() {
+        FormLayout layout = new FormLayout();
 
-		name = new MTextField("Nom");
-		description = new MTextArea("Description").withFullWidth();
-		
-		layout.addComponent(name);
-		layout.addComponent(description);
-		layout.addComponent(getToolbar());
+        name = new MTextField("Nom");
+        description = new MTextArea("Description").withFullWidth();
 
-		return layout;
-	}
+        layout.addComponent(name);
+        layout.addComponent(description);
+        layout.addComponent(getToolbar());
+
+        return layout;
+    }
 }

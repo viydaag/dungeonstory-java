@@ -17,31 +17,33 @@ import com.vaadin.ui.TextField;
 public class SkillForm extends DSAbstractForm<Skill> {
 
     private static final long serialVersionUID = -4123881637907722632L;
-    
-    private TextField name;
-	private TextArea description;
-	private TypedSelect<Ability> keyAbility;
-	
-	private DataService<Ability, Long> abilityService = AbilityService.getInstance();
 
-	public SkillForm() {
-	    super();
-	}
+    private TextField            name;
+    private TextField            shortDescription;
+    private TextArea             description;
+    private TypedSelect<Ability> keyAbility;
 
-	@Override
-	public String toString() {
-		return "Talents";
-	}
+    private DataService<Ability, Long> abilityService = AbilityService.getInstance();
 
-	@Override
-	protected Component createContent() {
-		FormLayout layout = new FormLayout();
+    public SkillForm() {
+        super();
+    }
 
-		name = new MTextField("Nom");
-		description = new MTextArea("Description").withFullWidth();
-		keyAbility = new TypedSelect<Ability>("Attribut clé", abilityService.findAll());
-		keyAbility.setCaptionGenerator(new CaptionGenerator<Ability>() {
-            
+    @Override
+    public String toString() {
+        return "Talents";
+    }
+
+    @Override
+    protected Component createContent() {
+        FormLayout layout = new FormLayout();
+
+        name = new MTextField("Nom");
+        shortDescription = new MTextField("Description courte").withFullWidth();
+        description = new MTextArea("Description").withFullWidth();
+        keyAbility = new TypedSelect<Ability>("Attribut clé", abilityService.findAll());
+        keyAbility.setCaptionGenerator(new CaptionGenerator<Ability>() {
+
             private static final long serialVersionUID = -3188362153311215227L;
 
             @Override
@@ -49,12 +51,13 @@ public class SkillForm extends DSAbstractForm<Skill> {
                 return option.getName();
             }
         });
-		
-		layout.addComponent(name);
-		layout.addComponent(description);
-		layout.addComponent(keyAbility);
-		layout.addComponent(getToolbar());
 
-		return layout;
-	}
+        layout.addComponent(name);
+        layout.addComponent(shortDescription);
+        layout.addComponent(description);
+        layout.addComponent(keyAbility);
+        layout.addComponent(getToolbar());
+
+        return layout;
+    }
 }

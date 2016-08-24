@@ -49,14 +49,14 @@ public class RaceForm extends DSAbstractForm<Race> {
         name = new MTextField("Nom");
         shortDescription = new MTextField("Description courte");
         description = new MTextArea("Description").withFullWidth();
-        
+
         strModifier = new IntegerField("Modificateur de force");
         dexModifier = new IntegerField("Modificateur de dextérité");
         conModifier = new IntegerField("Modificateur de constitution");
         intModifier = new IntegerField("Modificateur d'intelligence");
         wisModifier = new IntegerField("Modificateur de sagesse");
         chaModifier = new IntegerField("Modificateur de charisme");
-        
+
         minAge = new IntegerField("Âge mimimum");
         maxAge = new IntegerField("Âge maximum");
         ageModifier = new MTextField("Modificateur d'âge");
@@ -68,14 +68,14 @@ public class RaceForm extends DSAbstractForm<Race> {
         layout.addComponent(name);
         layout.addComponent(shortDescription);
         layout.addComponent(description);
-        
+
         layout.addComponent(strModifier);
         layout.addComponent(dexModifier);
         layout.addComponent(conModifier);
         layout.addComponent(intModifier);
         layout.addComponent(wisModifier);
         layout.addComponent(chaModifier);
-        
+
         layout.addComponent(minAge);
         layout.addComponent(maxAge);
         layout.addComponent(ageModifier);
@@ -83,7 +83,7 @@ public class RaceForm extends DSAbstractForm<Race> {
         layout.addComponent(heightModifier);
         layout.addComponent(averageWeight);
         layout.addComponent(weightModifier);
-        
+
         layout.addComponent(getToolbar());
 
         return layout;

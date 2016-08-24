@@ -14,9 +14,9 @@ import com.vaadin.ui.TextField;
 public class FeatForm extends DSAbstractForm<Feat> {
 
     private static final long serialVersionUID = 5697384706401456761L;
-    
-    private TextField name;
-    private TextArea description;
+
+    private TextField             name;
+    private TextArea              description;
     private EnumSelect<FeatUsage> usage;
 
     @Override
@@ -26,7 +26,7 @@ public class FeatForm extends DSAbstractForm<Feat> {
         name = new MTextField("Nom");
         description = new MTextArea("Description").withFullWidth();
         usage = new EnumSelect<FeatUsage>("Usage");
-        
+
         layout.addComponent(name);
         layout.addComponent(description);
         layout.addComponent(usage);
@@ -34,7 +34,7 @@ public class FeatForm extends DSAbstractForm<Feat> {
 
         return layout;
     }
-    
+
     @Override
     public String toString() {
         return "Dons";

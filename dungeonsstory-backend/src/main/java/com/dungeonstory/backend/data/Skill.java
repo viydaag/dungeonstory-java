@@ -22,6 +22,9 @@ public class Skill extends AbstractTimestampEntity implements Serializable {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
+    @Column(name = "shortDescription")
+    private String shortDescription;
+    
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
@@ -51,6 +54,14 @@ public class Skill extends AbstractTimestampEntity implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getShortDescription() {
+        return shortDescription;
+    }
+
+    public void setShortDescription(String shortDescription) {
+        this.shortDescription = shortDescription;
     }
 
     public String getDescription() {

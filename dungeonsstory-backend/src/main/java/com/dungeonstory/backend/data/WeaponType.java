@@ -70,11 +70,11 @@ public class WeaponType extends AbstractTimestampEntity implements Serializable 
     @Enumerated(EnumType.STRING)
     private RangeType rangeType;
 
-    @Pattern(regexp = "\\d+d\\d+")
+    @Pattern(regexp = "\\d+d\\d+([\\+\\-]\\d+)*")
     @Column(name = "oneHandBaseDamage")
     private String oneHandBaseDamage;
 
-    @Pattern(regexp = "\\d+d\\d+")
+    @Pattern(regexp = "\\d+d\\d+([\\+\\-]\\d+)*")
     @Column(name = "twoHandBaseDamage")
     private String twoHandBaseDamage;
 
