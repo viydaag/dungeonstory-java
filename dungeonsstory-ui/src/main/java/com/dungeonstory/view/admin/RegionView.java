@@ -15,12 +15,12 @@ import com.dungeonstory.view.component.RegionGrid;
 @ViewConfig(uri = "regions", displayName = "Régions")
 public class RegionView extends AbstractCrudView<Region> {
 
-	private static final long serialVersionUID = 5117755861151432771L;
-	
-	public RegionView() {
-	    super();
-	}
-	
+    private static final long serialVersionUID = 5117755861151432771L;
+
+    public RegionView() {
+        super();
+    }
+
     @Override
     public DSAbstractForm<Region> getForm() {
         return new RegionForm();

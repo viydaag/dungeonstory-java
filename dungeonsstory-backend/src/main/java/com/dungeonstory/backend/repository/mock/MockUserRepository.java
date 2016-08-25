@@ -1,7 +1,6 @@
 package com.dungeonstory.backend.repository.mock;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.dungeonstory.backend.data.User;
 import com.dungeonstory.backend.mock.MockDataGenerator;

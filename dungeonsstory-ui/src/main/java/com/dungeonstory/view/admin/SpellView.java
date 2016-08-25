@@ -4,20 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.dungeonstory.backend.Configuration;
-import com.dungeonstory.backend.data.ClassLevelBonus;
-import com.dungeonstory.backend.data.ClassLevelBonusFeat;
-import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.data.Spell;
 import com.dungeonstory.backend.data.SpellEffect;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.impl.SpellService;
 import com.dungeonstory.backend.service.mock.MockSpellService;
-import com.dungeonstory.form.SpellForm;
 import com.dungeonstory.form.DSAbstractForm;
+import com.dungeonstory.form.SpellForm;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.AbstractCrudView;
-import com.dungeonstory.view.component.SpellGrid;
 import com.dungeonstory.view.component.BeanGrid;
+import com.dungeonstory.view.component.SpellGrid;
 
 @ViewConfig(uri = "spells", displayName = "Sorts")
 public class SpellView extends AbstractCrudView<Spell> {

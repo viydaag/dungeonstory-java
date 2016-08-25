@@ -62,7 +62,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     private DataService<Feat, Long>       featService       = null;
     private DataService<WeaponType, Long> weaponTypeService = null;
     private DataService<Ability, Long>    abilityService    = null;
-    private DataService<Spell, Long>    spellService    = null;
+    private DataService<Spell, Long>      spellService      = null;
 
     public static class ClassLevelBonusRow {
         TypedSelect<Level> level                      = new TypedSelect<Level>();
@@ -180,7 +180,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         featBonuses.setPropertyHeader("level", "Niveau");
         featBonuses.setPropertyHeader("feat", "Don");
         featBonuses.setWidth("80%");
-        
+
         spells = new DSSubSetSelector<Spell>(Spell.class);
         spells.setCaption("Sorts de classe");
         spells.setVisibleProperties("level", "name", "school");

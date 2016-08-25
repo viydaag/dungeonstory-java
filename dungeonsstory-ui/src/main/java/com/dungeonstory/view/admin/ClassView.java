@@ -21,10 +21,10 @@ import com.dungeonstory.view.component.ClassGrid;
 @ViewConfig(uri = "classes", displayName = "Classes")
 public class ClassView extends AbstractCrudView<DSClass> implements CrudView<DSClass> {
 
-	private static final long serialVersionUID = 5117755861151432771L;
-	
-	public ClassView() {
-	    super();
+    private static final long serialVersionUID = 5117755861151432771L;
+
+    public ClassView() {
+        super();
     }
 
     @Override
@@ -44,7 +44,7 @@ public class ClassView extends AbstractCrudView<DSClass> implements CrudView<DSC
         }
         return ClassService.getInstance();
     }
-    
+
     @Override
     public void entrySaved(DSClass entity) {
 
@@ -52,13 +52,13 @@ public class ClassView extends AbstractCrudView<DSClass> implements CrudView<DSC
         List<ClassLevelBonusFeat> feats = new ArrayList<ClassLevelBonusFeat>(entity.getFeatBonuses());
         feats.stream().forEach(feat -> feat.setClasse(entity));
         entity.setFeatBonuses(feats);
-        
+
         List<ClassLevelBonus> levelBonuses = new ArrayList<ClassLevelBonus>(entity.getLevelBonuses());
         levelBonuses.stream().forEach(levelBonus -> levelBonus.setClasse(entity));
         entity.setLevelBonuses(levelBonuses);
-        
+
         //nested entities are automatically removed with the annotation @PrivateOwned
-        
+
         //save to database with nested objects
         super.entrySaved(entity);
     }

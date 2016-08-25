@@ -16,11 +16,11 @@ import com.dungeonstory.view.component.DamageTypeGrid;
 public class DamageTypeView extends AbstractCrudView<DamageType> {
 
     private static final long serialVersionUID = 2197369530490492330L;
-    
-	public DamageTypeView() {
-		super();
-	}
-	
+
+    public DamageTypeView() {
+        super();
+    }
+
     @Override
     public DSAbstractForm<DamageType> getForm() {
         return new DamageTypeForm();

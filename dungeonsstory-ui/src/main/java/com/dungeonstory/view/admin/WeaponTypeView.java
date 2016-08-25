@@ -16,11 +16,11 @@ import com.dungeonstory.view.component.WeaponTypeGrid;
 public class WeaponTypeView extends AbstractCrudView<WeaponType> {
 
     private static final long serialVersionUID = 4239959044896030062L;
-    
-	public WeaponTypeView() {
-		super();
-	}
-	
+
+    public WeaponTypeView() {
+        super();
+    }
+
     @Override
     public DSAbstractForm<WeaponType> getForm() {
         return new WeaponTypeForm();
