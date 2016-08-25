@@ -47,6 +47,22 @@ insert into level(id, maxExperience, proficiencyBonus, version, created, updated
 insert into level(id, maxExperience, proficiencyBonus, version, created, updated) values(9, 64000, 4, 1, now(), now());
 insert into level(id, maxExperience, proficiencyBonus, version, created, updated) values(10, 85000, 4, 1, now(), now());
 
+insert into language (id, name, script, version, created, updated) VALUES (1, 'Commun', 'Commun', 1, now(), now());
+insert into language (id, name, script, version, created, updated) VALUES (2, 'Nain', 'Nain', 1, now(), now());
+insert into language (id, name, script, version, created, updated) VALUES (3, 'Elfe', 'Elfe', 1, now(), now());
+insert into language (id, name, script, version, created, updated) VALUES (4, 'Géant', 'Nain', 1, now(), now());
+insert into language (id, name, script, version, created, updated) VALUES (5, 'Gnome', 'Nain', 1, now(), now());
+insert into language (id, name, script, version, created, updated) VALUES (6, 'Gobelin', 'Nain', 1, now(), now());
+insert into language (id, name, script, version, created, updated) VALUES (7, 'Halfelin', 'Commun', 1, now(), now());
+insert into language (id, name, script, version, created, updated) VALUES (8, 'Orc', 'Nain', 1, now(), now());
+insert into language (id, name, script, version, created, updated) VALUES (9, 'Abyssal', 'Infernal', 1, now(), now());
+insert into language (id, name, script, version, created, updated) VALUES (10, 'Céleste', 'Céleste', 1, now(), now());
+insert into language (id, name, script, version, created, updated) VALUES (11, 'Draconique', 'Draconique', 1, now(), now());
+insert into language (id, name, script, version, created, updated) VALUES (12, 'Profondeur', 'Elfe', 1, now(), now());
+insert into language (id, name, script, version, created, updated) VALUES (13, 'Infernal', 'Infernal', 1, now(), now());
+insert into language (id, name, script, version, created, updated) VALUES (14, 'Primordial', 'Nain', 1, now(), now());
+insert into language (id, name, script, version, created, updated) VALUES (15, 'Sylvain', 'Elfe', 1, now(), now());
+
 insert into skill(id, name, keyAbilityId, shortDescription, description, version, created, updated) values (1, 'Athlétisme', 1, 'Utiliser dans les situations difficiles pour grimper, sauter ou nager.', '', 1, now(), now());
 insert into skill(id, name, keyAbilityId, shortDescription, description, version, created, updated) values (2, 'Acrobatie', 2, 'Rester sure ses pieds dans les situation difficiles.', '', 1, now(), now());
 insert into skill(id, name, keyAbilityId, shortDescription, description, version, created, updated) values (3, 'Passe-passe', 2, 'Utiliser sa dextérité pour cacher, déplacer ou voler quelque chose sans être repéré.', '', 1, now(), now());
