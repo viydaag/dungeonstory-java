@@ -347,5 +347,10 @@ public class Spell extends AbstractTimestampEntity implements Serializable {
     public void setEffects(List<SpellEffect> effects) {
         this.effects = effects;
     }
+    
+    @Override
+    public String toString() {
+        return getName();
+    }
 
 }

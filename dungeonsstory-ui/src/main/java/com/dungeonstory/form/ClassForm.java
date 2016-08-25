@@ -20,17 +20,20 @@ import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.data.Feat;
 import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.backend.data.Skill;
+import com.dungeonstory.backend.data.Spell;
 import com.dungeonstory.backend.data.WeaponType;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.impl.AbilityService;
 import com.dungeonstory.backend.service.impl.FeatService;
 import com.dungeonstory.backend.service.impl.LevelService;
 import com.dungeonstory.backend.service.impl.SkillService;
+import com.dungeonstory.backend.service.impl.SpellService;
 import com.dungeonstory.backend.service.impl.WeaponTypeService;
 import com.dungeonstory.backend.service.mock.MockAbilityService;
 import com.dungeonstory.backend.service.mock.MockFeatService;
 import com.dungeonstory.backend.service.mock.MockLevelService;
 import com.dungeonstory.backend.service.mock.MockSkillService;
+import com.dungeonstory.backend.service.mock.MockSpellService;
 import com.dungeonstory.backend.service.mock.MockWeaponTypeService;
 import com.dungeonstory.util.field.DSSubSetSelector;
 import com.vaadin.ui.CheckBox;
@@ -52,12 +55,14 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     private DSSubSetSelector<Skill>                     baseSkills;
     private ElementCollectionField<ClassLevelBonus>     levelBonuses;
     private ElementCollectionTable<ClassLevelBonusFeat> featBonuses;
+    private DSSubSetSelector<Spell>                     spells;
 
     private DataService<Skill, Long>      skillService      = null;
     private DataService<Level, Long>      levelService      = null;
     private DataService<Feat, Long>       featService       = null;
     private DataService<WeaponType, Long> weaponTypeService = null;
     private DataService<Ability, Long>    abilityService    = null;
+    private DataService<Spell, Long>    spellService    = null;
 
     public static class ClassLevelBonusRow {
         TypedSelect<Level> level                      = new TypedSelect<Level>();
@@ -87,12 +92,14 @@ public class ClassForm extends DSAbstractForm<DSClass> {
             featService = MockFeatService.getInstance();
             weaponTypeService = MockWeaponTypeService.getInstance();
             abilityService = MockAbilityService.getInstance();
+            spellService = MockSpellService.getInstance();
         } else {
             skillService = SkillService.getInstance();
             levelService = LevelService.getInstance();
             featService = FeatService.getInstance();
             weaponTypeService = WeaponTypeService.getInstance();
             abilityService = AbilityService.getInstance();
+            spellService = SpellService.getInstance();
         }
     }
 
@@ -173,6 +180,16 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         featBonuses.setPropertyHeader("level", "Niveau");
         featBonuses.setPropertyHeader("feat", "Don");
         featBonuses.setWidth("80%");
+        
+        spells = new DSSubSetSelector<Spell>(Spell.class);
+        spells.setCaption("Sorts de classe");
+        spells.setVisibleProperties("level", "name", "school");
+        spells.setColumnHeader("name", "Sort");
+        spells.setColumnHeader("level", "Niveau du sort");
+        spells.setColumnHeader("school", "École");
+        spells.setOptions((List<Spell>) spellService.findAll());
+        spells.setWidth("80%");
+        spells.setValue(null); //nothing selected
 
         layout.addComponent(name);
         layout.addComponent(shortDescription);
@@ -183,6 +200,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         layout.addComponent(baseSkills);
         layout.addComponent(levelBonuses);
         layout.addComponent(featBonuses);
+        layout.addComponent(spells);
         layout.addComponent(getToolbar());
 
         return layout;

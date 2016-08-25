@@ -80,6 +80,12 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
     @OneToMany(mappedBy = "classe", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @PrivateOwned   //means that a class level bonus feat will be deleted if not attached to a class
     private List<ClassLevelBonusFeat> featBonuses;
+    
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @JoinTable(name = "ClassSpell", joinColumns = {
+        @JoinColumn(name = "classId", referencedColumnName = "id") }, 
+            inverseJoinColumns = { @JoinColumn(name = "spellId", referencedColumnName = "id") })
+    private Set<Spell> spells;
 
     public DSClass() {
         savingThrowProficiencies = new HashSet<Ability>();
@@ -168,6 +174,14 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
 
     public void setFeatBonuses(List<ClassLevelBonusFeat> featBonuses) {
         this.featBonuses = featBonuses;
+    }
+
+    public Set<Spell> getSpells() {
+        return spells;
+    }
+
+    public void setSpells(Set<Spell> spells) {
+        this.spells = spells;
     }
 
     @Override

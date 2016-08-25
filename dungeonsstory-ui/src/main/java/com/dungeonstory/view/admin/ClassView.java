@@ -25,7 +25,6 @@ public class ClassView extends AbstractCrudView<DSClass> implements CrudView<DSC
 	
 	public ClassView() {
 	    super();
-        setFormPopup(true);
     }
 
     @Override
