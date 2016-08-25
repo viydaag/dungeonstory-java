@@ -35,10 +35,9 @@ import com.vaadin.ui.themes.ValoTheme;
 @Widgetset("com.dungeonstory.DSWidgetset")
 public class DungeonStoryUI extends UI {
 
+    private static final long serialVersionUID = -5249908238351407763L;
 
-	private static final long serialVersionUID = -5249908238351407763L;
-	
-	private EventBus eventBus;
+    private EventBus      eventBus;
     private AccessControl accessControl = new DsAccessControl();
 
     @Override
@@ -46,9 +45,9 @@ public class DungeonStoryUI extends UI {
         Responsive.makeResponsive(this);
         setLocale(vaadinRequest.getLocale());
         getPage().setTitle("DungeonStory");
-        
+
         setupEventBus();
-        
+
         if (!accessControl.isUserSignedIn()) {
             setContent(new LoginScreen(accessControl, new LoginListener() {
 
@@ -67,7 +66,7 @@ public class DungeonStoryUI extends UI {
     protected void showMainView() {
         addStyleName(ValoTheme.UI_WITH_MENU);
         setContent(new MainScreen(DungeonStoryUI.this));
-//        getNavigator().navigateTo(getNavigator().getState());
+        //        getNavigator().navigateTo(getNavigator().getState());
     }
 
     public static DungeonStoryUI get() {
@@ -77,7 +76,7 @@ public class DungeonStoryUI extends UI {
     public AccessControl getAccessControl() {
         return accessControl;
     }
-    
+
     private void setupEventBus() {
         eventBus = new EventBus((throwable, subscriberExceptionContext) -> {
             // log error
@@ -93,12 +92,12 @@ public class DungeonStoryUI extends UI {
     public static EventBus getEventBus() {
         return getCurrent().eventBus;
     }
-    
+
     @Subscribe
     public void navigateTo(NavigationEvent view) {
         getNavigator().navigateTo(view.getViewName());
     }
-    
+
     @Subscribe
     public void logout(LogoutEvent logoutEvent) {
         // Don't invalidate the underlying HTTP session if you are using it for something else
@@ -110,7 +109,7 @@ public class DungeonStoryUI extends UI {
     @WebServlet(urlPatterns = "/*", name = "DungeonStoryUIServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = DungeonStoryUI.class, productionMode = false)
     public static class DungeonStoryUIServlet extends VaadinServlet {
-    	
-		private static final long serialVersionUID = 4139296258602945675L;
+
+        private static final long serialVersionUID = 4139296258602945675L;
     }
 }

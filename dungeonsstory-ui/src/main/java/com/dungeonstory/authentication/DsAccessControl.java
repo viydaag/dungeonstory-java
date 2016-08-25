@@ -42,7 +42,7 @@ public class DsAccessControl implements AccessControl {
     public String getRoleName() {
         if (isUserSignedIn()) {
             if (CurrentUser.get().getRole() != null) {
-                return CurrentUser.get().getRole().getName();
+                return CurrentUser.get().getRole().getType().name();
             }
         }
         return "";

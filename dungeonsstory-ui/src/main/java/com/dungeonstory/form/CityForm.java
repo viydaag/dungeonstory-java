@@ -17,44 +17,44 @@ import com.vaadin.ui.TextField;
 
 public class CityForm extends DSAbstractForm<City> {
 
-	private static final long serialVersionUID = -6970583377484285924L;
+    private static final long serialVersionUID = -6970583377484285924L;
 
-	private TextField			name;
-	private TypedSelect<Region>	region;
-	private TextField			shortDescription;
-	private TextArea			description;
+    private TextField           name;
+    private TypedSelect<Region> region;
+    private TextField           shortDescription;
+    private TextArea            description;
 
-	private DataService<Region, Long> regionService;
+    private DataService<Region, Long> regionService;
 
-	public CityForm() {
-		super();
-		if (Configuration.getInstance().isMock()) {
-			regionService = MockRegionService.getInstance();
-		} else {
-			regionService = RegionService.getInstance();
-		}
-	}
+    public CityForm() {
+        super();
+        if (Configuration.getInstance().isMock()) {
+            regionService = MockRegionService.getInstance();
+        } else {
+            regionService = RegionService.getInstance();
+        }
+    }
 
-	@Override
-	public String toString() {
-		return "Villes";
-	}
+    @Override
+    public String toString() {
+        return "Villes";
+    }
 
-	@Override
-	protected Component createContent() {
-		FormLayout layout = new FormLayout();
+    @Override
+    protected Component createContent() {
+        FormLayout layout = new FormLayout();
 
-		name = new MTextField("Nom");
-		region = new TypedSelect<Region>("Région", regionService.findAll());
-		shortDescription = new MTextField("Description courte");
-		description = new MTextArea("Description").withFullWidth();
+        name = new MTextField("Nom");
+        region = new TypedSelect<Region>("Région", regionService.findAll());
+        shortDescription = new MTextField("Description courte");
+        description = new MTextArea("Description").withFullWidth();
 
-		layout.addComponent(name);
-		layout.addComponent(region);
-		layout.addComponent(shortDescription);
-		layout.addComponent(description);
-		layout.addComponent(getToolbar());
+        layout.addComponent(name);
+        layout.addComponent(region);
+        layout.addComponent(shortDescription);
+        layout.addComponent(description);
+        layout.addComponent(getToolbar());
 
-		return layout;
-	}
+        return layout;
+    }
 }

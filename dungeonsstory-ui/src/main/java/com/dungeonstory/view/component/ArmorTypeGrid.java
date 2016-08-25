@@ -17,6 +17,7 @@ public class ArmorTypeGrid extends BeanGrid<ArmorType> {
         withHeaderCaption("Nom", "Type de compétence", "Classe d'armure", "Bonus max dextérité", "Désavantage furtivité", "Force minimum");
         
         getColumn("maxDexBonus").setRenderer(new ModifierRenderer());
+        getColumn("baseArmorClass").setRenderer(new ModifierRenderer());
         
         Grid.Column stealthDisavantage = getColumn("stealthDisavantage");
         stealthDisavantage.setRenderer(new HtmlRenderer(),

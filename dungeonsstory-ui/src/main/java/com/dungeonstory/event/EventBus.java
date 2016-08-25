@@ -8,15 +8,15 @@ import com.dungeonstory.DungeonStoryUI;
  */
 public class EventBus {
 
-	public static void register(final Object listener) {
-		DungeonStoryUI.getEventBus().register(listener);
-	}
+    public static void register(final Object listener) {
+        DungeonStoryUI.getEventBus().register(listener);
+    }
 
-	public static void unregister(final Object listener) {
-		DungeonStoryUI.getEventBus().unregister(listener);
-	}
+    public static void unregister(final Object listener) {
+        DungeonStoryUI.getEventBus().unregister(listener);
+    }
 
-	public static void post(final Object event) {
-		DungeonStoryUI.getEventBus().post(event);
-	}
+    public static void post(final Object event) {
+        DungeonStoryUI.getEventBus().post(event);
+    }
 }

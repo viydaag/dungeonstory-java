@@ -11,11 +11,14 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ViewConfig {
-    enum CreateMode {ALWAYS_NEW, LAZY_INIT, EAGER_INIT}
+    
+    public enum CreateMode {
+        ALWAYS_NEW, LAZY_INIT, EAGER_INIT
+    }
 
     String uri();
 
-	String displayName();
+    String displayName();
 
-	CreateMode createMode() default CreateMode.ALWAYS_NEW;
+    CreateMode createMode() default CreateMode.ALWAYS_NEW;
 }

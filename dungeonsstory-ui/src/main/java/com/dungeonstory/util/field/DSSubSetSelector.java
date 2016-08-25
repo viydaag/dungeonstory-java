@@ -1,5 +1,6 @@
 package com.dungeonstory.util.field;
 
+import org.vaadin.viritin.fields.MTable;
 import org.vaadin.viritin.fields.SubSetSelector;
 
 import com.vaadin.data.Property;
@@ -17,11 +18,16 @@ public class DSSubSetSelector<T> extends SubSetSelector<T> {
         super(elementType);
     }
     
+    @SuppressWarnings("rawtypes")
     @Override
     public void setPropertyDataSource(Property newDataSource) {
         if (newDataSource != null) {
             super.setPropertyDataSource(newDataSource);
         }
+    }
+    
+    public MTable<T> getTable() {
+        return super.getTable();
     }
 
 }

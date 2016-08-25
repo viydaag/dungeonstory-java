@@ -7,8 +7,12 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -42,6 +46,26 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
     @Min(value = 0)
     @Column(name = "lifePointPerLevel", nullable = false)
     private int lifePointPerLevel;
+    
+    @ManyToMany
+    @JoinTable(name = "ClassSavingThrowProficiencies", joinColumns = {
+        @JoinColumn(name = "classId", referencedColumnName = "id") }, 
+            inverseJoinColumns = { @JoinColumn(name = "abilityId", referencedColumnName = "id") })
+    @PrivateOwned
+    private Set<Ability> savingThrowProficiencies;
+    
+    @ElementCollection(targetClass = ArmorType.ProficiencyType.class)
+    @CollectionTable(name = "ClassArmorProficiencies", joinColumns = @JoinColumn(name = "classId", nullable = false))
+    @Column(name = "proficiency", nullable = false)
+    @Enumerated(EnumType.STRING)
+    @PrivateOwned
+    private Set<ArmorType.ProficiencyType> armorProficiencies;
+    
+    @ManyToMany
+    @JoinTable(name = "ClassWeaponProficiencies", joinColumns = {
+        @JoinColumn(name = "classId", referencedColumnName = "id") }, 
+            inverseJoinColumns = { @JoinColumn(name = "weaponTypeId", referencedColumnName = "id") })
+    private Set<WeaponType> weaponProficiencies;
 
     @ManyToMany
     @JoinTable(name = "ClassSkill", joinColumns = {
@@ -56,8 +80,17 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
     @OneToMany(mappedBy = "classe", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @PrivateOwned   //means that a class level bonus feat will be deleted if not attached to a class
     private List<ClassLevelBonusFeat> featBonuses;
+    
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @JoinTable(name = "ClassSpell", joinColumns = {
+        @JoinColumn(name = "classId", referencedColumnName = "id") }, 
+            inverseJoinColumns = { @JoinColumn(name = "spellId", referencedColumnName = "id") })
+    private Set<Spell> spells;
 
     public DSClass() {
+        savingThrowProficiencies = new HashSet<Ability>();
+        armorProficiencies = new HashSet<ArmorType.ProficiencyType>();
+        weaponProficiencies = new HashSet<WeaponType>();
         baseSkills = new HashSet<Skill>();
         levelBonuses = new ArrayList<ClassLevelBonus>();
         featBonuses = new ArrayList<ClassLevelBonusFeat>();
@@ -103,6 +136,30 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
         this.baseSkills = baseSkills;
     }
 
+    public Set<Ability> getSavingThrowProficiencies() {
+        return savingThrowProficiencies;
+    }
+
+    public void setSavingThrowProficiencies(Set<Ability> savingThrowProficiencies) {
+        this.savingThrowProficiencies = savingThrowProficiencies;
+    }
+
+    public Set<ArmorType.ProficiencyType> getArmorProficiencies() {
+        return armorProficiencies;
+    }
+
+    public void setArmorProficiencies(Set<ArmorType.ProficiencyType> armorProficiencies) {
+        this.armorProficiencies = armorProficiencies;
+    }
+
+    public Set<WeaponType> getWeaponProficiencies() {
+        return weaponProficiencies;
+    }
+
+    public void setWeaponProficiencies(Set<WeaponType> weaponProficiencies) {
+        this.weaponProficiencies = weaponProficiencies;
+    }
+
     public List<ClassLevelBonus> getLevelBonuses() {
         return levelBonuses;
     }
@@ -117,6 +174,14 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
 
     public void setFeatBonuses(List<ClassLevelBonusFeat> featBonuses) {
         this.featBonuses = featBonuses;
+    }
+
+    public Set<Spell> getSpells() {
+        return spells;
+    }
+
+    public void setSpells(Set<Spell> spells) {
+        this.spells = spells;
     }
 
     @Override

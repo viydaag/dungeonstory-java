@@ -12,33 +12,33 @@ import com.vaadin.ui.TextField;
 public class RegionForm extends DSAbstractForm<Region> {
 
     private static final long serialVersionUID = 1416085344583485158L;
-    
+
     private TextField name;
-	private TextField shortDescription;
-	private TextArea description;
+    private TextField shortDescription;
+    private TextArea  description;
 
-	public RegionForm() {
-	    super();
-	}
+    public RegionForm() {
+        super();
+    }
 
-	@Override
-	public String toString() {
-		return "Regions";
-	}
+    @Override
+    public String toString() {
+        return "Regions";
+    }
 
-	@Override
-	protected Component createContent() {
-		FormLayout layout = new FormLayout();
+    @Override
+    protected Component createContent() {
+        FormLayout layout = new FormLayout();
 
-		name = new MTextField("Nom");
-		shortDescription = new MTextField("Description courte");
-		description = new MTextArea("Description").withFullWidth();
-		
-		layout.addComponent(name);
-		layout.addComponent(shortDescription);
-		layout.addComponent(description);
-		layout.addComponent(getToolbar());
+        name = new MTextField("Nom");
+        shortDescription = new MTextField("Description courte");
+        description = new MTextArea("Description").withFullWidth();
 
-		return layout;
-	}
+        layout.addComponent(name);
+        layout.addComponent(shortDescription);
+        layout.addComponent(description);
+        layout.addComponent(getToolbar());
+
+        return layout;
+    }
 }

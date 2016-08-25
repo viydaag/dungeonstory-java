@@ -9,27 +9,27 @@ import com.vaadin.ui.Grid;
 
 public class BeanGrid<T> extends Grid {
 
-	private static final long serialVersionUID = -1281570940876676655L;
+    private static final long serialVersionUID = -1281570940876676655L;
 
-	public BeanGrid(Class<T> beanClass) {
-		setSizeFull();
+    public BeanGrid(Class<T> beanClass) {
+        setSizeFull();
 
         setSelectionMode(SelectionMode.SINGLE);
 
         BeanItemContainer<T> container = new BeanItemContainer<T>(beanClass);
         setContainerDataSource(container);
-        
+
         Column idColumn = getColumn("id");
-		if (idColumn != null) {
-			removeColumn("id");
-		}
+        if (idColumn != null) {
+            removeColumn("id");
+        }
         Column versionColumn = getColumn("version");
-		if (versionColumn != null) {
-			removeColumn("version");
-		}
-	}
-	
-	protected BeanItemContainer<T> getContainer() {
+        if (versionColumn != null) {
+            removeColumn("version");
+        }
+    }
+
+    protected BeanItemContainer<T> getContainer() {
         return (BeanItemContainer<T>) super.getContainerDataSource();
     }
 
@@ -60,18 +60,18 @@ public class BeanGrid<T> extends Grid {
     public void remove(T bean) {
         getContainer().removeItem(bean);
     }
-    
+
     public void withColumns(Object... columns) {
         for (Object column : columns) {
-            if (((String)column).contains(".")) {
+            if (((String) column).contains(".")) {
                 getContainer().addNestedContainerProperty((String) column);
             }
         }
-    	setColumnOrder(columns);
-    	removeAllColumns();
-    	for (Object column : columns) {
-			addColumn(column);
-		}
+        setColumnOrder(columns);
+        removeAllColumns();
+        for (Object column : columns) {
+            addColumn(column);
+        }
     }
 
     public void withHeaderCaption(String... header) {

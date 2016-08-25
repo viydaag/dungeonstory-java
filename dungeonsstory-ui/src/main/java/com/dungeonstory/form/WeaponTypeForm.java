@@ -1,6 +1,5 @@
 package com.dungeonstory.form;
 
-
 import org.vaadin.viritin.fields.CaptionGenerator;
 import org.vaadin.viritin.fields.EnumSelect;
 import org.vaadin.viritin.fields.MTextArea;
@@ -26,53 +25,53 @@ import com.vaadin.ui.TextField;
 
 public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
 
-	private static final long serialVersionUID = 7328613287024515502L;
-	
-	private TextField name;
-	private TextArea description;
-	private EnumSelect<ProficiencyType> proficiencyType;
-	private EnumSelect<SizeType> sizeType;
-	private EnumSelect<HandleType> handleType;
-	private EnumSelect<UsageType> usageType;
-	private EnumSelect<RangeType> rangeType;
-	private TextField oneHandBaseDamage;
-	private TextField twoHandBaseDamage;
-	private TypedSelect<DamageType> damageType;
-	private FormCheckBox isReach;
-	private FormCheckBox isFinesse;
-	private FormCheckBox isLoading;
-	private TextField baseWeight;
-	
-	private DataService<DamageType, Long> damageTypeService = DamageTypeService.getInstance();
-	
-	MValueChangeListener<UsageType> usageListener;
+    private static final long serialVersionUID = 7328613287024515502L;
 
-	@Override
-	public String toString() {
-		return "Types d'arme";
-	}
+    private TextField                   name;
+    private TextArea                    description;
+    private EnumSelect<ProficiencyType> proficiencyType;
+    private EnumSelect<SizeType>        sizeType;
+    private EnumSelect<HandleType>      handleType;
+    private EnumSelect<UsageType>       usageType;
+    private EnumSelect<RangeType>       rangeType;
+    private TextField                   oneHandBaseDamage;
+    private TextField                   twoHandBaseDamage;
+    private TypedSelect<DamageType>     damageType;
+    private FormCheckBox                isReach;
+    private FormCheckBox                isFinesse;
+    private FormCheckBox                isLoading;
+    private TextField                   baseWeight;
 
-	@Override
-	protected Component createContent() {
-		FormLayout layout = new FormLayout();
+    private DataService<DamageType, Long> damageTypeService = DamageTypeService.getInstance();
 
-		name = new MTextField("Nom");
-		description = new MTextArea("Description").withFullWidth();
-		proficiencyType = new EnumSelect<ProficiencyType>("Type de compétence");
-		sizeType = new EnumSelect<SizeType>("Taille");
-		handleType = new EnumSelect<HandleType>("Type");
-		usageType = new EnumSelect<UsageType>("Type d'usage");
-		rangeType = new EnumSelect<RangeType>("Type de portée");
-		oneHandBaseDamage = new MTextField("Dommage à 1 main");
-		twoHandBaseDamage = new MTextField("Dommage à 2 mains");
-		isReach = new FormCheckBox("Portée longue");
-		isFinesse = new FormCheckBox("Finesse (choix dextérité ou force)");
-		isLoading = new FormCheckBox("Chargement requis");
-		baseWeight = new MTextField("Poids de base (lbs)");
-		
-		damageType = new TypedSelect<DamageType>("Type de dommage", damageTypeService.findAll());
-		damageType.setCaptionGenerator(new CaptionGenerator<DamageType>() {
-            
+    MValueChangeListener<UsageType> usageListener;
+
+    @Override
+    public String toString() {
+        return "Types d'arme";
+    }
+
+    @Override
+    protected Component createContent() {
+        FormLayout layout = new FormLayout();
+
+        name = new MTextField("Nom");
+        description = new MTextArea("Description").withFullWidth();
+        proficiencyType = new EnumSelect<ProficiencyType>("Type de compétence");
+        sizeType = new EnumSelect<SizeType>("Taille");
+        handleType = new EnumSelect<HandleType>("Type");
+        usageType = new EnumSelect<UsageType>("Type d'usage");
+        rangeType = new EnumSelect<RangeType>("Type de portée");
+        oneHandBaseDamage = new MTextField("Dommage à 1 main");
+        twoHandBaseDamage = new MTextField("Dommage à 2 mains");
+        isReach = new FormCheckBox("Portée longue");
+        isFinesse = new FormCheckBox("Finesse (choix dextérité ou force)");
+        isLoading = new FormCheckBox("Chargement requis");
+        baseWeight = new MTextField("Poids de base (lbs)");
+
+        damageType = new TypedSelect<DamageType>("Type de dommage", damageTypeService.findAll());
+        damageType.setCaptionGenerator(new CaptionGenerator<DamageType>() {
+
             private static final long serialVersionUID = 9011176307449121578L;
 
             @Override
@@ -80,30 +79,30 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
                 return option.getName();
             }
         });
-		
-		handleType.addMValueChangeListener(createHandleTypeValueChangeListener());
-		
-		usageListener = createUsageTypeValueChangeListener();
-		usageType.addMValueChangeListener(usageListener);
-		
-		layout.addComponent(name);
-		layout.addComponent(description);
-		layout.addComponent(proficiencyType);
-		layout.addComponent(sizeType);
-		layout.addComponent(handleType);
-		layout.addComponent(usageType);
-		layout.addComponent(rangeType);
-		layout.addComponent(oneHandBaseDamage);
-		layout.addComponent(twoHandBaseDamage);
-		layout.addComponent(damageType);
-		layout.addComponent(isReach);
-		layout.addComponent(isFinesse);
-		layout.addComponent(isLoading);
-		layout.addComponent(baseWeight);
-		layout.addComponent(getToolbar());
 
-		return layout;
-	}
+        handleType.addMValueChangeListener(createHandleTypeValueChangeListener());
+
+        usageListener = createUsageTypeValueChangeListener();
+        usageType.addMValueChangeListener(usageListener);
+
+        layout.addComponent(name);
+        layout.addComponent(description);
+        layout.addComponent(proficiencyType);
+        layout.addComponent(sizeType);
+        layout.addComponent(handleType);
+        layout.addComponent(usageType);
+        layout.addComponent(rangeType);
+        layout.addComponent(oneHandBaseDamage);
+        layout.addComponent(twoHandBaseDamage);
+        layout.addComponent(damageType);
+        layout.addComponent(isReach);
+        layout.addComponent(isFinesse);
+        layout.addComponent(isLoading);
+        layout.addComponent(baseWeight);
+        layout.addComponent(getToolbar());
+
+        return layout;
+    }
 
     private MValueChangeListener<UsageType> createUsageTypeValueChangeListener() {
         return new MValueChangeListener<UsageType>() {
@@ -146,14 +145,14 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
                         twoHandBaseDamage.setValue(null);
                         break;
                 }
-                
+
             }
         };
     }
-    
+
     @Override
     public void beforeSetEntity() {
-        
+
         //prevent the binding to cause read-only exception while setting the value
         if (rangeType != null) {
             rangeType.setReadOnly(false);
@@ -162,7 +161,7 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
             usageType.removeMValueChangeListener(usageListener);
         }
     }
-    
+
     @Override
     public void afterSetEntity() {
         usageType.addMValueChangeListener(usageListener);

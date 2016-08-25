@@ -1,9 +1,6 @@
 package com.dungeonstory.backend.repository.mock;
 
-import java.util.List;
-
 import com.dungeonstory.backend.data.Shop;
-import com.dungeonstory.backend.mock.MockDataGenerator;
 
 public class MockShopRepository extends MockAbstractRepository<Shop> {
 

@@ -16,6 +16,9 @@ public class Alignment extends AbstractTimestampEntity implements Serializable {
     @NotNull
     @Column(name = "name", unique = true)
     private String name;
+    
+    @Column(name = "abbreviation", length = 2, unique = true)
+    private String abbreviation;
 
     @Column(name = "shortDescription")
     private String shortDescription;
@@ -40,6 +43,14 @@ public class Alignment extends AbstractTimestampEntity implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getAbbreviation() {
+        return abbreviation;
+    }
+
+    public void setAbbreviation(String abbreviation) {
+        this.abbreviation = abbreviation;
     }
 
     public String getShortDescription() {

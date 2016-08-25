@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -16,6 +16,11 @@ import javax.validation.constraints.Pattern;
 public class Race extends AbstractTimestampEntity implements Serializable {
 
     private static final long serialVersionUID = -8654082699083199159L;
+    
+    public enum Size {
+        SMALL,
+        MEDIUM
+    }
 
     @NotNull
     @Column(name = "name", nullable = false, unique = true)
@@ -66,11 +71,16 @@ public class Race extends AbstractTimestampEntity implements Serializable {
     @Min(value = 0)
     @Column(name = "maxAge")
     private int maxAge;
-
+    
     @NotNull
-    @Min(value = 0)
+    @Column(name = "size", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Size size;
+    
+    @NotNull
+    @Pattern(regexp = "\\d+\\'(\\d+\\\")*")
     @Column(name = "averageHeight")
-    private int averageHeight;
+    private String averageHeight;
 
     @NotNull
     @Min(value = 0)
@@ -91,11 +101,13 @@ public class Race extends AbstractTimestampEntity implements Serializable {
     @Pattern(regexp = "\\d+d\\d+")
     @Column(name = "heightModifier")
     private String heightModifier;
-
-    @Deprecated
-    @ManyToOne
-    @JoinColumn(name = "favoredClassId")
-    private DSClass favoredClass;
+    
+    @NotNull
+    @Min(value = 0)
+    @Column(name = "speed")
+    private int speed;
+    
+    //TODO languages
 
     public Race() {
         super();
@@ -130,12 +142,12 @@ public class Race extends AbstractTimestampEntity implements Serializable {
         this.description = description;
     }
 
-    public Integer getStrModifier() {
+    public int getStrModifier() {
         return strModifier;
     }
 
-    public void setStrModifier(Integer strModifier) {
-        this.strModifier = strModifier.intValue();
+    public void setStrModifier(int strModifier) {
+        this.strModifier = strModifier;
     }
 
     public int getDexModifier() {
@@ -194,11 +206,11 @@ public class Race extends AbstractTimestampEntity implements Serializable {
         this.maxAge = maxAge;
     }
 
-    public int getAverageHeight() {
+    public String getAverageHeight() {
         return averageHeight;
     }
 
-    public void setAverageHeight(int averageHeight) {
+    public void setAverageHeight(String averageHeight) {
         this.averageHeight = averageHeight;
     }
 
@@ -234,12 +246,20 @@ public class Race extends AbstractTimestampEntity implements Serializable {
         this.heightModifier = heightModifier;
     }
 
-    public DSClass getFavoredClass() {
-        return favoredClass;
+    public Size getSize() {
+        return size;
     }
 
-    public void setFavoredClass(DSClass favoredClass) {
-        this.favoredClass = favoredClass;
+    public void setSize(Size size) {
+        this.size = size;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
 
     @Override

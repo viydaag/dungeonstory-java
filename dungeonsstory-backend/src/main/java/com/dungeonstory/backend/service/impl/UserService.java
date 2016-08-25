@@ -4,8 +4,9 @@ import com.dungeonstory.backend.data.User;
 import com.dungeonstory.backend.factory.impl.UserFactory;
 import com.dungeonstory.backend.repository.impl.UserRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
+import com.dungeonstory.backend.service.UserDataService;
 
-public class UserService extends AbstractDataService<User, Long> {
+public class UserService extends AbstractDataService<User, Long> implements UserDataService {
 
 	private static final long serialVersionUID = 2368180652957632605L;
 	
@@ -24,6 +25,7 @@ public class UserService extends AbstractDataService<User, Long> {
         setRepository(new UserRepository());
     }
 
+    @Override
     public User findByUsername(String username) {
         return ((UserRepository) entityRepository).findByUsername(username);
     }
