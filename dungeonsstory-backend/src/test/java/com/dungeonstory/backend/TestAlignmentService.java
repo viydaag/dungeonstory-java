@@ -42,23 +42,27 @@ public class TestAlignmentService {
     public void testAlignmentService() throws Exception {
         AlignmentService service = AlignmentService.getInstance();
 
-        service.create(new Alignment("new alignment", "NA", ""));
+        Alignment newAlign = service.create();
+        newAlign.setName("new align");
+        newAlign.setAbbreviation("NA");
+        service.create(newAlign);
 
         Collection<Alignment> allAlignments = service.findAll();
         assertNotNull(allAlignments);
         assertTrue(allAlignments.size() > 0);
 
-        Alignment region = allAlignments.toArray(new Alignment[0])[0];
-        region.setName("My Test Name");
-        service.update(region);
+        Alignment alignment = service.read(newAlign.getId());
+        alignment.setName("My Test Name");
+        service.update(alignment);
 
-        Alignment region2 = service.findAll().iterator().next();
-        assertEquals("My Test Name", region2.getName());
+        Alignment alignment2 = service.read(alignment.getId());
+        assertEquals("My Test Name", alignment2.getName());
 
-        service.delete(region2);
+        int size = allAlignments.size();
+        service.delete(alignment2);
         allAlignments = service.findAll();
         assertNotNull(allAlignments);
-        assertTrue(allAlignments.size() == 0);
+        assertEquals(size - 1, allAlignments.size());
     }
 
 }

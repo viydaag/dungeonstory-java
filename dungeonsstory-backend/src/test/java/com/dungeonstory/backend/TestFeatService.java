@@ -43,17 +43,18 @@ public class TestFeatService {
     public void testFeatService() throws Exception {
         FeatService service = FeatService.getInstance();
 
-        service.create(new Feat("new feat", "NA", FeatUsage.ACTION));
+        Feat newFeat = new Feat("new feat", "NA", FeatUsage.ACTION);
+        service.create(newFeat);
 
         Collection<Feat> allFeats = service.findAll();
         assertNotNull(allFeats);
         assertTrue(allFeats.size() > 0);
 
-        Feat feat = allFeats.toArray(new Feat[0])[0];
+        Feat feat = service.read(newFeat.getId());
         feat.setName("My Test Name");
         service.update(feat);
 
-        Feat feat2 = service.findAll().iterator().next();
+        Feat feat2 = service.read(feat.getId());
         assertEquals("My Test Name", feat2.getName());
 
         int size = allFeats.size();

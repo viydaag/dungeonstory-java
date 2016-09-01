@@ -79,9 +79,9 @@ public class TestClassService {
         DSClass entity = new DSClass();
         entity.setName("test class 2");
         
-        Level level1 = new Level(1, 1000, 1);
+        Level level1 = new Level(100, 1000, 1);
         LevelService.getInstance().create(level1);
-        Level level2 = new Level(2, 2000, 2);
+        Level level2 = new Level(200, 2000, 2);
         LevelService.getInstance().create(level2);
         
         Feat feat1 = new Feat("test feat for class", "", FeatUsage.ACTION);

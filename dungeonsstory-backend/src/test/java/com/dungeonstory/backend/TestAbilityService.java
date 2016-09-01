@@ -42,17 +42,20 @@ public class TestAbilityService {
     public void testAbilityService() throws Exception {
         AbilityService service = AbilityService.getInstance();
 
-        service.create(new Ability("new ability", "NA", ""));
+        Ability newAbility = service.create();
+        newAbility.setName("new ability");
+        newAbility.setAbbreviation("NA");
+        service.create(newAbility);
 
         Collection<Ability> allAbilitys = service.findAll();
         assertNotNull(allAbilitys);
         assertTrue(allAbilitys.size() > 0);
 
-        Ability ability = allAbilitys.toArray(new Ability[0])[0];
+        Ability ability = service.read(newAbility.getId());
         ability.setName("My Test Name");
         service.update(ability);
 
-        Ability ability2 = service.findAll().iterator().next();
+        Ability ability2 = service.read(ability.getId());
         assertEquals("My Test Name", ability2.getName());
 
         int size = allAbilitys.size();

@@ -35,42 +35,42 @@ public class Race extends AbstractTimestampEntity implements Serializable {
     @NotNull
     @Min(value = 0)
     @Column(name = "strModifier")
-    private int strModifier;
+    private int strModifier = 0;
 
     @NotNull
     @Min(value = 0)
     @Column(name = "dexModifier")
-    private int dexModifier;
+    private int dexModifier = 0;
 
     @NotNull
     @Min(value = 0)
     @Column(name = "conModifier")
-    private int conModifier;
+    private int conModifier = 0;
 
     @NotNull
     @Min(value = 0)
     @Column(name = "intModifier")
-    private int intModifier;
+    private int intModifier = 0;
 
     @NotNull
     @Min(value = 0)
     @Column(name = "wisModifier")
-    private int wisModifier;
+    private int wisModifier = 0;
 
     @NotNull
     @Min(value = 0)
     @Column(name = "chaModifier")
-    private int chaModifier;
+    private int chaModifier = 0;
 
     @NotNull
     @Min(value = 0)
     @Column(name = "minAge")
-    private int minAge;
+    private int minAge = 0;
 
     @NotNull
     @Min(value = 0)
     @Column(name = "maxAge")
-    private int maxAge;
+    private int maxAge = 0;
     
     @NotNull
     @Column(name = "size", nullable = false)
@@ -105,7 +105,7 @@ public class Race extends AbstractTimestampEntity implements Serializable {
     @NotNull
     @Min(value = 0)
     @Column(name = "speed")
-    private int speed;
+    private int speed = 0;
     
     //TODO languages
 

@@ -42,17 +42,18 @@ public class TestDamageTypeService {
     public void testDamageTypeService() throws Exception {
         DamageTypeService service = DamageTypeService.getInstance();
 
-        service.create(new DamageType("test"));
+        DamageType newDm = new DamageType("test");
+        service.create(newDm);
 
         Collection<DamageType> allDamageTypes = service.findAll();
         assertNotNull(allDamageTypes);
         assertTrue(allDamageTypes.size() > 0);
 
-        DamageType dm = allDamageTypes.toArray(new DamageType[0])[0];
+        DamageType dm = service.read(newDm.getId());
         dm.setName("My Test Name");
         service.update(dm);
 
-        DamageType dm2 = service.findAll().iterator().next();
+        DamageType dm2 = service.read(dm.getId());
         assertEquals("My Test Name", dm2.getName());
 
         int size = allDamageTypes.size();
