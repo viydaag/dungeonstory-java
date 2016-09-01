@@ -10,6 +10,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.eclipse.persistence.annotations.PrivateOwned;
+
 @Entity
 @Table(name = "DivineDomain")
 public class DivineDomain extends AbstractTimestampEntity implements Serializable {
@@ -24,6 +26,7 @@ public class DivineDomain extends AbstractTimestampEntity implements Serializabl
     private String description;
     
     @OneToMany(mappedBy = "domain", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @PrivateOwned
     private List<DivineDomainSpell> spells;
     
     public DivineDomain() {
