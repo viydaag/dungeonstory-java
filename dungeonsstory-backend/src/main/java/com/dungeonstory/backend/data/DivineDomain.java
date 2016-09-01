@@ -1,6 +1,7 @@
 package com.dungeonstory.backend.data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -31,6 +32,7 @@ public class DivineDomain extends AbstractTimestampEntity implements Serializabl
     
     public DivineDomain() {
         super();
+        spells = new ArrayList<DivineDomainSpell>();
     }
 
     public String getName() {
@@ -55,6 +57,11 @@ public class DivineDomain extends AbstractTimestampEntity implements Serializabl
 
     public void setSpells(List<DivineDomainSpell> spells) {
         this.spells = spells;
+    }
+    
+    @Override
+    public String toString() {
+        return getName();
     }
 
 }
