@@ -1,11 +1,16 @@
 package com.dungeonstory.backend.data;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -107,10 +112,16 @@ public class Race extends AbstractTimestampEntity implements Serializable {
     @Column(name = "speed")
     private int speed = 0;
     
-    //TODO languages
+    @ManyToMany
+    @JoinTable(
+        name="RaceLanguage",
+        joinColumns={@JoinColumn(name="raceId", referencedColumnName="id")},
+        inverseJoinColumns={@JoinColumn(name="languageId", referencedColumnName="id")})
+    private Set<Language> languages;
 
     public Race() {
         super();
+        languages = new HashSet<Language>();
     }
 
     public Race(String name) {
@@ -260,6 +271,14 @@ public class Race extends AbstractTimestampEntity implements Serializable {
 
     public void setSpeed(int speed) {
         this.speed = speed;
+    }
+
+    public Set<Language> getLanguages() {
+        return languages;
+    }
+
+    public void setLanguages(Set<Language> languages) {
+        this.languages = languages;
     }
 
     @Override
