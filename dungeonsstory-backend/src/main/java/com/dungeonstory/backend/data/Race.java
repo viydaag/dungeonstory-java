@@ -16,8 +16,13 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import org.eclipse.persistence.annotations.Customizer;
+
+import com.dungeonstory.backend.data.util.OrderCustomizer;
+
 @Entity
 @Table(name = "Race")
+@Customizer(OrderCustomizer.class)
 public class Race extends AbstractTimestampEntity implements Serializable {
 
     private static final long serialVersionUID = -8654082699083199159L;
