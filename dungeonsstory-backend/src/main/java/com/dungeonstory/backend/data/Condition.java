@@ -16,6 +16,7 @@ public enum Condition {
     POISONED("Empoisonné"),
     PRONE("Couché"),
     RESTRAINED("Restreint"),
+    SLEEP("Endormi"),
     STUNNED("Assommé"),
     UNCONSCIOUS("Inconscient");
     
