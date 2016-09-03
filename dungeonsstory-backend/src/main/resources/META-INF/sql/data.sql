@@ -1,12 +1,12 @@
---User
+/* AccessRole */
 insert into accessrole(id, name, roletype, version, created, updated) values (1, 'Administrateur', 0, 1, now(), now());
 insert into accessrole(id, name, roletype, version, created, updated) values (2, 'Modérateur', 1, 1, now(), now());
 insert into accessrole(id, name, roletype, version, created, updated) values (3, 'Joueur', 2, 1, now(), now());
 
---AccessRole
+/* User */
 insert into user(id, username, password, name, email, status, roleId, version, created, updated) values(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'JC Fortier', 'fortier.jc@gmail.com', 1, 1, 1, now(), now());
 
---Ability
+/* Ability */
 insert into ability(id, abbreviation, name, description, version, created, updated) values(1, 'For', 'Force', 'Mesure le pouvoir physique', 1, now(), now());
 insert into ability(id, abbreviation, name, description, version, created, updated) values(2, 'Dex', 'Dextérité', 'Mesure l''agilité', 1, now(), now());
 insert into ability(id, abbreviation, name, description, version, created, updated) values(3, 'Con', 'Constitution', 'Mesure l''endurance', 1, now(), now());
@@ -14,7 +14,7 @@ insert into ability(id, abbreviation, name, description, version, created, updat
 insert into ability(id, abbreviation, name, description, version, created, updated) values(5, 'Sag', 'Sagesse', 'Mesure la perception et la perspicacité', 1, now(), now());
 insert into ability(id, abbreviation, name, description, version, created, updated) values(6, 'Cha', 'Charisme', 'Mesure la force de la personnalité', 1, now(), now());
 
---Alignment
+/* Alignment */
 insert into alignment(id, name, abbreviation, shortDescription, description, version, created, updated) values(1, 'Loyal Bon', 'LB', 'Fait la bonne chose attendue de la société', '', 1, now(), now());
 insert into alignment(id, name, abbreviation, shortDescription, description, version, created, updated) values(2, 'Neutre Bon', 'NB', 'Fait de son mieux pour aider les autres selon ses besoins', '', 1, now(), now());
 insert into alignment(id, name, abbreviation, shortDescription, description, version, created, updated) values(3, 'Chaotique Bon', 'CB', 'Agit selon sa conscience sans tenir compte des autres', '', 1, now(), now());
@@ -26,7 +26,7 @@ insert into alignment(id, name, abbreviation, shortDescription, description, ver
 insert into alignment(id, name, abbreviation, shortDescription, description, version, created, updated) values(9, 'Chaotique Mauvais', 'CM', 'Agit avec violence stimulé par l''avidité, la haine et la soif de sang', '', 1, now(), now());
 insert into alignment(id, name, abbreviation, shortDescription, description, version, created, updated) values(10, 'Aucun', 'A', 'Sans capacité de raisonnement ou de choix moral', '', 1, now(), now());
 
---DamageType
+/* DamageType */
 insert into damagetype(id, name, description, version, created, updated) values(1, 'Acide', 'Le souffle corrosif d''un dragon noir ou les enzymes disolvantes d''un estomac de troll.', 1, now(), now());
 insert into damagetype(id, name, description, version, created, updated) values(2, 'Contandant', 'La force de frappe d''un marteau ou la chute d''une construction.', 1, now(), now());
 insert into damagetype(id, name, description, version, created, updated) values(3, 'Feu', 'Le souffle brulant d''un dragon rouge ou les flammes d''un sort.', 1, now(), now());
@@ -41,7 +41,7 @@ insert into damagetype(id, name, description, version, created, updated) values(
 insert into damagetype(id, name, description, version, created, updated) values(12, 'Tranchant', 'Épées, haches et griffes causent des dommages tranchants.', 1, now(), now());
 insert into damagetype(id, name, description, version, created, updated) values(13, 'Tonnerre', 'Éclat violent de son.', 1, now(), now());
 
---Level
+/* Level */
 insert into level(id, maxExperience, proficiencyBonus, version, created, updated) values(1, 300, 2, 1, now(), now());
 insert into level(id, maxExperience, proficiencyBonus, version, created, updated) values(2, 900, 2, 1, now(), now());
 insert into level(id, maxExperience, proficiencyBonus, version, created, updated) values(3, 2700, 2, 1, now(), now());
@@ -53,7 +53,7 @@ insert into level(id, maxExperience, proficiencyBonus, version, created, updated
 insert into level(id, maxExperience, proficiencyBonus, version, created, updated) values(9, 64000, 4, 1, now(), now());
 insert into level(id, maxExperience, proficiencyBonus, version, created, updated) values(10, 85000, 4, 1, now(), now());
 
---Language
+/* Language */
 insert into language (id, name, script, version, created, updated) VALUES (1, 'Commun', 'Commun', 1, now(), now());
 insert into language (id, name, script, version, created, updated) VALUES (2, 'Nain', 'Nain', 1, now(), now());
 insert into language (id, name, script, version, created, updated) VALUES (3, 'Elfe', 'Elfe', 1, now(), now());
@@ -70,7 +70,7 @@ insert into language (id, name, script, version, created, updated) VALUES (13, '
 insert into language (id, name, script, version, created, updated) VALUES (14, 'Primordial', 'Nain', 1, now(), now());
 insert into language (id, name, script, version, created, updated) VALUES (15, 'Sylvain', 'Elfe', 1, now(), now());
 
---Skill
+/* Skill */
 insert into skill(id, name, keyAbilityId, shortDescription, description, version, created, updated) values (1, 'Athlétisme', 1, 'Utiliser dans les situations difficiles pour grimper, sauter ou nager.', '', 1, now(), now());
 insert into skill(id, name, keyAbilityId, shortDescription, description, version, created, updated) values (2, 'Acrobatie', 2, 'Rester sure ses pieds dans les situation difficiles.', '', 1, now(), now());
 insert into skill(id, name, keyAbilityId, shortDescription, description, version, created, updated) values (3, 'Passe-passe', 2, 'Utiliser sa dextérité pour cacher, déplacer ou voler quelque chose sans être repéré.', '', 1, now(), now());
@@ -90,7 +90,7 @@ insert into skill(id, name, keyAbilityId, shortDescription, description, version
 insert into skill(id, name, keyAbilityId, shortDescription, description, version, created, updated) values (17, 'Performance', 6, 'Capter l''audience par le divertissement.', '', 1, now(), now());
 insert into skill(id, name, keyAbilityId, shortDescription, description, version, created, updated) values (18, 'Persuasion', 6, 'Influencer par le tact, les bonnes manières.', '', 1, now(), now());
 
---ArmorType
+/* ArmorType */
 insert into armortype (id, baseArmorClass, baseWeight, description, maxDexBonus, minStrength, name, proficiencyType, stealthDisavantage, version, created, updated) values (1, 1, 8, '', -1, 1, 'Matelassé', 'LIGHT', 1, 1, now(), now());
 insert into armortype (id, baseArmorClass, baseWeight, description, maxDexBonus, minStrength, name, proficiencyType, stealthDisavantage, version, created, updated) values (2, 1, 10, '', -1, 1, 'Cuir', 'LIGHT', 0, 1, now(), now());
 insert into armortype (id, baseArmorClass, baseWeight, description, maxDexBonus, minStrength, name, proficiencyType, stealthDisavantage, version, created, updated) values (3, 2, 13, '', -1, 1, 'Clouté','LIGHT', 0, 1, now(), now());
@@ -105,4 +105,4 @@ insert into armortype (id, baseArmorClass, baseWeight, description, maxDexBonus,
 insert into armortype (id, baseArmorClass, baseWeight, description, maxDexBonus, minStrength, name, proficiencyType, stealthDisavantage, version, created, updated) values (12, 8, 65, '', 0, 15, 'Plate complète', 'HEAVY', 1, 1, now(), now());
 insert into armortype (id, baseArmorClass, baseWeight, description, maxDexBonus, minStrength, name, proficiencyType, stealthDisavantage, version, created, updated) values (13, 2, 6, '', 0, 1, 'Bouclier', 'SHIELD', 0, 1, now(), now());
 
---Race
+/* Race */

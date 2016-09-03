@@ -24,7 +24,6 @@ public abstract class Equipment extends AbstractTimestampEntity implements Seria
 
     private static final long serialVersionUID = 1146171037304994442L;
 
-    //TODO: creer une sous-classe pour chaque type ayant chacun un discriminator value.
     public enum EquipmentType {
     	
     	ARMOR(new Armor()), 

@@ -14,9 +14,13 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import org.eclipse.persistence.annotations.Customizer;
+
+import com.dungeonstory.backend.data.util.OrderCustomizer;
 import com.dungeonstory.backend.repository.Entity;
 
 @MappedSuperclass
+@Customizer(OrderCustomizer.class)
 public abstract class AbstractTimestampEntity implements Entity {
 
     @Id
