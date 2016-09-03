@@ -28,7 +28,7 @@ public class RaceForm extends DSAbstractForm<Race> {
     private TextField shortDescription;
     private TextArea  description;
 
-    private EnumSelect<Size> size;
+    private EnumSelect<Size>           size;
     private DSSubSetSelector<Language> languages;
 
     private IntegerField strModifier;
@@ -40,12 +40,8 @@ public class RaceForm extends DSAbstractForm<Race> {
 
     private IntegerField minAge;
     private IntegerField maxAge;
-    private TextField    ageModifier;
     private TextField    averageHeight;
-    private TextField    heightModifier;
     private IntegerField averageWeight;
-    private TextField    weightModifier;
-    
     private IntegerField speed;
 
     private DataService<Language, Long> languageService = null;
@@ -79,7 +75,7 @@ public class RaceForm extends DSAbstractForm<Race> {
         languages.setOptions((List<Language>) languageService.findAll());
         languages.setValue(null); // nothing selected
         languages.setWidth("50%");
-        
+
         size = new EnumSelect<Size>("Type de grandeur");
         speed = new IntegerField("Vitesse de déplacement en 1 round (en pieds)");
 
@@ -92,12 +88,9 @@ public class RaceForm extends DSAbstractForm<Race> {
 
         minAge = new IntegerField("Âge mimimum");
         maxAge = new IntegerField("Âge maximum");
-        ageModifier = new MTextField("Modificateur d'âge");
         averageHeight = new MTextField("Taille moyenne (en pieds/pouce)");
-        heightModifier = new MTextField("Modificateur de taille (en pouce)");
         averageWeight = new IntegerField("Poids moyen (en lbs)");
-        weightModifier = new MTextField("Modificateur de poids (en lbs)");
-        
+
         layout.addComponent(name);
         layout.addComponent(shortDescription);
         layout.addComponent(description);
@@ -113,12 +106,8 @@ public class RaceForm extends DSAbstractForm<Race> {
 
         layout.addComponent(minAge);
         layout.addComponent(maxAge);
-        layout.addComponent(ageModifier);
         layout.addComponent(averageHeight);
-        layout.addComponent(heightModifier);
         layout.addComponent(averageWeight);
-        layout.addComponent(weightModifier);
-        
         layout.addComponent(speed);
 
         layout.addComponent(getToolbar());

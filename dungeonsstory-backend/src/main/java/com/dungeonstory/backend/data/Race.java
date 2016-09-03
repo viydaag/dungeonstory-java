@@ -93,21 +93,6 @@ public class Race extends AbstractTimestampEntity implements Serializable {
     private int averageWeight;
 
     @NotNull
-    @Pattern(regexp = "\\d+d\\d+")
-    @Column(name = "ageModifier")
-    private String ageModifier;
-
-    @NotNull
-    @Pattern(regexp = "\\d+d\\d+")
-    @Column(name = "weightModifier")
-    private String weightModifier;
-
-    @NotNull
-    @Pattern(regexp = "\\d+d\\d+")
-    @Column(name = "heightModifier")
-    private String heightModifier;
-    
-    @NotNull
     @Min(value = 0)
     @Column(name = "speed")
     private int speed = 0;
@@ -231,30 +216,6 @@ public class Race extends AbstractTimestampEntity implements Serializable {
 
     public void setAverageWeight(int averageWeight) {
         this.averageWeight = averageWeight;
-    }
-
-    public String getAgeModifier() {
-        return ageModifier;
-    }
-
-    public void setAgeModifier(String ageModifier) {
-        this.ageModifier = ageModifier;
-    }
-
-    public String getWeightModifier() {
-        return weightModifier;
-    }
-
-    public void setWeightModifier(String weightModifier) {
-        this.weightModifier = weightModifier;
-    }
-
-    public String getHeightModifier() {
-        return heightModifier;
-    }
-
-    public void setHeightModifier(String heightModifier) {
-        this.heightModifier = heightModifier;
     }
 
     public Size getSize() {
