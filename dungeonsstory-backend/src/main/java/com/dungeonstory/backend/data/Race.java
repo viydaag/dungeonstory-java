@@ -141,6 +141,9 @@ public class Race extends AbstractTimestampEntity implements Serializable {
     @ManyToOne
     @JoinColumn(name = "damageTypeId")
     private DamageType damageResistance;
+    
+    @Column(name = "image")
+    private byte[] image;
 
     public Race() {
         super();
@@ -330,6 +333,14 @@ public class Race extends AbstractTimestampEntity implements Serializable {
 
     public void setDamageResistance(DamageType damageResistance) {
         this.damageResistance = damageResistance;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 
     @Override

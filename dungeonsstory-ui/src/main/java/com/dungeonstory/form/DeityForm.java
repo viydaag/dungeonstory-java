@@ -2,6 +2,7 @@ package com.dungeonstory.form;
 
 import java.util.List;
 
+import org.vaadin.easyuploads.ImagePreviewField;
 import org.vaadin.viritin.fields.MTextArea;
 import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.fields.TypedSelect;
@@ -29,6 +30,7 @@ public class DeityForm extends DSAbstractForm<Deity> {
     private TypedSelect<Alignment>         alignment;
     private DSSubSetSelector<DivineDomain> domains;
     private TextField                      symbol;
+    private ImagePreviewField              image;
 
     private DataService<DivineDomain, Long> domainService    = null;
     private DataService<Alignment, Long>    alignmentService = null;
@@ -59,6 +61,10 @@ public class DeityForm extends DSAbstractForm<Deity> {
         symbol = new MTextField("Symbole").withWidth("50%");
         alignment = new TypedSelect<Alignment>("Alignement", alignmentService.findAll());
 
+        image = new ImagePreviewField();
+        image.setCaption("Image");
+        image.setButtonCaption("Choisir une image");
+
         domains = new DSSubSetSelector<DivineDomain>(DivineDomain.class);
         domains.setCaption("Domaines divins");
         domains.setVisibleProperties("name");
@@ -72,8 +78,10 @@ public class DeityForm extends DSAbstractForm<Deity> {
         layout.addComponent(alignment);
         layout.addComponent(domains);
         layout.addComponent(symbol);
+        layout.addComponent(image);
         layout.addComponent(getToolbar());
 
         return layout;
     }
+
 }

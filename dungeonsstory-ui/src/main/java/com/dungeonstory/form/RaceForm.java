@@ -3,6 +3,7 @@ package com.dungeonstory.form;
 import java.util.Arrays;
 import java.util.List;
 
+import org.vaadin.easyuploads.ImagePreviewField;
 import org.vaadin.viritin.fields.EnumSelect;
 import org.vaadin.viritin.fields.IntegerField;
 import org.vaadin.viritin.fields.MTextArea;
@@ -64,6 +65,7 @@ public class RaceForm extends DSAbstractForm<Race> {
     private DSSubSetSelector<WeaponType>                weaponProficiencies;
     private DSSubSetSelector<Skill>                     skillProficiencies;
     private TypedSelect<DamageType>                     damageResistance;
+    private ImagePreviewField                           image;
 
     private DataService<Language, Long>   languageService   = null;
     private DataService<Skill, Long>      skillService      = null;
@@ -122,7 +124,7 @@ public class RaceForm extends DSAbstractForm<Race> {
         maxAge = new IntegerField("Âge maximum");
         averageHeight = new MTextField("Taille moyenne (en pieds/pouce)");
         averageWeight = new IntegerField("Poids moyen (en lbs)");
-        
+
         savingThrowProficiencies = new DSSubSetSelector<Condition>(Condition.class);
         savingThrowProficiencies.setCaption("Avantage au jet de sauvegarde contre");
         savingThrowProficiencies.setVisibleProperties("name");
@@ -156,6 +158,10 @@ public class RaceForm extends DSAbstractForm<Race> {
         skillProficiencies.setWidth("80%");
         skillProficiencies.setValue(null); //nothing selected
 
+        image = new ImagePreviewField();
+        image.setCaption("Image");
+        image.setButtonCaption("Choisir une image");
+
         layout.addComponent(name);
         layout.addComponent(description);
         layout.addComponent(traits);
@@ -175,12 +181,13 @@ public class RaceForm extends DSAbstractForm<Race> {
         layout.addComponent(averageHeight);
         layout.addComponent(averageWeight);
         layout.addComponent(speed);
-        
+
         layout.addComponent(savingThrowProficiencies);
         layout.addComponent(armorProficiencies);
         layout.addComponent(weaponProficiencies);
         layout.addComponent(skillProficiencies);
         layout.addComponent(damageResistance);
+        layout.addComponent(image);
 
         layout.addComponent(getToolbar());
 

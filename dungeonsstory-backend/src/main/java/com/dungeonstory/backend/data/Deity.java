@@ -18,32 +18,35 @@ import javax.validation.constraints.NotNull;
 public class Deity extends AbstractTimestampEntity implements Serializable {
 
     private static final long serialVersionUID = -4390870225200515952L;
-    
+
     @NotNull
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
-    
+
     @NotNull
     @ManyToOne
     @JoinColumn(name = "alignmentId")
     private Alignment alignment;
-    
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
     @JoinTable(name = "DeityDomain", joinColumns = {
-        @JoinColumn(name = "deityId", referencedColumnName = "id") }, 
-            inverseJoinColumns = { @JoinColumn(name = "domainId", referencedColumnName = "id") })
+            @JoinColumn(name = "deityId", referencedColumnName = "id") }, inverseJoinColumns = {
+                    @JoinColumn(name = "domainId", referencedColumnName = "id") })
     private Set<DivineDomain> domains;
-    
+
     @Column(name = "symbol")
     private String symbol;
+
+    @Column(name = "image")
+    private Byte[] image;
 
     public Deity() {
         super();
     }
-    
+
     public String getName() {
         return name;
     }
@@ -82,6 +85,14 @@ public class Deity extends AbstractTimestampEntity implements Serializable {
 
     public void setSymbol(String symbol) {
         this.symbol = symbol;
+    }
+
+    public Byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(Byte[] image) {
+        this.image = image;
     }
 
 }
