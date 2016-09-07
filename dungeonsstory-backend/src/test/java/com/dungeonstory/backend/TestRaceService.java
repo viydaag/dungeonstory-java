@@ -46,11 +46,8 @@ public class TestRaceService {
         Race newRace = service.create();
         newRace.setName("new race");
         newRace.setSize(Size.MEDIUM);
-        newRace.setAgeModifier("1d4");
         newRace.setAverageHeight("5'4\"");
         newRace.setAverageWeight(150);
-        newRace.setHeightModifier("1d6");
-        newRace.setWeightModifier("1d8");
         service.create(newRace);
 
         Collection<Race> allRaces = service.findAll();

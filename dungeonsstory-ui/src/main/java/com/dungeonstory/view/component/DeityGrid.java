@@ -1,6 +1,7 @@
 package com.dungeonstory.view.component;
 
 import com.dungeonstory.backend.data.Deity;
+import com.dungeonstory.util.converter.CollectionToStringConverter;
 
 public class DeityGrid extends BeanGrid<Deity> {
 
@@ -8,8 +9,14 @@ public class DeityGrid extends BeanGrid<Deity> {
 
     public DeityGrid() {
         super(Deity.class);
-        withColumns("name", "alignment", "symbol");
-        withHeaderCaption("Nom", "Alignement", "Symbole");
+        withColumns("name", "alignment", "domains", "symbol", "image");
+        withHeaderCaption("Nom", "Alignement", "Domaines", "Symbole", "");
+        
+        getColumn("domains").setConverter(new CollectionToStringConverter());
+        
+        
+//        getColumn("image").setRenderer(new ImageRenderer());
+//        getColumn("image").setConverter(new ByteAraryToResourceConverter());
     }
 
 }

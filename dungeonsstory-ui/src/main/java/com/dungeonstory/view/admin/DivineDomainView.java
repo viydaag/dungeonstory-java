@@ -15,7 +15,7 @@ import com.dungeonstory.view.CrudView;
 import com.dungeonstory.view.component.BeanGrid;
 import com.dungeonstory.view.component.DivineDomainGrid;
 
-@ViewConfig(uri = "divineDomains", displayName = "Domains divins")
+@ViewConfig(uri = "divineDomains", displayName = "Domaines divins")
 public class DivineDomainView extends AbstractCrudView<DivineDomain> implements CrudView<DivineDomain> {
 
     private static final long serialVersionUID = 5117755861151432771L;

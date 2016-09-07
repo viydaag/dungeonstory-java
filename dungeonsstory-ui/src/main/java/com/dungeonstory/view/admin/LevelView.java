@@ -73,6 +73,7 @@ public class LevelView extends VerticalSpacedLayout implements View {
         Level level = service.create();
         grid.addRow(level);
         service.create(level);
+        grid.scrollToEnd();
     }
 
 }
