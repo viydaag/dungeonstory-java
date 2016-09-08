@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.TypedQuery;
 
 import com.dungeonstory.backend.data.Equipment;
+import com.dungeonstory.backend.data.Tool;
 import com.dungeonstory.backend.repository.AbstractRepository;
 
 public class EquipmentRepository extends AbstractRepository<Equipment, Long> {
@@ -21,6 +22,11 @@ public class EquipmentRepository extends AbstractRepository<Equipment, Long> {
     
     public List<Equipment> findAllSellable() {
         TypedQuery<Equipment> query = entityManager.createQuery("SELECT e FROM Equipment e WHERE e.isSellable = 1", getEntityClass());
+        return query.getResultList();
+    }
+    
+    public List<Tool> findAllTools() {
+        TypedQuery<Tool> query = entityManager.createQuery("SELECT e FROM Tool e", Tool.class);
         return query.getResultList();
     }
 

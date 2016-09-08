@@ -3,6 +3,7 @@ package com.dungeonstory.backend.service.impl;
 import java.util.List;
 
 import com.dungeonstory.backend.data.Equipment;
+import com.dungeonstory.backend.data.Tool;
 import com.dungeonstory.backend.factory.impl.EquipmentFactory;
 import com.dungeonstory.backend.repository.impl.EquipmentRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
@@ -35,6 +36,11 @@ public class EquipmentService extends AbstractDataService<Equipment, Long> imple
     @Override
     public List<Equipment> findAllSellable() {
     	return ((EquipmentRepository) entityRepository).findAllSellable();
+    }
+
+    @Override
+    public List<Tool> findAllTools() {
+        return ((EquipmentRepository) entityRepository).findAllTools();
     }
 
 }

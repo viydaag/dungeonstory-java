@@ -59,7 +59,7 @@ public class Background extends AbstractTimestampEntity implements Serializable 
     
     @NotNull
     @Column(name = "additionalLanguage", nullable = false)
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private LanguageChoice additionalLanguage = LanguageChoice.NONE;
     
     public Background() {

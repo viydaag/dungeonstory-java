@@ -3,6 +3,7 @@ package com.dungeonstory.backend.service.mock;
 import java.util.List;
 
 import com.dungeonstory.backend.data.Equipment;
+import com.dungeonstory.backend.data.Tool;
 import com.dungeonstory.backend.factory.impl.EquipmentFactory;
 import com.dungeonstory.backend.repository.mock.MockEquipmentRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
@@ -35,6 +36,11 @@ public class MockEquipmentService extends AbstractDataService<Equipment, Long> i
     @Override
     public List<Equipment> findAllSellable() {
     	return ((MockEquipmentRepository) entityRepository).findAllSellable();
+    }
+    
+    @Override
+    public List<Tool> findAllTools() {
+        return ((MockEquipmentRepository) entityRepository).findAllTools();
     }
 
 }
