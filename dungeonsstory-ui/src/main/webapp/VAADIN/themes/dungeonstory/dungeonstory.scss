@@ -361,5 +361,11 @@ $v-layout-spacing-horizontal: round($v-unit-size / 1.8) !default;
       bottom: 10px;
     }
   }
+  
+    .gridwithpics128px .imagecol {
+        height: 128px;
+        background-color: black;
+        text-align: center;
+    }
 
 }

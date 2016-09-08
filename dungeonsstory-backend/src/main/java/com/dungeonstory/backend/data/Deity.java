@@ -41,7 +41,7 @@ public class Deity extends AbstractTimestampEntity implements Serializable {
     private String symbol;
 
     @Column(name = "image")
-    private Byte[] image;
+    private byte[] image;
 
     public Deity() {
         super();
@@ -87,11 +87,11 @@ public class Deity extends AbstractTimestampEntity implements Serializable {
         this.symbol = symbol;
     }
 
-    public Byte[] getImage() {
+    public byte[] getImage() {
         return image;
     }
 
-    public void setImage(Byte[] image) {
+    public void setImage(byte[] image) {
         this.image = image;
     }
 
