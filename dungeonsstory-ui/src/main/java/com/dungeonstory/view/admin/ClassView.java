@@ -49,9 +49,9 @@ public class ClassView extends AbstractCrudView<DSClass> implements CrudView<DSC
     public void entrySaved(DSClass entity) {
 
         //set class for each nested objects
-        List<ClassLevelFeature> feats = new ArrayList<ClassLevelFeature>(entity.getFeatBonuses());
+        List<ClassLevelFeature> feats = new ArrayList<ClassLevelFeature>(entity.getClassFeatures());
         feats.stream().forEach(feat -> feat.setClasse(entity));
-        entity.setFeatBonuses(feats);
+        entity.setClassFeatures(feats);
 
         List<ClassLevelBonus> levelBonuses = new ArrayList<ClassLevelBonus>(entity.getLevelBonuses());
         levelBonuses.stream().forEach(levelBonus -> levelBonus.setClasse(entity));

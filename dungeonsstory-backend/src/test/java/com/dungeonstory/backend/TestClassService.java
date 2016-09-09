@@ -94,18 +94,18 @@ public class TestClassService {
         bonusFeats.add(bonusFeat1);
         bonusFeats.add(bonusFeat2);
         
-        entity.setFeatBonuses(bonusFeats);
+        entity.setClassFeatures(bonusFeats);
         service.create(entity);
         
-        assertEquals(2, entity.getFeatBonuses().size());
+        assertEquals(2, entity.getClassFeatures().size());
 
 //        service.deleteClassLevelBonusFeat(bonusFeat1);
-        entity.getFeatBonuses().remove(bonusFeat1);
+        entity.getClassFeatures().remove(bonusFeat1);
         entity = service.update(entity);
         
 //        service.refresh(entity);
         
-        assertEquals(1, entity.getFeatBonuses().size());
+        assertEquals(1, entity.getClassFeatures().size());
     }
 
 }
