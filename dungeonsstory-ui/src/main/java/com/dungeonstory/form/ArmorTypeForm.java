@@ -8,6 +8,7 @@ import org.vaadin.viritin.fields.MTextField;
 import com.dungeonstory.FormCheckBox;
 import com.dungeonstory.backend.data.ArmorType;
 import com.dungeonstory.backend.data.ArmorType.ProficiencyType;
+import com.dungeonstory.util.field.DoubleField;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextArea;
@@ -24,7 +25,8 @@ public class ArmorTypeForm extends DSAbstractForm<ArmorType> {
     private IntegerField                baseArmorClass;
     private FormCheckBox                stealthDisavantage;
     private IntegerField                minStrength;
-    private TextField                   baseWeight;
+    private DoubleField                 baseWeight;
+    private IntegerField                basePrice;
 
     @Override
     public String toString() {
@@ -42,7 +44,8 @@ public class ArmorTypeForm extends DSAbstractForm<ArmorType> {
         baseArmorClass = new IntegerField("Classe d'armure de base");
         stealthDisavantage = new FormCheckBox("Désavantage sur furtivité");
         minStrength = new IntegerField("Force minimum pour porter l'armure");
-        baseWeight = new MTextField("Poids de base (lbs)");
+        baseWeight = new DoubleField("Poids de base (lbs)");
+        basePrice = new IntegerField("Prix de base");
 
         layout.addComponent(name);
         layout.addComponent(description);
@@ -52,6 +55,7 @@ public class ArmorTypeForm extends DSAbstractForm<ArmorType> {
         layout.addComponent(stealthDisavantage);
         layout.addComponent(minStrength);
         layout.addComponent(baseWeight);
+        layout.addComponent(basePrice);
         layout.addComponent(getToolbar());
 
         return layout;
