@@ -10,7 +10,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.dungeonstory.backend.data.ClassLevelBonusFeat;
+import com.dungeonstory.backend.data.ClassLevelFeature;
 import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.data.Feat;
 import com.dungeonstory.backend.data.Feat.FeatUsage;
@@ -87,10 +87,10 @@ public class TestClassService {
         Feat feat1 = new Feat("test feat for class", "", FeatUsage.ACTION);
         FeatService.getInstance().create(feat1);
         
-        ClassLevelBonusFeat bonusFeat1 = new ClassLevelBonusFeat(entity, level1, feat1);
-        ClassLevelBonusFeat bonusFeat2 = new ClassLevelBonusFeat(entity, level2, feat1);
+        ClassLevelFeature bonusFeat1 = new ClassLevelFeature(entity, level1, feat1);
+        ClassLevelFeature bonusFeat2 = new ClassLevelFeature(entity, level2, feat1);
         
-        List<ClassLevelBonusFeat> bonusFeats = new ArrayList<ClassLevelBonusFeat>();
+        List<ClassLevelFeature> bonusFeats = new ArrayList<ClassLevelFeature>();
         bonusFeats.add(bonusFeat1);
         bonusFeats.add(bonusFeat2);
         

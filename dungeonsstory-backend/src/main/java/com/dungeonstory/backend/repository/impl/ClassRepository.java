@@ -3,7 +3,7 @@ package com.dungeonstory.backend.repository.impl;
 import javax.persistence.Query;
 
 import com.dungeonstory.backend.Configuration;
-import com.dungeonstory.backend.data.ClassLevelBonusFeat;
+import com.dungeonstory.backend.data.ClassLevelFeature;
 import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.repository.AbstractRepository;
 
@@ -14,7 +14,7 @@ public class ClassRepository extends AbstractRepository<DSClass, Long> {
         return DSClass.class;
     }
     
-    public void deleteClassLevelBonusFeat(ClassLevelBonusFeat bonusFeat) {
+    public void deleteClassLevelBonusFeat(ClassLevelFeature bonusFeat) {
         if (bonusFeat == null) {
             return;
         }

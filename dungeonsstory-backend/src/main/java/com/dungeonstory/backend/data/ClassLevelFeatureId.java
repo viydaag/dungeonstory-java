@@ -2,7 +2,7 @@ package com.dungeonstory.backend.data;
 
 import java.io.Serializable;
 
-public class ClassLevelBonusFeatId implements Serializable {
+public class ClassLevelFeatureId implements Serializable {
 
     private static final long serialVersionUID = 6085535553525670809L;
 
@@ -12,7 +12,7 @@ public class ClassLevelBonusFeatId implements Serializable {
 
     private Long feat;
 
-    public ClassLevelBonusFeatId() {
+    public ClassLevelFeatureId() {
 
     }
 
@@ -58,10 +58,10 @@ public class ClassLevelBonusFeatId implements Serializable {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof ClassLevelBonusFeatId)) {
+        if (!(obj instanceof ClassLevelFeatureId)) {
             return false;
         }
-        ClassLevelBonusFeatId other = (ClassLevelBonusFeatId) obj;
+        ClassLevelFeatureId other = (ClassLevelFeatureId) obj;
         if (classe == null) {
             if (other.classe != null) {
                 return false;

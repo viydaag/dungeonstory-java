@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.ClassLevelBonus;
-import com.dungeonstory.backend.data.ClassLevelBonusFeat;
+import com.dungeonstory.backend.data.ClassLevelFeature;
 import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.impl.ClassService;
@@ -49,7 +49,7 @@ public class ClassView extends AbstractCrudView<DSClass> implements CrudView<DSC
     public void entrySaved(DSClass entity) {
 
         //set class for each nested objects
-        List<ClassLevelBonusFeat> feats = new ArrayList<ClassLevelBonusFeat>(entity.getFeatBonuses());
+        List<ClassLevelFeature> feats = new ArrayList<ClassLevelFeature>(entity.getFeatBonuses());
         feats.stream().forEach(feat -> feat.setClasse(entity));
         entity.setFeatBonuses(feats);
 

@@ -15,7 +15,7 @@ import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.Ability;
 import com.dungeonstory.backend.data.ArmorType;
 import com.dungeonstory.backend.data.ClassLevelBonus;
-import com.dungeonstory.backend.data.ClassLevelBonusFeat;
+import com.dungeonstory.backend.data.ClassLevelFeature;
 import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.data.Feat;
 import com.dungeonstory.backend.data.Level;
@@ -23,6 +23,7 @@ import com.dungeonstory.backend.data.Skill;
 import com.dungeonstory.backend.data.Spell;
 import com.dungeonstory.backend.data.WeaponType;
 import com.dungeonstory.backend.service.DataService;
+import com.dungeonstory.backend.service.FeatDataService;
 import com.dungeonstory.backend.service.impl.AbilityService;
 import com.dungeonstory.backend.service.impl.FeatService;
 import com.dungeonstory.backend.service.impl.LevelService;
@@ -54,12 +55,12 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     private DSSubSetSelector<WeaponType>                weaponProficiencies;
     private DSSubSetSelector<Skill>                     baseSkills;
     private ElementCollectionField<ClassLevelBonus>     levelBonuses;
-    private ElementCollectionTable<ClassLevelBonusFeat> featBonuses;
+    private ElementCollectionTable<ClassLevelFeature>   classFeatures;
     private DSSubSetSelector<Spell>                     spells;
 
     private DataService<Skill, Long>      skillService      = null;
     private DataService<Level, Long>      levelService      = null;
-    private DataService<Feat, Long>       featService       = null;
+    private FeatDataService               featService       = null;
     private DataService<WeaponType, Long> weaponTypeService = null;
     private DataService<Ability, Long>    abilityService    = null;
     private DataService<Spell, Long>      spellService      = null;
@@ -79,7 +80,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         IntegerField       spellPerDay9               = new IntegerField().withWidth("50px");
     }
 
-    public static class ClassLevelBonusFeatRow {
+    public static class ClassLevelFeatureRow {
         TypedSelect<Level> level = new TypedSelect<Level>();
         TypedSelect<Feat>  feat  = new TypedSelect<Feat>();
     }
@@ -170,16 +171,16 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         levelBonuses.setPropertyHeader("spellPerDay8", "Sorts 8");
         levelBonuses.setPropertyHeader("spellPerDay9", "Sorts 9");
 
-        featBonuses = new ElementCollectionTable<ClassLevelBonusFeat>(ClassLevelBonusFeat.class,
-                ClassLevelBonusFeatRow.class).withCaption("Dons de classe").withEditorInstantiator(() -> {
-                    ClassLevelBonusFeatRow row = new ClassLevelBonusFeatRow();
+        classFeatures = new ElementCollectionTable<ClassLevelFeature>(ClassLevelFeature.class,
+                ClassLevelFeatureRow.class).withCaption("Dons de classe").withEditorInstantiator(() -> {
+                    ClassLevelFeatureRow row = new ClassLevelFeatureRow();
                     row.level.setOptions(levelService.findAll());
-                    row.feat.setOptions(featService.findAll());
+                    row.feat.setOptions(featService.findAllClassFeatures());
                     return row;
                 });
-        featBonuses.setPropertyHeader("level", "Niveau");
-        featBonuses.setPropertyHeader("feat", "Don");
-        featBonuses.setWidth("80%");
+        classFeatures.setPropertyHeader("level", "Niveau");
+        classFeatures.setPropertyHeader("feat", "Don");
+        classFeatures.setWidth("80%");
 
         spells = new DSSubSetSelector<Spell>(Spell.class);
         spells.setCaption("Sorts de classe");
@@ -199,7 +200,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         layout.addComponent(weaponProficiencies);
         layout.addComponent(baseSkills);
         layout.addComponent(levelBonuses);
-        layout.addComponent(featBonuses);
+        layout.addComponent(classFeatures);
         layout.addComponent(spells);
         layout.addComponent(getToolbar());
 
