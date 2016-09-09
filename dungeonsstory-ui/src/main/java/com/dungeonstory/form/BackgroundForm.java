@@ -1,5 +1,7 @@
 package com.dungeonstory.form;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import org.vaadin.viritin.fields.EnumSelect;
@@ -10,7 +12,7 @@ import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.Background;
 import com.dungeonstory.backend.data.Background.LanguageChoice;
 import com.dungeonstory.backend.data.Skill;
-import com.dungeonstory.backend.data.Tool;
+import com.dungeonstory.backend.data.Tool.ToolType;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.EquipmentDataService;
 import com.dungeonstory.backend.service.impl.EquipmentService;
@@ -35,7 +37,7 @@ public class BackgroundForm extends DSAbstractForm<Background> {
     private TextArea  flaws;
 
     private DSSubSetSelector<Skill>    skillProficiencies;
-    private DSSubSetSelector<Tool>     toolProficiencies;
+    private DSSubSetSelector<ToolType>     toolProficiencies;
     private EnumSelect<LanguageChoice> additionalLanguage;
 
     private DataService<Skill, Long> skillService     = null;
@@ -77,13 +79,13 @@ public class BackgroundForm extends DSAbstractForm<Background> {
         skillProficiencies.setWidth("80%");
         skillProficiencies.setValue(null); //nothing selected
         
-        toolProficiencies = new DSSubSetSelector<Tool>(Tool.class);
+        toolProficiencies = new DSSubSetSelector<ToolType>(ToolType.class);
         toolProficiencies.setCaption("Compétence d'outil");
         toolProficiencies.setVisibleProperties("name");
         toolProficiencies.setColumnHeader("name", "Outil");
-        toolProficiencies.setOptions(equipmentService.findAllTools());
+        toolProficiencies.setOptions(Arrays.asList(ToolType.values()));
         toolProficiencies.setWidth("80%");
-        toolProficiencies.setValue(null); //nothing selected
+        toolProficiencies.setValue(new HashSet<ToolType>()); //nothing selected
         
         additionalLanguage = new EnumSelect<LanguageChoice>("Nb langage additionnel");
 

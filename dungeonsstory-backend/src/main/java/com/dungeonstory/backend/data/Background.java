@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -13,6 +15,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
+import com.dungeonstory.backend.data.Tool.ToolType;
 
 @Entity
 @Table(name = "Background")
@@ -51,11 +55,11 @@ public class Background extends AbstractTimestampEntity implements Serializable 
             inverseJoinColumns = { @JoinColumn(name = "skillId", referencedColumnName = "id") })
     private Set<Skill> skillProficiencies;
     
-    @ManyToMany
-    @JoinTable(name = "BackgroundToolProficiencies", joinColumns = {
-        @JoinColumn(name = "backgroundId", referencedColumnName = "id") }, 
-            inverseJoinColumns = { @JoinColumn(name = "toolId", referencedColumnName = "id") })
-    private Set<Tool> toolProficiencies;
+    @ElementCollection(targetClass = ToolType.class)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "BackgroundToolProficiencies", joinColumns = @JoinColumn(name = "backgroundId", nullable = false))
+    @Column(name = "toolType", nullable = false)
+    private Set<ToolType> toolProficiencies;
     
     @NotNull
     @Column(name = "additionalLanguage", nullable = false)
@@ -65,7 +69,7 @@ public class Background extends AbstractTimestampEntity implements Serializable 
     public Background() {
         super();
         skillProficiencies = new HashSet<Skill>();
-        toolProficiencies = new HashSet<Tool>();
+        toolProficiencies = new HashSet<ToolType>();
     }
 
     public String getName() {
@@ -122,14 +126,6 @@ public class Background extends AbstractTimestampEntity implements Serializable 
 
     public void setSkillProficiencies(Set<Skill> skillProficiencies) {
         this.skillProficiencies = skillProficiencies;
-    }
-
-    public Set<Tool> getToolProficiencies() {
-        return toolProficiencies;
-    }
-
-    public void setToolProficiencies(Set<Tool> toolProficiencies) {
-        this.toolProficiencies = toolProficiencies;
     }
 
     public LanguageChoice getAdditionalLanguage() {
