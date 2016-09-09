@@ -33,7 +33,8 @@ public abstract class Equipment extends AbstractTimestampEntity implements Seria
     	BRACER(new Bracer()), 
     	BOOT(new Boot()), 
     	BELT(new Belt()), 
-    	TOOL(new Tool());
+    	TOOL(new Tool()),
+    	GEAR(new Gear());
     	
     	private Equipment equipment;
     	
