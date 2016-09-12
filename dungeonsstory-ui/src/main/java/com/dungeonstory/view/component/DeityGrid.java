@@ -19,7 +19,7 @@ public class DeityGrid extends BeanGrid<Deity> {
         getColumn("image").setConverter(new ByteArrayToString());
         getColumn("image").setRenderer(new ByteArrayImageRenderer());
         
-        setStyleName("gridwithpics128px");
+        addStyleName("gridwithpics128px");
         setCellStyleGenerator(cell -> "image".equals(cell.getPropertyId()) ? "imagecol" : null);
         
 //        setHeightMode(HeightMode.ROW);

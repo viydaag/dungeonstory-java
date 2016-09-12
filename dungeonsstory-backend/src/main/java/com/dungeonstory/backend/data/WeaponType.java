@@ -95,7 +95,12 @@ public class WeaponType extends AbstractTimestampEntity implements Serializable 
     @NotNull
     @Min(value = 0)
     @Column(name = "baseWeight")
-    private int baseWeight;
+    private double baseWeight;
+    
+    @NotNull
+    @Min(value = 1)
+    @Column(name = "basePrice", nullable = false)
+    private int basePrice;
 
     //	@ElementCollection
     //	@CollectionTable(name = "WeaponProperties")
@@ -222,11 +227,11 @@ public class WeaponType extends AbstractTimestampEntity implements Serializable 
         this.isLoading = isLoading;
     }
 
-    public int getBaseWeight() {
+    public double getBaseWeight() {
         return baseWeight;
     }
 
-    public void setBaseWeight(int baseWeight) {
+    public void setBaseWeight(double baseWeight) {
         this.baseWeight = baseWeight;
     }
 
@@ -237,6 +242,14 @@ public class WeaponType extends AbstractTimestampEntity implements Serializable 
     //    public void setWeaponProperties(Set<WeaponProperty> weaponProperties) {
     //        this.weaponProperties = weaponProperties;
     //    }
+
+    public int getBasePrice() {
+        return basePrice;
+    }
+
+    public void setBasePrice(int basePrice) {
+        this.basePrice = basePrice;
+    }
 
     @Override
     public String toString() {
