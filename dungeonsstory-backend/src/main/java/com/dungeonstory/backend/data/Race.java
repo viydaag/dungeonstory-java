@@ -134,7 +134,7 @@ public class Race extends AbstractTimestampEntity implements Serializable {
 
     @ManyToMany
     @JoinTable(name = "RaceSkillProficiencies", joinColumns = {
-        @JoinColumn(name = "classId", referencedColumnName = "id") }, 
+        @JoinColumn(name = "raceId", referencedColumnName = "id") }, 
             inverseJoinColumns = { @JoinColumn(name = "skillId", referencedColumnName = "id") })
     private Set<Skill> skillProficiencies;
     
