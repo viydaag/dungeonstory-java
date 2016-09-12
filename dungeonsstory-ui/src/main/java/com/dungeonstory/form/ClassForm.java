@@ -50,6 +50,8 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     private TextField                                   name;
     private TextField                                   shortDescription;
     private TextArea                                    description;
+    private IntegerField                                lifePointPerLevel;
+    private IntegerField                                startingGold;
     private DSSubSetSelector<Ability>                   savingThrowProficiencies;
     private DSSubSetSelector<ArmorType.ProficiencyType> armorProficiencies;
     private DSSubSetSelector<WeaponType>                weaponProficiencies;
@@ -116,6 +118,8 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         name = new MTextField("Nom");
         shortDescription = new MTextField("Description courte").withFullWidth();
         description = new MTextArea("Description").withFullWidth();
+        lifePointPerLevel = new IntegerField("Points de vie par niveau");
+        startingGold = new IntegerField("Pièces d'or de départ");
 
         savingThrowProficiencies = new DSSubSetSelector<Ability>(Ability.class);
         savingThrowProficiencies.setCaption("Compétence applicable au jet de sauvegarde");
@@ -195,6 +199,8 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         layout.addComponent(name);
         layout.addComponent(shortDescription);
         layout.addComponent(description);
+        layout.addComponent(lifePointPerLevel);
+        layout.addComponent(startingGold);
         layout.addComponent(savingThrowProficiencies);
         layout.addComponent(armorProficiencies);
         layout.addComponent(weaponProficiencies);

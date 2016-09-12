@@ -43,6 +43,7 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
+    @NotNull
     @Min(value = 0)
     @Column(name = "lifePointPerLevel", nullable = false)
     private int lifePointPerLevel;
@@ -86,6 +87,11 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
         @JoinColumn(name = "classId", referencedColumnName = "id") }, 
             inverseJoinColumns = { @JoinColumn(name = "spellId", referencedColumnName = "id") })
     private Set<Spell> spells;
+    
+    @NotNull
+    @Min(value = 0)
+    @Column(name = "startingGold", nullable = false)
+    private int startingGold = 0;
 
     public DSClass() {
         savingThrowProficiencies = new HashSet<Ability>();
@@ -182,6 +188,14 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
 
     public void setSpells(Set<Spell> spells) {
         this.spells = spells;
+    }
+
+    public int getStartingGold() {
+        return startingGold;
+    }
+
+    public void setStartingGold(int startingGold) {
+        this.startingGold = startingGold;
     }
 
     @Override
