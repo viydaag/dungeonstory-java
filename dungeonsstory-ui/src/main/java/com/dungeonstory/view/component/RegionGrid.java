@@ -8,8 +8,8 @@ public class RegionGrid extends BeanGrid<Region> {
 
     public RegionGrid() {
         super(Region.class);
-        withColumns("name", "shortDescription");
-        withHeaderCaption("Nom", "Description courte");
+        withColumns("name");
+        withHeaderCaption("Nom");
     }
 
 }

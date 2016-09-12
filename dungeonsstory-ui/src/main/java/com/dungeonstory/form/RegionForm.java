@@ -14,7 +14,6 @@ public class RegionForm extends DSAbstractForm<Region> {
     private static final long serialVersionUID = 1416085344583485158L;
 
     private TextField name;
-    private TextField shortDescription;
     private TextArea  description;
 
     public RegionForm() {
@@ -31,11 +30,9 @@ public class RegionForm extends DSAbstractForm<Region> {
         FormLayout layout = new FormLayout();
 
         name = new MTextField("Nom");
-        shortDescription = new MTextField("Description courte");
-        description = new MTextArea("Description").withFullWidth();
+        description = new MTextArea("Description").withFullWidth().withRows(10);
 
         layout.addComponent(name);
-        layout.addComponent(shortDescription);
         layout.addComponent(description);
         layout.addComponent(getToolbar());
 
