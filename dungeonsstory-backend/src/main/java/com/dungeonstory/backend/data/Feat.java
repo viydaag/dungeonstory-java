@@ -20,11 +20,11 @@ public class Feat extends AbstractTimestampEntity implements Serializable {
     private static final long serialVersionUID = 291837938711381342L;
 
     public enum FeatUsage {
-        PASSIVE, ACTION, REACTION
+        PASSIVE, ACTION, REACTION, CHOICE
     }
     
     public enum PrerequisiteType {
-        NONE, FEAT, ABILITY
+        NONE, ARMOR_PROFICIENCY, ABILITY, CAST_SPELL
     }
 
     @NotNull
@@ -47,9 +47,9 @@ public class Feat extends AbstractTimestampEntity implements Serializable {
     @Column(name = "prerequisiteType", nullable = false)
     private PrerequisiteType prerequisiteType = PrerequisiteType.NONE;
     
-    @ManyToOne
-    @JoinColumn(name = "prerequisiteFeatId")
-    private Feat prerequisiteFeat;
+    @Column(name = "prerequisiteArmorProficiency")
+    @Enumerated(EnumType.STRING)
+    private ArmorType.ProficiencyType prerequisiteArmorProficiency;
     
     @ManyToOne
     @JoinColumn(name = "prerequisiteAbilityId")
@@ -112,12 +112,12 @@ public class Feat extends AbstractTimestampEntity implements Serializable {
         this.prerequisiteType = prerequisiteType;
     }
 
-    public Feat getPrerequisiteFeat() {
-        return prerequisiteFeat;
+    public ArmorType.ProficiencyType getPrerequisiteArmorProficiency() {
+        return prerequisiteArmorProficiency;
     }
 
-    public void setPrerequisiteFeat(Feat prerequisiteFeat) {
-        this.prerequisiteFeat = prerequisiteFeat;
+    public void setPrerequisiteArmorProficiency(ArmorType.ProficiencyType prerequisiteArmorProficiency) {
+        this.prerequisiteArmorProficiency = prerequisiteArmorProficiency;
     }
 
     public Ability getPrerequisiteAbility() {

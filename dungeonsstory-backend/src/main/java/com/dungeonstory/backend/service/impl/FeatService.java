@@ -2,6 +2,7 @@ package com.dungeonstory.backend.service.impl;
 
 import java.util.List;
 
+import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.Feat;
 import com.dungeonstory.backend.factory.impl.FeatFactory;
 import com.dungeonstory.backend.repository.impl.FeatRepository;
@@ -35,6 +36,16 @@ public class FeatService extends AbstractDataService<Feat, Long> implements Feat
     @Override
     public List<Feat> findAllClassFeatures() {
         return ((FeatRepository) entityRepository).findAllClassFeatures();
+    }
+
+    @Override
+    public List<Feat> findAllFeatsExcept(Feat feat) {
+        return ((FeatRepository) entityRepository).findAllFeatsExcept(feat);
+    }
+
+    @Override
+    public List<Feat> findAllUnassignedFeats(Character character) {
+        return ((FeatRepository) entityRepository).findAllUnassignedFeats(character);
     }
 
 }

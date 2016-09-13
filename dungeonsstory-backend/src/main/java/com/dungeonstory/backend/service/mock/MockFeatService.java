@@ -2,6 +2,7 @@ package com.dungeonstory.backend.service.mock;
 
 import java.util.List;
 
+import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.Feat;
 import com.dungeonstory.backend.factory.impl.FeatFactory;
 import com.dungeonstory.backend.repository.mock.MockFeatRepository;
@@ -35,6 +36,18 @@ public class MockFeatService extends AbstractDataService<Feat, Long> implements 
     @Override
     public List<Feat> findAllClassFeatures() {
         return ((MockFeatRepository) entityRepository).findAllClassFeatures();
+    }
+
+    @Override
+    public List<Feat> findAllFeatsExcept(Feat feat) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<Feat> findAllUnassignedFeats(Character character) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }
