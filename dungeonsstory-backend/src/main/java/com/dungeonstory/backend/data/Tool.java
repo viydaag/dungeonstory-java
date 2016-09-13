@@ -22,7 +22,7 @@ public class Tool extends Equipment {
         DISGUISE("Déguisement"),
         FORGERY("Contre-façon"),
         GAMING("Jeu"),
-        HERBALISM("Herbalisme"),
+        HERBALISM("Herborisme"),
         MUSICAL("Musique"),
         NAVIGATOR("Navigation"),
         POISONER("Poison"),

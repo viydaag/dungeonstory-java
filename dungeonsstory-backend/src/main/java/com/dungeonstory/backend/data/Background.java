@@ -128,6 +128,14 @@ public class Background extends AbstractTimestampEntity implements Serializable 
         this.skillProficiencies = skillProficiencies;
     }
 
+    public Set<ToolType> getToolProficiencies() {
+        return toolProficiencies;
+    }
+
+    public void setToolProficiencies(Set<ToolType> toolProficiencies) {
+        this.toolProficiencies = toolProficiencies;
+    }
+
     public LanguageChoice getAdditionalLanguage() {
         return additionalLanguage;
     }
