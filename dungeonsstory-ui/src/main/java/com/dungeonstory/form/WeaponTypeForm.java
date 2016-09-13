@@ -67,7 +67,7 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
         rangeType = new EnumSelect<RangeType>("Type de portée");
         oneHandBaseDamage = new MTextField("Dommage à 1 main");
         twoHandBaseDamage = new MTextField("Dommage à 2 mains");
-        isReach = new FormCheckBox("Portée longue");
+        isReach = new FormCheckBox("Allonge");
         isFinesse = new FormCheckBox("Finesse (choix dextérité ou force)");
         isLoading = new FormCheckBox("Chargement requis");
         baseWeight = new DoubleField("Poids de base (lbs)");

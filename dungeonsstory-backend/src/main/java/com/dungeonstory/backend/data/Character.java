@@ -53,9 +53,9 @@ public class Character extends AbstractTimestampEntity implements Serializable {
     private Race race;
 
     @NotNull
-    @Min(value = 1)
-    @Column(name = "level", nullable = false)
-    private int level;
+    @ManyToOne
+    @JoinColumn(name = "levelId", nullable = false)
+    private Level level;
 
     @NotNull
     @Min(value = 0)

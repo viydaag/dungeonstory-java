@@ -15,7 +15,7 @@ public class WeaponTypeGrid extends BeanGrid<WeaponType> {
         withColumns("name", "proficiencyType", "handleType", "usageType", "oneHandBaseDamage",
                 "twoHandBaseDamage", "damageType", "isReach", "isFinesse", "isLoading");
         withHeaderCaption("Nom", "Maitrise", "Manipulation", "Usage", "1 main", "2 mains",
-                "Type de dommage", "Reach", "Finesse", "Load");
+                "Type de dommage", "Allonge", "Finesse", "Load");
 
         Grid.Column reach = getColumn("isReach");
         reach.setRenderer(new HtmlRenderer(),
