@@ -12,7 +12,7 @@ import com.dungeonstory.view.AbstractCrudView;
 import com.dungeonstory.view.component.BeanGrid;
 import com.dungeonstory.view.component.SkillGrid;
 
-@ViewConfig(uri = "skills", displayName = "Talents")
+@ViewConfig(uri = "skills", displayName = "Compétences")
 public class SkillView extends AbstractCrudView<Skill> {
 
 	private static final long serialVersionUID = -7630758272011003929L;

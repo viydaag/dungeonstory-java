@@ -134,26 +134,26 @@ public class RaceForm extends DSAbstractForm<Race> {
         savingThrowProficiencies.setWidth("50%");
 
         armorProficiencies = new DSSubSetSelector<ArmorType.ProficiencyType>(ArmorType.ProficiencyType.class);
-        armorProficiencies.setCaption("Compétences d'armure");
+        armorProficiencies.setCaption("Maitrises d'armure");
         armorProficiencies.setVisibleProperties("name");
-        armorProficiencies.setColumnHeader("name", "Compétences d'armure");
+        armorProficiencies.setColumnHeader("name", "Maitrise");
         armorProficiencies.setOptions(Arrays.asList(ArmorType.ProficiencyType.values()));
         armorProficiencies.setValue(null); //nothing selected
         armorProficiencies.setWidth("50%");
 
         weaponProficiencies = new DSSubSetSelector<WeaponType>(WeaponType.class);
-        weaponProficiencies.setCaption("Compétences d'arme");
+        weaponProficiencies.setCaption("Maitrises d'arme");
         weaponProficiencies.setVisibleProperties("name");
-        weaponProficiencies.setColumnHeader("name", "Compétences d'arme");
+        weaponProficiencies.setColumnHeader("name", "Maitrise");
         weaponProficiencies.setOptions((List<WeaponType>) weaponTypeService.findAll());
         weaponProficiencies.setValue(null); //nothing selected
         weaponProficiencies.setWidth("50%");
 
         skillProficiencies = new DSSubSetSelector<Skill>(Skill.class);
-        skillProficiencies.setCaption("Compétence de talent");
+        skillProficiencies.setCaption("Maitrise de compétence");
         skillProficiencies.setVisibleProperties("name", "keyAbility.name");
-        skillProficiencies.setColumnHeader("name", "Talent");
-        skillProficiencies.setColumnHeader("keyAbility.name", "Attribut clé");
+        skillProficiencies.setColumnHeader("name", "Compétence");
+        skillProficiencies.setColumnHeader("keyAbility.name", "Caractéristique clé");
         skillProficiencies.setOptions((List<Skill>) skillService.findAll());
         skillProficiencies.setWidth("80%");
         skillProficiencies.setValue(null); //nothing selected

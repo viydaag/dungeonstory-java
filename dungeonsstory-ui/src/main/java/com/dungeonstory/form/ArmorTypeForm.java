@@ -39,7 +39,7 @@ public class ArmorTypeForm extends DSAbstractForm<ArmorType> {
 
         name = new MTextField("Nom");
         description = new MTextArea("Description").withFullWidth();
-        proficiencyType = new EnumSelect<ProficiencyType>("Type de compétence");
+        proficiencyType = new EnumSelect<ProficiencyType>("Type de maitrise");
         maxDexBonus = new IntegerField("Bonus de dextérité maximum");
         baseArmorClass = new IntegerField("Classe d'armure de base");
         stealthDisavantage = new FormCheckBox("Désavantage sur furtivité");

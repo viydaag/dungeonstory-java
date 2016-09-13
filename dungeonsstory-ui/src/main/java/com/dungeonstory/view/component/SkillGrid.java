@@ -10,7 +10,7 @@ public class SkillGrid extends BeanGrid<Skill> {
         super(Skill.class);
         getContainer().addNestedContainerBean("keyAbility");
         withColumns("name", "keyAbility.name", "shortDescription");
-        withHeaderCaption("Nom", "Capacité clé", "Description courte");
+        withHeaderCaption("Nom", "Caractéristique clé", "Description courte");
     }
 
 }

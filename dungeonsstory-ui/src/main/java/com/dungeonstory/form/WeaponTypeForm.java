@@ -60,7 +60,7 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
 
         name = new MTextField("Nom");
         description = new MTextArea("Description").withFullWidth();
-        proficiencyType = new EnumSelect<ProficiencyType>("Type de compétence");
+        proficiencyType = new EnumSelect<ProficiencyType>("Type de maitrise");
         sizeType = new EnumSelect<SizeType>("Taille");
         handleType = new EnumSelect<HandleType>("Type");
         usageType = new EnumSelect<UsageType>("Type d'usage");

@@ -122,34 +122,34 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         startingGold = new IntegerField("Pièces d'or de départ");
 
         savingThrowProficiencies = new DSSubSetSelector<Ability>(Ability.class);
-        savingThrowProficiencies.setCaption("Compétence applicable au jet de sauvegarde");
+        savingThrowProficiencies.setCaption("Maitrise applicable au jets de sauvegarde");
         savingThrowProficiencies.setVisibleProperties("name");
-        savingThrowProficiencies.setColumnHeader("name", "Capacité");
+        savingThrowProficiencies.setColumnHeader("name", "Caractéristique");
         savingThrowProficiencies.setOptions((List<Ability>) abilityService.findAll());
         savingThrowProficiencies.setValue(new HashSet<Ability>()); //nothing selected
         savingThrowProficiencies.setWidth("50%");
 
         armorProficiencies = new DSSubSetSelector<ArmorType.ProficiencyType>(ArmorType.ProficiencyType.class);
-        armorProficiencies.setCaption("Compétences d'armure");
+        armorProficiencies.setCaption("Maitrises d'armure");
         armorProficiencies.setVisibleProperties("name");
-        armorProficiencies.setColumnHeader("name", "Compétences d'armure");
+        armorProficiencies.setColumnHeader("name", "Maitrise");
         armorProficiencies.setOptions(Arrays.asList(ArmorType.ProficiencyType.values()));
         armorProficiencies.setValue(new HashSet<ArmorType.ProficiencyType>()); //nothing selected
         armorProficiencies.setWidth("50%");
 
         weaponProficiencies = new DSSubSetSelector<WeaponType>(WeaponType.class);
-        weaponProficiencies.setCaption("Compétences d'arme");
+        weaponProficiencies.setCaption("Maitrises d'arme");
         weaponProficiencies.setVisibleProperties("name");
-        weaponProficiencies.setColumnHeader("name", "Compétences d'arme");
+        weaponProficiencies.setColumnHeader("name", "Maitrise");
         weaponProficiencies.setOptions((List<WeaponType>) weaponTypeService.findAll());
         weaponProficiencies.setValue(new HashSet<WeaponType>()); //nothing selected
         weaponProficiencies.setWidth("50%");
 
         baseSkills = new DSSubSetSelector<Skill>(Skill.class);
-        baseSkills.setCaption("Talents de base");
+        baseSkills.setCaption("Compétences de base");
         baseSkills.setVisibleProperties("name", "keyAbility.name");
-        baseSkills.setColumnHeader("name", "Talent");
-        baseSkills.setColumnHeader("keyAbility.name", "Attribut clé");
+        baseSkills.setColumnHeader("name", "Compétence");
+        baseSkills.setColumnHeader("keyAbility.name", "Carctéristique clé");
         baseSkills.setOptions((List<Skill>) skillService.findAll());
         baseSkills.setWidth("80%");
         //		baseSkills.setNewItemsAllowed(false);

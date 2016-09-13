@@ -65,16 +65,16 @@ public class BackgroundForm extends DSAbstractForm<Background> {
         flaws = new MTextArea("Défauts").withFullWidth().withRows(12);
 
         skillProficiencies = new DSSubSetSelector<Skill>(Skill.class);
-        skillProficiencies.setCaption("Compétence de talent");
+        skillProficiencies.setCaption("Maitrise de compétence");
         skillProficiencies.setVisibleProperties("name", "keyAbility.name");
-        skillProficiencies.setColumnHeader("name", "Talent");
-        skillProficiencies.setColumnHeader("keyAbility.name", "Attribut clé");
+        skillProficiencies.setColumnHeader("name", "Compétence");
+        skillProficiencies.setColumnHeader("keyAbility.name", "Caractéristique clé");
         skillProficiencies.setOptions((List<Skill>) skillService.findAll());
         skillProficiencies.setWidth("80%");
         skillProficiencies.setValue(null); //nothing selected
 
         toolProficiencies = new DSSubSetSelector<ToolType>(ToolType.class);
-        toolProficiencies.setCaption("Compétence d'outil");
+        toolProficiencies.setCaption("Maitrise d'outil");
         toolProficiencies.setVisibleProperties("name");
         toolProficiencies.setColumnHeader("name", "Outil");
         toolProficiencies.setOptions(Arrays.asList(ToolType.values()));

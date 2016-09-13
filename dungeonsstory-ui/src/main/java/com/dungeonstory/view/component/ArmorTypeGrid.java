@@ -14,7 +14,7 @@ public class ArmorTypeGrid extends BeanGrid<ArmorType> {
     public ArmorTypeGrid() {
         super(ArmorType.class);
         withColumns("name", "proficiencyType", "baseArmorClass", "maxDexBonus", "stealthDisavantage", "minStrength");
-        withHeaderCaption("Nom", "Type de compétence", "Classe d'armure", "Bonus max dextérité", "Désavantage furtivité", "Force minimum");
+        withHeaderCaption("Nom", "Maitrise", "Classe d'armure", "Bonus max dextérité", "Désavantage furtivité", "Force minimum");
         
         getColumn("maxDexBonus").setRenderer(new ModifierRenderer());
         getColumn("baseArmorClass").setRenderer(new ModifierRenderer());
