@@ -128,7 +128,7 @@ public class MockDataGenerator {
     };
     
     private static final String[][] storedRaces = new String[][] {
-        {"Humain", "1", "1", "1", "1", "1", "1", "16", "60", "1d6", "5'4\"", "1d8", "150", "1d20"}
+        {"Humain", "1", "1", "1", "1", "1", "1", "16", "60", "5'4\"", "150"}
     };
     
     private static final String[][] storedFeats = new String[][] {
@@ -253,11 +253,8 @@ public class MockDataGenerator {
             race.setChaModifier(Integer.parseInt(tab[6]));
             race.setMinAge(Integer.parseInt(tab[7]));
             race.setMaxAge(Integer.parseInt(tab[8]));
-            race.setAgeModifier(tab[9]);
-            race.setAverageHeight(tab[10]);
-            race.setHeightModifier(tab[11]);
-            race.setAverageWeight(Integer.parseInt(tab[12]));
-            race.setWeightModifier(tab[13]);
+            race.setAverageHeight(tab[9]);
+            race.setAverageWeight(Integer.parseInt(tab[10]));
             races.add(race);
         }
         return races;

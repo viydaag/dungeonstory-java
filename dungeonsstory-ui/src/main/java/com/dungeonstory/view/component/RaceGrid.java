@@ -8,8 +8,8 @@ public class RaceGrid extends BeanGrid<Race> {
 
     public RaceGrid() {
         super(Race.class);
-        withColumns("name", "shortDescription");
-        withHeaderCaption("Nom", "Description courte");
+        withColumns("name");
+        withHeaderCaption("Nom");
     }
 
 }

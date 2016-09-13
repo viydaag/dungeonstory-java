@@ -1,15 +1,25 @@
 package com.dungeonstory.backend.data;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+
+import org.eclipse.persistence.annotations.PrivateOwned;
 
 @Entity
 @Table(name = "Race")
@@ -26,51 +36,51 @@ public class Race extends AbstractTimestampEntity implements Serializable {
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @Column(name = "shortDescription")
-    private String shortDescription;
-
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
+    
+    @Column(name = "traits", columnDefinition = "TEXT")
+    private String traits;
 
     @NotNull
     @Min(value = 0)
     @Column(name = "strModifier")
-    private int strModifier;
+    private int strModifier = 0;
 
     @NotNull
     @Min(value = 0)
     @Column(name = "dexModifier")
-    private int dexModifier;
+    private int dexModifier = 0;
 
     @NotNull
     @Min(value = 0)
     @Column(name = "conModifier")
-    private int conModifier;
+    private int conModifier = 0;
 
     @NotNull
     @Min(value = 0)
     @Column(name = "intModifier")
-    private int intModifier;
+    private int intModifier = 0;
 
     @NotNull
     @Min(value = 0)
     @Column(name = "wisModifier")
-    private int wisModifier;
+    private int wisModifier = 0;
 
     @NotNull
     @Min(value = 0)
     @Column(name = "chaModifier")
-    private int chaModifier;
+    private int chaModifier = 0;
 
     @NotNull
     @Min(value = 0)
     @Column(name = "minAge")
-    private int minAge;
+    private int minAge = 0;
 
     @NotNull
     @Min(value = 0)
     @Column(name = "maxAge")
-    private int maxAge;
+    private int maxAge = 0;
     
     @NotNull
     @Column(name = "size", nullable = false)
@@ -88,29 +98,60 @@ public class Race extends AbstractTimestampEntity implements Serializable {
     private int averageWeight;
 
     @NotNull
-    @Pattern(regexp = "\\d+d\\d+")
-    @Column(name = "ageModifier")
-    private String ageModifier;
-
-    @NotNull
-    @Pattern(regexp = "\\d+d\\d+")
-    @Column(name = "weightModifier")
-    private String weightModifier;
-
-    @NotNull
-    @Pattern(regexp = "\\d+d\\d+")
-    @Column(name = "heightModifier")
-    private String heightModifier;
-    
-    @NotNull
     @Min(value = 0)
     @Column(name = "speed")
-    private int speed;
+    private int speed = 0;
     
-    //TODO languages
+    @ManyToMany
+    @JoinTable(
+        name="RaceLanguage",
+        joinColumns={@JoinColumn(name="raceId", referencedColumnName="id")},
+        inverseJoinColumns={@JoinColumn(name="languageId", referencedColumnName="id")})
+    private Set<Language> languages;
+    
+    @Column(name = "extraLanguage")
+    private boolean extraLanguage;
+    
+    @ElementCollection(targetClass = Condition.class)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "RaceSavingThrowProficiencies", joinColumns = @JoinColumn(name = "raceId", nullable = false))
+    @Column(name = "conditionName", nullable = false)
+    @PrivateOwned
+    private Set<Condition> savingThrowProficiencies;
+    
+    @ElementCollection(targetClass = ArmorType.ProficiencyType.class)
+    @CollectionTable(name = "RaceArmorProficiencies", joinColumns = @JoinColumn(name = "raceId", nullable = false))
+    @Column(name = "proficiency", nullable = false)
+    @Enumerated(EnumType.STRING)
+    @PrivateOwned
+    private Set<ArmorType.ProficiencyType> armorProficiencies;
+    
+    @ManyToMany
+    @JoinTable(name = "RaceWeaponProficiencies", joinColumns = {
+        @JoinColumn(name = "raceId", referencedColumnName = "id") }, 
+            inverseJoinColumns = { @JoinColumn(name = "weaponTypeId", referencedColumnName = "id") })
+    private Set<WeaponType> weaponProficiencies;
+
+    @ManyToMany
+    @JoinTable(name = "RaceSkillProficiencies", joinColumns = {
+        @JoinColumn(name = "raceId", referencedColumnName = "id") }, 
+            inverseJoinColumns = { @JoinColumn(name = "skillId", referencedColumnName = "id") })
+    private Set<Skill> skillProficiencies;
+    
+    @ManyToOne
+    @JoinColumn(name = "damageTypeId")
+    private DamageType damageResistance;
+    
+    @Column(name = "image")
+    private byte[] image;
 
     public Race() {
         super();
+        languages = new HashSet<Language>();
+        savingThrowProficiencies = new HashSet<Condition>();
+        armorProficiencies = new HashSet<ArmorType.ProficiencyType>();
+        weaponProficiencies = new HashSet<WeaponType>();
+        skillProficiencies = new HashSet<Skill>();
     }
 
     public Race(String name) {
@@ -126,12 +167,12 @@ public class Race extends AbstractTimestampEntity implements Serializable {
         this.name = name;
     }
 
-    public String getShortDescription() {
-        return shortDescription;
+    public String getTraits() {
+        return traits;
     }
 
-    public void setShortDescription(String shortDescription) {
-        this.shortDescription = shortDescription;
+    public void setTraits(String traits) {
+        this.traits = traits;
     }
 
     public String getDescription() {
@@ -222,30 +263,6 @@ public class Race extends AbstractTimestampEntity implements Serializable {
         this.averageWeight = averageWeight;
     }
 
-    public String getAgeModifier() {
-        return ageModifier;
-    }
-
-    public void setAgeModifier(String ageModifier) {
-        this.ageModifier = ageModifier;
-    }
-
-    public String getWeightModifier() {
-        return weightModifier;
-    }
-
-    public void setWeightModifier(String weightModifier) {
-        this.weightModifier = weightModifier;
-    }
-
-    public String getHeightModifier() {
-        return heightModifier;
-    }
-
-    public void setHeightModifier(String heightModifier) {
-        this.heightModifier = heightModifier;
-    }
-
     public Size getSize() {
         return size;
     }
@@ -260,6 +277,70 @@ public class Race extends AbstractTimestampEntity implements Serializable {
 
     public void setSpeed(int speed) {
         this.speed = speed;
+    }
+
+    public Set<Language> getLanguages() {
+        return languages;
+    }
+
+    public void setLanguages(Set<Language> languages) {
+        this.languages = languages;
+    }
+
+    public boolean getExtraLanguage() {
+        return extraLanguage;
+    }
+
+    public void setExtraLanguage(boolean extraLanguage) {
+        this.extraLanguage = extraLanguage;
+    }
+
+    public Set<Condition> getSavingThrowProficiencies() {
+        return savingThrowProficiencies;
+    }
+
+    public void setSavingThrowProficiencies(Set<Condition> savingThrowProficiencies) {
+        this.savingThrowProficiencies = savingThrowProficiencies;
+    }
+
+    public Set<ArmorType.ProficiencyType> getArmorProficiencies() {
+        return armorProficiencies;
+    }
+
+    public void setArmorProficiencies(Set<ArmorType.ProficiencyType> armorProficiencies) {
+        this.armorProficiencies = armorProficiencies;
+    }
+
+    public Set<WeaponType> getWeaponProficiencies() {
+        return weaponProficiencies;
+    }
+
+    public void setWeaponProficiencies(Set<WeaponType> weaponProficiencies) {
+        this.weaponProficiencies = weaponProficiencies;
+    }
+
+    public Set<Skill> getSkillProficiencies() {
+        return skillProficiencies;
+    }
+
+    public void setSkillProficiencies(Set<Skill> skillProficiencies) {
+        this.skillProficiencies = skillProficiencies;
+    }
+
+    public DamageType getDamageResistance() {
+        return damageResistance;
+    }
+
+    public void setDamageResistance(DamageType damageResistance) {
+        this.damageResistance = damageResistance;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 
     @Override

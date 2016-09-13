@@ -150,7 +150,7 @@ public class SpellForm extends DSAbstractForm<Spell> {
         rangeValueInFeet = new IntegerField("Portée (en pieds)");
         range.addMValueChangeListener(event -> showRange());
 
-        savingThrowAbility = new TypedSelect<Ability>("Capacité de jet de sauvegarde", abilityService.findAll());
+        savingThrowAbility = new TypedSelect<Ability>("Caractéristique de jet de sauvegarde", abilityService.findAll());
         attackRoll = new FormCheckBox("Nécessite un jet d'attaque");
         higherLevel = new FormCheckBox("Peut être lancé à plus haut niveau");
 

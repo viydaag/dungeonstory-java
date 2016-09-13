@@ -26,7 +26,7 @@ import org.eclipse.persistence.annotations.PrivateOwned;
 
 @Entity
 @Table(name = "Class")
-@NamedQuery(name = DSClass.deleteClassLevelBonusFeat, query = "DELETE FROM ClassLevelBonusFeat c WHERE c.classe = :classe AND c.level = :level AND c.feat = :feat")
+@NamedQuery(name = DSClass.deleteClassLevelBonusFeat, query = "DELETE FROM ClassLevelFeature c WHERE c.classe = :classe AND c.level = :level AND c.feat = :feat")
 public class DSClass extends AbstractTimestampEntity implements Serializable {
 
     private static final long serialVersionUID = 4948845539537092288L;
@@ -43,6 +43,7 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
+    @NotNull
     @Min(value = 0)
     @Column(name = "lifePointPerLevel", nullable = false)
     private int lifePointPerLevel;
@@ -78,14 +79,19 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
     private List<ClassLevelBonus> levelBonuses;
     
     @OneToMany(mappedBy = "classe", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    @PrivateOwned   //means that a class level bonus feat will be deleted if not attached to a class
-    private List<ClassLevelBonusFeat> featBonuses;
+    @PrivateOwned   //means that a class level features will be deleted if not attached to a class
+    private List<ClassLevelFeature> classFeatures;
     
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinTable(name = "ClassSpell", joinColumns = {
         @JoinColumn(name = "classId", referencedColumnName = "id") }, 
             inverseJoinColumns = { @JoinColumn(name = "spellId", referencedColumnName = "id") })
     private Set<Spell> spells;
+    
+    @NotNull
+    @Min(value = 0)
+    @Column(name = "startingGold", nullable = false)
+    private int startingGold = 0;
 
     public DSClass() {
         savingThrowProficiencies = new HashSet<Ability>();
@@ -93,7 +99,7 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
         weaponProficiencies = new HashSet<WeaponType>();
         baseSkills = new HashSet<Skill>();
         levelBonuses = new ArrayList<ClassLevelBonus>();
-        featBonuses = new ArrayList<ClassLevelBonusFeat>();
+        classFeatures = new ArrayList<ClassLevelFeature>();
     }
 
     public String getName() {
@@ -168,12 +174,12 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
         this.levelBonuses = levelBonuses;
     }
 
-    public List<ClassLevelBonusFeat> getFeatBonuses() {
-        return featBonuses;
+    public List<ClassLevelFeature> getClassFeatures() {
+        return classFeatures;
     }
 
-    public void setFeatBonuses(List<ClassLevelBonusFeat> featBonuses) {
-        this.featBonuses = featBonuses;
+    public void setClassFeatures(List<ClassLevelFeature> classFeatures) {
+        this.classFeatures = classFeatures;
     }
 
     public Set<Spell> getSpells() {
@@ -182,6 +188,14 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
 
     public void setSpells(Set<Spell> spells) {
         this.spells = spells;
+    }
+
+    public int getStartingGold() {
+        return startingGold;
+    }
+
+    public void setStartingGold(int startingGold) {
+        this.startingGold = startingGold;
     }
 
     @Override

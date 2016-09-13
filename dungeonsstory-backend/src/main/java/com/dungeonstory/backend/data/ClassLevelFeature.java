@@ -10,9 +10,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@IdClass(ClassLevelBonusFeatId.class)
+@IdClass(ClassLevelFeatureId.class)
 @Table(name = "ClassLevelBonusFeat")
-public class ClassLevelBonusFeat implements Serializable {
+public class ClassLevelFeature implements Serializable {
 
     private static final long serialVersionUID = 5198775399118036404L;
 
@@ -31,11 +31,11 @@ public class ClassLevelBonusFeat implements Serializable {
     @JoinColumn(name = "featId")
     private Feat feat;
 
-    public ClassLevelBonusFeat() {
+    public ClassLevelFeature() {
         super();
     }
 
-    public ClassLevelBonusFeat(DSClass classe, Level level, Feat feat) {
+    public ClassLevelFeature(DSClass classe, Level level, Feat feat) {
         this();
         this.classe = classe;
         this.level = level;

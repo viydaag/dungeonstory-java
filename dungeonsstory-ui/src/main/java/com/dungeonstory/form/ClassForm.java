@@ -15,7 +15,7 @@ import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.Ability;
 import com.dungeonstory.backend.data.ArmorType;
 import com.dungeonstory.backend.data.ClassLevelBonus;
-import com.dungeonstory.backend.data.ClassLevelBonusFeat;
+import com.dungeonstory.backend.data.ClassLevelFeature;
 import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.data.Feat;
 import com.dungeonstory.backend.data.Level;
@@ -23,6 +23,7 @@ import com.dungeonstory.backend.data.Skill;
 import com.dungeonstory.backend.data.Spell;
 import com.dungeonstory.backend.data.WeaponType;
 import com.dungeonstory.backend.service.DataService;
+import com.dungeonstory.backend.service.FeatDataService;
 import com.dungeonstory.backend.service.impl.AbilityService;
 import com.dungeonstory.backend.service.impl.FeatService;
 import com.dungeonstory.backend.service.impl.LevelService;
@@ -49,17 +50,19 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     private TextField                                   name;
     private TextField                                   shortDescription;
     private TextArea                                    description;
+    private IntegerField                                lifePointPerLevel;
+    private IntegerField                                startingGold;
     private DSSubSetSelector<Ability>                   savingThrowProficiencies;
     private DSSubSetSelector<ArmorType.ProficiencyType> armorProficiencies;
     private DSSubSetSelector<WeaponType>                weaponProficiencies;
     private DSSubSetSelector<Skill>                     baseSkills;
     private ElementCollectionField<ClassLevelBonus>     levelBonuses;
-    private ElementCollectionTable<ClassLevelBonusFeat> featBonuses;
+    private ElementCollectionTable<ClassLevelFeature>   classFeatures;
     private DSSubSetSelector<Spell>                     spells;
 
     private DataService<Skill, Long>      skillService      = null;
     private DataService<Level, Long>      levelService      = null;
-    private DataService<Feat, Long>       featService       = null;
+    private FeatDataService               featService       = null;
     private DataService<WeaponType, Long> weaponTypeService = null;
     private DataService<Ability, Long>    abilityService    = null;
     private DataService<Spell, Long>      spellService      = null;
@@ -79,7 +82,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         IntegerField       spellPerDay9               = new IntegerField().withWidth("50px");
     }
 
-    public static class ClassLevelBonusFeatRow {
+    public static class ClassLevelFeatureRow {
         TypedSelect<Level> level = new TypedSelect<Level>();
         TypedSelect<Feat>  feat  = new TypedSelect<Feat>();
     }
@@ -115,36 +118,38 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         name = new MTextField("Nom");
         shortDescription = new MTextField("Description courte").withFullWidth();
         description = new MTextArea("Description").withFullWidth();
+        lifePointPerLevel = new IntegerField("Points de vie par niveau");
+        startingGold = new IntegerField("Pièces d'or de départ");
 
         savingThrowProficiencies = new DSSubSetSelector<Ability>(Ability.class);
-        savingThrowProficiencies.setCaption("Compétence applicable au jet de sauvegarde");
+        savingThrowProficiencies.setCaption("Maitrise applicable au jets de sauvegarde");
         savingThrowProficiencies.setVisibleProperties("name");
-        savingThrowProficiencies.setColumnHeader("name", "Capacité");
+        savingThrowProficiencies.setColumnHeader("name", "Caractéristique");
         savingThrowProficiencies.setOptions((List<Ability>) abilityService.findAll());
         savingThrowProficiencies.setValue(new HashSet<Ability>()); //nothing selected
         savingThrowProficiencies.setWidth("50%");
 
         armorProficiencies = new DSSubSetSelector<ArmorType.ProficiencyType>(ArmorType.ProficiencyType.class);
-        armorProficiencies.setCaption("Compétences d'armure");
+        armorProficiencies.setCaption("Maitrises d'armure");
         armorProficiencies.setVisibleProperties("name");
-        armorProficiencies.setColumnHeader("name", "Compétences d'armure");
+        armorProficiencies.setColumnHeader("name", "Maitrise");
         armorProficiencies.setOptions(Arrays.asList(ArmorType.ProficiencyType.values()));
         armorProficiencies.setValue(new HashSet<ArmorType.ProficiencyType>()); //nothing selected
         armorProficiencies.setWidth("50%");
 
         weaponProficiencies = new DSSubSetSelector<WeaponType>(WeaponType.class);
-        weaponProficiencies.setCaption("Compétences d'arme");
+        weaponProficiencies.setCaption("Maitrises d'arme");
         weaponProficiencies.setVisibleProperties("name");
-        weaponProficiencies.setColumnHeader("name", "Compétences d'arme");
+        weaponProficiencies.setColumnHeader("name", "Maitrise");
         weaponProficiencies.setOptions((List<WeaponType>) weaponTypeService.findAll());
         weaponProficiencies.setValue(new HashSet<WeaponType>()); //nothing selected
         weaponProficiencies.setWidth("50%");
 
         baseSkills = new DSSubSetSelector<Skill>(Skill.class);
-        baseSkills.setCaption("Talents de base");
+        baseSkills.setCaption("Compétences de base");
         baseSkills.setVisibleProperties("name", "keyAbility.name");
-        baseSkills.setColumnHeader("name", "Talent");
-        baseSkills.setColumnHeader("keyAbility.name", "Attribut clé");
+        baseSkills.setColumnHeader("name", "Compétence");
+        baseSkills.setColumnHeader("keyAbility.name", "Carctéristique clé");
         baseSkills.setOptions((List<Skill>) skillService.findAll());
         baseSkills.setWidth("80%");
         //		baseSkills.setNewItemsAllowed(false);
@@ -170,16 +175,16 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         levelBonuses.setPropertyHeader("spellPerDay8", "Sorts 8");
         levelBonuses.setPropertyHeader("spellPerDay9", "Sorts 9");
 
-        featBonuses = new ElementCollectionTable<ClassLevelBonusFeat>(ClassLevelBonusFeat.class,
-                ClassLevelBonusFeatRow.class).withCaption("Dons de classe").withEditorInstantiator(() -> {
-                    ClassLevelBonusFeatRow row = new ClassLevelBonusFeatRow();
+        classFeatures = new ElementCollectionTable<ClassLevelFeature>(ClassLevelFeature.class,
+                ClassLevelFeatureRow.class).withCaption("Dons de classe").withEditorInstantiator(() -> {
+                    ClassLevelFeatureRow row = new ClassLevelFeatureRow();
                     row.level.setOptions(levelService.findAll());
-                    row.feat.setOptions(featService.findAll());
+                    row.feat.setOptions(featService.findAllClassFeatures());
                     return row;
                 });
-        featBonuses.setPropertyHeader("level", "Niveau");
-        featBonuses.setPropertyHeader("feat", "Don");
-        featBonuses.setWidth("80%");
+        classFeatures.setPropertyHeader("level", "Niveau");
+        classFeatures.setPropertyHeader("feat", "Don");
+        classFeatures.setWidth("80%");
 
         spells = new DSSubSetSelector<Spell>(Spell.class);
         spells.setCaption("Sorts de classe");
@@ -194,12 +199,14 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         layout.addComponent(name);
         layout.addComponent(shortDescription);
         layout.addComponent(description);
+        layout.addComponent(lifePointPerLevel);
+        layout.addComponent(startingGold);
         layout.addComponent(savingThrowProficiencies);
         layout.addComponent(armorProficiencies);
         layout.addComponent(weaponProficiencies);
         layout.addComponent(baseSkills);
         layout.addComponent(levelBonuses);
-        layout.addComponent(featBonuses);
+        layout.addComponent(classFeatures);
         layout.addComponent(spells);
         layout.addComponent(getToolbar());
 

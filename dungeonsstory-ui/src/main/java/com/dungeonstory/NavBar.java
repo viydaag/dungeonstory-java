@@ -24,6 +24,7 @@ public class NavBar extends CssLayout implements ViewChangeListener {
         setHeight("100%");
         addStyleName(DSTheme.MENU_ROOT);
         addStyleName(DSTheme.NAVBAR);
+        addStyleName(DSTheme.SCROLLABLE);
 
         Label logo = new Label("<strong>Dungeon Story</strong>", ContentMode.HTML);
         logo.addStyleName(DSTheme.MENU_TITLE);

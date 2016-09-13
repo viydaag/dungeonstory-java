@@ -31,7 +31,7 @@ public class SkillForm extends DSAbstractForm<Skill> {
 
     @Override
     public String toString() {
-        return "Talents";
+        return "Compétence";
     }
 
     @Override

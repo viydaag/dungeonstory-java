@@ -11,6 +11,8 @@ import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.AbstractCrudView;
 import com.dungeonstory.view.component.BeanGrid;
 import com.dungeonstory.view.component.RegionGrid;
+import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.shared.data.sort.SortDirection;
 
 @ViewConfig(uri = "regions", displayName = "Régions")
 public class RegionView extends AbstractCrudView<Region> {
@@ -37,6 +39,12 @@ public class RegionView extends AbstractCrudView<Region> {
             return MockRegionService.getInstance();
         }
         return RegionService.getInstance();
+    }
+    
+    @Override
+    public void enter(ViewChangeEvent event) {
+        super.enter(event);
+        grid.sort("name", SortDirection.ASCENDING);
     }
 
 }

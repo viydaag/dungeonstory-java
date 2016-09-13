@@ -42,23 +42,25 @@ public class TestRegionService {
     public void testRegionService() throws Exception {
         RegionService service = RegionService.getInstance();
 
-        service.create(new Region("My region"));
+        Region newRegion = new Region("My region");
+        service.create(newRegion);
 
         Collection<Region> allRegions = service.findAll();
         assertNotNull(allRegions);
         assertTrue(allRegions.size() > 0);
 
-        Region region = allRegions.toArray(new Region[0])[0];
+        Region region = service.read(newRegion.getId());
         region.setName("My Test Name");
         service.update(region);
 
-        Region region2 = service.findAll().iterator().next();
+        Region region2 = service.read(region.getId());
         assertEquals("My Test Name", region2.getName());
 
+        int size = allRegions.size();
         service.delete(region2);
         allRegions = service.findAll();
         assertNotNull(allRegions);
-        assertTrue(allRegions.size() == 0);
+        assertEquals(size - 1, allRegions.size());
     }
 
 }

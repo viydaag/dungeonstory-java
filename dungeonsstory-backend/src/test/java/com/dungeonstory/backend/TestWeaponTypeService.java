@@ -54,24 +54,26 @@ public class TestWeaponTypeService {
         List<DamageType> findAll = dmService.findAll();
         DamageType dm = findAll.get(findAll.size() - 1);
         assertNotNull(dm);
-        service.create(new WeaponType("test weapon", ProficiencyType.SIMPLE, SizeType.MEDIUM, HandleType.TWO_HANDED,
-                UsageType.MELEE, dm));
+        WeaponType newWt = new WeaponType("test weapon", ProficiencyType.SIMPLE, SizeType.MEDIUM, HandleType.TWO_HANDED,
+                UsageType.MELEE, dm);
+        service.create(newWt);
 
         Collection<WeaponType> allWeaponTypes = service.findAll();
         assertNotNull(allWeaponTypes);
         assertTrue(allWeaponTypes.size() > 0);
 
-        WeaponType region = allWeaponTypes.toArray(new WeaponType[0])[0];
-        region.setName("My Test Name");
-        service.update(region);
+        WeaponType weaponType = service.read(newWt.getId());
+        weaponType.setName("My Test Name");
+        service.update(weaponType);
 
-        WeaponType region2 = service.findAll().iterator().next();
-        assertEquals("My Test Name", region2.getName());
+        WeaponType weaponType2 = service.read(weaponType.getId());
+        assertEquals("My Test Name", weaponType2.getName());
 
-        service.delete(region2);
+        int size = allWeaponTypes.size();
+        service.delete(weaponType2);
         allWeaponTypes = service.findAll();
         assertNotNull(allWeaponTypes);
-        assertTrue(allWeaponTypes.size() == 0);
+        assertEquals(size - 1, allWeaponTypes.size());
     }
 
 }

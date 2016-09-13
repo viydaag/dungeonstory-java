@@ -8,8 +8,8 @@ public class AbilityGrid extends BeanGrid<Ability> {
 
     public AbilityGrid() {
         super(Ability.class);
-        withColumns("name", "abbreviation", "description");
-        withHeaderCaption("Nom", "Abbréviation", "Description");
+        withColumns("name", "abbreviation");
+        withHeaderCaption("Nom", "Abbréviation");
     }
 
 }

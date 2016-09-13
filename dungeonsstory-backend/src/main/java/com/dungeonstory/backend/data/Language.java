@@ -39,5 +39,10 @@ public class Language extends AbstractTimestampEntity implements Serializable {
     public void setScript(String script) {
         this.script = script;
     }
+    
+    @Override
+    public String toString() {
+        return getName();
+    }
 
 }

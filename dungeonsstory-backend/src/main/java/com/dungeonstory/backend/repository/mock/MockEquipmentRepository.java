@@ -1,8 +1,10 @@
 package com.dungeonstory.backend.repository.mock;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.dungeonstory.backend.data.Equipment;
+import com.dungeonstory.backend.data.Tool;
 
 public class MockEquipmentRepository extends MockAbstractRepository<Equipment> {
 
@@ -31,6 +33,16 @@ public class MockEquipmentRepository extends MockAbstractRepository<Equipment> {
     
     public List<Equipment> findAllSellable() {
     	return findAll();
+    }
+    
+    public List<Tool> findAllTools() {
+        List<Tool> tools = new ArrayList<Tool>();
+        for (Equipment e : findAll()) {
+            if (e instanceof Tool) {
+                tools.add((Tool) e);
+            }
+        }
+        return tools;
     }
 
 }

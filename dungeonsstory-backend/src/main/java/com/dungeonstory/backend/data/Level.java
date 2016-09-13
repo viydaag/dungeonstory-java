@@ -17,8 +17,13 @@ import javax.persistence.Version;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import org.eclipse.persistence.annotations.Customizer;
+
+import com.dungeonstory.backend.data.util.OrderCustomizer;
+
 @Entity
 @Table(name = "Level")
+@Customizer(OrderCustomizer.class)
 public class Level implements com.dungeonstory.backend.repository.Entity, Serializable {
 
     private static final long serialVersionUID = 4749488433122909200L;
@@ -27,10 +32,6 @@ public class Level implements com.dungeonstory.backend.repository.Entity, Serial
     @NotNull
     @Column(name = "id")
     private Long id; // id is the level number
-
-    @Version
-    @Column(name = "version")
-    private int version;
 
     @NotNull
     @Min(value = 0)
@@ -44,6 +45,10 @@ public class Level implements com.dungeonstory.backend.repository.Entity, Serial
 
     @OneToMany(mappedBy = "level")
     private List<ClassLevelBonus> classBonuses;
+    
+    @Version
+    @Column(name = "version")
+    private int version;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created", nullable = false)

@@ -62,7 +62,12 @@ public class ArmorType extends AbstractTimestampEntity implements Serializable {
     @NotNull
     @Min(value = 0)
     @Column(name = "baseWeight", nullable = false)
-    private int baseWeight;
+    private double baseWeight;
+    
+    @NotNull
+    @Min(value = 1)
+    @Column(name = "basePrice", nullable = false)
+    private int basePrice;
 
     public ArmorType() {
         super();
@@ -121,11 +126,11 @@ public class ArmorType extends AbstractTimestampEntity implements Serializable {
         this.baseArmorClass = baseArmorClass;
     }
 
-    public int getBaseWeight() {
+    public double getBaseWeight() {
         return baseWeight;
     }
 
-    public void setBaseWeight(int baseWeight) {
+    public void setBaseWeight(double baseWeight) {
         this.baseWeight = baseWeight;
     }
 
@@ -143,6 +148,14 @@ public class ArmorType extends AbstractTimestampEntity implements Serializable {
 
     public void setMinStrength(int minStrength) {
         this.minStrength = minStrength;
+    }
+
+    public int getBasePrice() {
+        return basePrice;
+    }
+
+    public void setBasePrice(int basePrice) {
+        this.basePrice = basePrice;
     }
 
     @Override

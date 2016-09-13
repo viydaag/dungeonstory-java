@@ -17,9 +17,6 @@ public class Region extends AbstractTimestampEntity implements Serializable {
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 
-    @Column(name = "shortDescription")
-    private String shortDescription;
-
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
@@ -38,14 +35,6 @@ public class Region extends AbstractTimestampEntity implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getShortDescription() {
-        return shortDescription;
-    }
-
-    public void setShortDescription(String shortDescription) {
-        this.shortDescription = shortDescription;
     }
 
     public String getDescription() {

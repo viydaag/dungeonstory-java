@@ -23,7 +23,7 @@ public class AbilityForm extends DSAbstractForm<Ability> {
 
     @Override
     public String toString() {
-        return "Capacité";
+        return "Caractéristique";
     }
 
     @Override

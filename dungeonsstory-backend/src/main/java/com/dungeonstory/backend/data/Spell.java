@@ -111,14 +111,10 @@ public class Spell extends AbstractTimestampEntity implements Serializable {
     @Column(name = "school", nullable = false)
     private MagicSchool school;
     
-//    @NotNull
-//    @Enumerated(EnumType.STRING)
-//    @Column(name = "componentType", nullable = false)
-    
     @ElementCollection(targetClass = ComponentType.class)
+    @Enumerated(EnumType.STRING)
     @CollectionTable(name = "SpellComponentType", joinColumns = @JoinColumn(name = "spellId", nullable = false))
     @Column(name = "componentType", nullable = false)
-    @Enumerated(EnumType.STRING)
     private Set<ComponentType> componentTypes;
     
     @ManyToMany

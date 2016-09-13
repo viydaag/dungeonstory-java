@@ -10,9 +10,12 @@ import com.dungeonstory.view.HomeView;
 import com.dungeonstory.view.admin.AbilityView;
 import com.dungeonstory.view.admin.AlignmentView;
 import com.dungeonstory.view.admin.ArmorTypeView;
+import com.dungeonstory.view.admin.BackgroundView;
 import com.dungeonstory.view.admin.CityView;
 import com.dungeonstory.view.admin.ClassView;
 import com.dungeonstory.view.admin.DamageTypeView;
+import com.dungeonstory.view.admin.DeityView;
+import com.dungeonstory.view.admin.DivineDomainView;
 import com.dungeonstory.view.admin.EquipmentView;
 import com.dungeonstory.view.admin.FeatView;
 import com.dungeonstory.view.admin.LanguageView;
@@ -95,6 +98,9 @@ public class MainScreen extends HorizontalLayout {
             addView(ArmorTypeView.class);
             addView(ShopView.class);
             addView(EquipmentView.class);
+            addView(DivineDomainView.class);
+            addView(DeityView.class);
+            addView(BackgroundView.class);
         }
     }
 

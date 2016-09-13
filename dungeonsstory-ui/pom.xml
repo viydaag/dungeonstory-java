@@ -36,16 +36,14 @@
         <dependency>
 			<groupId>org.vaadin</groupId>
 			<artifactId>viritin</artifactId>
-			<version>1.55</version>
+			<version>1.56</version>
 		</dependency>
 		
-		<!-- ajouté à dungeonstory-widgetset
 		<dependency>
-		   <groupId>org.vaadin.addons</groupId>
-		   <artifactId>formcheckbox</artifactId>
-		   <version>1.0.2</version>
+		   <groupId>org.vaadin.addon</groupId>
+		   <artifactId>easyuploads</artifactId>
+		   <version>7.4.10</version>
 		</dependency>
-		-->
 
 		<!-- Project dependencies -->
         <dependency>
@@ -74,6 +72,12 @@
             <artifactId>guava</artifactId>
             <version>19.0</version>
         </dependency>
+        
+        <dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-lang3</artifactId>
+		    <version>3.4</version>
+		</dependency>
 
         <!-- Testing -->
         <dependency>

@@ -1,11 +1,15 @@
 package com.dungeonstory.backend.service.impl;
 
+import java.util.List;
+
+import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.Feat;
 import com.dungeonstory.backend.factory.impl.FeatFactory;
 import com.dungeonstory.backend.repository.impl.FeatRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
+import com.dungeonstory.backend.service.FeatDataService;
 
-public class FeatService extends AbstractDataService<Feat, Long> {
+public class FeatService extends AbstractDataService<Feat, Long> implements FeatDataService {
 
 	private static final long serialVersionUID = -904004337605184211L;
 	
@@ -22,6 +26,26 @@ public class FeatService extends AbstractDataService<Feat, Long> {
         super();
         setEntityFactory(new FeatFactory());
         setRepository(new FeatRepository());
+    }
+
+    @Override
+    public List<Feat> findAllFeats() {
+        return ((FeatRepository) entityRepository).findAllFeats();
+    }
+
+    @Override
+    public List<Feat> findAllClassFeatures() {
+        return ((FeatRepository) entityRepository).findAllClassFeatures();
+    }
+
+    @Override
+    public List<Feat> findAllFeatsExcept(Feat feat) {
+        return ((FeatRepository) entityRepository).findAllFeatsExcept(feat);
+    }
+
+    @Override
+    public List<Feat> findAllUnassignedFeats(Character character) {
+        return ((FeatRepository) entityRepository).findAllUnassignedFeats(character);
     }
 
 }
