@@ -5,7 +5,6 @@ import org.vaadin.viritin.fields.IntegerField;
 import org.vaadin.viritin.fields.MTextArea;
 import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.fields.MValueChangeEvent;
-import org.vaadin.viritin.fields.MValueChangeListener;
 import org.vaadin.viritin.fields.TypedSelect;
 
 import com.dungeonstory.FormCheckBox;
@@ -14,6 +13,7 @@ import com.dungeonstory.backend.data.ArmorType;
 import com.dungeonstory.backend.data.DamageType;
 import com.dungeonstory.backend.data.Equipment;
 import com.dungeonstory.backend.data.Equipment.EquipmentType;
+import com.dungeonstory.backend.data.Tool.ToolType;
 import com.dungeonstory.backend.data.WeaponType;
 import com.dungeonstory.backend.data.WeaponType.HandleType;
 import com.dungeonstory.backend.service.DataService;
@@ -54,6 +54,9 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
     private TextField               additionalDamage;
     private TypedSelect<DamageType> additionalDamageType;
     private IntegerField            magicalBonus;
+    
+    // Tool fields
+    private EnumSelect<ToolType> toolType;
 
     private EquipmentType oldType = null;
 
@@ -76,7 +79,7 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
 
     @Override
     public String toString() {
-        return "Équipements";
+        return "Équipement";
     }
 
     @Override
@@ -102,10 +105,12 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
         additionalDamage = new MTextField("Dommages additionnels");
         additionalDamageType = new TypedSelect<DamageType>("Type dommages additionnels", damageTypeService.findAll());
         magicalBonus = new IntegerField("Bonus magique");
+        
+        toolType = new EnumSelect<ToolType>("Type d'outil");
 
-        type.addMValueChangeListener(createTypeChangeListener());
-        weaponType.addMValueChangeListener(createWeaponTypeChangeListener());
-        armorType.addMValueChangeListener(createArmorTypeChangeListener());
+        type.addMValueChangeListener(this::typeChange);
+        weaponType.addMValueChangeListener(this::weaponTypeChange);
+        armorType.addMValueChangeListener(this::armorTypeChange);
 
         layout.addComponent(name);
         layout.addComponent(type);
@@ -117,6 +122,7 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
         layout.addComponents(armorType, acBonus, magicalAcBonus);
         layout.addComponents(weaponType, oneHandDamage, twoHandDamage, additionalDamage, additionalDamageType,
                 magicalAcBonus);
+        layout.addComponent(toolType);
 
         layout.addComponent(weight);
         layout.addComponent(basePrice);
@@ -128,65 +134,41 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
         return layout;
     }
 
-    private MValueChangeListener<EquipmentType> createTypeChangeListener() {
-        return new MValueChangeListener<EquipmentType>() {
-
-            private static final long serialVersionUID = -4907705123852819323L;
-
-            @Override
-            public void valueChange(MValueChangeEvent<EquipmentType> event) {
-                EquipmentType type = event.getValue();
-                initEntity(type);
-            }
-        };
+    public void typeChange(MValueChangeEvent<EquipmentType> event) {
+        EquipmentType type = event.getValue();
+        initEntity(type);
     }
 
-    private MValueChangeListener<ArmorType> createArmorTypeChangeListener() {
-        return new MValueChangeListener<ArmorType>() {
-
-            private static final long serialVersionUID = 4768217107409472231L;
-
-            @Override
-            public void valueChange(MValueChangeEvent<ArmorType> event) {
-                ArmorType currentarmorType = event.getValue();
-                if (currentarmorType != null) {
-                    weight.setValue(currentarmorType.getBaseWeight());
-                    basePrice.setValue(currentarmorType.getBasePrice());
-                }
-            }
-        };
+    public void armorTypeChange(MValueChangeEvent<ArmorType> event) {
+        ArmorType currentarmorType = event.getValue();
+        if (currentarmorType != null) {
+            weight.setValue(currentarmorType.getBaseWeight());
+            basePrice.setValue(currentarmorType.getBasePrice());
+        }
     }
 
-    private MValueChangeListener<WeaponType> createWeaponTypeChangeListener() {
-        return new MValueChangeListener<WeaponType>() {
-
-            private static final long serialVersionUID = 4768217107409472231L;
-
-            @Override
-            public void valueChange(MValueChangeEvent<WeaponType> event) {
-                WeaponType currentweaponType = event.getValue();
-                if (currentweaponType != null) {
-                    if (currentweaponType.getHandleType() == HandleType.ONE_HANDED
-                            || currentweaponType.getHandleType() == HandleType.VERSATILE) {
-                        oneHandDamage.setVisible(true);
-                        oneHandDamage.setValue(currentweaponType.getOneHandBaseDamage());
-                        if (currentweaponType.getHandleType() == HandleType.ONE_HANDED) {
-                            twoHandDamage.setVisible(false);
-                        }
-                    }
-                    if (currentweaponType.getHandleType() == HandleType.TWO_HANDED
-                            || currentweaponType.getHandleType() == HandleType.VERSATILE) {
-                        twoHandDamage.setVisible(true);
-                        twoHandDamage.setValue(currentweaponType.getTwoHandBaseDamage());
-                        if (currentweaponType.getHandleType() == HandleType.TWO_HANDED) {
-                            oneHandDamage.setVisible(false);
-                        }
-                    }
-                    weight.setValue(currentweaponType.getBaseWeight());
-                    basePrice.setValue(currentweaponType.getBasePrice());
+    public void weaponTypeChange(MValueChangeEvent<WeaponType> event) {
+        WeaponType currentweaponType = event.getValue();
+        if (currentweaponType != null) {
+            if (currentweaponType.getHandleType() == HandleType.ONE_HANDED
+                    || currentweaponType.getHandleType() == HandleType.VERSATILE) {
+                oneHandDamage.setVisible(true);
+                oneHandDamage.setValue(currentweaponType.getOneHandBaseDamage());
+                if (currentweaponType.getHandleType() == HandleType.ONE_HANDED) {
+                    twoHandDamage.setVisible(false);
                 }
             }
-        };
+            if (currentweaponType.getHandleType() == HandleType.TWO_HANDED
+                    || currentweaponType.getHandleType() == HandleType.VERSATILE) {
+                twoHandDamage.setVisible(true);
+                twoHandDamage.setValue(currentweaponType.getTwoHandBaseDamage());
+                if (currentweaponType.getHandleType() == HandleType.TWO_HANDED) {
+                    oneHandDamage.setVisible(false);
+                }
+            }
+            weight.setValue(currentweaponType.getBaseWeight());
+            basePrice.setValue(currentweaponType.getBasePrice());
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -194,54 +176,14 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
         if (type == null) {
             showArmorFields(false);
             showWeaponFields(false);
+            showToolFields(false);
         } else if (typeChanged(oldType, type)) {
-            Equipment equip = null;
-            switch (type) {
-                case ARMOR:
-                    equip = type.getEquipment();
-                    showArmorFields(true);
-                    showWeaponFields(false);
-                    break;
-                case WEAPON:
-                    equip = type.getEquipment();
-                    showArmorFields(false);
-                    showWeaponFields(true);
-                    break;
-                case BRACER:
-                    equip = type.getEquipment();
-                    showArmorFields(false);
-                    showWeaponFields(false);
-                    break;
-                case AMULET:
-                    equip = type.getEquipment();
-                    showArmorFields(false);
-                    showWeaponFields(false);
-                    break;
-                case BELT:
-                    equip = type.getEquipment();
-                    showArmorFields(false);
-                    showWeaponFields(false);
-                    break;
-                case RING:
-                    equip = type.getEquipment();
-                    showArmorFields(false);
-                    showWeaponFields(false);
-                    break;
-                case BOOT:
-                    equip = type.getEquipment();
-                    showArmorFields(false);
-                    showWeaponFields(false);
-                    break;
-                case TOOL:
-                    equip = type.getEquipment();
-                    showArmorFields(false);
-                    showWeaponFields(false);
-                    break;
-                default:
-                    showArmorFields(false);
-                    showWeaponFields(false);
-                    break;
-            }
+            Equipment equip = type.getEquipment();
+            
+            showArmorFields(type == EquipmentType.ARMOR);
+            showWeaponFields(type == EquipmentType.WEAPON);
+            showToolFields(type == EquipmentType.TOOL);
+            
             equip.setName(name.getValue());
             equip.setType(type);
             equip.setDescription(description.getValue());
@@ -279,23 +221,29 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
             magicalBonus.setValue(0);
         }
     }
+    
+    private void showToolFields(boolean visible) {
+        toolType.setVisible(visible);
+        if (!visible) {
+            toolType.clear();
+        }
+    }
 
     private boolean typeChanged(EquipmentType type1, EquipmentType type2) {
         if ((type1 == null && type2 != null) || (type1 != null && type2 == null)) {
             return true;
         }
-        if (type1 == EquipmentType.ARMOR && type2 != EquipmentType.ARMOR) {
+        if (type1 == type2) {
+            return false;
+        }
+        if (type2 == EquipmentType.ARMOR || type2 == EquipmentType.WEAPON || type2 == EquipmentType.TOOL) {
             return true;
         }
-        if (type1 == EquipmentType.WEAPON && type2 != EquipmentType.WEAPON) {
+        if ((type1 == EquipmentType.ARMOR || type1 == EquipmentType.WEAPON || type1 == EquipmentType.TOOL)
+                && (type2 != EquipmentType.ARMOR && type2 != EquipmentType.WEAPON && type2 != EquipmentType.TOOL)) {
             return true;
         }
-        if (type2 == EquipmentType.ARMOR && type1 != EquipmentType.ARMOR) {
-            return true;
-        }
-        if (type2 == EquipmentType.WEAPON && type1 != EquipmentType.WEAPON) {
-            return true;
-        }
+        
         return false;
     }
 }
