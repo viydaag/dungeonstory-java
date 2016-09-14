@@ -73,11 +73,15 @@ public abstract class Equipment extends AbstractTimestampEntity implements Seria
     @Column(name = "isSellable", nullable = false)
     private boolean isSellable;
     
+    @Min(value = 1)
+    @Column(name = "basePrice", nullable = false)
+    private int basePrice = 1;
+    
     @OneToMany(mappedBy = "equipment")
     private List<ShopEquipment> shopEquipments;
 
     public Equipment() {
-
+        super();
     }
 
     public String getName() {
@@ -134,6 +138,14 @@ public abstract class Equipment extends AbstractTimestampEntity implements Seria
 
     public void setIsSellable(boolean isSellable) {
         this.isSellable = isSellable;
+    }
+
+    public int getBasePrice() {
+        return basePrice;
+    }
+
+    public void setBasePrice(int basePrice) {
+        this.basePrice = basePrice;
     }
 
     public List<ShopEquipment> getShopEquipments() {

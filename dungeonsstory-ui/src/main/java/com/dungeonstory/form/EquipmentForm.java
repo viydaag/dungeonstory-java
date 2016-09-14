@@ -40,6 +40,7 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
     private FormCheckBox              isPurchasable;
     private FormCheckBox              isSellable;
     private FormCheckBox              isMagical;
+    private IntegerField              basePrice;
 
     // Armor fields
     private TypedSelect<ArmorType> armorType;
@@ -82,13 +83,14 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
     protected Component createContent() {
         FormLayout layout = new FormLayout();
 
-        name = new MTextField("Nom");
+        name = new MTextField("Nom").withWidth("50%");
         type = new EnumSelect<EquipmentType>("Type");
-        description = new MTextArea("Description").withFullWidth();
+        description = new MTextArea("Description").withFullWidth().withRows(10);
         weight = new DoubleField("Poids (en lbs)");
         isPurchasable = new FormCheckBox("Peut être acheté");
         isSellable = new FormCheckBox("Peut être vendu");
         isMagical = new FormCheckBox("Magique");
+        basePrice = new IntegerField("Prix de base");
 
         armorType = new TypedSelect<ArmorType>("Type d'armure", armorTypeService.findAll());
         acBonus = new IntegerField("Classe d'armure bonus");
@@ -117,6 +119,7 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
                 magicalAcBonus);
 
         layout.addComponent(weight);
+        layout.addComponent(basePrice);
 
         layout.addComponent(getToolbar());
 
@@ -147,7 +150,8 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
             public void valueChange(MValueChangeEvent<ArmorType> event) {
                 ArmorType currentarmorType = event.getValue();
                 if (currentarmorType != null) {
-                    weight.setValue((double) currentarmorType.getBaseWeight());
+                    weight.setValue(currentarmorType.getBaseWeight());
+                    basePrice.setValue(currentarmorType.getBasePrice());
                 }
             }
         };
@@ -178,6 +182,8 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
                             oneHandDamage.setVisible(false);
                         }
                     }
+                    weight.setValue(currentweaponType.getBaseWeight());
+                    basePrice.setValue(currentweaponType.getBasePrice());
                 }
             }
         };
