@@ -38,16 +38,13 @@ public class FeatForm extends DSAbstractForm<Feat> {
     private TypedSelect<Ability>                   prerequisiteAbility;
     private IntegerField                           prerequisiteAbilityScore;
 
-    //    private FeatDataService            featService    = null;
     private DataService<Ability, Long> abilityService = null;
 
     public FeatForm() {
         super();
         if (Configuration.getInstance().isMock()) {
-            //            featService = MockFeatService.getInstance();
             abilityService = MockAbilityService.getInstance();
         } else {
-            //            featService = FeatService.getInstance();
             abilityService = AbilityService.getInstance();
         }
     }
@@ -57,7 +54,7 @@ public class FeatForm extends DSAbstractForm<Feat> {
         FormLayout layout = new FormLayout();
 
         name = new MTextField("Nom").withWidth("50%");
-        description = new MTextArea("Description").withFullWidth();
+        description = new MTextArea("Description").withFullWidth().withRows(10);
         usage = new EnumSelect<FeatUsage>("Usage");
         isClassFeature = new FormCheckBox("Don de classe");
         prerequisiteType = new EnumSelect<PrerequisiteType>("Type de prérequis");

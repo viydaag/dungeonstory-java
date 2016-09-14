@@ -20,7 +20,7 @@ public class Feat extends AbstractTimestampEntity implements Serializable {
     private static final long serialVersionUID = 291837938711381342L;
 
     public enum FeatUsage {
-        PASSIVE, ACTION, REACTION, CHOICE
+        PASSIVE, ACTION, REACTION
     }
     
     public enum PrerequisiteType {
