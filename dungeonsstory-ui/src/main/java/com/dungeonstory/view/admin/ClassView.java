@@ -1,11 +1,16 @@
 package com.dungeonstory.view.admin;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.dungeonstory.backend.Configuration;
+import com.dungeonstory.backend.data.ClassEquipment;
 import com.dungeonstory.backend.data.ClassLevelBonus;
 import com.dungeonstory.backend.data.ClassLevelFeature;
+import com.dungeonstory.backend.data.ClassSpecLevelFeature;
+import com.dungeonstory.backend.data.ClassSpecialization;
 import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.impl.ClassService;
@@ -56,7 +61,18 @@ public class ClassView extends AbstractCrudView<DSClass> implements CrudView<DSC
         List<ClassLevelBonus> levelBonuses = new ArrayList<ClassLevelBonus>(entity.getLevelBonuses());
         levelBonuses.stream().forEach(levelBonus -> levelBonus.setClasse(entity));
         entity.setLevelBonuses(levelBonuses);
-
+        
+        for (ClassSpecialization spec : entity.getClassSpecs()) {
+            List<ClassSpecLevelFeature> specFeats = new ArrayList<ClassSpecLevelFeature>(spec.getClassSpecFeatures());
+            specFeats.stream().forEach(feat -> feat.setClassSpec(spec));
+            spec.setClassSpecFeatures(specFeats);
+            spec.setParentClass(entity);
+        }
+        
+        Set<ClassEquipment> equip = new HashSet<ClassEquipment>(entity.getStartingEquipment());
+        equip.stream().forEach(item -> item.setClasse(entity));
+        entity.setStartingEquipment(equip);
+        
         //nested entities are automatically removed with the annotation @PrivateOwned
 
         //save to database with nested objects

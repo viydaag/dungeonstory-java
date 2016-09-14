@@ -48,6 +48,9 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
     @Column(name = "lifePointPerLevel", nullable = false)
     private int lifePointPerLevel;
     
+    @Column(name = "isSpellCasting")
+    private boolean isSpellCasting;
+    
     @ManyToMany
     @JoinTable(name = "ClassSavingThrowProficiencies", joinColumns = {
         @JoinColumn(name = "classId", referencedColumnName = "id") }, 
@@ -67,6 +70,10 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
         @JoinColumn(name = "classId", referencedColumnName = "id") }, 
             inverseJoinColumns = { @JoinColumn(name = "weaponTypeId", referencedColumnName = "id") })
     private Set<WeaponType> weaponProficiencies;
+    
+    @Min(value = 0)
+    @Column(name = "nbChosenSkills")
+    private int nbChosenSkills = 0;
 
     @ManyToMany
     @JoinTable(name = "ClassSkill", joinColumns = {
@@ -82,11 +89,19 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
     @PrivateOwned   //means that a class level features will be deleted if not attached to a class
     private List<ClassLevelFeature> classFeatures;
     
+    @OneToMany(mappedBy = "parentClass", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @PrivateOwned
+    private Set<ClassSpecialization> classSpecs;
+    
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinTable(name = "ClassSpell", joinColumns = {
         @JoinColumn(name = "classId", referencedColumnName = "id") }, 
             inverseJoinColumns = { @JoinColumn(name = "spellId", referencedColumnName = "id") })
     private Set<Spell> spells;
+    
+    @OneToMany(mappedBy = "classe", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @PrivateOwned
+    private Set<ClassEquipment> startingEquipment;
     
     @NotNull
     @Min(value = 0)
@@ -100,6 +115,8 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
         baseSkills = new HashSet<Skill>();
         levelBonuses = new ArrayList<ClassLevelBonus>();
         classFeatures = new ArrayList<ClassLevelFeature>();
+        classSpecs = new HashSet<ClassSpecialization>();
+        startingEquipment = new HashSet<ClassEquipment>();
     }
 
     public String getName() {
@@ -132,6 +149,22 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
 
     public void setLifePointPerLevel(int lifePointPerLevel) {
         this.lifePointPerLevel = lifePointPerLevel;
+    }
+
+    public boolean getIsSpellCasting() {
+        return isSpellCasting;
+    }
+
+    public void setIsSpellCasting(boolean isSpellCasting) {
+        this.isSpellCasting = isSpellCasting;
+    }
+
+    public int getNbChosenSkills() {
+        return nbChosenSkills;
+    }
+
+    public void setNbChosenSkills(int nbChosenSkills) {
+        this.nbChosenSkills = nbChosenSkills;
     }
 
     public Set<Skill> getBaseSkills() {
@@ -182,6 +215,14 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
         this.classFeatures = classFeatures;
     }
 
+    public Set<ClassSpecialization> getClassSpecs() {
+        return classSpecs;
+    }
+
+    public void setClassSpecs(Set<ClassSpecialization> classSpecs) {
+        this.classSpecs = classSpecs;
+    }
+
     public Set<Spell> getSpells() {
         return spells;
     }
@@ -196,6 +237,14 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
 
     public void setStartingGold(int startingGold) {
         this.startingGold = startingGold;
+    }
+
+    public Set<ClassEquipment> getStartingEquipment() {
+        return startingEquipment;
+    }
+
+    public void setStartingEquipment(Set<ClassEquipment> startingEquipment) {
+        this.startingEquipment = startingEquipment;
     }
 
     @Override

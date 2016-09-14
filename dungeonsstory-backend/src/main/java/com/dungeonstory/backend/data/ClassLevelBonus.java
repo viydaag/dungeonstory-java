@@ -30,22 +30,9 @@ public class ClassLevelBonus implements Serializable {
 
     @Column(name = "abilityScoreImprovement")
     private boolean hasAbilityScoreImprovement;
-
-    //	@Min(value = 0)
-    //	@Column(name = "baseAttackBonus")
-    //	private int baseAttackBonus;
-    //
-    //	@Min(value = 0)
-    //	@Column(name = "fortSave")
-    //	private int fortSave;
-    //
-    //	@Min(value = 0)
-    //	@Column(name = "refSave")
-    //	private int refSave;
-    //
-    //	@Min(value = 0)
-    //	@Column(name = "willSave")
-    //	private int willSave;
+    
+    @Column(name = "chooseClassSpecialization")
+    private boolean chooseClassSpecialization;
 
     @Min(value = 0)
     @Column(name = "spellBonus")
@@ -117,6 +104,14 @@ public class ClassLevelBonus implements Serializable {
 
     public void setHasAbilityScoreImprovement(boolean hasAbilityScoreImprovement) {
         this.hasAbilityScoreImprovement = hasAbilityScoreImprovement;
+    }
+
+    public boolean isChooseClassSpecialization() {
+        return chooseClassSpecialization;
+    }
+
+    public void setChooseClassSpecialization(boolean chooseClassSpecialization) {
+        this.chooseClassSpecialization = chooseClassSpecialization;
     }
 
     public int getSpellBonus() {
