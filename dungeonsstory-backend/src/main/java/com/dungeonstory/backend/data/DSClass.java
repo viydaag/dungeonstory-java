@@ -16,6 +16,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -51,6 +52,10 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
     @Column(name = "isSpellCasting")
     private boolean isSpellCasting;
     
+    @ManyToOne
+    @JoinColumn(name = "spellCasingAbilityId")
+    private Ability spellCastingAbility;
+
     @ManyToMany
     @JoinTable(name = "ClassSavingThrowProficiencies", joinColumns = {
         @JoinColumn(name = "classId", referencedColumnName = "id") }, 
@@ -157,6 +162,14 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
 
     public void setIsSpellCasting(boolean isSpellCasting) {
         this.isSpellCasting = isSpellCasting;
+    }
+
+    public Ability getSpellCastingAbility() {
+        return spellCastingAbility;
+    }
+
+    public void setSpellCastingAbility(Ability spellCastingAbility) {
+        this.spellCastingAbility = spellCastingAbility;
     }
 
     public int getNbChosenSkills() {

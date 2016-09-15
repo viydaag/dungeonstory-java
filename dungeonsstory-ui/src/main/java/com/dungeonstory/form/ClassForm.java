@@ -50,6 +50,7 @@ import com.dungeonstory.backend.service.mock.MockSpellService;
 import com.dungeonstory.backend.service.mock.MockWeaponTypeService;
 import com.dungeonstory.util.HorizontalSpacedLayout;
 import com.dungeonstory.util.field.DSSubSetSelector;
+import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
@@ -67,6 +68,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     private IntegerField                                lifePointPerLevel;
     private IntegerField                                startingGold;
     private FormCheckBox                                isSpellCasting;
+    private TypedSelect<Ability>                        spellCastingAbility;
     private DSSubSetSelector<Ability>                   savingThrowProficiencies;
     private DSSubSetSelector<ArmorType.ProficiencyType> armorProficiencies;
     private DSSubSetSelector<WeaponType>                weaponProficiencies;
@@ -163,6 +165,10 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         lifePointPerLevel = new IntegerField("Points de vie par niveau");
         startingGold = new IntegerField("Pièces d'or de départ");
         isSpellCasting = new FormCheckBox("Capacité à lancer des sorts");
+        spellCastingAbility = new TypedSelect<Ability>("Caractéristique de sort");
+        spellCastingAbility.setOptions(abilityService.findAll());
+        
+        isSpellCasting.addValueChangeListener(this::isSpellCastingChange);
 
         savingThrowProficiencies = new DSSubSetSelector<Ability>(Ability.class);
         savingThrowProficiencies.setCaption("Maitrise applicable au jets de sauvegarde");
@@ -291,12 +297,11 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         layout.addComponent(description);
         layout.addComponent(lifePointPerLevel);
         layout.addComponent(startingGold);
-        layout.addComponent(isSpellCasting);
+        layout.addComponents(isSpellCasting, spellCastingAbility);
         layout.addComponent(savingThrowProficiencies);
         layout.addComponent(armorProficiencies);
         layout.addComponents(weaponProficiencies, buttonLayout);
-        layout.addComponent(nbChosenSkills);
-        layout.addComponent(baseSkills);
+        layout.addComponents(nbChosenSkills, baseSkills);
         layout.addComponent(levelBonuses);
         layout.addComponent(classFeatures);
         layout.addComponent(classSpecs);
@@ -312,6 +317,16 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         super.afterSetEntity();
         if (classSpecs.getTable() != null) {
             classSpecs.getTable().withColumnWidth("name", 300);
+        }
+        isSpellCastingChange(null);
+    }
+
+    public void isSpellCastingChange(ValueChangeEvent event) {
+        if (isSpellCasting.getValue() == null || isSpellCasting.getValue() == false) {
+            spellCastingAbility.setValue(null);
+            spellCastingAbility.setVisible(false);
+        } else {
+            spellCastingAbility.setVisible(true);
         }
     }
 }
