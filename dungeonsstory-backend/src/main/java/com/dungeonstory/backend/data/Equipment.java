@@ -32,7 +32,10 @@ public abstract class Equipment extends AbstractTimestampEntity implements Seria
     	AMULET(Amulet.class), 
     	BRACER(Bracer.class), 
     	BOOT(Boot.class), 
-    	BELT(Belt.class), 
+    	BELT(Belt.class),
+    	HELMET(Helmet.class),
+    	AMMUNITION(Ammunition.class),
+        FOCUS(Focus.class),
     	TOOL(Tool.class),
     	GEAR(Gear.class);
     	
@@ -68,10 +71,10 @@ public abstract class Equipment extends AbstractTimestampEntity implements Seria
     private EquipmentType type;
 
     @Column(name = "isPurchasable", nullable = false)
-    private boolean isPurchasable;
+    private boolean isPurchasable = true;
 
     @Column(name = "isSellable", nullable = false)
-    private boolean isSellable;
+    private boolean isSellable = true;
     
     @Min(value = 1)
     @Column(name = "basePrice", nullable = false)
