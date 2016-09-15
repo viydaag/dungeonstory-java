@@ -24,6 +24,7 @@ import com.dungeonstory.backend.service.mock.MockArmorTypeService;
 import com.dungeonstory.backend.service.mock.MockDamageTypeService;
 import com.dungeonstory.backend.service.mock.MockWeaponTypeService;
 import com.dungeonstory.util.field.DoubleField;
+import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextArea;
@@ -44,7 +45,7 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
 
     // Armor fields
     private TypedSelect<ArmorType> armorType;
-    private IntegerField           acBonus;
+    private IntegerField           armorClass;
     private IntegerField           magicalAcBonus;
 
     // Weapon fields
@@ -96,7 +97,7 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
         basePrice = new IntegerField("Prix de base");
 
         armorType = new TypedSelect<ArmorType>("Type d'armure", armorTypeService.findAll());
-        acBonus = new IntegerField("Classe d'armure bonus");
+        armorClass = new IntegerField("Classe d'armure bonus");
         magicalAcBonus = new IntegerField("Classe d'armure magique bonus");
 
         weaponType = new TypedSelect<WeaponType>("Type d'arme", weaponTypeService.findAll());
@@ -108,6 +109,7 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
         
         toolType = new EnumSelect<ToolType>("Type d'outil");
 
+        isMagical.addValueChangeListener(this::isMagicalChange);
         type.addMValueChangeListener(this::typeChange);
         weaponType.addMValueChangeListener(this::weaponTypeChange);
         armorType.addMValueChangeListener(this::armorTypeChange);
@@ -119,9 +121,9 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
         layout.addComponent(isSellable);
         layout.addComponent(isMagical);
 
-        layout.addComponents(armorType, acBonus, magicalAcBonus);
+        layout.addComponents(armorType, armorClass, magicalAcBonus);
         layout.addComponents(weaponType, oneHandDamage, twoHandDamage, additionalDamage, additionalDamageType,
-                magicalAcBonus);
+                magicalBonus);
         layout.addComponent(toolType);
 
         layout.addComponent(weight);
@@ -133,15 +135,35 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
 
         return layout;
     }
+    
+    public void isMagicalChange(ValueChangeEvent event) {
+        if (type == null) {
+            magicalAcBonus.setValue(null);
+            magicalAcBonus.setVisible(false);
+            magicalBonus.setValue(null);
+            magicalBonus.setVisible(false);
+        } else {
+            if (type.getValue() == EquipmentType.ARMOR) {
+                magicalAcBonus.setValue(isMagical.getValue() ? magicalAcBonus.getValue() : null);
+                magicalAcBonus.setVisible(isMagical.getValue());
+            } else if (type.getValue() == EquipmentType.WEAPON) {
+                magicalBonus.setValue(isMagical.getValue() ? magicalBonus.getValue() : null);
+                magicalBonus.setVisible(isMagical.getValue());
+            }
+        }
+    }
 
     public void typeChange(MValueChangeEvent<EquipmentType> event) {
         EquipmentType type = event.getValue();
         initEntity(type);
+        isMagicalChange(null);
     }
 
     public void armorTypeChange(MValueChangeEvent<ArmorType> event) {
         ArmorType currentarmorType = event.getValue();
         if (currentarmorType != null) {
+            description.setValue(currentarmorType.getDescription());
+            armorClass.setValue(currentarmorType.getBaseArmorClass());
             weight.setValue(currentarmorType.getBaseWeight());
             basePrice.setValue(currentarmorType.getBasePrice());
         }
@@ -166,6 +188,7 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
                     oneHandDamage.setVisible(false);
                 }
             }
+            description.setValue(currentweaponType.getDescription());
             weight.setValue(currentweaponType.getBaseWeight());
             basePrice.setValue(currentweaponType.getBasePrice());
         }
@@ -178,29 +201,34 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
             showWeaponFields(false);
             showToolFields(false);
         } else if (typeChanged(oldType, type)) {
-            Equipment equip = type.getEquipment();
-            
-            showArmorFields(type == EquipmentType.ARMOR);
-            showWeaponFields(type == EquipmentType.WEAPON);
-            showToolFields(type == EquipmentType.TOOL);
-            
-            equip.setName(name.getValue());
-            equip.setType(type);
-            equip.setDescription(description.getValue());
-            equip.setIsPurchasable(isPurchasable.getValue());
-            equip.setIsSellable(isSellable.getValue());
-            setEntity((T) equip);
+            Equipment equip;
+            try {
+                equip = type.getEquipment();
+                
+                showArmorFields(type == EquipmentType.ARMOR);
+                showWeaponFields(type == EquipmentType.WEAPON);
+                showToolFields(type == EquipmentType.TOOL);
+                
+                equip.setName(name.getValue());
+                equip.setType(type);
+                equip.setDescription(description.getValue());
+                equip.setIsPurchasable(isPurchasable.getValue());
+                equip.setIsSellable(isSellable.getValue());
+                setEntity((T) equip);
+            } catch (InstantiationException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
         }
         oldType = type;
     }
 
     private void showArmorFields(boolean visible) {
         armorType.setVisible(visible);
-        acBonus.setVisible(visible);
+        armorClass.setVisible(visible);
         magicalAcBonus.setVisible(visible);
         if (!visible) {
             armorType.clear();
-            acBonus.setValue(0);
+            armorClass.setValue(0);
             magicalAcBonus.setValue(0);
         }
     }

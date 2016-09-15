@@ -26,24 +26,24 @@ public abstract class Equipment extends AbstractTimestampEntity implements Seria
 
     public enum EquipmentType {
     	
-    	ARMOR(new Armor()), 
-    	WEAPON(new Weapon()), 
-    	RING(new Ring()), 
-    	AMULET(new Amulet()), 
-    	BRACER(new Bracer()), 
-    	BOOT(new Boot()), 
-    	BELT(new Belt()), 
-    	TOOL(new Tool()),
-    	GEAR(new Gear());
+    	ARMOR(Armor.class), 
+    	WEAPON(Weapon.class), 
+    	RING(Ring.class), 
+    	AMULET(Amulet.class), 
+    	BRACER(Bracer.class), 
+    	BOOT(Boot.class), 
+    	BELT(Belt.class), 
+    	TOOL(Tool.class),
+    	GEAR(Gear.class);
     	
-    	private Equipment equipment;
+    	private Class<? extends Equipment> equipmentClass;
     	
-    	private EquipmentType(Equipment equipment) {
-    		this.equipment = equipment;
+    	private EquipmentType(Class<? extends Equipment> equipmentClass) {
+    		this.equipmentClass = equipmentClass;
     	}
 
-		public final Equipment getEquipment() {
-			return equipment;
+		public final Equipment getEquipment() throws InstantiationException, IllegalAccessException {
+			return equipmentClass.newInstance();
 		}
         
     }
