@@ -5,9 +5,7 @@ import com.dungeonstory.backend.factory.Factory;
 
 public class BackgroundFactory implements Factory<Background> {
 
-    public BackgroundFactory() {
-        // TODO Auto-generated constructor stub
-    }
+    private static final long serialVersionUID = 3055122443181874333L;
 
     @Override
     public Background create() {

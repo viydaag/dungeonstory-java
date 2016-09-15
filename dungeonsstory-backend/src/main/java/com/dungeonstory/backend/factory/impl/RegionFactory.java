@@ -5,9 +5,7 @@ import com.dungeonstory.backend.factory.Factory;
 
 public class RegionFactory implements Factory<Region> {
 
-    public RegionFactory() {
-        // TODO Auto-generated constructor stub
-    }
+    private static final long serialVersionUID = 482850487986165771L;
 
     @Override
     public Region create() {

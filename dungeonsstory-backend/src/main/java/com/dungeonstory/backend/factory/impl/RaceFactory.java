@@ -5,9 +5,7 @@ import com.dungeonstory.backend.factory.Factory;
 
 public class RaceFactory implements Factory<Race> {
 
-    public RaceFactory() {
-        // TODO Auto-generated constructor stub
-    }
+    private static final long serialVersionUID = 4869051409399391962L;
 
     @Override
     public Race create() {
