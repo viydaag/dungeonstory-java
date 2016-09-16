@@ -44,6 +44,18 @@
 		   <artifactId>easyuploads</artifactId>
 		   <version>7.4.10</version>
 		</dependency>
+		
+		<dependency>
+		   <groupId>org.vaadin.addons</groupId>
+		   <artifactId>dtabs-add-on</artifactId>
+		   <version>0.6.0</version>
+		</dependency>
+		
+		<dependency>
+		   <groupId>org.vaadin.addons</groupId>
+		   <artifactId>dmenu-widget</artifactId>
+		   <version>1.12.0</version>
+		</dependency>
 
 		<!-- Project dependencies -->
         <dependency>
