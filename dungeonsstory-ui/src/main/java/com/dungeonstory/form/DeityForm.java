@@ -26,6 +26,7 @@ public class DeityForm extends DSAbstractForm<Deity> {
     private static final long serialVersionUID = -8851250073630908019L;
 
     private TextField                      name;
+    private TextField                      shortDescription;
     private TextArea                       description;
     private TypedSelect<Alignment>         alignment;
     private DSSubSetSelector<DivineDomain> domains;
@@ -56,7 +57,8 @@ public class DeityForm extends DSAbstractForm<Deity> {
     protected Component createContent() {
         FormLayout layout = new FormLayout();
 
-        name = new MTextField("Nom");
+        name = new MTextField("Nom").withWidth("50%");
+        shortDescription = new MTextField("Description courte").withFullWidth();
         description = new MTextArea("Description").withFullWidth();
         symbol = new MTextField("Symbole").withWidth("50%");
         alignment = new TypedSelect<Alignment>("Alignement", alignmentService.findAll());
@@ -74,6 +76,7 @@ public class DeityForm extends DSAbstractForm<Deity> {
         domains.setWidth("50%");
 
         layout.addComponent(name);
+        layout.addComponent(shortDescription);
         layout.addComponent(description);
         layout.addComponent(alignment);
         layout.addComponent(domains);

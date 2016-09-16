@@ -11,13 +11,13 @@ public class DeityGrid extends BeanGrid<Deity> {
 
     public DeityGrid() {
         super(Deity.class);
-        withColumns("name", "alignment", "domains", "symbol", "image");
-        withHeaderCaption("Nom", "Alignement", "Domaines", "Symbole", "");
+        withColumns("name", "alignment", "domains", "shortDescription", "image");
+        withHeaderCaption("Nom", "Alignement", "Domaines", "Description courte", "");
         
         getColumn("domains").setConverter(new CollectionToStringConverter());
         
-        getColumn("image").setConverter(new ByteArrayToString());
-        getColumn("image").setRenderer(new ByteArrayImageRenderer());
+        //        getColumn("image").setConverter(new ByteArrayToString());
+        getColumn("image").setRenderer(new ByteArrayImageRenderer(), new ByteArrayToString());
         
         addStyleName("gridwithpics128px");
         setCellStyleGenerator(cell -> "image".equals(cell.getPropertyId()) ? "imagecol" : null);
