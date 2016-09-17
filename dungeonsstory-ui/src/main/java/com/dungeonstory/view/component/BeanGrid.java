@@ -29,10 +29,12 @@ public class BeanGrid<T> extends Grid {
         }
     }
 
+    @SuppressWarnings("unchecked")
     protected BeanItemContainer<T> getContainer() {
         return (BeanItemContainer<T>) super.getContainerDataSource();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public T getSelectedRow() throws IllegalStateException {
         return (T) super.getSelectedRow();
@@ -43,6 +45,7 @@ public class BeanGrid<T> extends Grid {
         getContainer().addAll(data);
     }
 
+    @SuppressWarnings("unchecked")
     public void refresh(T bean) {
         // We avoid updating the whole table through the backend here so we can
         // get a partial update for the grid

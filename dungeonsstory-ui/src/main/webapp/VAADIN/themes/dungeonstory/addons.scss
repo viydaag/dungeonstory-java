@@ -5,8 +5,13 @@
 @import "../../../VAADIN/addons/dmenu/dmenu.scss";
 
 
+/* Provided by dtabs-add-on-0.6.0.jar */
+@import "../../../VAADIN/addons/dtabs/dtabs.scss";
+
+
 /* Import and include this mixin into your project theme to include the addon themes */
 @mixin addons {
 	@include dmenu;
+	@include dtabs;
 }
 

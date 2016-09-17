@@ -15,6 +15,7 @@ public class EquipmentView extends AbstractCrudView<Equipment> {
 
     private static final long serialVersionUID = 6456489454745469489L;
 
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     public DSAbstractForm<Equipment> getForm() {
         return new EquipmentForm();
