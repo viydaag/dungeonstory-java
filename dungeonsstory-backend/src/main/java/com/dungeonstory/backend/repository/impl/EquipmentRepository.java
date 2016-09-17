@@ -10,6 +10,8 @@ import com.dungeonstory.backend.repository.AbstractRepository;
 
 public class EquipmentRepository extends AbstractRepository<Equipment, Long> {
 
+    private static final long serialVersionUID = -602767063816004639L;
+
     @Override
     protected Class<Equipment> getEntityClass() {
         return Equipment.class;

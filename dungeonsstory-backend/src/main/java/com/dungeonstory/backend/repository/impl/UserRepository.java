@@ -7,6 +7,8 @@ import com.dungeonstory.backend.repository.AbstractRepository;
 
 public class UserRepository extends AbstractRepository<User, Long> {
 
+    private static final long serialVersionUID = 2373570896727026456L;
+
     @Override
     protected Class<User> getEntityClass() {
         return User.class;
