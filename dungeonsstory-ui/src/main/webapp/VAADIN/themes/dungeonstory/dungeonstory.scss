@@ -367,5 +367,17 @@ $v-layout-spacing-horizontal: round($v-unit-size / 1.8) !default;
         background-color: black;
         text-align: center;
     }
+    
+    .leftAligned {
+      text-align: left;
+    }
+    
+    .rightAligned {
+      text-align: right;
+    }
+    
+    .centerAligned {
+      text-align: center;
+    }
 
 }

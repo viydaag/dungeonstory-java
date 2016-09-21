@@ -22,4 +22,8 @@ public class DSTheme extends ValoTheme {
     
     public static final String VALO_CONTENT = "valo-content";
     public static final String SCROLLABLE = "v-scrollable";
+
+    public static final String TEXT_CENTER_ALIGNED = "centerAligned";
+    public static final String TEXT_RIGHT_ALIGNED  = "rightAligned";
+    public static final String TEXT_LEFT_ALIGNED   = "leftAligned";
 }
