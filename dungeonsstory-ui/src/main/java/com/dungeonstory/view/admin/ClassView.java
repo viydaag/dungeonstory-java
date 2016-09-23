@@ -9,6 +9,7 @@ import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.ClassEquipment;
 import com.dungeonstory.backend.data.ClassLevelBonus;
 import com.dungeonstory.backend.data.ClassLevelFeature;
+import com.dungeonstory.backend.data.ClassLevelSpells;
 import com.dungeonstory.backend.data.ClassSpecLevelFeature;
 import com.dungeonstory.backend.data.ClassSpecialization;
 import com.dungeonstory.backend.data.DSClass;
@@ -62,6 +63,10 @@ public class ClassView extends AbstractCrudView<DSClass> implements CrudView<DSC
         levelBonuses.stream().forEach(levelBonus -> levelBonus.setClasse(entity));
         entity.setLevelBonuses(levelBonuses);
         
+        List<ClassLevelSpells> levelSpells = new ArrayList<ClassLevelSpells>(entity.getLevelSpells());
+        levelSpells.stream().forEach(levelSpell -> levelSpell.setClasse(entity));
+        entity.setLevelSpells(levelSpells);
+
         for (ClassSpecialization spec : entity.getClassSpecs()) {
             List<ClassSpecLevelFeature> specFeats = new ArrayList<ClassSpecLevelFeature>(spec.getClassSpecFeatures());
             specFeats.stream().forEach(feat -> feat.setClassSpec(spec));

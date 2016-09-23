@@ -34,6 +34,26 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
     
     public static final String deleteClassLevelBonusFeat =  "Class.deleteClassLevelBonusFeat";
 
+    public enum SpellCastingType {
+        KNOWN("Inné"), PREPARED("Préparé");
+
+        private String name;
+
+        private SpellCastingType(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        @Override
+        public String toString() {
+            return getName();
+        }
+
+    }
+
     @NotNull
     @Column(name = "name", nullable = false, unique = true)
     private String name;
@@ -55,6 +75,10 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
     @ManyToOne
     @JoinColumn(name = "spellCasingAbilityId")
     private Ability spellCastingAbility;
+
+    @Column(name = "spellCastingType")
+    @Enumerated(EnumType.STRING)
+    private SpellCastingType spellCastingType;
 
     @ManyToMany
     @JoinTable(name = "ClassSavingThrowProficiencies", joinColumns = {
@@ -98,6 +122,10 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
     @PrivateOwned
     private Set<ClassSpecialization> classSpecs;
     
+    @OneToMany(mappedBy = "classe", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+    @PrivateOwned
+    private List<ClassLevelSpells> levelSpells;
+
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinTable(name = "ClassSpell", joinColumns = {
         @JoinColumn(name = "classId", referencedColumnName = "id") }, 
@@ -122,6 +150,7 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
         classFeatures = new ArrayList<ClassLevelFeature>();
         classSpecs = new HashSet<ClassSpecialization>();
         startingEquipment = new HashSet<ClassEquipment>();
+        levelSpells = new ArrayList<ClassLevelSpells>();
     }
 
     public String getName() {
@@ -170,6 +199,22 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
 
     public void setSpellCastingAbility(Ability spellCastingAbility) {
         this.spellCastingAbility = spellCastingAbility;
+    }
+
+    public SpellCastingType getSpellCastingType() {
+        return spellCastingType;
+    }
+
+    public void setSpellCastingType(SpellCastingType spellCastingType) {
+        this.spellCastingType = spellCastingType;
+    }
+
+    public List<ClassLevelSpells> getLevelSpells() {
+        return levelSpells;
+    }
+
+    public void setLevelSpells(List<ClassLevelSpells> levelSpells) {
+        this.levelSpells = levelSpells;
     }
 
     public int getNbChosenSkills() {

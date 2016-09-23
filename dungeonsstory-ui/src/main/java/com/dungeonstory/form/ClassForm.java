@@ -9,9 +9,11 @@ import java.util.stream.Collectors;
 
 import org.vaadin.viritin.fields.ElementCollectionField;
 import org.vaadin.viritin.fields.ElementCollectionTable;
+import org.vaadin.viritin.fields.EnumSelect;
 import org.vaadin.viritin.fields.IntegerField;
 import org.vaadin.viritin.fields.MTextArea;
 import org.vaadin.viritin.fields.MTextField;
+import org.vaadin.viritin.fields.MValueChangeEvent;
 import org.vaadin.viritin.fields.TypedSelect;
 
 import com.dungeonstory.FormCheckBox;
@@ -24,6 +26,7 @@ import com.dungeonstory.backend.data.ClassLevelFeature;
 import com.dungeonstory.backend.data.ClassSpecLevelFeature;
 import com.dungeonstory.backend.data.ClassSpecialization;
 import com.dungeonstory.backend.data.DSClass;
+import com.dungeonstory.backend.data.DSClass.SpellCastingType;
 import com.dungeonstory.backend.data.Equipment;
 import com.dungeonstory.backend.data.Feat;
 import com.dungeonstory.backend.data.Level;
@@ -50,6 +53,7 @@ import com.dungeonstory.backend.service.mock.MockSpellService;
 import com.dungeonstory.backend.service.mock.MockWeaponTypeService;
 import com.dungeonstory.util.HorizontalSpacedLayout;
 import com.dungeonstory.util.field.DSSubSetSelector;
+import com.dungeonstory.view.component.LevelSpellsComponent;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
@@ -69,6 +73,8 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     private IntegerField                                startingGold;
     private FormCheckBox                                isSpellCasting;
     private TypedSelect<Ability>                        spellCastingAbility;
+    private EnumSelect<SpellCastingType>                spellCastingType;
+    private LevelSpellsComponent                        levelSpells;
     private DSSubSetSelector<Ability>                   savingThrowProficiencies;
     private DSSubSetSelector<ArmorType.ProficiencyType> armorProficiencies;
     private DSSubSetSelector<WeaponType>                weaponProficiencies;
@@ -96,16 +102,21 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         TypedSelect<Level> level                      = new TypedSelect<Level>();
         CheckBox           hasAbilityScoreImprovement = new CheckBox();
         CheckBox           chooseClassSpecialization  = new CheckBox();
-        IntegerField       spellPerDay0               = new IntegerField().withWidth("50px");
-        IntegerField       spellPerDay1               = new IntegerField().withWidth("50px");
-        IntegerField       spellPerDay2               = new IntegerField().withWidth("50px");
-        IntegerField       spellPerDay3               = new IntegerField().withWidth("50px");
-        IntegerField       spellPerDay4               = new IntegerField().withWidth("50px");
-        IntegerField       spellPerDay5               = new IntegerField().withWidth("50px");
-        IntegerField       spellPerDay6               = new IntegerField().withWidth("50px");
-        IntegerField       spellPerDay7               = new IntegerField().withWidth("50px");
-        IntegerField       spellPerDay8               = new IntegerField().withWidth("50px");
-        IntegerField       spellPerDay9               = new IntegerField().withWidth("50px");
+    }
+
+    public static class ClassLevelSpellsRow {
+        TypedSelect<Level> level         = new TypedSelect<Level>();
+        IntegerField       cantripsKnown = new IntegerField().withWidth("110px");
+        IntegerField       spellsKnown   = new IntegerField().withWidth("110px");
+        IntegerField       spellSlots1   = new IntegerField().withWidth("50px");
+        IntegerField       spellSlots2   = new IntegerField().withWidth("50px");
+        IntegerField       spellSlots3   = new IntegerField().withWidth("50px");
+        IntegerField       spellSlots4   = new IntegerField().withWidth("50px");
+        IntegerField       spellSlots5   = new IntegerField().withWidth("50px");
+        IntegerField       spellSlots6   = new IntegerField().withWidth("50px");
+        IntegerField       spellSlots7   = new IntegerField().withWidth("50px");
+        IntegerField       spellSlots8   = new IntegerField().withWidth("50px");
+        IntegerField       spellSlots9   = new IntegerField().withWidth("50px");
     }
 
     public static class ClassLevelFeatureRow {
@@ -167,8 +178,10 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         isSpellCasting = new FormCheckBox("Capacité à lancer des sorts");
         spellCastingAbility = new TypedSelect<Ability>("Caractéristique de sort");
         spellCastingAbility.setOptions(abilityService.findAll());
-        
+        spellCastingType = new EnumSelect<>("Sorts innés ou préparés?");
+
         isSpellCasting.addValueChangeListener(this::isSpellCastingChange);
+        spellCastingType.addMValueChangeListener(this::spellCastingTypeChange);
 
         savingThrowProficiencies = new DSSubSetSelector<Ability>(Ability.class);
         savingThrowProficiencies.setCaption("Maitrise applicable au jets de sauvegarde");
@@ -220,7 +233,6 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         baseSkills.setColumnHeader("keyAbility.name", "Carctéristique clé");
         baseSkills.setOptions((List<Skill>) skillService.findAll());
         baseSkills.setWidth("80%");
-        //		baseSkills.setNewItemsAllowed(false);
         baseSkills.setValue(new HashSet<Skill>()); //nothing selected
 
         levelBonuses = new ElementCollectionField<ClassLevelBonus>(ClassLevelBonus.class, ClassLevelBonusRow.class)
@@ -231,18 +243,15 @@ public class ClassForm extends DSAbstractForm<DSClass> {
                     return row;
                 });
         levelBonuses.setPropertyHeader("level", "Niveau");
-        levelBonuses.setPropertyHeader("hasAbilityScoreImprovement", "+ score/don");
-        levelBonuses.setPropertyHeader("chooseClassSpecialization", "Choix Spec");
-        levelBonuses.setPropertyHeader("spellPerDay0", "Sorts 0");
-        levelBonuses.setPropertyHeader("spellPerDay1", "Sorts 1");
-        levelBonuses.setPropertyHeader("spellPerDay2", "Sorts 2");
-        levelBonuses.setPropertyHeader("spellPerDay3", "Sorts 3");
-        levelBonuses.setPropertyHeader("spellPerDay4", "Sorts 4");
-        levelBonuses.setPropertyHeader("spellPerDay5", "Sorts 5");
-        levelBonuses.setPropertyHeader("spellPerDay6", "Sorts 6");
-        levelBonuses.setPropertyHeader("spellPerDay7", "Sorts 7");
-        levelBonuses.setPropertyHeader("spellPerDay8", "Sorts 8");
-        levelBonuses.setPropertyHeader("spellPerDay9", "Sorts 9");
+        levelBonuses.setPropertyHeader("hasAbilityScoreImprovement", "Amélioration score/don");
+        levelBonuses.setPropertyHeader("chooseClassSpecialization", "Choix Specialisation");
+        
+        levelSpells = (LevelSpellsComponent) new LevelSpellsComponent().withCaption("Nombre de sorts")
+                .withEditorInstantiator(() -> {
+            ClassLevelSpellsRow row = new ClassLevelSpellsRow();
+            row.level.setOptions(levelService.findAll());
+            return row;
+        });
 
         classFeatures = new ElementCollectionTable<ClassLevelFeature>(ClassLevelFeature.class,
                 ClassLevelFeatureRow.class).withCaption("Dons de classe").withEditorInstantiator(() -> {
@@ -281,9 +290,9 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         spells.setOptions((List<Spell>) spellService.findAll());
         spells.setWidth("80%");
         spells.setValue(null); //nothing selected
-        
-        startingEquipment = new ElementCollectionTable<ClassEquipment>(ClassEquipment.class,
-                ClassEquipmentRow.class).withCaption("Équipement de base").withEditorInstantiator(() -> {
+
+        startingEquipment = new ElementCollectionTable<ClassEquipment>(ClassEquipment.class, ClassEquipmentRow.class)
+                .withCaption("Équipement de base").withEditorInstantiator(() -> {
                     ClassEquipmentRow row = new ClassEquipmentRow();
                     row.equipment.setOptions(equipmentService.findAll());
                     return row;
@@ -297,12 +306,12 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         layout.addComponent(description);
         layout.addComponent(lifePointPerLevel);
         layout.addComponent(startingGold);
-        layout.addComponents(isSpellCasting, spellCastingAbility);
         layout.addComponent(savingThrowProficiencies);
         layout.addComponent(armorProficiencies);
         layout.addComponents(weaponProficiencies, buttonLayout);
         layout.addComponents(nbChosenSkills, baseSkills);
         layout.addComponent(levelBonuses);
+        layout.addComponents(isSpellCasting, spellCastingAbility, spellCastingType, levelSpells);
         layout.addComponent(classFeatures);
         layout.addComponent(classSpecs);
         layout.addComponent(spells);
@@ -325,8 +334,23 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         if (isSpellCasting.getValue() == null || isSpellCasting.getValue() == false) {
             spellCastingAbility.setValue(null);
             spellCastingAbility.setVisible(false);
+            spellCastingType.setValue(null);
+            spellCastingType.setVisible(false);
+            levelSpells.clear();
+            levelSpells.setVisible(false);
+            levelSpells.setKnownSpells(false);
         } else {
             spellCastingAbility.setVisible(true);
+            spellCastingType.setVisible(true);
+            levelSpells.setVisible(true);
+            levelSpells.onElementAdded();
         }
     }
+
+    public void spellCastingTypeChange(MValueChangeEvent<SpellCastingType> event) {
+        //hide the known spell column if spells are prepared (nbSpells = level + ability modifier)
+        levelSpells.setKnownSpells(
+                event != null && event.getValue() != null && event.getValue() == SpellCastingType.KNOWN);
+    }
+
 }
