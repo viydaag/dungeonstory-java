@@ -50,4 +50,16 @@ public class MockFeatService extends AbstractDataService<Feat, Long> implements 
         return null;
     }
 
+    @Override
+    public List<Feat> findAllClassFeaturesWithoutParent() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<Feat> findAllClassFeaturesWithoutChildren() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }
