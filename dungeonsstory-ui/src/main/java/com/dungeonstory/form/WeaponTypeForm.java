@@ -159,7 +159,7 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
     }
 
     @Override
-    public void beforeSetEntity() {
+    public void beforeSetEntity(WeaponType entity) {
 
         //prevent the binding to cause read-only exception while setting the value
         if (rangeType != null) {

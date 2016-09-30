@@ -20,14 +20,15 @@ public abstract class DSAbstractForm<T> extends AbstractForm<T> {
         getDeleteButton().setIcon(FontAwesome.TRASH_O);
     }
     
+    @Override
     public MBeanFieldGroup<T> setEntity(T entity) {
-        beforeSetEntity();
+        beforeSetEntity(entity);
         MBeanFieldGroup<T> fieldgroup = super.setEntity(entity);
         afterSetEntity();
         return fieldgroup;
     }
     
-    public void beforeSetEntity() {
+    public void beforeSetEntity(T entity) {
         
     }
     

@@ -13,6 +13,7 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -110,7 +111,7 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
             inverseJoinColumns = { @JoinColumn(name = "skillId", referencedColumnName = "id") })
     private Set<Skill> baseSkills;
 
-    @OneToMany(mappedBy = "classe", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "classe", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
     @PrivateOwned   //means that a class level bonus will be deleted if not attached to a class
     private List<ClassLevelBonus> levelBonuses;
     

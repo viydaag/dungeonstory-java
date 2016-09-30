@@ -11,6 +11,7 @@ import org.vaadin.viritin.fields.ElementCollectionField;
 import org.vaadin.viritin.fields.ElementCollectionTable;
 import org.vaadin.viritin.fields.EnumSelect;
 import org.vaadin.viritin.fields.IntegerField;
+import org.vaadin.viritin.fields.MCheckBox;
 import org.vaadin.viritin.fields.MTextArea;
 import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.fields.MValueChangeEvent;
@@ -53,7 +54,11 @@ import com.dungeonstory.backend.service.mock.MockSpellService;
 import com.dungeonstory.backend.service.mock.MockWeaponTypeService;
 import com.dungeonstory.util.HorizontalSpacedLayout;
 import com.dungeonstory.util.field.DSSubSetSelector;
-import com.dungeonstory.view.component.LevelSpellsComponent;
+import com.dungeonstory.util.field.LevelBonusCollectionField;
+import com.dungeonstory.util.field.LevelBonusCollectionField.ClassLevelBonusRow;
+import com.dungeonstory.util.field.LevelSpellsCollectionField;
+import com.dungeonstory.util.field.LevelSpellsCollectionField.ClassLevelSpellsRow;
+import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
@@ -74,13 +79,13 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     private FormCheckBox                                isSpellCasting;
     private TypedSelect<Ability>                        spellCastingAbility;
     private EnumSelect<SpellCastingType>                spellCastingType;
-    private LevelSpellsComponent                        levelSpells;
+    private LevelSpellsCollectionField                  levelSpells;
     private DSSubSetSelector<Ability>                   savingThrowProficiencies;
     private DSSubSetSelector<ArmorType.ProficiencyType> armorProficiencies;
     private DSSubSetSelector<WeaponType>                weaponProficiencies;
     private IntegerField                                nbChosenSkills;
     private DSSubSetSelector<Skill>                     baseSkills;
-    private ElementCollectionField<ClassLevelBonus>     levelBonuses;
+    private LevelBonusCollectionField                   levelBonuses;
     private ElementCollectionTable<ClassLevelFeature>   classFeatures;
     private ElementCollectionTable<ClassSpecialization> classSpecs;
     private DSSubSetSelector<Spell>                     spells;
@@ -90,6 +95,13 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     private Button addAllMartialWeapons;
     private Button clearWeapons;
 
+    private CheckBox martialArts;
+    private CheckBox sorcery;
+    private CheckBox rage;
+    private CheckBox invocation;
+    private CheckBox hunter;
+    private CheckBox sneak;
+
     private DataService<Skill, Long>      skillService      = null;
     private DataService<Level, Long>      levelService      = null;
     private FeatDataService               featService       = null;
@@ -98,26 +110,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     private DataService<Spell, Long>      spellService      = null;
     private EquipmentDataService          equipmentService  = null;
 
-    public static class ClassLevelBonusRow {
-        TypedSelect<Level> level                      = new TypedSelect<Level>();
-        CheckBox           hasAbilityScoreImprovement = new CheckBox();
-        CheckBox           chooseClassSpecialization  = new CheckBox();
-    }
-
-    public static class ClassLevelSpellsRow {
-        TypedSelect<Level> level         = new TypedSelect<Level>();
-        IntegerField       cantripsKnown = new IntegerField().withWidth("110px");
-        IntegerField       spellsKnown   = new IntegerField().withWidth("110px");
-        IntegerField       spellSlots1   = new IntegerField().withWidth("50px");
-        IntegerField       spellSlots2   = new IntegerField().withWidth("50px");
-        IntegerField       spellSlots3   = new IntegerField().withWidth("50px");
-        IntegerField       spellSlots4   = new IntegerField().withWidth("50px");
-        IntegerField       spellSlots5   = new IntegerField().withWidth("50px");
-        IntegerField       spellSlots6   = new IntegerField().withWidth("50px");
-        IntegerField       spellSlots7   = new IntegerField().withWidth("50px");
-        IntegerField       spellSlots8   = new IntegerField().withWidth("50px");
-        IntegerField       spellSlots9   = new IntegerField().withWidth("50px");
-    }
+    private boolean init = false;
 
     public static class ClassLevelFeatureRow {
         TypedSelect<Level> level = new TypedSelect<Level>();
@@ -235,23 +228,45 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         baseSkills.setWidth("80%");
         baseSkills.setValue(new HashSet<Skill>()); //nothing selected
 
-        levelBonuses = new ElementCollectionField<ClassLevelBonus>(ClassLevelBonus.class, ClassLevelBonusRow.class)
-                .withCaption("Bonus de classe").withEditorInstantiator(() -> {
-                    ClassLevelBonusRow row = new ClassLevelBonusRow();
-                    // The ManyToOne field needs its options to be populated
-                    row.level.setOptions(levelService.findAll());
-                    return row;
-                });
-        levelBonuses.setPropertyHeader("level", "Niveau");
-        levelBonuses.setPropertyHeader("hasAbilityScoreImprovement", "Amélioration score/don");
-        levelBonuses.setPropertyHeader("chooseClassSpecialization", "Choix Specialisation");
-        
-        levelSpells = (LevelSpellsComponent) new LevelSpellsComponent().withCaption("Nombre de sorts")
-                .withEditorInstantiator(() -> {
-            ClassLevelSpellsRow row = new ClassLevelSpellsRow();
+        levelBonuses = new LevelBonusCollectionField();
+        levelBonuses.withCaption("Bonus de classe").withEditorInstantiator(() -> {
+            ClassLevelBonusRow row = new ClassLevelBonusRow();
+            // The ManyToOne field needs its options to be populated
             row.level.setOptions(levelService.findAll());
             return row;
         });
+        //        levelBonuses.setPropertyHeader("level", "Niveau");
+        //        levelBonuses.setPropertyHeader("hasAbilityScoreImprovement", "Amélioration score/don");
+        //        levelBonuses.setPropertyHeader("chooseClassSpecialization", "Choix Specialisation");
+        //        levelBonuses.setPropertyHeader("favoredEnemy", "Ennemi favori");
+        //        levelBonuses.setPropertyHeader("naturalExplorer", "Explorateur");
+        //        levelBonuses.setPropertyHeader("kiPoints", "Points Ki");
+        //        levelBonuses.setPropertyHeader("martialArtsDamage", "Dégâts arts martiaux");
+        //        levelBonuses.setPropertyHeader("movementBonus", "Mouvement bonus");
+        //        levelBonuses.setPropertyHeader("sorceryPoints", "Points magie");
+        //        levelBonuses.setPropertyHeader("ragePoints", "Nb rage");
+        //        levelBonuses.setPropertyHeader("rageDamageBonus", "Dégât de rage");
+        //        levelBonuses.setPropertyHeader("invocationsKnown", "Nb invocation");
+        //        levelBonuses.setPropertyHeader("sneakAttackDamage", "Dégâts attaque furtive");
+        //        levelBonuses.getLayout().setHideEmptyRowsAndColumns(true);
+
+        martialArts = new MCheckBox("Arts martiaux");
+        sorcery = new MCheckBox("Sorcellerie");
+        rage = new MCheckBox("Rage");
+        invocation = new MCheckBox("Invocation");
+        hunter = new MCheckBox("Chasseur");
+        sneak = new MCheckBox("Attaque furtive");
+        activateCheckboxListeners();
+
+        HorizontalSpacedLayout checkboxLayout = new HorizontalSpacedLayout(martialArts, sorcery, rage, invocation,
+                hunter, sneak);
+
+        levelSpells = (LevelSpellsCollectionField) new LevelSpellsCollectionField().withCaption("Nombre de sorts")
+                .withEditorInstantiator(() -> {
+                    ClassLevelSpellsRow row = new ClassLevelSpellsRow();
+                    row.level.setOptions(levelService.findAll());
+                    return row;
+                });
 
         classFeatures = new ElementCollectionTable<ClassLevelFeature>(ClassLevelFeature.class,
                 ClassLevelFeatureRow.class).withCaption("Dons de classe").withEditorInstantiator(() -> {
@@ -310,7 +325,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         layout.addComponent(armorProficiencies);
         layout.addComponents(weaponProficiencies, buttonLayout);
         layout.addComponents(nbChosenSkills, baseSkills);
-        layout.addComponent(levelBonuses);
+        layout.addComponents(levelBonuses, checkboxLayout);
         layout.addComponents(isSpellCasting, spellCastingAbility, spellCastingType, levelSpells);
         layout.addComponent(classFeatures);
         layout.addComponent(classSpecs);
@@ -318,7 +333,58 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         layout.addComponent(startingEquipment);
         layout.addComponent(getToolbar());
 
+        init = true;
+
         return layout;
+    }
+
+    private void activateCheckboxListeners() {
+        martialArts
+                .addValueChangeListener(event -> levelBonuses.setMartialArts((boolean) event.getProperty().getValue()));
+        sorcery.addValueChangeListener(event -> levelBonuses.setSorcery((boolean) event.getProperty().getValue()));
+        rage.addValueChangeListener(event -> levelBonuses.setRage((boolean) event.getProperty().getValue()));
+        invocation
+                .addValueChangeListener(event -> levelBonuses.setInvocation((boolean) event.getProperty().getValue()));
+        hunter.addValueChangeListener(event -> levelBonuses.setHunter((boolean) event.getProperty().getValue()));
+        sneak.addValueChangeListener(event -> levelBonuses.setSneak((boolean) event.getProperty().getValue()));
+    }
+
+    @Override
+    public void beforeSetEntity(DSClass entity) {
+        super.beforeSetEntity(entity);
+        if (levelBonuses != null && entity != null && entity.getId() != null) {
+            levelBonuses.clearForExisting();
+        }
+        //        Collection<?> listeners = hunter.getListeners(Property.ValueChangeEvent.class);
+        //        for (Object listener : listeners) {
+        //            hunter.removeValueChangeListener(listener);
+        //        }
+
+        if (init == true) {
+            deactivateCheckboxListeners();
+            hunter.setValue(false);
+            martialArts.setValue(false);
+            sorcery.setValue(false);
+            rage.setValue(false);
+            invocation.setValue(false);
+            sneak.setValue(false);
+            activateCheckboxListeners();
+        }
+    }
+
+    private void deactivateCheckboxListeners() {
+        hunter.getListeners(Property.ValueChangeEvent.class)
+                .forEach(listener -> hunter.removeListener(Property.ValueChangeEvent.class, listener));
+        rage.getListeners(Property.ValueChangeEvent.class)
+                .forEach(listener -> rage.removeListener(Property.ValueChangeEvent.class, listener));
+        invocation.getListeners(Property.ValueChangeEvent.class)
+                .forEach(listener -> invocation.removeListener(Property.ValueChangeEvent.class, listener));
+        martialArts.getListeners(Property.ValueChangeEvent.class)
+                .forEach(listener -> martialArts.removeListener(Property.ValueChangeEvent.class, listener));
+        sneak.getListeners(Property.ValueChangeEvent.class)
+                .forEach(listener -> sneak.removeListener(Property.ValueChangeEvent.class, listener));
+        sorcery.getListeners(Property.ValueChangeEvent.class)
+                .forEach(listener -> sorcery.removeListener(Property.ValueChangeEvent.class, listener));
     }
 
     @Override
@@ -328,6 +394,10 @@ public class ClassForm extends DSAbstractForm<DSClass> {
             classSpecs.getTable().withColumnWidth("name", 300);
         }
         isSpellCastingChange(null);
+        if (getEntity() == null || getEntity().getId() == null) {
+            levelBonuses.clearForNew();
+        }
+        refreshLevelBonusCheckBoxVisibility();
     }
 
     public void isSpellCastingChange(ValueChangeEvent event) {
@@ -351,6 +421,134 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         //hide the known spell column if spells are prepared (nbSpells = level + ability modifier)
         levelSpells.setKnownSpells(
                 event != null && event.getValue() != null && event.getValue() == SpellCastingType.KNOWN);
+    }
+
+    //    private void initLevelBonusVisibility() {
+    //        final int nbRows = levelBonuses.getLayout().getRows();
+    //        final int nbColumns = levelBonuses.getLayout().getColumns();
+    //        for (int row = 0; row < nbRows; row++) {
+    //            for (int column = 0; column < nbColumns; column++) {
+    //                Component c = levelBonuses.getLayout().getComponent(column, row);
+    //                if (c != null) {
+    //                    if (column != 0 && column != 1 && column != 2) {
+    //                        c.setVisible(false);
+    //                    }
+    //                }
+    //            }
+    //        }
+    //    }
+
+    //    private void refreshLevelBonusVisibility(boolean visible, int... columns) {
+    //        final int nbRows = levelBonuses.getLayout().getRows();
+    //        final int nbColumns = levelBonuses.getLayout().getColumns();
+    //        for (int row = 0; row < nbRows; row++) {
+    //            for (int column = 0; column < nbColumns; column++) {
+    //                Component c = levelBonuses.getLayout().getComponent(column, row);
+    //                if (c != null) {
+    //                    final int visibleColumn = column;
+    //                    boolean match = IntStream.of(columns).anyMatch(x -> x == visibleColumn);
+    //                    if (match) {
+    //                        if (c instanceof IntegerField && !visible) {
+    //                            ((IntegerField) c).setValue(null);
+    //                        }
+    //                        if (c instanceof TextField && !visible) {
+    //                            ((TextField) c).setValue(null);
+    //                        }
+    //                        c.setVisible(visible);
+    //                    }
+    //                }
+    //            }
+    //        }
+    //    }
+
+    //    private void refreshLevelBonusVisibility(boolean visible, String... columns) {
+    //        List<String> visibleProperties = levelBonuses.getVisibleProperties();
+    //
+    //        for (String column : columns) {
+    //            if (visible && !visibleProperties.contains(column)) {
+    //                visibleProperties.add(column);
+    //            }
+    //            if (!visible && visibleProperties.contains(column)) {
+    //                visibleProperties.remove(column);
+    //            }
+    //        }
+    //        levelBonuses.setVisibleProperties(visibleProperties);
+    //    }
+
+    private void refreshLevelBonusCheckBoxVisibility() {
+
+        if (getEntity() != null) {
+            for (ClassLevelBonus levelBonus : getEntity().getLevelBonuses()) {
+                if (levelBonus.getFavoredEnemy() != null || levelBonus.getNaturalExplorer() != null) {
+                    hunter.setValue(true);
+                }
+                if (levelBonus.getKiPoints() != null || levelBonus.getMartialArtsDamage() != null
+                        || levelBonus.getMovementBonus() != null) {
+                    martialArts.setValue(true);
+                }
+                if (levelBonus.getRagePoints() != null || levelBonus.getRageDamageBonus() != null) {
+                    rage.setValue(true);
+                }
+                if (levelBonus.getInvocationsKnown() != null) {
+                    invocation.setValue(true);
+                }
+                if (levelBonus.getSorceryPoints() != null) {
+                    sorcery.setValue(true);
+                }
+                if (levelBonus.getSneakAttackDamage() != null) {
+                    sneak.setValue(true);
+                }
+            }
+        }
+
+        levelBonuses.setHunter(hunter.getValue());
+        levelBonuses.setMartialArts(martialArts.getValue());
+        levelBonuses.setSorcery(sorcery.getValue());
+        levelBonuses.setInvocation(invocation.getValue());
+        levelBonuses.setSneak(sneak.getValue());
+        levelBonuses.setRage(rage.getValue());
+
+        //        final int nbColumns = levelBonuses.getLayout().getColumns();
+        //        for (int column = 0; column < nbColumns; column++) {
+        //            Component c = levelBonuses.getLayout().getComponent(column, 0);
+        //            if (c != null) {
+        //                boolean visible = false;
+        //                if ((c instanceof IntegerField && ((IntegerField) c).getValue() != null)
+        //                        || (c instanceof TextField && ((TextField) c).getValue() != null)) {
+        //                    visible = true;
+        //                }
+        //                switch (column) {
+        //                    case 3:
+        //                        hunter.setValue(visible);
+        //                        break;
+        //                    case 5:
+        //                        martialArts.setValue(visible);
+        //                        break;
+        //                    case 8:
+        //                        sorcery.setValue(visible);
+        //                        break;
+        //                    case 9:
+        //                        rage.setValue(visible);
+        //                        break;
+        //                    case 11:
+        //                        invocation.setValue(visible);
+        //                        break;
+        //                    case 12:
+        //                        sneak.setValue(visible);
+        //                        break;
+        //                    default:
+        //                        break;
+        //
+        //                }
+        //            }
+        //        }
+
+        //        hunter.setValue(levelBonuses.isHunter());
+        //        martialArts.setValue(levelBonuses.isMartialArts());
+        //        sorcery.setValue(levelBonuses.isSorcery());
+        //        rage.setValue(levelBonuses.isRage());
+        //        invocation.setValue(levelBonuses.isInvocation());
+        //        sneak.setValue(levelBonuses.isSneak());
     }
 
 }

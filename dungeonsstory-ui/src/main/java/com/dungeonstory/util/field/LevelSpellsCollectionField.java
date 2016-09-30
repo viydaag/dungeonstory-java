@@ -1,4 +1,4 @@
-package com.dungeonstory.view.component;
+package com.dungeonstory.util.field;
 
 import org.vaadin.viritin.fields.ElementCollectionField;
 import org.vaadin.viritin.fields.IntegerField;
@@ -8,28 +8,28 @@ import com.dungeonstory.backend.data.ClassLevelSpells;
 import com.dungeonstory.backend.data.Level;
 import com.vaadin.ui.Component;
 
-public class LevelSpellsComponent extends ElementCollectionField<ClassLevelSpells> {
+public class LevelSpellsCollectionField extends ElementCollectionField<ClassLevelSpells> {
     
     private static final long serialVersionUID = 947526857652822107L;
 
     private boolean isKnownSpells = false;
 
     public static class ClassLevelSpellsRow {
-        TypedSelect<Level> level         = new TypedSelect<Level>();
-        IntegerField       cantripsKnown = new IntegerField().withWidth("110px");
-        IntegerField       spellsKnown   = new IntegerField().withWidth("110px");
-        IntegerField       spellSlots1   = new IntegerField().withWidth("50px");
-        IntegerField       spellSlots2   = new IntegerField().withWidth("50px");
-        IntegerField       spellSlots3   = new IntegerField().withWidth("50px");
-        IntegerField       spellSlots4   = new IntegerField().withWidth("50px");
-        IntegerField       spellSlots5   = new IntegerField().withWidth("50px");
-        IntegerField       spellSlots6   = new IntegerField().withWidth("50px");
-        IntegerField       spellSlots7   = new IntegerField().withWidth("50px");
-        IntegerField       spellSlots8   = new IntegerField().withWidth("50px");
-        IntegerField       spellSlots9   = new IntegerField().withWidth("50px");
+        public TypedSelect<Level> level         = new TypedSelect<Level>();
+        public IntegerField       cantripsKnown = new IntegerField().withWidth("110px");
+        public IntegerField       spellsKnown   = new IntegerField().withWidth("110px");
+        public IntegerField       spellSlots1   = new IntegerField().withWidth("50px");
+        public IntegerField       spellSlots2   = new IntegerField().withWidth("50px");
+        public IntegerField       spellSlots3   = new IntegerField().withWidth("50px");
+        public IntegerField       spellSlots4   = new IntegerField().withWidth("50px");
+        public IntegerField       spellSlots5   = new IntegerField().withWidth("50px");
+        public IntegerField       spellSlots6   = new IntegerField().withWidth("50px");
+        public IntegerField       spellSlots7   = new IntegerField().withWidth("50px");
+        public IntegerField       spellSlots8   = new IntegerField().withWidth("50px");
+        public IntegerField       spellSlots9   = new IntegerField().withWidth("50px");
     }
 
-    public LevelSpellsComponent() {
+    public LevelSpellsCollectionField() {
         super(ClassLevelSpells.class, ClassLevelSpellsRow.class);
         setPropertyHeader("level", "Niveau");
         setPropertyHeader("cantripsKnown", "Sorts 0 connus");

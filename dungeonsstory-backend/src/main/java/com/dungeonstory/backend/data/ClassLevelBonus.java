@@ -9,6 +9,7 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @IdClass(ClassLevelBonusId.class)
@@ -33,49 +34,38 @@ public class ClassLevelBonus implements Serializable {
     @Column(name = "chooseClassSpecialization")
     private boolean chooseClassSpecialization;
 
-    //    @Min(value = 0)
-    //    @Column(name = "spellBonus")
-    //    private int spellBonus;
-    //
-    //    @Min(value = 0)
-    //    @Column(name = "spellPerDay0")
-    //    private int spellPerDay0;
-    //
-    //    @Min(value = 0)
-    //    @Column(name = "spellPerDay1")
-    //    private int spellPerDay1;
-    //
-    //    @Min(value = 0)
-    //    @Column(name = "spellPerDay2")
-    //    private int spellPerDay2;
-    //
-    //    @Min(value = 0)
-    //    @Column(name = "spellPerDay3")
-    //    private int spellPerDay3;
-    //
-    //    @Min(value = 0)
-    //    @Column(name = "spellPerDay4")
-    //    private int spellPerDay4;
-    //
-    //    @Min(value = 0)
-    //    @Column(name = "spellPerDay5")
-    //    private int spellPerDay5;
-    //
-    //    @Min(value = 0)
-    //    @Column(name = "spellPerDay6")
-    //    private int spellPerDay6;
-    //
-    //    @Min(value = 0)
-    //    @Column(name = "spellPerDay7")
-    //    private int spellPerDay7;
-    //
-    //    @Min(value = 0)
-    //    @Column(name = "spellPerDay8")
-    //    private int spellPerDay8;
-    //
-    //    @Min(value = 0)
-    //    @Column(name = "spellPerDay9")
-    //    private int spellPerDay9;
+    @Column(name = "favoredEnemy")
+    private Boolean favoredEnemy;
+
+    @Column(name = "naturalExplorer")
+    private Boolean naturalExplorer;
+
+    @Column(name = "kiPoints")
+    private Integer kiPoints;
+
+    @Column(name = "sorceryPoints")
+    private Integer sorceryPoints;
+
+    @Column(name = "ragePoints")
+    private Integer ragePoints;
+
+    @Column(name = "rageDamageBonus")
+    private Integer rageDamageBonus;
+
+    @Column(name = "movementBonus")
+    private Integer movementBonus;
+
+    @Pattern(regexp = "\\d+d\\d+")
+    @Column(name = "martialArtsDamage")
+    private String martialArtsDamage;
+
+    @Pattern(regexp = "\\d+d\\d+")
+    @Column(name = "sneakAttackDamage")
+    private String sneakAttackDamage;
+
+    @Column(name = "invocationsKnown")
+    private Integer invocationsKnown;
+
 
     public ClassLevelBonus() {
 
@@ -113,92 +103,84 @@ public class ClassLevelBonus implements Serializable {
         this.chooseClassSpecialization = chooseClassSpecialization;
     }
 
-    //    public int getSpellBonus() {
-    //        return spellBonus;
-    //    }
-    //
-    //    public void setSpellBonus(int spellBonus) {
-    //        this.spellBonus = spellBonus;
-    //    }
-    //
-    //    public int getSpellPerDay0() {
-    //        return spellPerDay0;
-    //    }
-    //
-    //    public void setSpellPerDay0(int spellPerDay0) {
-    //        this.spellPerDay0 = spellPerDay0;
-    //    }
-    //
-    //    public int getSpellPerDay1() {
-    //        return spellPerDay1;
-    //    }
-    //
-    //    public void setSpellPerDay1(int spellPerDay1) {
-    //        this.spellPerDay1 = spellPerDay1;
-    //    }
-    //
-    //    public int getSpellPerDay2() {
-    //        return spellPerDay2;
-    //    }
-    //
-    //    public void setSpellPerDay2(int spellPerDay2) {
-    //        this.spellPerDay2 = spellPerDay2;
-    //    }
-    //
-    //    public int getSpellPerDay3() {
-    //        return spellPerDay3;
-    //    }
-    //
-    //    public void setSpellPerDay3(int spellPerDay3) {
-    //        this.spellPerDay3 = spellPerDay3;
-    //    }
-    //
-    //    public int getSpellPerDay4() {
-    //        return spellPerDay4;
-    //    }
-    //
-    //    public void setSpellPerDay4(int spellPerDay4) {
-    //        this.spellPerDay4 = spellPerDay4;
-    //    }
-    //
-    //    public int getSpellPerDay5() {
-    //        return spellPerDay5;
-    //    }
-    //
-    //    public void setSpellPerDay5(int spellPerDay5) {
-    //        this.spellPerDay5 = spellPerDay5;
-    //    }
-    //
-    //    public int getSpellPerDay6() {
-    //        return spellPerDay6;
-    //    }
-    //
-    //    public void setSpellPerDay6(int spellPerDay6) {
-    //        this.spellPerDay6 = spellPerDay6;
-    //    }
-    //
-    //    public int getSpellPerDay7() {
-    //        return spellPerDay7;
-    //    }
-    //
-    //    public void setSpellPerDay7(int spellPerDay7) {
-    //        this.spellPerDay7 = spellPerDay7;
-    //    }
-    //
-    //    public int getSpellPerDay8() {
-    //        return spellPerDay8;
-    //    }
-    //
-    //    public void setSpellPerDay8(int spellPerDay8) {
-    //        this.spellPerDay8 = spellPerDay8;
-    //    }
-    //
-    //    public int getSpellPerDay9() {
-    //        return spellPerDay9;
-    //    }
-    //
-    //    public void setSpellPerDay9(int spellPerDay9) {
-    //        this.spellPerDay9 = spellPerDay9;
-    //    }
+    public Boolean getFavoredEnemy() {
+        return favoredEnemy;
+    }
+
+    public void setFavoredEnemy(Boolean favoredEnemy) {
+        this.favoredEnemy = favoredEnemy;
+    }
+
+    public Boolean getNaturalExplorer() {
+        return naturalExplorer;
+    }
+
+    public void setNaturalExplorer(Boolean naturalExplorer) {
+        this.naturalExplorer = naturalExplorer;
+    }
+
+    public Integer getKiPoints() {
+        return kiPoints;
+    }
+
+    public void setKiPoints(Integer kiPoints) {
+        this.kiPoints = kiPoints;
+    }
+
+    public Integer getSorceryPoints() {
+        return sorceryPoints;
+    }
+
+    public void setSorceryPoints(Integer sorceryPoints) {
+        this.sorceryPoints = sorceryPoints;
+    }
+
+    public Integer getRagePoints() {
+        return ragePoints;
+    }
+
+    public void setRagePoints(Integer ragePoints) {
+        this.ragePoints = ragePoints;
+    }
+
+    public Integer getRageDamageBonus() {
+        return rageDamageBonus;
+    }
+
+    public void setRageDamageBonus(Integer rageDamageBonus) {
+        this.rageDamageBonus = rageDamageBonus;
+    }
+
+    public Integer getMovementBonus() {
+        return movementBonus;
+    }
+
+    public void setMovementBonus(Integer movementBonus) {
+        this.movementBonus = movementBonus;
+    }
+
+    public String getMartialArtsDamage() {
+        return martialArtsDamage;
+    }
+
+    public void setMartialArtsDamage(String martialArtsDamage) {
+        this.martialArtsDamage = martialArtsDamage;
+    }
+
+    public String getSneakAttackDamage() {
+        return sneakAttackDamage;
+    }
+
+    public void setSneakAttackDamage(String sneakAttackDamage) {
+        this.sneakAttackDamage = sneakAttackDamage;
+    }
+
+    public Integer getInvocationsKnown() {
+        return invocationsKnown;
+    }
+
+    public void setInvocationsKnown(Integer invocationsKnown) {
+        this.invocationsKnown = invocationsKnown;
+    }
 
 }
