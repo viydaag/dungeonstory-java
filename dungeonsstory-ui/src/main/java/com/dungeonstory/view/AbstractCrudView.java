@@ -89,6 +89,7 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
             service.saveOrUpdate(entity);
 
             //refresh ui
+            grid.deselectAll();
             closeForm();
             //        grid.refresh(entity);
             grid.setData(service.findAll());
@@ -116,7 +117,7 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
     @Override
     public void entrySelected() {
         if (form != null) {
-            form.setEntity(grid.getSelectedRow() == null ? service.create() : grid.getSelectedRow());
+            form.setEntity(grid.getSelectedRow());
             if (isFormPopup()) {
                 form.openInModalPopup();
             }
@@ -129,6 +130,7 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
         if (isFormPopup()) {
             form.openInModalPopup();
         }
+        form.focusFirst();
     }
 
     @Override
