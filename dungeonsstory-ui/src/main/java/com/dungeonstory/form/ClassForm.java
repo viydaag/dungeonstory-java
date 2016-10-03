@@ -58,11 +58,11 @@ import com.dungeonstory.util.field.LevelBonusCollectionField;
 import com.dungeonstory.util.field.LevelBonusCollectionField.ClassLevelBonusRow;
 import com.dungeonstory.util.field.LevelSpellsCollectionField;
 import com.dungeonstory.util.field.LevelSpellsCollectionField.ClassLevelSpellsRow;
-import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.Field;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
@@ -235,20 +235,6 @@ public class ClassForm extends DSAbstractForm<DSClass> {
             row.level.setOptions(levelService.findAll());
             return row;
         });
-        //        levelBonuses.setPropertyHeader("level", "Niveau");
-        //        levelBonuses.setPropertyHeader("hasAbilityScoreImprovement", "Amélioration score/don");
-        //        levelBonuses.setPropertyHeader("chooseClassSpecialization", "Choix Specialisation");
-        //        levelBonuses.setPropertyHeader("favoredEnemy", "Ennemi favori");
-        //        levelBonuses.setPropertyHeader("naturalExplorer", "Explorateur");
-        //        levelBonuses.setPropertyHeader("kiPoints", "Points Ki");
-        //        levelBonuses.setPropertyHeader("martialArtsDamage", "Dégâts arts martiaux");
-        //        levelBonuses.setPropertyHeader("movementBonus", "Mouvement bonus");
-        //        levelBonuses.setPropertyHeader("sorceryPoints", "Points magie");
-        //        levelBonuses.setPropertyHeader("ragePoints", "Nb rage");
-        //        levelBonuses.setPropertyHeader("rageDamageBonus", "Dégât de rage");
-        //        levelBonuses.setPropertyHeader("invocationsKnown", "Nb invocation");
-        //        levelBonuses.setPropertyHeader("sneakAttackDamage", "Dégâts attaque furtive");
-        //        levelBonuses.getLayout().setHideEmptyRowsAndColumns(true);
 
         martialArts = new MCheckBox("Arts martiaux");
         sorcery = new MCheckBox("Sorcellerie");
@@ -355,10 +341,6 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         if (levelBonuses != null && entity != null && entity.getId() != null) {
             levelBonuses.clearForExisting();
         }
-        //        Collection<?> listeners = hunter.getListeners(Property.ValueChangeEvent.class);
-        //        for (Object listener : listeners) {
-        //            hunter.removeValueChangeListener(listener);
-        //        }
 
         if (init == true) {
             deactivateCheckboxListeners();
@@ -373,18 +355,18 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     }
 
     private void deactivateCheckboxListeners() {
-        hunter.getListeners(Property.ValueChangeEvent.class)
-                .forEach(listener -> hunter.removeListener(Property.ValueChangeEvent.class, listener));
-        rage.getListeners(Property.ValueChangeEvent.class)
-                .forEach(listener -> rage.removeListener(Property.ValueChangeEvent.class, listener));
-        invocation.getListeners(Property.ValueChangeEvent.class)
-                .forEach(listener -> invocation.removeListener(Property.ValueChangeEvent.class, listener));
-        martialArts.getListeners(Property.ValueChangeEvent.class)
-                .forEach(listener -> martialArts.removeListener(Property.ValueChangeEvent.class, listener));
-        sneak.getListeners(Property.ValueChangeEvent.class)
-                .forEach(listener -> sneak.removeListener(Property.ValueChangeEvent.class, listener));
-        sorcery.getListeners(Property.ValueChangeEvent.class)
-                .forEach(listener -> sorcery.removeListener(Property.ValueChangeEvent.class, listener));
+        hunter.getListeners(Field.ValueChangeEvent.class)
+                .forEach(listener -> hunter.removeListener(Field.ValueChangeEvent.class, listener));
+        rage.getListeners(Field.ValueChangeEvent.class)
+                .forEach(listener -> rage.removeListener(Field.ValueChangeEvent.class, listener));
+        invocation.getListeners(Field.ValueChangeEvent.class)
+                .forEach(listener -> invocation.removeListener(Field.ValueChangeEvent.class, listener));
+        martialArts.getListeners(Field.ValueChangeEvent.class)
+                .forEach(listener -> martialArts.removeListener(Field.ValueChangeEvent.class, listener));
+        sneak.getListeners(Field.ValueChangeEvent.class)
+                .forEach(listener -> sneak.removeListener(Field.ValueChangeEvent.class, listener));
+        sorcery.getListeners(Field.ValueChangeEvent.class)
+                .forEach(listener -> sorcery.removeListener(Field.ValueChangeEvent.class, listener));
     }
 
     @Override
@@ -423,60 +405,9 @@ public class ClassForm extends DSAbstractForm<DSClass> {
                 event != null && event.getValue() != null && event.getValue() == SpellCastingType.KNOWN);
     }
 
-    //    private void initLevelBonusVisibility() {
-    //        final int nbRows = levelBonuses.getLayout().getRows();
-    //        final int nbColumns = levelBonuses.getLayout().getColumns();
-    //        for (int row = 0; row < nbRows; row++) {
-    //            for (int column = 0; column < nbColumns; column++) {
-    //                Component c = levelBonuses.getLayout().getComponent(column, row);
-    //                if (c != null) {
-    //                    if (column != 0 && column != 1 && column != 2) {
-    //                        c.setVisible(false);
-    //                    }
-    //                }
-    //            }
-    //        }
-    //    }
-
-    //    private void refreshLevelBonusVisibility(boolean visible, int... columns) {
-    //        final int nbRows = levelBonuses.getLayout().getRows();
-    //        final int nbColumns = levelBonuses.getLayout().getColumns();
-    //        for (int row = 0; row < nbRows; row++) {
-    //            for (int column = 0; column < nbColumns; column++) {
-    //                Component c = levelBonuses.getLayout().getComponent(column, row);
-    //                if (c != null) {
-    //                    final int visibleColumn = column;
-    //                    boolean match = IntStream.of(columns).anyMatch(x -> x == visibleColumn);
-    //                    if (match) {
-    //                        if (c instanceof IntegerField && !visible) {
-    //                            ((IntegerField) c).setValue(null);
-    //                        }
-    //                        if (c instanceof TextField && !visible) {
-    //                            ((TextField) c).setValue(null);
-    //                        }
-    //                        c.setVisible(visible);
-    //                    }
-    //                }
-    //            }
-    //        }
-    //    }
-
-    //    private void refreshLevelBonusVisibility(boolean visible, String... columns) {
-    //        List<String> visibleProperties = levelBonuses.getVisibleProperties();
-    //
-    //        for (String column : columns) {
-    //            if (visible && !visibleProperties.contains(column)) {
-    //                visibleProperties.add(column);
-    //            }
-    //            if (!visible && visibleProperties.contains(column)) {
-    //                visibleProperties.remove(column);
-    //            }
-    //        }
-    //        levelBonuses.setVisibleProperties(visibleProperties);
-    //    }
-
     private void refreshLevelBonusCheckBoxVisibility() {
 
+        // check the required checkboxes if entity has custom level bonuses
         if (getEntity() != null) {
             for (ClassLevelBonus levelBonus : getEntity().getLevelBonuses()) {
                 if (levelBonus.getFavoredEnemy() != null || levelBonus.getNaturalExplorer() != null) {
@@ -501,54 +432,13 @@ public class ClassForm extends DSAbstractForm<DSClass> {
             }
         }
 
+        // show/hide fields according to checkbox values
         levelBonuses.setHunter(hunter.getValue());
         levelBonuses.setMartialArts(martialArts.getValue());
         levelBonuses.setSorcery(sorcery.getValue());
         levelBonuses.setInvocation(invocation.getValue());
         levelBonuses.setSneak(sneak.getValue());
         levelBonuses.setRage(rage.getValue());
-
-        //        final int nbColumns = levelBonuses.getLayout().getColumns();
-        //        for (int column = 0; column < nbColumns; column++) {
-        //            Component c = levelBonuses.getLayout().getComponent(column, 0);
-        //            if (c != null) {
-        //                boolean visible = false;
-        //                if ((c instanceof IntegerField && ((IntegerField) c).getValue() != null)
-        //                        || (c instanceof TextField && ((TextField) c).getValue() != null)) {
-        //                    visible = true;
-        //                }
-        //                switch (column) {
-        //                    case 3:
-        //                        hunter.setValue(visible);
-        //                        break;
-        //                    case 5:
-        //                        martialArts.setValue(visible);
-        //                        break;
-        //                    case 8:
-        //                        sorcery.setValue(visible);
-        //                        break;
-        //                    case 9:
-        //                        rage.setValue(visible);
-        //                        break;
-        //                    case 11:
-        //                        invocation.setValue(visible);
-        //                        break;
-        //                    case 12:
-        //                        sneak.setValue(visible);
-        //                        break;
-        //                    default:
-        //                        break;
-        //
-        //                }
-        //            }
-        //        }
-
-        //        hunter.setValue(levelBonuses.isHunter());
-        //        martialArts.setValue(levelBonuses.isMartialArts());
-        //        sorcery.setValue(levelBonuses.isSorcery());
-        //        rage.setValue(levelBonuses.isRage());
-        //        invocation.setValue(levelBonuses.isInvocation());
-        //        sneak.setValue(levelBonuses.isSneak());
     }
 
 }
