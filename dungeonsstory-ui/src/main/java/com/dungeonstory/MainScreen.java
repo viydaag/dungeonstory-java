@@ -14,6 +14,7 @@ import com.dungeonstory.view.admin.AlignmentView;
 import com.dungeonstory.view.admin.ArmorTypeView;
 import com.dungeonstory.view.admin.BackgroundView;
 import com.dungeonstory.view.admin.CityView;
+import com.dungeonstory.view.admin.ClassSpecializationView;
 import com.dungeonstory.view.admin.ClassView;
 import com.dungeonstory.view.admin.CreatureTypeView;
 import com.dungeonstory.view.admin.DamageTypeView;
@@ -104,6 +105,7 @@ public class MainScreen extends HorizontalLayout {
             addView(RaceView.class);
             addView(SpellView.class);
             addView(ClassView.class);
+            addView(ClassSpecializationView.class);
             addView(WeaponTypeView.class);
             addView(ArmorTypeView.class);
             addView(ShopView.class);
