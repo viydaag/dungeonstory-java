@@ -125,7 +125,7 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
     
     @OneToMany(mappedBy = "classe", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
     @PrivateOwned
-    private List<ClassLevelSpells> levelSpells;
+    private List<ClassSpellSlots> spellSlots;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinTable(name = "ClassSpell", joinColumns = {
@@ -151,7 +151,7 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
         classFeatures = new ArrayList<ClassLevelFeature>();
         classSpecs = new HashSet<ClassSpecialization>();
         startingEquipment = new HashSet<ClassEquipment>();
-        levelSpells = new ArrayList<ClassLevelSpells>();
+        spellSlots = new ArrayList<ClassSpellSlots>();
     }
 
     public String getName() {
@@ -210,12 +210,12 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
         this.spellCastingType = spellCastingType;
     }
 
-    public List<ClassLevelSpells> getLevelSpells() {
-        return levelSpells;
+    public List<ClassSpellSlots> getSpellSlots() {
+        return spellSlots;
     }
 
-    public void setLevelSpells(List<ClassLevelSpells> levelSpells) {
-        this.levelSpells = levelSpells;
+    public void setSpellSlots(List<ClassSpellSlots> spellSlots) {
+        this.spellSlots = spellSlots;
     }
 
     public int getNbChosenSkills() {

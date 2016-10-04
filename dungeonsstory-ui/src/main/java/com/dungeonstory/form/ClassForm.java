@@ -25,7 +25,7 @@ import com.dungeonstory.backend.data.ClassEquipment;
 import com.dungeonstory.backend.data.ClassLevelBonus;
 import com.dungeonstory.backend.data.ClassLevelFeature;
 import com.dungeonstory.backend.data.ClassSpecLevelFeature;
-import com.dungeonstory.backend.data.ClassSpecialization;
+import com.dungeonstory.backend.data.ClassSpellSlots;
 import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.data.DSClass.SpellCastingType;
 import com.dungeonstory.backend.data.Equipment;
@@ -57,7 +57,7 @@ import com.dungeonstory.util.field.DSSubSetSelector;
 import com.dungeonstory.util.field.LevelBonusCollectionField;
 import com.dungeonstory.util.field.LevelBonusCollectionField.ClassLevelBonusRow;
 import com.dungeonstory.util.field.LevelSpellsCollectionField;
-import com.dungeonstory.util.field.LevelSpellsCollectionField.ClassLevelSpellsRow;
+import com.dungeonstory.util.field.LevelSpellsCollectionField.LevelSpellsRow;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
@@ -79,7 +79,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     private FormCheckBox                                isSpellCasting;
     private TypedSelect<Ability>                        spellCastingAbility;
     private EnumSelect<SpellCastingType>                spellCastingType;
-    private LevelSpellsCollectionField                  levelSpells;
+    private LevelSpellsCollectionField<ClassSpellSlots> spellSlots;
     private DSSubSetSelector<Ability>                   savingThrowProficiencies;
     private DSSubSetSelector<ArmorType.ProficiencyType> armorProficiencies;
     private DSSubSetSelector<WeaponType>                weaponProficiencies;
@@ -87,7 +87,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     private DSSubSetSelector<Skill>                     baseSkills;
     private LevelBonusCollectionField                   levelBonuses;
     private ElementCollectionTable<ClassLevelFeature>   classFeatures;
-    private ElementCollectionTable<ClassSpecialization> classSpecs;
+    //    private ElementCollectionTable<ClassSpecialization> classSpecs;
     private DSSubSetSelector<Spell>                     spells;
     private ElementCollectionTable<ClassEquipment>      startingEquipment;
 
@@ -118,7 +118,9 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     }
 
     public static class ClassSpecRow {
-        MTextField                                    name = new MTextField();
+        MTextField                                    name                = new MTextField();
+        CheckBox                                      isSpellCasting      = new CheckBox();
+        TypedSelect<Ability>                          spellCastingAbility = new TypedSelect<Ability>();
         ElementCollectionField<ClassSpecLevelFeature> classSpecFeatures;
     }
 
@@ -128,7 +130,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     }
 
     public static class ClassEquipmentRow {
-        TypedSelect<Equipment> equipment = new TypedSelect<Equipment>();
+        TypedSelect<Equipment> equipment = new TypedSelect<Equipment>(Equipment.class);
         IntegerField           quantity  = new IntegerField();
     }
 
@@ -247,9 +249,10 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         HorizontalSpacedLayout checkboxLayout = new HorizontalSpacedLayout(martialArts, sorcery, rage, invocation,
                 hunter, sneak);
 
-        levelSpells = (LevelSpellsCollectionField) new LevelSpellsCollectionField().withCaption("Nombre de sorts")
+        spellSlots = (LevelSpellsCollectionField<ClassSpellSlots>) new LevelSpellsCollectionField<ClassSpellSlots>(
+                ClassSpellSlots.class).withCaption("Nombre de sorts")
                 .withEditorInstantiator(() -> {
-                    ClassLevelSpellsRow row = new ClassLevelSpellsRow();
+                    LevelSpellsRow row = new LevelSpellsRow();
                     row.level.setOptions(levelService.findAll());
                     return row;
                 });
@@ -265,22 +268,43 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         classFeatures.setPropertyHeader("feat", "Don");
         classFeatures.setWidth("80%");
 
-        classSpecs = new ElementCollectionTable<ClassSpecialization>(ClassSpecialization.class, ClassSpecRow.class)
-                .withCaption("Spécialisations").withEditorInstantiator(() -> {
-                    ClassSpecRow row = new ClassSpecRow();
-                    row.classSpecFeatures = new ElementCollectionField<ClassSpecLevelFeature>(
-                            ClassSpecLevelFeature.class, ClassSpecLevelFeatureRow.class).withEditorInstantiator(() -> {
-                                ClassSpecLevelFeatureRow row2 = new ClassSpecLevelFeatureRow();
-                                row2.level.setOptions(levelService.findAll());
-                                row2.feat.setOptions(featService.findAllClassFeatures());
-                                return row2;
-                            });
-                    row.name.setWidth("250px");
-                    return row;
-                });
-        classSpecs.setPropertyHeader("name", "Nom");
-        classSpecs.setPropertyHeader("classSpecFeatures", "Dons");
-        classSpecs.setWidth("80%");
+        //        classSpecs = new ElementCollectionTable<ClassSpecialization>(ClassSpecialization.class, ClassSpecRow.class)
+        //                .withCaption("Spécialisations").withEditorInstantiator(() -> {
+        //                    ClassSpecRow row = new ClassSpecRow();
+        //                    row.classSpecFeatures = new ElementCollectionField<ClassSpecLevelFeature>(
+        //                            ClassSpecLevelFeature.class, ClassSpecLevelFeatureRow.class).withEditorInstantiator(() -> {
+        //                                ClassSpecLevelFeatureRow row2 = new ClassSpecLevelFeatureRow();
+        //                                row2.level.setOptions(levelService.findAll());
+        //                                row2.feat.setOptions(featService.findAllClassFeatures());
+        //                                return row2;
+        //                            });
+        //                    row.name.setWidth("250px");
+        //                    //                    row.isSpellCasting.setWidth("65px");
+        //                    //                    row.spellCastingAbility.setWidth("110px");
+        //                    row.spellCastingAbility.setOptions(abilityService.findAll());
+        //
+        //                    //bug : the row.spellCastingAbility does not switch to visible state
+        //                    //                    row.isSpellCasting.addValueChangeListener(new ValueChangeListener() {
+        //                    //                        
+        //                    //                        @Override
+        //                    //                        public void valueChange(ValueChangeEvent event) {
+        //                    //                            if (row.isSpellCasting.getValue() != null && row.isSpellCasting.getValue() == true) {
+        //                    //                                row.spellCastingAbility.setVisible(true);
+        //                    //                            } else {
+        //                    //                                row.spellCastingAbility.setVisible(false);
+        //                    //                            }
+        //                    //                        }
+        //                    //
+        //                    //                    });
+        //
+        //                    return row;
+        //                });
+        //        classSpecs.setPropertyHeader("name", "Nom");
+        //        classSpecs.setPropertyHeader("isSpellCasting", "Sorts?");
+        //        classSpecs.setPropertyHeader("spellCastingAbility", "Caractéristique");
+        //        classSpecs.setPropertyHeader("classSpecFeatures", "Dons");
+        //
+        //        classSpecs.setWidth("90%");
 
         spells = new DSSubSetSelector<Spell>(Spell.class);
         spells.setCaption("Sorts de classe");
@@ -312,9 +336,9 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         layout.addComponents(weaponProficiencies, buttonLayout);
         layout.addComponents(nbChosenSkills, baseSkills);
         layout.addComponents(levelBonuses, checkboxLayout);
-        layout.addComponents(isSpellCasting, spellCastingAbility, spellCastingType, levelSpells);
+        layout.addComponents(isSpellCasting, spellCastingAbility, spellCastingType, spellSlots);
         layout.addComponent(classFeatures);
-        layout.addComponent(classSpecs);
+        //        layout.addComponent(classSpecs);
         layout.addComponent(spells);
         layout.addComponent(startingEquipment);
         layout.addComponent(getToolbar());
@@ -372,9 +396,11 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     @Override
     public void afterSetEntity() {
         super.afterSetEntity();
-        if (classSpecs.getTable() != null) {
-            classSpecs.getTable().withColumnWidth("name", 300);
-        }
+        //        if (classSpecs.getTable() != null) {
+        //            classSpecs.getTable().withColumnWidth("name", 300);
+        //            classSpecs.getTable().withColumnWidth("isSpellCasting", 70);
+        //            classSpecs.getTable().withColumnWidth("spellCastingAbility", 115);
+        //        }
         isSpellCastingChange(null);
         if (getEntity() == null || getEntity().getId() == null) {
             levelBonuses.clearForNew();
@@ -388,20 +414,20 @@ public class ClassForm extends DSAbstractForm<DSClass> {
             spellCastingAbility.setVisible(false);
             spellCastingType.setValue(null);
             spellCastingType.setVisible(false);
-            levelSpells.clear();
-            levelSpells.setVisible(false);
-            levelSpells.setKnownSpells(false);
+            spellSlots.clear();
+            spellSlots.setVisible(false);
+            spellSlots.setKnownSpells(false);
         } else {
             spellCastingAbility.setVisible(true);
             spellCastingType.setVisible(true);
-            levelSpells.setVisible(true);
-            levelSpells.onElementAdded();
+            spellSlots.setVisible(true);
+            spellSlots.onElementAdded();
         }
     }
 
     public void spellCastingTypeChange(MValueChangeEvent<SpellCastingType> event) {
         //hide the known spell column if spells are prepared (nbSpells = level + ability modifier)
-        levelSpells.setKnownSpells(
+        spellSlots.setKnownSpells(
                 event != null && event.getValue() != null && event.getValue() == SpellCastingType.KNOWN);
     }
 

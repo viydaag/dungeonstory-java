@@ -10,9 +10,9 @@ import javax.persistence.Table;
 import javax.validation.constraints.Min;
 
 @Entity
-@IdClass(ClassLevelSpellsId.class)
-@Table(name = "ClassLevelSpells")
-public class ClassLevelSpells {
+@IdClass(ClassSpellSlotsId.class)
+@Table(name = "ClassSpellSlots")
+public class ClassSpellSlots {
 
     @Id
     @ManyToOne
@@ -68,7 +68,7 @@ public class ClassLevelSpells {
     @Column(name = "spellSlots9")
     private Integer spellSlots9;
 
-    public ClassLevelSpells() {
+    public ClassSpellSlots() {
 
     }
 

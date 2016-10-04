@@ -2,7 +2,7 @@ package com.dungeonstory.backend.data;
 
 import java.io.Serializable;
 
-public class ClassLevelSpellsId implements Serializable {
+public class ClassSpellSlotsId implements Serializable {
     
     private static final long serialVersionUID = -6048112689742799627L;
 
@@ -10,7 +10,7 @@ public class ClassLevelSpellsId implements Serializable {
 
     private Long level;
 
-    public ClassLevelSpellsId() {
+    public ClassSpellSlotsId() {
 
     }
 
@@ -47,10 +47,10 @@ public class ClassLevelSpellsId implements Serializable {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof ClassLevelSpellsId)) {
+        if (!(obj instanceof ClassSpellSlotsId)) {
             return false;
         }
-        ClassLevelSpellsId other = (ClassLevelSpellsId) obj;
+        ClassSpellSlotsId other = (ClassSpellSlotsId) obj;
         if (classe == null) {
             if (other.classe != null) {
                 return false;

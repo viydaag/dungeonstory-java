@@ -4,17 +4,16 @@ import org.vaadin.viritin.fields.ElementCollectionField;
 import org.vaadin.viritin.fields.IntegerField;
 import org.vaadin.viritin.fields.TypedSelect;
 
-import com.dungeonstory.backend.data.ClassLevelSpells;
 import com.dungeonstory.backend.data.Level;
 import com.vaadin.ui.Component;
 
-public class LevelSpellsCollectionField extends ElementCollectionField<ClassLevelSpells> {
+public class LevelSpellsCollectionField<T> extends ElementCollectionField<T> {
     
     private static final long serialVersionUID = 947526857652822107L;
 
     private boolean isKnownSpells = false;
 
-    public static class ClassLevelSpellsRow {
+    public static class LevelSpellsRow {
         public TypedSelect<Level> level         = new TypedSelect<Level>();
         public IntegerField       cantripsKnown = new IntegerField().withWidth("110px");
         public IntegerField       spellsKnown   = new IntegerField().withWidth("110px");
@@ -29,8 +28,8 @@ public class LevelSpellsCollectionField extends ElementCollectionField<ClassLeve
         public IntegerField       spellSlots9   = new IntegerField().withWidth("50px");
     }
 
-    public LevelSpellsCollectionField() {
-        super(ClassLevelSpells.class, ClassLevelSpellsRow.class);
+    public LevelSpellsCollectionField(Class<T> elementType) {
+        super(elementType, LevelSpellsRow.class);
         setPropertyHeader("level", "Niveau");
         setPropertyHeader("cantripsKnown", "Sorts 0 connus");
         setPropertyHeader("spellsKnown", "Sorts connus");
