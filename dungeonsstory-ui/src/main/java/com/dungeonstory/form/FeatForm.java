@@ -16,10 +16,12 @@ import com.dungeonstory.backend.data.Feat;
 import com.dungeonstory.backend.data.Feat.FeatUsage;
 import com.dungeonstory.backend.data.Feat.PrerequisiteType;
 import com.dungeonstory.backend.service.DataService;
+import com.dungeonstory.backend.service.FeatDataService;
 import com.dungeonstory.backend.service.impl.AbilityService;
+import com.dungeonstory.backend.service.impl.FeatService;
 import com.dungeonstory.backend.service.mock.MockAbilityService;
+import com.dungeonstory.backend.service.mock.MockFeatService;
 import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextArea;
@@ -37,17 +39,18 @@ public class FeatForm extends DSAbstractForm<Feat> {
     private TypedSelect<ArmorType.ProficiencyType> prerequisiteArmorProficiency;
     private TypedSelect<Ability>                   prerequisiteAbility;
     private IntegerField                           prerequisiteAbilityScore;
+    private TypedSelect<Feat>                      parent;
 
-    //    private FeatDataService            featService    = null;
     private DataService<Ability, Long> abilityService = null;
+    private FeatDataService            featService    = null;
 
     public FeatForm() {
         super();
         if (Configuration.getInstance().isMock()) {
-            //            featService = MockFeatService.getInstance();
+            featService = MockFeatService.getInstance();
             abilityService = MockAbilityService.getInstance();
         } else {
-            //            featService = FeatService.getInstance();
+            featService = FeatService.getInstance();
             abilityService = AbilityService.getInstance();
         }
     }
@@ -57,7 +60,7 @@ public class FeatForm extends DSAbstractForm<Feat> {
         FormLayout layout = new FormLayout();
 
         name = new MTextField("Nom").withWidth("50%");
-        description = new MTextArea("Description").withFullWidth();
+        description = new MTextArea("Description").withFullWidth().withRows(10);
         usage = new EnumSelect<FeatUsage>("Usage");
         isClassFeature = new FormCheckBox("Don de classe");
         prerequisiteType = new EnumSelect<PrerequisiteType>("Type de prérequis");
@@ -65,31 +68,9 @@ public class FeatForm extends DSAbstractForm<Feat> {
                 Arrays.asList(ArmorType.ProficiencyType.values()));
         prerequisiteAbility = new TypedSelect<Ability>("Caractéristique prérequise", abilityService.findAll());
         prerequisiteAbilityScore = new IntegerField("Score de caractéristique");
+        parent = new TypedSelect<Feat>("Don parent", featService.findAllClassFeaturesWithoutParent());
 
-        isClassFeature.addValueChangeListener(new ValueChangeListener() {
-
-            private static final long serialVersionUID = -4194349047563258329L;
-
-            @Override
-            public void valueChange(ValueChangeEvent event) {
-                if (isClassFeature.getValue() == true) {
-                    prerequisiteType.setValue(PrerequisiteType.NONE);
-                    prerequisiteArmorProficiency.setValue(null);
-                    prerequisiteAbility.setValue(null);
-                    prerequisiteAbilityScore.setValue(null);
-                    prerequisiteType.setVisible(false);
-                    prerequisiteArmorProficiency.setVisible(false);
-                    prerequisiteAbility.setVisible(false);
-                    prerequisiteAbilityScore.setVisible(false);
-                } else {
-                    prerequisiteType.setVisible(true);
-                    prerequisiteArmorProficiency.setVisible(true);
-                    prerequisiteAbility.setVisible(true);
-                    prerequisiteAbilityScore.setVisible(true);
-                    adjustTypeVisibility(PrerequisiteType.NONE);
-                }
-            }
-        });
+        isClassFeature.addValueChangeListener(event -> isClassFeatureChange(event));
 
         prerequisiteType.addMValueChangeListener(event -> adjustTypeVisibility((PrerequisiteType) event.getValue()));
 
@@ -101,9 +82,32 @@ public class FeatForm extends DSAbstractForm<Feat> {
         layout.addComponent(prerequisiteArmorProficiency);
         layout.addComponent(prerequisiteAbility);
         layout.addComponent(prerequisiteAbilityScore);
+        layout.addComponent(parent);
         layout.addComponent(getToolbar());
 
         return layout;
+    }
+
+    private void isClassFeatureChange(ValueChangeEvent event) {
+        if (isClassFeature.getValue() == true) {
+            parent.setVisible(true);
+            prerequisiteType.setValue(PrerequisiteType.NONE);
+            prerequisiteArmorProficiency.setValue(null);
+            prerequisiteAbility.setValue(null);
+            prerequisiteAbilityScore.setValue(null);
+            prerequisiteType.setVisible(false);
+            prerequisiteArmorProficiency.setVisible(false);
+            prerequisiteAbility.setVisible(false);
+            prerequisiteAbilityScore.setVisible(false);
+        } else {
+            prerequisiteType.setVisible(true);
+            prerequisiteArmorProficiency.setVisible(true);
+            prerequisiteAbility.setVisible(true);
+            prerequisiteAbilityScore.setVisible(true);
+            adjustTypeVisibility(PrerequisiteType.NONE);
+            parent.setValue(null);
+            parent.setVisible(false);
+        }
     }
 
     private void adjustTypeVisibility(PrerequisiteType type) {
@@ -133,6 +137,13 @@ public class FeatForm extends DSAbstractForm<Feat> {
                     break;
             }
         }
+    }
+
+    @Override
+    public void afterSetEntity() {
+        super.afterSetEntity();
+        parent.setBeans(featService.findAllClassFeaturesWithoutParent());
+        isClassFeatureChange(null);
     }
 
     @Override

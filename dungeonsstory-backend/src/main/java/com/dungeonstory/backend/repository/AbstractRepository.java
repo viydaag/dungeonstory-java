@@ -14,8 +14,10 @@ import javax.persistence.TypedQuery;
 
 import com.dungeonstory.backend.Configuration;
 
-public abstract class AbstractRepository<E extends Entity, K extends Serializable> implements Repository<E, K> {
+public abstract class AbstractRepository<E extends Entity, K extends Serializable> implements Repository<E, K>, Serializable {
 
+    private static final long serialVersionUID = 2825199262413194217L;
+    
     private static final String PERSISTENCE_UNIT_HSQL_NAME  = "dungeonstory-hsql2";
     private static final String PERSISTENCE_UNIT_MYSQL_NAME = "dungeonstory-mysql";
 

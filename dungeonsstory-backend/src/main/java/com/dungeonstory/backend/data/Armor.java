@@ -21,11 +21,11 @@ public class Armor extends Equipment {
 
     private static final long serialVersionUID = 4293636155389332201L;
 
-    @Column(name = "acBonus")
-    private int acBonus;
+    @Column(name = "armorClass")
+    private int armorClass;
 
     @Column(name = "magicalAcBonus")
-    private int magicalAcBonus = 0;
+    private Integer magicalAcBonus;
 
     @ManyToOne
     @JoinColumn(name = "armorTypeId")
@@ -37,24 +37,24 @@ public class Armor extends Equipment {
 
     public Armor(int acBonus, int magicalAcBonus, ArmorType armorType) {
         this();
-        this.acBonus = acBonus;
+        this.armorClass = acBonus;
         this.magicalAcBonus = magicalAcBonus;
         this.armorType = armorType;
     }
 
-    public int getAcBonus() {
-        return acBonus;
+    public int getArmorClass() {
+        return armorClass;
     }
 
-    public void setAcBonus(int acBonus) {
-        this.acBonus = acBonus;
+    public void setArmorClass(int armorClass) {
+        this.armorClass = armorClass;
     }
 
-    public int getMagicalAcBonus() {
+    public Integer getMagicalAcBonus() {
         return magicalAcBonus;
     }
 
-    public void setMagicalAcBonus(int magicalAcBonus) {
+    public void setMagicalAcBonus(Integer magicalAcBonus) {
         this.magicalAcBonus = magicalAcBonus;
     }
 

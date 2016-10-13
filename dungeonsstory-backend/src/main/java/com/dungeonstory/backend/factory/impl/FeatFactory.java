@@ -5,9 +5,7 @@ import com.dungeonstory.backend.factory.Factory;
 
 public class FeatFactory implements Factory<Feat> {
 
-    public FeatFactory() {
-        // TODO Auto-generated constructor stub
-    }
+    private static final long serialVersionUID = 2923886149752014080L;
 
     @Override
     public Feat create() {

@@ -10,6 +10,8 @@ import com.dungeonstory.backend.repository.Repository;
 
 public abstract class AbstractDataService<E extends Entity, K extends Serializable> implements DataService<E, K>, Serializable {
 
+    private static final long serialVersionUID = 4655778098973992981L;
+    
     protected Repository<E, K> entityRepository;
     protected Factory<E> entityFactory;
 

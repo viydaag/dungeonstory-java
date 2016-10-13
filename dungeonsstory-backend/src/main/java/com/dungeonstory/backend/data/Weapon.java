@@ -35,7 +35,7 @@ public class Weapon extends Equipment {
     private DamageType additionalDamageType;
 
     @Column(name = "magicalBonus")
-    private int magicalBonus;
+    private Integer magicalBonus;
 
     @NotNull
     @ManyToOne
@@ -78,11 +78,11 @@ public class Weapon extends Equipment {
 		this.additionalDamageType = additionalDamageType;
 	}
 
-	public int getMagicalBonus() {
+	public Integer getMagicalBonus() {
 		return magicalBonus;
 	}
 
-	public void setMagicalBonus(int magicalBonus) {
+	public void setMagicalBonus(Integer magicalBonus) {
 		this.magicalBonus = magicalBonus;
 	}
 

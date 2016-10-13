@@ -5,9 +5,7 @@ import com.dungeonstory.backend.factory.Factory;
 
 public class WeaponTypeFactory implements Factory<WeaponType> {
 
-    public WeaponTypeFactory() {
-        // TODO Auto-generated constructor stub
-    }
+    private static final long serialVersionUID = -5121738886707976635L;
 
     @Override
     public WeaponType create() {

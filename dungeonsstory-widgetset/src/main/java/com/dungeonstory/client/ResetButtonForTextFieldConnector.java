@@ -1,5 +1,6 @@
 package com.dungeonstory.client;
 
+import com.dungeonstory.ResetButtonForTextField;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
@@ -13,7 +14,6 @@ import com.vaadin.client.communication.StateChangeEvent;
 import com.vaadin.client.extensions.AbstractExtensionConnector;
 import com.vaadin.client.ui.VTextField;
 import com.vaadin.shared.ui.Connect;
-import com.dungeonstory.ResetButtonForTextField;
 
 /**
  * Client side implementation of {@link ResetButtonForTextField}.
@@ -24,6 +24,8 @@ import com.dungeonstory.ResetButtonForTextField;
 @Connect(ResetButtonForTextField.class)
 public class ResetButtonForTextFieldConnector extends
         AbstractExtensionConnector implements KeyUpHandler, AttachEvent.Handler {
+
+    private static final long serialVersionUID = 2015421346668953424L;
 
     public static final String CLASSNAME = "resetbuttonfortextfield";
     private VTextField textField;

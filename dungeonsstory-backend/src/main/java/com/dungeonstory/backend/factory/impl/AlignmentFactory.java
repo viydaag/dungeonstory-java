@@ -5,9 +5,7 @@ import com.dungeonstory.backend.factory.Factory;
 
 public class AlignmentFactory implements Factory<Alignment> {
 
-    public AlignmentFactory() {
-        // TODO Auto-generated constructor stub
-    }
+    private static final long serialVersionUID = 3734867761271087846L;
 
     @Override
     public Alignment create() {

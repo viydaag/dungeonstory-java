@@ -30,7 +30,6 @@
             <plugin>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-maven-plugin</artifactId>
-                <version>7.7.0</version>
                 <executions>
                     <execution>
                         <goals>

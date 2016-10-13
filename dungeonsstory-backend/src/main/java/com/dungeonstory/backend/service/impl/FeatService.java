@@ -11,9 +11,9 @@ import com.dungeonstory.backend.service.FeatDataService;
 
 public class FeatService extends AbstractDataService<Feat, Long> implements FeatDataService {
 
-	private static final long serialVersionUID = -904004337605184211L;
-	
-	private static FeatService instance = null;
+    private static final long serialVersionUID = -904004337605184211L;
+
+    private static FeatService instance = null;
 
     public static synchronized FeatService getInstance() {
         if (instance == null) {
@@ -46,6 +46,16 @@ public class FeatService extends AbstractDataService<Feat, Long> implements Feat
     @Override
     public List<Feat> findAllUnassignedFeats(Character character) {
         return ((FeatRepository) entityRepository).findAllUnassignedFeats(character);
+    }
+
+    @Override
+    public List<Feat> findAllClassFeaturesWithoutParent() {
+        return ((FeatRepository) entityRepository).findAllClassFeaturesWithoutParent();
+    }
+
+    @Override
+    public List<Feat> findAllClassFeaturesWithoutChildren() {
+        return ((FeatRepository) entityRepository).findAllClassFeaturesWithoutChildren();
     }
 
 }

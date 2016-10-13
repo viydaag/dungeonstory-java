@@ -5,9 +5,7 @@ import com.dungeonstory.backend.factory.Factory;
 
 public class ShopFactory implements Factory<Shop> {
 
-    public ShopFactory() {
-        // TODO Auto-generated constructor stub
-    }
+    private static final long serialVersionUID = -9100612498503496773L;
 
     @Override
     public Shop create() {

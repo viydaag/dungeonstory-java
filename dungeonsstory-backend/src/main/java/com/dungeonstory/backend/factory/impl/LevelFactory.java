@@ -5,9 +5,7 @@ import com.dungeonstory.backend.factory.Factory;
 
 public class LevelFactory implements Factory<Level> {
 
-    public LevelFactory() {
-        // TODO Auto-generated constructor stub
-    }
+    private static final long serialVersionUID = -4976308023197528370L;
 
     @Override
     public Level create() {

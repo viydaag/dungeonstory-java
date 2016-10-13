@@ -7,17 +7,17 @@ public enum Condition {
     CURSED("Maudit"),
     DEAFENED("Sourd"),
     FRIGHTENED("Effrayé"),
-    GRAPPLED("Saisi"),
+    GRAPPLED("Aggripé"),
     INCAPACITATED("Incapable"),
     INVISIBLE("Invisible"),
     MUTED("Muet"),
     PARALYZED("Paralysé"),
     PETRIFIED("Pétrifié"),
     POISONED("Empoisonné"),
-    PRONE("Couché"),
-    RESTRAINED("Restreint"),
+    PRONE("À terre"),
+    RESTRAINED("Entravé"),
     SLEEP("Endormi"),
-    STUNNED("Assommé"),
+    STUNNED("Étourdi"),
     UNCONSCIOUS("Inconscient");
     
     private String name;

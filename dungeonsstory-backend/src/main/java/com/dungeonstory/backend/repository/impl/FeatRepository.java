@@ -1,6 +1,7 @@
 package com.dungeonstory.backend.repository.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.TypedQuery;
 
@@ -9,6 +10,8 @@ import com.dungeonstory.backend.data.Feat;
 import com.dungeonstory.backend.repository.AbstractRepository;
 
 public class FeatRepository extends AbstractRepository<Feat, Long> {
+
+    private static final long serialVersionUID = -9187361469214976132L;
 
     @Override
     protected Class<Feat> getEntityClass() {
@@ -42,6 +45,19 @@ public class FeatRepository extends AbstractRepository<Feat, Long> {
     public List<Feat> findAllClassFeatures() {
         TypedQuery<Feat> query = entityManager.createQuery("SELECT e FROM Feat e WHERE e.isClassFeature = 1", getEntityClass());
         return query.getResultList();
+    }
+
+    public List<Feat> findAllClassFeaturesWithoutParent() {
+        TypedQuery<Feat> query = entityManager
+                .createQuery("SELECT e FROM Feat e WHERE e.isClassFeature = 1 AND e.parent IS NULL ORDER BY e.name ASC",
+                        getEntityClass());
+        return query.getResultList();
+    }
+
+    public List<Feat> findAllClassFeaturesWithoutChildren() {
+        List<Feat> allClassFeatures = findAllClassFeatures();
+        return allClassFeatures.stream().filter(feature -> feature.getChildren().isEmpty())
+                .collect(Collectors.toList());
     }
 
 }

@@ -5,9 +5,7 @@ import com.dungeonstory.backend.factory.Factory;
 
 public class AbilityFactory implements Factory<Ability> {
 
-    public AbilityFactory() {
-        // TODO Auto-generated constructor stub
-    }
+    private static final long serialVersionUID = 8867569203555062817L;
 
     @Override
     public Ability create() {

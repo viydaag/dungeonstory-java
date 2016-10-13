@@ -5,14 +5,18 @@ import com.dungeonstory.util.LazyProvider;
 import com.dungeonstory.util.PageTitleUpdater;
 import com.dungeonstory.util.VerticalSpacedLayout;
 import com.dungeonstory.util.ViewConfig;
+import com.dungeonstory.view.AboutView;
 import com.dungeonstory.view.ErrorView;
 import com.dungeonstory.view.HomeView;
+import com.dungeonstory.view.SourceView;
 import com.dungeonstory.view.admin.AbilityView;
 import com.dungeonstory.view.admin.AlignmentView;
 import com.dungeonstory.view.admin.ArmorTypeView;
 import com.dungeonstory.view.admin.BackgroundView;
 import com.dungeonstory.view.admin.CityView;
+import com.dungeonstory.view.admin.ClassSpecializationView;
 import com.dungeonstory.view.admin.ClassView;
+import com.dungeonstory.view.admin.CreatureTypeView;
 import com.dungeonstory.view.admin.DamageTypeView;
 import com.dungeonstory.view.admin.DeityView;
 import com.dungeonstory.view.admin.DivineDomainView;
@@ -61,6 +65,13 @@ public class MainScreen extends HorizontalLayout {
         viewContainer.addStyleName(DSTheme.VALO_CONTENT);
         viewContainer.setSizeFull();
 
+        //        DMenu menu = new DMenu();
+        //        menu.setCenteredTabs(true);
+        //        menu.setFloatingMenu(true);
+        //        menu.setFloatingMenuItemAutoShow(true);
+        //        menu.setMenuItemsSameHeight(true);
+        //        menu.setMenuItemElementsSameHeight(true);
+
         addComponents(navBar, viewContainer);
         setExpandRatio(viewContainer, 1);
     }
@@ -94,6 +105,7 @@ public class MainScreen extends HorizontalLayout {
             addView(RaceView.class);
             addView(SpellView.class);
             addView(ClassView.class);
+            addView(ClassSpecializationView.class);
             addView(WeaponTypeView.class);
             addView(ArmorTypeView.class);
             addView(ShopView.class);
@@ -101,7 +113,11 @@ public class MainScreen extends HorizontalLayout {
             addView(DivineDomainView.class);
             addView(DeityView.class);
             addView(BackgroundView.class);
+            addView(CreatureTypeView.class);
         }
+
+        addViewNoNavBar(AboutView.class);
+        addViewNoNavBar(SourceView.class);
     }
 
     /**
@@ -128,6 +144,32 @@ public class MainScreen extends HorizontalLayout {
                     }
             }
             navBar.addView(viewConfig.uri(), viewConfig.displayName());
+        }
+    }
+
+    /**
+     * Registers a given view to the navigator.
+     */
+    private void addViewNoNavBar(Class<? extends View> viewClass) {
+        ViewConfig viewConfig = viewClass.getAnnotation(ViewConfig.class);
+
+        if (viewConfig == null) {
+            System.out.println("ViewConfig est absent pour la vue " + viewClass.getSimpleName());
+        } else {
+            switch (viewConfig.createMode()) {
+                case ALWAYS_NEW:
+                    navigator.addView(viewConfig.uri(), viewClass);
+                    break;
+                case LAZY_INIT:
+                    navigator.addProvider(new LazyProvider(viewConfig.uri(), viewClass));
+                    break;
+                case EAGER_INIT:
+                    try {
+                        navigator.addView(viewConfig.uri(), viewClass.newInstance());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+            }
         }
     }
 

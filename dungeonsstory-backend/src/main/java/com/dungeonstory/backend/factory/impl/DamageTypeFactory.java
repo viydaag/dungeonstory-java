@@ -5,9 +5,7 @@ import com.dungeonstory.backend.factory.Factory;
 
 public class DamageTypeFactory implements Factory<DamageType> {
 
-    public DamageTypeFactory() {
-        // TODO Auto-generated constructor stub
-    }
+    private static final long serialVersionUID = -187501861822131589L;
 
     @Override
     public DamageType create() {

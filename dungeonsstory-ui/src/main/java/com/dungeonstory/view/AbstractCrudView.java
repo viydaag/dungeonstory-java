@@ -83,16 +83,23 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
 
     @Override
     public void entrySaved(T entity) {
-        //save to database
-        service.saveOrUpdate(entity);
 
-        //refresh ui
-        closeForm();
-        //        grid.refresh(entity);
-        grid.setData(service.findAll());
-        grid.scrollTo(entity);
+        try {
+            //save to database
+            service.saveOrUpdate(entity);
 
-        Notification.show("Saved!", Type.HUMANIZED_MESSAGE);
+            //refresh ui
+            grid.deselectAll();
+            closeForm();
+            //        grid.refresh(entity);
+            grid.setData(service.findAll());
+            grid.scrollTo(entity);
+
+            Notification.show("Saved!", Type.HUMANIZED_MESSAGE);
+        } catch (Exception e) {
+            Notification.show("Failed! " + e.getLocalizedMessage(), Type.ERROR_MESSAGE);
+            grid.setData(service.findAll());
+        }
     }
 
     protected void closeForm() {
@@ -110,7 +117,7 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
     @Override
     public void entrySelected() {
         if (form != null) {
-            form.setEntity(grid.getSelectedRow() == null ? service.create() : grid.getSelectedRow());
+            form.setEntity(grid.getSelectedRow());
             if (isFormPopup()) {
                 form.openInModalPopup();
             }
@@ -123,13 +130,21 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
         if (isFormPopup()) {
             form.openInModalPopup();
         }
+        form.focusFirst();
     }
 
     @Override
     public void deleteSelected(T entity) {
-        grid.remove(entity);
-        closeForm();
-        service.delete(entity);
+        try {
+            grid.remove(entity);
+            closeForm();
+            service.delete(entity);
+        } catch (Exception e) {
+            Notification.show(
+                    "Erreur suppression : soit les données n'existent pas ou ils sont utilisées sur d'autres objets",
+                    Type.ERROR_MESSAGE);
+            grid.setData(service.findAll());
+        }
     }
 
     @Override

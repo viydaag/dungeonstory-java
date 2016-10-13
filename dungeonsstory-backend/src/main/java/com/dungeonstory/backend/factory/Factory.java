@@ -1,6 +1,8 @@
 package com.dungeonstory.backend.factory;
 
-public interface Factory<E> {
+import java.io.Serializable;
+
+public interface Factory<E> extends Serializable {
     
     E create();
     

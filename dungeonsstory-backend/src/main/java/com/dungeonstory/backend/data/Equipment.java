@@ -26,24 +26,27 @@ public abstract class Equipment extends AbstractTimestampEntity implements Seria
 
     public enum EquipmentType {
     	
-    	ARMOR(new Armor()), 
-    	WEAPON(new Weapon()), 
-    	RING(new Ring()), 
-    	AMULET(new Amulet()), 
-    	BRACER(new Bracer()), 
-    	BOOT(new Boot()), 
-    	BELT(new Belt()), 
-    	TOOL(new Tool()),
-    	GEAR(new Gear());
+    	ARMOR(Armor.class), 
+    	WEAPON(Weapon.class), 
+    	RING(Ring.class), 
+    	AMULET(Amulet.class), 
+    	BRACER(Bracer.class), 
+    	BOOT(Boot.class), 
+    	BELT(Belt.class),
+    	HELMET(Helmet.class),
+    	AMMUNITION(Ammunition.class),
+        FOCUS(Focus.class),
+    	TOOL(Tool.class),
+    	GEAR(Gear.class);
     	
-    	private Equipment equipment;
+    	private Class<? extends Equipment> equipmentClass;
     	
-    	private EquipmentType(Equipment equipment) {
-    		this.equipment = equipment;
+    	private EquipmentType(Class<? extends Equipment> equipmentClass) {
+    		this.equipmentClass = equipmentClass;
     	}
 
-		public final Equipment getEquipment() {
-			return equipment;
+		public final Equipment getEquipment() throws InstantiationException, IllegalAccessException {
+			return equipmentClass.newInstance();
 		}
         
     }
@@ -68,16 +71,20 @@ public abstract class Equipment extends AbstractTimestampEntity implements Seria
     private EquipmentType type;
 
     @Column(name = "isPurchasable", nullable = false)
-    private boolean isPurchasable;
+    private boolean isPurchasable = true;
 
     @Column(name = "isSellable", nullable = false)
-    private boolean isSellable;
+    private boolean isSellable = true;
+    
+    @Min(value = 1)
+    @Column(name = "basePrice", nullable = false)
+    private int basePrice = 1;
     
     @OneToMany(mappedBy = "equipment")
     private List<ShopEquipment> shopEquipments;
 
     public Equipment() {
-
+        super();
     }
 
     public String getName() {
@@ -134,6 +141,14 @@ public abstract class Equipment extends AbstractTimestampEntity implements Seria
 
     public void setIsSellable(boolean isSellable) {
         this.isSellable = isSellable;
+    }
+
+    public int getBasePrice() {
+        return basePrice;
+    }
+
+    public void setBasePrice(int basePrice) {
+        this.basePrice = basePrice;
     }
 
     public List<ShopEquipment> getShopEquipments() {

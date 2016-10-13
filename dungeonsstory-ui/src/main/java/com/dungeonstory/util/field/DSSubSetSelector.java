@@ -26,6 +26,7 @@ public class DSSubSetSelector<T> extends SubSetSelector<T> {
         }
     }
     
+    @SuppressWarnings("unchecked")
     public MTable<T> getTable() {
         return super.getTable();
     }
