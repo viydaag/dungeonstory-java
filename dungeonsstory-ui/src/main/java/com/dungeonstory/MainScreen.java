@@ -1,5 +1,6 @@
 package com.dungeonstory;
 
+import com.dungeonstory.authentication.CurrentUser;
 import com.dungeonstory.util.DSTheme;
 import com.dungeonstory.util.LazyProvider;
 import com.dungeonstory.util.PageTitleUpdater;
@@ -30,6 +31,7 @@ import com.dungeonstory.view.admin.ShopView;
 import com.dungeonstory.view.admin.SkillView;
 import com.dungeonstory.view.admin.SpellView;
 import com.dungeonstory.view.admin.WeaponTypeView;
+import com.dungeonstory.view.character.NewCharacterView;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.ui.HorizontalLayout;
@@ -91,6 +93,10 @@ public class MainScreen extends HorizontalLayout {
 
     private void registerViews() {
         addView(HomeView.class);
+
+        if (CurrentUser.get().getCharacter() == null) {
+            addView(NewCharacterView.class);
+        }
 
         if (DungeonStoryUI.get().getAccessControl().isUserInRole("ADMIN")) {
             addView(AbilityView.class);

@@ -47,6 +47,12 @@
 		
 		<dependency>
 		   <groupId>org.vaadin.addons</groupId>
+		   <artifactId>wizards-for-vaadin</artifactId>
+		   <version>1.1.1</version>
+		</dependency>
+		
+		<dependency>
+		   <groupId>org.vaadin.addons</groupId>
 		   <artifactId>dtabs-add-on</artifactId>
 		   <version>0.6.0</version>
 		</dependency>

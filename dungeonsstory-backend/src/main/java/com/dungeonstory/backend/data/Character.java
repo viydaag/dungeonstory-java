@@ -121,7 +121,31 @@ public class Character extends AbstractTimestampEntity implements Serializable {
     private List<CharacterEquipment> equipment;
 
     public Character() {
+        super();
+    }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Race getRace() {
+        return race;
+    }
+
+    public void setRace(Race race) {
+        this.race = race;
+    }
+
+    public List<CharacterClass> getClasses() {
+        return classes;
+    }
+
+    public void setClasses(List<CharacterClass> classes) {
+        this.classes = classes;
     }
 
 }
