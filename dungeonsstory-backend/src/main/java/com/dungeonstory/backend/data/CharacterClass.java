@@ -33,7 +33,7 @@ public class CharacterClass implements Serializable {
     private int classLevel;
 
     public CharacterClass() {
-        // TODO Auto-generated constructor stub
+
     }
 
     public Character getCharacter() {
@@ -62,6 +62,6 @@ public class CharacterClass implements Serializable {
 
     @Override
     public String toString() {
-        return classe.toString();
+        return classe.toString() + " (" + classLevel + ")";
     }
 }

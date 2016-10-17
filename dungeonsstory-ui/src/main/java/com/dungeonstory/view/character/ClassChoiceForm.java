@@ -17,7 +17,7 @@ public class ClassChoiceForm extends AbstractForm<Character> {
 
     private ClassService classService = ClassService.getInstance();
 
-    private TypedSelect<DSClass> classe;
+    TypedSelect<DSClass> classe;
     private MTextArea            classDescription;
 
     public ClassChoiceForm() {

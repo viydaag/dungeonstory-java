@@ -191,6 +191,14 @@ public class Character extends AbstractTimestampEntity implements Serializable {
         this.strength = strength;
     }
 
+    public Level getLevel() {
+        return level;
+    }
+
+    public void setLevel(Level level) {
+        this.level = level;
+    }
+
     public int getDexterity() {
         return dexterity;
     }

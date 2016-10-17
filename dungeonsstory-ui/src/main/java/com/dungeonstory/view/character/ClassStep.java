@@ -26,6 +26,9 @@ public class ClassStep extends CharacterWizardStep {
     public Component getContent() {
         form = new ClassChoiceForm();
         form.setEntity(wizard.getCharacter());
+        form.classe.addMValueChangeListener(event -> {
+            getWizard().getNextButton().setEnabled(event.getValue() != null);
+        });
         return form;
     }
 
@@ -48,6 +51,13 @@ public class ClassStep extends CharacterWizardStep {
         }
 
         return super.onAdvance();
+    }
+
+    @Override
+    public void afterActivateStep() {
+        if (form.classe.getValue() == null) {
+            getWizard().getNextButton().setEnabled(false);
+        }
     }
 
 }

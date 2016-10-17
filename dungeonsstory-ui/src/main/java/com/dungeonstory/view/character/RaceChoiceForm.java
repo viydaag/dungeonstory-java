@@ -17,7 +17,7 @@ public class RaceChoiceForm extends AbstractForm<Character> {
 
     private RaceService raceService = RaceService.getInstance();
     
-    private TypedSelect<Race> race; 
+    TypedSelect<Race> race;
     private MTextArea         raceDescription;
     private MTextArea         raceTraits;
     

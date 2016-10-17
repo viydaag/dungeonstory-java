@@ -30,4 +30,6 @@ public abstract class CharacterWizardStep implements WizardStep, Serializable {
         return true;
     }
 
+    public abstract void afterActivateStep();
+
 }

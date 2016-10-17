@@ -22,6 +22,7 @@ public class NewCharacterView extends VerticalSpacedLayout implements View {
         wizard.addStep(new ClassStep(wizard), "classChoice");
         wizard.addStep(new AbilityScoreStep(wizard), "abilityScores");
         wizard.addStep(new SummaryStep(wizard), "summary");
+        wizard.getNextButton().setEnabled(false); //set the next button disabled until a value is selected
         addComponent(wizard);
         setComponentAlignment(wizard, Alignment.MIDDLE_CENTER);
     }

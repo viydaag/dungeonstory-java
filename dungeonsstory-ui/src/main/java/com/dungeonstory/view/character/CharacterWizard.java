@@ -1,6 +1,7 @@
 package com.dungeonstory.view.character;
 
 import org.vaadin.teemu.wizards.Wizard;
+import org.vaadin.teemu.wizards.WizardStep;
 import org.vaadin.teemu.wizards.event.WizardCancelledEvent;
 import org.vaadin.teemu.wizards.event.WizardCompletedEvent;
 import org.vaadin.teemu.wizards.event.WizardProgressListener;
@@ -12,6 +13,7 @@ import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.service.impl.CharacterService;
 import com.dungeonstory.event.EventBus;
 import com.dungeonstory.event.NavigationEvent;
+import com.dungeonstory.util.CharacterWizardStep;
 import com.vaadin.server.Page;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
@@ -67,6 +69,14 @@ public class CharacterWizard extends Wizard implements WizardProgressListener {
     public void wizardCancelled(WizardCancelledEvent event) {
         setCharacter(null);
         EventBus.post(new NavigationEvent(""));
+    }
+
+    @Override
+    protected void activateStep(WizardStep step) {
+        super.activateStep(step);
+        if (step instanceof CharacterWizardStep) {
+            ((CharacterWizardStep) step).afterActivateStep();
+        }
     }
 
 }
