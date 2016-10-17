@@ -1,5 +1,6 @@
-package com.dungeonstory.util;
+package com.dungeonstory.util.layout;
 
+import com.dungeonstory.util.DSTheme;
 import com.vaadin.ui.VerticalLayout;
 
 /**

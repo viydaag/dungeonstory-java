@@ -3,7 +3,7 @@ package com.dungeonstory.view;
 import com.dungeonstory.backend.repository.Entity;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.form.DSAbstractForm;
-import com.dungeonstory.util.VerticalSpacedLayout;
+import com.dungeonstory.util.layout.VerticalSpacedLayout;
 import com.dungeonstory.view.component.BeanGrid;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
