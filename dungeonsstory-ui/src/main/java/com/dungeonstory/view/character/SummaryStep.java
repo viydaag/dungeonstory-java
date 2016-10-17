@@ -3,6 +3,8 @@ package com.dungeonstory.view.character;
 import org.vaadin.viritin.label.MLabel;
 
 import com.dungeonstory.backend.data.Character;
+import com.dungeonstory.backend.data.CharacterClass;
+import com.dungeonstory.backend.data.util.ModifierUtil;
 import com.dungeonstory.util.CharacterWizardStep;
 import com.dungeonstory.util.converter.CollectionToStringConverter;
 import com.vaadin.ui.Component;
@@ -29,6 +31,7 @@ public class SummaryStep extends CharacterWizardStep {
         CollectionToStringConverter classCllectionConverter = new CollectionToStringConverter();
         classCllectionConverter.setDelimiter(" / ");
         
+        MLabel level = new MLabel("Niveau", character.getLevel().toString());
         MLabel race = new MLabel("Race", character.getRace().getName());
         MLabel classe = new MLabel("Classe",
                 classCllectionConverter.convertToPresentation(character.getClasses(), String.class, null));
@@ -45,9 +48,29 @@ public class SummaryStep extends CharacterWizardStep {
         abilityLayout.setMargin(false);
         abilityLayout.addComponents(strength, dexterity, constitution, intellignece, wisdom, charisma);
         
-        layout.addComponents(race, classe, abilities, abilityLayout);
+        int nbLifePoints = 0;
+        for (CharacterClass cc : character.getClasses()) {
+            nbLifePoints += (cc.getClassLevel() * (cc.getClasse().getLifePointPerLevel()
+                    + ModifierUtil.getAbilityModifier(character.getConstitution())));
+        }
+        MLabel lifePoints = new MLabel("Points de vie", String.valueOf(nbLifePoints));
+
+        //Proficiencies
+
+        //Alignment
+
+        //Background
+
+        //Starting gold
+
+        layout.addComponents(level, race, classe, lifePoints, abilities, abilityLayout);
 
         return layout;
+    }
+
+    @Override
+    public void afterActivateStep() {
+
     }
 
 }
