@@ -59,4 +59,9 @@ public class CharacterClass implements Serializable {
     public void setClassLevel(int classLevel) {
         this.classLevel = classLevel;
     }
+
+    @Override
+    public String toString() {
+        return classe.toString();
+    }
 }

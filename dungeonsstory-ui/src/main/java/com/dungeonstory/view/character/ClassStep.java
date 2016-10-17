@@ -2,14 +2,12 @@ package com.dungeonstory.view.character;
 
 import java.util.Optional;
 
-import org.vaadin.teemu.wizards.WizardStep;
-
 import com.dungeonstory.backend.data.CharacterClass;
 import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.util.CharacterWizardStep;
 import com.vaadin.ui.Component;
 
-public class ClassStep extends CharacterWizardStep implements WizardStep {
+public class ClassStep extends CharacterWizardStep {
 
     private static final long serialVersionUID = 335212747439261092L;
 
@@ -49,12 +47,7 @@ public class ClassStep extends CharacterWizardStep implements WizardStep {
             wizard.getCharacter().getClasses().add(classe);
         }
 
-        return true;
-    }
-
-    @Override
-    public boolean onBack() {
-        return true;
+        return super.onAdvance();
     }
 
 }

@@ -3,22 +3,22 @@ package com.dungeonstory.view.character;
 import com.dungeonstory.util.CharacterWizardStep;
 import com.vaadin.ui.Component;
 
-public class RaceStep extends CharacterWizardStep {
+public class AbilityScoreStep extends CharacterWizardStep {
 
-    private static final long serialVersionUID = -7594021716313932613L;
+    private static final long serialVersionUID = -2104340592912821051L;
 
-    public RaceStep(CharacterWizard wizard) {
+    public AbilityScoreStep(CharacterWizard wizard) {
         super(wizard);
     }
 
     @Override
     public String getCaption() {
-        return "Choix de race";
+        return "Scores de caractéristique";
     }
 
     @Override
     public Component getContent() {
-        RaceChoiceForm form = new RaceChoiceForm();
+        AbilityScoreInitForm form = new AbilityScoreInitForm();
         form.setEntity(wizard.getCharacter());
         return form;
     }

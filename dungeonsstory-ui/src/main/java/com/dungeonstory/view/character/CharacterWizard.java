@@ -13,6 +13,8 @@ import com.dungeonstory.backend.service.impl.CharacterService;
 import com.dungeonstory.event.EventBus;
 import com.dungeonstory.event.NavigationEvent;
 import com.vaadin.server.Page;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.Notification.Type;
 
 public class CharacterWizard extends Wizard implements WizardProgressListener {
 
@@ -24,7 +26,7 @@ public class CharacterWizard extends Wizard implements WizardProgressListener {
 
     public CharacterWizard() {
         super();
-        setUriFragmentEnabled(true);
+        setUriFragmentEnabled(false);
         addListener(this);
         character = characterService.create();
 
@@ -56,6 +58,8 @@ public class CharacterWizard extends Wizard implements WizardProgressListener {
     public void wizardCompleted(WizardCompletedEvent event) {
         character.setUser(CurrentUser.get());
         characterService.create(character);
+        Notification.show("Personnage créé!", Type.HUMANIZED_MESSAGE);
+        EventBus.post(new NavigationEvent(""));
         //EventBus.post(new NavigationEvent("character"));
     }
 

@@ -7,8 +7,8 @@ import org.vaadin.viritin.form.AbstractForm;
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.Race;
 import com.dungeonstory.backend.service.impl.RaceService;
-import com.dungeonstory.util.HorizontalSpacedLayout;
-import com.dungeonstory.util.VerticalSpacedLayout;
+import com.dungeonstory.util.layout.HorizontalSpacedLayout;
+import com.dungeonstory.util.layout.VerticalSpacedLayout;
 import com.vaadin.ui.Component;
 
 public class RaceChoiceForm extends AbstractForm<Character> {

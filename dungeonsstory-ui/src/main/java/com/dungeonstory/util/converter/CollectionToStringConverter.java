@@ -15,6 +15,8 @@ public class CollectionToStringConverter implements
 
     private static final long serialVersionUID = 2735322733987431192L;
 
+    private String delimiter = ", ";
+
     @Override
     public Collection convertToModel(String value,
             Class<? extends Collection> targetType, Locale locale)
@@ -33,10 +35,10 @@ public class CollectionToStringConverter implements
         StringBuilder b = new StringBuilder();
         for (Object o : value) {
             b.append(o.toString());
-            b.append(", ");
+            b.append(delimiter);
         }
         if (b.length() > 2) {
-            return b.substring(0, b.length() - 2);
+            return b.substring(0, b.length() - delimiter.length());
         }
         return "";
 
@@ -50,6 +52,10 @@ public class CollectionToStringConverter implements
     @Override
     public Class<String> getPresentationType() {
         return String.class;
+    }
+
+    public void setDelimiter(String delimiter) {
+        this.delimiter = delimiter;
     }
 
 }

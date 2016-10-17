@@ -1,6 +1,7 @@
 package com.dungeonstory.backend.data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -72,6 +73,36 @@ public class Character extends AbstractTimestampEntity implements Serializable {
     @Column(name = "baseArmorClass", nullable = false)
     private int baseArmorClass;
 
+    @NotNull
+    @Min(value = 1)
+    @Column(name = "strength", nullable = false)
+    private int strength;
+
+    @NotNull
+    @Min(value = 1)
+    @Column(name = "dexterity", nullable = false)
+    private int dexterity;
+
+    @NotNull
+    @Min(value = 1)
+    @Column(name = "constitution", nullable = false)
+    private int constitution;
+
+    @NotNull
+    @Min(value = 1)
+    @Column(name = "intelligence", nullable = false)
+    private int intelligence;
+
+    @NotNull
+    @Min(value = 1)
+    @Column(name = "wisdom", nullable = false)
+    private int wisdom;
+
+    @NotNull
+    @Min(value = 1)
+    @Column(name = "charisma", nullable = false)
+    private int charisma;
+
     @Column(name = "background", columnDefinition = "TEXT")
     private String background;
 
@@ -122,6 +153,10 @@ public class Character extends AbstractTimestampEntity implements Serializable {
 
     public Character() {
         super();
+        classes = new ArrayList<CharacterClass>();
+        feats = new ArrayList<Feat>();
+        skills = new ArrayList<Skill>();
+        equipment = new ArrayList<CharacterEquipment>();
     }
 
     public User getUser() {
@@ -146,6 +181,54 @@ public class Character extends AbstractTimestampEntity implements Serializable {
 
     public void setClasses(List<CharacterClass> classes) {
         this.classes = classes;
+    }
+
+    public int getStrength() {
+        return strength;
+    }
+
+    public void setStrength(int strength) {
+        this.strength = strength;
+    }
+
+    public int getDexterity() {
+        return dexterity;
+    }
+
+    public void setDexterity(int dexterity) {
+        this.dexterity = dexterity;
+    }
+
+    public int getConstitution() {
+        return constitution;
+    }
+
+    public void setConstitution(int constitution) {
+        this.constitution = constitution;
+    }
+
+    public int getIntelligence() {
+        return intelligence;
+    }
+
+    public void setIntelligence(int intelligence) {
+        this.intelligence = intelligence;
+    }
+
+    public int getWisdom() {
+        return wisdom;
+    }
+
+    public void setWisdom(int wisdom) {
+        this.wisdom = wisdom;
+    }
+
+    public int getCharisma() {
+        return charisma;
+    }
+
+    public void setCharisma(int charisma) {
+        this.charisma = charisma;
     }
 
 }

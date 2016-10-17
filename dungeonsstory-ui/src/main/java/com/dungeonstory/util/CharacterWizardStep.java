@@ -2,9 +2,11 @@ package com.dungeonstory.util;
 
 import java.io.Serializable;
 
+import org.vaadin.teemu.wizards.WizardStep;
+
 import com.dungeonstory.view.character.CharacterWizard;
 
-public class CharacterWizardStep implements Serializable {
+public abstract class CharacterWizardStep implements WizardStep, Serializable {
 
     private static final long serialVersionUID = 1566483351479714073L;
 
@@ -16,6 +18,16 @@ public class CharacterWizardStep implements Serializable {
 
     public CharacterWizard getWizard() {
         return wizard;
+    }
+
+    @Override
+    public boolean onAdvance() {
+        return true;
+    }
+
+    @Override
+    public boolean onBack() {
+        return true;
     }
 
 }

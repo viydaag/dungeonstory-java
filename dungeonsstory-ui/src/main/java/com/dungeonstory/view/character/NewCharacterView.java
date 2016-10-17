@@ -1,7 +1,7 @@
 package com.dungeonstory.view.character;
 
-import com.dungeonstory.util.VerticalSpacedLayout;
 import com.dungeonstory.util.ViewConfig;
+import com.dungeonstory.util.layout.VerticalSpacedLayout;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Alignment;
@@ -20,6 +20,8 @@ public class NewCharacterView extends VerticalSpacedLayout implements View {
         CharacterWizard wizard = new CharacterWizard();
         wizard.addStep(new RaceStep(wizard), "raceChoice");
         wizard.addStep(new ClassStep(wizard), "classChoice");
+        wizard.addStep(new AbilityScoreStep(wizard), "abilityScores");
+        wizard.addStep(new SummaryStep(wizard), "summary");
         addComponent(wizard);
         setComponentAlignment(wizard, Alignment.MIDDLE_CENTER);
     }
