@@ -10,6 +10,7 @@ import org.vaadin.teemu.wizards.event.WizardStepSetChangedEvent;
 
 import com.dungeonstory.authentication.CurrentUser;
 import com.dungeonstory.backend.data.Character;
+import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.service.impl.CharacterService;
 import com.dungeonstory.event.EventBus;
 import com.dungeonstory.event.NavigationEvent;
@@ -23,6 +24,7 @@ public class CharacterWizard extends Wizard implements WizardProgressListener {
     private static final long serialVersionUID = -8481346074235692258L;
 
     private Character character;
+    private DSClass   chosenClass;
 
     private CharacterService characterService = CharacterService.getInstance();
 
@@ -44,6 +46,14 @@ public class CharacterWizard extends Wizard implements WizardProgressListener {
 
     public void setCharacter(Character character) {
         this.character = character;
+    }
+
+    public DSClass getChosenClass() {
+        return chosenClass;
+    }
+
+    public void setChosenClass(DSClass chosenClass) {
+        this.chosenClass = chosenClass;
     }
 
     @Override

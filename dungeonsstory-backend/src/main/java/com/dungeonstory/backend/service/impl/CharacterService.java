@@ -1,11 +1,14 @@
 package com.dungeonstory.backend.service.impl;
 
 import com.dungeonstory.backend.data.Character;
+import com.dungeonstory.backend.data.CharacterClass;
+import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.factory.impl.CharacterFactory;
 import com.dungeonstory.backend.repository.impl.CharacterRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
+import com.dungeonstory.backend.service.CharacterDataService;
 
-public class CharacterService extends AbstractDataService<Character, Long> {
+public class CharacterService extends AbstractDataService<Character, Long> implements CharacterDataService {
 
     private static final long serialVersionUID = -1946519936437060467L;
 
@@ -22,6 +25,11 @@ public class CharacterService extends AbstractDataService<Character, Long> {
         super();
         setEntityFactory(new CharacterFactory());
         setRepository(new CharacterRepository());
+    }
+
+    @Override
+    public CharacterClass getAssignedClass(Character character, DSClass classe) {
+        return ((CharacterRepository) entityRepository).getAssignedClass(character, classe);
     }
 
 }
