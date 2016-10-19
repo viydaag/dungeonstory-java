@@ -21,10 +21,22 @@ public class ArmorType extends AbstractTimestampEntity implements Serializable {
     public static final int MINIMUM_STRENGTH = 1;
 
     public enum ProficiencyType {
-        LIGHT, MEDIUM, HEAVY, SHIELD;
         
+        LIGHT("Légère"), MEDIUM("Intermédiaire"), HEAVY("Lourde"), SHIELD("Bouclier");
+
+        private String name;
+
+        ProficiencyType(String name) {
+            this.name = name;
+        }
+
         public String getName() {
-            return name();
+            return name;
+        }
+
+        @Override
+        public String toString() {
+            return getName();
         }
     }
 
