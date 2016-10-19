@@ -2,6 +2,7 @@ package com.dungeonstory.view.character;
 
 import org.vaadin.viritin.fields.MTextArea;
 import org.vaadin.viritin.fields.TypedSelect;
+import org.vaadin.viritin.fields.config.ListSelectConfig;
 import org.vaadin.viritin.form.AbstractForm;
 import org.vaadin.viritin.label.MLabel;
 
@@ -39,7 +40,9 @@ public class ClassChoiceForm extends AbstractForm<Character> {
         CollectionToStringConverter collectionConverter = new CollectionToStringConverter();
 
         HorizontalSpacedLayout layout = new HorizontalSpacedLayout();
-        classe = new TypedSelect<DSClass>("Choix de classe", classService.findAll());
+        classe = new TypedSelect<DSClass>("Choix de classe", classService.findAll())
+                .asListSelectType(new ListSelectConfig().withRows((int) classService.count()))
+                .withNullSelectionAllowed(false);
 
         VerticalSpacedLayout classDescriptionLayout = new VerticalSpacedLayout();
         classDescription = new MTextArea("Description").withRows(10);

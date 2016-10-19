@@ -1,5 +1,6 @@
 package com.dungeonstory.backend.repository.impl;
 
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import com.dungeonstory.backend.data.User;
@@ -20,7 +21,12 @@ public class UserRepository extends AbstractRepository<User, Long> {
         }
         TypedQuery<User> query = entityManager.createNamedQuery(User.findByUsername, User.class);
         query = query.setParameter("username", username);
-        User user = query.getSingleResult();
+        User user;
+        try {
+            user = query.getSingleResult();
+        } catch (NoResultException e) {
+            user = null;
+        }
         return user;
     }
 

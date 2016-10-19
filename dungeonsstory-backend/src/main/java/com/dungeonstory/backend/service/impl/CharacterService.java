@@ -1,5 +1,7 @@
 package com.dungeonstory.backend.service.impl;
 
+import javax.persistence.NoResultException;
+
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.CharacterClass;
 import com.dungeonstory.backend.data.DSClass;
@@ -29,7 +31,11 @@ public class CharacterService extends AbstractDataService<Character, Long> imple
 
     @Override
     public CharacterClass getAssignedClass(Character character, DSClass classe) {
-        return ((CharacterRepository) entityRepository).getAssignedClass(character, classe);
+        try {
+            return ((CharacterRepository) entityRepository).getAssignedClass(character, classe);
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
 }

@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.vaadin.viritin.fields.ElementCollectionField;
 import org.vaadin.viritin.fields.ElementCollectionTable;
 import org.vaadin.viritin.fields.EnumSelect;
 import org.vaadin.viritin.fields.IntegerField;
@@ -16,6 +15,7 @@ import org.vaadin.viritin.fields.MTextArea;
 import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.fields.MValueChangeEvent;
 import org.vaadin.viritin.fields.TypedSelect;
+import org.vaadin.viritin.fields.config.ComboBoxConfig;
 
 import com.dungeonstory.FormCheckBox;
 import com.dungeonstory.backend.Configuration;
@@ -24,7 +24,6 @@ import com.dungeonstory.backend.data.ArmorType;
 import com.dungeonstory.backend.data.ClassEquipment;
 import com.dungeonstory.backend.data.ClassLevelBonus;
 import com.dungeonstory.backend.data.ClassLevelFeature;
-import com.dungeonstory.backend.data.ClassSpecLevelFeature;
 import com.dungeonstory.backend.data.ClassSpellSlots;
 import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.data.DSClass.SpellCastingType;
@@ -64,6 +63,7 @@ import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.FormLayout;
+import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 
@@ -113,19 +113,8 @@ public class ClassForm extends DSAbstractForm<DSClass> {
 
     public static class ClassLevelFeatureRow {
         TypedSelect<Level> level = new TypedSelect<Level>();
-        TypedSelect<Feat>  feat  = new TypedSelect<Feat>();
-    }
-
-    public static class ClassSpecRow {
-        MTextField                                    name                = new MTextField();
-        CheckBox                                      isSpellCasting      = new CheckBox();
-        TypedSelect<Ability>                          spellCastingAbility = new TypedSelect<Ability>();
-        ElementCollectionField<ClassSpecLevelFeature> classSpecFeatures;
-    }
-
-    public static class ClassSpecLevelFeatureRow {
-        TypedSelect<Level> level = new TypedSelect<Level>();
-        TypedSelect<Feat>  feat  = new TypedSelect<Feat>();
+        TypedSelect<Feat>  feat  = new TypedSelect<Feat>().asComboBoxType(new ComboBoxConfig().withPageLength(20))
+                .withFullWidth();
     }
 
     public static class ClassEquipmentRow {
@@ -170,9 +159,10 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         lifePointPerLevel = new IntegerField("Points de vie par niveau");
         startingGold = new IntegerField("Pièces d'or de départ");
         isSpellCasting = new FormCheckBox("Capacité à lancer des sorts");
-        spellCastingAbility = new TypedSelect<Ability>("Caractéristique de sort");
+        spellCastingAbility = new TypedSelect<Ability>("Caractéristique de sort").asComboBoxType();
         spellCastingAbility.setOptions(abilityService.findAll());
-        spellCastingType = new EnumSelect<>("Sorts innés ou préparés?");
+        spellCastingType = new EnumSelect<SpellCastingType>("Sorts innés ou préparés?")
+                .withSelectType(OptionGroup.class);
 
         isSpellCasting.addValueChangeListener(this::isSpellCastingChange);
         spellCastingType.addMValueChangeListener(this::spellCastingTypeChange);
@@ -267,7 +257,6 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         classFeatures.setPropertyHeader("feat", "Don");
         classFeatures.setWidth("80%");
 
-
         spells = new DSSubSetSelector<Spell>(Spell.class);
         spells.setCaption("Sorts de classe");
         spells.setVisibleProperties("level", "name", "school");
@@ -357,14 +346,14 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     @Override
     public void afterSetEntity() {
         super.afterSetEntity();
-        //        if (classSpecs.getTable() != null) {
-        //            classSpecs.getTable().withColumnWidth("name", 300);
-        //            classSpecs.getTable().withColumnWidth("isSpellCasting", 70);
-        //            classSpecs.getTable().withColumnWidth("spellCastingAbility", 115);
-        //        }
         isSpellCastingChange(null);
         if (getEntity() == null || getEntity().getId() == null) {
             levelBonuses.clearForNew();
+        }
+        if (getEntity() != null) {
+            classFeatures.getTable().setPageLength(classFeatures.getTable().size());
+            //            classFeatures.setHeight(classFeatures.getTable().getHeight(), classFeatures.getTable().getHeightUnits());
+            classFeatures.setHeight("700px");
         }
         refreshLevelBonusCheckBoxVisibility();
     }
@@ -378,11 +367,14 @@ public class ClassForm extends DSAbstractForm<DSClass> {
             spellSlots.clear();
             spellSlots.setVisible(false);
             spellSlots.setKnownSpells(false);
+            spells.clear();
+            spells.setVisible(false);
         } else {
             spellCastingAbility.setVisible(true);
             spellCastingType.setVisible(true);
             spellSlots.setVisible(true);
             spellSlots.onElementAdded();
+            spells.setVisible(true);
         }
     }
 
