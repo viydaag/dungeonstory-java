@@ -99,4 +99,9 @@ public abstract class MockAbstractRepository<E extends Entity> implements Reposi
         throw new IllegalArgumentException("No entity with id " + entity.getId() + " found");
     }
 
+    @Override
+    public long count() {
+        return entities.size();
+    }
+
 }

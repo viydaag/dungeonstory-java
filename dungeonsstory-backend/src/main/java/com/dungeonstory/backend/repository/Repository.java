@@ -79,4 +79,10 @@ public interface Repository<E extends Entity, K extends Serializable> {
     */
     E update(E entity);
 
+    /**
+     * 
+     * @return the entity count
+     */
+    long count();
+
 }

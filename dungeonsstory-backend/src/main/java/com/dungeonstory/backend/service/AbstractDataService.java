@@ -130,4 +130,9 @@ public abstract class AbstractDataService<E extends Entity, K extends Serializab
         return entityRepository.update(entity);
     }
 
+    @Override
+    public long count() {
+        return entityRepository.count();
+    }
+
 }

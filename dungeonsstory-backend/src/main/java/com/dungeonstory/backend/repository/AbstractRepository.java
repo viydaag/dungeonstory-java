@@ -165,4 +165,13 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
         //        entityManager.close();
     }
 
+    @Override
+    public long count() {
+        entityManager.getTransaction().begin();
+        Query q = entityManager.createQuery("SELECT count(x) FROM " + getTableName() + " x");
+        long count = (long) q.getSingleResult();
+        entityManager.getTransaction().commit();
+        return count;
+    }
+
 }
