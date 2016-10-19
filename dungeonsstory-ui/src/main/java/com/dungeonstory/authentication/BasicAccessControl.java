@@ -2,8 +2,8 @@ package com.dungeonstory.authentication;
 
 import javax.security.auth.login.LoginException;
 
-import com.dungeonstory.backend.LoginService;
 import com.dungeonstory.backend.data.User;
+import com.dungeonstory.backend.service.LoginService;
 
 /**
  * Default mock implementation of {@link AccessControl}. This implementation

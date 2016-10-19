@@ -1,4 +1,4 @@
-package com.dungeonstory.backend;
+package com.dungeonstory.backend.service;
 
 import java.io.Serializable;
 
@@ -6,8 +6,8 @@ import javax.security.auth.login.LoginException;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
+import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.User;
-import com.dungeonstory.backend.service.UserDataService;
 import com.dungeonstory.backend.service.impl.UserService;
 import com.dungeonstory.backend.service.mock.MockUserService;
 

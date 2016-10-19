@@ -1,4 +1,4 @@
-package com.dungeonstory.backend;
+package com.dungeonstory.backend.service;
 
 import static org.junit.Assert.fail;
 
