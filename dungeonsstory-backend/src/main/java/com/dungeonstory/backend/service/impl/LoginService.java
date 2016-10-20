@@ -1,4 +1,4 @@
-package com.dungeonstory.backend.service;
+package com.dungeonstory.backend.service.impl;
 
 import java.io.Serializable;
 
@@ -8,7 +8,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.User;
-import com.dungeonstory.backend.service.impl.UserService;
+import com.dungeonstory.backend.service.UserDataService;
 import com.dungeonstory.backend.service.mock.MockUserService;
 
 public class LoginService implements Serializable {
