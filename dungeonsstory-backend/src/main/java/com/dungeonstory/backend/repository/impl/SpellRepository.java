@@ -1,5 +1,6 @@
 package com.dungeonstory.backend.repository.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.TypedQuery;
@@ -21,6 +22,30 @@ public class SpellRepository extends AbstractRepository<Spell, Long> {
                 getEntityClass());
         query.setParameter("level", level);
         return query.getResultList();
+    }
+
+    public List<Spell> findAllUnknownSpellsByLevel(int level, Long characterId) {
+        if (characterId != null) {
+            TypedQuery<Spell> query = entityManager.createQuery(
+                    "SELECT s FROM Spell s WHERE s.level = :level AND s.id NOT IN (SELECT cks.spellId CharacterKnownSpells WHERE cks.characterId = :characterId)",
+                    getEntityClass());
+            query.setParameter("level", level);
+            return query.getResultList();
+        } else {
+            return findAllSpellsByLevel(level);
+        }
+    }
+
+    public List<Spell> findAllKnownSpellsByLevel(int level, Long characterId) {
+        if (characterId != null) {
+            TypedQuery<Spell> query = entityManager.createQuery(
+                    "SELECT s FROM Spell s WHERE s.level = :level AND s.id IN (SELECT cks.spellId CharacterKnownSpells WHERE cks.characterId = :characterId)",
+                    getEntityClass());
+            query.setParameter("level", level);
+            return query.getResultList();
+        } else {
+            return new ArrayList<Spell>();
+        }
     }
 
     public List<Spell> findAllSpellsSortedByLevelAndName() {
