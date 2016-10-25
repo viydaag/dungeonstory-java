@@ -151,26 +151,12 @@ public class Character extends AbstractTimestampEntity implements Serializable {
     @OneToMany(mappedBy = "character")
     private List<CharacterEquipment> equipment;
 
-    @ManyToMany
-    @JoinTable(name = "CharacterKnownSpells", joinColumns = @JoinColumn(name = "characterId", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "spellId", referencedColumnName = "id"))
-    private List<Spell> knownSpells;
-
-    @ManyToMany
-    @JoinTable(name = "CharacterPreparedSpells", joinColumns = @JoinColumn(name = "characterId", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "spellId", referencedColumnName = "id"))
-    private List<Spell> preparedSpells;
-
-    @Min(value = 0)
-    @Column(name = "nbPreparedSpells")
-    private Integer nbPreparedSpells;
-
     public Character() {
         super();
         classes = new ArrayList<CharacterClass>();
         feats = new ArrayList<Feat>();
         skills = new ArrayList<Skill>();
         equipment = new ArrayList<CharacterEquipment>();
-        knownSpells = new ArrayList<Spell>();
-        preparedSpells = new ArrayList<Spell>();
     }
 
     public User getUser() {

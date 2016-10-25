@@ -1,14 +1,19 @@
 package com.dungeonstory.backend.data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -32,8 +37,26 @@ public class CharacterClass implements Serializable {
     @Column(name = "classLevel")
     private int classLevel;
 
-    public CharacterClass() {
+    @ManyToMany
+    @JoinTable(name = "CharacterClassKnownSpells", joinColumns = {
+            @JoinColumn(name = "characterId", referencedColumnName = "characterId"),
+            @JoinColumn(name = "classId", referencedColumnName = "classId") }, inverseJoinColumns = @JoinColumn(name = "spellId", referencedColumnName = "id"))
+    private List<Spell> knownSpells;
 
+    @ManyToMany
+    @JoinTable(name = "CharacterClassPreparedSpells", joinColumns = {
+            @JoinColumn(name = "characterId", referencedColumnName = "characterId"),
+            @JoinColumn(name = "classId", referencedColumnName = "classId") }, inverseJoinColumns = @JoinColumn(name = "spellId", referencedColumnName = "id"))
+    private List<Spell> preparedSpells;
+
+    @Min(value = 0)
+    @Column(name = "nbPreparedSpells")
+    private Integer nbPreparedSpells;
+
+    public CharacterClass() {
+        super();
+        knownSpells = new ArrayList<Spell>();
+        preparedSpells = new ArrayList<Spell>();
     }
 
     public Character getCharacter() {
@@ -58,6 +81,30 @@ public class CharacterClass implements Serializable {
 
     public void setClassLevel(int classLevel) {
         this.classLevel = classLevel;
+    }
+
+    public List<Spell> getKnownSpells() {
+        return knownSpells;
+    }
+
+    public void setKnownSpells(List<Spell> knownSpells) {
+        this.knownSpells = knownSpells;
+    }
+
+    public List<Spell> getPreparedSpells() {
+        return preparedSpells;
+    }
+
+    public void setPreparedSpells(List<Spell> preparedSpells) {
+        this.preparedSpells = preparedSpells;
+    }
+
+    public Integer getNbPreparedSpells() {
+        return nbPreparedSpells;
+    }
+
+    public void setNbPreparedSpells(Integer nbPreparedSpells) {
+        this.nbPreparedSpells = nbPreparedSpells;
     }
 
     @Override

@@ -53,14 +53,18 @@ public class SpellSubSetSelector extends DSSubSetSelector<Spell> {
                 if (spellLevel == 0) {
                     Integer nbCantrips = spellSlot.getCantripsKnown();
                     if (nbCantrips != null) {
-                        setOptions(spellService.findAllUnknownSpellsByLevel(spellLevel, character.getId()));
-                        setValue(spellService.findAllKnownSpellsByLevel(spellLevel, character.getId()));
+                        setOptions(spellService.findAllUnknownClassSpellsByLevel(spellLevel, character.getId(),
+                                classe.getId()));
+                        setValue(spellService.findAllKnownClassSpellsByLevel(spellLevel, character.getId(),
+                                classe.getId()));
                     }
                 } else {
                     Integer nbSpells = spellSlot.getSpellsKnown();
                     if (nbSpells != null) {
-                        setOptions(spellService.findAllUnknownSpellsByLevel(spellLevel, character.getId()));
-                        setValue(spellService.findAllKnownSpellsByLevel(spellLevel, character.getId()));
+                        setOptions(spellService.findAllUnknownClassSpellsByLevel(spellLevel, character.getId(),
+                                classe.getId()));
+                        setValue(spellService.findAllKnownClassSpellsByLevel(spellLevel, character.getId(),
+                                classe.getId()));
                     }
                 }
             }

@@ -3,6 +3,7 @@ package com.dungeonstory.view.character;
 import org.vaadin.viritin.fields.IntegerField;
 import org.vaadin.viritin.label.MLabel;
 
+import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.util.layout.GridSpacedLayout;
@@ -57,6 +58,16 @@ public class AbilityScoreInitForm extends DSAbstractForm<Character> {
         pointsToSpend.setValue(27);
         pointsToSpend.setReadOnly(true);
 
+        if (Configuration.getInstance().isDebug()) {
+            Button assignAll = new Button("assign");
+            assignAll.addClickListener(event -> {
+                pointsToSpend.setReadOnly(false);
+                pointsToSpend.setValue(0);
+                pointsToSpend.setReadOnly(true);
+            });
+            layout.addComponent(assignAll);
+        }
+
         gridLayout = new GridSpacedLayout(5, 7);
         gridLayout.addComponent(new MLabel("Caractéristique"), 0, 0);
         gridLayout.addComponent(new MLabel("Modificateur de race"), 1, 0);
@@ -109,6 +120,7 @@ public class AbilityScoreInitForm extends DSAbstractForm<Character> {
         gridLayout.setColumnExpandRatio(2, 1);
 
         layout.addComponents(pointsToSpend, gridLayout);
+
 
         return layout;
     }

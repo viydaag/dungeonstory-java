@@ -18,30 +18,38 @@ public class SpellRepository extends AbstractRepository<Spell, Long> {
     }
 
     public List<Spell> findAllSpellsByLevel(int level) {
-        TypedQuery<Spell> query = entityManager.createQuery("SELECT e FROM Spell e WHERE e.level = :level",
-                getEntityClass());
+        TypedQuery<Spell> query = entityManager.createNamedQuery(Spell.ALL_SPELLS_BY_LEVEL, getEntityClass());
         query.setParameter("level", level);
         return query.getResultList();
     }
 
-    public List<Spell> findAllUnknownSpellsByLevel(int level, Long characterId) {
+    public List<Spell> findAllClassSpellsByLevel(int level, Long classId) {
+        TypedQuery<Spell> query = entityManager.createNamedQuery(Spell.ALL_CLASS_SPELLS_BY_LEVEL, getEntityClass());
+        query.setParameter("level", level);
+        query.setParameter("classId", classId);
+        return query.getResultList();
+    }
+
+    public List<Spell> findAllUnknownClassSpellsByLevel(int level, Long characterId, Long classId) {
         if (characterId != null) {
-            TypedQuery<Spell> query = entityManager.createQuery(
-                    "SELECT s FROM Spell s WHERE s.level = :level AND s.id NOT IN (SELECT cks.spellId CharacterKnownSpells WHERE cks.characterId = :characterId)",
+            TypedQuery<Spell> query = entityManager.createNamedQuery(Spell.ALL_UNKNOWN_CLASS_SPELLS_BY_LEVEL,
                     getEntityClass());
             query.setParameter("level", level);
+            query.setParameter("classId", classId);
+            query.setParameter("characterId", characterId);
             return query.getResultList();
         } else {
-            return findAllSpellsByLevel(level);
+            return findAllClassSpellsByLevel(level, classId);
         }
     }
 
-    public List<Spell> findAllKnownSpellsByLevel(int level, Long characterId) {
+    public List<Spell> findAllKnownClassSpellsByLevel(int level, Long characterId, Long classId) {
         if (characterId != null) {
-            TypedQuery<Spell> query = entityManager.createQuery(
-                    "SELECT s FROM Spell s WHERE s.level = :level AND s.id IN (SELECT cks.spellId CharacterKnownSpells WHERE cks.characterId = :characterId)",
+            TypedQuery<Spell> query = entityManager.createNamedQuery(Spell.ALL_KNOWN_CLASS_SPELLS_BY_LEVEL,
                     getEntityClass());
             query.setParameter("level", level);
+            query.setParameter("classId", classId);
+            query.setParameter("characterId", characterId);
             return query.getResultList();
         } else {
             return new ArrayList<Spell>();
@@ -49,7 +57,7 @@ public class SpellRepository extends AbstractRepository<Spell, Long> {
     }
 
     public List<Spell> findAllSpellsSortedByLevelAndName() {
-        TypedQuery<Spell> query = entityManager.createQuery("SELECT e FROM Spell e ORDER BY level ASC, name ASC",
+        TypedQuery<Spell> query = entityManager.createNamedQuery(Spell.ALL_SPELLS_SORTED_BY_LEVEL_AND_NAME,
                 getEntityClass());
         return query.getResultList();
     }

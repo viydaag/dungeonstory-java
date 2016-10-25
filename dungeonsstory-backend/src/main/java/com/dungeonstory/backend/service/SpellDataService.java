@@ -8,9 +8,9 @@ public interface SpellDataService extends DataService<Spell, Long> {
 
     public List<Spell> findAllSpellsByLevel(int level);
 
-    public List<Spell> findAllUnknownSpellsByLevel(int level, Long characterId);
+    public List<Spell> findAllUnknownClassSpellsByLevel(int level, Long characterId, Long classId);
 
-    public List<Spell> findAllKnownSpellsByLevel(int level, Long characterId);
+    public List<Spell> findAllKnownClassSpellsByLevel(int level, Long characterId, Long classId);
 
     public List<Spell> findAllSpellsSortedByLevelAndName();
 

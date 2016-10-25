@@ -35,8 +35,8 @@ public class SpellService extends AbstractDataService<Spell, Long> implements Sp
     }
 
     @Override
-    public List<Spell> findAllUnknownSpellsByLevel(int level, Long characterId) {
-        return repository.findAllUnknownSpellsByLevel(level, characterId);
+    public List<Spell> findAllUnknownClassSpellsByLevel(int level, Long characterId, Long classId) {
+        return repository.findAllUnknownClassSpellsByLevel(level, characterId, classId);
     }
 
     @Override
@@ -45,8 +45,8 @@ public class SpellService extends AbstractDataService<Spell, Long> implements Sp
     }
 
     @Override
-    public List<Spell> findAllKnownSpellsByLevel(int level, Long characterId) {
-        return repository.findAllKnownSpellsByLevel(level, characterId);
+    public List<Spell> findAllKnownClassSpellsByLevel(int level, Long characterId, Long classId) {
+        return repository.findAllKnownClassSpellsByLevel(level, characterId, classId);
     }
 
 }
