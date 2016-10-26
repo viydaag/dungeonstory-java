@@ -3,9 +3,14 @@ package com.dungeonstory.backend.data;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -151,6 +156,18 @@ public class Character extends AbstractTimestampEntity implements Serializable {
     @OneToMany(mappedBy = "character")
     private List<CharacterEquipment> equipment;
 
+    @ManyToMany
+    @JoinTable(name = "CharacterFavoredEnnemy", joinColumns = {
+            @JoinColumn(name = "characterId", referencedColumnName = "id") }, inverseJoinColumns = {
+                    @JoinColumn(name = "creatureTypeId", referencedColumnName = "id") })
+    private List<CreatureType> favoredEnnemies;
+
+    @ElementCollection(targetClass = Terrain.class)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "CharacterFavoredTerrain", joinColumns = @JoinColumn(name = "characterId", nullable = false))
+    @Column(name = "terrain", nullable = false)
+    private Set<Terrain> favoredTerrains;
+
     public Character() {
         super();
         classes = new ArrayList<CharacterClass>();
@@ -237,6 +254,22 @@ public class Character extends AbstractTimestampEntity implements Serializable {
 
     public void setCharisma(int charisma) {
         this.charisma = charisma;
+    }
+
+    public List<CreatureType> getFavoredEnnemies() {
+        return favoredEnnemies;
+    }
+
+    public void setFavoredEnnemies(List<CreatureType> favoredEnnemies) {
+        this.favoredEnnemies = favoredEnnemies;
+    }
+
+    public Set<Terrain> getFavoredTerrains() {
+        return favoredTerrains;
+    }
+
+    public void setFavoredTerrains(Set<Terrain> favoredTerrains) {
+        this.favoredTerrains = favoredTerrains;
     }
 
 }

@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import com.dungeonstory.backend.data.CharacterClass;
 import com.dungeonstory.backend.data.DSClass;
-import com.dungeonstory.backend.data.DSClass.SpellCastingType;
 import com.dungeonstory.util.CharacterWizardStep;
 import com.vaadin.ui.Component;
 
@@ -51,11 +50,6 @@ public class ClassStep extends CharacterWizardStep {
             wizard.getCharacter().getClasses().add(classe);
         }
 
-        //the spell choice is available only if its a spell casting class and the spells are known or if its the first time prepared spells
-        if (!chosenClass.getIsSpellCasting()
-                || (chosenClass.getSpellCastingType() == SpellCastingType.PREPARED && assignedClass.isPresent())) {
-            wizard.removeStep("spellChoice");
-        }
 
         wizard.setChosenClass(chosenClass);
 

@@ -28,6 +28,13 @@ public class CharacterWizard extends Wizard implements WizardProgressListener {
 
     private CharacterService characterService = CharacterService.getInstance();
 
+    public final static String RACE    = "raceChoice";
+    public final static String CLASS   = "classChoice";
+    public final static String ABILITY = "abilityScores";
+    public final static String SPELL   = "spellChoice";
+    public final static String HUNTER  = "hunterChoice";
+    public final static String SUMMARY = "summary";
+
     public CharacterWizard() {
         super();
         setUriFragmentEnabled(false);

@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.CharacterClass;
+import com.dungeonstory.backend.data.ClassLevelBonus;
 import com.dungeonstory.backend.data.DSClass;
 
 public class ClassUtil {
@@ -17,6 +18,12 @@ public class ClassUtil {
                 .filter(characterClass -> characterClass.getClasse().equals(dsClass)).findFirst();
 
         return assignedClass;
+    }
+
+    public static Optional<ClassLevelBonus> getClassLevelBonus(DSClass dsClass, int level) {
+        Optional<ClassLevelBonus> classLevelBonus = dsClass.getLevelBonuses().stream()
+                .filter(bonus -> bonus.getLevel().getId().intValue() == level).findFirst();
+        return classLevelBonus;
     }
 
 }
