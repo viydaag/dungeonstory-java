@@ -5,6 +5,7 @@ import java.util.Optional;
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.CharacterClass;
 import com.dungeonstory.backend.data.ClassLevelBonus;
+import com.dungeonstory.backend.data.ClassSpellSlots;
 import com.dungeonstory.backend.data.DSClass;
 
 public class ClassUtil {
@@ -24,6 +25,12 @@ public class ClassUtil {
         Optional<ClassLevelBonus> classLevelBonus = dsClass.getLevelBonuses().stream()
                 .filter(bonus -> bonus.getLevel().getId().intValue() == level).findFirst();
         return classLevelBonus;
+    }
+
+    public static Optional<ClassSpellSlots> getClassSpellSlots(DSClass dsClass, int level) {
+        Optional<ClassSpellSlots> classSpellSlots = dsClass.getSpellSlots().stream()
+                .filter(slot -> slot.getLevel().getId().intValue() == level).findFirst();
+        return classSpellSlots;
     }
 
 }

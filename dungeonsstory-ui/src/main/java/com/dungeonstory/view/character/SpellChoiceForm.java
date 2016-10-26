@@ -12,44 +12,47 @@ import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.CharacterClass;
 import com.dungeonstory.backend.data.ClassSpellSlots;
 import com.dungeonstory.backend.data.DSClass;
+import com.dungeonstory.backend.data.DSClass.SpellCastingType;
 import com.dungeonstory.backend.data.Spell;
 import com.dungeonstory.backend.data.util.ClassUtil;
 import com.dungeonstory.backend.service.impl.SpellService;
 import com.dungeonstory.form.DSAbstractForm;
-import com.dungeonstory.util.field.DSSubSetSelector;
 import com.dungeonstory.util.layout.VerticalSpacedLayout;
-import com.vaadin.ui.AbstractSelect.ItemDescriptionGenerator;
+import com.vaadin.data.util.converter.StringToCollectionConverter;
+import com.vaadin.shared.MouseEventDetails.MouseButton;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
 import com.vaadin.ui.TabSheet.Tab;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
 
 public class SpellChoiceForm extends DSAbstractForm<Character> {
 
     private static final long serialVersionUID = 7418266123213990672L;
 
-    private SpellService     spellService     = SpellService.getInstance();
-    
-    private DSClass classe;
-    
-    private MLabel label;
-    private DSSubSetSelector<Spell> cantrips;
+    private SpellService spellService = SpellService.getInstance();
 
-    private DTabs              tabs = null;
-    private HorizontalSplitPanel panel;
+    private DSClass classe;
+
+    private MLabel label;
+
+    private DTabs                tabs  = null;
+    private HorizontalSplitPanel panel = null;
 
     VerticalLayout unknownCantripLayout = new VerticalLayout();
     VerticalLayout knownCantripLayout   = new VerticalLayout();
 
-    VerticalLayout[] unknownSpellLayout = new VerticalLayout[10];
-    VerticalLayout knownSpellLayout   = new VerticalLayout();
+    VerticalLayout[] unknownSpellLayout = new VerticalLayout[Spell.MAX_SPELL_LEVEL + 1];
+    VerticalLayout   knownSpellLayout   = new VerticalLayout();
 
     public SpellChoiceForm() {
         super();
@@ -61,62 +64,21 @@ public class SpellChoiceForm extends DSAbstractForm<Character> {
 
     @Override
     protected Component createContent() {
-        
+
         VerticalSpacedLayout layout = new VerticalSpacedLayout();
 
         label = new MLabel();
-        cantrips = new DSSubSetSelector<Spell>(Spell.class);
-        cantrips.setCaption("Sorts mineurs");
-        cantrips.setVisibleProperties("name", "school");
-        cantrips.setColumnHeader("name", "Sort");
-        cantrips.setColumnHeader("school", "École de magie");
-
-        cantrips.getTable().setItemDescriptionGenerator(new ItemDescriptionGenerator() {
-
-            private static final long serialVersionUID = -3475401659477278855L;
-
-            @Override
-            public String generateDescription(Component source, Object itemId, Object propertyId) {
-                Spell spell = (Spell) itemId;
-                return spell.getDescription();
-            }
-        });
-
         layout.addComponent(label);
-        layout.addComponent(cantrips);
-
-        panel = new HorizontalSplitPanel();
-        panel.setSizeFull();
 
         tabs = new DTabs();
         tabs.setTabBarBottom(true).setFramedTabs(true);
 
-
-        //        for (int index = 1; index <= 5; index++) {
-        //            String tabcaption = "aaaa";
-        //            VerticalLayout content = new VerticalLayout();
-        //            content.setMargin(true);
-        //            content.setSpacing(true);
-        //            content.addComponent(new Label("Content for tab " + index));
-        //            if (index == 2) {
-        //                content.addComponent(new Label(
-        //                        "Excepteur sint obcaecat cupiditat non proident culpa. Magna pars studiorum, prodita quaerimus."));
-        //            }
-        //
-        //            Tab tab = tabs.addTab(content, tabcaption);
-        //            tab.setClosable(true);
-        //            tab.setEnabled(true);
-        //            //            tab.setIcon(icons[index - 1]);
-        //
-        //            // First tab is always visible
-        //            if (index == 1) {
-        //                tab.setEnabled(true);
-        //                tab.setClosable(false);
-        //            }
-        //        }
-
+        panel = new HorizontalSplitPanel();
+        panel.setSizeFull();
+        panel.setCaption("Choix de sorts");
         panel.setFirstComponent(tabs);
         layout.addComponent(panel);
+
         return layout;
     }
 
@@ -130,25 +92,31 @@ public class SpellChoiceForm extends DSAbstractForm<Character> {
             int classLevel = assignedClass.get().getClassLevel();
             label.setValue("Classe = " + assignedClass.get().toString());
 
-            Optional<ClassSpellSlots> spellSlotOpt = this.classe.getSpellSlots().stream()
-                    .filter(slot -> slot.getLevel().getId().intValue() == classLevel).findFirst();
+            Optional<ClassSpellSlots> spellSlotOpt = ClassUtil.getClassSpellSlots(this.classe, classLevel);
+
             if (spellSlotOpt.isPresent()) {
                 ClassSpellSlots spellSlot = spellSlotOpt.get();
-                Integer nbCantrips = spellSlot.getCantripsKnown();
-                if (nbCantrips != null) {
-                    List<Spell> unknownCantrips = spellService.findAllUnknownClassSpellsByLevel(0, getEntity().getId(),
-                            this.classe.getId());
-                    cantrips.setOptions(unknownCantrips);
-                    List<Spell> knownCantrips = spellService.findAllKnownClassSpellsByLevel(0, getEntity().getId(),
-                            this.classe.getId());
-                    cantrips.setValue(knownCantrips);
+
+                //number of spell to choose
+                final Integer maxNumberOfSpellToChoose;
+                final Integer maxNumberOfCantripToChoose;
+                maxNumberOfCantripToChoose = spellSlot.getCantripsKnown();
+                if (this.classe.getSpellCastingType() == SpellCastingType.KNOWN) {
+                    maxNumberOfSpellToChoose = spellSlot.getSpellsKnown();
+                } else {
+                    maxNumberOfSpellToChoose = 6;
+                }
+
+                if (maxNumberOfCantripToChoose != null) {
+
+                    List<Spell> unknownCantrips = spellService.findAllUnknownClassSpellsByLevel(Spell.CANTRIP_LEVEL,
+                            getEntity().getId(), this.classe.getId());
+                    List<Spell> knownCantrips = spellService.findAllKnownClassSpellsByLevel(Spell.CANTRIP_LEVEL,
+                            getEntity().getId(), this.classe.getId());
 
                     // fill cantrips
                     for (Spell cantrip : unknownCantrips) {
-                        Button button = new Button(cantrip.getName());
-                        button.setWidth("100%");
-                        button.setStyleName(ValoTheme.BUTTON_LARGE);
-                        button.setData(cantrip);
+                        Button button = new SpellButton(cantrip);
                         button.addClickListener(new ClickListener() {
 
                             private static final long serialVersionUID = -7100849411719491325L;
@@ -163,6 +131,8 @@ public class SpellChoiceForm extends DSAbstractForm<Character> {
                                     knownCantripLayout.removeComponent(source);
                                     unknownCantripLayout.addComponent(source);
                                 }
+                                unknownCantripLayout.setEnabled(
+                                        knownCantripLayout.getComponentCount() < maxNumberOfCantripToChoose.intValue());
 
                             }
                         });
@@ -177,15 +147,17 @@ public class SpellChoiceForm extends DSAbstractForm<Character> {
                         knownCantripLayout.addComponent(button);
                     }
 
-                    panel.setSecondComponent(knownCantripLayout);
-
                     Tab tab = tabs.addTab(unknownCantripLayout, "0");
                     tab.setClosable(false);
                     tab.setEnabled(true);
+                    tab.setDescription("Sorts mineurs");
+                }
+
+                if (maxNumberOfSpellToChoose != null) {
 
                     //get max level spell slot
                     int maxLevelSpellSlot = 0;
-                    for (int spellLevel = 1; spellLevel <= 9; spellLevel++) {
+                    for (int spellLevel = Spell.MIN_SPELL_LEVEL; spellLevel <= Spell.MAX_SPELL_LEVEL; spellLevel++) {
                         try {
                             Method method = spellSlot.getClass().getDeclaredMethod("getSpellSlots" + spellLevel);
                             Integer nbSpells = (Integer) method.invoke(spellSlot);
@@ -199,7 +171,7 @@ public class SpellChoiceForm extends DSAbstractForm<Character> {
                     }
 
                     // fill each tab with spells
-                    for (int spellLevel = 1; spellLevel <= maxLevelSpellSlot; spellLevel++) {
+                    for (int spellLevel = Spell.MIN_SPELL_LEVEL; spellLevel <= maxLevelSpellSlot; spellLevel++) {
                         List<Spell> unknownSpells = spellService.findAllUnknownClassSpellsByLevel(spellLevel,
                                 getEntity().getId(), this.classe.getId());
                         List<Spell> knownSpells = spellService.findAllKnownClassSpellsByLevel(spellLevel,
@@ -208,10 +180,7 @@ public class SpellChoiceForm extends DSAbstractForm<Character> {
                         final int index = spellLevel;
 
                         for (Spell spell : unknownSpells) {
-                            Button button = new Button(spell.getName());
-                            button.setWidth("100%");
-                            button.setStyleName(ValoTheme.BUTTON_LARGE);
-                            button.setData(spell);
+                            Button button = new SpellButton(spell);
                             button.addClickListener(new ClickListener() {
 
                                 private static final long serialVersionUID = 2229312481145894791L;
@@ -225,6 +194,11 @@ public class SpellChoiceForm extends DSAbstractForm<Character> {
                                     } else {
                                         knownSpellLayout.removeComponent(source);
                                         unknownSpellLayout[index].addComponent(source);
+                                    }
+                                    //refresh spell availability
+                                    for (int i = 1; i <= 9; i++) {
+                                        unknownSpellLayout[i].setEnabled(knownSpellLayout
+                                                .getComponentCount() < maxNumberOfSpellToChoose.intValue());
                                     }
 
                                 }
@@ -240,12 +214,14 @@ public class SpellChoiceForm extends DSAbstractForm<Character> {
                             knownSpellLayout.addComponent(button);
                         }
 
-                        Tab tab2 = tabs.addTab(unknownSpellLayout[spellLevel], String.valueOf(spellLevel));
-                        tab2.setClosable(false);
-                        tab2.setEnabled(true);
+                        Tab spellTab = tabs.addTab(unknownSpellLayout[spellLevel], String.valueOf(spellLevel));
+                        spellTab.setClosable(false);
+                        spellTab.setEnabled(true);
+                        spellTab.setDescription("Sorts niveau " + spellLevel);
 
                     }
 
+                    panel.setSecondComponent(knownCantripLayout);
                 }
 
                 tabs.addSelectedTabChangeListener(new SelectedTabChangeListener() {
@@ -255,7 +231,8 @@ public class SpellChoiceForm extends DSAbstractForm<Character> {
                     @Override
                     public void selectedTabChange(SelectedTabChangeEvent event) {
                         TabSheet tabSheet = event.getTabSheet();
-                        if (tabSheet.getTabPosition(tabSheet.getTab(tabSheet.getSelectedTab())) == 0) {
+                        if (tabSheet
+                                .getTabPosition(tabSheet.getTab(tabSheet.getSelectedTab())) == Spell.CANTRIP_LEVEL) {
                             panel.setSecondComponent(knownCantripLayout);
                         } else {
                             panel.setSecondComponent(knownSpellLayout);
@@ -268,6 +245,50 @@ public class SpellChoiceForm extends DSAbstractForm<Character> {
 
         }
 
+    }
+    
+    private void getSpellWindow(Spell spell) {
+        Window window = new Window(spell.getName());
+        window.setModal(true);
+        window.setWidth("60%");
+
+        StringToCollectionConverter converter = new StringToCollectionConverter();
+
+        FormLayout layout = new FormLayout();
+        MLabel componentType = new MLabel("Type de composant",
+                converter.convertToPresentation(spell.getComponentTypes(), String.class, null));
+        MLabel text = new MLabel("Description", spell.getDescription()).withFullWidth();
+        layout.addComponents(componentType, text);
+
+        //TODO : other useful info
+
+        window.setContent(layout);
+        UI.getCurrent().addWindow(window);
+    }
+
+    private class SpellButton extends Button {
+
+        private static final long serialVersionUID = -2039909976963581426L;
+
+        public SpellButton(Spell spell) {
+            super();
+            setCaption(spell.getName());
+            setWidth("100%");
+            setStyleName(ValoTheme.BUTTON_LARGE);
+            setData(spell);
+            setDescription(spell.getDescription());
+            addContextClickListener(event -> {
+                    if (event != null && event.getButton() == MouseButton.RIGHT) {
+                        SpellButton button = (SpellButton) event.getSource();
+                        getSpellWindow(button.getData());
+                    }
+            });
+        }
+
+        @Override
+        public Spell getData() {
+            return (Spell) super.getData();
+        }
     }
 
 }

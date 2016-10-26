@@ -43,6 +43,10 @@ public class Spell extends AbstractTimestampEntity implements Serializable {
     public static final String ALL_CLASS_SPELLS_BY_LEVEL         = "findAllClassSpellsByLevel";
     public static final String ALL_SPELLS_SORTED_BY_LEVEL_AND_NAME = "findAllSpellsSortedByLevelAndName";
 
+    public static final int CANTRIP_LEVEL   = 0;
+    public static final int MIN_SPELL_LEVEL = 1;
+    public static final int MAX_SPELL_LEVEL = 9;
+
     public enum MagicSchool {
         ABJURATION,
         CONJURATION,
