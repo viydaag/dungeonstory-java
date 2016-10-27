@@ -1,5 +1,6 @@
 package com.dungeonstory.view.character;
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
@@ -19,7 +20,10 @@ import com.dungeonstory.backend.service.impl.SpellService;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.util.layout.VerticalSpacedLayout;
 import com.vaadin.data.util.converter.StringToCollectionConverter;
+import com.vaadin.server.FileResource;
+import com.vaadin.server.VaadinService;
 import com.vaadin.shared.MouseEventDetails.MouseButton;
+import com.vaadin.ui.Audio;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -54,8 +58,18 @@ public class SpellChoiceForm extends DSAbstractForm<Character> {
     VerticalLayout[] unknownSpellLayout = new VerticalLayout[Spell.MAX_SPELL_LEVEL + 1];
     VerticalLayout   knownSpellLayout   = new VerticalLayout();
 
+    private Audio spellSound = null;
+
     public SpellChoiceForm() {
         super();
+
+        String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
+        FileResource resource = new FileResource(new File(basepath + "/WEB-INF/sound/feuxA01.mp3"));
+
+        spellSound = new Audio();
+        spellSound.setSource(resource);
+        spellSound.setShowControls(false);
+        spellSound.setAutoplay(false);
     }
 
     public void setClass(DSClass classe) {
@@ -66,6 +80,8 @@ public class SpellChoiceForm extends DSAbstractForm<Character> {
     protected Component createContent() {
 
         VerticalSpacedLayout layout = new VerticalSpacedLayout();
+
+        layout.addComponent(spellSound);
 
         label = new MLabel();
         layout.addComponent(label);
@@ -246,7 +262,7 @@ public class SpellChoiceForm extends DSAbstractForm<Character> {
         }
 
     }
-    
+
     private void getSpellWindow(Spell spell) {
         Window window = new Window(spell.getName());
         window.setModal(true);
@@ -277,12 +293,14 @@ public class SpellChoiceForm extends DSAbstractForm<Character> {
             setStyleName(ValoTheme.BUTTON_LARGE);
             setData(spell);
             setDescription(spell.getDescription());
+
             addContextClickListener(event -> {
-                    if (event != null && event.getButton() == MouseButton.RIGHT) {
-                        SpellButton button = (SpellButton) event.getSource();
-                        getSpellWindow(button.getData());
-                    }
+                if (event != null && event.getButton() == MouseButton.RIGHT) {
+                    SpellButton button = (SpellButton) event.getSource();
+                    getSpellWindow(button.getData());
+                }
             });
+            addClickListener(event -> spellSound.play());
         }
 
         @Override
