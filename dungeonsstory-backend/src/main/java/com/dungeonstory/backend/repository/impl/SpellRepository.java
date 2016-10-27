@@ -18,26 +18,35 @@ public class SpellRepository extends AbstractRepository<Spell, Long> {
     }
 
     public List<Spell> findAllSpellsByLevel(int level) {
+        entityManager.getTransaction().begin();
         TypedQuery<Spell> query = entityManager.createNamedQuery(Spell.ALL_SPELLS_BY_LEVEL, getEntityClass());
         query.setParameter("level", level);
-        return query.getResultList();
+        List<Spell> resultList = query.getResultList();
+        entityManager.getTransaction().commit();
+        return resultList;
     }
 
     public List<Spell> findAllClassSpellsByLevel(int level, Long classId) {
+        entityManager.getTransaction().begin();
         TypedQuery<Spell> query = entityManager.createNamedQuery(Spell.ALL_CLASS_SPELLS_BY_LEVEL, getEntityClass());
         query.setParameter("level", level);
         query.setParameter("classId", classId);
-        return query.getResultList();
+        List<Spell> resultList = query.getResultList();
+        entityManager.getTransaction().commit();
+        return resultList;
     }
 
     public List<Spell> findAllUnknownClassSpellsByLevel(int level, Long characterId, Long classId) {
         if (characterId != null) {
+            entityManager.getTransaction().begin();
             TypedQuery<Spell> query = entityManager.createNamedQuery(Spell.ALL_UNKNOWN_CLASS_SPELLS_BY_LEVEL,
                     getEntityClass());
             query.setParameter("level", level);
             query.setParameter("classId", classId);
             query.setParameter("characterId", characterId);
-            return query.getResultList();
+            List<Spell> resultList = query.getResultList();
+            entityManager.getTransaction().commit();
+            return resultList;
         } else {
             return findAllClassSpellsByLevel(level, classId);
         }
@@ -45,21 +54,27 @@ public class SpellRepository extends AbstractRepository<Spell, Long> {
 
     public List<Spell> findAllKnownClassSpellsByLevel(int level, Long characterId, Long classId) {
         if (characterId != null) {
+            entityManager.getTransaction().begin();
             TypedQuery<Spell> query = entityManager.createNamedQuery(Spell.ALL_KNOWN_CLASS_SPELLS_BY_LEVEL,
                     getEntityClass());
             query.setParameter("level", level);
             query.setParameter("classId", classId);
             query.setParameter("characterId", characterId);
-            return query.getResultList();
+            List<Spell> resultList = query.getResultList();
+            entityManager.getTransaction().commit();
+            return resultList;
         } else {
             return new ArrayList<Spell>();
         }
     }
 
     public List<Spell> findAllSpellsSortedByLevelAndName() {
+        entityManager.getTransaction().begin();
         TypedQuery<Spell> query = entityManager.createNamedQuery(Spell.ALL_SPELLS_SORTED_BY_LEVEL_AND_NAME,
                 getEntityClass());
-        return query.getResultList();
+        List<Spell> resultList = query.getResultList();
+        entityManager.getTransaction().commit();
+        return resultList;
     }
 
 }

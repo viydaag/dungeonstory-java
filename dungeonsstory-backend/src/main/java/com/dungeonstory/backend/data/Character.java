@@ -2,6 +2,7 @@ package com.dungeonstory.backend.data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -168,12 +169,21 @@ public class Character extends AbstractTimestampEntity implements Serializable {
     @Column(name = "terrain", nullable = false)
     private Set<Terrain> favoredTerrains;
 
+    @ManyToMany
+    @JoinTable(name = "CharacterLanguage", joinColumns = {
+            @JoinColumn(name = "characterId", referencedColumnName = "id") }, inverseJoinColumns = {
+                    @JoinColumn(name = "languageId", referencedColumnName = "id") })
+    private List<Language> languages;
+
     public Character() {
         super();
         classes = new ArrayList<CharacterClass>();
         feats = new ArrayList<Feat>();
         skills = new ArrayList<Skill>();
         equipment = new ArrayList<CharacterEquipment>();
+        languages = new ArrayList<Language>();
+        favoredEnnemies = new ArrayList<CreatureType>();
+        favoredTerrains = new HashSet<Terrain>();
     }
 
     public User getUser() {
@@ -270,6 +280,14 @@ public class Character extends AbstractTimestampEntity implements Serializable {
 
     public void setFavoredTerrains(Set<Terrain> favoredTerrains) {
         this.favoredTerrains = favoredTerrains;
+    }
+
+    public List<Language> getLanguages() {
+        return languages;
+    }
+
+    public void setLanguages(List<Language> languages) {
+        this.languages = languages;
     }
 
 }
