@@ -1,5 +1,7 @@
 package com.dungeonstory.view.character;
 
+import java.util.Optional;
+
 import org.vaadin.viritin.fields.MTextArea;
 import org.vaadin.viritin.fields.TypedSelect;
 import org.vaadin.viritin.fields.config.ListSelectConfig;
@@ -7,16 +9,18 @@ import org.vaadin.viritin.form.AbstractForm;
 import org.vaadin.viritin.label.MLabel;
 
 import com.dungeonstory.backend.data.Character;
+import com.dungeonstory.backend.data.CharacterClass;
 import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.service.impl.ClassService;
 import com.dungeonstory.util.converter.CollectionToStringConverter;
 import com.dungeonstory.util.layout.HorizontalSpacedLayout;
 import com.dungeonstory.util.layout.VerticalSpacedLayout;
+import com.vaadin.data.validator.NullValidator;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
-public class ClassChoiceForm extends AbstractForm<Character> {
+public class ClassChoiceForm extends AbstractForm<Character> implements AbstractForm.SavedHandler<Character> {
 
     private static final long serialVersionUID = 6382868944768026273L;
 
@@ -32,6 +36,7 @@ public class ClassChoiceForm extends AbstractForm<Character> {
 
     public ClassChoiceForm() {
         super();
+        setSavedHandler(this);
     }
 
     @Override
@@ -43,6 +48,13 @@ public class ClassChoiceForm extends AbstractForm<Character> {
         classe = new TypedSelect<DSClass>("Choix de classe", classService.findAll())
                 .asListSelectType(new ListSelectConfig().withRows((int) classService.count()))
                 .withNullSelectionAllowed(false);
+        classe.setRequired(true);
+        classe.setImmediate(true);
+        classe.addValidator(new NullValidator("La classe ets obligatoire", false));
+        classe.addMValueChangeListener(event -> {
+            getFieldGroup().setBeanModified(true);
+            onFieldGroupChange(getFieldGroup());
+        });
 
         VerticalSpacedLayout classDescriptionLayout = new VerticalSpacedLayout();
         classDescription = new MTextArea("Description").withRows(10);
@@ -91,6 +103,24 @@ public class ClassChoiceForm extends AbstractForm<Character> {
 
     public TypedSelect<DSClass> getClasse() {
         return classe;
+    }
+
+    @Override
+    public void onSave(Character entity) {
+        DSClass chosenClass = getClasse().getValue();
+
+        Optional<CharacterClass> assignedClass = entity.getClasses().stream()
+                .filter(characterClasse -> characterClasse.getClass().equals(chosenClass)).findFirst();
+
+        if (assignedClass.isPresent()) {
+            assignedClass.get().setClassLevel(assignedClass.get().getClassLevel() + 1);
+        } else {
+            CharacterClass classe = new CharacterClass();
+            classe.setCharacter(entity);
+            classe.setClasse(chosenClass);
+            classe.setClassLevel(1);
+            entity.getClasses().add(classe);
+        }
     }
 
 }

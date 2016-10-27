@@ -1,6 +1,7 @@
 package com.dungeonstory.view.character;
 
 import org.vaadin.viritin.fields.IntegerField;
+import org.vaadin.viritin.form.AbstractForm;
 import org.vaadin.viritin.label.MLabel;
 
 import com.dungeonstory.backend.Configuration;
@@ -14,10 +15,10 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
 
-public class AbilityScoreInitForm extends DSAbstractForm<Character> {
+public class AbilityScoreInitForm extends DSAbstractForm<Character> implements AbstractForm.SavedHandler<Character> {
 
     private static final long serialVersionUID = -708599071923669623L;
-    
+
     private IntegerField strength;
     private IntegerField dexterity;
     private IntegerField constitution;
@@ -38,20 +39,21 @@ public class AbilityScoreInitForm extends DSAbstractForm<Character> {
     private MLabel intelligenceLabel;
     private MLabel wisdomLabel;
     private MLabel charismaLabel;
-    
+
     private final int MIN_SCORE = 8;
     private final int MAX_SCORE = 15;
 
-    IntegerField pointsToSpend;
+    IntegerField     pointsToSpend;
     GridSpacedLayout gridLayout;
 
     public AbilityScoreInitForm() {
         super();
+        setSavedHandler(this);
     }
 
     @Override
     protected Component createContent() {
-        
+
         VerticalSpacedLayout layout = new VerticalSpacedLayout();
 
         pointsToSpend = new IntegerField("Points").withWidth("50px");
@@ -64,6 +66,8 @@ public class AbilityScoreInitForm extends DSAbstractForm<Character> {
                 pointsToSpend.setReadOnly(false);
                 pointsToSpend.setValue(0);
                 pointsToSpend.setReadOnly(true);
+                getFieldGroup().setBeanModified(true);
+                onFieldGroupChange(getFieldGroup());
             });
             layout.addComponent(assignAll);
         }
@@ -72,7 +76,7 @@ public class AbilityScoreInitForm extends DSAbstractForm<Character> {
         gridLayout.addComponent(new MLabel("Caractéristique"), 0, 0);
         gridLayout.addComponent(new MLabel("Modificateur de race"), 1, 0);
         gridLayout.addComponent(new MLabel("Score"), 2, 0);
-        
+
         strength = new IntegerField().withWidth("50px");
         strengthModifier = new IntegerField();
         strengthLabel = new MLabel("Force");
@@ -121,7 +125,6 @@ public class AbilityScoreInitForm extends DSAbstractForm<Character> {
 
         layout.addComponents(pointsToSpend, gridLayout);
 
-
         return layout;
     }
 
@@ -129,59 +132,59 @@ public class AbilityScoreInitForm extends DSAbstractForm<Character> {
     public void afterSetEntity() {
         strengthModifier.setValue(getEntity().getRace().getStrModifier());
         strength.setValue(MIN_SCORE + getEntity().getRace().getStrModifier());
-        gridLayout.addComponent(createPlusButton(strength), 3, 1);
+        gridLayout.addComponent(createPlusButton(strength, strengthModifier.getValue()), 3, 1);
         gridLayout.addComponent(createMinusButton(strength, strengthModifier.getValue()), 4, 1);
         strength.setReadOnly(true);
 
         dexterityModifier.setValue(getEntity().getRace().getDexModifier());
         dexterity.setValue(MIN_SCORE + getEntity().getRace().getDexModifier());
-        gridLayout.addComponent(createPlusButton(dexterity), 3, 2);
+        gridLayout.addComponent(createPlusButton(dexterity, dexterityModifier.getValue()), 3, 2);
         gridLayout.addComponent(createMinusButton(dexterity, dexterityModifier.getValue()), 4, 2);
         dexterity.setReadOnly(true);
 
         constitutionModifier.setValue(getEntity().getRace().getConModifier());
         constitution.setValue(MIN_SCORE + getEntity().getRace().getConModifier());
-        gridLayout.addComponent(createPlusButton(constitution), 3, 3);
+        gridLayout.addComponent(createPlusButton(constitution, constitutionModifier.getValue()), 3, 3);
         gridLayout.addComponent(createMinusButton(constitution, constitutionModifier.getValue()), 4, 3);
         constitution.setReadOnly(true);
 
         intelligenceModifier.setValue(getEntity().getRace().getIntModifier());
         intelligence.setValue(MIN_SCORE + getEntity().getRace().getIntModifier());
-        gridLayout.addComponent(createPlusButton(intelligence), 3, 4);
+        gridLayout.addComponent(createPlusButton(intelligence, intelligenceModifier.getValue()), 3, 4);
         gridLayout.addComponent(createMinusButton(intelligence, intelligenceModifier.getValue()), 4, 4);
         intelligence.setReadOnly(true);
 
         wisdomModifier.setValue(getEntity().getRace().getWisModifier());
         wisdom.setValue(MIN_SCORE + getEntity().getRace().getWisModifier());
-        gridLayout.addComponent(createPlusButton(wisdom), 3, 5);
+        gridLayout.addComponent(createPlusButton(wisdom, wisdomModifier.getValue()), 3, 5);
         gridLayout.addComponent(createMinusButton(wisdom, wisdomModifier.getValue()), 4, 5);
         wisdom.setReadOnly(true);
 
         charismaModifier.setValue(getEntity().getRace().getChaModifier());
         charisma.setValue(MIN_SCORE + getEntity().getRace().getChaModifier());
-        gridLayout.addComponent(createPlusButton(charisma), 3, 6);
+        gridLayout.addComponent(createPlusButton(charisma, charismaModifier.getValue()), 3, 6);
         gridLayout.addComponent(createMinusButton(charisma, charismaModifier.getValue()), 4, 6);
         charisma.setReadOnly(true);
     }
 
-    private Button createPlusButton(IntegerField fieldAction) {
+    private Button createPlusButton(IntegerField fieldAction, int modifier) {
         Button plusButton = new Button(FontAwesome.PLUS);
         plusButton.addClickListener(event -> {
-                int value = fieldAction.getValue().intValue() + 1;
-                int nbPointToSpend = 0;
-                if (value <= MAX_SCORE) {
-                    nbPointToSpend = getNbPointsToSpend(value);
-                    if (pointsToSpend.getValue() >= nbPointToSpend) {
-                        pointsToSpend.setReadOnly(false);
-                        pointsToSpend.setValue(pointsToSpend.getValue() - nbPointToSpend);
-                        pointsToSpend.setReadOnly(true);
-                        fieldAction.setReadOnly(false);
-                        fieldAction.setValue(value);
-                        fieldAction.setReadOnly(true);
-                    }
-                } else {
-                    Notification.show("Le score maximum est 15", Type.HUMANIZED_MESSAGE);
+            int value = fieldAction.getValue().intValue() + 1;
+            int nbPointToSpend = 0;
+            if (value <= MAX_SCORE + modifier) {
+                nbPointToSpend = getNbPointsToSpend(value);
+                if (pointsToSpend.getValue() >= nbPointToSpend) {
+                    pointsToSpend.setReadOnly(false);
+                    pointsToSpend.setValue(pointsToSpend.getValue() - nbPointToSpend);
+                    pointsToSpend.setReadOnly(true);
+                    fieldAction.setReadOnly(false);
+                    fieldAction.setValue(value);
+                    fieldAction.setReadOnly(true);
                 }
+            } else {
+                Notification.show("Le score maximum est " + (MAX_SCORE + modifier), Type.HUMANIZED_MESSAGE);
+            }
         });
         return plusButton;
     }
@@ -189,19 +192,19 @@ public class AbilityScoreInitForm extends DSAbstractForm<Character> {
     private Button createMinusButton(IntegerField fieldAction, int modifier) {
         Button minusButton = new Button(FontAwesome.MINUS);
         minusButton.addClickListener(event -> {
-                int value = fieldAction.getValue().intValue();
-                int nbPointToSpend = 0;
-                if (value > (MIN_SCORE + modifier)) {
-                    nbPointToSpend = getNbPointsToSpend(value);
-                    pointsToSpend.setReadOnly(false);
-                    pointsToSpend.setValue(pointsToSpend.getValue() + nbPointToSpend);
-                    pointsToSpend.setReadOnly(true);
-                    fieldAction.setReadOnly(false);
-                    fieldAction.setValue(value - 1);
-                    fieldAction.setReadOnly(true);
-                } else {
-                    Notification.show("Le score minimum est " + (MIN_SCORE + modifier), Type.HUMANIZED_MESSAGE);
-                }
+            int value = fieldAction.getValue().intValue();
+            int nbPointToSpend = 0;
+            if (value > (MIN_SCORE + modifier)) {
+                nbPointToSpend = getNbPointsToSpend(value);
+                pointsToSpend.setReadOnly(false);
+                pointsToSpend.setValue(pointsToSpend.getValue() + nbPointToSpend);
+                pointsToSpend.setReadOnly(true);
+                fieldAction.setReadOnly(false);
+                fieldAction.setValue(value - 1);
+                fieldAction.setReadOnly(true);
+            } else {
+                Notification.show("Le score minimum est " + (MIN_SCORE + modifier), Type.HUMANIZED_MESSAGE);
+            }
         });
         return minusButton;
     }
@@ -214,6 +217,20 @@ public class AbilityScoreInitForm extends DSAbstractForm<Character> {
             nbPointToSpend = 2;
         }
         return nbPointToSpend;
+    }
+
+    @Override
+    protected void adjustSaveButtonState() {
+        if (isEagerValidation() && isBound()) {
+            boolean beanModified = getFieldGroup().isBeanModified();
+            boolean allPointsSpent = pointsToSpend.getValue() == 0;
+            getSaveButton().setEnabled(beanModified && allPointsSpent && isValid());
+        }
+    }
+
+    @Override
+    public void onSave(Character entity) {
+
     }
 
 }

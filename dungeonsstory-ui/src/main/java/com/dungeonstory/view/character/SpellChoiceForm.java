@@ -3,10 +3,13 @@ package com.dungeonstory.view.character;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
 import org.dussan.vaadin.dtabs.DTabs;
+import org.vaadin.viritin.form.AbstractForm;
 import org.vaadin.viritin.label.MLabel;
 
 import com.dungeonstory.backend.data.Character;
@@ -39,7 +42,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
 
-public class SpellChoiceForm extends DSAbstractForm<Character> {
+public class SpellChoiceForm extends DSAbstractForm<Character> implements AbstractForm.SavedHandler<Character> {
 
     private static final long serialVersionUID = 7418266123213990672L;
 
@@ -52,11 +55,13 @@ public class SpellChoiceForm extends DSAbstractForm<Character> {
     private DTabs                tabs  = null;
     private HorizontalSplitPanel panel = null;
 
-    VerticalLayout unknownCantripLayout = new VerticalLayout();
-    VerticalLayout knownCantripLayout   = new VerticalLayout();
+    private VerticalLayout unknownCantripLayout = new VerticalLayout();
+    private VerticalLayout knownCantripLayout   = new VerticalLayout();
 
-    VerticalLayout[] unknownSpellLayout = new VerticalLayout[Spell.MAX_SPELL_LEVEL + 1];
-    VerticalLayout   knownSpellLayout   = new VerticalLayout();
+    private VerticalLayout[] unknownSpellLayout = new VerticalLayout[Spell.MAX_SPELL_LEVEL + 1];
+    private VerticalLayout   knownSpellLayout   = new VerticalLayout();
+
+    private int totalNbSpell = 0;
 
     private Audio spellSound = null;
 
@@ -70,6 +75,8 @@ public class SpellChoiceForm extends DSAbstractForm<Character> {
         spellSound.setSource(resource);
         spellSound.setShowControls(false);
         spellSound.setAutoplay(false);
+
+        setSavedHandler(this);
     }
 
     public void setClass(DSClass classe) {
@@ -125,6 +132,8 @@ public class SpellChoiceForm extends DSAbstractForm<Character> {
 
                 if (maxNumberOfCantripToChoose != null) {
 
+                    totalNbSpell += maxNumberOfCantripToChoose;
+
                     List<Spell> unknownCantrips = spellService.findAllUnknownClassSpellsByLevel(Spell.CANTRIP_LEVEL,
                             getEntity().getId(), this.classe.getId());
                     List<Spell> knownCantrips = spellService.findAllKnownClassSpellsByLevel(Spell.CANTRIP_LEVEL,
@@ -170,6 +179,8 @@ public class SpellChoiceForm extends DSAbstractForm<Character> {
                 }
 
                 if (maxNumberOfSpellToChoose != null) {
+
+                    totalNbSpell += maxNumberOfSpellToChoose;
 
                     //get max level spell slot
                     int maxLevelSpellSlot = 0;
@@ -301,11 +312,55 @@ public class SpellChoiceForm extends DSAbstractForm<Character> {
                 }
             });
             addClickListener(event -> spellSound.play());
+            addClickListener(event -> {
+                getFieldGroup().setBeanModified(true);
+                onFieldGroupChange(getFieldGroup());
+            });
         }
 
         @Override
         public Spell getData() {
             return (Spell) super.getData();
+        }
+    }
+
+    @Override
+    protected void adjustSaveButtonState() {
+        if (isEagerValidation() && isBound()) {
+            boolean beanModified = getFieldGroup().isBeanModified();
+            boolean allSpellAssigned = true;
+            //            boolean allSpellAssigned = (totalNbSpell == knownCantripLayout.getComponentCount()
+            //                    + knownSpellLayout.getComponentCount());
+            getSaveButton().setEnabled(beanModified && allSpellAssigned && isValid());
+        }
+    }
+
+    @Override
+    public void onSave(Character entity) {
+
+        List<Spell> characterKnownSpells = new ArrayList<>();
+        Iterator<Component> iteratorCantrip = knownCantripLayout.iterator();
+        while (iteratorCantrip.hasNext()) {
+            Component c = iteratorCantrip.next();
+            if (c instanceof Button) {
+                Button b = (Button) c;
+                Spell cantrip = (Spell) b.getData();
+                characterKnownSpells.add(cantrip);
+            }
+        }
+        Iterator<Component> iteratorSpell = knownSpellLayout.iterator();
+        while (iteratorSpell.hasNext()) {
+            Component c = iteratorSpell.next();
+            if (c instanceof Button) {
+                Button b = (Button) c;
+                Spell spell = (Spell) b.getData();
+                characterKnownSpells.add(spell);
+            }
+        }
+
+        Optional<CharacterClass> assignedClass = ClassUtil.getCharacterClass(entity, classe);
+        if (assignedClass.isPresent()) {
+            assignedClass.get().setKnownSpells(characterKnownSpells);
         }
     }
 

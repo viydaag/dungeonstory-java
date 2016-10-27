@@ -21,18 +21,14 @@ public class RaceStep extends CharacterWizardStep {
     @Override
     public Component getContent() {
         form = new RaceChoiceForm();
+        form.setSaveButton(wizard.getNextButton());
         form.setEntity(wizard.getCharacter());
-        form.race.addMValueChangeListener(event -> {
-            getWizard().getNextButton().setEnabled(event.getValue() != null);
-        });
-        return form;
-    }
+        form.setBeanLevelValidationEnabled(false);
+        //        form.race.addMValueChangeListener(event -> {
+        //            getWizard().getNextButton().setEnabled(event.getValue() != null);
+        //        });
 
-    @Override
-    public void afterActivateStep() {
-        if (form.race.getValue() == null) {
-            getWizard().getNextButton().setEnabled(false);
-        }
+        return form;
     }
 
 }
