@@ -69,7 +69,7 @@ public class SpellChoiceForm extends DSAbstractForm<Character> implements Abstra
         super();
 
         String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
-        FileResource resource = new FileResource(new File(basepath + "/WEB-INF/sound/feuxA01.mp3"));
+        FileResource resource = new FileResource(new File(basepath + "/WEB-INF/sound/selectSpell.mp3"));
 
         spellSound = new Audio();
         spellSound.setSource(resource);
