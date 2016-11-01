@@ -11,6 +11,7 @@ import org.vaadin.viritin.label.MLabel;
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.CharacterClass;
 import com.dungeonstory.backend.data.DSClass;
+import com.dungeonstory.backend.data.util.ClassUtil;
 import com.dungeonstory.backend.service.impl.ClassService;
 import com.dungeonstory.util.converter.CollectionToStringConverter;
 import com.dungeonstory.util.layout.HorizontalSpacedLayout;
@@ -108,19 +109,27 @@ public class ClassChoiceForm extends AbstractForm<Character> implements Abstract
     @Override
     public void onSave(Character entity) {
         DSClass chosenClass = getClasse().getValue();
+        CharacterClass chosenCharacterClass = null;
 
-        Optional<CharacterClass> assignedClass = entity.getClasses().stream()
-                .filter(characterClasse -> characterClasse.getClass().equals(chosenClass)).findFirst();
+        Optional<CharacterClass> assignedClass = ClassUtil.getCharacterClass(entity, chosenClass);
 
         if (assignedClass.isPresent()) {
             assignedClass.get().setClassLevel(assignedClass.get().getClassLevel() + 1);
+            chosenCharacterClass = assignedClass.get();
         } else {
             CharacterClass classe = new CharacterClass();
             classe.setCharacter(entity);
             classe.setClasse(chosenClass);
             classe.setClassLevel(1);
             entity.getClasses().add(classe);
+            chosenCharacterClass = classe;
         }
+
+        entity.getArmorProficiencies().addAll(chosenClass.getArmorProficiencies());
+        entity.getSkillProficiencies().addAll(chosenClass.getBaseSkills());
+        entity.getWeaponProficiencies().addAll(chosenClass.getWeaponProficiencies());
+        entity.getFeats().addAll(ClassUtil.getClassFeaturesForLevel(chosenClass, chosenCharacterClass.getClassLevel()));
+
     }
 
 }

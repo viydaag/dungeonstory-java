@@ -38,7 +38,9 @@ public class LanguageService extends AbstractDataService<Language, Long> impleme
 
     @Override
     public List<Language> getUnassignedLanguages(Character character) {
-        return repo.getUnassignedLanguages(character);
+        List<Language> unassignedLanguages = repo.getUnassignedLanguages(character);
+        unassignedLanguages.removeAll(character.getLanguages());
+        return unassignedLanguages;
     }
 
 }

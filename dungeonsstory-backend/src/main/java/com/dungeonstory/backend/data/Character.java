@@ -22,9 +22,13 @@ import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import org.eclipse.persistence.annotations.PrivateOwned;
+
+import com.dungeonstory.backend.data.Tool.ToolType;
+
 @Entity
 @Table(name = "DSCharacter")
-public class Character extends AbstractTimestampEntity implements Serializable {
+public class Character extends AbstractTimestampEntity implements Serializable, Cloneable {
     private static final long serialVersionUID = -967001655180847193L;
 
     @NotNull
@@ -109,14 +113,8 @@ public class Character extends AbstractTimestampEntity implements Serializable {
     @Column(name = "charisma", nullable = false)
     private int charisma;
 
-    @Column(name = "background", columnDefinition = "TEXT")
-    private String background;
-
-    @Column(name = "look", columnDefinition = "TEXT")
-    private String look;
-
-    @Column(name = "personnality", columnDefinition = "TEXT")
-    private String personnality;
+    @OneToOne(mappedBy = "character")
+    private CharacterBackground background;
 
     @NotNull
     @ManyToOne
@@ -134,26 +132,43 @@ public class Character extends AbstractTimestampEntity implements Serializable {
     @OneToMany(mappedBy = "character")
     private List<Message> messages;
 
-//    @OneToMany(mappedBy = "character")
-//    private List<CharacterSkill> skills;
-    
     @OneToMany(mappedBy = "character")
     private List<CharacterClass> classes;
-    
+
     @ManyToMany
-    @JoinTable(
-        name="CharacterFeat",
-        joinColumns={@JoinColumn(name="characterId", referencedColumnName="id")},
-        inverseJoinColumns={@JoinColumn(name="featId", referencedColumnName="id")})
-    private List<Feat> feats;
-    
+    @JoinTable(name = "CharacterFeat", joinColumns = {
+            @JoinColumn(name = "characterId", referencedColumnName = "id") }, inverseJoinColumns = {
+                    @JoinColumn(name = "featId", referencedColumnName = "id") })
+    private Set<Feat> feats;
+
     @ManyToMany
-    @JoinTable(
-        name="CharacterProficientSkill",
-        joinColumns=@JoinColumn(name="characterId", referencedColumnName="id"),
-        inverseJoinColumns=@JoinColumn(name="skillId", referencedColumnName="id"))
-    private List<Skill> skills;
-    
+    @JoinTable(name = "CharacterProficientSkill", joinColumns = @JoinColumn(name = "characterId", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "skillId", referencedColumnName = "id"))
+    private Set<Skill> skillProficiencies;
+
+    @ManyToMany
+    @JoinTable(name = "CharacterWeaponProficiencies", joinColumns = @JoinColumn(name = "characterId", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "weaponTypeId", referencedColumnName = "id"))
+    private Set<WeaponType> weaponProficiencies;
+
+    @ElementCollection(targetClass = ArmorType.ProficiencyType.class)
+    @CollectionTable(name = "CharacterArmorProficiencies", joinColumns = @JoinColumn(name = "characterId", nullable = false))
+    @Column(name = "armorProficiency", nullable = false)
+    @Enumerated(EnumType.STRING)
+    @PrivateOwned
+    private Set<ArmorType.ProficiencyType> armorProficiencies;
+
+    @ManyToMany
+    @JoinTable(name = "CharacterSavingThrowProficiencies", joinColumns = {
+            @JoinColumn(name = "characterId", referencedColumnName = "id") }, inverseJoinColumns = {
+                    @JoinColumn(name = "abilityId", referencedColumnName = "id") })
+    @PrivateOwned
+    private Set<Ability> savingThrowProficiencies;
+
+    @ElementCollection(targetClass = ToolType.class)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "CharacterToolProficiencies", joinColumns = @JoinColumn(name = "characterId", nullable = false))
+    @Column(name = "toolType", nullable = false)
+    private Set<ToolType> toolProficiencies;
+
     @OneToMany(mappedBy = "character")
     private List<CharacterEquipment> equipment;
 
@@ -173,17 +188,26 @@ public class Character extends AbstractTimestampEntity implements Serializable {
     @JoinTable(name = "CharacterLanguage", joinColumns = {
             @JoinColumn(name = "characterId", referencedColumnName = "id") }, inverseJoinColumns = {
                     @JoinColumn(name = "languageId", referencedColumnName = "id") })
-    private List<Language> languages;
+    private Set<Language> languages;
 
     public Character() {
         super();
         classes = new ArrayList<CharacterClass>();
-        feats = new ArrayList<Feat>();
-        skills = new ArrayList<Skill>();
+        feats = new HashSet<Feat>();
+        skillProficiencies = new HashSet<Skill>();
         equipment = new ArrayList<CharacterEquipment>();
-        languages = new ArrayList<Language>();
+        languages = new HashSet<Language>();
         favoredEnnemies = new ArrayList<CreatureType>();
         favoredTerrains = new HashSet<Terrain>();
+    }
+
+    @Override
+    public Character clone() {
+        try {
+            return (Character) super.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
     }
 
     public User getUser() {
@@ -282,12 +306,68 @@ public class Character extends AbstractTimestampEntity implements Serializable {
         this.favoredTerrains = favoredTerrains;
     }
 
-    public List<Language> getLanguages() {
+    public Set<Language> getLanguages() {
         return languages;
     }
 
-    public void setLanguages(List<Language> languages) {
+    public void setLanguages(Set<Language> languages) {
         this.languages = languages;
+    }
+
+    public CharacterBackground getBackground() {
+        return background;
+    }
+
+    public void setBackground(CharacterBackground background) {
+        this.background = background;
+    }
+
+    public Set<Skill> getSkillProficiencies() {
+        return skillProficiencies;
+    }
+
+    public void setSkillProficiencies(Set<Skill> skillProficiencies) {
+        this.skillProficiencies = skillProficiencies;
+    }
+
+    public Set<WeaponType> getWeaponProficiencies() {
+        return weaponProficiencies;
+    }
+
+    public void setWeaponProficiencies(Set<WeaponType> weaponProficiencies) {
+        this.weaponProficiencies = weaponProficiencies;
+    }
+
+    public Set<ArmorType.ProficiencyType> getArmorProficiencies() {
+        return armorProficiencies;
+    }
+
+    public void setArmorProficiencies(Set<ArmorType.ProficiencyType> armorProficiencies) {
+        this.armorProficiencies = armorProficiencies;
+    }
+
+    public Set<Ability> getSavingThrowProficiencies() {
+        return savingThrowProficiencies;
+    }
+
+    public void setSavingThrowProficiencies(Set<Ability> savingThrowProficiencies) {
+        this.savingThrowProficiencies = savingThrowProficiencies;
+    }
+
+    public Set<ToolType> getToolProficiencies() {
+        return toolProficiencies;
+    }
+
+    public void setToolProficiencies(Set<ToolType> toolProficiencies) {
+        this.toolProficiencies = toolProficiencies;
+    }
+
+    public Set<Feat> getFeats() {
+        return feats;
+    }
+
+    public void setFeats(Set<Feat> feats) {
+        this.feats = feats;
     }
 
 }

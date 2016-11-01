@@ -38,12 +38,14 @@ public class NewCharacterWizard extends CharacterWizard {
             }
         }
 
+        addStep(new BackgroundStep(this), BACKGROUND);
         addStep(new SummaryStep(this), SUMMARY);
     }
 
     private void removeAllOptinalSteps() {
         removeStep(SPELL);
         removeStep(HUNTER);
+        removeStep(BACKGROUND);
         removeStep(SUMMARY);
     }
 

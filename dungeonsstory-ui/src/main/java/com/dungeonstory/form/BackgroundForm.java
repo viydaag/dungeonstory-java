@@ -59,7 +59,7 @@ public class BackgroundForm extends DSAbstractForm<Background> {
 
         name = new MTextField("Nom");
         description = new MTextArea("Description").withFullWidth().withRows(12);
-        traits = new MTextArea("Traits").withFullWidth().withRows(12);
+        traits = new MTextArea("Traits de personnalité").withFullWidth().withRows(12);
         ideals = new MTextArea("Idéaux").withFullWidth().withRows(12);
         purposes = new MTextArea("Buts").withFullWidth().withRows(12);
         flaws = new MTextArea("Défauts").withFullWidth().withRows(12);

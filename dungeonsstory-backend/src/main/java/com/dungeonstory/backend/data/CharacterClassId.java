@@ -11,7 +11,7 @@ public class CharacterClassId implements Serializable {
     private Long classe;
 
     public CharacterClassId() {
-        // TODO Auto-generated constructor stub
+
     }
 
     public Long getCharacter() {
