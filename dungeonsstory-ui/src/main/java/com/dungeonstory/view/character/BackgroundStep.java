@@ -4,7 +4,7 @@ import com.dungeonstory.backend.data.CharacterBackground;
 import com.dungeonstory.util.CharacterWizardStep;
 import com.vaadin.ui.Component;
 
-public class BackgroundStep extends CharacterWizardStep {
+public class BackgroundStep extends CharacterWizardStep<CharacterBackground> {
 
     private static final long serialVersionUID = 5433452854744035692L;
 
@@ -19,8 +19,8 @@ public class BackgroundStep extends CharacterWizardStep {
 
     @Override
     public Component getContent() {
-        BackgroundChoiceForm form = new BackgroundChoiceForm(wizard.getCharacter());
-        form.setSaveButton(wizard.getNextButton());
+        form = new BackgroundChoiceForm(wizard.getCharacter());
+        setSaveButton();
         form.setEntity(new CharacterBackground());
         return form;
     }

@@ -34,12 +34,12 @@ public class BackgroundChoiceForm extends DSAbstractForm<CharacterBackground>
 
     private Character character;
 
-    TypedSelect<Background> background;
-    private MTextArea       look;
-    private MTextArea       traits;
-    private MTextArea       ideals;
-    private MTextArea       purposes;
-    private MTextArea       flaws;
+    TypedSelect<Background>    background;
+    private MTextArea          look;
+    private MTextArea          traits;
+    private MTextArea          ideals;
+    private MTextArea          purposes;
+    private MTextArea          flaws;
     DSSubSetSelector<Language> language;
 
     private MTextArea traitsSuggestion;
@@ -159,7 +159,9 @@ public class BackgroundChoiceForm extends DSAbstractForm<CharacterBackground>
 
     @Override
     public void onSave(CharacterBackground entity) {
-        character.getLanguages().addAll(language.getValue());
+        if (language.getValue() != null) {
+            character.getLanguages().addAll(language.getValue());
+        }
         character.getSkillProficiencies().addAll(entity.getBackground().getSkillProficiencies());
         character.getToolProficiencies().addAll(entity.getBackground().getToolProficiencies());
         character.setBackground(entity);

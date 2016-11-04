@@ -2,6 +2,7 @@ package com.dungeonstory.backend.factory.impl;
 
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.factory.Factory;
+import com.dungeonstory.backend.service.impl.LevelService;
 
 public class CharacterFactory implements Factory<Character> {
 
@@ -9,7 +10,9 @@ public class CharacterFactory implements Factory<Character> {
 
     @Override
     public Character create() {
-        return new Character();
+        Character c = new Character();
+        c.setLevel(LevelService.getInstance().read(1L));
+        return c;
     }
 
 }

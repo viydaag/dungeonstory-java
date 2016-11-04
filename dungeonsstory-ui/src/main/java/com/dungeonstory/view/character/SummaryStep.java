@@ -12,7 +12,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
-public class SummaryStep extends CharacterWizardStep {
+public class SummaryStep extends CharacterWizardStep<Character> {
 
     private static final long serialVersionUID = -8516216761141601232L;
 
@@ -56,13 +56,15 @@ public class SummaryStep extends CharacterWizardStep {
         CollectionToStringConverter collectionConverter = new CollectionToStringConverter();
         MLabel proficienciesLabel = new MLabel().withCaption("Maitrises").withStyleName(ValoTheme.LABEL_H4);
         MLabel armorProficiencies = new MLabel("Armures",
-                collectionConverter.convertToPresentation(chosenClass.getArmorProficiencies(), String.class, null));
+                collectionConverter.convertToPresentation(character.getArmorProficiencies(), String.class, null));
         MLabel weaponProficiencies = new MLabel("Armes",
-                collectionConverter.convertToPresentation(chosenClass.getWeaponProficiencies(), String.class, null));
+                collectionConverter.convertToPresentation(character.getWeaponProficiencies(), String.class, null));
         MLabel savingThrowProficiencies = new MLabel("Jets de sauvegarde", collectionConverter
-                .convertToPresentation(chosenClass.getSavingThrowProficiencies(), String.class, null));
+                .convertToPresentation(character.getSavingThrowProficiencies(), String.class, null));
         MLabel skillProficiencies = new MLabel("Compétences",
-                collectionConverter.convertToPresentation(chosenClass.getBaseSkills(), String.class, null));
+                collectionConverter.convertToPresentation(character.getSkillProficiencies(), String.class, null));
+        MLabel languages = new MLabel("Langages",
+                collectionConverter.convertToPresentation(character.getLanguages(), String.class, null));
 
         int nbLifePoints = 0;
         for (CharacterClass cc : character.getClasses()) {
@@ -79,16 +81,11 @@ public class SummaryStep extends CharacterWizardStep {
 
         //Starting gold
 
-        layout.addComponents(level, race, classes, lifePoints, abilities, abilityLayout);
+        layout.addComponents(level, race, classes, lifePoints, abilities, abilityLayout, languages);
         layout.addComponents(proficienciesLabel, armorProficiencies, weaponProficiencies, savingThrowProficiencies,
                 skillProficiencies);
 
         return layout;
-    }
-
-    @Override
-    public void afterActivateStep() {
-
     }
 
 }

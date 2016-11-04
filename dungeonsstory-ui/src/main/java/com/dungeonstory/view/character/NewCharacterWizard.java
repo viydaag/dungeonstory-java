@@ -2,9 +2,14 @@ package com.dungeonstory.view.character;
 
 import java.util.Optional;
 
+import org.vaadin.teemu.wizards.event.WizardCompletedEvent;
+
+import com.dungeonstory.authentication.CurrentUser;
 import com.dungeonstory.backend.data.ClassLevelBonus;
 import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.data.util.ClassUtil;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.Notification.Type;
 
 public class NewCharacterWizard extends CharacterWizard {
 
@@ -12,6 +17,7 @@ public class NewCharacterWizard extends CharacterWizard {
 
     public NewCharacterWizard() {
         super();
+        setOriginal(characterService.create());
 
         addStep(new RaceStep(this), RACE);
         addStep(new ClassStep(this), CLASS);
@@ -33,9 +39,9 @@ public class NewCharacterWizard extends CharacterWizard {
         Optional<ClassLevelBonus> classLevelBonusOpt = ClassUtil.getClassLevelBonus(chosenClass, 1);
         if (classLevelBonusOpt.isPresent()) {
             ClassLevelBonus classLevelBonus = classLevelBonusOpt.get();
-            if (classLevelBonus.getFavoredEnemy()) {
-                addStep(new HunterStep(this), HUNTER);
-            }
+            //            if (classLevelBonus.getFavoredEnemy()) {
+            //                addStep(new HunterStep(this), HUNTER);
+            //            }
         }
 
         addStep(new BackgroundStep(this), BACKGROUND);
@@ -44,9 +50,17 @@ public class NewCharacterWizard extends CharacterWizard {
 
     private void removeAllOptinalSteps() {
         removeStep(SPELL);
-        removeStep(HUNTER);
+        //        removeStep(HUNTER);
         removeStep(BACKGROUND);
         removeStep(SUMMARY);
+    }
+
+    @Override
+    public void wizardCompleted(WizardCompletedEvent event) {
+        character.setUser(CurrentUser.get());
+        characterService.create(character);
+        Notification.show("Personnage créé!", Type.HUMANIZED_MESSAGE);
+        super.wizardCompleted(event);
     }
 
 }

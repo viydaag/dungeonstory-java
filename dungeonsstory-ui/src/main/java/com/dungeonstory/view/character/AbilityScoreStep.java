@@ -1,13 +1,12 @@
 package com.dungeonstory.view.character;
 
+import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.util.CharacterWizardStep;
 import com.vaadin.ui.Component;
 
-public class AbilityScoreStep extends CharacterWizardStep {
+public class AbilityScoreStep extends CharacterWizardStep<Character> {
 
     private static final long serialVersionUID = -2104340592912821051L;
-
-    private AbilityScoreInitForm form;
 
     public AbilityScoreStep(CharacterWizard wizard) {
         super(wizard);
@@ -21,20 +20,11 @@ public class AbilityScoreStep extends CharacterWizardStep {
     @Override
     public Component getContent() {
         form = new AbilityScoreInitForm();
-        form.setSaveButton(wizard.getNextButton());
+        setSaveButton();
         form.setEntity(wizard.getCharacter());
-        form.setBeanLevelValidationEnabled(false);
-        //        form.pointsToSpend.addValueChangeListener(event -> {
-        //            getWizard().getNextButton().setEnabled((Integer) event.getProperty().getValue() == 0);
-        //        });
+        form.setValidateOnlyDefinedFields(true);
         return form;
     }
 
-    //    @Override
-    //    public void afterActivateStep() {
-    //        if (form.pointsToSpend.getValue() != 0) {
-    //            getWizard().getNextButton().setEnabled(false);
-    //        }
-    //    }
 
 }

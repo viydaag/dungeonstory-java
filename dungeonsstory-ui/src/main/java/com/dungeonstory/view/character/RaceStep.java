@@ -1,13 +1,12 @@
 package com.dungeonstory.view.character;
 
+import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.util.CharacterWizardStep;
 import com.vaadin.ui.Component;
 
-public class RaceStep extends CharacterWizardStep {
+public class RaceStep extends CharacterWizardStep<Character> {
 
     private static final long serialVersionUID = -7594021716313932613L;
-
-    private RaceChoiceForm form;
 
     public RaceStep(CharacterWizard wizard) {
         super(wizard);
@@ -21,12 +20,9 @@ public class RaceStep extends CharacterWizardStep {
     @Override
     public Component getContent() {
         form = new RaceChoiceForm();
-        form.setSaveButton(wizard.getNextButton());
+        setSaveButton();
         form.setEntity(wizard.getCharacter());
-        form.setBeanLevelValidationEnabled(false);
-        //        form.race.addMValueChangeListener(event -> {
-        //            getWizard().getNextButton().setEnabled(event.getValue() != null);
-        //        });
+        form.setValidateOnlyDefinedFields(true);
 
         return form;
     }

@@ -199,12 +199,28 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
         languages = new HashSet<Language>();
         favoredEnnemies = new ArrayList<CreatureType>();
         favoredTerrains = new HashSet<Terrain>();
+        armorProficiencies = new HashSet<>();
+        weaponProficiencies = new HashSet<>();
+        savingThrowProficiencies = new HashSet<>();
+        skillProficiencies = new HashSet<>();
+        toolProficiencies = new HashSet<>();
     }
 
     @Override
     public Character clone() {
         try {
-            return (Character) super.clone();
+            Character c = (Character) super.clone();
+            c.setClasses(new ArrayList<CharacterClass>(c.getClasses()));
+            c.setArmorProficiencies(new HashSet<>(c.getArmorProficiencies()));
+            c.setFavoredEnnemies(new ArrayList<>(c.getFavoredEnnemies()));
+            c.setFavoredTerrains(new HashSet<>(c.getFavoredTerrains()));
+            c.setFeats(new HashSet<>(c.getFeats()));
+            c.setLanguages(new HashSet<>(c.getLanguages()));
+            c.setSavingThrowProficiencies(new HashSet<>(c.getSavingThrowProficiencies()));
+            c.setSkillProficiencies(new HashSet<>(c.getSkillProficiencies()));
+            c.setToolProficiencies(new HashSet<>(c.getToolProficiencies()));
+            c.setWeaponProficiencies(new HashSet<>(c.getWeaponProficiencies()));
+            return c;
         } catch (CloneNotSupportedException e) {
             return null;
         }
@@ -369,5 +385,4 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
     public void setFeats(Set<Feat> feats) {
         this.feats = feats;
     }
-
 }
