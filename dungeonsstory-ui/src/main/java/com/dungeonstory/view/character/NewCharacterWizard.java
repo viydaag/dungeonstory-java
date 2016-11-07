@@ -1,13 +1,9 @@
 package com.dungeonstory.view.character;
 
-import java.util.Optional;
-
 import org.vaadin.teemu.wizards.event.WizardCompletedEvent;
 
 import com.dungeonstory.authentication.CurrentUser;
-import com.dungeonstory.backend.data.ClassLevelBonus;
 import com.dungeonstory.backend.data.DSClass;
-import com.dungeonstory.backend.data.util.ClassUtil;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
 
@@ -36,21 +32,12 @@ public class NewCharacterWizard extends CharacterWizard {
             addStep(new SpellStep(this), SPELL);
         }
 
-        Optional<ClassLevelBonus> classLevelBonusOpt = ClassUtil.getClassLevelBonus(chosenClass, 1);
-        if (classLevelBonusOpt.isPresent()) {
-            ClassLevelBonus classLevelBonus = classLevelBonusOpt.get();
-            //            if (classLevelBonus.getFavoredEnemy()) {
-            //                addStep(new HunterStep(this), HUNTER);
-            //            }
-        }
-
         addStep(new BackgroundStep(this), BACKGROUND);
         addStep(new SummaryStep(this), SUMMARY);
     }
 
     private void removeAllOptinalSteps() {
         removeStep(SPELL);
-        //        removeStep(HUNTER);
         removeStep(BACKGROUND);
         removeStep(SUMMARY);
     }
