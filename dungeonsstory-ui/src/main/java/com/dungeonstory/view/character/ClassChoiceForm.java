@@ -259,7 +259,6 @@ public class ClassChoiceForm extends DSAbstractForm<Character> implements Abstra
         }
 
         entity.getArmorProficiencies().addAll(chosenClass.getArmorProficiencies());
-        entity.getSkillProficiencies().addAll(chosenClass.getBaseSkills());
         entity.getWeaponProficiencies().addAll(chosenClass.getWeaponProficiencies());
         entity.getFeats().addAll(ClassUtil.getClassFeaturesForLevel(chosenClass, chosenCharacterClass.getClassLevel()));
 
