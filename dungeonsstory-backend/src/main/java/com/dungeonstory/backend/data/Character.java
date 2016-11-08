@@ -21,6 +21,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.eclipse.persistence.annotations.PrivateOwned;
 
@@ -29,15 +30,36 @@ import com.dungeonstory.backend.data.Tool.ToolType;
 @Entity
 @Table(name = "DSCharacter")
 public class Character extends AbstractTimestampEntity implements Serializable, Cloneable {
+
     private static final long serialVersionUID = -967001655180847193L;
+
+    public enum Gender {
+        M("Homme"), F("Femme");
+
+        private String name;
+
+        private Gender(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return this.name;
+        }
+
+        @Override
+        public String toString() {
+            return getName();
+        }
+    }
 
     @NotNull
     @Column(name = "name", nullable = false)
     private String name;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(name = "gender", nullable = false)
-    private char gender;
+    private Gender gender;
 
     @NotNull
     @Min(value = 0)
@@ -50,9 +72,9 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
     private int weight;
 
     @NotNull
-    @Min(value = 0)
-    @Column(name = "heigth", nullable = false)
-    private int heigth;
+    @Pattern(regexp = "\\d+\\'(\\d+\\\")*")
+    @Column(name = "height", nullable = false)
+    private String height;
 
     @NotNull
     @OneToOne(mappedBy = "character")
@@ -79,9 +101,9 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
     private int lifePoints;
 
     @NotNull
-    @Min(value = 0)
-    @Column(name = "baseArmorClass", nullable = false)
-    private int baseArmorClass;
+    @Min(value = 10)
+    @Column(name = "armorClass", nullable = false)
+    private int armorClass;
 
     @NotNull
     @Min(value = 1)
@@ -384,5 +406,85 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
 
     public void setFeats(Set<Feat> feats) {
         this.feats = feats;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
+    public String getHeight() {
+        return height;
+    }
+
+    public void setHeight(String height) {
+        this.height = height;
+    }
+
+    public long getExperience() {
+        return experience;
+    }
+
+    public void setExperience(long experience) {
+        this.experience = experience;
+    }
+
+    public int getLifePoints() {
+        return lifePoints;
+    }
+
+    public void setLifePoints(int lifePoints) {
+        this.lifePoints = lifePoints;
+    }
+
+    public int getArmorClass() {
+        return armorClass;
+    }
+
+    public void setArmorClass(int armorClass) {
+        this.armorClass = armorClass;
+    }
+
+    public Alignment getAlignment() {
+        return alignment;
+    }
+
+    public void setAlignment(Alignment alignment) {
+        this.alignment = alignment;
+    }
+
+    public Region getRegion() {
+        return region;
+    }
+
+    public void setRegion(Region region) {
+        this.region = region;
     }
 }

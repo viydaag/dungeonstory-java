@@ -12,6 +12,7 @@ public class CharacterFactory implements Factory<Character> {
     public Character create() {
         Character c = new Character();
         c.setLevel(LevelService.getInstance().read(1L));
+        c.setExperience(0);
         return c;
     }
 

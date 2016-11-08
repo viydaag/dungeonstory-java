@@ -26,19 +26,21 @@ public class NewCharacterWizard extends CharacterWizard {
     public void setChosenClass(DSClass chosenClass) {
         super.setChosenClass(chosenClass);
 
-        removeAllOptinalSteps();
+        removeStepsAfterClass();
 
         if (chosenClass.getIsSpellCasting()) {
             addStep(new SpellStep(this), SPELL);
         }
 
         addStep(new BackgroundStep(this), BACKGROUND);
+        addStep(new InformationStep(this), INFO);
         addStep(new SummaryStep(this), SUMMARY);
     }
 
-    private void removeAllOptinalSteps() {
+    private void removeStepsAfterClass() {
         removeStep(SPELL);
         removeStep(BACKGROUND);
+        removeStep(INFO);
         removeStep(SUMMARY);
     }
 
