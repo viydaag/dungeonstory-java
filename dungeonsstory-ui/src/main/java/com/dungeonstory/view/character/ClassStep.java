@@ -22,7 +22,6 @@ public class ClassStep extends CharacterWizardStep<Character> {
         form = new ClassChoiceForm();
         setSaveButton();
         form.setEntity(wizard.getCharacter());
-        form.setValidateOnlyDefinedFields(true);
         return form;
     }
 

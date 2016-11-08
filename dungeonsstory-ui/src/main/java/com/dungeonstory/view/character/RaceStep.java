@@ -22,8 +22,6 @@ public class RaceStep extends CharacterWizardStep<Character> {
         form = new RaceChoiceForm();
         setSaveButton();
         form.setEntity(wizard.getCharacter());
-        form.setValidateOnlyDefinedFields(true);
-
         return form;
     }
 

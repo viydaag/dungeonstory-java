@@ -8,6 +8,7 @@ import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.data.util.ModifierUtil;
 import com.dungeonstory.util.CharacterWizardStep;
 import com.dungeonstory.util.converter.CollectionToStringConverter;
+import com.dungeonstory.util.layout.FormLayoutNoSpace;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.themes.ValoTheme;
@@ -42,15 +43,13 @@ public class SummaryStep extends CharacterWizardStep<Character> {
                 classCollectionConverter.convertToPresentation(character.getClasses(), String.class, null));
 
         MLabel abilities = new MLabel().withCaption("Caractéristiques").withStyleName(ValoTheme.LABEL_H4);
-        FormLayout abilityLayout = new FormLayout();
+        FormLayoutNoSpace abilityLayout = new FormLayoutNoSpace();
         MLabel strength = new MLabel("Force", String.valueOf(character.getStrength()));
         MLabel dexterity = new MLabel("Dextérité", String.valueOf(character.getDexterity()));
         MLabel constitution = new MLabel("Constitution", String.valueOf(character.getConstitution()));
         MLabel intellignece = new MLabel("Intellignece", String.valueOf(character.getIntelligence()));
         MLabel wisdom = new MLabel("Sagesse", String.valueOf(character.getWisdom()));
         MLabel charisma = new MLabel("Charisme", String.valueOf(character.getCharisma()));
-        abilityLayout.setSpacing(false);
-        abilityLayout.setMargin(false);
         abilityLayout.addComponents(strength, dexterity, constitution, intellignece, wisdom, charisma);
         
         CollectionToStringConverter collectionConverter = new CollectionToStringConverter();
@@ -72,6 +71,7 @@ public class SummaryStep extends CharacterWizardStep<Character> {
                     + ModifierUtil.getAbilityModifier(character.getConstitution())));
         }
         MLabel lifePoints = new MLabel("Points de vie", String.valueOf(nbLifePoints));
+        character.setLifePoints(nbLifePoints);
 
         //Proficiencies
 

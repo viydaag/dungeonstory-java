@@ -22,7 +22,6 @@ public class AbilityScoreStep extends CharacterWizardStep<Character> {
         form = new AbilityScoreInitForm();
         setSaveButton();
         form.setEntity(wizard.getCharacter());
-        form.setValidateOnlyDefinedFields(true);
         return form;
     }
 

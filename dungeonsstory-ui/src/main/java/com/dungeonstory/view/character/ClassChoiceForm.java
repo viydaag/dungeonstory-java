@@ -9,7 +9,6 @@ import java.util.Set;
 
 import org.vaadin.viritin.fields.MTextArea;
 import org.vaadin.viritin.fields.TypedSelect;
-import org.vaadin.viritin.fields.config.ListSelectConfig;
 import org.vaadin.viritin.form.AbstractForm;
 import org.vaadin.viritin.label.MLabel;
 
@@ -31,6 +30,7 @@ import com.dungeonstory.util.converter.CollectionToStringListConverter.ListType;
 import com.dungeonstory.util.converter.CollectionToStringListConverter.UnorderedListType;
 import com.dungeonstory.util.converter.DescriptiveEntityCollectionToStringListConverter;
 import com.dungeonstory.util.field.DSSubSetSelector;
+import com.dungeonstory.util.layout.FormLayoutNoSpace;
 import com.dungeonstory.util.layout.HorizontalSpacedLayout;
 import com.dungeonstory.util.layout.VerticalSpacedLayout;
 import com.vaadin.data.validator.NullValidator;
@@ -79,8 +79,7 @@ public class ClassChoiceForm extends DSAbstractForm<Character> implements Abstra
 
         VerticalSpacedLayout classFieldsLayout = new VerticalSpacedLayout();
         classe = new TypedSelect<DSClass>("Choix de classe", classService.findAll())
-                .asListSelectType(new ListSelectConfig().withRows((int) classService.count()))
-                .withNullSelectionAllowed(false);
+                .asComboBoxType().withNullSelectionAllowed(false);
         classe.setRequired(true);
         classe.setImmediate(true);
         classe.addValidator(new NullValidator("La classe ets obligatoire", false));
@@ -128,9 +127,7 @@ public class ClassChoiceForm extends DSAbstractForm<Character> implements Abstra
         properties.addComponents(proficienciesLabel, armorProficiencies, weaponProficiencies, savingThrowProficiencies,
                 skillProficiencies);
 
-        FormLayout classFeatureLabelLayout = new FormLayout();
-        classFeatureLabelLayout.setSpacing(false);
-        classFeatureLabelLayout.setMargin(false);
+        FormLayoutNoSpace classFeatureLabelLayout = new FormLayoutNoSpace();
         classFeaturesLabel = new MLabel().withStyleName(ValoTheme.LABEL_H4);
         classFeatureLabelLayout.addComponent(classFeaturesLabel);
 
@@ -159,13 +156,13 @@ public class ClassChoiceForm extends DSAbstractForm<Character> implements Abstra
                 Optional<ClassLevelBonus> classLevelBonusOpt = ClassUtil.getClassLevelBonus(chosenClass, classLevel);
                 if (classLevelBonusOpt.isPresent()) {
                     ClassLevelBonus classLevelBonus = classLevelBonusOpt.get();
-                    if (classLevelBonus.getFavoredEnemy()) {
+                    if (classLevelBonus.getFavoredEnemy() != null && classLevelBonus.getFavoredEnemy() == true) {
                         favoredEnnemies.setVisible(true);
                     } else {
                         favoredEnnemies.setVisible(false);
                         favoredEnnemies.setValue(backupfavoredEnnemies);
                     }
-                    if (classLevelBonus.getNaturalExplorer()) {
+                    if (classLevelBonus.getNaturalExplorer() != null && classLevelBonus.getNaturalExplorer() == true) {
                         favoredTerrains.setVisible(true);
                     } else {
                         favoredTerrains.setVisible(false);
