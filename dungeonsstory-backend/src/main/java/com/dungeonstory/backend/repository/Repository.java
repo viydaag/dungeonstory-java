@@ -34,11 +34,14 @@ public interface Repository<E extends Entity, K extends Serializable> {
     */
     void delete(Collection<E> entitySet);
 
-    /**
-    *
-    * @return the entity list found
-    */
+    
     List<E> findAll();
+
+	/**
+    *
+    * @return the entity sorted list found
+    */
+    List<E> findAllOrderBy(String column, String order);
 
     /**
     *

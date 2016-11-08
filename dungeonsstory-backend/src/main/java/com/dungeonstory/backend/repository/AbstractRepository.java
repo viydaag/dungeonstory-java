@@ -108,6 +108,13 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
         return query.getResultList();
     }
 
+    @Override
+    public List<E> findAllOrderBy(String column, String order) {
+        TypedQuery<E> query = entityManager.createQuery(
+                "SELECT o FROM " + getTableName() + " o ORDER BY o." + column + " " + order, getEntityClass());
+        return query.getResultList();
+    }
+
     protected abstract Class<E> getEntityClass();
 
     @Override

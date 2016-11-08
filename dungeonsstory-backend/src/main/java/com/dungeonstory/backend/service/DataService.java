@@ -49,6 +49,12 @@ public interface DataService<E extends Entity, K extends Serializable> {
     Collection<E> findAll();
 
     /**
+    *
+    * @return all instancies of the entity sorted
+    */
+    Collection<E> findAllOrderBy(String column, String order);
+
+    /**
      *
      * @param key
      *            the key of the entity to read

@@ -56,6 +56,11 @@ public abstract class MockAbstractRepository<E extends Entity> implements Reposi
     }
 
     @Override
+    public List<E> findAllOrderBy(String column, String order) {
+        return new ArrayList<E>(entities.values());
+    }
+
+    @Override
     public E read(Long key) {
         return entities.get(key);
     }

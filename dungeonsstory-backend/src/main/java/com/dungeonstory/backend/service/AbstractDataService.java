@@ -68,6 +68,11 @@ public abstract class AbstractDataService<E extends Entity, K extends Serializab
         return entityRepository.findAll();
     }
 
+    @Override
+    public List<E> findAllOrderBy(String column, String order) {
+        return entityRepository.findAllOrderBy(column, order);
+    }
+
     /**
      *
      * @param key
