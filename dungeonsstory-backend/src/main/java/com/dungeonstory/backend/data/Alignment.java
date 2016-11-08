@@ -4,14 +4,18 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "Alignment")
+@NamedQuery(name = Alignment.FIND_ALL_PLAYABLE, query = "SELECT a FROM Alignment a WHERE a.playable = 1")
 public class Alignment extends AbstractTimestampEntity implements Serializable {
 
     private static final long serialVersionUID = -518798894253295092L;
+
+    public static final String FIND_ALL_PLAYABLE = "findAllPlayable";
 
     @NotNull
     @Column(name = "name", unique = true)
@@ -25,6 +29,9 @@ public class Alignment extends AbstractTimestampEntity implements Serializable {
 
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
+
+    @Column(name = "playable")
+    private boolean playable;
 
     public Alignment() {
         super();
@@ -67,6 +74,14 @@ public class Alignment extends AbstractTimestampEntity implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean getPlayable() {
+        return playable;
+    }
+
+    public void setPlayable(boolean playable) {
+        this.playable = playable;
     }
 
     @Override
