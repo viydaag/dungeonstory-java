@@ -41,9 +41,14 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
     public synchronized void create(E entity) {
         EntityTransaction transac = entityManager.getTransaction();
         transac.begin();
-        entityManager.persist(entity);
-        flushAndCloseEntityManager();
-        transac.commit();
+        try {
+            entityManager.persist(entity);
+            flushAndCloseEntityManager();
+            transac.commit();
+        } catch (Exception e) {
+            transac.rollback();
+            throw e;
+        }
     }
 
     /**
@@ -58,9 +63,14 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
         }
         EntityTransaction transac = entityManager.getTransaction();
         transac.begin();
-        E entity2 = entityManager.getReference(getEntityClass(), entity.getId());
-        entityManager.remove(entity2);
-        transac.commit();
+        try {
+            E entity2 = entityManager.getReference(getEntityClass(), entity.getId());
+            entityManager.remove(entity2);
+            transac.commit();
+        } catch (Exception e) {
+            transac.rollback();
+            throw e;
+        }
 
     }
 
@@ -77,10 +87,15 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
 
         EntityTransaction transac = entityManager.getTransaction();
         transac.begin();
-        Query query = entityManager.createQuery("DELETE FROM " + getTableName() + " o WHERE o.id = :id");
-        query.setParameter("id", key);
-        query.executeUpdate();
-        transac.commit();
+        try {
+            Query query = entityManager.createQuery("DELETE FROM " + getTableName() + " o WHERE o.id = :id");
+            query.setParameter("id", key);
+            query.executeUpdate();
+            transac.commit();
+        } catch (Exception e) {
+            transac.rollback();
+            throw e;
+        }
     }
 
     private String getTableName() {
@@ -155,10 +170,15 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
     public E update(E entity) {
         EntityTransaction transac = entityManager.getTransaction();
         transac.begin();
-        E result = entityManager.merge(entity);
-        flushAndCloseEntityManager();
-        transac.commit();
-        return result;
+        try {
+            E result = entityManager.merge(entity);
+            flushAndCloseEntityManager();
+            transac.commit();
+            return result;
+        } catch (Exception e) {
+            transac.rollback();
+            throw e;
+        }
     }
 
     /**
