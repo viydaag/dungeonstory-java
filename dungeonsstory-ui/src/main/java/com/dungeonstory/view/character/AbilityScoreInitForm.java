@@ -1,30 +1,18 @@
 package com.dungeonstory.view.character;
 
 import org.vaadin.viritin.fields.IntegerField;
-import org.vaadin.viritin.form.AbstractForm;
 import org.vaadin.viritin.label.MLabel;
 
-import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.Character;
-import com.dungeonstory.form.DSAbstractForm;
-import com.dungeonstory.util.layout.GridSpacedLayout;
-import com.dungeonstory.util.layout.VerticalSpacedLayout;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
 
-public class AbilityScoreInitForm extends DSAbstractForm<Character> implements AbstractForm.SavedHandler<Character> {
+public class AbilityScoreInitForm extends AbilityScoreForm {
 
     private static final long serialVersionUID = -708599071923669623L;
-
-    private IntegerField strength;
-    private IntegerField dexterity;
-    private IntegerField constitution;
-    private IntegerField intelligence;
-    private IntegerField wisdom;
-    private IntegerField charisma;
 
     private IntegerField strengthModifier;
     private IntegerField dexterityModifier;
@@ -33,88 +21,52 @@ public class AbilityScoreInitForm extends DSAbstractForm<Character> implements A
     private IntegerField wisdomModifier;
     private IntegerField charismaModifier;
 
-    private MLabel strengthLabel;
-    private MLabel dexterityLabel;
-    private MLabel constitutionLabel;
-    private MLabel intelligenceLabel;
-    private MLabel wisdomLabel;
-    private MLabel charismaLabel;
-
     private final int MIN_SCORE = 8;
     private final int MAX_SCORE = 15;
 
-    IntegerField     pointsToSpend;
-    GridSpacedLayout gridLayout;
-
     public AbilityScoreInitForm() {
         super();
-        setSavedHandler(this);
     }
 
     @Override
     protected Component createContent() {
+        Component content = super.createContent();
 
-        VerticalSpacedLayout layout = new VerticalSpacedLayout();
-
-        pointsToSpend = new IntegerField("Points").withWidth("50px");
+        pointsToSpend.setReadOnly(false);
         pointsToSpend.setValue(27);
         pointsToSpend.setReadOnly(true);
 
-        if (Configuration.getInstance().isDebug()) {
-            Button assignAll = new Button("assign");
-            assignAll.addClickListener(event -> {
-                pointsToSpend.setReadOnly(false);
-                pointsToSpend.setValue(0);
-                pointsToSpend.setReadOnly(true);
-                getFieldGroup().setBeanModified(true);
-                onFieldGroupChange(getFieldGroup());
-            });
-            layout.addComponent(assignAll);
-        }
-
-        gridLayout = new GridSpacedLayout(5, 7);
+        gridLayout.removeAllComponents();
         gridLayout.addComponent(new MLabel("Caractéristique"), 0, 0);
         gridLayout.addComponent(new MLabel("Modificateur de race"), 1, 0);
         gridLayout.addComponent(new MLabel("Score"), 2, 0);
 
-        strength = new IntegerField().withWidth("50px");
         strengthModifier = new IntegerField();
-        strengthLabel = new MLabel("Force");
         gridLayout.addComponent(strengthLabel, 0, 1);
         gridLayout.addComponent(strengthModifier, 1, 1);
         gridLayout.addComponent(strength, 2, 1);
 
-        dexterity = new IntegerField().withWidth("50px");
         dexterityModifier = new IntegerField();
-        dexterityLabel = new MLabel("Dextérité");
         gridLayout.addComponent(dexterityLabel, 0, 2);
         gridLayout.addComponent(dexterityModifier, 1, 2);
         gridLayout.addComponent(dexterity, 2, 2);
 
-        constitution = new IntegerField().withWidth("50px");
         constitutionModifier = new IntegerField();
-        constitutionLabel = new MLabel("Constitution");
         gridLayout.addComponent(constitutionLabel, 0, 3);
         gridLayout.addComponent(constitutionModifier, 1, 3);
         gridLayout.addComponent(constitution, 2, 3);
 
-        intelligence = new IntegerField().withWidth("50px");
         intelligenceModifier = new IntegerField();
-        intelligenceLabel = new MLabel("Intelligence");
         gridLayout.addComponent(intelligenceLabel, 0, 4);
         gridLayout.addComponent(intelligenceModifier, 1, 4);
         gridLayout.addComponent(intelligence, 2, 4);
 
-        wisdom = new IntegerField().withWidth("50px");
         wisdomModifier = new IntegerField();
-        wisdomLabel = new MLabel("Sagesse");
         gridLayout.addComponent(wisdomLabel, 0, 5);
         gridLayout.addComponent(wisdomModifier, 1, 5);
         gridLayout.addComponent(wisdom, 2, 5);
 
-        charisma = new IntegerField().withWidth("50px");
         charismaModifier = new IntegerField();
-        charismaLabel = new MLabel("Charisme");
         gridLayout.addComponent(charismaLabel, 0, 6);
         gridLayout.addComponent(charismaModifier, 1, 6);
         gridLayout.addComponent(charisma, 2, 6);
@@ -123,9 +75,7 @@ public class AbilityScoreInitForm extends DSAbstractForm<Character> implements A
         gridLayout.setColumnExpandRatio(1, 1);
         gridLayout.setColumnExpandRatio(2, 1);
 
-        layout.addComponents(pointsToSpend, gridLayout);
-
-        return layout;
+        return content;
     }
 
     @Override
@@ -217,15 +167,6 @@ public class AbilityScoreInitForm extends DSAbstractForm<Character> implements A
             nbPointToSpend = 2;
         }
         return nbPointToSpend;
-    }
-
-    @Override
-    protected void adjustSaveButtonState() {
-        if (isEagerValidation() && isBound()) {
-            boolean beanModified = getFieldGroup().isBeanModified();
-            boolean allPointsSpent = pointsToSpend.getValue() == 0;
-            getSaveButton().setEnabled(beanModified && allPointsSpent && isValid());
-        }
     }
 
     @Override
