@@ -34,7 +34,10 @@ public interface Repository<E extends Entity, K extends Serializable> {
     */
     void delete(Collection<E> entitySet);
 
-    
+    /**
+    *
+    * @return the entity list found
+    */
     List<E> findAll();
 
 	/**
@@ -42,6 +45,18 @@ public interface Repository<E extends Entity, K extends Serializable> {
     * @return the entity sorted list found
     */
     List<E> findAllOrderBy(String column, String order);
+    
+    /**
+    *
+    * @return the entity list found
+    */
+    List<E> findAllBy(String column, String value);
+    
+    /**
+    *
+    * @return the entity list found
+    */
+    List<E> findAllByLike(String column, String value);
 
     /**
     *

@@ -2,6 +2,7 @@ package com.dungeonstory.backend.service;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 
 import com.dungeonstory.backend.factory.Factory;
 import com.dungeonstory.backend.repository.Entity;
@@ -44,15 +45,27 @@ public interface DataService<E extends Entity, K extends Serializable> {
 
     /**
      *
-     * @return all instancies of the entity
+     * @return all instances of the entity
      */
     Collection<E> findAll();
 
     /**
     *
-    * @return all instancies of the entity sorted
+    * @return all instances of the entity sorted
     */
     Collection<E> findAllOrderBy(String column, String order);
+    
+    /**
+    *
+    * @return the entity list found
+    */
+    Collection<E> findAllBy(String column, String value);
+    
+    /**
+    *
+    * @return the entity list found
+    */
+    Collection<E> findAllByLike(String column, String value);
 
     /**
      *

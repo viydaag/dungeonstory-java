@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.TypedQuery;
+
 import com.dungeonstory.backend.repository.Entity;
 import com.dungeonstory.backend.repository.Repository;
 
@@ -107,6 +109,16 @@ public abstract class MockAbstractRepository<E extends Entity> implements Reposi
     @Override
     public long count() {
         return entities.size();
+    }
+    
+    @Override
+    public List<E> findAllBy(String column, String value) {
+        return findAll();
+    }
+    
+    @Override
+    public List<E> findAllByLike(String column, String value) {
+        return findAll();
     }
 
 }

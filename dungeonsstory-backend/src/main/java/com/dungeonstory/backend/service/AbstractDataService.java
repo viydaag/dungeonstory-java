@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.TypedQuery;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.dungeonstory.backend.factory.Factory;
 import com.dungeonstory.backend.repository.Entity;
 import com.dungeonstory.backend.repository.Repository;
@@ -71,6 +75,22 @@ public abstract class AbstractDataService<E extends Entity, K extends Serializab
     @Override
     public List<E> findAllOrderBy(String column, String order) {
         return entityRepository.findAllOrderBy(column, order);
+    }
+    
+    @Override
+    public List<E> findAllBy(String column, String value) {
+        if (StringUtils.isEmpty(column) || StringUtils.isEmpty(value)) {
+            return findAll();
+        }
+        return entityRepository.findAllBy(column, value);
+    }
+    
+    @Override
+    public List<E> findAllByLike(String column, String value) {
+        if (StringUtils.isEmpty(column) || StringUtils.isEmpty(value)) {
+            return findAll();
+        } 
+        return entityRepository.findAllByLike(column, value);
     }
 
     /**

@@ -129,6 +129,21 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
                 "SELECT o FROM " + getTableName() + " o ORDER BY o." + column + " " + order, getEntityClass());
         return query.getResultList();
     }
+    
+    @Override
+    public List<E> findAllBy(String column, String value) {
+        TypedQuery<E> query = entityManager.createQuery(
+                "SELECT o FROM " + getTableName() + " o WHERE o." + column + " = " + value, getEntityClass());
+        return query.getResultList();
+    }
+    
+    @Override
+    public List<E> findAllByLike(String column, String value) {
+        TypedQuery<E> query = entityManager.createQuery(
+                "SELECT o FROM " + getTableName() + " o WHERE o." + column + " LIKE :value", getEntityClass());
+        query.setParameter("value", "%" + value + "%");
+        return query.getResultList();
+    }
 
     protected abstract Class<E> getEntityClass();
 
