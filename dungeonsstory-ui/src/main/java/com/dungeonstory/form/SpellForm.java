@@ -19,6 +19,7 @@ import com.dungeonstory.backend.data.Ability;
 import com.dungeonstory.backend.data.Condition;
 import com.dungeonstory.backend.data.DamageType;
 import com.dungeonstory.backend.data.Equipment;
+import com.dungeonstory.backend.data.Equipment.EquipmentType;
 import com.dungeonstory.backend.data.Spell;
 import com.dungeonstory.backend.data.Spell.AreaOfEffect;
 import com.dungeonstory.backend.data.Spell.CastingTime;
@@ -28,6 +29,7 @@ import com.dungeonstory.backend.data.Spell.MagicSchool;
 import com.dungeonstory.backend.data.Spell.RangeType;
 import com.dungeonstory.backend.data.Spell.Target;
 import com.dungeonstory.backend.data.Spell.TimeUnit;
+import com.dungeonstory.backend.data.SpellComponent;
 import com.dungeonstory.backend.data.SpellEffect;
 import com.dungeonstory.backend.data.SpellEffect.EffectType;
 import com.dungeonstory.backend.service.DataService;
@@ -124,7 +126,21 @@ public class SpellForm extends DSAbstractForm<Spell> {
         componentTypes.setWidth("50%");
         componentTypes.addValueChangeListener(event -> showComponents());
 
-        components = new DSSubSetSelector<Equipment>(Equipment.class);
+        components = new DSSubSetSelector<Equipment>(Equipment.class) {
+
+            private static final long serialVersionUID = 1329224024667579287L;
+
+            @Override
+            protected Equipment instantiateOption(String stringInput) {
+                SpellComponent c = new SpellComponent();
+                if(stringInput != null) {
+                    c.setName(stringInput);
+                    c.setType(EquipmentType.COMPONENT);
+                }
+                return c;
+            }
+        };
+        components.setNewItemsAllowed(true);
         components.setCaption("Composants matériels");
         components.setVisibleProperties("name");
         components.setColumnHeader("name", "Composant");

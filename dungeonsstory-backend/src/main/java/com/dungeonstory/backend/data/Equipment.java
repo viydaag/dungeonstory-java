@@ -37,7 +37,8 @@ public abstract class Equipment extends AbstractTimestampEntity implements Seria
         AMMUNITION(Ammunition.class, "Munition"),
         FOCUS(Focus.class, "Focus de sort"),
         TOOL(Tool.class, "Outil"),
-        GEAR(Gear.class, "Équipement");
+        GEAR(Gear.class, "Équipement"),
+        COMPONENT(SpellComponent.class, "Composant");
     	
     	private Class<? extends Equipment> equipmentClass;
         private String                     name;
