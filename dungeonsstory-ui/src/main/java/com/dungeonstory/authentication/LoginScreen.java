@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import com.dungeonstory.backend.data.User;
 import com.dungeonstory.backend.service.DataService;
-import com.dungeonstory.backend.service.mock.MockUserService;
+import com.dungeonstory.backend.service.impl.UserService;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.event.ShortcutAction;
@@ -47,7 +47,7 @@ public class LoginScreen extends CssLayout {
     public LoginScreen(AccessControl accessControl, LoginListener loginListener) {
         this.loginListener = loginListener;
         this.accessControl = accessControl;
-        this.service = MockUserService.getInstance();
+        this.service = UserService.getInstance();
         buildUI();
         buildNewUserForm();
         username.focus();
