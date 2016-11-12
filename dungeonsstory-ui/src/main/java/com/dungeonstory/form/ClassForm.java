@@ -27,6 +27,7 @@ import com.dungeonstory.backend.data.ClassLevelFeature;
 import com.dungeonstory.backend.data.ClassSpellSlots;
 import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.data.DSClass.SpellCastingType;
+import com.dungeonstory.backend.data.Tool.ToolType;
 import com.dungeonstory.backend.data.Equipment;
 import com.dungeonstory.backend.data.Feat;
 import com.dungeonstory.backend.data.Level;
@@ -83,6 +84,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     private DSSubSetSelector<Ability>                   savingThrowProficiencies;
     private DSSubSetSelector<ArmorType.ProficiencyType> armorProficiencies;
     private DSSubSetSelector<WeaponType>                weaponProficiencies;
+    private DSSubSetSelector<ToolType> toolProficiencies;
     private IntegerField                                nbChosenSkills;
     private DSSubSetSelector<Skill>                     baseSkills;
     private LevelBonusCollectionField                   levelBonuses;
@@ -208,6 +210,14 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         weaponProficiencies.setOptions((List<WeaponType>) weaponTypeService.findAll());
         weaponProficiencies.setValue(new HashSet<WeaponType>()); //nothing selected
         weaponProficiencies.setWidth("50%");
+        
+        toolProficiencies = new DSSubSetSelector<ToolType>(ToolType.class);
+        toolProficiencies.setCaption("Maitrise d'outil");
+        toolProficiencies.setVisibleProperties("name");
+        toolProficiencies.setColumnHeader("name", "Outil");
+        toolProficiencies.setOptions(Arrays.asList(ToolType.values()));
+        toolProficiencies.setWidth("80%");
+        toolProficiencies.setValue(new HashSet<ToolType>()); //nothing selected
 
         nbChosenSkills = new IntegerField("Nb de compétences à choisir");
         baseSkills = new DSSubSetSelector<Skill>(Skill.class);
@@ -285,6 +295,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         layout.addComponent(savingThrowProficiencies);
         layout.addComponent(armorProficiencies);
         layout.addComponents(weaponProficiencies, buttonLayout);
+        layout.addComponent(toolProficiencies);
         layout.addComponents(nbChosenSkills, baseSkills);
         layout.addComponents(levelBonuses, checkboxLayout);
         layout.addComponents(isSpellCasting, spellCastingAbility, spellCastingType, spellSlots);
