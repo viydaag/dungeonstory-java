@@ -684,6 +684,8 @@ INSERT INTO feat (id, name, description, featUsage, isClassFeature, parentId, pr
 INSERT INTO feat (id, name, description, featUsage, isClassFeature, parentId, prerequisiteType, prerequisiteArmorProficiency, prerequisiteAbilityId, prerequisiteAbilityScore, version, created, updated) VALUES (166,'Manipulateur perspicace','Si vous passez au moins 1 minute à observer ou interagir avec une autre créature en dehors d''une situation de combat, vous pouvez apprendre certaines informations sur ses capacités par rapport aux vôtres. Le MD vous indique si la créature est votre égal, supérieur ou inférieur par rapport à deux des caractéristiques suivantes de votre choix :\n\nValeur d''Intelligence\nValeur de Sagesse\nValeur de Charisme\nNiveau de classe (le cas échéant)\nÀ la discrétion du MD, vous pouvez aussi réaliser que vous connaissez une part de l''histoire de la créature ou l''un de ses traits de personnalité, si elle en possède.','ACTION',1,NULL,'NONE',NULL,NULL,NULL,1,'2016-11-11 14:58:57','2016-11-11 14:58:57');
 INSERT INTO feat (id, name, description, featUsage, isClassFeature, parentId, prerequisiteType, prerequisiteArmorProficiency, prerequisiteAbilityId, prerequisiteAbilityScore, version, created, updated) VALUES (167,'Détournement','Vous pouvez parfois faire qu''une créature finisse par être la cible d''une attaque qui vous visait. Lorsque vous êtes ciblé par une attaque alors qu''une créature dans un rayon de 5 pieds autour de vous vous offre un abri contre cette attaque, vous pouvez utiliser votre réaction pour que la cible de l''attaque soit cette créature, à votre place.','REACTION',1,NULL,'NONE',NULL,NULL,NULL,1,'2016-11-11 15:00:00','2016-11-11 15:00:00');
 INSERT INTO feat (id, name, description, featUsage, isClassFeature, parentId, prerequisiteType, prerequisiteArmorProficiency, prerequisiteAbilityId, prerequisiteAbilityScore, version, created, updated) VALUES (168,'Âme de tromperie','Vos pensées ne peuvent être lues par télépathie ou par d''autres moyens, sauf si vous le permettez. Vous pouvez présenter de fausses pensées en faisant un jet de Charisme (Tromperie) opposé à un jet de Sagesse (Intuition) du lecteur de votre esprit. En outre, peu importe ce que vous dites, la magie qui permettrait de déterminer si vous dites la vérité indique que vous ne mentez pas, si vous le souhaitez, et vous ne pouvez pas être obligé de dire la vérité par magie.','PASSIVE',1,NULL,'NONE',NULL,NULL,NULL,1,'2016-11-11 15:00:58','2016-11-11 15:00:58');
+INSERT INTO feat (id, name, description, featUsage, isClassFeature, parentId, prerequisiteType, prerequisiteArmorProficiency, prerequisiteAbilityId, prerequisiteAbilityScore, version, created, updated) VALUES (169,'Insaisissable','Les attaquants gagnent rarement le dessus sur vous. Aucun jet d''attaque n''a l''avantage contre vous tant que vous n''êtes pas incapable d''agir.','PASSIVE',1,NULL,'NONE',NULL,NULL,NULL,1,'2016-11-11 20:40:22','2016-11-11 20:40:22');
+
 
 /* Equipment */
 INSERT INTO equipment (id, type, name, description, weight, isMagical, isPurchasable, isSellable, basePrice, version, created, updated) VALUES (1,'TOOL','Chalemie','La chalemie est un instrument à vent à anche double qui est considéré comme l''ancêtre direct du hautbois. Comme celui-ci, la chalemie a une perce conique; mais cette perce, ainsi que le pavillon et les trous sont plus larges et l''instrument comporte un disque en bois. Destiné à être jouée en plein air, la chalemie possède une sonorité puissante.',1,0,1,1,2,1,'2016-09-14 14:15:25','2016-09-14 14:15:25');
@@ -948,6 +950,8 @@ INSERT INTO spell (id, name, description, level, school, castingTime, castingTim
 INSERT INTO spell (id, name, description, level, school, castingTime, castingTimeValue, castingTimeUnit, duration, durationTimeValue, durationTimeUnit, target, areaOfEffect, rangeType, rangeValueInFeet, savingThrowAbilityId, attackRoll, higherLevel, version, created, updated) VALUES (17,'Trait de feu','Vous lancez un trait de feu sur une créature ou un objet à portée. Faites une attaque de sort à distance contre la cible. En cas de réussite, la cible prend 1d10 dégâts de feu. Un objet inflammable touché par ce sort prend feu s''il n est pas porté. \nLes dégâts du sort augmentent de 1d10 aux niveaux 5 (2d10), 11 (3d10) et 17 (4d10). ',0,'EVOCATION','ACTION',NULL,NULL,'INSTANTANEOUS',NULL,NULL,'CREATURE',NULL,'DISTANCE',120,NULL,1,1,1,'2016-09-16 10:04:12','2016-09-16 10:04:12');
 INSERT INTO spell (id, name, description, level, school, castingTime, castingTimeValue, castingTimeUnit, duration, durationTimeValue, durationTimeUnit, target, areaOfEffect, rangeType, rangeValueInFeet, savingThrowAbilityId, attackRoll, higherLevel, version, created, updated) VALUES (18,'Vaporisation de poison','Vous tendez votre paume vers une créature visible dans la portée du sort et vous projetez une bouffée de gaz nocif de votre main. La créature doit réussir un jet de sauvegarde de Constitution sans quoi elle subit 1d12 de dégâts de poison. \nLes dégâts de ce sort augmentent de 1d12 lorsque vous atteignez le niveau 5 (2d12), le niveau 11 (3d12) et le niveau 17 (4d12). ',0,'EVOCATION','ACTION',NULL,NULL,'INSTANTANEOUS',NULL,NULL,'CREATURE',NULL,'DISTANCE',10,3,0,0,1,'2016-09-16 10:05:32','2016-09-16 10:05:32');
 INSERT INTO spell (id, name, description, level, school, castingTime, castingTimeValue, castingTimeUnit, duration, durationTimeValue, durationTimeUnit, target, areaOfEffect, rangeType, rangeValueInFeet, savingThrowAbilityId, attackRoll, higherLevel, version, created, updated) VALUES (19,'Liane épineuse','Vous créez une longue et épaisse liane ressemblant à de la vigne et recouverte d''épines qui, selon vos ordres, s''accroche à une créature à portée. Effectuez une attaque de sort de corps à corps contre la cible. Si l''attaque touche, la créature subit 1d6 dégâts perforants, et si la créature est de taille G ou inférieure, vous la tirez de 3 mètres vers vous. \nLes dégâts de ce sort augmentent de 1d6 lorsque vous atteignez le niveau 5 (2d6), le niveau 11 (3d6) et le niveau 17 (4d6). ',0,'TRANSMUTATION','ACTION',NULL,NULL,'INSTANTANEOUS',NULL,NULL,'CREATURE',NULL,'DISTANCE',30,NULL,1,1,3,'2016-11-10 20:20:01','2016-11-10 20:39:46');
+INSERT INTO spell (id, name, description, level, school, castingTime, castingTimeValue, castingTimeUnit, duration, durationTimeValue, durationTimeUnit, target, areaOfEffect, rangeType, rangeValueInFeet, savingThrowAbilityId, attackRoll, higherLevel, version, created, updated) VALUES (20,'Manipulation à distance','Une main spectrale apparaît à un point précis choisi à portée. La main expire à la fin de la durée du sort ou si elle est révoquée au prix d''une action. La main disparaît si elle se retrouve à plus de 9 m du lanceur de sorts ou si ce sort est jeté une nouvelle fois. \nLe lanceur de sorts peut utiliser son action pour contrôler la main. La main peut manipuler un objet, ouvrir une porte ou un contenant non verrouillé, ranger ou récupérer un objet d''un contenant ouvert, ou bien verser le contenu d''une fiole. La main peut être déplacée jusqu''à 30 pieds à chaque fois que vous l''utilisez. \nLa main ne peut attaquer, activer des objets magiques ou transporter plus de 10 lbs. ',0,'EVOCATION','ACTION',NULL,NULL,'TIME',NULL,'MINUTE','POINT',NULL,'DISTANCE',30,NULL,0,0,1,'2016-11-11 14:53:17','2016-11-11 14:53:17');
+
 
 /* SpellComponentType */
 INSERT INTO spellcomponenttype (spellId, componentType) VALUES (1,'V');
@@ -1014,10 +1018,13 @@ INSERT INTO spelleffect (id, effectType, damage, damageTypeId, armorClass, condi
 INSERT INTO spelleffect (id, effectType, damage, damageTypeId, armorClass, conditionName, spellId, version, created, updated) VALUES (19,'DAMAGE','1d10',3,NULL,NULL,17,1,'2016-09-16 10:04:12','2016-09-16 10:04:12');
 INSERT INTO spelleffect (id, effectType, damage, damageTypeId, armorClass, conditionName, spellId, version, created, updated) VALUES (20,'DAMAGE','1d12',9,NULL,NULL,18,1,'2016-09-16 10:05:32','2016-09-16 10:05:32');
 INSERT INTO spelleffect (id, effectType, damage, damageTypeId, armorClass, conditionName, spellId, version, created, updated) VALUES (21,'DAMAGE','1d6',8,NULL,NULL,19,1,'2016-11-10 20:20:01','2016-11-10 20:20:01');
+INSERT INTO spelleffect (id, effectType, damage, damageTypeId, armorClass, conditionName, spellId, version, created, updated) VALUES (22,'SUMMON',NULL,NULL,NULL,NULL,20,1,'2016-11-11 14:53:17','2016-11-11 14:53:17');
 
 /* Class */
 INSERT INTO class (id, name, shortDescription, description, lifePointPerLevel, isSpellCasting, spellCasingAbilityId, spellCastingType, nbChosenSkills, startingGold, version, created, updated) VALUES (1,'Barbare',NULL,'Les barbares, bien que différents, ont en commun leur rage : un déchaînement de fureur, inextinguible et irraisonné. Bien plus qu’une émotion passagère, leur colère est celle d’un féroce prédateur acculé, l’assaut implacable de la tempête, le tumulte d’une mer démontée. Pour certains, leur rage est le fruit d’une communion avec de fiers esprits animaux. D’autres la puisent d’une réserve trouble de colère contre ce monde de souffrance. Mais pour tous, la rage est une force qui n’alimente pas que leur frénésie guerrière. Elle leur donne aussi des réflexes, une résistance et des prouesses physiques incroyables.\n\nVillageois et citadins sont fiers de leur manières civilisées qui les distinguent des animaux, comme si renier sa propre nature était un signe de supériorité. Mais pour un barbare, la civilisation n’est pas une vertu, c’est un signe de faiblesse. Les forts assument leurs instincts naturels, leur physique primitif et leur rage féroce. Les Barbares ne sont pas à l’aise derrière des murs ou entourés par la foule. Ils prospèrent sur les étendues sauvages de leurs terres natales : la toundra, la jungle ou les prairies où leur tribu vit et chasse. Les barbares renaissent dans le chaos d’un combat. Ils peuvent passer dans un état berserk où domine la rage, leur donnant force et résistance au-delà des limites humaines. Un barbare ne peut puiser dans cette réserve de furie que quelquefois avant de devoir se reposer, mais ces quelques rages sont généralement suffisantes pour annihiler toute menace.',12,0,NULL,NULL,2,50,1,'2016-10-19 09:20:50','2016-10-19 09:20:50');
 INSERT INTO class (id, name, shortDescription, description, lifePointPerLevel, isSpellCasting, spellCasingAbilityId, spellCastingType, nbChosenSkills, startingGold, version, created, updated) VALUES (2,'Druide','Les druides sont des incarnations de la force, de la ruse, et de la colère de la nature.','Le pouvoir de la Nature\nLes druides vénèrent la nature plus que tout, obtenant leurs sorts et leurs autres pouvoirs magiques soit des forces de la nature elles-mêmes, soit d''une divinité de la nature. De nombreux druides sont à la recherche d''une spiritualité mystique, d''une union transcendantale avec la nature, plutôt que d''une dévotion à une entité divine, alors que d''autres servent les dieux de la nature sauvage, des animaux, ou des forces élémentaires. Les anciennes traditions druidiques sont parfois appelées la Vieille Foi, en opposition aux cultes des dieux dans des temples et des sanctuaires. Les sorts de druide sont orientés vers la nature et les animaux - le pouvoir des crocs et des griffes, du soleil et de la lune, du feu et du tonnerre. Les druides gagnent également la capacité de prendre la forme d''un animal, et certains druides étudient à tel point cette pratique qu''ils en viennent à préférer être sous forme animale plutôt que sous leur forme naturelle.\n\nPréserver l''équilibre\nPour les druides, la nature est un équilibre précaire. Les quatre éléments qui ont fondé le monde (l''air, l''eau, le feu et la terre) doivent rester en harmonie. Si un élément gagnait du terrain sur les autres, le monde pourrait être détruit, attiré dans l''un des plans élémentaires et ainsi séparé de ses différents constituants. C''est pour cette raison que les druides s''opposent aux cultes du Mal élémentaire et à tous ceux qui prêchent la suprématie d''un élément et l''exclusion des autres.\n\nLes druides sont également concernés par le délicat équilibre écologique sur lequel repose la vie végétale et animale, et par la nécessité pour le monde civilisé de vivre en harmonie avec la nature, et non en opposition. Les druides acceptent ce qui est cruel dans la nature, et haïssent tout ce qui n''est pas naturel, dont les aberrations (comme les tyrannoeils et les flagelleurs mentaux) et les morts-vivants (comme les zombis et les vampires). Les druides conduisent parfois des expéditions contre ces créatures, en particulier lorsque ces monstres empiètent sur le territoire du druide. On trouve aussi souvent des druides en train de garder un site sacré ou de surveiller une région où la nature est préservée. Mais quand un grand danger survient, menaçant l''équilibre de la nature ou les terres qu''ils protègent, les druides endossent un rôle plus actif en combattant la menace, tels des aventuriers.',8,1,5,'PREPARED',2,40,1,'2016-11-10 16:08:05','2016-11-10 16:08:05');
+INSERT INTO class (id, name, shortDescription, description, lifePointPerLevel, isSpellCasting, spellCasingAbilityId, spellCastingType, nbChosenSkills, startingGold, version, created, updated) VALUES (3,'Roublard','Les roublards s''appuient sur ​​la compétence, la discrétion et les faiblesses de leurs ennemis pour prendre la main dans n''importe quelle situation.','Compétence et précision\nLes roublards consacrent autant d''effort à la maîtrise d''une variété de compétences qu''au perfectionnement de leurs capacités de combat, ce qui leur donne une large expertise à laquelle peu d''autres personnages peuvent prétendre. Beaucoup de roublards se concentrent sur la ruse et la tromperie, tandis que d''autres affinent les compétences qui les aident dans un environnement de type donjon, comme l''escalade, la recherche et le désamorçage des pièges et le crochetage. Lorsqu''il s''agit du combat, les roublards préfèrent la ruse à la force brute. Un roublard préférera donner un seul coup précis, le plaçant exactement à l''endroit qui blessera le plus la cible, plutôt qu''user son adversaire avec une série d''attaques. Les roublards ont un don presque surnaturel pour éviter le danger et quelques-uns apprennent des tours de magie pour compléter leurs autres capacités.\n\nUne vie à l''ombre\nChaque ville et cité possède ses roublards. La plupart d''entre eux vivent en accord avec les pires stéréotypes de la classe, gagnant leur vie comme cambrioleurs, assassins, coupeurs de bourses et escrocs. Souvent, ces canailles sont organisées en guildes de voleurs ou en familles du crime. Beaucoup de roublards opèrent indépendamment, même s''ils recrutent parfois des apprentis pour les aider dans leurs escroqueries et cambriolages. Quelques roublards mènent une vie honnête comme serruriers, enquêteurs ou dératiseurs, qui peut être un travail dangereux dans un monde où des rats géants et autres rats-garous hantent les égouts. Comme aventuriers, les roublards peuvent être des deux côtés de la loi. Certains sont des criminels endurcis qui décident de chercher fortune en pillant des trésors, tandis que d''autres choisissent une vie d''aventure pour échapper à la loi. Certains ont appris et ont perfectionné leurs compétences avec le but explicite d''infiltrer des ruines antiques et des cryptes secrètes à la recherche de trésors.',8,0,NULL,NULL,4,80,2,'2016-11-11 20:34:04','2016-11-11 20:42:09');
+
 
 /* ClassArmorProficiencies */
 INSERT INTO classarmorproficiencies (classId, proficiency) VALUES (1,'SHIELD');
@@ -1026,6 +1033,7 @@ INSERT INTO classarmorproficiencies (classId, proficiency) VALUES (1,'LIGHT');
 INSERT INTO classarmorproficiencies (classId, proficiency) VALUES (2,'SHIELD');
 INSERT INTO classarmorproficiencies (classId, proficiency) VALUES (2,'LIGHT');
 INSERT INTO classarmorproficiencies (classId, proficiency) VALUES (2,'MEDIUM');
+INSERT INTO classarmorproficiencies (classId, proficiency) VALUES (3,'LIGHT');
 
 /* Classlevelbonus */;
 INSERT INTO classlevelbonus (chooseClassSpecialization, favoredEnemy, abilityScoreImprovement, invocationsKnown, kiPoints, martialArtsDamage, movementBonus, naturalExplorer, rageDamageBonus, ragePoints, sneakAttackDamage, sorceryPoints, classId, levelId) VALUES (0,NULL,0,NULL,NULL,NULL,NULL,NULL,2,2,NULL,NULL,1,1);
@@ -1054,47 +1062,93 @@ INSERT INTO classlevelbonus (chooseClassSpecialization, favoredEnemy, abilitySco
 INSERT INTO classlevelbonus (chooseClassSpecialization, favoredEnemy, abilityScoreImprovement, invocationsKnown, kiPoints, martialArtsDamage, movementBonus, naturalExplorer, rageDamageBonus, ragePoints, sneakAttackDamage, sorceryPoints, classId, levelId) VALUES (0,NULL,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,2,12);
 INSERT INTO classlevelbonus (chooseClassSpecialization, favoredEnemy, abilityScoreImprovement, invocationsKnown, kiPoints, martialArtsDamage, movementBonus, naturalExplorer, rageDamageBonus, ragePoints, sneakAttackDamage, sorceryPoints, classId, levelId) VALUES (0,NULL,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,2,16);
 INSERT INTO classlevelbonus (chooseClassSpecialization, favoredEnemy, abilityScoreImprovement, invocationsKnown, kiPoints, martialArtsDamage, movementBonus, naturalExplorer, rageDamageBonus, ragePoints, sneakAttackDamage, sorceryPoints, classId, levelId) VALUES (0,NULL,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,2,19);
+INSERT INTO classlevelbonus (chooseClassSpecialization, favoredEnemy, abilityScoreImprovement, invocationsKnown, kiPoints, martialArtsDamage, movementBonus, naturalExplorer, rageDamageBonus, ragePoints, sneakAttackDamage, sorceryPoints, classId, levelId) VALUES (0,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'1d6',NULL,3,1);
+INSERT INTO classlevelbonus (chooseClassSpecialization, favoredEnemy, abilityScoreImprovement, invocationsKnown, kiPoints, martialArtsDamage, movementBonus, naturalExplorer, rageDamageBonus, ragePoints, sneakAttackDamage, sorceryPoints, classId, levelId) VALUES (0,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'1d6',NULL,3,2);
+INSERT INTO classlevelbonus (chooseClassSpecialization, favoredEnemy, abilityScoreImprovement, invocationsKnown, kiPoints, martialArtsDamage, movementBonus, naturalExplorer, rageDamageBonus, ragePoints, sneakAttackDamage, sorceryPoints, classId, levelId) VALUES (1,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2d6',NULL,3,3);
+INSERT INTO classlevelbonus (chooseClassSpecialization, favoredEnemy, abilityScoreImprovement, invocationsKnown, kiPoints, martialArtsDamage, movementBonus, naturalExplorer, rageDamageBonus, ragePoints, sneakAttackDamage, sorceryPoints, classId, levelId) VALUES (0,NULL,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2d6',NULL,3,4);
+INSERT INTO classlevelbonus (chooseClassSpecialization, favoredEnemy, abilityScoreImprovement, invocationsKnown, kiPoints, martialArtsDamage, movementBonus, naturalExplorer, rageDamageBonus, ragePoints, sneakAttackDamage, sorceryPoints, classId, levelId) VALUES (0,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'3d6',NULL,3,5);
+INSERT INTO classlevelbonus (chooseClassSpecialization, favoredEnemy, abilityScoreImprovement, invocationsKnown, kiPoints, martialArtsDamage, movementBonus, naturalExplorer, rageDamageBonus, ragePoints, sneakAttackDamage, sorceryPoints, classId, levelId) VALUES (0,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'3d6',NULL,3,6);
+INSERT INTO classlevelbonus (chooseClassSpecialization, favoredEnemy, abilityScoreImprovement, invocationsKnown, kiPoints, martialArtsDamage, movementBonus, naturalExplorer, rageDamageBonus, ragePoints, sneakAttackDamage, sorceryPoints, classId, levelId) VALUES (0,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'4d6',NULL,3,7);
+INSERT INTO classlevelbonus (chooseClassSpecialization, favoredEnemy, abilityScoreImprovement, invocationsKnown, kiPoints, martialArtsDamage, movementBonus, naturalExplorer, rageDamageBonus, ragePoints, sneakAttackDamage, sorceryPoints, classId, levelId) VALUES (0,NULL,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'4d6',NULL,3,8);
+INSERT INTO classlevelbonus (chooseClassSpecialization, favoredEnemy, abilityScoreImprovement, invocationsKnown, kiPoints, martialArtsDamage, movementBonus, naturalExplorer, rageDamageBonus, ragePoints, sneakAttackDamage, sorceryPoints, classId, levelId) VALUES (0,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'5d6',NULL,3,9);
+INSERT INTO classlevelbonus (chooseClassSpecialization, favoredEnemy, abilityScoreImprovement, invocationsKnown, kiPoints, martialArtsDamage, movementBonus, naturalExplorer, rageDamageBonus, ragePoints, sneakAttackDamage, sorceryPoints, classId, levelId) VALUES (0,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'5d6',NULL,3,10);
+INSERT INTO classlevelbonus (chooseClassSpecialization, favoredEnemy, abilityScoreImprovement, invocationsKnown, kiPoints, martialArtsDamage, movementBonus, naturalExplorer, rageDamageBonus, ragePoints, sneakAttackDamage, sorceryPoints, classId, levelId) VALUES (0,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'6d6',NULL,3,11);
+INSERT INTO classlevelbonus (chooseClassSpecialization, favoredEnemy, abilityScoreImprovement, invocationsKnown, kiPoints, martialArtsDamage, movementBonus, naturalExplorer, rageDamageBonus, ragePoints, sneakAttackDamage, sorceryPoints, classId, levelId) VALUES (0,NULL,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'6d6',NULL,3,12);
+INSERT INTO classlevelbonus (chooseClassSpecialization, favoredEnemy, abilityScoreImprovement, invocationsKnown, kiPoints, martialArtsDamage, movementBonus, naturalExplorer, rageDamageBonus, ragePoints, sneakAttackDamage, sorceryPoints, classId, levelId) VALUES (0,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'7d6',NULL,3,13);
+INSERT INTO classlevelbonus (chooseClassSpecialization, favoredEnemy, abilityScoreImprovement, invocationsKnown, kiPoints, martialArtsDamage, movementBonus, naturalExplorer, rageDamageBonus, ragePoints, sneakAttackDamage, sorceryPoints, classId, levelId) VALUES (0,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'7d6',NULL,3,14);
+INSERT INTO classlevelbonus (chooseClassSpecialization, favoredEnemy, abilityScoreImprovement, invocationsKnown, kiPoints, martialArtsDamage, movementBonus, naturalExplorer, rageDamageBonus, ragePoints, sneakAttackDamage, sorceryPoints, classId, levelId) VALUES (0,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'8d6',NULL,3,15);
+INSERT INTO classlevelbonus (chooseClassSpecialization, favoredEnemy, abilityScoreImprovement, invocationsKnown, kiPoints, martialArtsDamage, movementBonus, naturalExplorer, rageDamageBonus, ragePoints, sneakAttackDamage, sorceryPoints, classId, levelId) VALUES (0,NULL,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'8d6',NULL,3,16);
+INSERT INTO classlevelbonus (chooseClassSpecialization, favoredEnemy, abilityScoreImprovement, invocationsKnown, kiPoints, martialArtsDamage, movementBonus, naturalExplorer, rageDamageBonus, ragePoints, sneakAttackDamage, sorceryPoints, classId, levelId) VALUES (0,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'9d6',NULL,3,17);
+INSERT INTO classlevelbonus (chooseClassSpecialization, favoredEnemy, abilityScoreImprovement, invocationsKnown, kiPoints, martialArtsDamage, movementBonus, naturalExplorer, rageDamageBonus, ragePoints, sneakAttackDamage, sorceryPoints, classId, levelId) VALUES (0,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'9d6',NULL,3,18);
+INSERT INTO classlevelbonus (chooseClassSpecialization, favoredEnemy, abilityScoreImprovement, invocationsKnown, kiPoints, martialArtsDamage, movementBonus, naturalExplorer, rageDamageBonus, ragePoints, sneakAttackDamage, sorceryPoints, classId, levelId) VALUES (0,NULL,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'10d6',NULL,3,19);
+INSERT INTO classlevelbonus (chooseClassSpecialization, favoredEnemy, abilityScoreImprovement, invocationsKnown, kiPoints, martialArtsDamage, movementBonus, naturalExplorer, rageDamageBonus, ragePoints, sneakAttackDamage, sorceryPoints, classId, levelId) VALUES (0,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'10d6',NULL,3,20);
+
 
 /* Classlevelbonusfeat */;
 INSERT INTO classlevelbonusfeat (classId, featId, levelId) VALUES (1,42,1);
 INSERT INTO classlevelbonusfeat (classId, featId, levelId) VALUES (1,43,1);
+INSERT INTO classlevelbonusfeat (classId, featId, levelId) VALUES (3,139,1);
+INSERT INTO classlevelbonusfeat (classId, featId, levelId) VALUES (3,141,1);
+INSERT INTO classlevelbonusfeat (classId, featId, levelId) VALUES (3,142,1);
 INSERT INTO classlevelbonusfeat (classId, featId, levelId) VALUES (1,44,2);
 INSERT INTO classlevelbonusfeat (classId, featId, levelId) VALUES (1,45,2);
 INSERT INTO classlevelbonusfeat (classId, featId, levelId) VALUES (2,120,2);
+INSERT INTO classlevelbonusfeat (classId, featId, levelId) VALUES (3,143,2);
 INSERT INTO classlevelbonusfeat (classId, featId, levelId) VALUES (1,46,5);
 INSERT INTO classlevelbonusfeat (classId, featId, levelId) VALUES (1,47,5);
+INSERT INTO classlevelbonusfeat (classId, featId, levelId) VALUES (3,144,5);
+INSERT INTO classlevelbonusfeat (classId, featId, levelId) VALUES (3,140,6);
 INSERT INTO classlevelbonusfeat (classId, featId, levelId) VALUES (1,48,7);
+INSERT INTO classlevelbonusfeat (classId, featId, levelId) VALUES (3,145,7);
 INSERT INTO classlevelbonusfeat (classId, featId, levelId) VALUES (1,49,9);
 INSERT INTO classlevelbonusfeat (classId, featId, levelId) VALUES (1,50,11);
+INSERT INTO classlevelbonusfeat (classId, featId, levelId) VALUES (3,146,11);
 INSERT INTO classlevelbonusfeat (classId, featId, levelId) VALUES (1,135,13);
+INSERT INTO classlevelbonusfeat (classId, featId, levelId) VALUES (3,147,14);
 INSERT INTO classlevelbonusfeat (classId, featId, levelId) VALUES (1,51,15);
+INSERT INTO classlevelbonusfeat (classId, featId, levelId) VALUES (3,148,15);
 INSERT INTO classlevelbonusfeat (classId, featId, levelId) VALUES (1,136,17);
 INSERT INTO classlevelbonusfeat (classId, featId, levelId) VALUES (1,52,18);
 INSERT INTO classlevelbonusfeat (classId, featId, levelId) VALUES (2,121,18);
 INSERT INTO classlevelbonusfeat (classId, featId, levelId) VALUES (2,122,18);
+INSERT INTO classlevelbonusfeat (classId, featId, levelId) VALUES (3,169,18);
 INSERT INTO classlevelbonusfeat (classId, featId, levelId) VALUES (1,53,20);
 INSERT INTO classlevelbonusfeat (classId, featId, levelId) VALUES (2,123,20);
+INSERT INTO classlevelbonusfeat (classId, featId, levelId) VALUES (3,149,20);
 
 /* Classsavingthrowproficiencies */;
 INSERT INTO classsavingthrowproficiencies (classId, abilityId) VALUES (1,1);
+INSERT INTO classsavingthrowproficiencies (classId, abilityId) VALUES (3,2);
 INSERT INTO classsavingthrowproficiencies (classId, abilityId) VALUES (1,3);
 INSERT INTO classsavingthrowproficiencies (classId, abilityId) VALUES (2,4);
+INSERT INTO classsavingthrowproficiencies (classId, abilityId) VALUES (3,4);
 INSERT INTO classsavingthrowproficiencies (classId, abilityId) VALUES (2,5);
 
 /* Classskill */;
 INSERT INTO classskill (classId, skillId) VALUES (1,1);
+INSERT INTO classskill (classId, skillId) VALUES (3,1);
+INSERT INTO classskill (classId, skillId) VALUES (3,2);
+INSERT INTO classskill (classId, skillId) VALUES (3,3);
+INSERT INTO classskill (classId, skillId) VALUES (3,4);
 INSERT INTO classskill (classId, skillId) VALUES (2,5);
+INSERT INTO classskill (classId, skillId) VALUES (3,7);
 INSERT INTO classskill (classId, skillId) VALUES (1,8);
 INSERT INTO classskill (classId, skillId) VALUES (2,9);
 INSERT INTO classskill (classId, skillId) VALUES (1,10);
 INSERT INTO classskill (classId, skillId) VALUES (2,10);
 INSERT INTO classskill (classId, skillId) VALUES (2,11);
+INSERT INTO classskill (classId, skillId) VALUES (3,11);
 INSERT INTO classskill (classId, skillId) VALUES (2,12);
 INSERT INTO classskill (classId, skillId) VALUES (1,13);
 INSERT INTO classskill (classId, skillId) VALUES (2,13);
+INSERT INTO classskill (classId, skillId) VALUES (3,13);
 INSERT INTO classskill (classId, skillId) VALUES (1,14);
 INSERT INTO classskill (classId, skillId) VALUES (2,14);
+INSERT INTO classskill (classId, skillId) VALUES (3,15);
 INSERT INTO classskill (classId, skillId) VALUES (1,16);
+INSERT INTO classskill (classId, skillId) VALUES (3,16);
+INSERT INTO classskill (classId, skillId) VALUES (3,17);
+INSERT INTO classskill (classId, skillId) VALUES (3,18);
 
 /* Classspellslots */
 INSERT INTO classspellslots (cantripsKnown, spellSlots1, spellSlots2, spellSlots3, spellSlots4, spellSlots5, spellSlots6, spellSlots7, spellSlots8, spellSlots9, spellsKnown, classId, levelId) VALUES (2,2,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,2,1);
@@ -1121,24 +1175,37 @@ INSERT INTO classspellslots (cantripsKnown, spellSlots1, spellSlots2, spellSlots
 /* Classweaponproficiencies */;
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (1,1);
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (2,1);
+INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (3,1);
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (1,2);
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (2,2);
+INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (3,2);
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (1,3);
+INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (3,3);
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (1,4);
+INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (3,4);
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (1,5);
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (2,5);
+INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (3,5);
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (1,6);
+INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (3,6);
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (1,7);
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (2,7);
+INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (3,7);
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (1,8);
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (2,8);
+INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (3,8);
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (1,9);
+INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (3,9);
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (1,10);
+INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (3,10);
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (1,11);
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (2,11);
+INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (3,11);
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (1,12);
+INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (3,12);
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (1,13);
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (2,13);
+INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (3,13);
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (1,14);
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (1,15);
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (1,17);
@@ -1146,19 +1213,24 @@ INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (1,18);
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (1,19);
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (1,20);
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (2,20);
+INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (3,20);
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (1,21);
+INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (3,21);
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (1,22);
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (1,23);
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (1,24);
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (1,25);
+INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (3,25);
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (1,26);
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (2,26);
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (1,27);
+INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (3,27);
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (1,28);
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (1,29);
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (1,30);
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (1,31);
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (1,32);
+INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (3,32);
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (1,33);
 INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (1,34);
 
