@@ -13,8 +13,8 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.TextField;
 import com.vaadin.ui.Notification.Type;
+import com.vaadin.ui.TextField;
 
 public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedLayout implements CrudView<T> {
 
@@ -53,9 +53,7 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
         
         initForm();
 
-        grid.addSelectionListener(selectionEvent -> {
-            entrySelected();
-        });
+        initGrid();
 
         if (form != null) {
             addComponent(title);
@@ -73,6 +71,12 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
             }
             addComponents(grid);
         }
+    }
+
+    protected void initGrid() {
+        grid.addSelectionListener(selectionEvent -> {
+            entrySelected();
+        });
     }
 
     protected void listEntries(String text) {
@@ -133,9 +137,11 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
     }
 
     protected void closeForm() {
-        form.setEntity(null);
-        if (isFormPopup()) {
-            form.closePopup();
+        if (form != null) {
+            form.setEntity(null);
+            if (isFormPopup()) {
+                form.closePopup();
+            }
         }
     }
 
@@ -173,7 +179,7 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
             Notification.show(
                     "Erreur suppression : soit les données n'existent pas ou ils sont utilisées sur d'autres objets",
                     Type.ERROR_MESSAGE);
-            listEntries();
+            //            listEntries();
         }
     }
 

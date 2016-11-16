@@ -14,6 +14,7 @@ import com.dungeonstory.view.admin.AbilityView;
 import com.dungeonstory.view.admin.AlignmentView;
 import com.dungeonstory.view.admin.ArmorTypeView;
 import com.dungeonstory.view.admin.BackgroundView;
+import com.dungeonstory.view.admin.CharacterView;
 import com.dungeonstory.view.admin.CityView;
 import com.dungeonstory.view.admin.ClassSpecializationView;
 import com.dungeonstory.view.admin.ClassView;
@@ -99,6 +100,7 @@ public class MainScreen extends HorizontalLayout {
         }
 
         if (DungeonStoryUI.get().getAccessControl().isUserInRole("ADMIN")) {
+            addView(CharacterView.class);
             addView(AbilityView.class);
             addView(AlignmentView.class);
             addView(DamageTypeView.class);

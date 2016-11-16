@@ -30,7 +30,7 @@ public class BeanGrid<T> extends Grid {
     }
 
     @SuppressWarnings("unchecked")
-    protected BeanItemContainer<T> getContainer() {
+    public BeanItemContainer<T> getContainer() {
         return (BeanItemContainer<T>) super.getContainerDataSource();
     }
 
@@ -55,13 +55,13 @@ public class BeanGrid<T> extends Grid {
             MethodProperty<T> p = (MethodProperty<T>) item.getItemProperty("id");
             p.fireValueChange();
         } else {
-            // New product
+            // New bean
             getContainer().addBean(bean);
         }
     }
 
     public void remove(T bean) {
-        getContainer().removeItem(bean);
+        getContainerDataSource().removeItem(bean);
     }
 
     public void withColumns(Object... columns) {
