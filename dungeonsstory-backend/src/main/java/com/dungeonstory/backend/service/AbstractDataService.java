@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
-import javax.persistence.TypedQuery;
-
 import org.apache.commons.lang3.StringUtils;
 
 import com.dungeonstory.backend.factory.Factory;
@@ -93,6 +91,39 @@ public abstract class AbstractDataService<E extends Entity, K extends Serializab
         return entityRepository.findAllByLike(column, value);
     }
 
+    @Override
+    public List<E> findAllPaged(int firstRow, int pageSize) {
+        return entityRepository.findAllPaged(firstRow, pageSize);
+    }
+
+    @Override
+    public List<E> findAllPagedOrderBy(int firstRow, int pageSize, String orderColumn, String order) {
+        return entityRepository.findAllPagedOrderBy(firstRow, pageSize, orderColumn, order);
+    }
+
+    @Override
+    public List<E> findAllByLikePaged(String column, String value, int firstRow, int pageSize) {
+        if (StringUtils.isEmpty(column) || StringUtils.isEmpty(value)) {
+            return findAllPaged(firstRow, pageSize);
+        }
+        return entityRepository.findAllByLikePaged(column, value, firstRow, pageSize);
+    }
+
+    @Override
+    public List<E> findAllByLikePagedOrderBy(String column, String value, int firstRow, int pageSize,
+            String orderColumn, String order) {
+        if (StringUtils.isEmpty(column) || StringUtils.isEmpty(value)) {
+            if (StringUtils.isEmpty(orderColumn) || StringUtils.isEmpty(order)) {
+                return findAllPaged(firstRow, pageSize);
+            }
+            return findAllPagedOrderBy(firstRow, pageSize, orderColumn, order);
+        }
+        if (StringUtils.isEmpty(orderColumn) || StringUtils.isEmpty(order)) {
+            return findAllByLikePaged(column, value, firstRow, pageSize);
+        }
+        return entityRepository.findAllByLikePagedOrderBy(column, value, firstRow, pageSize, orderColumn, order);
+    }
+
     /**
      *
      * @param key
@@ -158,6 +189,15 @@ public abstract class AbstractDataService<E extends Entity, K extends Serializab
     @Override
     public long count() {
         return entityRepository.count();
+    }
+
+    /**
+     * 
+     * @return the entity count with given filter
+     */
+    @Override
+    public int countWithFilter(String column, String value) {
+        return findAllByLike(column, value).size();
     }
 
 }

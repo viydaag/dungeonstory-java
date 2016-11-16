@@ -67,6 +67,15 @@ public interface DataService<E extends Entity, K extends Serializable> {
     */
     Collection<E> findAllByLike(String column, String value);
 
+    List<E> findAllPaged(int firstRow, int pageSize);
+
+    List<E> findAllByLikePaged(String column, String value, int firstRow, int pageSize);
+
+    List<E> findAllPagedOrderBy(int firstRow, int pageSize, String orderColumn, String order);
+
+    List<E> findAllByLikePagedOrderBy(String column, String value, int firstRow, int pageSize, String orderColumn,
+            String order);
+
     /**
      *
      * @param key
@@ -118,6 +127,12 @@ public interface DataService<E extends Entity, K extends Serializable> {
      * @return the entity updated
      */
     E update(E entity);
+
+    /**
+     * 
+     * @return the entity count with given filter
+     */
+    int countWithFilter(String column, String value);
 
     /**
      * 

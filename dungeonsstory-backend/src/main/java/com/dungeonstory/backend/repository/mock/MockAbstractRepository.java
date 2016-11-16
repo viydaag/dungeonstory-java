@@ -7,8 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.TypedQuery;
-
 import com.dungeonstory.backend.repository.Entity;
 import com.dungeonstory.backend.repository.Repository;
 
@@ -49,7 +47,6 @@ public abstract class MockAbstractRepository<E extends Entity> implements Reposi
         for (E entity : entitySet) {
             delete(entity);
         }
-
     }
 
     @Override
@@ -119,6 +116,16 @@ public abstract class MockAbstractRepository<E extends Entity> implements Reposi
     @Override
     public List<E> findAllByLike(String column, String value) {
         return findAll();
+    }
+
+    @Override
+    public List<E> findAllPaged(int firstRow, int pageSize) {
+        return findAll().subList(firstRow, pageSize);
+    }
+
+    @Override
+    public List<E> findAllByLikePaged(String column, String value, int firstRow, int pageSize) {
+        return findAllPaged(firstRow, pageSize);
     }
 
 }

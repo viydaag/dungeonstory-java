@@ -124,9 +124,9 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
     }
 
     @Override
-    public List<E> findAllOrderBy(String column, String order) {
+    public List<E> findAllOrderBy(String orderColumn, String order) {
         TypedQuery<E> query = entityManager.createQuery(
-                "SELECT o FROM " + getTableName() + " o ORDER BY o." + column + " " + order, getEntityClass());
+                "SELECT o FROM " + getTableName() + " o ORDER BY o." + orderColumn + " " + order, getEntityClass());
         return query.getResultList();
     }
     
@@ -141,6 +141,42 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
     public List<E> findAllByLike(String column, String value) {
         TypedQuery<E> query = entityManager.createQuery(
                 "SELECT o FROM " + getTableName() + " o WHERE o." + column + " LIKE :value", getEntityClass());
+        query.setParameter("value", "%" + value + "%");
+        return query.getResultList();
+    }
+
+    @Override
+    public List<E> findAllByLikePaged(String column, String value, int firstRow, int pageSize) {
+        TypedQuery<E> query = entityManager
+                .createQuery("SELECT o FROM " + getTableName() + " o WHERE o." + column + " LIKE :value",
+                        getEntityClass())
+                .setFirstResult(firstRow).setMaxResults(pageSize);
+        query.setParameter("value", "%" + value + "%");
+        return query.getResultList();
+    }
+
+    @Override
+    public List<E> findAllPaged(int firstRow, int pageSize) {
+        TypedQuery<E> query = entityManager.createQuery("SELECT o FROM " + getTableName() + " o", getEntityClass())
+                .setFirstResult(firstRow).setMaxResults(pageSize);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<E> findAllPagedOrderBy(int firstRow, int pageSize, String orderColumn, String order) {
+        TypedQuery<E> query = entityManager
+                .createQuery("SELECT o FROM " + getTableName() + " o ORDER BY o." + orderColumn + " " + order,
+                        getEntityClass())
+                .setFirstResult(firstRow).setMaxResults(pageSize);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<E> findAllByLikePagedOrderBy(String column, String value, int firstRow, int pageSize,
+            String orderColumn, String order) {
+        TypedQuery<E> query = entityManager.createQuery("SELECT o FROM " + getTableName() + " o WHERE o." + column
+                + " LIKE :value ORDER BY o." + orderColumn + " " + order, getEntityClass()).setFirstResult(firstRow)
+                .setMaxResults(pageSize);
         query.setParameter("value", "%" + value + "%");
         return query.getResultList();
     }

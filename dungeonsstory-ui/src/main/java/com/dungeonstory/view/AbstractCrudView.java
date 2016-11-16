@@ -1,12 +1,13 @@
 package com.dungeonstory.view;
 
+import org.vaadin.viritin.LazyList;
 import org.vaadin.viritin.fields.MTextField;
 
 import com.dungeonstory.backend.repository.Entity;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.util.layout.VerticalSpacedLayout;
-import com.dungeonstory.view.component.BeanGrid;
+import com.dungeonstory.view.component.DSGrid;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
@@ -20,13 +21,13 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
 
     private static final long serialVersionUID = -6564885112560677215L;
 
-    private Label                  title;
-    private HorizontalLayout       buttonLayout;
-    protected TextField filter;
-    private String filterBy = "name";
-    
+    private Label            title;
+    private HorizontalLayout buttonLayout;
+    protected TextField      filter;
+    private String           filterBy = "name";
+
     protected DSAbstractForm<T>    form;
-    protected BeanGrid<T>          grid;
+    protected DSGrid<T>            grid;
     protected DataService<T, Long> service;
 
     private boolean isFormPopup     = false;
@@ -36,7 +37,7 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
 
     public abstract DSAbstractForm<T> getForm();
 
-    public abstract BeanGrid<T> getGrid();
+    public abstract DSGrid<T> getGrid();
 
     public abstract DataService<T, Long> getDataService();
 
@@ -50,7 +51,7 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
         filter.addTextChangeListener(e -> {
             listEntries(e.getText());
         });
-        
+
         initForm();
 
         initGrid();
@@ -81,12 +82,36 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
 
     protected void listEntries(String text) {
         if (isFilterAllowed()) {
-            grid.setData(service.findAllByLike(getFilterBy(), text));
+            //            grid.setRows((List<T>) service.findAllByLike(getFilterBy(), text));
+            grid.lazyLoadFrom((int firstRow, boolean sortAscending, String property) -> {
+                String order = sortAscending ? "ASC" : "DESC";
+                return service.findAllByLikePagedOrderBy(getFilterBy(), text, firstRow, LazyList.DEFAULT_PAGE_SIZE,
+                        property, order);
+            }, () -> service.countWithFilter(getFilterBy(), text));
         } else {
-            grid.setData(service.findAll());
+            //            grid.setRows((List<T>) service.findAll());
+            //            grid.lazyLoadFrom(new LazyList.PagingProvider<T>() {
+            //                private static final long serialVersionUID = -9072230332041322210L;
+            //
+            //                @Override
+            //                public List<T> findEntities(int firstRow) {
+            //                    return service.findAllPaged(firstRow, LazyList.DEFAULT_PAGE_SIZE);
+            //                }
+            //            }, new LazyList.CountProvider() {
+            //
+            //                private static final long serialVersionUID = 1L;
+            //
+            //                @Override
+            //                public int size() {
+            //                    return (int) service.count();
+            //                }
+            //            });
+
+            grid.lazyLoadFrom((int firstRow, boolean sortAscending, String property) -> service.findAllPaged(firstRow,
+                    LazyList.DEFAULT_PAGE_SIZE), () -> (int) service.count());
         }
     }
-    
+
     protected void listEntries() {
         listEntries(filter.getValue());
     }
