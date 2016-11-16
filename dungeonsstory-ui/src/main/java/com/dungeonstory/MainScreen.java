@@ -1,10 +1,11 @@
 package com.dungeonstory;
 
+import com.dungeonstory.authentication.CurrentUser;
 import com.dungeonstory.util.DSTheme;
 import com.dungeonstory.util.LazyProvider;
 import com.dungeonstory.util.PageTitleUpdater;
-import com.dungeonstory.util.VerticalSpacedLayout;
 import com.dungeonstory.util.ViewConfig;
+import com.dungeonstory.util.layout.VerticalSpacedLayout;
 import com.dungeonstory.view.AboutView;
 import com.dungeonstory.view.ErrorView;
 import com.dungeonstory.view.HomeView;
@@ -13,6 +14,7 @@ import com.dungeonstory.view.admin.AbilityView;
 import com.dungeonstory.view.admin.AlignmentView;
 import com.dungeonstory.view.admin.ArmorTypeView;
 import com.dungeonstory.view.admin.BackgroundView;
+import com.dungeonstory.view.admin.CharacterView;
 import com.dungeonstory.view.admin.CityView;
 import com.dungeonstory.view.admin.ClassSpecializationView;
 import com.dungeonstory.view.admin.ClassView;
@@ -30,6 +32,7 @@ import com.dungeonstory.view.admin.ShopView;
 import com.dungeonstory.view.admin.SkillView;
 import com.dungeonstory.view.admin.SpellView;
 import com.dungeonstory.view.admin.WeaponTypeView;
+import com.dungeonstory.view.character.NewCharacterView;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.ui.HorizontalLayout;
@@ -92,7 +95,12 @@ public class MainScreen extends HorizontalLayout {
     private void registerViews() {
         addView(HomeView.class);
 
+        if (CurrentUser.get().getCharacter() == null) {
+            addView(NewCharacterView.class);
+        }
+
         if (DungeonStoryUI.get().getAccessControl().isUserInRole("ADMIN")) {
+            addView(CharacterView.class);
             addView(AbilityView.class);
             addView(AlignmentView.class);
             addView(DamageTypeView.class);

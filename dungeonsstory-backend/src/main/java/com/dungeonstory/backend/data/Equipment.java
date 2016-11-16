@@ -26,29 +26,35 @@ public abstract class Equipment extends AbstractTimestampEntity implements Seria
 
     public enum EquipmentType {
     	
-    	ARMOR(Armor.class), 
-    	WEAPON(Weapon.class), 
-    	RING(Ring.class), 
-    	AMULET(Amulet.class), 
-    	BRACER(Bracer.class), 
-    	BOOT(Boot.class), 
-    	BELT(Belt.class),
-    	HELMET(Helmet.class),
-    	AMMUNITION(Ammunition.class),
-        FOCUS(Focus.class),
-    	TOOL(Tool.class),
-    	GEAR(Gear.class);
+        ARMOR(Armor.class, "Armure"),
+        WEAPON(Weapon.class, "Arme"),
+        RING(Ring.class, "Anneau"),
+        AMULET(Amulet.class, "Amulette"),
+        BRACER(Bracer.class, "Bracelet"),
+        BOOT(Boot.class, "Botte"),
+        BELT(Belt.class, "Ceinturon"),
+        HELMET(Helmet.class, "Heaume"),
+        AMMUNITION(Ammunition.class, "Munition"),
+        FOCUS(Focus.class, "Focus de sort"),
+        TOOL(Tool.class, "Outil"),
+        GEAR(Gear.class, "Équipement"),
+        COMPONENT(SpellComponent.class, "Composant");
     	
     	private Class<? extends Equipment> equipmentClass;
+        private String                     name;
     	
-    	private EquipmentType(Class<? extends Equipment> equipmentClass) {
+        private EquipmentType(Class<? extends Equipment> equipmentClass, String name) {
     		this.equipmentClass = equipmentClass;
+            this.name = name;
     	}
 
 		public final Equipment getEquipment() throws InstantiationException, IllegalAccessException {
 			return equipmentClass.newInstance();
 		}
-        
+
+        public String getName() {
+            return name;
+        }
     }
 
     @NotNull

@@ -16,9 +16,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.dungeonstory.backend.repository.DescriptiveEntity;
+
 @Entity
 @Table(name = "Feat")
-public class Feat extends AbstractTimestampEntity implements Serializable {
+public class Feat extends AbstractTimestampEntity implements DescriptiveEntity, Serializable {
 
     private static final long serialVersionUID = 291837938711381342L;
 
@@ -90,10 +92,12 @@ public class Feat extends AbstractTimestampEntity implements Serializable {
         this.name = name;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
 
+    @Override
     public void setDescription(String description) {
         this.description = description;
     }

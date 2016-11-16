@@ -1,11 +1,15 @@
 package com.dungeonstory.backend.service.mock;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.dungeonstory.backend.data.Alignment;
 import com.dungeonstory.backend.factory.impl.AlignmentFactory;
 import com.dungeonstory.backend.repository.mock.MockAlignmentRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
+import com.dungeonstory.backend.service.AlignmentDataService;
 
-public class MockAlignmentService extends AbstractDataService<Alignment, Long> {
+public class MockAlignmentService extends AbstractDataService<Alignment, Long> implements AlignmentDataService {
 
 	private static final long serialVersionUID = 5669347444406948099L;
 	
@@ -22,6 +26,11 @@ public class MockAlignmentService extends AbstractDataService<Alignment, Long> {
         super();
         setEntityFactory(new AlignmentFactory());
         setRepository(new MockAlignmentRepository());
+    }
+
+    @Override
+    public List<Alignment> findAllPlayable() {
+        return entityRepository.findAll().stream().filter(a -> a.getPlayable() == true).collect(Collectors.toList());
     }
 
 }

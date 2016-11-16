@@ -32,7 +32,7 @@ public class Skill extends AbstractTimestampEntity implements Serializable {
     @JoinColumn(name = "keyAbilityId", nullable = false)
     private Ability keyAbility;
 
-    @ManyToMany(mappedBy = "skills")
+    @ManyToMany(mappedBy = "skillProficiencies")
     private List<Character> characters;
 
     @OneToMany(mappedBy = "skill")

@@ -36,13 +36,19 @@
         <dependency>
 			<groupId>org.vaadin</groupId>
 			<artifactId>viritin</artifactId>
-			<version>1.56</version>
+			<version>1.59-SNAPSHOT</version>
 		</dependency>
 		
 		<dependency>
 		   <groupId>org.vaadin.addon</groupId>
 		   <artifactId>easyuploads</artifactId>
 		   <version>7.4.10</version>
+		</dependency>
+		
+		<dependency>
+		   <groupId>org.vaadin.addons</groupId>
+		   <artifactId>wizards-for-vaadin</artifactId>
+		   <version>1.1.1</version>
 		</dependency>
 		
 		<dependency>

@@ -25,9 +25,17 @@ public class Background extends AbstractTimestampEntity implements Serializable 
     private static final long serialVersionUID = -8141940835860939919L;
     
     public enum LanguageChoice {
-        NONE,
-        ONE,
-        TWO
+        NONE(0), ONE(1), TWO(2);
+
+        private int nbLanguage;
+
+        private LanguageChoice(int nbLanguage) {
+            this.nbLanguage = nbLanguage;
+        }
+
+        public int getNbLanguage() {
+            return this.nbLanguage;
+        }
     }
 
     @NotNull

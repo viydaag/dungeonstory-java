@@ -1,5 +1,7 @@
 package com.dungeonstory.backend.data;
 
+import static javax.persistence.LockModeType.READ;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +18,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -24,10 +28,27 @@ import org.eclipse.persistence.annotations.PrivateOwned;
 
 @Entity
 @Table(name = "Spell")
+
+@NamedQueries({
+        @NamedQuery(name = Spell.ALL_KNOWN_CLASS_SPELLS_BY_LEVEL, query = "SELECT s FROM DSClass c JOIN c.spells s WHERE s.level = :level AND c.id = :classId AND s.id IN (SELECT sp.id FROM Character ch JOIN ch.classes cl JOIN cl.knownSpells sp WHERE ch.id = :characterId AND cl.classe.id = :classId)", lockMode = READ),
+        @NamedQuery(name = Spell.ALL_UNKNOWN_CLASS_SPELLS_BY_LEVEL, query = "SELECT s FROM DSClass c JOIN c.spells s WHERE s.level = :level AND c.id = :classId AND s.id NOT IN (SELECT sp.id FROM Character ch JOIN ch.classes cl JOIN cl.knownSpells sp WHERE ch.id = :characterId AND cl.classe.id = :classId)", lockMode = READ),
+        @NamedQuery(name = Spell.ALL_SPELLS_BY_LEVEL, query = "SELECT s FROM Spell s WHERE s.level = :level", lockMode = READ),
+        @NamedQuery(name = Spell.ALL_CLASS_SPELLS_BY_LEVEL, query = "SELECT s FROM DSClass c JOIN c.spells s WHERE c.id = :classId AND s.level = :level", lockMode = READ),
+        @NamedQuery(name = Spell.ALL_SPELLS_SORTED_BY_LEVEL_AND_NAME, query = "SELECT e FROM Spell e ORDER BY e.level ASC, e.name ASC", lockMode = READ) })
 public class Spell extends AbstractTimestampEntity implements Serializable {
 
     private static final long serialVersionUID = -981852238942809050L;
     
+    public static final String ALL_KNOWN_CLASS_SPELLS_BY_LEVEL = "findAllKnownClassSpellsByLevel";
+    public static final String ALL_UNKNOWN_CLASS_SPELLS_BY_LEVEL = "findAllUnknownClassSpellsByLevel";
+    public static final String ALL_SPELLS_BY_LEVEL               = "findAllSpellsByLevel";
+    public static final String ALL_CLASS_SPELLS_BY_LEVEL         = "findAllClassSpellsByLevel";
+    public static final String ALL_SPELLS_SORTED_BY_LEVEL_AND_NAME = "findAllSpellsSortedByLevelAndName";
+
+    public static final int CANTRIP_LEVEL   = 0;
+    public static final int MIN_SPELL_LEVEL = 1;
+    public static final int MAX_SPELL_LEVEL = 9;
+
     public enum MagicSchool {
         ABJURATION,
         CONJURATION,

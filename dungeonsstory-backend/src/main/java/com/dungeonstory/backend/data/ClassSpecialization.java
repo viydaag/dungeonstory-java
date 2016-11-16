@@ -1,6 +1,7 @@
 package com.dungeonstory.backend.data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -13,6 +14,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.eclipse.persistence.annotations.PrivateOwned;
+
+import com.mysql.fabric.xmlrpc.base.Array;
 
 @Entity
 @Table(name = "ClassSpecialization")
@@ -53,6 +56,9 @@ public class ClassSpecialization extends AbstractTimestampEntity implements Seri
 
     public ClassSpecialization() {
         super();
+        classSpecFeatures = new ArrayList<ClassSpecLevelFeature>();
+        spellSlots = new ArrayList<ClassSpecializationSpellSlots>();
+        classSpecSpells = new ArrayList<ClassSpecLevelSpell>();
     }
 
     public String getName() {

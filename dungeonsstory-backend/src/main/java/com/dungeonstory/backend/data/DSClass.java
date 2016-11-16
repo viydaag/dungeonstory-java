@@ -18,7 +18,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
@@ -26,9 +25,10 @@ import javax.validation.constraints.NotNull;
 
 import org.eclipse.persistence.annotations.PrivateOwned;
 
+import com.dungeonstory.backend.data.Tool.ToolType;
+
 @Entity
 @Table(name = "Class")
-@NamedQuery(name = DSClass.deleteClassLevelBonusFeat, query = "DELETE FROM ClassLevelFeature c WHERE c.classe = :classe AND c.level = :level AND c.feat = :feat")
 public class DSClass extends AbstractTimestampEntity implements Serializable {
 
     private static final long serialVersionUID = 4948845539537092288L;
@@ -100,6 +100,13 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
         @JoinColumn(name = "classId", referencedColumnName = "id") }, 
             inverseJoinColumns = { @JoinColumn(name = "weaponTypeId", referencedColumnName = "id") })
     private Set<WeaponType> weaponProficiencies;
+    
+    @ElementCollection(targetClass = ToolType.class)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "ClassToolProficiencies", joinColumns = @JoinColumn(name = "classId", nullable = false))
+    @Column(name = "toolType", nullable = false)
+    @PrivateOwned
+    private Set<ToolType> toolProficiencies;
     
     @Min(value = 0)
     @Column(name = "nbChosenSkills")
@@ -256,6 +263,14 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
 
     public void setWeaponProficiencies(Set<WeaponType> weaponProficiencies) {
         this.weaponProficiencies = weaponProficiencies;
+    }
+
+    public Set<ToolType> getToolProficiencies() {
+        return toolProficiencies;
+    }
+
+    public void setToolProficiencies(Set<ToolType> toolProficiencies) {
+        this.toolProficiencies = toolProficiencies;
     }
 
     public List<ClassLevelBonus> getLevelBonuses() {

@@ -40,6 +40,24 @@ public interface Repository<E extends Entity, K extends Serializable> {
     */
     List<E> findAll();
 
+	/**
+    *
+    * @return the entity sorted list found
+    */
+    List<E> findAllOrderBy(String column, String order);
+    
+    /**
+    *
+    * @return the entity list found
+    */
+    List<E> findAllBy(String column, String value);
+    
+    /**
+    *
+    * @return the entity list found
+    */
+    List<E> findAllByLike(String column, String value);
+
     /**
     *
     * @param key
@@ -78,5 +96,11 @@ public interface Repository<E extends Entity, K extends Serializable> {
     * @return the entity updated
     */
     E update(E entity);
+
+    /**
+     * 
+     * @return the entity count
+     */
+    long count();
 
 }

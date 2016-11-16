@@ -41,9 +41,14 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
     public synchronized void create(E entity) {
         EntityTransaction transac = entityManager.getTransaction();
         transac.begin();
-        entityManager.persist(entity);
-        flushAndCloseEntityManager();
-        transac.commit();
+        try {
+            entityManager.persist(entity);
+            flushAndCloseEntityManager();
+            transac.commit();
+        } catch (Exception e) {
+            transac.rollback();
+            throw e;
+        }
     }
 
     /**
@@ -58,9 +63,14 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
         }
         EntityTransaction transac = entityManager.getTransaction();
         transac.begin();
-        E entity2 = entityManager.getReference(getEntityClass(), entity.getId());
-        entityManager.remove(entity2);
-        transac.commit();
+        try {
+            E entity2 = entityManager.getReference(getEntityClass(), entity.getId());
+            entityManager.remove(entity2);
+            transac.commit();
+        } catch (Exception e) {
+            transac.rollback();
+            throw e;
+        }
 
     }
 
@@ -77,10 +87,15 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
 
         EntityTransaction transac = entityManager.getTransaction();
         transac.begin();
-        Query query = entityManager.createQuery("DELETE FROM " + getTableName() + " o WHERE o.id = :id");
-        query.setParameter("id", key);
-        query.executeUpdate();
-        transac.commit();
+        try {
+            Query query = entityManager.createQuery("DELETE FROM " + getTableName() + " o WHERE o.id = :id");
+            query.setParameter("id", key);
+            query.executeUpdate();
+            transac.commit();
+        } catch (Exception e) {
+            transac.rollback();
+            throw e;
+        }
     }
 
     private String getTableName() {
@@ -105,6 +120,28 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
     @Override
     public List<E> findAll() {
         TypedQuery<E> query = entityManager.createQuery("SELECT o FROM " + getTableName() + " o", getEntityClass());
+        return query.getResultList();
+    }
+
+    @Override
+    public List<E> findAllOrderBy(String column, String order) {
+        TypedQuery<E> query = entityManager.createQuery(
+                "SELECT o FROM " + getTableName() + " o ORDER BY o." + column + " " + order, getEntityClass());
+        return query.getResultList();
+    }
+    
+    @Override
+    public List<E> findAllBy(String column, String value) {
+        TypedQuery<E> query = entityManager.createQuery(
+                "SELECT o FROM " + getTableName() + " o WHERE o." + column + " = " + value, getEntityClass());
+        return query.getResultList();
+    }
+    
+    @Override
+    public List<E> findAllByLike(String column, String value) {
+        TypedQuery<E> query = entityManager.createQuery(
+                "SELECT o FROM " + getTableName() + " o WHERE o." + column + " LIKE :value", getEntityClass());
+        query.setParameter("value", "%" + value + "%");
         return query.getResultList();
     }
 
@@ -148,10 +185,15 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
     public E update(E entity) {
         EntityTransaction transac = entityManager.getTransaction();
         transac.begin();
-        E result = entityManager.merge(entity);
-        flushAndCloseEntityManager();
-        transac.commit();
-        return result;
+        try {
+            E result = entityManager.merge(entity);
+            flushAndCloseEntityManager();
+            transac.commit();
+            return result;
+        } catch (Exception e) {
+            transac.rollback();
+            throw e;
+        }
     }
 
     /**
@@ -163,6 +205,15 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
     private void flushAndCloseEntityManager() {
         //        entityManager.flush();
         //        entityManager.close();
+    }
+
+    @Override
+    public long count() {
+        entityManager.getTransaction().begin();
+        Query q = entityManager.createQuery("SELECT count(x) FROM " + getTableName() + " x");
+        long count = (long) q.getSingleResult();
+        entityManager.getTransaction().commit();
+        return count;
     }
 
 }
