@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -135,7 +136,7 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
     @Column(name = "charisma", nullable = false)
     private int charisma;
 
-    @OneToOne(mappedBy = "character")
+    @OneToOne(mappedBy = "character", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
     private CharacterBackground background;
 
     @NotNull
@@ -154,7 +155,7 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
     @OneToMany(mappedBy = "character")
     private List<Message> messages;
 
-    @OneToMany(mappedBy = "character")
+    @OneToMany(mappedBy = "character", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
     private List<CharacterClass> classes;
 
     @ManyToMany
@@ -191,7 +192,7 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
     @Column(name = "toolType", nullable = false)
     private Set<ToolType> toolProficiencies;
 
-    @OneToMany(mappedBy = "character")
+    @OneToMany(mappedBy = "character", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
     private List<CharacterEquipment> equipment;
 
     @ManyToMany
