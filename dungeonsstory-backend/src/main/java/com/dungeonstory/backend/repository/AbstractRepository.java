@@ -124,9 +124,17 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
     }
 
     @Override
-    public List<E> findAllOrderBy(String orderColumn, String order) {
+    public List<E> findAllOrderBy(String[] orderColumn, String[] order) {
+        String orderQuery = "";
+        for (int i = 0; i < orderColumn.length; i++) {
+            String orderCol = orderColumn[i];
+            orderQuery += ("o." + orderCol + " " + order[i]);
+            if (i != orderColumn.length - 1) {
+                orderQuery += ", ";
+            }
+        }
         TypedQuery<E> query = entityManager.createQuery(
-                "SELECT o FROM " + getTableName() + " o ORDER BY o." + orderColumn + " " + order, getEntityClass());
+                "SELECT o FROM " + getTableName() + " o ORDER BY " + orderQuery, getEntityClass());
         return query.getResultList();
     }
     
@@ -163,9 +171,17 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
     }
 
     @Override
-    public List<E> findAllPagedOrderBy(int firstRow, int pageSize, String orderColumn, String order) {
+    public List<E> findAllPagedOrderBy(int firstRow, int pageSize, String[] orderColumn, String[] order) {
+        String orderQuery = "";
+        for (int i = 0; i < orderColumn.length; i++) {
+            String orderCol = orderColumn[i];
+            orderQuery += ("o." + orderCol + " " + order[i]);
+            if (i != orderColumn.length - 1) {
+                orderQuery += ", ";
+            }
+        }
         TypedQuery<E> query = entityManager
-                .createQuery("SELECT o FROM " + getTableName() + " o ORDER BY o." + orderColumn + " " + order,
+                .createQuery("SELECT o FROM " + getTableName() + " o ORDER BY " + orderQuery,
                         getEntityClass())
                 .setFirstResult(firstRow).setMaxResults(pageSize);
         return query.getResultList();
@@ -173,9 +189,18 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
 
     @Override
     public List<E> findAllByLikePagedOrderBy(String column, String value, int firstRow, int pageSize,
-            String orderColumn, String order) {
+            String[] orderColumn, String[] order) {
+
+        String orderQuery = "";
+        for (int i = 0; i < orderColumn.length; i++) {
+            String orderCol = orderColumn[i];
+            orderQuery += ("o." + orderCol + " " + order[i]);
+            if (i != orderColumn.length - 1) {
+                orderQuery += ", ";
+            }
+        }
         TypedQuery<E> query = entityManager.createQuery("SELECT o FROM " + getTableName() + " o WHERE o." + column
-                + " LIKE :value ORDER BY o." + orderColumn + " " + order, getEntityClass()).setFirstResult(firstRow)
+                + " LIKE :value ORDER BY " + orderQuery, getEntityClass()).setFirstResult(firstRow)
                 .setMaxResults(pageSize);
         query.setParameter("value", "%" + value + "%");
         return query.getResultList();

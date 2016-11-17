@@ -53,8 +53,14 @@ public interface DataService<E extends Entity, K extends Serializable> {
     *
     * @return all instances of the entity sorted
     */
-    Collection<E> findAllOrderBy(String column, String order);
+    Collection<E> findAllOrderBy(String[] column, String[] order);
     
+    /**
+    *
+    * @return all instances of the entity sorted
+    */
+    Collection<E> findAllOrderBy(String column, String order);
+
     /**
     *
     * @return the entity list found
@@ -71,10 +77,10 @@ public interface DataService<E extends Entity, K extends Serializable> {
 
     List<E> findAllByLikePaged(String column, String value, int firstRow, int pageSize);
 
-    List<E> findAllPagedOrderBy(int firstRow, int pageSize, String orderColumn, String order);
+    List<E> findAllPagedOrderBy(int firstRow, int pageSize, String[] orderColumn, String[] order);
 
-    List<E> findAllByLikePagedOrderBy(String column, String value, int firstRow, int pageSize, String orderColumn,
-            String order);
+    List<E> findAllByLikePagedOrderBy(String column, String value, int firstRow, int pageSize, String[] orderColumn,
+            String[] order);
 
     /**
      *
@@ -139,4 +145,5 @@ public interface DataService<E extends Entity, K extends Serializable> {
      * @return the entity count
      */
     long count();
+
 }

@@ -55,7 +55,7 @@ public abstract class MockAbstractRepository<E extends Entity> implements Reposi
     }
 
     @Override
-    public List<E> findAllOrderBy(String column, String order) {
+    public List<E> findAllOrderBy(String[] column, String[] order) {
         return new ArrayList<E>(entities.values());
     }
 
@@ -125,6 +125,17 @@ public abstract class MockAbstractRepository<E extends Entity> implements Reposi
 
     @Override
     public List<E> findAllByLikePaged(String column, String value, int firstRow, int pageSize) {
+        return findAllPaged(firstRow, pageSize);
+    }
+
+    @Override
+    public List<E> findAllPagedOrderBy(int firstRow, int pageSize, String[] orderColumn, String[] order) {
+        return findAllPaged(firstRow, pageSize);
+    }
+
+    @Override
+    public List<E> findAllByLikePagedOrderBy(String column, String value, int firstRow, int pageSize,
+            String[] orderColumn, String[] order) {
         return findAllPaged(firstRow, pageSize);
     }
 

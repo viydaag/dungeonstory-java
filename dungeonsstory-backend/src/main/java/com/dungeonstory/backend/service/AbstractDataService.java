@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.dungeonstory.backend.factory.Factory;
@@ -71,10 +72,15 @@ public abstract class AbstractDataService<E extends Entity, K extends Serializab
     }
 
     @Override
-    public List<E> findAllOrderBy(String column, String order) {
+    public List<E> findAllOrderBy(String[] column, String[] order) {
         return entityRepository.findAllOrderBy(column, order);
     }
     
+    @Override
+    public List<E> findAllOrderBy(String column, String order) {
+        return entityRepository.findAllOrderBy(new String[] { column }, new String[] { order });
+    }
+
     @Override
     public List<E> findAllBy(String column, String value) {
         if (StringUtils.isEmpty(column) || StringUtils.isEmpty(value)) {
@@ -97,7 +103,7 @@ public abstract class AbstractDataService<E extends Entity, K extends Serializab
     }
 
     @Override
-    public List<E> findAllPagedOrderBy(int firstRow, int pageSize, String orderColumn, String order) {
+    public List<E> findAllPagedOrderBy(int firstRow, int pageSize, String[] orderColumn, String[] order) {
         return entityRepository.findAllPagedOrderBy(firstRow, pageSize, orderColumn, order);
     }
 
@@ -111,14 +117,14 @@ public abstract class AbstractDataService<E extends Entity, K extends Serializab
 
     @Override
     public List<E> findAllByLikePagedOrderBy(String column, String value, int firstRow, int pageSize,
-            String orderColumn, String order) {
+            String[] orderColumn, String[] order) {
         if (StringUtils.isEmpty(column) || StringUtils.isEmpty(value)) {
-            if (StringUtils.isEmpty(orderColumn) || StringUtils.isEmpty(order)) {
+            if (ArrayUtils.isEmpty(orderColumn) || ArrayUtils.isEmpty(order)) {
                 return findAllPaged(firstRow, pageSize);
             }
             return findAllPagedOrderBy(firstRow, pageSize, orderColumn, order);
         }
-        if (StringUtils.isEmpty(orderColumn) || StringUtils.isEmpty(order)) {
+        if (ArrayUtils.isEmpty(orderColumn) || ArrayUtils.isEmpty(order)) {
             return findAllByLikePaged(column, value, firstRow, pageSize);
         }
         return entityRepository.findAllByLikePagedOrderBy(column, value, firstRow, pageSize, orderColumn, order);
