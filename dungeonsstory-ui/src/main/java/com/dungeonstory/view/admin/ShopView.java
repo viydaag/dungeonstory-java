@@ -13,8 +13,8 @@ import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.form.ShopForm;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.AbstractCrudView;
-import com.dungeonstory.view.component.BeanGrid;
-import com.dungeonstory.view.component.ShopGrid;
+import com.dungeonstory.view.grid.DSGrid;
+import com.dungeonstory.view.grid.ShopGrid;
 
 @ViewConfig(uri = "shops", displayName = "Magasins")
 public class ShopView extends AbstractCrudView<Shop> {
@@ -27,7 +27,7 @@ public class ShopView extends AbstractCrudView<Shop> {
     }
 
     @Override
-    public BeanGrid<Shop> getGrid() {
+    public DSGrid<Shop> getGrid() {
         return new ShopGrid();
     }
 

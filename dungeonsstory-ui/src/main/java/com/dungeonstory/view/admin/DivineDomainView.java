@@ -12,8 +12,8 @@ import com.dungeonstory.form.DivineDomainForm;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.AbstractCrudView;
 import com.dungeonstory.view.CrudView;
-import com.dungeonstory.view.component.BeanGrid;
-import com.dungeonstory.view.component.DivineDomainGrid;
+import com.dungeonstory.view.grid.DSGrid;
+import com.dungeonstory.view.grid.DivineDomainGrid;
 
 @ViewConfig(uri = "divineDomains", displayName = "Domaines divins")
 public class DivineDomainView extends AbstractCrudView<DivineDomain> implements CrudView<DivineDomain> {
@@ -30,7 +30,7 @@ public class DivineDomainView extends AbstractCrudView<DivineDomain> implements 
     }
 
     @Override
-    public BeanGrid<DivineDomain> getGrid() {
+    public DSGrid<DivineDomain> getGrid() {
         return new DivineDomainGrid();
     }
 

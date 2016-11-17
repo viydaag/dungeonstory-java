@@ -7,7 +7,7 @@ import com.dungeonstory.backend.repository.Entity;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.util.layout.VerticalSpacedLayout;
-import com.dungeonstory.view.component.DSGrid;
+import com.dungeonstory.view.grid.DSGrid;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
@@ -83,8 +83,11 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
     protected void listEntries(String text) {
         if (isFilterAllowed()) {
             //            grid.setRows((List<T>) service.findAllByLike(getFilterBy(), text));
-            grid.lazyLoadFrom((int firstRow, boolean sortAscending, String property) -> {
-                String order = sortAscending ? "ASC" : "DESC";
+            grid.lazyLoadFrom((int firstRow, boolean[] sortAscending, String[] property) -> {
+                String[] order = new String[sortAscending.length];
+                for (int i = 0; i < sortAscending.length; i++) {
+                    order[i] = sortAscending[i] ? "ASC" : "DESC";
+                }
                 return service.findAllByLikePagedOrderBy(getFilterBy(), text, firstRow, LazyList.DEFAULT_PAGE_SIZE,
                         property, order);
             }, () -> service.countWithFilter(getFilterBy(), text));

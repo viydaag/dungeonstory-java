@@ -13,8 +13,8 @@ import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.form.SpellForm;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.AbstractCrudView;
-import com.dungeonstory.view.component.BeanGrid;
-import com.dungeonstory.view.component.SpellGrid;
+import com.dungeonstory.view.grid.DSGrid;
+import com.dungeonstory.view.grid.SpellGrid;
 
 @ViewConfig(uri = "spells", displayName = "Sorts")
 public class SpellView extends AbstractCrudView<Spell> {
@@ -27,7 +27,7 @@ public class SpellView extends AbstractCrudView<Spell> {
     }
 
     @Override
-    public BeanGrid<Spell> getGrid() {
+    public DSGrid<Spell> getGrid() {
         return new SpellGrid();
     }
 

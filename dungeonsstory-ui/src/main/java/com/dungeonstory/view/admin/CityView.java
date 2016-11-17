@@ -9,8 +9,8 @@ import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.form.CityForm;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.AbstractCrudView;
-import com.dungeonstory.view.component.BeanGrid;
-import com.dungeonstory.view.component.CityGrid;
+import com.dungeonstory.view.grid.CityGrid;
+import com.dungeonstory.view.grid.DSGrid;
 
 @ViewConfig(uri = "cities", displayName = "Villes")
 public class CityView extends AbstractCrudView<City> {
@@ -27,7 +27,7 @@ public class CityView extends AbstractCrudView<City> {
     }
 
     @Override
-    public BeanGrid<City> getGrid() {
+    public DSGrid<City> getGrid() {
         return new CityGrid();
     }
 

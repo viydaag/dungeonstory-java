@@ -1,14 +1,14 @@
-package com.dungeonstory.view.component;
+package com.dungeonstory.view.grid;
 
 import com.dungeonstory.backend.data.Shop;
 
-public class ShopGrid extends BeanGrid<Shop> {
+public class ShopGrid extends DSGrid<Shop> {
 
     private static final long serialVersionUID = 7923046661564398516L;
 
     public ShopGrid() {
         super(Shop.class);
-        withColumns("name", "city.name");
+        withProperties("name", "city.name");
         withHeaderCaption("Nom du magasin", "Ville");
     }
 

@@ -13,8 +13,8 @@ import com.dungeonstory.form.ClassSpecializationForm;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.AbstractCrudView;
-import com.dungeonstory.view.component.BeanGrid;
-import com.dungeonstory.view.component.ClassSpecializationGrid;
+import com.dungeonstory.view.grid.ClassSpecializationGrid;
+import com.dungeonstory.view.grid.DSGrid;
 
 @ViewConfig(uri = "classSpecs", displayName = "Spécialisations de classe")
 public class ClassSpecializationView extends AbstractCrudView<ClassSpecialization> {
@@ -31,7 +31,7 @@ public class ClassSpecializationView extends AbstractCrudView<ClassSpecializatio
     }
 
     @Override
-    public BeanGrid<ClassSpecialization> getGrid() {
+    public DSGrid<ClassSpecialization> getGrid() {
         return new ClassSpecializationGrid();
     }
 

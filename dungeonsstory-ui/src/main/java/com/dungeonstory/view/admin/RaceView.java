@@ -9,8 +9,8 @@ import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.form.RaceForm;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.AbstractCrudView;
-import com.dungeonstory.view.component.BeanGrid;
-import com.dungeonstory.view.component.RaceGrid;
+import com.dungeonstory.view.grid.DSGrid;
+import com.dungeonstory.view.grid.RaceGrid;
 
 @ViewConfig(uri = "races", displayName = "Races")
 public class RaceView extends AbstractCrudView<Race> {
@@ -23,7 +23,7 @@ public class RaceView extends AbstractCrudView<Race> {
     }
 
     @Override
-    public BeanGrid<Race> getGrid() {
+    public DSGrid<Race> getGrid() {
         return new RaceGrid();
     }
 

@@ -1,4 +1,4 @@
-package com.dungeonstory.view.component;
+package com.dungeonstory.view.grid;
 
 import java.util.List;
 
@@ -47,7 +47,7 @@ public class DSGrid<T> extends MGrid<T> {
     }
     
     public void remove(T bean) {
-        getContainerDataSource().removeItem(bean);
+        getContainerDataSource().removeItem(bean); //throws unsupported exception
     }
 
     public void withHeaderCaption(String... header) {

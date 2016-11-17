@@ -9,8 +9,8 @@ import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.form.RegionForm;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.AbstractCrudView;
-import com.dungeonstory.view.component.DSGrid;
-import com.dungeonstory.view.component.RegionGrid;
+import com.dungeonstory.view.grid.DSGrid;
+import com.dungeonstory.view.grid.RegionGrid;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.shared.data.sort.SortDirection;
 

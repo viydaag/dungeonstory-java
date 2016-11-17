@@ -7,7 +7,7 @@ import com.dungeonstory.backend.service.impl.LevelService;
 import com.dungeonstory.backend.service.mock.MockLevelService;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.util.layout.VerticalSpacedLayout;
-import com.dungeonstory.view.component.LevelGrid;
+import com.dungeonstory.view.grid.LevelGrid;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitEvent;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitHandler;

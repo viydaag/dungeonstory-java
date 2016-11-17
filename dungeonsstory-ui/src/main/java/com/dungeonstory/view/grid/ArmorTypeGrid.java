@@ -1,4 +1,4 @@
-package com.dungeonstory.view.component;
+package com.dungeonstory.view.grid;
 
 import com.dungeonstory.backend.data.ArmorType;
 import com.dungeonstory.util.renderer.ModifierRenderer;
@@ -7,13 +7,13 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.renderers.HtmlRenderer;
 
-public class ArmorTypeGrid extends BeanGrid<ArmorType> {
+public class ArmorTypeGrid extends DSGrid<ArmorType> {
 
     private static final long serialVersionUID = -425928960446143041L;
 
     public ArmorTypeGrid() {
         super(ArmorType.class);
-        withColumns("name", "proficiencyType", "baseArmorClass", "maxDexBonus", "stealthDisavantage", "minStrength");
+        withProperties("name", "proficiencyType", "baseArmorClass", "maxDexBonus", "stealthDisavantage", "minStrength");
         withHeaderCaption("Nom", "Maitrise", "Classe d'armure", "Bonus max dextérité", "Désavantage furtivité", "Force minimum");
         
         getColumn("maxDexBonus").setRenderer(new ModifierRenderer());

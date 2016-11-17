@@ -7,8 +7,8 @@ import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.form.EquipmentForm;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.AbstractCrudView;
-import com.dungeonstory.view.component.BeanGrid;
-import com.dungeonstory.view.component.EquipmentGrid;
+import com.dungeonstory.view.grid.DSGrid;
+import com.dungeonstory.view.grid.EquipmentGrid;
 
 @ViewConfig(uri = "equipments", displayName = "Équipements")
 public class EquipmentView extends AbstractCrudView<Equipment> {
@@ -22,7 +22,7 @@ public class EquipmentView extends AbstractCrudView<Equipment> {
     }
 
     @Override
-    public BeanGrid<Equipment> getGrid() {
+    public DSGrid<Equipment> getGrid() {
         return new EquipmentGrid();
     }
 

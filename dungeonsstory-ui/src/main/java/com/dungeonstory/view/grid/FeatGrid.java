@@ -1,4 +1,4 @@
-package com.dungeonstory.view.component;
+package com.dungeonstory.view.grid;
 
 import com.dungeonstory.backend.data.Feat;
 import com.vaadin.data.util.converter.StringToBooleanConverter;

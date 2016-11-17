@@ -1,9 +1,9 @@
-package com.dungeonstory.view.component;
+package com.dungeonstory.view.grid;
 
 import com.dungeonstory.backend.data.Level;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 
-public class LevelGrid extends BeanGrid<Level> {
+public class LevelGrid extends DSGrid<Level> {
 
     private static final long serialVersionUID = -2219582474895040784L;
 

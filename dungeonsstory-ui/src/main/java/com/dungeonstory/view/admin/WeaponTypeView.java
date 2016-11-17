@@ -9,8 +9,8 @@ import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.form.WeaponTypeForm;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.AbstractCrudView;
-import com.dungeonstory.view.component.BeanGrid;
-import com.dungeonstory.view.component.WeaponTypeGrid;
+import com.dungeonstory.view.grid.DSGrid;
+import com.dungeonstory.view.grid.WeaponTypeGrid;
 
 @ViewConfig(uri = "weaponTypes", displayName = "Types d'arme")
 public class WeaponTypeView extends AbstractCrudView<WeaponType> {
@@ -27,7 +27,7 @@ public class WeaponTypeView extends AbstractCrudView<WeaponType> {
     }
 
     @Override
-    public BeanGrid<WeaponType> getGrid() {
+    public DSGrid<WeaponType> getGrid() {
         return new WeaponTypeGrid();
     }
 

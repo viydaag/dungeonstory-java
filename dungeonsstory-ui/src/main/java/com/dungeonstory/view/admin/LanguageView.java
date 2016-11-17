@@ -9,8 +9,8 @@ import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.form.LanguageForm;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.AbstractCrudView;
-import com.dungeonstory.view.component.BeanGrid;
-import com.dungeonstory.view.component.LanguageGrid;
+import com.dungeonstory.view.grid.DSGrid;
+import com.dungeonstory.view.grid.LanguageGrid;
 
 @ViewConfig(uri = "languages", displayName = "Langages")
 public class LanguageView extends AbstractCrudView<Language> {
@@ -27,7 +27,7 @@ public class LanguageView extends AbstractCrudView<Language> {
     }
 
     @Override
-    public BeanGrid<Language> getGrid() {
+    public DSGrid<Language> getGrid() {
         return new LanguageGrid();
     }
 

@@ -1,15 +1,15 @@
-package com.dungeonstory.view.component;
+package com.dungeonstory.view.grid;
 
 import com.dungeonstory.backend.data.Skill;
 
-public class SkillGrid extends BeanGrid<Skill> {
+public class SkillGrid extends DSGrid<Skill> {
 
     private static final long serialVersionUID = 5108019895920968099L;
 
     public SkillGrid() {
         super(Skill.class);
-        getContainer().addNestedContainerBean("keyAbility");
-        withColumns("name", "keyAbility.name", "shortDescription");
+        //        getContainer().addNestedContainerBean("keyAbility");
+        withProperties("name", "keyAbility.name", "shortDescription");
         withHeaderCaption("Nom", "Caractéristique clé", "Description courte");
     }
 
