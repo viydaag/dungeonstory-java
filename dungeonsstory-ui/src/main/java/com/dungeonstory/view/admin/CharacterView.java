@@ -1,5 +1,7 @@
 package com.dungeonstory.view.admin;
 
+import org.vaadin.dialogs.ConfirmDialog;
+
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.impl.CharacterService;
@@ -59,7 +61,14 @@ public class CharacterView extends AbstractCrudView<Character> {
         // Render a button that deletes the data row (item)
         Column deleteColumn = grid.getColumn("delete");
         deleteColumn.setRenderer(new ButtonRenderer(e -> {
-            deleteSelected((Character) e.getItemId());
+            ConfirmDialog dialog = ConfirmDialog.show(getUI(), "Supprimer", "Êtes-vou certain?", "OK", "Annuler",
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            deleteSelected((Character) e.getItemId());
+                        }
+                    });
+
         }));
 
     }

@@ -82,7 +82,6 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
 
     protected void listEntries(String text) {
         if (isFilterAllowed()) {
-            //            grid.setRows((List<T>) service.findAllByLike(getFilterBy(), text));
             grid.lazyLoadFrom((int firstRow, boolean[] sortAscending, String[] property) -> {
                 String[] order = new String[sortAscending.length];
                 for (int i = 0; i < sortAscending.length; i++) {
@@ -92,24 +91,6 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
                         property, order);
             }, () -> service.countWithFilter(getFilterBy(), text));
         } else {
-            //            grid.setRows((List<T>) service.findAll());
-            //            grid.lazyLoadFrom(new LazyList.PagingProvider<T>() {
-            //                private static final long serialVersionUID = -9072230332041322210L;
-            //
-            //                @Override
-            //                public List<T> findEntities(int firstRow) {
-            //                    return service.findAllPaged(firstRow, LazyList.DEFAULT_PAGE_SIZE);
-            //                }
-            //            }, new LazyList.CountProvider() {
-            //
-            //                private static final long serialVersionUID = 1L;
-            //
-            //                @Override
-            //                public int size() {
-            //                    return (int) service.count();
-            //                }
-            //            });
-
             grid.lazyLoadFrom((int firstRow, boolean sortAscending, String property) -> service.findAllPaged(firstRow,
                     LazyList.DEFAULT_PAGE_SIZE), () -> (int) service.count());
         }
@@ -200,14 +181,13 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
     @Override
     public void deleteSelected(T entity) {
         try {
-            grid.remove(entity);
-            closeForm();
             service.delete(entity);
+            closeForm();
+            grid.refreshRows();
         } catch (Exception e) {
             Notification.show(
                     "Erreur suppression : soit les données n'existent pas ou ils sont utilisées sur d'autres objets",
                     Type.ERROR_MESSAGE);
-            //            listEntries();
         }
     }
 

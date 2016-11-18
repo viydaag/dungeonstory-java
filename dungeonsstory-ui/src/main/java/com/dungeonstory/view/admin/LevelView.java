@@ -1,5 +1,7 @@
 package com.dungeonstory.view.admin;
 
+import org.vaadin.viritin.ListContainer;
+
 import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.backend.service.DataService;
@@ -8,6 +10,7 @@ import com.dungeonstory.backend.service.mock.MockLevelService;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.util.layout.VerticalSpacedLayout;
 import com.dungeonstory.view.grid.LevelGrid;
+import com.vaadin.data.Item;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitEvent;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitHandler;
@@ -55,9 +58,16 @@ public class LevelView extends VerticalSpacedLayout implements View {
             @SuppressWarnings("unchecked")
             @Override
             public void postCommit(CommitEvent commitEvent) throws CommitException {
-                //only after the data is available in the grid, the beau can be persisted
-                BeanItem<Level> levelItem = (BeanItem<Level>) commitEvent.getFieldBinder().getItemDataSource();
-                service.saveOrUpdate(levelItem.getBean());
+                //only after the data is available in the grid, the bean can be persisted
+                Item itemDataSource = commitEvent.getFieldBinder().getItemDataSource();
+                if (itemDataSource instanceof ListContainer.DynaBeanItem) {
+                    ListContainer<Level>.DynaBeanItem<Level> dynaBeanItem = (ListContainer<Level>.DynaBeanItem<Level>) itemDataSource;
+                    Level bean = dynaBeanItem.getBean();
+                    service.saveOrUpdate(bean);
+                } else if (itemDataSource instanceof BeanItem) {
+                    BeanItem<Level> levelItem = (BeanItem<Level>) itemDataSource;
+                    service.saveOrUpdate(levelItem.getBean());
+                }
             }
         });
 
@@ -66,7 +76,7 @@ public class LevelView extends VerticalSpacedLayout implements View {
 
     @Override
     public void enter(ViewChangeEvent event) {
-        grid.setData(service.findAll());
+        grid.setRows(service.findAll());
     }
 
     private void addNew(Button.ClickEvent e) {
