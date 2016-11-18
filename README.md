@@ -11,7 +11,7 @@ The project consists of the following three modules:
 
 - parent project: common metadata and configuration
 - dungeonsstory-widgetset: widgetset, custom client side code and dependencies to widget add-ons
-- dungeonsstory-ui: main application module, development time
+- dungeonstory-ui: main application module, development time
 - dungeonsstory-production: module that produces a production mode WAR for deployment
 
 The production mode module recompiles the widgetset (obfuscated, not draft), activates production mode for Vaadin with a context parameter in web.xml and contains a precompiled theme. The ui module WAR contains an unobfuscated widgetset, and is meant to be used at development time only.

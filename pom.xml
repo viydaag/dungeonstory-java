@@ -119,7 +119,7 @@
   <modules>
     <module>dungeonsstory-widgetset</module>
     <module>dungeonsstory-backend</module>
-    <module>dungeonsstory-ui</module>
+    <module>dungeonstory-ui</module>
     <module>dungeonsstory-production</module>
   </modules>
 </project>

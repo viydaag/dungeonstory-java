@@ -19,7 +19,7 @@
         <!-- Include the WAR-module as an overlay. -->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>dungeonsstory-ui</artifactId>
+            <artifactId>dungeonstory-ui</artifactId>
             <version>${project.version}</version>
             <type>war</type>
             <scope>runtime</scope>
@@ -28,7 +28,7 @@
             that the GWT compiler can pick up all the GWT modules. -->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>dungeonsstory-ui</artifactId>
+            <artifactId>dungeonstory-ui</artifactId>
             <version>${project.version}</version>
             <classifier>classes</classifier>
             <scope>provided</scope>
@@ -64,7 +64,7 @@
                                     <artifactItems>
                                         <artifactItem>
                                             <groupId>${project.groupId}</groupId>
-                                            <artifactId>dungeonsstory-ui</artifactId>
+                                            <artifactId>dungeonstory-ui</artifactId>
                                             <version>${project.version}</version>
                                             <type>war</type>
                                             <includes>VAADIN/themes/**/*</includes>
@@ -141,7 +141,7 @@
                             <overlays>
                                 <overlay>
                                     <groupId>${project.groupId}</groupId>
-                                    <artifactId>dungeonsstory-ui</artifactId>
+                                    <artifactId>dungeonstory-ui</artifactId>
                                     <excludes>
                                         <!-- Exclude larger development time 
                                             widgetset. -->

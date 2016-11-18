@@ -8,8 +8,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>dungeonsstory-ui</artifactId>
-    <name>dungeonsstory-ui</name>
+    <artifactId>dungeonstory-ui</artifactId>
+    <name>dungeonstory-ui</name>
     <packaging>war</packaging>
 
     <dependencies>
