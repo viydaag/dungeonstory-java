@@ -9,8 +9,8 @@ import com.dungeonstory.form.ArmorTypeForm;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.AbstractCrudView;
-import com.dungeonstory.view.component.ArmorTypeGrid;
-import com.dungeonstory.view.component.BeanGrid;
+import com.dungeonstory.view.grid.ArmorTypeGrid;
+import com.dungeonstory.view.grid.DSGrid;
 
 @ViewConfig(uri = "armorTypes", displayName = "Types d'armure")
 public class ArmorTypeView extends AbstractCrudView<ArmorType> {
@@ -23,7 +23,7 @@ public class ArmorTypeView extends AbstractCrudView<ArmorType> {
     }
 
     @Override
-    public BeanGrid<ArmorType> getGrid() {
+    public DSGrid<ArmorType> getGrid() {
         return new ArmorTypeGrid();
     }
 

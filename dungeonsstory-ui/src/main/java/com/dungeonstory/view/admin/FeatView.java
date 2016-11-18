@@ -9,8 +9,11 @@ import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.form.FeatForm;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.AbstractCrudView;
-import com.dungeonstory.view.component.BeanGrid;
-import com.dungeonstory.view.component.FeatGrid;
+import com.dungeonstory.view.grid.DSGrid;
+import com.dungeonstory.view.grid.FeatGrid;
+import com.vaadin.data.sort.Sort;
+import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.shared.data.sort.SortDirection;
 
 @ViewConfig(uri = "feats", displayName = "Dons")
 public class FeatView extends AbstractCrudView<Feat> {
@@ -23,7 +26,7 @@ public class FeatView extends AbstractCrudView<Feat> {
     }
 
     @Override
-    public BeanGrid<Feat> getGrid() {
+    public DSGrid<Feat> getGrid() {
         return new FeatGrid();
     }
 
@@ -33,6 +36,12 @@ public class FeatView extends AbstractCrudView<Feat> {
             return MockFeatService.getInstance();
         }
         return FeatService.getInstance();
+    }
+
+    @Override
+    public void enter(ViewChangeEvent event) {
+        super.enter(event);
+        grid.sort(Sort.by("isClassFeature", SortDirection.ASCENDING).then("name", SortDirection.ASCENDING));
     }
 
 }

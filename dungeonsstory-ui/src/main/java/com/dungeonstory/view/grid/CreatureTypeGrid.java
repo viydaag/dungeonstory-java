@@ -1,16 +1,16 @@
-package com.dungeonstory.view.component;
+package com.dungeonstory.view.grid;
 
 import com.dungeonstory.backend.data.CreatureType;
 import com.dungeonstory.util.DSTheme;
 
-public class CreatureTypeGrid extends BeanGrid<CreatureType> {
+public class CreatureTypeGrid extends DSGrid<CreatureType> {
 
     private static final long serialVersionUID = 7979077646352869311L;
 
     public CreatureTypeGrid() {
         super(CreatureType.class);
-        withColumns("name");
-        withHeaderCaption("Nom");
+        withProperties("name");
+        withColumnHeaders("Nom");
 
         setCellStyleGenerator(cell -> {
             if (cell.getPropertyId().equals("name")) {

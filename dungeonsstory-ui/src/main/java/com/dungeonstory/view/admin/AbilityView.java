@@ -9,8 +9,8 @@ import com.dungeonstory.form.AbilityForm;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.AbstractCrudView;
-import com.dungeonstory.view.component.AbilityGrid;
-import com.dungeonstory.view.component.BeanGrid;
+import com.dungeonstory.view.grid.AbilityGrid;
+import com.dungeonstory.view.grid.DSGrid;
 
 @ViewConfig(uri = "abilities", displayName = "Caractéristiques")
 public class AbilityView extends AbstractCrudView<Ability> {
@@ -23,7 +23,7 @@ public class AbilityView extends AbstractCrudView<Ability> {
     }
 
     @Override
-    public BeanGrid<Ability> getGrid() {
+    public DSGrid<Ability> getGrid() {
         return new AbilityGrid();
     }
 

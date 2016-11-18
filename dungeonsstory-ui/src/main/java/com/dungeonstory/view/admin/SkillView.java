@@ -9,8 +9,8 @@ import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.form.SkillForm;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.AbstractCrudView;
-import com.dungeonstory.view.component.BeanGrid;
-import com.dungeonstory.view.component.SkillGrid;
+import com.dungeonstory.view.grid.DSGrid;
+import com.dungeonstory.view.grid.SkillGrid;
 
 @ViewConfig(uri = "skills", displayName = "Compétences")
 public class SkillView extends AbstractCrudView<Skill> {
@@ -23,7 +23,7 @@ public class SkillView extends AbstractCrudView<Skill> {
     }
 
     @Override
-    public BeanGrid<Skill> getGrid() {
+    public DSGrid<Skill> getGrid() {
         return new SkillGrid();
     }
 

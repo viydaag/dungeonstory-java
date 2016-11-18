@@ -9,8 +9,8 @@ import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.form.DamageTypeForm;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.AbstractCrudView;
-import com.dungeonstory.view.component.BeanGrid;
-import com.dungeonstory.view.component.DamageTypeGrid;
+import com.dungeonstory.view.grid.DSGrid;
+import com.dungeonstory.view.grid.DamageTypeGrid;
 
 @ViewConfig(uri = "damageTypes", displayName = "Types de dommages")
 public class DamageTypeView extends AbstractCrudView<DamageType> {
@@ -27,7 +27,7 @@ public class DamageTypeView extends AbstractCrudView<DamageType> {
     }
 
     @Override
-    public BeanGrid<DamageType> getGrid() {
+    public DSGrid<DamageType> getGrid() {
         return new DamageTypeGrid();
     }
 

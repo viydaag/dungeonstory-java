@@ -1,7 +1,6 @@
 package com.dungeonstory.form;
 
 import java.util.Arrays;
-import java.util.List;
 
 import org.vaadin.easyuploads.ImagePreviewField;
 import org.vaadin.viritin.fields.EnumSelect;
@@ -104,7 +103,7 @@ public class RaceForm extends DSAbstractForm<Race> {
         languages.setCaption("Langages de base");
         languages.setVisibleProperties("name");
         languages.setColumnHeader("name", "Langage");
-        languages.setOptions((List<Language>) languageService.findAll());
+        languages.setOptions(languageService.findAll());
         languages.setValue(null); // nothing selected
         languages.setWidth("50%");
 
@@ -145,7 +144,7 @@ public class RaceForm extends DSAbstractForm<Race> {
         weaponProficiencies.setCaption("Maitrises d'arme");
         weaponProficiencies.setVisibleProperties("name");
         weaponProficiencies.setColumnHeader("name", "Maitrise");
-        weaponProficiencies.setOptions((List<WeaponType>) weaponTypeService.findAll());
+        weaponProficiencies.setOptions(weaponTypeService.findAll());
         weaponProficiencies.setValue(null); //nothing selected
         weaponProficiencies.setWidth("50%");
 
@@ -154,7 +153,7 @@ public class RaceForm extends DSAbstractForm<Race> {
         skillProficiencies.setVisibleProperties("name", "keyAbility.name");
         skillProficiencies.setColumnHeader("name", "Compétence");
         skillProficiencies.setColumnHeader("keyAbility.name", "Caractéristique clé");
-        skillProficiencies.setOptions((List<Skill>) skillService.findAll());
+        skillProficiencies.setOptions(skillService.findAll());
         skillProficiencies.setWidth("80%");
         skillProficiencies.setValue(null); //nothing selected
 

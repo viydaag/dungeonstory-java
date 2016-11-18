@@ -1,12 +1,13 @@
 package com.dungeonstory.view;
 
+import org.vaadin.viritin.LazyList;
 import org.vaadin.viritin.fields.MTextField;
 
 import com.dungeonstory.backend.repository.Entity;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.util.layout.VerticalSpacedLayout;
-import com.dungeonstory.view.component.BeanGrid;
+import com.dungeonstory.view.grid.DSGrid;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
@@ -20,13 +21,13 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
 
     private static final long serialVersionUID = -6564885112560677215L;
 
-    private Label                  title;
-    private HorizontalLayout       buttonLayout;
-    protected TextField filter;
-    private String filterBy = "name";
-    
+    private Label            title;
+    private HorizontalLayout buttonLayout;
+    protected TextField      filter;
+    private String           filterBy = "name";
+
     protected DSAbstractForm<T>    form;
-    protected BeanGrid<T>          grid;
+    protected DSGrid<T>            grid;
     protected DataService<T, Long> service;
 
     private boolean isFormPopup     = false;
@@ -36,7 +37,7 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
 
     public abstract DSAbstractForm<T> getForm();
 
-    public abstract BeanGrid<T> getGrid();
+    public abstract DSGrid<T> getGrid();
 
     public abstract DataService<T, Long> getDataService();
 
@@ -50,7 +51,7 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
         filter.addTextChangeListener(e -> {
             listEntries(e.getText());
         });
-        
+
         initForm();
 
         initGrid();
@@ -81,12 +82,20 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
 
     protected void listEntries(String text) {
         if (isFilterAllowed()) {
-            grid.setData(service.findAllByLike(getFilterBy(), text));
+            grid.lazyLoadFrom((int firstRow, boolean[] sortAscending, String[] property) -> {
+                String[] order = new String[sortAscending.length];
+                for (int i = 0; i < sortAscending.length; i++) {
+                    order[i] = sortAscending[i] ? "ASC" : "DESC";
+                }
+                return service.findAllByLikePagedOrderBy(getFilterBy(), text, firstRow, LazyList.DEFAULT_PAGE_SIZE,
+                        property, order);
+            }, () -> service.countWithFilter(getFilterBy(), text));
         } else {
-            grid.setData(service.findAll());
+            grid.lazyLoadFrom((int firstRow, boolean sortAscending, String property) -> service.findAllPaged(firstRow,
+                    LazyList.DEFAULT_PAGE_SIZE), () -> (int) service.count());
         }
     }
-    
+
     protected void listEntries() {
         listEntries(filter.getValue());
     }
@@ -172,14 +181,13 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
     @Override
     public void deleteSelected(T entity) {
         try {
-            grid.remove(entity);
-            closeForm();
             service.delete(entity);
+            closeForm();
+            grid.refreshRows();
         } catch (Exception e) {
             Notification.show(
                     "Erreur suppression : soit les données n'existent pas ou ils sont utilisées sur d'autres objets",
                     Type.ERROR_MESSAGE);
-            //            listEntries();
         }
     }
 

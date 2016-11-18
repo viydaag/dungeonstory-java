@@ -1,4 +1,4 @@
-package com.dungeonstory.view.component;
+package com.dungeonstory.view.grid;
 
 import com.dungeonstory.backend.data.WeaponType;
 import com.vaadin.data.util.converter.StringToBooleanConverter;
@@ -6,15 +6,15 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.renderers.HtmlRenderer;
 
-public class WeaponTypeGrid extends BeanGrid<WeaponType> {
+public class WeaponTypeGrid extends DSGrid<WeaponType> {
 
     private static final long serialVersionUID = -425928960446143041L;
 
     public WeaponTypeGrid() {
         super(WeaponType.class);
-        withColumns("name", "proficiencyType", "handleType", "usageType", "oneHandBaseDamage",
+        withProperties("name", "proficiencyType", "handleType", "usageType", "oneHandBaseDamage",
                 "twoHandBaseDamage", "damageType", "isReach", "isFinesse", "isLoading");
-        withHeaderCaption("Nom", "Maitrise", "Manipulation", "Usage", "1 main", "2 mains",
+        withColumnHeaders("Nom", "Maitrise", "Manipulation", "Usage", "1 main", "2 mains",
                 "Type de dommage", "Allonge", "Finesse", "Load");
 
         Grid.Column reach = getColumn("isReach");

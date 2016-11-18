@@ -3,7 +3,6 @@ package com.dungeonstory.form;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -27,12 +26,12 @@ import com.dungeonstory.backend.data.ClassLevelFeature;
 import com.dungeonstory.backend.data.ClassSpellSlots;
 import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.data.DSClass.SpellCastingType;
-import com.dungeonstory.backend.data.Tool.ToolType;
 import com.dungeonstory.backend.data.Equipment;
 import com.dungeonstory.backend.data.Feat;
 import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.backend.data.Skill;
 import com.dungeonstory.backend.data.Spell;
+import com.dungeonstory.backend.data.Tool.ToolType;
 import com.dungeonstory.backend.data.WeaponType;
 import com.dungeonstory.backend.data.WeaponType.ProficiencyType;
 import com.dungeonstory.backend.service.DataService;
@@ -173,7 +172,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         savingThrowProficiencies.setCaption("Maitrise applicable au jets de sauvegarde");
         savingThrowProficiencies.setVisibleProperties("name");
         savingThrowProficiencies.setColumnHeader("name", "Caractéristique");
-        savingThrowProficiencies.setOptions((List<Ability>) abilityService.findAll());
+        savingThrowProficiencies.setOptions(abilityService.findAll());
         savingThrowProficiencies.setValue(new HashSet<Ability>()); //nothing selected
         savingThrowProficiencies.setWidth("50%");
 
@@ -207,7 +206,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         weaponProficiencies.setCaption("Maitrises d'arme");
         weaponProficiencies.setVisibleProperties("name");
         weaponProficiencies.setColumnHeader("name", "Maitrise");
-        weaponProficiencies.setOptions((List<WeaponType>) weaponTypeService.findAll());
+        weaponProficiencies.setOptions(weaponTypeService.findAll());
         weaponProficiencies.setValue(new HashSet<WeaponType>()); //nothing selected
         weaponProficiencies.setWidth("50%");
         
@@ -225,7 +224,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         baseSkills.setVisibleProperties("name", "keyAbility.name");
         baseSkills.setColumnHeader("name", "Compétence");
         baseSkills.setColumnHeader("keyAbility.name", "Carctéristique clé");
-        baseSkills.setOptions((List<Skill>) skillService.findAll());
+        baseSkills.setOptions(skillService.findAll());
         baseSkills.setWidth("80%");
         baseSkills.setValue(new HashSet<Skill>()); //nothing selected
 
@@ -273,7 +272,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         spells.setColumnHeader("name", "Sort");
         spells.setColumnHeader("level", "Niveau du sort");
         spells.setColumnHeader("school", "École");
-        spells.setOptions((List<Spell>) spellService.findAll());
+        spells.setOptions(spellService.findAll());
         spells.setWidth("80%");
         spells.setValue(null); //nothing selected
 

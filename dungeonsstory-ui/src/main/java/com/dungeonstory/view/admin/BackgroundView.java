@@ -8,8 +8,8 @@ import com.dungeonstory.form.BackgroundForm;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.AbstractCrudView;
-import com.dungeonstory.view.component.BackgroundGrid;
-import com.dungeonstory.view.component.BeanGrid;
+import com.dungeonstory.view.grid.BackgroundGrid;
+import com.dungeonstory.view.grid.DSGrid;
 
 @ViewConfig(uri = "backgrounds", displayName = "Backgrounds")
 public class BackgroundView extends AbstractCrudView<Background> {
@@ -22,7 +22,7 @@ public class BackgroundView extends AbstractCrudView<Background> {
     }
 
     @Override
-    public BeanGrid<Background> getGrid() {
+    public DSGrid<Background> getGrid() {
         return new BackgroundGrid();
     }
 

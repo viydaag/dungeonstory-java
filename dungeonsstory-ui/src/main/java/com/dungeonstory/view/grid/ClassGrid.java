@@ -1,14 +1,14 @@
-package com.dungeonstory.view.component;
+package com.dungeonstory.view.grid;
 
 import com.dungeonstory.backend.data.DSClass;
 
-public class ClassGrid extends BeanGrid<DSClass> {
+public class ClassGrid extends DSGrid<DSClass> {
 
     private static final long serialVersionUID = -2219582474895040784L;
 
     public ClassGrid() {
         super(DSClass.class);
-        withColumns("name", "shortDescription");
+        withProperties("name", "shortDescription");
     }
 
 }

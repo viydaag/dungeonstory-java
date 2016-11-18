@@ -9,8 +9,8 @@ import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.form.RegionForm;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.AbstractCrudView;
-import com.dungeonstory.view.component.BeanGrid;
-import com.dungeonstory.view.component.RegionGrid;
+import com.dungeonstory.view.grid.DSGrid;
+import com.dungeonstory.view.grid.RegionGrid;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.shared.data.sort.SortDirection;
 
@@ -29,7 +29,7 @@ public class RegionView extends AbstractCrudView<Region> {
     }
 
     @Override
-    public BeanGrid<Region> getGrid() {
+    public DSGrid<Region> getGrid() {
         return new RegionGrid();
     }
 
@@ -40,7 +40,7 @@ public class RegionView extends AbstractCrudView<Region> {
         }
         return RegionService.getInstance();
     }
-    
+
     @Override
     public void enter(ViewChangeEvent event) {
         super.enter(event);

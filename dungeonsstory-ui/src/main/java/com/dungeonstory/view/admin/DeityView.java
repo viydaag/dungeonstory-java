@@ -8,8 +8,8 @@ import com.dungeonstory.form.DeityForm;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.AbstractCrudView;
 import com.dungeonstory.view.CrudView;
-import com.dungeonstory.view.component.BeanGrid;
-import com.dungeonstory.view.component.DeityGrid;
+import com.dungeonstory.view.grid.DSGrid;
+import com.dungeonstory.view.grid.DeityGrid;
 
 @ViewConfig(uri = "deities", displayName = "Dieux")
 public class DeityView extends AbstractCrudView<Deity> implements CrudView<Deity> {
@@ -26,7 +26,7 @@ public class DeityView extends AbstractCrudView<Deity> implements CrudView<Deity
     }
 
     @Override
-    public BeanGrid<Deity> getGrid() {
+    public DSGrid<Deity> getGrid() {
         return new DeityGrid();
     }
 

@@ -47,25 +47,40 @@ public interface DataService<E extends Entity, K extends Serializable> {
      *
      * @return all instances of the entity
      */
-    Collection<E> findAll();
+    List<E> findAll();
 
     /**
     *
     * @return all instances of the entity sorted
     */
-    Collection<E> findAllOrderBy(String column, String order);
+    List<E> findAllOrderBy(String[] column, String[] order);
+    
+    /**
+    *
+    * @return all instances of the entity sorted
+    */
+    List<E> findAllOrderBy(String column, String order);
+
+    /**
+    *
+    * @return the entity list found
+    */
+    List<E> findAllBy(String column, String value);
     
     /**
     *
     * @return the entity list found
     */
-    Collection<E> findAllBy(String column, String value);
-    
-    /**
-    *
-    * @return the entity list found
-    */
-    Collection<E> findAllByLike(String column, String value);
+    List<E> findAllByLike(String column, String value);
+
+    List<E> findAllPaged(int firstRow, int pageSize);
+
+    List<E> findAllByLikePaged(String column, String value, int firstRow, int pageSize);
+
+    List<E> findAllPagedOrderBy(int firstRow, int pageSize, String[] orderColumn, String[] order);
+
+    List<E> findAllByLikePagedOrderBy(String column, String value, int firstRow, int pageSize, String[] orderColumn,
+            String[] order);
 
     /**
      *
@@ -121,7 +136,14 @@ public interface DataService<E extends Entity, K extends Serializable> {
 
     /**
      * 
+     * @return the entity count with given filter
+     */
+    int countWithFilter(String column, String value);
+
+    /**
+     * 
      * @return the entity count
      */
     long count();
+
 }

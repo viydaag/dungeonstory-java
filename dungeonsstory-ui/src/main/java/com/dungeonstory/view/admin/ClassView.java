@@ -21,8 +21,8 @@ import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.AbstractCrudView;
 import com.dungeonstory.view.CrudView;
-import com.dungeonstory.view.component.BeanGrid;
-import com.dungeonstory.view.component.ClassGrid;
+import com.dungeonstory.view.grid.ClassGrid;
+import com.dungeonstory.view.grid.DSGrid;
 
 @ViewConfig(uri = "classes", displayName = "Classes")
 public class ClassView extends AbstractCrudView<DSClass> implements CrudView<DSClass> {
@@ -39,7 +39,7 @@ public class ClassView extends AbstractCrudView<DSClass> implements CrudView<DSC
     }
 
     @Override
-    public BeanGrid<DSClass> getGrid() {
+    public DSGrid<DSClass> getGrid() {
         return new ClassGrid();
     }
 

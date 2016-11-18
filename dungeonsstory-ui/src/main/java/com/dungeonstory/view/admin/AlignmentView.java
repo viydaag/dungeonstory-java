@@ -9,8 +9,8 @@ import com.dungeonstory.form.AlignmentForm;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.AbstractCrudView;
-import com.dungeonstory.view.component.AlignmentGrid;
-import com.dungeonstory.view.component.BeanGrid;
+import com.dungeonstory.view.grid.AlignmentGrid;
+import com.dungeonstory.view.grid.DSGrid;
 
 @ViewConfig(uri = "alignments", displayName = "Alignements")
 public class AlignmentView extends AbstractCrudView<Alignment> {
@@ -23,7 +23,7 @@ public class AlignmentView extends AbstractCrudView<Alignment> {
     }
 
     @Override
-    public BeanGrid<Alignment> getGrid() {
+    public DSGrid<Alignment> getGrid() {
         return new AlignmentGrid();
     }
 

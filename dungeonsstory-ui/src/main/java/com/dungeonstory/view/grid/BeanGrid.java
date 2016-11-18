@@ -1,4 +1,4 @@
-package com.dungeonstory.view.component;
+package com.dungeonstory.view.grid;
 
 import java.util.Collection;
 
@@ -64,7 +64,7 @@ public class BeanGrid<T> extends Grid {
         getContainerDataSource().removeItem(bean);
     }
 
-    public void withColumns(Object... columns) {
+    public void withProperties(Object... columns) {
         for (Object column : columns) {
             if (((String) column).contains(".")) {
                 getContainer().addNestedContainerProperty((String) column);
@@ -77,7 +77,7 @@ public class BeanGrid<T> extends Grid {
         }
     }
 
-    public void withHeaderCaption(String... header) {
+    public void withColumnHeaders(String... header) {
         if (header.length != getColumns().size()) {
             throw new IllegalArgumentException("The header captions must be equal to the column number.");
         }

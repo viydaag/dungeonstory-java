@@ -44,7 +44,7 @@ public interface Repository<E extends Entity, K extends Serializable> {
     *
     * @return the entity sorted list found
     */
-    List<E> findAllOrderBy(String column, String order);
+    List<E> findAllOrderBy(String[] column, String[] order);
     
     /**
     *
@@ -56,7 +56,24 @@ public interface Repository<E extends Entity, K extends Serializable> {
     *
     * @return the entity list found
     */
+    List<E> findAllPaged(int firstRow, int pageSize);
+
+    /**
+    *
+    * @return the entity list found
+    */
+    List<E> findAllPagedOrderBy(int firstRow, int pageSize, String[] orderColumn, String[] order);
+
+    /**
+    *
+    * @return the entity list found
+    */
     List<E> findAllByLike(String column, String value);
+
+    List<E> findAllByLikePaged(String column, String value, int firstRow, int pageSize);
+
+    List<E> findAllByLikePagedOrderBy(String column, String value, int firstRow, int pageSize, String[] orderColumn,
+            String[] order);
 
     /**
     *

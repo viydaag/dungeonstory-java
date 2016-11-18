@@ -1,15 +1,15 @@
-package com.dungeonstory.view.component;
+package com.dungeonstory.view.grid;
 
 import com.dungeonstory.backend.data.Race;
 
-public class RaceGrid extends BeanGrid<Race> {
+public class RaceGrid extends DSGrid<Race> {
 
     private static final long serialVersionUID = -3155610367819192232L;
 
     public RaceGrid() {
         super(Race.class);
-        withColumns("name");
-        withHeaderCaption("Nom");
+        withProperties("name");
+        withColumnHeaders("Nom");
     }
 
 }

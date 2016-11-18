@@ -1,4 +1,4 @@
-package com.dungeonstory.view.component;
+package com.dungeonstory.view.grid;
 
 import com.dungeonstory.backend.data.Feat;
 import com.vaadin.data.util.converter.StringToBooleanConverter;
@@ -6,14 +6,14 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.renderers.HtmlRenderer;
 
-public class FeatGrid extends BeanGrid<Feat> {
+public class FeatGrid extends DSGrid<Feat> {
 
     private static final long serialVersionUID = -6577254670865533975L;
 
     public FeatGrid() {
         super(Feat.class);
-        withColumns("name", "isClassFeature", "usage");
-        withHeaderCaption("Nom", "Don de classe", "Usage");
+        withProperties("name", "isClassFeature", "usage");
+        withColumnHeaders("Nom", "Don de classe", "Usage");
         
         Grid.Column reach = getColumn("isClassFeature");
         reach.setRenderer(new HtmlRenderer(),
