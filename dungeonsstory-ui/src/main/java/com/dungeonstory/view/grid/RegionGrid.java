@@ -9,7 +9,7 @@ public class RegionGrid extends DSGrid<Region> {
     public RegionGrid() {
         super(Region.class);
         withProperties("name");
-        withHeaderCaption("Nom");
+        withColumnHeaders("Nom");
     }
 
 }

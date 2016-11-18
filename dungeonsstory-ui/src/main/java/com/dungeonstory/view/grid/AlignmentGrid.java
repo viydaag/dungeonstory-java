@@ -9,7 +9,7 @@ public class AlignmentGrid extends DSGrid<Alignment> {
     public AlignmentGrid() {
         super(Alignment.class);
         withProperties("name", "abbreviation", "shortDescription");
-        withHeaderCaption("Nom", "Abbréviation", "Description courte");
+        withColumnHeaders("Nom", "Abbréviation", "Description courte");
     }
 
 }

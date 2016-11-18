@@ -14,7 +14,7 @@ public class ArmorTypeGrid extends DSGrid<ArmorType> {
     public ArmorTypeGrid() {
         super(ArmorType.class);
         withProperties("name", "proficiencyType", "baseArmorClass", "maxDexBonus", "stealthDisavantage", "minStrength");
-        withHeaderCaption("Nom", "Maitrise", "Classe d'armure", "Bonus max dextérité", "Désavantage furtivité", "Force minimum");
+        withColumnHeaders("Nom", "Maitrise", "Classe d'armure", "Bonus max dextérité", "Désavantage furtivité", "Force minimum");
         
         getColumn("maxDexBonus").setRenderer(new ModifierRenderer());
         getColumn("baseArmorClass").setRenderer(new ModifierRenderer());

@@ -9,7 +9,7 @@ public class ShopGrid extends DSGrid<Shop> {
     public ShopGrid() {
         super(Shop.class);
         withProperties("name", "city.name");
-        withHeaderCaption("Nom du magasin", "Ville");
+        withColumnHeaders("Nom du magasin", "Ville");
     }
 
 }

@@ -25,7 +25,7 @@ public class CharacterGrid extends DSGrid<Character> {
             }
         });
         withProperties("name", "delete");
-        withHeaderCaption("Nom", "");
+        withColumnHeaders("Nom", "");
     }
 
 }

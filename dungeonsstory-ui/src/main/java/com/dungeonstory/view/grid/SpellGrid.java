@@ -9,7 +9,7 @@ public class SpellGrid extends DSGrid<Spell> {
     public SpellGrid() {
         super(Spell.class);
         withProperties("level", "name", "school");
-        withHeaderCaption("Niveau", "Nom", "École de magie");
+        withColumnHeaders("Niveau", "Nom", "École de magie");
     }
 
 }

@@ -9,7 +9,7 @@ public class CityGrid extends DSGrid<City> {
     public CityGrid() {
         super(City.class);
         withProperties("name", "shortDescription");
-        withHeaderCaption("Nom", "Description courte");
+        withColumnHeaders("Nom", "Description courte");
     }
 
 }

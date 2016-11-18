@@ -12,7 +12,7 @@ public class DeityGrid extends DSGrid<Deity> {
     public DeityGrid() {
         super(Deity.class);
         withProperties("name", "alignment", "domains", "shortDescription", "image");
-        withHeaderCaption("Nom", "Alignement", "Domaines", "Description courte", "");
+        withColumnHeaders("Nom", "Alignement", "Domaines", "Description courte", "");
         
         getColumn("domains").setConverter(new CollectionToStringConverter());
         

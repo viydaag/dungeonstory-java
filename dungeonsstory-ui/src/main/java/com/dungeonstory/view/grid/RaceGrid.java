@@ -9,7 +9,7 @@ public class RaceGrid extends DSGrid<Race> {
     public RaceGrid() {
         super(Race.class);
         withProperties("name");
-        withHeaderCaption("Nom");
+        withColumnHeaders("Nom");
     }
 
 }

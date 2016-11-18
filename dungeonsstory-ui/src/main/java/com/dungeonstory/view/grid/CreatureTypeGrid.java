@@ -10,7 +10,7 @@ public class CreatureTypeGrid extends DSGrid<CreatureType> {
     public CreatureTypeGrid() {
         super(CreatureType.class);
         withProperties("name");
-        withHeaderCaption("Nom");
+        withColumnHeaders("Nom");
 
         setCellStyleGenerator(cell -> {
             if (cell.getPropertyId().equals("name")) {

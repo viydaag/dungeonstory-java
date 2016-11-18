@@ -9,7 +9,7 @@ public class LanguageGrid extends DSGrid<Language> {
     public LanguageGrid() {
         super(Language.class);
         withProperties("name", "script");
-        withHeaderCaption("Nom", "Alphabet");
+        withColumnHeaders("Nom", "Alphabet");
     }
 
 }

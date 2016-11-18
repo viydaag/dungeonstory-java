@@ -9,7 +9,7 @@ public class AbilityGrid extends DSGrid<Ability> {
     public AbilityGrid() {
         super(Ability.class);
         withProperties("name", "abbreviation");
-        withHeaderCaption("Nom", "Abbréviation");
+        withColumnHeaders("Nom", "Abbréviation");
     }
 
 }

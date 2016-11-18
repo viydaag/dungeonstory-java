@@ -13,7 +13,7 @@ public class FeatGrid extends DSGrid<Feat> {
     public FeatGrid() {
         super(Feat.class);
         withProperties("name", "isClassFeature", "usage");
-        withHeaderCaption("Nom", "Don de classe", "Usage");
+        withColumnHeaders("Nom", "Don de classe", "Usage");
         
         Grid.Column reach = getColumn("isClassFeature");
         reach.setRenderer(new HtmlRenderer(),

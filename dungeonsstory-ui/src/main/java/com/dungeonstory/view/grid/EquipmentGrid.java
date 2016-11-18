@@ -12,7 +12,7 @@ public class EquipmentGrid extends DSGrid<Equipment> {
     public EquipmentGrid() {
         super(Equipment.class);
         withProperties("name", "type", "isPurchasable", "isSellable");
-        withHeaderCaption("Nom", "Type", "Achetable", "Vendable");
+        withColumnHeaders("Nom", "Type", "Achetable", "Vendable");
 
         getColumn("isPurchasable").setRenderer(new HtmlRenderer(),
                 new StringToBooleanConverter(FontAwesome.CHECK_CIRCLE_O.getHtml(), FontAwesome.CIRCLE_O.getHtml()));

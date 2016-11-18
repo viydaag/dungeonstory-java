@@ -9,7 +9,7 @@ public class DivineDomainGrid extends DSGrid<DivineDomain> {
     public DivineDomainGrid() {
         super(DivineDomain.class);
         withProperties("name");
-        withHeaderCaption("Nom");
+        withColumnHeaders("Nom");
     }
 
 }

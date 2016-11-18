@@ -1,7 +1,6 @@
 package com.dungeonstory.view.grid;
 
 import com.dungeonstory.backend.data.Level;
-import com.vaadin.data.fieldgroup.BeanFieldGroup;
 
 public class LevelGrid extends DSGrid<Level> {
 
@@ -11,12 +10,10 @@ public class LevelGrid extends DSGrid<Level> {
         super(Level.class);
 
         setEditorEnabled(true);
-        setEditorFieldGroup(new BeanFieldGroup<Level>(Level.class));
+        //        setEditorFieldGroup(new BeanFieldGroup<Level>(Level.class));
 
-        addColumn("id");
-        Column levelColumn = getColumn("id");
-        levelColumn.setHeaderCaption("Niveau");
-        setColumnOrder("id", "proficiencyBonus", "maxExperience");
+        withProperties("id", "proficiencyBonus", "maxExperience");
+        withColumnHeaders("Niveau", "Bonus de maitrise", "Plafond d'expérience");
     }
 
     public void addRow(Level level) {

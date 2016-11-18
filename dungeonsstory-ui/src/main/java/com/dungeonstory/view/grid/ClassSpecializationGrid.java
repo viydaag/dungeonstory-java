@@ -10,7 +10,7 @@ public class ClassSpecializationGrid extends DSGrid<ClassSpecialization> {
         super(ClassSpecialization.class);
         //        getContainer().addNestedContainerBean("parentClass");
         withProperties("name", "parentClass.name");
-        withHeaderCaption("Nom", "Classe");
+        withColumnHeaders("Nom", "Classe");
     }
 
 }

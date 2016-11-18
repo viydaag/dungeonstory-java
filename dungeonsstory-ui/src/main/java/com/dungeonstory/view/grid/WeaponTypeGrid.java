@@ -14,7 +14,7 @@ public class WeaponTypeGrid extends DSGrid<WeaponType> {
         super(WeaponType.class);
         withProperties("name", "proficiencyType", "handleType", "usageType", "oneHandBaseDamage",
                 "twoHandBaseDamage", "damageType", "isReach", "isFinesse", "isLoading");
-        withHeaderCaption("Nom", "Maitrise", "Manipulation", "Usage", "1 main", "2 mains",
+        withColumnHeaders("Nom", "Maitrise", "Manipulation", "Usage", "1 main", "2 mains",
                 "Type de dommage", "Allonge", "Finesse", "Load");
 
         Grid.Column reach = getColumn("isReach");

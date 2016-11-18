@@ -45,21 +45,5 @@ public class DSGrid<T> extends MGrid<T> {
         setSizeFull();
         setSelectionMode(SelectionMode.SINGLE);
     }
-    
-    public void remove(T bean) {
-        getContainerDataSource().removeItem(bean); //throws unsupported exception
-    }
-
-    public void withHeaderCaption(String... header) {
-        if (header.length != getColumns().size()) {
-            throw new IllegalArgumentException("The header captions must be equal to the column number.");
-        }
-        for (int i = 0; i < getColumns().size(); i++) {
-            Object propertyId = getColumns().get(i).getPropertyId();
-            if (header[i] != null) {
-                getColumn(propertyId).setHeaderCaption(header[i]);
-            }
-        }
-    }
 
 }

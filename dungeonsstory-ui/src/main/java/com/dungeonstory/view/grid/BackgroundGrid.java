@@ -9,7 +9,7 @@ public class BackgroundGrid extends DSGrid<Background> {
     public BackgroundGrid() {
         super(Background.class);
         withProperties("name");
-        withHeaderCaption("Nom");
+        withColumnHeaders("Nom");
     }
 
 }
