@@ -43,7 +43,6 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
         transac.begin();
         try {
             entityManager.persist(entity);
-            flushAndCloseEntityManager();
             transac.commit();
         } catch (Exception e) {
             transac.rollback();
@@ -125,6 +124,13 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
 
     @Override
     public List<E> findAllOrderBy(String[] orderColumn, String[] order) {
+        String orderQuery = getOrderQuery(orderColumn, order);
+        TypedQuery<E> query = entityManager.createQuery(
+                "SELECT o FROM " + getTableName() + " o ORDER BY " + orderQuery, getEntityClass());
+        return query.getResultList();
+    }
+
+    private String getOrderQuery(String[] orderColumn, String[] order) {
         String orderQuery = "";
         for (int i = 0; i < orderColumn.length; i++) {
             String orderCol = orderColumn[i];
@@ -133,9 +139,7 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
                 orderQuery += ", ";
             }
         }
-        TypedQuery<E> query = entityManager.createQuery(
-                "SELECT o FROM " + getTableName() + " o ORDER BY " + orderQuery, getEntityClass());
-        return query.getResultList();
+        return orderQuery;
     }
     
     @Override
@@ -172,14 +176,7 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
 
     @Override
     public List<E> findAllPagedOrderBy(int firstRow, int pageSize, String[] orderColumn, String[] order) {
-        String orderQuery = "";
-        for (int i = 0; i < orderColumn.length; i++) {
-            String orderCol = orderColumn[i];
-            orderQuery += ("o." + orderCol + " " + order[i]);
-            if (i != orderColumn.length - 1) {
-                orderQuery += ", ";
-            }
-        }
+        String orderQuery = getOrderQuery(orderColumn, order);
         TypedQuery<E> query = entityManager
                 .createQuery("SELECT o FROM " + getTableName() + " o ORDER BY " + orderQuery,
                         getEntityClass())
@@ -191,14 +188,7 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
     public List<E> findAllByLikePagedOrderBy(String column, String value, int firstRow, int pageSize,
             String[] orderColumn, String[] order) {
 
-        String orderQuery = "";
-        for (int i = 0; i < orderColumn.length; i++) {
-            String orderCol = orderColumn[i];
-            orderQuery += ("o." + orderCol + " " + order[i]);
-            if (i != orderColumn.length - 1) {
-                orderQuery += ", ";
-            }
-        }
+        String orderQuery = getOrderQuery(orderColumn, order);
         TypedQuery<E> query = entityManager.createQuery("SELECT o FROM " + getTableName() + " o WHERE o." + column
                 + " LIKE :value ORDER BY " + orderQuery, getEntityClass()).setFirstResult(firstRow)
                 .setMaxResults(pageSize);
@@ -248,7 +238,6 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
         transac.begin();
         try {
             E result = entityManager.merge(entity);
-            flushAndCloseEntityManager();
             transac.commit();
             return result;
         } catch (Exception e) {
@@ -257,21 +246,10 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
         }
     }
 
-    /**
-     * Due to memory leaks, the entity manager has to be flushed and closed after
-     * each db operation. All the elements retrieved while the db access keep
-     * a reference to the entity manager and can never be garbaged.
-     * By flushing and closing the entity manager, these objects can be free.
-     */
-    private void flushAndCloseEntityManager() {
-        //        entityManager.flush();
-        //        entityManager.close();
-    }
-
     @Override
     public long count() {
         entityManager.getTransaction().begin();
-        Query q = entityManager.createQuery("SELECT count(x) FROM " + getTableName() + " x");
+        Query q = entityManager.createQuery("SELECT count(o) FROM " + getTableName() + " o");
         long count = (long) q.getSingleResult();
         entityManager.getTransaction().commit();
         return count;

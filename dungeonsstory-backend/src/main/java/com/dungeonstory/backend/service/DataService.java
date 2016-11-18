@@ -47,31 +47,31 @@ public interface DataService<E extends Entity, K extends Serializable> {
      *
      * @return all instances of the entity
      */
-    Collection<E> findAll();
+    List<E> findAll();
 
     /**
     *
     * @return all instances of the entity sorted
     */
-    Collection<E> findAllOrderBy(String[] column, String[] order);
+    List<E> findAllOrderBy(String[] column, String[] order);
     
     /**
     *
     * @return all instances of the entity sorted
     */
-    Collection<E> findAllOrderBy(String column, String order);
+    List<E> findAllOrderBy(String column, String order);
 
     /**
     *
     * @return the entity list found
     */
-    Collection<E> findAllBy(String column, String value);
+    List<E> findAllBy(String column, String value);
     
     /**
     *
     * @return the entity list found
     */
-    Collection<E> findAllByLike(String column, String value);
+    List<E> findAllByLike(String column, String value);
 
     List<E> findAllPaged(int firstRow, int pageSize);
 

@@ -2,7 +2,6 @@ package com.dungeonstory.form;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 
 import org.vaadin.viritin.fields.ElementCollectionField;
 import org.vaadin.viritin.fields.EnumSelect;
@@ -144,7 +143,7 @@ public class SpellForm extends DSAbstractForm<Spell> {
         components.setCaption("Composants matériels");
         components.setVisibleProperties("name");
         components.setColumnHeader("name", "Composant");
-        components.setOptions((List<Equipment>) equipmentService.findAll());
+        components.setOptions(equipmentService.findAll());
         components.setValue(new HashSet<Equipment>()); // nothing selected
         components.setWidth("50%");
 

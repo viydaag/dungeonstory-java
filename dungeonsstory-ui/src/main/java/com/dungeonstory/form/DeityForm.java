@@ -1,7 +1,5 @@
 package com.dungeonstory.form;
 
-import java.util.List;
-
 import org.vaadin.easyuploads.ImagePreviewField;
 import org.vaadin.viritin.fields.MTextArea;
 import org.vaadin.viritin.fields.MTextField;
@@ -71,7 +69,7 @@ public class DeityForm extends DSAbstractForm<Deity> {
         domains.setCaption("Domaines divins");
         domains.setVisibleProperties("name");
         domains.setColumnHeader("name", "Domaine");
-        domains.setOptions((List<DivineDomain>) domainService.findAll());
+        domains.setOptions(domainService.findAll());
         domains.setValue(null); // nothing selected
         domains.setWidth("50%");
 

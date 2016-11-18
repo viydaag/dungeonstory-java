@@ -2,7 +2,6 @@ package com.dungeonstory.form;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 
 import org.vaadin.viritin.fields.EnumSelect;
 import org.vaadin.viritin.fields.MTextArea;
@@ -69,7 +68,7 @@ public class BackgroundForm extends DSAbstractForm<Background> {
         skillProficiencies.setVisibleProperties("name", "keyAbility.name");
         skillProficiencies.setColumnHeader("name", "Compétence");
         skillProficiencies.setColumnHeader("keyAbility.name", "Caractéristique clé");
-        skillProficiencies.setOptions((List<Skill>) skillService.findAll());
+        skillProficiencies.setOptions(skillService.findAll());
         skillProficiencies.setWidth("80%");
         skillProficiencies.setValue(null); //nothing selected
 
