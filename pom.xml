@@ -118,7 +118,7 @@
 	</profiles>
   <modules>
     <module>dungeonsstory-widgetset</module>
-    <module>dungeonsstory-backend</module>
+    <module>dungeonstory-backend</module>
     <module>dungeonstory-ui</module>
     <module>dungeonsstory-production</module>
   </modules>
