@@ -120,6 +120,6 @@
     <module>dungeonstory-widgetset</module>
     <module>dungeonstory-backend</module>
     <module>dungeonstory-ui</module>
-    <module>dungeonsstory-production</module>
+    <module>dungeonstory-production</module>
   </modules>
 </project>
