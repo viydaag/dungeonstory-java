@@ -7,8 +7,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>dungeonsstory-production</artifactId>
-    <name>dungeonsstory-production</name>
+    <artifactId>dungeonstory-production</artifactId>
+    <name>dungeonstory-production</name>
     <packaging>war</packaging>
 
     <properties>
@@ -19,7 +19,7 @@
         <!-- Include the WAR-module as an overlay. -->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>dungeonsstory-ui</artifactId>
+            <artifactId>dungeonstory-ui</artifactId>
             <version>${project.version}</version>
             <type>war</type>
             <scope>runtime</scope>
@@ -28,14 +28,14 @@
             that the GWT compiler can pick up all the GWT modules. -->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>dungeonsstory-ui</artifactId>
+            <artifactId>dungeonstory-ui</artifactId>
             <version>${project.version}</version>
             <classifier>classes</classifier>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>dungeonsstory-widgetset</artifactId>
+            <artifactId>dungeonstory-widgetset</artifactId>
             <version>${project.version}</version>
             <classifier>sources</classifier>
             <scope>provided</scope>
@@ -64,7 +64,7 @@
                                     <artifactItems>
                                         <artifactItem>
                                             <groupId>${project.groupId}</groupId>
-                                            <artifactId>dungeonsstory-ui</artifactId>
+                                            <artifactId>dungeonstory-ui</artifactId>
                                             <version>${project.version}</version>
                                             <type>war</type>
                                             <includes>VAADIN/themes/**/*</includes>
@@ -75,7 +75,7 @@
                                         </artifactItem>
                                         <artifactItem>
                                             <groupId>${project.groupId}</groupId>
-                                            <artifactId>dungeonsstory-widgetset</artifactId>
+                                            <artifactId>dungeonstory-widgetset</artifactId>
                                             <version>${project.version}</version>
                                             <type>jar</type>
                                             <includes>com/dungeonstory/**</includes>
@@ -141,13 +141,13 @@
                             <overlays>
                                 <overlay>
                                     <groupId>${project.groupId}</groupId>
-                                    <artifactId>dungeonsstory-ui</artifactId>
+                                    <artifactId>dungeonstory-ui</artifactId>
                                     <excludes>
                                         <!-- Exclude larger development time 
                                             widgetset. -->
                                         <!-- The relevant classes are copied 
                                             to the WAR above. -->
-                                        <exclude>WEB-INF/lib/dungeonsstory-widgetset-*.jar</exclude>
+                                        <exclude>WEB-INF/lib/dungeonstory-widgetset-*.jar</exclude>
                                         <!-- Exclude the Sass compiler and 
                                             its dependencies. -->
                                         <!-- The production WAR includes 

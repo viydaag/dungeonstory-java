@@ -8,8 +8,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>dungeonsstory-ui</artifactId>
-    <name>dungeonsstory-ui</name>
+    <artifactId>dungeonstory-ui</artifactId>
+    <name>dungeonstory-ui</name>
     <packaging>war</packaging>
 
     <dependencies>
@@ -66,14 +66,14 @@
 		<!-- Project dependencies -->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>dungeonsstory-backend</artifactId>
+            <artifactId>dungeonstory-backend</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <!-- Custom components -->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>dungeonsstory-widgetset</artifactId>
+            <artifactId>dungeonstory-widgetset</artifactId>
             <version>${project.version}</version>
         </dependency>
 
