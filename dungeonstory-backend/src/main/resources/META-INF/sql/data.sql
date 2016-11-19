@@ -1237,18 +1237,60 @@ INSERT INTO classweaponproficiencies (classId, weaponTypeId) VALUES (1,34);
 /* ClassSpecialization */
 INSERT INTO classspecialization (id, name, description, classId, isSpellCasting, spellCasingAbilityId, version, created, updated) VALUES (1,'Voie du berserk','Pour bon nombre de barbares, la rage est le moyen d''atteindre un but, ce but étant la violence. La voie du berserk est une voie de fureur débridée, poisseuse de sang. En entrant en rage de berserk, vous êtes électrisé par le chaos de la bataille, faisant fi de votre sécurité et de votre bien-être. ',1,0,NULL,1,'2016-11-10 13:23:59','2016-11-10 13:23:59');
 INSERT INTO classspecialization (id, name, description, classId, isSpellCasting, spellCasingAbilityId, version, created, updated) VALUES (2,'Voie du guerrier totem','La voie du guerrier totem est un parcours spirituel, étant donné que le barbare accepte un esprit animal comme guide, protecteur et source d''inspiration. En plein bataille, votre esprit totem vous imprègne de pouvoirs surnaturels, distillant de l''essence magique dans votre rage. La plupart des tribus barbares utilise un animal totem comme signe d''appartenance à un clan particulier. ',1,0,NULL,1,'2016-11-10 15:45:14','2016-11-10 15:45:14');
+INSERT INTO classspecialization (id, name, description, classId, isSpellCasting, spellCasingAbilityId, version, created, updated) VALUES (3,'Voleur','Vous perfectionnez vos compétences dans les arts du larcin. Cambrioleurs, bandits, coupe-bourses et autres criminels suivent généralement cet archétype, de même que les roublards qui se considèrent eux-mêmes comme des chercheurs de trésors professionnels, des explorateurs ou des investigateurs. En plus d''améliorer votre agilité et votre furtivité, vous apprenez des compétences utiles pour pénétrer dans des ruines antiques, lire des langues inconnues ou utiliser des objets magiques que vous ne pourriez normalement pas employer.',3,0,NULL,1,'2016-11-19 13:01:25','2016-11-19 13:01:25');
+INSERT INTO classspecialization (id, name, description, classId, isSpellCasting, spellCasingAbilityId, version, created, updated) VALUES (4,'Assassin','Vous focalisez votre entrainement sur l''art de l''assassinat. Divers personnages choisissent cet archétype : tueurs sous contrat, espions, chasseurs de primes, et même certains religieux entraînés à cela pour exterminer les ennemis de leur divinité. Discrétion, poisons et déguisements vous aident à éliminer vos cibles avec une efficacité meurtrière.',3,0,NULL,1,'2016-11-19 13:03:14','2016-11-19 13:03:14');
+INSERT INTO classspecialization (id, name, description, classId, isSpellCasting, spellCasingAbilityId, version, created, updated) VALUES (5,'Mystificateur profane','Quelques roublards améliorent leurs compétences aiguisées en furtivité et agilité avec la magie, apprenant des tours d''enchantement et d''illusion. On trouve parmi eux des voleurs à la tire et des cambrioleurs, mais aussi des farceurs, des fauteurs de troubles et un nombre important d''aventuriers.',3,1,4,1,'2016-11-19 13:09:56','2016-11-19 13:09:56');
+INSERT INTO classspecialization (id, name, description, classId, isSpellCasting, spellCasingAbilityId, version, created, updated) VALUES (6,'Mastermind','Vous mettez l''accent sur les personnes et sur l''influence et les secrets qu''ils ont. Beaucoup d''espions, de courtisans et de conspirateurs suivent cet archétype, menant une vie d''intrigues. Les mots sont aussi souvent vos armes que les poignards ou le poison, et les secrets et les faveurs sont parmi vos trésors préférés.',3,0,NULL,1,'2016-11-19 13:11:18','2016-11-19 13:11:18');
 
 /* Classspeclevelfeature */
 INSERT INTO classspeclevelfeature (classSpecId, featId, levelId) VALUES (1,54,3);
 INSERT INTO classspeclevelfeature (classSpecId, featId, levelId) VALUES (2,58,3);
 INSERT INTO classspeclevelfeature (classSpecId, featId, levelId) VALUES (2,59,3);
+INSERT INTO classspeclevelfeature (classSpecId, featId, levelId) VALUES (3,150,3);
+INSERT INTO classspeclevelfeature (classSpecId, featId, levelId) VALUES (3,151,3);
+INSERT INTO classspeclevelfeature (classSpecId, featId, levelId) VALUES (4,155,3);
+INSERT INTO classspeclevelfeature (classSpecId, featId, levelId) VALUES (4,156,3);
+INSERT INTO classspeclevelfeature (classSpecId, featId, levelId) VALUES (5,160,3);
+INSERT INTO classspeclevelfeature (classSpecId, featId, levelId) VALUES (6,164,3);
+INSERT INTO classspeclevelfeature (classSpecId, featId, levelId) VALUES (6,165,3);
 INSERT INTO classspeclevelfeature (classSpecId, featId, levelId) VALUES (1,55,6);
 INSERT INTO classspeclevelfeature (classSpecId, featId, levelId) VALUES (2,60,6);
+INSERT INTO classspeclevelfeature (classSpecId, featId, levelId) VALUES (3,152,9);
+INSERT INTO classspeclevelfeature (classSpecId, featId, levelId) VALUES (4,157,9);
+INSERT INTO classspeclevelfeature (classSpecId, featId, levelId) VALUES (5,161,9);
+INSERT INTO classspeclevelfeature (classSpecId, featId, levelId) VALUES (6,166,9);
 INSERT INTO classspeclevelfeature (classSpecId, featId, levelId) VALUES (1,56,10);
 INSERT INTO classspeclevelfeature (classSpecId, featId, levelId) VALUES (2,61,10);
+INSERT INTO classspeclevelfeature (classSpecId, featId, levelId) VALUES (3,153,13);
+INSERT INTO classspeclevelfeature (classSpecId, featId, levelId) VALUES (4,158,13);
+INSERT INTO classspeclevelfeature (classSpecId, featId, levelId) VALUES (5,162,13);
+INSERT INTO classspeclevelfeature (classSpecId, featId, levelId) VALUES (6,167,13);
 INSERT INTO classspeclevelfeature (classSpecId, featId, levelId) VALUES (1,57,14);
 INSERT INTO classspeclevelfeature (classSpecId, featId, levelId) VALUES (2,62,14);
+INSERT INTO classspeclevelfeature (classSpecId, featId, levelId) VALUES (3,154,17);
+INSERT INTO classspeclevelfeature (classSpecId, featId, levelId) VALUES (4,159,17);
+INSERT INTO classspeclevelfeature (classSpecId, featId, levelId) VALUES (5,163,17);
+INSERT INTO classspeclevelfeature (classSpecId, featId, levelId) VALUES (6,168,17);
 
 /* Classspecializationspellslots */
+INSERT INTO classspecializationspellslots (cantripsKnown, spellSlots1, spellSlots2, spellSlots3, spellSlots4, spellSlots5, spellSlots6, spellSlots7, spellSlots8, spellSlots9, spellsKnown, classSpecId, levelId) VALUES (3,2,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,3,5,3);
+INSERT INTO classspecializationspellslots (cantripsKnown, spellSlots1, spellSlots2, spellSlots3, spellSlots4, spellSlots5, spellSlots6, spellSlots7, spellSlots8, spellSlots9, spellsKnown, classSpecId, levelId) VALUES (3,3,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,4,5,4);
+INSERT INTO classspecializationspellslots (cantripsKnown, spellSlots1, spellSlots2, spellSlots3, spellSlots4, spellSlots5, spellSlots6, spellSlots7, spellSlots8, spellSlots9, spellsKnown, classSpecId, levelId) VALUES (3,3,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,4,5,5);
+INSERT INTO classspecializationspellslots (cantripsKnown, spellSlots1, spellSlots2, spellSlots3, spellSlots4, spellSlots5, spellSlots6, spellSlots7, spellSlots8, spellSlots9, spellsKnown, classSpecId, levelId) VALUES (3,3,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,4,5,6);
+INSERT INTO classspecializationspellslots (cantripsKnown, spellSlots1, spellSlots2, spellSlots3, spellSlots4, spellSlots5, spellSlots6, spellSlots7, spellSlots8, spellSlots9, spellsKnown, classSpecId, levelId) VALUES (3,4,2,NULL,NULL,NULL,NULL,NULL,NULL,NULL,5,5,7);
+INSERT INTO classspecializationspellslots (cantripsKnown, spellSlots1, spellSlots2, spellSlots3, spellSlots4, spellSlots5, spellSlots6, spellSlots7, spellSlots8, spellSlots9, spellsKnown, classSpecId, levelId) VALUES (3,4,2,NULL,NULL,NULL,NULL,NULL,NULL,NULL,6,5,8);
+INSERT INTO classspecializationspellslots (cantripsKnown, spellSlots1, spellSlots2, spellSlots3, spellSlots4, spellSlots5, spellSlots6, spellSlots7, spellSlots8, spellSlots9, spellsKnown, classSpecId, levelId) VALUES (3,4,2,NULL,NULL,NULL,NULL,NULL,NULL,NULL,6,5,9);
+INSERT INTO classspecializationspellslots (cantripsKnown, spellSlots1, spellSlots2, spellSlots3, spellSlots4, spellSlots5, spellSlots6, spellSlots7, spellSlots8, spellSlots9, spellsKnown, classSpecId, levelId) VALUES (4,4,3,NULL,NULL,NULL,NULL,NULL,NULL,NULL,7,5,10);
+INSERT INTO classspecializationspellslots (cantripsKnown, spellSlots1, spellSlots2, spellSlots3, spellSlots4, spellSlots5, spellSlots6, spellSlots7, spellSlots8, spellSlots9, spellsKnown, classSpecId, levelId) VALUES (4,4,3,NULL,NULL,NULL,NULL,NULL,NULL,NULL,8,5,11);
+INSERT INTO classspecializationspellslots (cantripsKnown, spellSlots1, spellSlots2, spellSlots3, spellSlots4, spellSlots5, spellSlots6, spellSlots7, spellSlots8, spellSlots9, spellsKnown, classSpecId, levelId) VALUES (4,4,3,NULL,NULL,NULL,NULL,NULL,NULL,NULL,8,5,12);
+INSERT INTO classspecializationspellslots (cantripsKnown, spellSlots1, spellSlots2, spellSlots3, spellSlots4, spellSlots5, spellSlots6, spellSlots7, spellSlots8, spellSlots9, spellsKnown, classSpecId, levelId) VALUES (4,4,3,2,NULL,NULL,NULL,NULL,NULL,NULL,9,5,13);
+INSERT INTO classspecializationspellslots (cantripsKnown, spellSlots1, spellSlots2, spellSlots3, spellSlots4, spellSlots5, spellSlots6, spellSlots7, spellSlots8, spellSlots9, spellsKnown, classSpecId, levelId) VALUES (4,4,3,2,NULL,NULL,NULL,NULL,NULL,NULL,10,5,14);
+INSERT INTO classspecializationspellslots (cantripsKnown, spellSlots1, spellSlots2, spellSlots3, spellSlots4, spellSlots5, spellSlots6, spellSlots7, spellSlots8, spellSlots9, spellsKnown, classSpecId, levelId) VALUES (4,4,3,2,NULL,NULL,NULL,NULL,NULL,NULL,10,5,15);
+INSERT INTO classspecializationspellslots (cantripsKnown, spellSlots1, spellSlots2, spellSlots3, spellSlots4, spellSlots5, spellSlots6, spellSlots7, spellSlots8, spellSlots9, spellsKnown, classSpecId, levelId) VALUES (4,4,3,3,NULL,NULL,NULL,NULL,NULL,NULL,11,5,16);
+INSERT INTO classspecializationspellslots (cantripsKnown, spellSlots1, spellSlots2, spellSlots3, spellSlots4, spellSlots5, spellSlots6, spellSlots7, spellSlots8, spellSlots9, spellsKnown, classSpecId, levelId) VALUES (4,4,3,3,NULL,NULL,NULL,NULL,NULL,NULL,11,5,17);
+INSERT INTO classspecializationspellslots (cantripsKnown, spellSlots1, spellSlots2, spellSlots3, spellSlots4, spellSlots5, spellSlots6, spellSlots7, spellSlots8, spellSlots9, spellsKnown, classSpecId, levelId) VALUES (4,4,3,3,NULL,NULL,NULL,NULL,NULL,NULL,11,5,18);
+INSERT INTO classspecializationspellslots (cantripsKnown, spellSlots1, spellSlots2, spellSlots3, spellSlots4, spellSlots5, spellSlots6, spellSlots7, spellSlots8, spellSlots9, spellsKnown, classSpecId, levelId) VALUES (4,4,3,3,1,NULL,NULL,NULL,NULL,NULL,12,5,19);
+INSERT INTO classspecializationspellslots (cantripsKnown, spellSlots1, spellSlots2, spellSlots3, spellSlots4, spellSlots5, spellSlots6, spellSlots7, spellSlots8, spellSlots9, spellsKnown, classSpecId, levelId) VALUES (4,4,3,3,1,NULL,NULL,NULL,NULL,NULL,13,5,20);
+
 
 /* Classspeclevelspell */
