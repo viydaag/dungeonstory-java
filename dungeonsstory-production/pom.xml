@@ -35,7 +35,7 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>dungeonsstory-widgetset</artifactId>
+            <artifactId>dungeonstory-widgetset</artifactId>
             <version>${project.version}</version>
             <classifier>sources</classifier>
             <scope>provided</scope>
@@ -75,7 +75,7 @@
                                         </artifactItem>
                                         <artifactItem>
                                             <groupId>${project.groupId}</groupId>
-                                            <artifactId>dungeonsstory-widgetset</artifactId>
+                                            <artifactId>dungeonstory-widgetset</artifactId>
                                             <version>${project.version}</version>
                                             <type>jar</type>
                                             <includes>com/dungeonstory/**</includes>
@@ -147,7 +147,7 @@
                                             widgetset. -->
                                         <!-- The relevant classes are copied 
                                             to the WAR above. -->
-                                        <exclude>WEB-INF/lib/dungeonsstory-widgetset-*.jar</exclude>
+                                        <exclude>WEB-INF/lib/dungeonstory-widgetset-*.jar</exclude>
                                         <!-- Exclude the Sass compiler and 
                                             its dependencies. -->
                                         <!-- The production WAR includes 

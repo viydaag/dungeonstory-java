@@ -10,7 +10,7 @@ Project Structure
 The project consists of the following three modules:
 
 - parent project: common metadata and configuration
-- dungeonsstory-widgetset: widgetset, custom client side code and dependencies to widget add-ons
+- dungeonstory-widgetset: widgetset, custom client side code and dependencies to widget add-ons
 - dungeonstory-ui: main application module, development time
 - dungeonsstory-production: module that produces a production mode WAR for deployment
 

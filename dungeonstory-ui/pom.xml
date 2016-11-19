@@ -73,7 +73,7 @@
         <!-- Custom components -->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>dungeonsstory-widgetset</artifactId>
+            <artifactId>dungeonstory-widgetset</artifactId>
             <version>${project.version}</version>
         </dependency>
 
