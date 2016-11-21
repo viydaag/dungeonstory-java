@@ -30,7 +30,7 @@ import com.dungeonstory.backend.data.Tool.ToolType;
 
 @Entity
 @Table(name = "DSCharacter")
-public class Character extends AbstractTimestampEntity implements Serializable, Cloneable {
+public class Character extends AbstractTimestampEntity implements Serializable {
 
     private static final long serialVersionUID = -967001655180847193L;
 
@@ -212,6 +212,14 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
             @JoinColumn(name = "characterId", referencedColumnName = "id") }, inverseJoinColumns = {
                     @JoinColumn(name = "languageId", referencedColumnName = "id") })
     private Set<Language> languages;
+
+    @ManyToOne
+    @JoinColumn(name = "deityId", nullable = true)
+    private Deity deity;
+
+    @ManyToOne
+    @JoinColumn(name = "divineDomainId", nullable = true)
+    private DivineDomain divineDomain;
 
     public Character() {
         super();
@@ -487,5 +495,21 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
 
     public void setRegion(Region region) {
         this.region = region;
+    }
+
+    public Deity getDeity() {
+        return deity;
+    }
+
+    public void setDeity(Deity deity) {
+        this.deity = deity;
+    }
+
+    public DivineDomain getDivineDomain() {
+        return divineDomain;
+    }
+
+    public void setDivineDomain(DivineDomain divineDomain) {
+        this.divineDomain = divineDomain;
     }
 }

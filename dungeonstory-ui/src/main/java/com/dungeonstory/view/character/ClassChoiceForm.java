@@ -17,12 +17,16 @@ import com.dungeonstory.backend.data.CharacterClass;
 import com.dungeonstory.backend.data.ClassLevelBonus;
 import com.dungeonstory.backend.data.CreatureType;
 import com.dungeonstory.backend.data.DSClass;
+import com.dungeonstory.backend.data.Deity;
+import com.dungeonstory.backend.data.DivineDomain;
 import com.dungeonstory.backend.data.Feat;
 import com.dungeonstory.backend.data.Skill;
 import com.dungeonstory.backend.data.Terrain;
 import com.dungeonstory.backend.data.util.ClassUtil;
 import com.dungeonstory.backend.service.impl.ClassService;
 import com.dungeonstory.backend.service.impl.CreatureTypeService;
+import com.dungeonstory.backend.service.impl.DeityService;
+import com.dungeonstory.backend.service.impl.DivineDomainService;
 import com.dungeonstory.backend.service.impl.SkillService;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.util.converter.CollectionToStringConverter;
@@ -37,6 +41,7 @@ import com.vaadin.data.validator.NullValidator;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
@@ -47,14 +52,23 @@ public class ClassChoiceForm extends DSAbstractForm<Character> implements Abstra
     private ClassService        classService        = ClassService.getInstance();
     private SkillService        skillService        = SkillService.getInstance();
     private CreatureTypeService creatureTypeService = CreatureTypeService.getInstance();
+    private DeityService        deityService        = DeityService.getInstance();
+    private DivineDomainService domainService       = DivineDomainService.getInstance();
 
     TypedSelect<DSClass>           classe;
     DSSubSetSelector<Skill>        classSkills;
     DSSubSetSelector<CreatureType> favoredEnnemies;
     DSSubSetSelector<Terrain>      favoredTerrains;
+    TypedSelect<Deity>             deity;
+    TypedSelect<DivineDomain>      divineDomain;
+
+    Label deityDescription;
+    Label domainDescription;
 
     List<CreatureType> backupfavoredEnnemies;
     Set<Terrain>       backupfavoredTerrains;
+    Deity              backupDeity;
+    DivineDomain       backupDivineDomain;
 
     private MTextArea classDescription;
     private MLabel    proficienciesLabel;
@@ -112,7 +126,43 @@ public class ClassChoiceForm extends DSAbstractForm<Character> implements Abstra
         //        favoredTerrains.setWidth("80%");
         favoredTerrains.setVisible(false);
 
-        classFieldsLayout.addComponents(classe, classSkills, favoredEnnemies, favoredTerrains);
+        deity = new TypedSelect<Deity>("Choix de Dieu", deityService.findAllOrderBy("name", "ASC")).asComboBoxType()
+                .withVisible(false);
+        divineDomain = new TypedSelect<DivineDomain>("Choix de domaine divin").asComboBoxType()
+                .withNullSelectionAllowed(false)
+                .withVisible(false);
+        deityDescription = new Label();
+        domainDescription = new Label();
+
+        deity.addMValueChangeListener(event -> {
+            Deity value = event.getValue();
+            if (value != null) {
+                deityDescription.setValue(value.getShortDescription());
+                divineDomain.setOptions(domainService.findAllByDeity(value));
+                if (divineDomain.getOptions().size() >= 1) {
+                    divineDomain.setValue(divineDomain.getOptions().get(0));
+                    domainDescription.setValue(divineDomain.getOptions().get(0).getDescription());
+                } else {
+                    divineDomain.setValue(null);
+                    domainDescription.setValue("");
+                }
+            } else {
+                deityDescription.setValue("");
+                divineDomain.setValue(null);
+                domainDescription.setValue("");
+            }
+        });
+
+        divineDomain.addMValueChangeListener(event -> {
+            if (event.getValue() != null) {
+                domainDescription.setValue(event.getValue().getDescription());
+            } else {
+                domainDescription.setValue("");
+            }
+        });
+
+        classFieldsLayout.addComponents(classe, classSkills, favoredEnnemies, favoredTerrains, deity, deityDescription,
+                divineDomain, domainDescription);
 
         VerticalLayout classDescriptionLayout = new VerticalLayout();
         classDescription = new MTextArea("Description").withRows(10);
@@ -168,11 +218,24 @@ public class ClassChoiceForm extends DSAbstractForm<Character> implements Abstra
                         favoredTerrains.setVisible(false);
                         favoredTerrains.setValue(backupfavoredTerrains);
                     }
+                    if (classLevelBonus.getDeity() != null && classLevelBonus.getDeity() == true) {
+                        deity.setVisible(true);
+                        divineDomain.setVisible(true);
+                    } else {
+                        deity.setVisible(false);
+                        deity.setValue(backupDeity);
+                        divineDomain.setVisible(false);
+                        divineDomain.setValue(backupDivineDomain);
+                    }
                 } else {
                     favoredEnnemies.setVisible(false);
                     favoredEnnemies.setValue(backupfavoredEnnemies);
                     favoredTerrains.setVisible(false);
                     favoredTerrains.setValue(backupfavoredTerrains);
+                    deity.setVisible(false);
+                    deity.setValue(backupDeity);
+                    divineDomain.setVisible(false);
+                    divineDomain.setValue(backupDivineDomain);
                 }
 
                 //refresh class info
@@ -214,6 +277,10 @@ public class ClassChoiceForm extends DSAbstractForm<Character> implements Abstra
         classSkills.setVisible(false);
         favoredEnnemies.setVisible(false);
         favoredTerrains.setVisible(false);
+        deity.setVisible(false);
+        divineDomain.setVisible(false);
+        deityDescription.setValue("");
+        domainDescription.setValue("");
 
         classDescription.clear();
         proficienciesLabel.setCaption("");
@@ -233,6 +300,12 @@ public class ClassChoiceForm extends DSAbstractForm<Character> implements Abstra
 
         backupfavoredEnnemies = new ArrayList<>(getEntity().getFavoredEnnemies());
         backupfavoredTerrains = new HashSet<>(getEntity().getFavoredTerrains());
+        if (getEntity().getDeity() != null) {
+            backupDeity = getEntity().getDeity().clone();
+        }
+        if (getEntity().getDivineDomain() != null) {
+            backupDivineDomain = getEntity().getDivineDomain().clone();
+        }
     }
 
     public TypedSelect<DSClass> getClasse() {

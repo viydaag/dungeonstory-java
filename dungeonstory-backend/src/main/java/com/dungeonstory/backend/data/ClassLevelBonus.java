@@ -40,6 +40,9 @@ public class ClassLevelBonus implements Serializable {
     @Column(name = "naturalExplorer")
     private Boolean naturalExplorer;
 
+    @Column(name = "deity")
+    private Boolean deity;
+
     @Column(name = "kiPoints")
     private Integer kiPoints;
 
@@ -117,6 +120,14 @@ public class ClassLevelBonus implements Serializable {
 
     public void setNaturalExplorer(Boolean naturalExplorer) {
         this.naturalExplorer = naturalExplorer;
+    }
+
+    public Boolean getDeity() {
+        return deity;
+    }
+
+    public void setDeity(Boolean deity) {
+        this.deity = deity;
     }
 
     public Integer getKiPoints() {
