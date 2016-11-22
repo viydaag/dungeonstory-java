@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -30,6 +31,25 @@ public class Feat extends AbstractTimestampEntity implements DescriptiveEntity, 
 
     public enum PrerequisiteType {
         NONE, ARMOR_PROFICIENCY, ABILITY, CAST_SPELL
+    }
+
+    public enum RestType {
+        SHORT("Court"), LONG("Long");
+
+        private String value;
+
+        private RestType(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return this.value;
+        }
+
+        @Override
+        public String toString() {
+            return getValue();
+        }
     }
 
     @NotNull
@@ -70,8 +90,19 @@ public class Feat extends AbstractTimestampEntity implements DescriptiveEntity, 
     @Column(name = "prerequisiteAbilityScore")
     private Integer prerequisiteAbilityScore;
 
+    @Column(name = "nbUse")
+    Integer nbUse;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "restType")
+    private RestType restType;
+
     @ManyToMany(mappedBy = "feats")
     private List<Character> characters;
+
+    @OneToOne
+    @JoinColumn(name = "replaceFeatId")
+    private Feat replacement;
 
     public Feat() {
         super();
@@ -166,12 +197,36 @@ public class Feat extends AbstractTimestampEntity implements DescriptiveEntity, 
         this.prerequisiteAbilityScore = prerequisiteAbilityScore;
     }
 
+    public Integer getNbUse() {
+        return nbUse;
+    }
+
+    public void setNbUse(Integer nbUse) {
+        this.nbUse = nbUse;
+    }
+
+    public RestType getRestType() {
+        return restType;
+    }
+
+    public void setRestType(RestType restType) {
+        this.restType = restType;
+    }
+
     public List<Character> getCharacters() {
         return characters;
     }
 
     public void setCharacters(List<Character> characters) {
         this.characters = characters;
+    }
+
+    public Feat getReplacement() {
+        return replacement;
+    }
+
+    public void setReplacement(Feat replacement) {
+        this.replacement = replacement;
     }
 
     @Override

@@ -62,4 +62,10 @@ public class MockFeatService extends AbstractDataService<Feat, Long> implements 
         return null;
     }
 
+    @Override
+    public List<Feat> findAllClassFeatureExcept(Feat feat) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

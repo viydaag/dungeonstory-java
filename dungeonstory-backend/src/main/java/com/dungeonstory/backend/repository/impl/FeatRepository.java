@@ -60,4 +60,16 @@ public class FeatRepository extends AbstractRepository<Feat, Long> {
                 .collect(Collectors.toList());
     }
 
+    public List<Feat> findAllClassFeatureExcept(Feat feat) {
+        TypedQuery<Feat> query = null;
+        if (feat != null && feat.getId() != null) {
+            query = entityManager.createQuery("SELECT e FROM Feat e WHERE e.isClassFeature = 1 AND e.id != :featId",
+                    getEntityClass());
+            query.setParameter("featId", feat.getId());
+        } else {
+            query = entityManager.createQuery("SELECT e FROM Feat e WHERE e.isClassFeature = 1", getEntityClass());
+        }
+        return query.getResultList();
+    }
+
 }

@@ -18,5 +18,7 @@ public interface FeatDataService extends DataService<Feat, Long> {
     public List<Feat> findAllClassFeaturesWithoutParent();
 
     public List<Feat> findAllClassFeaturesWithoutChildren();
+
+    public List<Feat> findAllClassFeatureExcept(Feat feat);
 	
 }

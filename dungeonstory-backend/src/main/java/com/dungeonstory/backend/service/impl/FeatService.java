@@ -58,4 +58,9 @@ public class FeatService extends AbstractDataService<Feat, Long> implements Feat
         return ((FeatRepository) entityRepository).findAllClassFeaturesWithoutChildren();
     }
 
+    @Override
+    public List<Feat> findAllClassFeatureExcept(Feat feat) {
+        return ((FeatRepository) entityRepository).findAllClassFeatureExcept(feat);
+    }
+
 }
