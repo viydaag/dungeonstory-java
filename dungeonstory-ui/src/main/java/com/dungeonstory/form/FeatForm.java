@@ -64,7 +64,7 @@ public class FeatForm extends DSAbstractForm<Feat> {
     protected Component createContent() {
         FormLayout layout = new FormLayout();
 
-        name = new MTextField("Nom").withWidth("50%");
+        name = new MTextField("Nom").withWidth(50, Unit.PERCENTAGE);
         description = new MTextArea("Description").withFullWidth().withRows(10);
         usage = new EnumSelect<FeatUsage>("Usage").withSelectType(ComboBox.class);
         nbUse = new IntegerField("Nombre d'utilisation avant repos");
@@ -76,8 +76,9 @@ public class FeatForm extends DSAbstractForm<Feat> {
         prerequisiteAbility = new TypedSelect<Ability>("Caractéristique prérequise", abilityService.findAll())
                 .asComboBoxType();
         prerequisiteAbilityScore = new IntegerField("Score de caractéristique");
-        parent = new TypedSelect<Feat>("Don parent", featService.findAllClassFeaturesWithoutParent()).asComboBoxType();
-        replacement = new TypedSelect<Feat>("Remplace le don").asComboBoxType();
+        parent = new TypedSelect<Feat>("Don parent", featService.findAllClassFeaturesWithoutParent()).asComboBoxType()
+                .withWidth(50, Unit.PERCENTAGE);
+        replacement = new TypedSelect<Feat>("Remplace le don").asComboBoxType().withWidth(50, Unit.PERCENTAGE);
 
         isClassFeature.addValueChangeListener(event -> isClassFeatureChange(event));
 
