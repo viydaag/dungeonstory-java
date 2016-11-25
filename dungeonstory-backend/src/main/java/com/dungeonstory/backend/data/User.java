@@ -25,7 +25,22 @@ public class User extends AbstractTimestampEntity implements Serializable {
     public static final String findByUsername = "User.findByUsername";
 
     public enum UserStatus {
-        WAITING_FOR_APPROBATION, ACTIVE, INACTIVE
+        WAITING_FOR_APPROBATION("En attente"), ACTIVE("Actif"), INACTIVE("Désactivé");
+
+        private String value;
+
+        private UserStatus(String name) {
+            this.value = name;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        @Override
+        public String toString() {
+            return getValue();
+        }
     };
 
     @NotNull
@@ -146,6 +161,7 @@ public class User extends AbstractTimestampEntity implements Serializable {
         return getStatus() == UserStatus.INACTIVE;
     }
 
+    @Override
     @PrePersist
     protected void onCreate() {
         super.onCreate();

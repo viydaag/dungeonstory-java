@@ -40,10 +40,12 @@ public abstract class AbstractTimestampEntity implements Entity {
     @Column(name = "updated", nullable = false)
     private Date updated;
 
+    @Override
     public Long getId() {
         return id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -54,6 +56,14 @@ public abstract class AbstractTimestampEntity implements Entity {
 
     public void setVersion(int version) {
         this.version = version;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public Date getUpdated() {
+        return updated;
     }
 
     @PrePersist

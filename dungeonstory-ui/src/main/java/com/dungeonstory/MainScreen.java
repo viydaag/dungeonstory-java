@@ -33,6 +33,7 @@ import com.dungeonstory.view.admin.SkillView;
 import com.dungeonstory.view.admin.SpellView;
 import com.dungeonstory.view.admin.WeaponTypeView;
 import com.dungeonstory.view.character.NewCharacterView;
+import com.dungeonstory.view.user.UserView;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.ui.HorizontalLayout;
@@ -126,6 +127,7 @@ public class MainScreen extends HorizontalLayout {
 
         addViewNoNavBar(AboutView.class);
         addViewNoNavBar(SourceView.class);
+        addViewNoNavBar(UserView.class);
     }
 
     /**
