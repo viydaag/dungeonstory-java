@@ -14,6 +14,12 @@ public class CharacterFactory implements Factory<Character> {
         c.setLevel(LevelService.getInstance().read(1L));
         c.setExperience(0);
         c.setArmorClass(10);
+        c.setStrength(1);
+        c.setDexterity(1);
+        c.setConstitution(1);
+        c.setIntelligence(1);
+        c.setWisdom(1);
+        c.setCharisma(1);
         return c;
     }
 

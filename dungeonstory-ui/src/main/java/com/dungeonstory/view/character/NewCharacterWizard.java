@@ -17,7 +17,7 @@ public class NewCharacterWizard extends CharacterWizard {
 
         addStep(new RaceStep(this), RACE);
         addStep(new ClassStep(this), CLASS);
-        addStep(new AbilityScoreStep(this), ABILITY);
+        addStep(new AbilityScoreStep(this, false), ABILITY);
 
         getNextButton().setEnabled(false); //set the next button disabled until a value is selected
     }

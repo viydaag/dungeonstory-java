@@ -33,6 +33,8 @@ public abstract class AbilityScoreForm extends DSAbstractForm<Character>
 
     protected IntegerField     pointsToSpend;
     protected GridSpacedLayout gridLayout;
+    protected VerticalSpacedLayout abilityLayout;
+    private VerticalSpacedLayout layout;
 
     public AbilityScoreForm() {
         super();
@@ -42,11 +44,10 @@ public abstract class AbilityScoreForm extends DSAbstractForm<Character>
     @Override
     protected Component createContent() {
 
-        VerticalSpacedLayout layout = new VerticalSpacedLayout();
+        layout = new VerticalSpacedLayout();
+        abilityLayout = new VerticalSpacedLayout();
 
         pointsToSpend = new IntegerField("Points").withWidth("50px");
-        //        pointsToSpend.setValue(27);
-        //        pointsToSpend.setReadOnly(true);
 
         if (Configuration.getInstance().isDebug()) {
             Button assignAll = new Button("assign");
@@ -57,7 +58,7 @@ public abstract class AbilityScoreForm extends DSAbstractForm<Character>
                 getFieldGroup().setBeanModified(true);
                 onFieldGroupChange(getFieldGroup());
             });
-            layout.addComponent(assignAll);
+            abilityLayout.addComponent(assignAll);
         }
 
         gridLayout = new GridSpacedLayout(5, 7);
@@ -97,7 +98,9 @@ public abstract class AbilityScoreForm extends DSAbstractForm<Character>
         gridLayout.setColumnExpandRatio(0, 1);
         gridLayout.setColumnExpandRatio(1, 1);
 
-        layout.addComponents(pointsToSpend, gridLayout);
+        abilityLayout.addComponents(pointsToSpend, gridLayout);
+
+        layout.addComponents(abilityLayout);
 
         return layout;
     }
@@ -109,6 +112,10 @@ public abstract class AbilityScoreForm extends DSAbstractForm<Character>
             boolean allPointsSpent = pointsToSpend.getValue() == 0;
             getSaveButton().setEnabled(beanModified && allPointsSpent && isValid());
         }
+    }
+
+    public VerticalSpacedLayout getLayout() {
+        return layout;
     }
 
 }

@@ -8,8 +8,11 @@ public class AbilityScoreStep extends CharacterWizardStep<Character> {
 
     private static final long serialVersionUID = -2104340592912821051L;
 
-    public AbilityScoreStep(CharacterWizard wizard) {
+    private boolean levelUp = false;
+
+    public AbilityScoreStep(CharacterWizard wizard, boolean levelUp) {
         super(wizard);
+        this.levelUp = levelUp;
     }
 
     @Override
@@ -19,7 +22,11 @@ public class AbilityScoreStep extends CharacterWizardStep<Character> {
 
     @Override
     public Component getContent() {
-        form = new AbilityScoreInitForm();
+        if (levelUp) {
+            form = new AbilityScoreUpdateForm(getWizard().getOriginal());
+        } else {
+            form = new AbilityScoreInitForm();
+        }
         setSaveButton();
         form.setEntity(wizard.getCharacter());
         return form;

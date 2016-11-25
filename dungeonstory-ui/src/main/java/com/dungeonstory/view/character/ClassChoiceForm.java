@@ -55,20 +55,20 @@ public class ClassChoiceForm extends DSAbstractForm<Character> implements Abstra
     private DeityService        deityService        = DeityService.getInstance();
     private DivineDomainService domainService       = DivineDomainService.getInstance();
 
-    TypedSelect<DSClass>           classe;
-    DSSubSetSelector<Skill>        classSkills;
-    DSSubSetSelector<CreatureType> favoredEnnemies;
-    DSSubSetSelector<Terrain>      favoredTerrains;
-    TypedSelect<Deity>             deity;
-    TypedSelect<DivineDomain>      divineDomain;
+    private TypedSelect<DSClass>           classe;
+    private DSSubSetSelector<Skill>        classSkills;
+    private DSSubSetSelector<CreatureType> favoredEnnemies;
+    private DSSubSetSelector<Terrain>      favoredTerrains;
+    private TypedSelect<Deity>             deity;
+    private TypedSelect<DivineDomain>      divineDomain;
 
-    Label deityDescription;
-    Label domainDescription;
+    private Label deityDescription;
+    private Label domainDescription;
 
-    List<CreatureType> backupfavoredEnnemies;
-    Set<Terrain>       backupfavoredTerrains;
-    Deity              backupDeity;
-    DivineDomain       backupDivineDomain;
+    private List<CreatureType> backupfavoredEnnemies;
+    private Set<Terrain>       backupfavoredTerrains;
+    private Deity              backupDeity;
+    private DivineDomain       backupDivineDomain;
 
     private MTextArea classDescription;
     private MLabel    proficienciesLabel;
@@ -114,7 +114,6 @@ public class ClassChoiceForm extends DSAbstractForm<Character> implements Abstra
         favoredEnnemies.setVisibleProperties("name");
         favoredEnnemies.setColumnHeader("name", "Type de créature");
         favoredEnnemies.setOptions(creatureTypeService.findAll());
-        //        favoredEnnemies.setWidth("80%");
         favoredEnnemies.setVisible(false);
         //        favoredEnnemies.setValue(null); //nothing selected
 
@@ -123,7 +122,6 @@ public class ClassChoiceForm extends DSAbstractForm<Character> implements Abstra
         favoredTerrains.setVisibleProperties("name");
         favoredTerrains.setColumnHeader("name", "Terrain");
         favoredTerrains.setOptions(Arrays.asList(Terrain.values()));
-        //        favoredTerrains.setWidth("80%");
         favoredTerrains.setVisible(false);
 
         deity = new TypedSelect<Deity>("Choix de Dieu", deityService.findAllOrderBy("name", "ASC")).asComboBoxType()
@@ -239,7 +237,9 @@ public class ClassChoiceForm extends DSAbstractForm<Character> implements Abstra
                 }
 
                 //refresh class info
+                classDescription.setReadOnly(false);
                 classDescription.setValue(chosenClass.getDescription());
+                classDescription.setReadOnly(true);
                 proficienciesLabel.withCaption("Maitrises");
                 armorProficiencies.withCaption("Armures :").withContent(collectionConverter
                         .convertToPresentation(chosenClass.getArmorProficiencies(), String.class, null));
@@ -282,7 +282,9 @@ public class ClassChoiceForm extends DSAbstractForm<Character> implements Abstra
         deityDescription.setValue("");
         domainDescription.setValue("");
 
+        classDescription.setReadOnly(false);
         classDescription.clear();
+        classDescription.setReadOnly(true);
         proficienciesLabel.setCaption("");
         armorProficiencies.withCaption("").withContent("");
         weaponProficiencies.withCaption("").withContent("");
@@ -306,6 +308,8 @@ public class ClassChoiceForm extends DSAbstractForm<Character> implements Abstra
         if (getEntity().getDivineDomain() != null) {
             backupDivineDomain = getEntity().getDivineDomain().clone();
         }
+
+        classDescription.setReadOnly(true);
     }
 
     public TypedSelect<DSClass> getClasse() {

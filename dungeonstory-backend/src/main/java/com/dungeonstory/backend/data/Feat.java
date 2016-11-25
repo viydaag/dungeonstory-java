@@ -1,5 +1,7 @@
 package com.dungeonstory.backend.data;
 
+import static javax.persistence.LockModeType.READ;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -12,6 +14,8 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -21,7 +25,21 @@ import com.dungeonstory.backend.repository.DescriptiveEntity;
 
 @Entity
 @Table(name = "Feat")
+@NamedQueries({
+        @NamedQuery(name = Feat.FIND_ALL_FEATS, query = "SELECT e FROM Feat e WHERE e.isClassFeature = 0", lockMode = READ),
+        @NamedQuery(name = Feat.FIND_ALL_FEATS_EXCEPT, query = "SELECT e FROM Feat e WHERE e.isClassFeature = 0 AND e.id != :featId", lockMode = READ),
+        @NamedQuery(name = Feat.FIND_ALL_UNASSIGNED_FEATS, query = "SELECT e FROM Feat e WHERE e.isClassFeature = 0 AND e.id NOT IN (SELECT f.id FROM Character c JOIN c.feats f WHERE c.id = :characterId)", lockMode = READ),
+        @NamedQuery(name = Feat.FIND_ALL_CLASS_FEATURES, query = "SELECT e FROM Feat e WHERE e.isClassFeature = 1", lockMode = READ),
+        @NamedQuery(name = Feat.FIND_ALL_CLASS_FEATURES_WITHOUT_PARENT, query = "SELECT e FROM Feat e WHERE e.isClassFeature = 1 AND e.parent IS NULL ORDER BY e.name ASC", lockMode = READ),
+        @NamedQuery(name = Feat.FIND_ALL_CLASS_FEATURE_EXCEPT, query = "SELECT e FROM Feat e WHERE e.isClassFeature = 1 AND e.id != :featId", lockMode = READ) })
 public class Feat extends AbstractTimestampEntity implements DescriptiveEntity, Serializable {
+
+    public static final String FIND_ALL_CLASS_FEATURE_EXCEPT          = "findAllClassFeatureExcept";
+    public static final String FIND_ALL_CLASS_FEATURES_WITHOUT_PARENT = "findAllClassFeaturesWithoutParent";
+    public static final String FIND_ALL_CLASS_FEATURES                = "findAllClassFeatures";
+    public static final String FIND_ALL_UNASSIGNED_FEATS              = "findAllUnassignedFeats";
+    public static final String FIND_ALL_FEATS_EXCEPT                  = "findAllFeatsExcept";
+    public static final String FIND_ALL_FEATS                         = "findAllFeats";
 
     private static final long serialVersionUID = 291837938711381342L;
 
