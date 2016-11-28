@@ -64,21 +64,21 @@ insert into level (id, maxExperience, proficiencyBonus, version, created, update
 insert into level (id, maxExperience, proficiencyBonus, version, created, updated) values (20, 999999, 6, 2, now(), now());
 
 /* Language */
-insert into language (id, name, script, version, created, updated) values (1, 'Commun', 'Commun', 1, now(), now());
-insert into language (id, name, script, version, created, updated) values (2, 'Nain', 'Nain', 1, now(), now());
-insert into language (id, name, script, version, created, updated) values (3, 'Elfique', 'Elfique', 1, now(), now());
-insert into language (id, name, script, version, created, updated) values (4, 'Géant', 'Nain', 1, now(), now());
-insert into language (id, name, script, version, created, updated) values (5, 'Gnome', 'Nain', 1, now(), now());
-insert into language (id, name, script, version, created, updated) values (6, 'Gobelin', 'Nain', 1, now(), now());
-insert into language (id, name, script, version, created, updated) values (7, 'Halfelin', 'Commun', 1, now(), now());
-insert into language (id, name, script, version, created, updated) values (8, 'Orque', 'Nain', 1, now(), now());
-insert into language (id, name, script, version, created, updated) values (9, 'Abyssal', 'Infernal', 1, now(), now());
-insert into language (id, name, script, version, created, updated) values (10, 'Céleste', 'Céleste', 1, now(), now());
-insert into language (id, name, script, version, created, updated) values (11, 'Draconique', 'Draconique', 1, now(), now());
-insert into language (id, name, script, version, created, updated) values (12, 'Profondeur', 'Elfique', 1, now(), now());
-insert into language (id, name, script, version, created, updated) values (13, 'Infernal', 'Infernal', 1, now(), now());
-insert into language (id, name, script, version, created, updated) values (14, 'Primordial', 'Nain', 1, now(), now());
-insert into language (id, name, script, version, created, updated) values (15, 'Sylvestre', 'Elfique', 1, now(), now());
+INSERT INTO language (id, name, script, playable, version, created, updated) VALUES (1,'Commun','Commun',1,1,'2016-11-28 11:37:38','2016-11-28 11:38:12');
+INSERT INTO language (id, name, script, playable, version, created, updated) VALUES (2,'Nain','Nain',1,1,'2016-11-28 11:37:38','2016-11-28 11:38:23');
+INSERT INTO language (id, name, script, playable, version, created, updated) VALUES (3,'Elfique','Elfique',1,1,'2016-11-28 11:37:38','2016-11-28 11:38:26');
+INSERT INTO language (id, name, script, playable, version, created, updated) VALUES (4,'Géant','Nain',1,1,'2016-11-28 11:37:38','2016-11-28 11:38:29');
+INSERT INTO language (id, name, script, playable, version, created, updated) VALUES (5,'Gnome','Nain',1,1,'2016-11-28 11:37:38','2016-11-28 11:38:31');
+INSERT INTO language (id, name, script, playable, version, created, updated) VALUES (6,'Gobelin','Nain',1,1,'2016-11-28 11:37:38','2016-11-28 11:38:33');
+INSERT INTO language (id, name, script, playable, version, created, updated) VALUES (7,'Halfelin','Commun',1,1,'2016-11-28 11:37:38','2016-11-28 11:38:40');
+INSERT INTO language (id, name, script, playable, version, created, updated) VALUES (8,'Orque','Nain',1,1,'2016-11-28 11:37:38','2016-11-28 11:38:43');
+INSERT INTO language (id, name, script, playable, version, created, updated) VALUES (9,'Abyssal','Infernal',1,1,'2016-11-28 11:37:38','2016-11-28 11:38:45');
+INSERT INTO language (id, name, script, playable, version, created, updated) VALUES (10,'Céleste','Céleste',1,1,'2016-11-28 11:37:38','2016-11-28 11:38:48');
+INSERT INTO language (id, name, script, playable, version, created, updated) VALUES (11,'Draconique','Draconique',1,1,'2016-11-28 11:37:38','2016-11-28 11:38:51');
+INSERT INTO language (id, name, script, playable, version, created, updated) VALUES (12,'Profondeur','Elfique',1,1,'2016-11-28 11:37:38','2016-11-28 11:37:38');
+INSERT INTO language (id, name, script, playable, version, created, updated) VALUES (13,'Infernal','Infernal',1,1,'2016-11-28 11:37:38','2016-11-28 11:38:55');
+INSERT INTO language (id, name, script, playable, version, created, updated) VALUES (14,'Primordial','Nain',1,1,'2016-11-28 11:37:38','2016-11-28 11:39:01');
+INSERT INTO language (id, name, script, playable, version, created, updated) VALUES (15,'Sylvestre','Elfique',1,1,'2016-11-28 11:37:38','2016-11-28 11:39:03');
 
 INSERT INTO region (id, name, description, version, created, updated) VALUES (1,'Valbise', 'Valbise, la plus septentrionale des terres habitées par des humains, est composée de dix villes et villages peuplés d''anciens nomades, de barbares de la toundra, de rôdeurs, d''artisans, de pêcheurs des glaces, de nains vivant sous la glace et de marchands désirant acheter l''ivoire et les gemmes introuvables au sud. Les rennes, les ours polaires et les yétis y sont plus nombreux que les hommes. Les dragons blancs sont heureusement peu présents mais bien plus dangereux.',1,'2016-09-12 09:04:56','2016-09-12 09:04:56');
 INSERT INTO region (id, name, description, version, created, updated) VALUES (2,'Côte des Épées Septentrionale', 'Région de montagnes côtières, de forêts et de villes couronnées de volutes de fumée, la Côte des épées septentrionale est dominée par Eauprofonde à son extrémité sud. L''Alliance des seigneurs, une ligue instable de gouvernants partageant les mêmes opinions, réunit les principales cités et communautés de la vallée du fleuve Dessarin. La Confrérie des arcanes de Luskan et L''Association des krakens s''opposent quant à elles pour le contrôle de la région par la magie, les armes et le commerce.\nCoincée entre Eauprofonde et l''Épine dorsale du monde, la Côte des épées septentrionale s''étend sur près mille kilomètres du nord au sud et de cinq cents kilomètres d''est en ouest. Aux pieds de l''extrémité ouest de l''Épine dorsale du monde se trouve Valbise, la colonie la plus au nord de cette partie de Faerûn, coincée entre la Mer des glaces flottantes et le Glacier Regh. La Longue route qui s''étend d''Eauprofonde à Mirabar délimite la partie orientale de la Côte des épées septentrionale.',1,'2016-09-12 09:11:09','2016-09-12 09:11:09');
