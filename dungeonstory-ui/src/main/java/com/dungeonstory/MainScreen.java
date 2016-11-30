@@ -31,6 +31,7 @@ import com.dungeonstory.view.admin.RegionView;
 import com.dungeonstory.view.admin.ShopView;
 import com.dungeonstory.view.admin.SkillView;
 import com.dungeonstory.view.admin.SpellView;
+import com.dungeonstory.view.admin.UserListView;
 import com.dungeonstory.view.admin.WeaponTypeView;
 import com.dungeonstory.view.character.NewCharacterView;
 import com.dungeonstory.view.user.UserView;
@@ -101,6 +102,7 @@ public class MainScreen extends HorizontalLayout {
         }
 
         if (DungeonStoryUI.get().getAccessControl().isUserInRole("ADMIN")) {
+            addView(UserListView.class);
             addView(CharacterView.class);
             addView(AbilityView.class);
             addView(AlignmentView.class);

@@ -9,7 +9,6 @@ import java.util.Collection;
 import org.junit.Test;
 
 import com.dungeonstory.backend.data.User;
-import com.dungeonstory.backend.service.impl.UserService;
 import com.dungeonstory.backend.service.mock.MockUserService;
 
 public class TestUserService {
@@ -23,14 +22,14 @@ public class TestUserService {
         int size = allUsers.size();
         assertTrue(size > 0);
 
-        User ability = allUsers.toArray(new User[0])[0];
-        ability.setName("My Test Name");
-        service.update(ability);
+        User user1 = allUsers.toArray(new User[0])[0];
+        user1.setName("My Test Name");
+        service.update(user1);
 
-        User region2 = service.findAll().iterator().next();
-        assertEquals("My Test Name", region2.getName());
+        User user2 = service.read(user1.getId());
+        assertEquals("My Test Name", user2.getName());
 
-        service.delete(region2);
+        service.delete(user2);
         allUsers = service.findAll();
         assertNotNull(allUsers);
         assertEquals(size - 1, allUsers.size());

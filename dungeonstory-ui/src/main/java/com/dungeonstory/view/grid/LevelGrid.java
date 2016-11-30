@@ -10,7 +10,6 @@ public class LevelGrid extends DSGrid<Level> {
         super(Level.class);
 
         setEditorEnabled(true);
-        //        setEditorFieldGroup(new BeanFieldGroup<Level>(Level.class));
 
         withProperties("id", "proficiencyBonus", "maxExperience");
         withColumnHeaders("Niveau", "Bonus de maitrise", "Plafond d'expérience");

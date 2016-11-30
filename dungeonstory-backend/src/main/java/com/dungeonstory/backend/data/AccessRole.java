@@ -82,4 +82,9 @@ public class AccessRole extends AbstractTimestampEntity implements Serializable 
         this.users = users;
     }
 
+    @Override
+    public String toString() {
+        return getName();
+    }
+
 }

@@ -37,31 +37,11 @@ public class CharacterView extends AbstractCrudView<Character> {
     @Override
     public void enter(ViewChangeEvent event) {
         super.enter(event);
-        //        GeneratedPropertyContainer gpc = new GeneratedPropertyContainer(grid.getContainer());
-        //        gpc.addGeneratedProperty("delete", new PropertyValueGenerator<String>() {
-        //
-        //            private static final long serialVersionUID = 6332188902387035064L;
-        //
-        //            @Override
-        //            public String getValue(Item item, Object itemId, Object propertyId) {
-        //                return "Delete";
-        //            }
-        //
-        //            @Override
-        //            public Class<String> getType() {
-        //                return String.class;
-        //            }
-        //        });
-        //        grid.removeAllColumns();
-        //        grid.setContainerDataSource(gpc);
-        //        grid.withProperties("name", "delete");
-
-
 
         // Render a button that deletes the data row (item)
         Column deleteColumn = grid.getColumn("delete");
         deleteColumn.setRenderer(new ButtonRenderer(e -> {
-            ConfirmDialog dialog = ConfirmDialog.show(getUI(), "Supprimer", "Êtes-vou certain?", "OK", "Annuler",
+            ConfirmDialog dialog = ConfirmDialog.show(getUI(), "Supprimer", "Êtes-vous certain?", "OK", "Annuler",
                     new Runnable() {
                         @Override
                         public void run() {
