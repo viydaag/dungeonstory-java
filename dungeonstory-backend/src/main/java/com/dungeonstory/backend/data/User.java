@@ -68,8 +68,7 @@ public class User extends AbstractTimestampEntity implements Serializable {
     @Column(name = "status", nullable = false)
     private UserStatus status;
 
-    @OneToOne
-    @JoinColumn(name="characterId")
+    @OneToOne(mappedBy = "user")
     private Character character;
 
     public User() {

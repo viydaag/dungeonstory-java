@@ -78,7 +78,8 @@ public class Character extends AbstractTimestampEntity implements Serializable {
     private String height;
 
     @NotNull
-    @OneToOne(mappedBy = "character")
+    @OneToOne
+    @JoinColumn(name = "userId")
     private User user;
 
     @NotNull

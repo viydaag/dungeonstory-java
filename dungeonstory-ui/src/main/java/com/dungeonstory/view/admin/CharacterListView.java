@@ -15,7 +15,7 @@ import com.vaadin.ui.Grid.Column;
 import com.vaadin.ui.renderers.ButtonRenderer;
 
 @ViewConfig(uri = "characters", displayName = "Personnages")
-public class CharacterView extends AbstractCrudView<Character> {
+public class CharacterListView extends AbstractCrudView<Character> {
 
     private static final long serialVersionUID = 2774259451633303742L;
 
@@ -41,14 +41,12 @@ public class CharacterView extends AbstractCrudView<Character> {
         // Render a button that deletes the data row (item)
         Column deleteColumn = grid.getColumn("delete");
         deleteColumn.setRenderer(new ButtonRenderer(e -> {
-            ConfirmDialog dialog = ConfirmDialog.show(getUI(), "Supprimer", "Êtes-vous certain?", "OK", "Annuler",
-                    new Runnable() {
-                        @Override
-                        public void run() {
-                            deleteSelected((Character) e.getItemId());
-                        }
-                    });
-
+            ConfirmDialog.show(getUI(), "Supprimer", "Êtes-vous certain?", "OK", "Annuler", new Runnable() {
+                @Override
+                public void run() {
+                    deleteSelected((Character) e.getItemId());
+                }
+            });
         }));
 
     }
