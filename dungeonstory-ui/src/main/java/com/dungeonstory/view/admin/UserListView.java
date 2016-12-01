@@ -84,7 +84,6 @@ public class UserListView extends VerticalSpacedLayout implements View {
                             service.update(user);
                         }
                     });
-
         }));
 
         addComponents(titre, grid);

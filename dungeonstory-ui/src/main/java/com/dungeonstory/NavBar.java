@@ -51,6 +51,14 @@ public class NavBar extends CssLayout implements ViewChangeListener {
         addComponent(viewButton, components.size() - 1);
     }
 
+    public void removeView(String uri) {
+        Button buttonView = buttonMap.get(uri);
+        if (buttonView != null) {
+            removeComponent(buttonView);
+        }
+        buttonMap.remove(uri);
+    }
+
     @Override
     public boolean beforeViewChange(ViewChangeEvent event) {
         return true; // false blocks navigation, always return true here

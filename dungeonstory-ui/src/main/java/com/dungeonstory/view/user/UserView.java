@@ -11,10 +11,12 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.FormLayout;
 
-@ViewConfig(uri = "user", displayName = "Utilisateur")
+@ViewConfig(uri = UserView.USER_URI, displayName = "Utilisateur")
 public class UserView extends FormLayout implements View {
 
     private static final long serialVersionUID = -3654948295501447567L;
+
+    public final static String USER_URI = "user";
 
     public UserView() {
         super();

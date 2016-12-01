@@ -5,6 +5,7 @@ import java.io.Serializable;
 import com.dungeonstory.backend.data.User;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.impl.UserService;
+import com.dungeonstory.util.DSTheme;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.event.ShortcutAction;
@@ -54,7 +55,7 @@ public class LoginScreen extends CssLayout {
     }
 
     private void buildUI() {
-        addStyleName("login-screen");
+        addStyleName(DSTheme.LOGIN_SCREEN);
 
         // login form, centered in the available part of the screen
         Component loginForm = buildLoginForm();
@@ -63,7 +64,7 @@ public class LoginScreen extends CssLayout {
         // - see the theme for how this is made responsive for various screen
         // sizes
         centeringLayout = new VerticalLayout();
-        centeringLayout.setStyleName("centering-layout");
+        centeringLayout.setStyleName(DSTheme.LOGIN_CENTERING_LAYOUT);
         centeringLayout.addComponent(loginForm);
         centeringLayout.setComponentAlignment(loginForm, Alignment.MIDDLE_CENTER);
 
@@ -77,7 +78,7 @@ public class LoginScreen extends CssLayout {
     private Component buildLoginForm() {
         FormLayout loginForm = new FormLayout();
 
-        loginForm.addStyleName("login-form");
+        loginForm.addStyleName(DSTheme.LOGIN_FORM);
         loginForm.setSizeUndefined();
         loginForm.setMargin(false);
 
@@ -87,7 +88,7 @@ public class LoginScreen extends CssLayout {
         password.setWidth(15, Unit.EM);
         password.setDescription("Mot de passe");
         CssLayout buttons = new CssLayout();
-        buttons.setStyleName("buttons");
+        buttons.setStyleName(DSTheme.LOGIN_BUTTON_LAYOUT);
         loginForm.addComponent(buttons);
 
         login = new Button("Login");

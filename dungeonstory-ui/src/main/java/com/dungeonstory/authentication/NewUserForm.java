@@ -2,6 +2,7 @@ package com.dungeonstory.authentication;
 
 import org.vaadin.viritin.fields.EmailField;
 
+import com.dungeonstory.util.DSTheme;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
@@ -18,7 +19,7 @@ public class NewUserForm extends FormLayout {
     public NewUserForm() {
         super();
 
-        addStyleName("login-form");
+        addStyleName(DSTheme.LOGIN_FORM);
         setSizeUndefined();
         setMargin(false);
         setSpacing(true);

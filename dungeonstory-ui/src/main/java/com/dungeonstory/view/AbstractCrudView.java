@@ -7,6 +7,7 @@ import org.vaadin.viritin.fields.MTextField;
 import com.dungeonstory.backend.repository.Entity;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.form.DSAbstractForm;
+import com.dungeonstory.util.DSTheme;
 import com.dungeonstory.util.layout.VerticalSpacedLayout;
 import com.dungeonstory.view.grid.DSGrid;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -48,7 +49,7 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
         grid = getGrid();
         service = getDataService();
 
-        filter = new MTextField().withInputPrompt("filtre...");
+        filter = new MTextField().withInputPrompt("filtre...").withStyleName(DSTheme.FILTER_TEXT);
         filter.addTextChangeListener(e -> {
             listEntries(e.getText());
         });
