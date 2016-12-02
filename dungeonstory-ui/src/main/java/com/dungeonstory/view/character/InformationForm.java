@@ -1,5 +1,8 @@
 package com.dungeonstory.view.character;
 
+import java.io.File;
+
+import org.vaadin.peter.imagestrip.ImageStrip;
 import org.vaadin.viritin.fields.IntegerField;
 import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.fields.TypedSelect;
@@ -13,7 +16,10 @@ import com.dungeonstory.backend.service.AlignmentDataService;
 import com.dungeonstory.backend.service.impl.AlignmentService;
 import com.dungeonstory.backend.service.impl.RegionService;
 import com.dungeonstory.form.DSAbstractForm;
+import com.dungeonstory.util.ImageFilter;
 import com.vaadin.data.Validator;
+import com.vaadin.server.FileResource;
+import com.vaadin.server.VaadinService;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
@@ -30,6 +36,7 @@ public class InformationForm extends DSAbstractForm<Character> implements SavedH
     private TextField              height;
     private TypedSelect<Alignment> alignment;
     private TypedSelect<Region>    region;
+    private ImageStrip             image;
 
     private AlignmentDataService alignmentService = AlignmentService.getInstance();
     private RegionService    regionService    = RegionService.getInstance();
@@ -59,7 +66,6 @@ public class InformationForm extends DSAbstractForm<Character> implements SavedH
                 .withWidth("250px");
         region = new TypedSelect<>("Région d'origine", regionService.findAllOrderBy("name", "ASC")).asComboBoxType()
                 .withWidth("250px");
-        layout.addComponents(name, gender, age, weight, height, alignment, region);
 
         age.addValidator(new Validator() {
 
@@ -76,6 +82,37 @@ public class InformationForm extends DSAbstractForm<Character> implements SavedH
                 }
             }
         });
+
+        image = new ImageStrip(org.vaadin.peter.imagestrip.ImageStrip.Alignment.HORIZONTAL);
+        // Use animation
+        image.setAnimated(true);
+
+        // Make strip to behave like select
+        image.setSelectable(true);
+
+        // Set size of the box surrounding the images
+        image.setImageBoxWidth(140);
+        image.setImageBoxHeight(140);
+
+        // Set maximum size of the images
+        image.setImageMaxWidth(125);
+        image.setImageMaxHeight(125);
+
+        // Limit how many images are visible at most simultaneously
+        image.setMaxAllowed(6);
+
+        // Add few images to the strip using different methods
+        String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
+        File imageDir = new File(basepath + "/WEB-INF/images/");
+
+        if (imageDir.isDirectory()) { // make sure it's a directory
+            for (final File imageFile : imageDir.listFiles(new ImageFilter())) {
+                FileResource resource = new FileResource(imageFile);
+                image.addImage(resource);
+            }
+        }
+
+        layout.addComponents(name, gender, age, weight, height, alignment, region, image);
 
         return layout;
     }
