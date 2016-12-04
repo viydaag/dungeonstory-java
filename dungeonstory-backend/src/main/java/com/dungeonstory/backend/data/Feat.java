@@ -12,6 +12,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.LockModeType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -29,7 +30,7 @@ import com.dungeonstory.backend.repository.DescriptiveEntity;
         @NamedQuery(name = Feat.FIND_ALL_FEATS, query = "SELECT e FROM Feat e WHERE e.isClassFeature = 0", lockMode = READ),
         @NamedQuery(name = Feat.FIND_ALL_FEATS_EXCEPT, query = "SELECT e FROM Feat e WHERE e.isClassFeature = 0 AND e.id != :featId", lockMode = READ),
         @NamedQuery(name = Feat.FIND_ALL_UNASSIGNED_FEATS, query = "SELECT e FROM Feat e WHERE e.isClassFeature = 0 AND e.id NOT IN (SELECT f.id FROM Character c JOIN c.feats f WHERE c.id = :characterId)", lockMode = READ),
-        @NamedQuery(name = Feat.FIND_ALL_CLASS_FEATURES, query = "SELECT e FROM Feat e WHERE e.isClassFeature = 1", lockMode = READ),
+        @NamedQuery(name = Feat.FIND_ALL_CLASS_FEATURES, query = "SELECT e FROM Feat e WHERE e.isClassFeature = 1", lockMode = LockModeType.NONE),
         @NamedQuery(name = Feat.FIND_ALL_CLASS_FEATURES_WITHOUT_PARENT, query = "SELECT e FROM Feat e WHERE e.isClassFeature = 1 AND e.parent IS NULL ORDER BY e.name ASC", lockMode = READ),
         @NamedQuery(name = Feat.FIND_ALL_CLASS_FEATURE_EXCEPT, query = "SELECT e FROM Feat e WHERE e.isClassFeature = 1 AND e.id != :featId", lockMode = READ) })
 public class Feat extends AbstractTimestampEntity implements DescriptiveEntity, Serializable {

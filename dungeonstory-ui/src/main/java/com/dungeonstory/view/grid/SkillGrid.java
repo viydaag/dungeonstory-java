@@ -8,7 +8,6 @@ public class SkillGrid extends DSGrid<Skill> {
 
     public SkillGrid() {
         super(Skill.class);
-        //        getContainer().addNestedContainerBean("keyAbility");
         withProperties("name", "keyAbility.name", "shortDescription");
         withColumnHeaders("Nom", "Caractéristique clé", "Description courte");
     }
