@@ -60,14 +60,13 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
         if (entity.getId() == null) {
             return;
         }
-        EntityTransaction transac = entityManager.getTransaction();
-        transac.begin();
+        entityManager.getTransaction().begin();
         try {
             E entity2 = entityManager.getReference(getEntityClass(), entity.getId());
             entityManager.remove(entity2);
-            transac.commit();
+            entityManager.getTransaction().commit();
         } catch (Exception e) {
-            transac.rollback();
+            entityManager.getTransaction().rollback();
             throw e;
         }
 

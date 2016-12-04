@@ -35,16 +35,22 @@ public class Character extends AbstractTimestampEntity implements Serializable {
     private static final long serialVersionUID = -967001655180847193L;
 
     public enum Gender {
-        M("Homme"), F("Femme");
+        M("Homme", "male"), F("Femme", "female");
 
         private String name;
+        private String imageDir;
 
-        private Gender(String name) {
+        private Gender(String name, String imageDir) {
             this.name = name;
+            this.imageDir = imageDir;
         }
 
         public String getName() {
             return this.name;
+        }
+        
+        public String getImageDir() {
+            return imageDir;
         }
 
         @Override
@@ -221,6 +227,10 @@ public class Character extends AbstractTimestampEntity implements Serializable {
     @ManyToOne
     @JoinColumn(name = "divineDomainId", nullable = true)
     private DivineDomain divineDomain;
+    
+    @NotNull
+    @Column(name = "image", nullable = false)
+    private String image;
 
     public Character() {
         super();
@@ -512,5 +522,13 @@ public class Character extends AbstractTimestampEntity implements Serializable {
 
     public void setDivineDomain(DivineDomain divineDomain) {
         this.divineDomain = divineDomain;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

@@ -4,6 +4,7 @@ import org.vaadin.teemu.wizards.event.WizardCompletedEvent;
 
 import com.dungeonstory.authentication.CurrentUser;
 import com.dungeonstory.backend.data.DSClass;
+import com.dungeonstory.backend.data.User;
 import com.dungeonstory.event.EventBus;
 import com.dungeonstory.event.ViewRemovedEvent;
 import com.vaadin.ui.Notification;
@@ -48,7 +49,10 @@ public class NewCharacterWizard extends CharacterWizard {
 
     @Override
     public void wizardCompleted(WizardCompletedEvent event) {
-        character.setUser(CurrentUser.get());
+        User user = CurrentUser.get();
+        user.setCharacter(character);
+        character.setUser(user);
+        CurrentUser.set(user);
         characterService.create(character);
         Notification.show("Personnage créé!", Type.HUMANIZED_MESSAGE);
         EventBus.post(new ViewRemovedEvent(NewCharacterView.NEW_CHARACTER_URI));

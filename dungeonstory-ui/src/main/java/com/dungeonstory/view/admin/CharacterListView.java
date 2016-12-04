@@ -44,7 +44,8 @@ public class CharacterListView extends AbstractCrudView<Character> {
             ConfirmDialog.show(getUI(), "Supprimer", "Êtes-vous certain?", "OK", "Annuler", new Runnable() {
                 @Override
                 public void run() {
-                    deleteSelected((Character) e.getItemId());
+                    Character character = (Character) e.getItemId();
+                    deleteSelected(character);
                 }
             });
         }));
