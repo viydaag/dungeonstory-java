@@ -5,6 +5,7 @@ import javax.persistence.TypedQuery;
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.CharacterClass;
 import com.dungeonstory.backend.data.DSClass;
+import com.dungeonstory.backend.data.User;
 import com.dungeonstory.backend.repository.AbstractRepository;
 
 public class CharacterRepository extends AbstractRepository<Character, Long> {
@@ -24,6 +25,26 @@ public class CharacterRepository extends AbstractRepository<Character, Long> {
         query.setParameter("character", character);
         query.setParameter("classe", classe);
         return query.getSingleResult();
+    }
+    
+    @Override
+    public synchronized void delete(Character entity) {
+        if (entity.getId() == null) {
+            return;
+        }
+        entityManager.getTransaction().begin();
+        try {
+            Character character = entityManager.getReference(getEntityClass(), entity.getId());
+            User user = character.getUser();
+            user.setCharacter(null);
+            character.setUser(null);
+            entityManager.merge(user);
+            entityManager.remove(entityManager.merge(character));
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            throw e;
+        }
     }
 
 }

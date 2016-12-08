@@ -3,9 +3,11 @@ package com.dungeonstory;
 import javax.servlet.annotation.WebServlet;
 
 import com.dungeonstory.authentication.AccessControl;
+import com.dungeonstory.authentication.BasicAccessControl;
 import com.dungeonstory.authentication.DsAccessControl;
 import com.dungeonstory.authentication.LoginScreen;
 import com.dungeonstory.authentication.LoginScreen.LoginListener;
+import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.event.LogoutEvent;
 import com.dungeonstory.event.NavigationEvent;
 import com.google.common.eventbus.EventBus;
@@ -13,7 +15,6 @@ import com.google.common.eventbus.Subscribe;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.annotations.Viewport;
-import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.Page;
 import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinRequest;
@@ -32,19 +33,24 @@ import com.vaadin.ui.themes.ValoTheme;
  */
 @Viewport("user-scalable=no,initial-scale=1.0")
 @Theme("dungeonstory")
-@Widgetset("com.dungeonstory.DSWidgetset")
 public class DungeonStoryUI extends UI {
 
     private static final long serialVersionUID = -5249908238351407763L;
 
     private EventBus      eventBus;
-    private AccessControl accessControl = new DsAccessControl();
+    private AccessControl accessControl;
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
         Responsive.makeResponsive(this);
         setLocale(vaadinRequest.getLocale());
         getPage().setTitle("DungeonStory");
+
+        if (Configuration.getInstance().isMock()) {
+            accessControl = new BasicAccessControl();
+        } else {
+            accessControl = new DsAccessControl();
+        }
 
         setupEventBus();
 

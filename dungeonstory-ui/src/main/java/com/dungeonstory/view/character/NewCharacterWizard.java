@@ -4,6 +4,9 @@ import org.vaadin.teemu.wizards.event.WizardCompletedEvent;
 
 import com.dungeonstory.authentication.CurrentUser;
 import com.dungeonstory.backend.data.DSClass;
+import com.dungeonstory.backend.data.User;
+import com.dungeonstory.event.EventBus;
+import com.dungeonstory.event.ViewRemovedEvent;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
 
@@ -17,7 +20,7 @@ public class NewCharacterWizard extends CharacterWizard {
 
         addStep(new RaceStep(this), RACE);
         addStep(new ClassStep(this), CLASS);
-        addStep(new AbilityScoreStep(this), ABILITY);
+        addStep(new AbilityScoreStep(this, false), ABILITY);
 
         getNextButton().setEnabled(false); //set the next button disabled until a value is selected
     }
@@ -46,9 +49,13 @@ public class NewCharacterWizard extends CharacterWizard {
 
     @Override
     public void wizardCompleted(WizardCompletedEvent event) {
-        character.setUser(CurrentUser.get());
+        User user = CurrentUser.get();
+        user.setCharacter(character);
+        character.setUser(user);
+        CurrentUser.set(user);
         characterService.create(character);
         Notification.show("Personnage créé!", Type.HUMANIZED_MESSAGE);
+        EventBus.post(new ViewRemovedEvent(NewCharacterView.NEW_CHARACTER_URI));
         super.wizardCompleted(event);
     }
 

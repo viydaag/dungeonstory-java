@@ -83,7 +83,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     private DSSubSetSelector<Ability>                   savingThrowProficiencies;
     private DSSubSetSelector<ArmorType.ProficiencyType> armorProficiencies;
     private DSSubSetSelector<WeaponType>                weaponProficiencies;
-    private DSSubSetSelector<ToolType> toolProficiencies;
+    private DSSubSetSelector<ToolType>                  toolProficiencies;
     private IntegerField                                nbChosenSkills;
     private DSSubSetSelector<Skill>                     baseSkills;
     private LevelBonusCollectionField                   levelBonuses;
@@ -101,6 +101,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     private CheckBox invocation;
     private CheckBox hunter;
     private CheckBox sneak;
+    private CheckBox deity;
 
     private DataService<Skill, Long>      skillService      = null;
     private DataService<Level, Long>      levelService      = null;
@@ -209,7 +210,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         weaponProficiencies.setOptions(weaponTypeService.findAll());
         weaponProficiencies.setValue(new HashSet<WeaponType>()); //nothing selected
         weaponProficiencies.setWidth("50%");
-        
+
         toolProficiencies = new DSSubSetSelector<ToolType>(ToolType.class);
         toolProficiencies.setCaption("Maitrise d'outil");
         toolProficiencies.setVisibleProperties("name");
@@ -242,14 +243,14 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         invocation = new MCheckBox("Invocation");
         hunter = new MCheckBox("Chasseur");
         sneak = new MCheckBox("Attaque furtive");
+        deity = new MCheckBox("Dieu");
         activateCheckboxListeners();
 
         HorizontalSpacedLayout checkboxLayout = new HorizontalSpacedLayout(martialArts, sorcery, rage, invocation,
-                hunter, sneak);
+                hunter, sneak, deity);
 
         spellSlots = (LevelSpellsCollectionField<ClassSpellSlots>) new LevelSpellsCollectionField<ClassSpellSlots>(
-                ClassSpellSlots.class).withCaption("Nombre de sorts")
-                .withEditorInstantiator(() -> {
+                ClassSpellSlots.class).withCaption("Nombre de sorts").withEditorInstantiator(() -> {
                     LevelSpellsRow row = new LevelSpellsRow();
                     row.level.setOptions(levelService.findAll());
                     return row;
@@ -317,6 +318,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
                 .addValueChangeListener(event -> levelBonuses.setInvocation((boolean) event.getProperty().getValue()));
         hunter.addValueChangeListener(event -> levelBonuses.setHunter((boolean) event.getProperty().getValue()));
         sneak.addValueChangeListener(event -> levelBonuses.setSneak((boolean) event.getProperty().getValue()));
+        deity.addValueChangeListener(event -> levelBonuses.setDeity((boolean) event.getProperty().getValue()));
     }
 
     @Override
@@ -334,6 +336,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
             rage.setValue(false);
             invocation.setValue(false);
             sneak.setValue(false);
+            deity.setValue(false);
             activateCheckboxListeners();
         }
     }
@@ -351,6 +354,8 @@ public class ClassForm extends DSAbstractForm<DSClass> {
                 .forEach(listener -> sneak.removeListener(Field.ValueChangeEvent.class, listener));
         sorcery.getListeners(Field.ValueChangeEvent.class)
                 .forEach(listener -> sorcery.removeListener(Field.ValueChangeEvent.class, listener));
+        deity.getListeners(Field.ValueChangeEvent.class)
+                .forEach(listener -> deity.removeListener(Field.ValueChangeEvent.class, listener));
     }
 
     @Override
@@ -362,7 +367,6 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         }
         if (getEntity() != null) {
             classFeatures.getTable().setPageLength(classFeatures.getTable().size());
-            //            classFeatures.setHeight(classFeatures.getTable().getHeight(), classFeatures.getTable().getHeightUnits());
             classFeatures.setHeight("700px");
         }
         refreshLevelBonusCheckBoxVisibility();
@@ -418,6 +422,9 @@ public class ClassForm extends DSAbstractForm<DSClass> {
                 if (levelBonus.getSneakAttackDamage() != null) {
                     sneak.setValue(true);
                 }
+                if (levelBonus.getDeity() != null) {
+                    deity.setValue(true);
+                }
             }
         }
 
@@ -428,6 +435,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         levelBonuses.setInvocation(invocation.getValue());
         levelBonuses.setSneak(sneak.getValue());
         levelBonuses.setRage(rage.getValue());
+        levelBonuses.setDeity(deity.getValue());
     }
 
 }

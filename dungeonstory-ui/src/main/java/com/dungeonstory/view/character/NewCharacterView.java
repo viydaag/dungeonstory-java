@@ -6,10 +6,12 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Alignment;
 
-@ViewConfig(uri = "newCharacter", displayName = "Nouveau personnage")
+@ViewConfig(uri = NewCharacterView.NEW_CHARACTER_URI, displayName = "Nouveau personnage")
 public class NewCharacterView extends VerticalSpacedLayout implements View {
 
     private static final long serialVersionUID = 2928235696918477334L;
+
+    public static final String NEW_CHARACTER_URI = "newCharacter";
 
     public NewCharacterView() {
         super();

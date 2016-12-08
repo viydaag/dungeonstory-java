@@ -30,21 +30,27 @@ import com.dungeonstory.backend.data.Tool.ToolType;
 
 @Entity
 @Table(name = "DSCharacter")
-public class Character extends AbstractTimestampEntity implements Serializable, Cloneable {
+public class Character extends AbstractTimestampEntity implements Serializable {
 
     private static final long serialVersionUID = -967001655180847193L;
 
     public enum Gender {
-        M("Homme"), F("Femme");
+        M("Homme", "male"), F("Femme", "female");
 
         private String name;
+        private String imageDir;
 
-        private Gender(String name) {
+        private Gender(String name, String imageDir) {
             this.name = name;
+            this.imageDir = imageDir;
         }
 
         public String getName() {
             return this.name;
+        }
+        
+        public String getImageDir() {
+            return imageDir;
         }
 
         @Override
@@ -78,7 +84,8 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
     private String height;
 
     @NotNull
-    @OneToOne(mappedBy = "character")
+    @OneToOne
+    @JoinColumn(name = "userId")
     private User user;
 
     @NotNull
@@ -212,6 +219,18 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
             @JoinColumn(name = "characterId", referencedColumnName = "id") }, inverseJoinColumns = {
                     @JoinColumn(name = "languageId", referencedColumnName = "id") })
     private Set<Language> languages;
+
+    @ManyToOne
+    @JoinColumn(name = "deityId", nullable = true)
+    private Deity deity;
+
+    @ManyToOne
+    @JoinColumn(name = "divineDomainId", nullable = true)
+    private DivineDomain divineDomain;
+    
+    @NotNull
+    @Column(name = "image", nullable = false)
+    private String image;
 
     public Character() {
         super();
@@ -487,5 +506,29 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
 
     public void setRegion(Region region) {
         this.region = region;
+    }
+
+    public Deity getDeity() {
+        return deity;
+    }
+
+    public void setDeity(Deity deity) {
+        this.deity = deity;
+    }
+
+    public DivineDomain getDivineDomain() {
+        return divineDomain;
+    }
+
+    public void setDivineDomain(DivineDomain divineDomain) {
+        this.divineDomain = divineDomain;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

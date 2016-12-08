@@ -1,11 +1,13 @@
 package com.dungeonstory.view;
 
+import org.vaadin.resetbuttonfortextfield.ResetButtonForTextField;
 import org.vaadin.viritin.LazyList;
 import org.vaadin.viritin.fields.MTextField;
 
 import com.dungeonstory.backend.repository.Entity;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.form.DSAbstractForm;
+import com.dungeonstory.util.DSTheme;
 import com.dungeonstory.util.layout.VerticalSpacedLayout;
 import com.dungeonstory.view.grid.DSGrid;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -47,10 +49,12 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
         grid = getGrid();
         service = getDataService();
 
-        filter = new MTextField().withInputPrompt("filtre...");
+        filter = new MTextField().withInputPrompt("filtre...").withStyleName(DSTheme.FILTER_TEXT);
         filter.addTextChangeListener(e -> {
             listEntries(e.getText());
         });
+        ResetButtonForTextField resetText = ResetButtonForTextField.extend(filter);
+        resetText.addResetButtonClickedListener(() -> listEntries());
 
         initForm();
 
@@ -94,6 +98,7 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
             grid.lazyLoadFrom((int firstRow, boolean sortAscending, String property) -> service.findAllPaged(firstRow,
                     LazyList.DEFAULT_PAGE_SIZE), () -> (int) service.count());
         }
+        //        grid.setRows(service.findAll());
     }
 
     protected void listEntries() {

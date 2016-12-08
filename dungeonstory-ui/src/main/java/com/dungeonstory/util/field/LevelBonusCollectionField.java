@@ -23,13 +23,15 @@ public class LevelBonusCollectionField extends ElementCollectionField<ClassLevel
     private boolean invocation  = false;
     private boolean hunter      = false;
     private boolean sneak       = false;
+    private boolean deity       = false;
 
     private final int[] HUNTER_COLUMNS       = { 3, 4 };
-    private final int[] MARTIAL_ARTS_COLUMNS = { 5, 6, 7 };
-    private final int[] SORCERY_COLUMNS      = { 8 };
-    private final int[] RAGE_COLUMNS         = { 9, 10 };
-    private final int[] INVOCATION_COLUMNS   = { 11 };
-    private final int[] SNEAK_COLUMNS        = { 12 };
+    private final int[] DEITY_COLUMNS        = { 5 };
+    private final int[] MARTIAL_ARTS_COLUMNS = { 6, 7, 8 };
+    private final int[] SORCERY_COLUMNS      = { 9 };
+    private final int[] RAGE_COLUMNS         = { 10, 11 };
+    private final int[] INVOCATION_COLUMNS   = { 12 };
+    private final int[] SNEAK_COLUMNS        = { 13 };
 
     public static class ClassLevelBonusRow {
         public TypedSelect<Level> level                      = new TypedSelect<Level>();
@@ -37,6 +39,7 @@ public class LevelBonusCollectionField extends ElementCollectionField<ClassLevel
         public CheckBox           chooseClassSpecialization  = new CheckBox();
         public CheckBox           favoredEnemy               = new CheckBox();
         public CheckBox           naturalExplorer            = new CheckBox();
+        public CheckBox           deity                      = new CheckBox();
         public IntegerField       kiPoints                   = new IntegerField().withWidth("50px");
         public MTextField         martialArtsDamage          = new MTextField();
         public IntegerField       movementBonus              = new IntegerField().withWidth("50px");
@@ -62,6 +65,7 @@ public class LevelBonusCollectionField extends ElementCollectionField<ClassLevel
         setPropertyHeader("rageDamageBonus", "Dégât de rage");
         setPropertyHeader("invocationsKnown", "Nb invocation");
         setPropertyHeader("sneakAttackDamage", "Dégâts attaque furtive");
+        setPropertyHeader("deity", "Choix dieu");
         getLayout().setHideEmptyRowsAndColumns(true);
     }
 
@@ -69,6 +73,7 @@ public class LevelBonusCollectionField extends ElementCollectionField<ClassLevel
     public void onElementAdded() {
         super.onElementAdded();
         refreshLevelBonusVisibility(this.hunter, HUNTER_COLUMNS);
+        refreshLevelBonusVisibility(this.deity, DEITY_COLUMNS);
         refreshLevelBonusVisibility(this.martialArts, MARTIAL_ARTS_COLUMNS);
         refreshLevelBonusVisibility(this.sorcery, SORCERY_COLUMNS);
         refreshLevelBonusVisibility(this.rage, RAGE_COLUMNS);
@@ -130,6 +135,15 @@ public class LevelBonusCollectionField extends ElementCollectionField<ClassLevel
         refreshLevelBonusVisibility(this.sneak, SNEAK_COLUMNS);
     }
 
+    public boolean isDeity() {
+        return deity;
+    }
+
+    public void setDeity(boolean deity) {
+        this.deity = deity;
+        refreshLevelBonusVisibility(this.deity, DEITY_COLUMNS);
+    }
+
     private void refreshLevelBonusVisibility(boolean visible, int... columns) {
         final int nbRows = getLayout().getRows();
         final int nbColumns = getLayout().getColumns();
@@ -164,6 +178,7 @@ public class LevelBonusCollectionField extends ElementCollectionField<ClassLevel
         this.sneak = false;
         this.sorcery = false;
         this.rage = false;
+        this.deity = false;
         onElementAdded();
     }
 
@@ -174,6 +189,7 @@ public class LevelBonusCollectionField extends ElementCollectionField<ClassLevel
         setHunter(true);
         setSneak(true);
         setSorcery(true);
+        setDeity(true);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.dungeonstory.view;
 
+import com.dungeonstory.util.DSTheme;
 import com.dungeonstory.util.ViewConfig;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -20,7 +21,7 @@ public class AboutView extends VerticalLayout implements View {
 
     public AboutView() {
         CustomLayout aboutContent = new CustomLayout("aboutview");
-        aboutContent.setStyleName("about-content");
+        aboutContent.setStyleName(DSTheme.ABOUT_CONTENT);
 
         // you can add Vaadin components in predefined slots in the custom layout
         aboutContent.addComponent(new Label(
@@ -28,7 +29,7 @@ public class AboutView extends VerticalLayout implements View {
                 ContentMode.HTML), "info");
 
         setSizeFull();
-        setStyleName("about-view");
+        setStyleName(DSTheme.ABOUT_VIEW);
 
         addComponent(aboutContent);
         setComponentAlignment(aboutContent, Alignment.MIDDLE_CENTER);

@@ -9,6 +9,7 @@ public class ClassGrid extends DSGrid<DSClass> {
     public ClassGrid() {
         super(DSClass.class);
         withProperties("name", "shortDescription");
+        withColumnHeaders("Nom", "Description courte");
     }
 
 }

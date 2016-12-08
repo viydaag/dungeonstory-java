@@ -1,6 +1,7 @@
 package com.dungeonstory.backend.data;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -104,6 +105,23 @@ public class Deity extends AbstractTimestampEntity implements Serializable {
 
     public void setImage(byte[] image) {
         this.image = image;
+    }
+
+    @Override
+    public Deity clone() {
+        Deity deity;
+        try {
+            deity = (Deity) super.clone();
+            deity.setDomains(new HashSet<>(getDomains()));
+            return deity;
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return getName() + " - " + getAlignment().getAbbreviation();
     }
 
 }

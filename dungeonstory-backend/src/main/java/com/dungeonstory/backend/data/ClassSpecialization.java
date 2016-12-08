@@ -15,8 +15,6 @@ import javax.validation.constraints.NotNull;
 
 import org.eclipse.persistence.annotations.PrivateOwned;
 
-import com.mysql.fabric.xmlrpc.base.Array;
-
 @Entity
 @Table(name = "ClassSpecialization")
 public class ClassSpecialization extends AbstractTimestampEntity implements Serializable {

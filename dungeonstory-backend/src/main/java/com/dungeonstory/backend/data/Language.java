@@ -14,10 +14,8 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "Language")
 @NamedQueries({
-
-        @NamedQuery(name = Language.LANGUAGES_NOT_IN_RACE, query = "SELECT lang FROM Language lang WHERE lang.id NOT IN (SELECT l.id FROM Race r JOIN r.languages l WHERE r.id = :raceId)", lockMode = READ),
-
-        @NamedQuery(name = Language.UNASSIGNED_LANGUAGES, lockMode = READ, query = "SELECT lang FROM Language lang WHERE lang.id NOT IN (SELECT l.id FROM Character c JOIN c.languages l WHERE c.id = :characterId)") })
+        @NamedQuery(name = Language.LANGUAGES_NOT_IN_RACE, lockMode = READ, query = "SELECT lang FROM Language lang WHERE lang.id NOT IN (SELECT l.id FROM Race r JOIN r.languages l WHERE r.id = :raceId) AND lang.playable = 1"),
+        @NamedQuery(name = Language.UNASSIGNED_LANGUAGES, lockMode = READ, query = "SELECT lang FROM Language lang WHERE lang.id NOT IN (SELECT l.id FROM Character c JOIN c.languages l WHERE c.id = :characterId) AND lang.playable = 1") })
 public class Language extends AbstractTimestampEntity implements Serializable {
 
     private static final long serialVersionUID = 5355483080995035841L;
@@ -31,6 +29,9 @@ public class Language extends AbstractTimestampEntity implements Serializable {
 
     @Column(name = "script")
     private String script;
+
+    @Column(name = "playable")
+    private boolean playable;
 
     public Language() {
         super();
@@ -50,6 +51,14 @@ public class Language extends AbstractTimestampEntity implements Serializable {
 
     public void setScript(String script) {
         this.script = script;
+    }
+
+    public boolean getPlayable() {
+        return playable;
+    }
+
+    public void setPlayable(boolean playable) {
+        this.playable = playable;
     }
 
     @Override

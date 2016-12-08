@@ -18,9 +18,22 @@ public class AccessRole extends AbstractTimestampEntity implements Serializable 
     private static final long serialVersionUID = 6653338145666517351L;
     
     public enum RoleType {
-        ADMIN,
-        MODERATOR,
-        PLAYER
+        ADMIN("Administrateur"), MODERATOR("Modérateur"), PLAYER("Joueur");
+
+        private String value;
+
+        private RoleType(String name) {
+            this.value = name;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        @Override
+        public String toString() {
+            return getValue();
+        }
     }
 
     @NotNull
@@ -67,6 +80,11 @@ public class AccessRole extends AbstractTimestampEntity implements Serializable 
 
     public void setUsers(Set<User> users) {
         this.users = users;
+    }
+
+    @Override
+    public String toString() {
+        return getName();
     }
 
 }
