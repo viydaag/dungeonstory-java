@@ -80,12 +80,16 @@ public class MainScreen extends HorizontalLayout {
         viewContainer.addStyleName(DSTheme.CRUD_VIEW);
         viewContainer.setSizeFull();
 
-        //        DMenu menu = new DMenu();
-        //        menu.setCenteredTabs(true);
-        //        menu.setFloatingMenu(true);
-        //        menu.setFloatingMenuItemAutoShow(true);
-        //        menu.setMenuItemsSameHeight(true);
-        //        menu.setMenuItemElementsSameHeight(true);
+//                DMenu menu = new DMenu();
+//                menu.setCenteredTabs(true);
+//                menu.setFloatingMenu(true);
+//                menu.setFloatingMenuItemAutoShow(true);
+//                menu.setMenuItemsSameHeight(true);
+//                menu.setMenuItemElementsSameHeight(true);
+//                org.dussan.vaadin.dmenu.menuitem.MenuItem item1 = new org.dussan.vaadin.dmenu.menuitem.MenuItem( "TAB 1" );
+//                MenuItemElement itemElement1 = new MenuItemElement( "ELEMENT 1", new Label( "LABEL 1" ) );
+//                item1.addMenuItemElement( itemElement1 );
+//                menu.addMenuItem( item1 );
 
         bar = new MenuBar();
 
@@ -103,7 +107,7 @@ public class MainScreen extends HorizontalLayout {
 
 
         VerticalLayout rightLayout = new VerticalLayout();
-        //        rightLayout.addComponent(menu);
+//                rightLayout.addComponent(menu);
         rightLayout.addComponent(bar);
         rightLayout.addComponent(viewContainer);
 
