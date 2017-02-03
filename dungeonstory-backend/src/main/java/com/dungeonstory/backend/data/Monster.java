@@ -28,7 +28,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "Monster")
 public class Monster extends AbstractTimestampEntity implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -4897720435357339184L;
 
     @NotNull
     @Column(name = "name", nullable = false, unique = true)
@@ -107,6 +107,11 @@ public class Monster extends AbstractTimestampEntity implements Serializable {
     private int charisma;
 
     @NotNull
+    @Min(value = 0)
+    @Column(name = "passivePerception", nullable = false)
+    private int passivePerception = 0;
+
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "challengeRatingId", nullable = false)
     private ChallengeRating challengeRating;
@@ -147,12 +152,246 @@ public class Monster extends AbstractTimestampEntity implements Serializable {
     @OneToMany(mappedBy = "monster", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
     private List<MonsterSkill> skills;
 
-    //TODO
-    //attacks
-    //senses
+    @OneToMany(mappedBy = "monster", cascade = { CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE })
+    private List<MonsterAttack> attacks;
+
+    @OneToMany(mappedBy = "monster", cascade = { CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE })
+    private List<MonsterSense> senses;
 
 	public Monster() {
 		super();
-	}   
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public CreatureSize getSize() {
+        return size;
+    }
+
+    public void setSize(CreatureSize size) {
+        this.size = size;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public Alignment getAlignment() {
+        return alignment;
+    }
+
+    public void setAlignment(Alignment alignment) {
+        this.alignment = alignment;
+    }
+
+    public int getArmorClass() {
+        return armorClass;
+    }
+
+    public void setArmorClass(int armorClass) {
+        this.armorClass = armorClass;
+    }
+
+    public int getHitPoints() {
+        return hitPoints;
+    }
+
+    public void setHitPoints(int hitPoints) {
+        this.hitPoints = hitPoints;
+    }
+
+    public Integer getGroundSpeed() {
+        return groundSpeed;
+    }
+
+    public void setGroundSpeed(Integer groundSpeed) {
+        this.groundSpeed = groundSpeed;
+    }
+
+    public Integer getBurrowSpeed() {
+        return burrowSpeed;
+    }
+
+    public void setBurrowSpeed(Integer burrowSpeed) {
+        this.burrowSpeed = burrowSpeed;
+    }
+
+    public Integer getClimbSpeed() {
+        return climbSpeed;
+    }
+
+    public void setClimbSpeed(Integer climbSpeed) {
+        this.climbSpeed = climbSpeed;
+    }
+
+    public Integer getFlySpeed() {
+        return flySpeed;
+    }
+
+    public void setFlySpeed(Integer flySpeed) {
+        this.flySpeed = flySpeed;
+    }
+
+    public Integer getSwimSpeed() {
+        return swimSpeed;
+    }
+
+    public void setSwimSpeed(Integer swimSpeed) {
+        this.swimSpeed = swimSpeed;
+    }
+
+    public int getStrength() {
+        return strength;
+    }
+
+    public void setStrength(int strength) {
+        this.strength = strength;
+    }
+
+    public int getDexterity() {
+        return dexterity;
+    }
+
+    public void setDexterity(int dexterity) {
+        this.dexterity = dexterity;
+    }
+
+    public int getConstitution() {
+        return constitution;
+    }
+
+    public void setConstitution(int constitution) {
+        this.constitution = constitution;
+    }
+
+    public int getIntelligence() {
+        return intelligence;
+    }
+
+    public void setIntelligence(int intelligence) {
+        this.intelligence = intelligence;
+    }
+
+    public int getWisdom() {
+        return wisdom;
+    }
+
+    public void setWisdom(int wisdom) {
+        this.wisdom = wisdom;
+    }
+
+    public int getCharisma() {
+        return charisma;
+    }
+
+    public void setCharisma(int charisma) {
+        this.charisma = charisma;
+    }
+
+    public ChallengeRating getChallengeRating() {
+        return challengeRating;
+    }
+
+    public void setChallengeRating(ChallengeRating challengeRating) {
+        this.challengeRating = challengeRating;
+    }
+
+    public List<DamageType> getDamageVulnerabilities() {
+        return damageVulnerabilities;
+    }
+
+    public void setDamageVulnerabilities(List<DamageType> damageVulnerabilities) {
+        this.damageVulnerabilities = damageVulnerabilities;
+    }
+
+    public List<DamageType> getDamageResistances() {
+        return damageResistances;
+    }
+
+    public void setDamageResistances(List<DamageType> damageResistances) {
+        this.damageResistances = damageResistances;
+    }
+
+    public List<DamageType> getDamageImmunities() {
+        return damageImmunities;
+    }
+
+    public void setDamageImmunities(List<DamageType> damageImmunities) {
+        this.damageImmunities = damageImmunities;
+    }
+
+    public List<Condition> getConditionImmunities() {
+        return conditionImmunities;
+    }
+
+    public void setConditionImmunities(List<Condition> conditionImmunities) {
+        this.conditionImmunities = conditionImmunities;
+    }
+
+    public Set<Language> getLanguages() {
+        return languages;
+    }
+
+    public void setLanguages(Set<Language> languages) {
+        this.languages = languages;
+    }
+
+    public List<MonsterSavingThrow> getSavingThrows() {
+        return savingThrows;
+    }
+
+    public void setSavingThrows(List<MonsterSavingThrow> savingThrows) {
+        this.savingThrows = savingThrows;
+    }
+
+    public List<MonsterSkill> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(List<MonsterSkill> skills) {
+        this.skills = skills;
+    }
+
+    public List<MonsterAttack> getAttacks() {
+        return attacks;
+    }
+
+    public void setAttacks(List<MonsterAttack> attacks) {
+        this.attacks = attacks;
+    }
+
+    public int getPassivePerception() {
+        return passivePerception;
+    }
+
+    public void setPassivePerception(int passivePerception) {
+        this.passivePerception = passivePerception;
+    }
+
+    public List<MonsterSense> getSenses() {
+        return senses;
+    }
+
+    public void setSenses(List<MonsterSense> senses) {
+        this.senses = senses;
+    }
    
 }
