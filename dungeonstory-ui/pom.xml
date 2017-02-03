@@ -34,10 +34,10 @@
         
         <!-- Vaadin addons -->
         <dependency>
-            <groupId>org.vaadin</groupId>
-            <artifactId>viritin</artifactId>
-            <version>1.60</version>
-        </dependency>
+		   <groupId>org.vaadin</groupId>
+		   <artifactId>viritin</artifactId>
+		   <version>1.61</version>
+		</dependency>
         
         <dependency>
            <groupId>org.vaadin.addon</groupId>
@@ -58,11 +58,11 @@
         </dependency>
         
         <dependency>
-           <groupId>org.dussan.vaadin</groupId>
-           <artifactId>dmenu</artifactId>
-           <version>1.13.0</version>
-        </dependency>
-        
+		   <groupId>org.vaadin.addons</groupId>
+		   <artifactId>dmenu-widget</artifactId>
+		   <version>1.12.0</version>
+		</dependency>
+		
         <dependency>
             <groupId>org.vaadin</groupId>
             <artifactId>resetbuttonfortextfield</artifactId>
