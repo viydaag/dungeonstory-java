@@ -11,6 +11,7 @@ import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.Feat;
 import com.dungeonstory.backend.service.FeatDataService;
 import com.dungeonstory.backend.service.impl.FeatService;
+import com.dungeonstory.i18n.Messages;
 import com.dungeonstory.util.layout.HorizontalSpacedLayout;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
@@ -35,7 +36,7 @@ public class AbilityScoreUpdateForm extends AbilityScoreForm {
     private HorizontalSpacedLayout featLayout;
 
     public enum UpdateType {
-        ABILITY("Caractéristique"), FEAT("Don");
+        ABILITY("abilityScoreStep.updateType.ability.value"), FEAT("abilityScoreStep.updateType.feat.value");
 
         private String value;
 
@@ -44,7 +45,7 @@ public class AbilityScoreUpdateForm extends AbilityScoreForm {
         }
 
         public String getValue() {
-            return value;
+            return Messages.getInstance().getMessage(this.value);
         }
 
         @Override
@@ -61,11 +62,12 @@ public class AbilityScoreUpdateForm extends AbilityScoreForm {
 
     @Override
     protected Component createContent() {
+        Messages messages = Messages.getInstance();
         Component content = super.createContent();
         featLayout = new HorizontalSpacedLayout();
         featLayout.setWidth(100, Unit.PERCENTAGE);
 
-        updateType = new EnumSelect<UpdateType>("Choix d'amélioration").withSelectType(OptionGroup.class);
+        updateType = new EnumSelect<UpdateType>(messages.getMessage("abilityScoreStep.updateType.label")).withSelectType(OptionGroup.class);
         updateType.setBeans(Arrays.asList(UpdateType.values()));
         updateType.addMValueChangeListener(event -> {
             if (event.getValue() != null) {
@@ -106,7 +108,8 @@ public class AbilityScoreUpdateForm extends AbilityScoreForm {
 
         resetPointToSpend();
 
-        featChoice = new TypedSelect<Feat>(Feat.class).withCaption("Choix de don").asComboBoxType().withFullWidth();
+        featChoice = new TypedSelect<Feat>(Feat.class).withCaption(messages.getMessage("abilityScoreStep.feat.label")).asComboBoxType()
+                .withFullWidth();
         featDescription = new MLabel();
         featLayout.addComponents(featChoice, featDescription);
 
@@ -175,7 +178,7 @@ public class AbilityScoreUpdateForm extends AbilityScoreForm {
                     fieldAction.setReadOnly(true);
                 }
             } else {
-                Notification.show("Le score maximum est " + MAX_SCORE, Type.HUMANIZED_MESSAGE);
+                Notification.show(Messages.getInstance().getMessage("abilityScoreStep.notif.maxScore", MAX_SCORE), Type.HUMANIZED_MESSAGE);
             }
         });
         return plusButton;
@@ -194,7 +197,7 @@ public class AbilityScoreUpdateForm extends AbilityScoreForm {
                 fieldAction.setValue(value - 1);
                 fieldAction.setReadOnly(true);
             } else {
-                Notification.show("Vous ne pouvez pas diminuer une valeur initiale", Type.HUMANIZED_MESSAGE);
+                Notification.show(Messages.getInstance().getMessage("abilityScoreStep.notif.minusInitial"), Type.HUMANIZED_MESSAGE);
             }
         });
         return minusButton;

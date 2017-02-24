@@ -2,10 +2,12 @@ package com.dungeonstory;
 
 import com.dungeonstory.authentication.CurrentUser;
 import com.dungeonstory.event.ViewRemovedEvent;
+import com.dungeonstory.i18n.MessageViewUpdater;
 import com.dungeonstory.util.DSTheme;
 import com.dungeonstory.util.LazyProvider;
 import com.dungeonstory.util.PageTitleUpdater;
 import com.dungeonstory.util.ViewConfig;
+import com.dungeonstory.util.ViewConfigUtil;
 import com.dungeonstory.util.layout.VerticalSpacedLayout;
 import com.dungeonstory.view.AboutView;
 import com.dungeonstory.view.ErrorView;
@@ -129,6 +131,7 @@ public class MainScreen extends HorizontalLayout {
         // Add view change listeners so we can do things like select the correct menu item and update the page title
         navigator.addViewChangeListener(navBar);
         navigator.addViewChangeListener(new PageTitleUpdater());
+        navigator.addViewChangeListener(new MessageViewUpdater());
 
         navigator.setErrorView(ErrorView.class);
         navigator.navigateTo(navigator.getState());
@@ -146,7 +149,7 @@ public class MainScreen extends HorizontalLayout {
 
                 @Override
                 public void menuSelected(MenuItem selectedItem) {
-                    //navigator.navigateTo(CharcterView.URI);
+                    //navigator.navigateTo(CharacterView.URI);
                 }
             });
         }
@@ -205,7 +208,7 @@ public class MainScreen extends HorizontalLayout {
                         e.printStackTrace();
                     }
             }
-            navBar.addView(viewConfig.uri(), viewConfig.displayName());
+            navBar.addView(viewConfig.uri(), ViewConfigUtil.getDisplayName(viewConfig.displayName()));
         }
     }
 

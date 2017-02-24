@@ -1,5 +1,7 @@
 package com.dungeonstory;
 
+import java.util.Locale;
+
 import javax.servlet.annotation.WebServlet;
 
 import com.dungeonstory.authentication.AccessControl;
@@ -10,6 +12,7 @@ import com.dungeonstory.authentication.LoginScreen.LoginListener;
 import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.event.LogoutEvent;
 import com.dungeonstory.event.NavigationEvent;
+import com.dungeonstory.i18n.Translatable;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.annotations.Theme;
@@ -20,6 +23,8 @@ import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.server.VaadinSession;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.themes.ValoTheme;
 
@@ -43,7 +48,6 @@ public class DungeonStoryUI extends UI {
     @Override
     protected void init(VaadinRequest vaadinRequest) {
         Responsive.makeResponsive(this);
-        setLocale(vaadinRequest.getLocale());
         getPage().setTitle("DungeonStory");
 
         if (Configuration.getInstance().isMock()) {
@@ -67,12 +71,14 @@ public class DungeonStoryUI extends UI {
         } else {
             showMainView();
         }
+
+        setLocale(vaadinRequest.getLocale());
     }
 
     protected void showMainView() {
         addStyleName(ValoTheme.UI_WITH_MENU);
         setContent(new MainScreen(DungeonStoryUI.this));
-        //        getNavigator().navigateTo(getNavigator().getState());
+        updateMessageStrings(getContent());
     }
 
     public static DungeonStoryUI get() {
@@ -110,6 +116,21 @@ public class DungeonStoryUI extends UI {
         VaadinSession.getCurrent().getSession().invalidate();
         VaadinSession.getCurrent().close();
         Page.getCurrent().reload();
+    }
+
+    @Override
+    public void setLocale(Locale locale) {
+        super.setLocale(locale);
+        updateMessageStrings(getContent());
+    }
+
+    private void updateMessageStrings(Component component) {
+        if (component instanceof Translatable) {
+            ((Translatable) component).updateMessageStrings();
+        }
+        if (component instanceof HasComponents) {
+            ((HasComponents) component).iterator().forEachRemaining(this::updateMessageStrings);
+        }
     }
 
     @WebServlet(urlPatterns = "/*", name = "DungeonStoryUIServlet", asyncSupported = true)

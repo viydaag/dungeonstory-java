@@ -10,6 +10,7 @@ import com.dungeonstory.backend.data.Language;
 import com.dungeonstory.backend.data.Race;
 import com.dungeonstory.backend.service.impl.LanguageService;
 import com.dungeonstory.backend.service.impl.RaceService;
+import com.dungeonstory.i18n.Messages;
 import com.dungeonstory.util.layout.HorizontalSpacedLayout;
 import com.dungeonstory.util.layout.VerticalSpacedLayout;
 import com.vaadin.ui.Component;
@@ -19,13 +20,13 @@ public class RaceChoiceForm extends AbstractForm<Character> implements AbstractF
 
     private static final long serialVersionUID = 7418266123213990672L;
 
-    private RaceService raceService = RaceService.getInstance();
+    private RaceService     raceService     = RaceService.getInstance();
     private LanguageService languageService = LanguageService.getInstance();
 
-    TypedSelect<Race> race;
+    TypedSelect<Race>     race;
     TypedSelect<Language> language;
-    private MTextArea raceDescription;
-    private MTextArea raceTraits;
+    private MTextArea     raceDescription;
+    private MTextArea     raceTraits;
 
     public RaceChoiceForm() {
         super();
@@ -35,18 +36,18 @@ public class RaceChoiceForm extends AbstractForm<Character> implements AbstractF
     @Override
     protected Component createContent() {
 
+        Messages messages = Messages.getInstance();
+
         HorizontalSpacedLayout layout = new HorizontalSpacedLayout();
 
         FormLayout raceFieldsLayout = new FormLayout();
-        race = new TypedSelect<Race>("Choix de race", raceService.findAll())
-                .asListSelectType(new ListSelectConfig().withRows((int) raceService.count()))
-                .withNullSelectionAllowed(false);
-        language = new TypedSelect<Language>("Langage extra").asComboBoxType()
-                .withVisible(false);
+        race = new TypedSelect<Race>(messages.getMessage("raceStep.race.label"), raceService.findAll())
+                .asListSelectType(new ListSelectConfig().withRows((int) raceService.count())).withNullSelectionAllowed(false);
+        language = new TypedSelect<Language>(messages.getMessage("raceStep.extraLanguage.label")).asComboBoxType().withVisible(false);
         raceFieldsLayout.addComponents(race, language);
 
         VerticalSpacedLayout raceDescriptionLayout = new VerticalSpacedLayout();
-        raceDescription = new MTextArea("Description").withRows(10);
+        raceDescription = new MTextArea(messages.getMessage("raceStep.description.label")).withRows(10);
         raceTraits = new MTextArea().withRows(10);
 
         race.addMValueChangeListener(event -> {

@@ -21,6 +21,7 @@ import com.dungeonstory.backend.data.Spell;
 import com.dungeonstory.backend.data.util.ClassUtil;
 import com.dungeonstory.backend.service.impl.SpellService;
 import com.dungeonstory.form.DSAbstractForm;
+import com.dungeonstory.i18n.Messages;
 import com.dungeonstory.util.layout.VerticalSpacedLayout;
 import com.vaadin.data.util.converter.StringToCollectionConverter;
 import com.vaadin.server.FileResource;
@@ -98,7 +99,7 @@ public class SpellChoiceForm extends DSAbstractForm<Character> implements Abstra
 
         panel = new HorizontalSplitPanel();
         panel.setSizeFull();
-        panel.setCaption("Choix de sorts");
+        panel.setCaption(Messages.getInstance().getMessage("spellStep.spell.label"));
         panel.setFirstComponent(tabs);
         layout.addComponent(panel);
 
@@ -113,7 +114,7 @@ public class SpellChoiceForm extends DSAbstractForm<Character> implements Abstra
         if (assignedClass.isPresent()) {
 
             int classLevel = assignedClass.get().getClassLevel();
-            label.setValue("Classe = " + assignedClass.get().toString());
+            label.setValue(Messages.getInstance().getMessage("spellStep.class.label", assignedClass.get().toString()));
 
             Optional<ClassSpellSlots> spellSlotOpt = ClassUtil.getClassSpellSlots(this.classe, classLevel);
 
@@ -175,7 +176,7 @@ public class SpellChoiceForm extends DSAbstractForm<Character> implements Abstra
                     Tab tab = tabs.addTab(unknownCantripLayout, "0");
                     tab.setClosable(false);
                     tab.setEnabled(true);
-                    tab.setDescription("Sorts mineurs");
+                    tab.setDescription(Messages.getInstance().getMessage("spellStep.minorSpell.tab.caption"));
                 }
 
                 if (maxNumberOfSpellToChoose != null) {
@@ -244,7 +245,7 @@ public class SpellChoiceForm extends DSAbstractForm<Character> implements Abstra
                         Tab spellTab = tabs.addTab(unknownSpellLayout[spellLevel], String.valueOf(spellLevel));
                         spellTab.setClosable(false);
                         spellTab.setEnabled(true);
-                        spellTab.setDescription("Sorts niveau " + spellLevel);
+                        spellTab.setDescription(Messages.getInstance().getMessage("spellStep.spell.tab.caption", spellLevel));
 
                     }
 
@@ -275,6 +276,7 @@ public class SpellChoiceForm extends DSAbstractForm<Character> implements Abstra
     }
 
     private void getSpellWindow(Spell spell) {
+        Messages messages = Messages.getInstance();
         Window window = new Window(spell.getName());
         window.setModal(true);
         window.setWidth("60%");
@@ -282,9 +284,9 @@ public class SpellChoiceForm extends DSAbstractForm<Character> implements Abstra
         StringToCollectionConverter converter = new StringToCollectionConverter();
 
         FormLayout layout = new FormLayout();
-        MLabel componentType = new MLabel("Type de composant",
+        MLabel componentType = new MLabel(messages.getMessage("spellStep.component.label"),
                 converter.convertToPresentation(spell.getComponentTypes(), String.class, null));
-        MLabel text = new MLabel("Description", spell.getDescription()).withFullWidth();
+        MLabel text = new MLabel(messages.getMessage("spellStep.description.label"), spell.getDescription()).withFullWidth();
         layout.addComponents(componentType, text);
 
         //TODO : other useful info

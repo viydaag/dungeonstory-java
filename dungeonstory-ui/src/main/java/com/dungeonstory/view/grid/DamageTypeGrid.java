@@ -8,7 +8,8 @@ public class DamageTypeGrid extends DSGrid<DamageType> {
 
     public DamageTypeGrid() {
         super(DamageType.class);
-        setColumnOrder("name", "description");
+        withProperties("name", "description");
+        withColumnHeaders("Nom", "Description");
     }
 
 }

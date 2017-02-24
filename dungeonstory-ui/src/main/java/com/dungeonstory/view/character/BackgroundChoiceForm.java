@@ -16,6 +16,7 @@ import com.dungeonstory.backend.data.Language;
 import com.dungeonstory.backend.service.impl.BackgroundService;
 import com.dungeonstory.backend.service.impl.LanguageService;
 import com.dungeonstory.form.DSAbstractForm;
+import com.dungeonstory.i18n.Messages;
 import com.dungeonstory.util.converter.CollectionToStringConverter;
 import com.dungeonstory.util.field.DSSubSetSelector;
 import com.dungeonstory.util.layout.HorizontalSpacedLayout;
@@ -24,8 +25,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
-public class BackgroundChoiceForm extends DSAbstractForm<CharacterBackground>
-        implements AbstractForm.SavedHandler<CharacterBackground> {
+public class BackgroundChoiceForm extends DSAbstractForm<CharacterBackground> implements AbstractForm.SavedHandler<CharacterBackground> {
 
     private static final long serialVersionUID = -8079455641743140814L;
 
@@ -61,37 +61,37 @@ public class BackgroundChoiceForm extends DSAbstractForm<CharacterBackground>
     @Override
     protected Component createContent() {
 
+        Messages messages = Messages.getInstance();
+
         HorizontalSpacedLayout layout = new HorizontalSpacedLayout();
 
         VerticalSpacedLayout backgroundFieldsLayout = new VerticalSpacedLayout();
-        background = new TypedSelect<Background>("Choix de background", backgroundService.findAll())
-                .asListSelectType(new ListSelectConfig().withRows((int) backgroundService.count()))
-                .withNullSelectionAllowed(false);
+        background = new TypedSelect<Background>(messages.getMessage("backgroundStep.background.label"), backgroundService.findAll())
+                .asListSelectType(new ListSelectConfig().withRows((int) backgroundService.count())).withNullSelectionAllowed(false);
         language = new DSSubSetSelector<Language>(Language.class);
-        language.setCaption("Langage(s) additionel(s)");
+        language.setCaption(messages.getMessage("backgroundStep.languages.label"));
         language.setVisibleProperties("name");
-        language.setColumnHeader("name", "Langage");
+        language.setColumnHeader("name", messages.getMessage("backgroundStep.languages.table.column.name"));
         language.setOptions(languageService.findAll());
         language.setVisible(false);
 
-        look = new MTextArea("Allure").withFullWidth().withRows(6);
-        traits = new MTextArea("Traits de personnalité").withFullWidth().withRows(6);
-        ideals = new MTextArea("Idéaux").withFullWidth().withRows(6);
-        purposes = new MTextArea("Buts").withFullWidth().withRows(6);
-        flaws = new MTextArea("Défauts").withFullWidth().withRows(6);
+        look = new MTextArea(messages.getMessage("backgroundStep.look.label")).withFullWidth().withRows(6);
+        traits = new MTextArea(messages.getMessage("backgroundStep.traits.label")).withFullWidth().withRows(6);
+        ideals = new MTextArea(messages.getMessage("backgroundStep.ideals.label")).withFullWidth().withRows(6);
+        purposes = new MTextArea(messages.getMessage("backgroundStep.purposes.label")).withFullWidth().withRows(6);
+        flaws = new MTextArea(messages.getMessage("backgroundStep.flaws.label")).withFullWidth().withRows(6);
 
         FormLayout backgroundProperties = new FormLayout();
-        proficienciesLabel = new MLabel().withCaption("Maitrises").withStyleName(ValoTheme.LABEL_H4);
-        skillProficiencies = new MLabel().withCaption("Maitrises de compétence :");
-        toolProficiencies = new MLabel().withCaption("Maitrises d'outil :");
-        additionalLanguage = new MLabel().withCaption("Langage(s) additionel(s) :");
-        backgroundProperties.addComponents(proficienciesLabel, skillProficiencies, toolProficiencies,
-                additionalLanguage);
+        proficienciesLabel = new MLabel().withCaption(messages.getMessage("backgroundStep.proficiencies.label")).withStyleName(ValoTheme.LABEL_H4);
+        skillProficiencies = new MLabel().withCaption(messages.getMessage("backgroundStep.proficiencies.skill.label"));
+        toolProficiencies = new MLabel().withCaption(messages.getMessage("backgroundStep.proficiencies.tool.label"));
+        additionalLanguage = new MLabel().withCaption(messages.getMessage("backgroundStep.additionalLanguages.label"));
+        backgroundProperties.addComponents(proficienciesLabel, skillProficiencies, toolProficiencies, additionalLanguage);
 
-        traitsSuggestion = new MTextArea("Suggestions de traits de personnalité").withFullWidth().withRows(12);
-        idealsSuggestion = new MTextArea("Suggestions d'idéaux").withFullWidth().withRows(12);
-        purposesSuggestion = new MTextArea("Suggestions de buts").withFullWidth().withRows(12);
-        flawsSuggestion = new MTextArea("Suggestions de défauts").withFullWidth().withRows(12);
+        traitsSuggestion = new MTextArea(messages.getMessage("backgroundStep.suggestedTraits.label")).withFullWidth().withRows(12);
+        idealsSuggestion = new MTextArea(messages.getMessage("backgroundStep.suggestedIdeals.label")).withFullWidth().withRows(12);
+        purposesSuggestion = new MTextArea(messages.getMessage("backgroundStep.suggestedPurposes.label")).withFullWidth().withRows(12);
+        flawsSuggestion = new MTextArea(messages.getMessage("backgroundStep.suggestedFlaws.label")).withFullWidth().withRows(12);
 
         backgroundFieldsLayout.addComponents(background, language, look, traits, ideals, purposes, flaws);
 
@@ -115,12 +115,10 @@ public class BackgroundChoiceForm extends DSAbstractForm<CharacterBackground>
                 skillProficiencies.setVisible(true);
                 toolProficiencies.setVisible(true);
                 additionalLanguage.setVisible(true);
-                skillProficiencies.setValue(chosenBackground.getSkillProficiencies().isEmpty() ? "Aucune"
-                        : collectionConverter.convertToPresentation(chosenBackground.getSkillProficiencies(),
-                                String.class, null));
-                toolProficiencies.setValue(chosenBackground.getToolProficiencies().isEmpty() ? "Aucune"
-                        : collectionConverter.convertToPresentation(chosenBackground.getToolProficiencies(),
-                                String.class, null));
+                skillProficiencies.setValue(chosenBackground.getSkillProficiencies().isEmpty() ? messages.getMessage("backgroundStep.none.text")
+                        : collectionConverter.convertToPresentation(chosenBackground.getSkillProficiencies(), String.class, null));
+                toolProficiencies.setValue(chosenBackground.getToolProficiencies().isEmpty() ? messages.getMessage("backgroundStep.none.text")
+                        : collectionConverter.convertToPresentation(chosenBackground.getToolProficiencies(), String.class, null));
                 additionalLanguage.setValue(String.valueOf(chosenBackground.getAdditionalLanguage().getNbLanguage()));
                 traitsSuggestion.setValue(chosenBackground.getTraits());
                 idealsSuggestion.setValue(chosenBackground.getIdeals());
@@ -140,8 +138,7 @@ public class BackgroundChoiceForm extends DSAbstractForm<CharacterBackground>
             }
         });
 
-        backgroundDescriptionLayout.addComponents(backgroundProperties, traitsSuggestion, idealsSuggestion,
-                purposesSuggestion, flawsSuggestion);
+        backgroundDescriptionLayout.addComponents(backgroundProperties, traitsSuggestion, idealsSuggestion, purposesSuggestion, flawsSuggestion);
 
         layout.setSizeFull();
         layout.addComponents(backgroundFieldsLayout, backgroundDescriptionLayout);
@@ -157,6 +154,7 @@ public class BackgroundChoiceForm extends DSAbstractForm<CharacterBackground>
         getEntity().setCharacter(character);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void onSave(CharacterBackground entity) {
         if (language.getValue() != null) {
