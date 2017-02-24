@@ -1,6 +1,6 @@
 package com.dungeonstory.view.user;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import org.vaadin.viritin.fields.LabelField;
 import org.vaadin.viritin.form.AbstractForm;
@@ -22,7 +22,7 @@ public class UserForm extends AbstractForm<User> implements Translatable {
     private LabelField<AccessRole> role;
     private LabelField<UserStatus> status;
     private LabelField<String> email;
-    private LabelField<Date> created;
+    private LabelField<LocalDateTime> created;
     
     public UserForm() {
         super();
@@ -38,7 +38,7 @@ public class UserForm extends AbstractForm<User> implements Translatable {
         role = new LabelField<>(AccessRole.class);
         status = new LabelField<>(UserStatus.class);
         email = new LabelField<>();
-        created = new LabelField<>(Date.class);
+        created = new LabelField<>(LocalDateTime.class);
 
         layout.addComponents(username, name, email, role, status, created);
 
