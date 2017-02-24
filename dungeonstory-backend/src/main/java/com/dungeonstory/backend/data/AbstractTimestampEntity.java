@@ -1,6 +1,6 @@
 package com.dungeonstory.backend.data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -10,8 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 import org.eclipse.persistence.annotations.Customizer;
@@ -32,13 +30,11 @@ public abstract class AbstractTimestampEntity implements Entity {
     @Column(name = "version")
     private int version;
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created", nullable = false)
-    private Date created;
+    private LocalDateTime created;
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "updated", nullable = false)
-    private Date updated;
+    private LocalDateTime updated;
 
     @Override
     public Long getId() {
@@ -58,22 +54,22 @@ public abstract class AbstractTimestampEntity implements Entity {
         this.version = version;
     }
 
-    public Date getCreated() {
+    public LocalDateTime getCreated() {
         return created;
     }
 
-    public Date getUpdated() {
+    public LocalDateTime getUpdated() {
         return updated;
     }
 
     @PrePersist
     protected void onCreate() {
-        updated = created = new Date();
+        updated = created = LocalDateTime.now();
     }
 
     @PreUpdate
     protected void onUpdate() {
-        updated = new Date();
+        updated = LocalDateTime.now();
     }
 
     @Override
