@@ -7,6 +7,7 @@ import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.data.User;
 import com.dungeonstory.event.EventBus;
 import com.dungeonstory.event.ViewRemovedEvent;
+import com.dungeonstory.i18n.Messages;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
 
@@ -49,12 +50,13 @@ public class NewCharacterWizard extends CharacterWizard {
 
     @Override
     public void wizardCompleted(WizardCompletedEvent event) {
+        Messages messages = Messages.getInstance();
         User user = CurrentUser.get();
         user.setCharacter(character);
         character.setUser(user);
         CurrentUser.set(user);
         characterService.create(character);
-        Notification.show("Personnage créé!", Type.HUMANIZED_MESSAGE);
+        Notification.show(messages.getMessage("newCharacterView.notif.created"), Type.HUMANIZED_MESSAGE);
         EventBus.post(new ViewRemovedEvent(NewCharacterView.NEW_CHARACTER_URI));
         super.wizardCompleted(event);
     }

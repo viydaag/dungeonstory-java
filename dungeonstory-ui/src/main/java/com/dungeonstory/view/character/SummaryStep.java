@@ -9,6 +9,7 @@ import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.CharacterClass;
 import com.dungeonstory.backend.data.Feat;
 import com.dungeonstory.backend.data.util.ModifierUtil;
+import com.dungeonstory.i18n.Messages;
 import com.dungeonstory.util.CharacterWizardStep;
 import com.dungeonstory.util.converter.CollectionToStringConverter;
 import com.dungeonstory.util.layout.FormLayoutNoSpace;
@@ -27,11 +28,13 @@ public class SummaryStep extends CharacterWizardStep<Character> {
 
     @Override
     public String getCaption() {
-        return "Résumé";
+        return Messages.getInstance().getMessage("summaryStep.caption");
     }
 
     @Override
     public Component getContent() {
+
+        Messages messages = Messages.getInstance();
 
         Character character = wizard.getCharacter();
         Character original = wizard.getOriginal();
@@ -39,37 +42,38 @@ public class SummaryStep extends CharacterWizardStep<Character> {
         FormLayout layout = new FormLayout();
         layout.setMargin(new MarginInfo(true, true));
 
-        MLabel levelLabel = new MLabel("Niveau", character.getLevel().toString());
+        MLabel levelLabel = new MLabel(messages.getMessage("summaryStep.level.label"), character.getLevel().toString());
         layout.addComponent(levelLabel);
-        
+
         CollectionToStringConverter collectionConverter = new CollectionToStringConverter();
 
         if (character.getId() == null) {
-            MLabel raceLabel = new MLabel("Race", character.getRace().getName());
+            MLabel raceLabel = new MLabel(messages.getMessage("summaryStep.race.label"), character.getRace().getName());
             layout.addComponent(raceLabel);
-            MLabel languagesLabel = new MLabel("Langages",
+            MLabel languagesLabel = new MLabel(messages.getMessage("summaryStep.language.label"),
                     collectionConverter.convertToPresentation(character.getLanguages(), String.class, null));
             layout.addComponent(languagesLabel);
         }
 
         CollectionToStringConverter classCollectionConverter = new CollectionToStringConverter();
         classCollectionConverter.setDelimiter(" / ");
-        MLabel classesLabel = new MLabel("Classe",
+        MLabel classesLabel = new MLabel(messages.getMessage("summaryStep.class.label"),
                 classCollectionConverter.convertToPresentation(character.getClasses(), String.class, null));
         layout.addComponent(classesLabel);
 
         int nbLifePoints = 0;
         for (CharacterClass cc : character.getClasses()) {
-            nbLifePoints += (cc.getClassLevel() * (cc.getClasse().getLifePointPerLevel()
-                    + ModifierUtil.getAbilityModifier(character.getConstitution())));
+            nbLifePoints += (cc.getClassLevel()
+                    * (cc.getClasse().getLifePointPerLevel() + ModifierUtil.getAbilityModifier(character.getConstitution())));
         }
         int difLifePoints = nbLifePoints - original.getLifePoints();
 
         if (character.getId() == null) {
-            MLabel lifePoints = new MLabel("Points de vie", String.valueOf(nbLifePoints));
+            MLabel lifePoints = new MLabel(messages.getMessage("summaryStep.lifePoint.label"), String.valueOf(nbLifePoints));
             layout.addComponent(lifePoints);
         } else {
-            MLabel lifePointsLabel = new MLabel("Points de vie", String.valueOf(nbLifePoints) + "(+" + difLifePoints + ")");
+            MLabel lifePointsLabel = new MLabel(messages.getMessage("summaryStep.lifePoint.label"),
+                    String.valueOf(nbLifePoints) + "(+" + difLifePoints + ")");
             layout.addComponent(lifePointsLabel);
         }
         character.setLifePoints(nbLifePoints);
@@ -77,55 +81,55 @@ public class SummaryStep extends CharacterWizardStep<Character> {
         Set<Feat> featSet = new HashSet<Feat>(character.getFeats());
         featSet.removeAll(original.getFeats());
         if (!featSet.isEmpty()) {
-            MLabel featsLabel = new MLabel("Nouveaux dons",
+            MLabel featsLabel = new MLabel(messages.getMessage("summaryStep.newFeat.label"),
                     collectionConverter.convertToPresentation(featSet, String.class, null));
             layout.addComponent(featsLabel);
         }
 
         if (character.getId() == null) {
-            MLabel abilitiesLabel = new MLabel().withCaption("Caractéristiques").withStyleName(ValoTheme.LABEL_H4);
+            MLabel abilitiesLabel = new MLabel().withCaption(messages.getMessage("summaryStep.ability.label")).withStyleName(ValoTheme.LABEL_H4);
             FormLayoutNoSpace abilityLayout = new FormLayoutNoSpace();
-            MLabel strengthLabel = new MLabel("Force", String.valueOf(character.getStrength()));
-            MLabel dexterityLabel = new MLabel("Dextérité", String.valueOf(character.getDexterity()));
-            MLabel constitutionLabel = new MLabel("Constitution", String.valueOf(character.getConstitution()));
-            MLabel intelligneceLabel = new MLabel("Intellignece", String.valueOf(character.getIntelligence()));
-            MLabel wisdomLabel = new MLabel("Sagesse", String.valueOf(character.getWisdom()));
-            MLabel charismaLabel = new MLabel("Charisme", String.valueOf(character.getCharisma()));
-            abilityLayout.addComponents(strengthLabel, dexterityLabel, constitutionLabel, intelligneceLabel,
-                    wisdomLabel, charismaLabel);
+            MLabel strengthLabel = new MLabel(messages.getMessage("ability.str.caption"), String.valueOf(character.getStrength()));
+            MLabel dexterityLabel = new MLabel(messages.getMessage("ability.dex.caption"), String.valueOf(character.getDexterity()));
+            MLabel constitutionLabel = new MLabel(messages.getMessage("ability.con.caption"), String.valueOf(character.getConstitution()));
+            MLabel intelligneceLabel = new MLabel(messages.getMessage("ability.int.caption"), String.valueOf(character.getIntelligence()));
+            MLabel wisdomLabel = new MLabel(messages.getMessage("ability.wis.caption"), String.valueOf(character.getWisdom()));
+            MLabel charismaLabel = new MLabel(messages.getMessage("ability.cha.caption"), String.valueOf(character.getCharisma()));
+            abilityLayout.addComponents(strengthLabel, dexterityLabel, constitutionLabel, intelligneceLabel, wisdomLabel, charismaLabel);
             layout.addComponents(abilitiesLabel, abilityLayout);
         } else {
             //check which ability has changed with original
         }
 
         if (character.getId() == null) {
-            MLabel proficienciesLabel = new MLabel().withCaption("Maitrises").withStyleName(ValoTheme.LABEL_H4);
-            MLabel armorProficienciesLabel = new MLabel("Armures",
+            MLabel proficienciesLabel = new MLabel().withCaption(messages.getMessage("summaryStep.proficiency.label"))
+                    .withStyleName(ValoTheme.LABEL_H4);
+            MLabel armorProficienciesLabel = new MLabel(messages.getMessage("summaryStep.proficiency.armor.label"),
                     collectionConverter.convertToPresentation(character.getArmorProficiencies(), String.class, null));
-            MLabel weaponProficienciesLabel = new MLabel("Armes",
+            MLabel weaponProficienciesLabel = new MLabel(messages.getMessage("summaryStep.proficiency.weapon.label"),
                     collectionConverter.convertToPresentation(character.getWeaponProficiencies(), String.class, null));
-            MLabel savingThrowProficienciesLabel = new MLabel("Jets de sauvegarde", collectionConverter
-                    .convertToPresentation(character.getSavingThrowProficiencies(), String.class, null));
-            MLabel skillProficienciesLabel = new MLabel("Compétences",
+            MLabel savingThrowProficienciesLabel = new MLabel(messages.getMessage("summaryStep.proficiency.savingThrow.label"),
+                    collectionConverter.convertToPresentation(character.getSavingThrowProficiencies(), String.class, null));
+            MLabel skillProficienciesLabel = new MLabel(messages.getMessage("summaryStep.proficiency.skill.label"),
                     collectionConverter.convertToPresentation(character.getSkillProficiencies(), String.class, null));
-            layout.addComponents(proficienciesLabel, armorProficienciesLabel, weaponProficienciesLabel,
-                    savingThrowProficienciesLabel, skillProficienciesLabel);
+            layout.addComponents(proficienciesLabel, armorProficienciesLabel, weaponProficienciesLabel, savingThrowProficienciesLabel,
+                    skillProficienciesLabel);
         } else {
             //check if new proficiencies are available
         }
 
         if (character.getId() == null) {
-            MLabel infoLabel = new MLabel().withCaption("Informations").withStyleName(ValoTheme.LABEL_H4);
-            MLabel nameLabel = new MLabel("Nom", character.getName());
-            MLabel genderLabel = new MLabel("Sexe", character.getGender().toString());
-            MLabel ageLabel = new MLabel("Âge", String.valueOf(character.getAge()));
-            MLabel weightLabel = new MLabel("Poids", character.getWeight() + " lbs");
-            MLabel heightLabel = new MLabel("Taille", character.getHeight());
-            MLabel alignmentLabel = new MLabel("Alignement", character.getAlignment().toString());
-            MLabel regionLabel = new MLabel("Région d'origine", character.getRegion().toString());
-            MLabel backgroundLabel = new MLabel("Background", character.getBackground().getBackground().toString());
-            layout.addComponents(infoLabel, nameLabel, genderLabel, ageLabel, weightLabel, heightLabel, alignmentLabel,
-                    regionLabel, backgroundLabel);
+            MLabel infoLabel = new MLabel().withCaption(messages.getMessage("summaryStep.info.label")).withStyleName(ValoTheme.LABEL_H4);
+            MLabel nameLabel = new MLabel(messages.getMessage("summaryStep.name.label"), character.getName());
+            MLabel genderLabel = new MLabel(messages.getMessage("summaryStep.sex.label"), character.getGender().toString());
+            MLabel ageLabel = new MLabel(messages.getMessage("summaryStep.age.label"), String.valueOf(character.getAge()));
+            MLabel weightLabel = new MLabel(messages.getMessage("summaryStep.weight.label"), character.getWeight() + " lbs");
+            MLabel heightLabel = new MLabel(messages.getMessage("summaryStep.height.label"), character.getHeight());
+            MLabel alignmentLabel = new MLabel(messages.getMessage("summaryStep.alignment.label"), character.getAlignment().toString());
+            MLabel regionLabel = new MLabel(messages.getMessage("summaryStep.region.label"), character.getRegion().toString());
+            MLabel backgroundLabel = new MLabel(messages.getMessage("summaryStep.background.label"),
+                    character.getBackground().getBackground().toString());
+            layout.addComponents(infoLabel, nameLabel, genderLabel, ageLabel, weightLabel, heightLabel, alignmentLabel, regionLabel, backgroundLabel);
         }
 
         //Starting gold

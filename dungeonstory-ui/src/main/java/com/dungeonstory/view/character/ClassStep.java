@@ -1,6 +1,7 @@
 package com.dungeonstory.view.character;
 
 import com.dungeonstory.backend.data.Character;
+import com.dungeonstory.i18n.Messages;
 import com.dungeonstory.util.CharacterWizardStep;
 import com.vaadin.ui.Component;
 
@@ -14,7 +15,8 @@ public class ClassStep extends CharacterWizardStep<Character> {
 
     @Override
     public String getCaption() {
-        return "Choix de classe";
+        Messages messages = Messages.getInstance();
+        return messages.getMessage("classStep.caption");
     }
 
     @Override

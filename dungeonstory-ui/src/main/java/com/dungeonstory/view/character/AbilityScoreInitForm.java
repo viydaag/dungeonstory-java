@@ -4,6 +4,7 @@ import org.vaadin.viritin.fields.IntegerField;
 import org.vaadin.viritin.label.MLabel;
 
 import com.dungeonstory.backend.data.Character;
+import com.dungeonstory.i18n.Messages;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -32,14 +33,16 @@ public class AbilityScoreInitForm extends AbilityScoreForm {
     protected Component createContent() {
         Component content = super.createContent();
 
+        Messages messages = Messages.getInstance();
+
         pointsToSpend.setReadOnly(false);
         pointsToSpend.setValue(27);
         pointsToSpend.setReadOnly(true);
 
         gridLayout.removeAllComponents();
-        gridLayout.addComponent(new MLabel("Caractéristique"), 0, 0);
-        gridLayout.addComponent(new MLabel("Modificateur de race"), 1, 0);
-        gridLayout.addComponent(new MLabel("Score"), 2, 0);
+        gridLayout.addComponent(new MLabel(messages.getMessage("abilityScoreStep.ability.label")), 0, 0);
+        gridLayout.addComponent(new MLabel(messages.getMessage("abilityScoreStep.raceModifier.label")), 1, 0);
+        gridLayout.addComponent(new MLabel(messages.getMessage("abilityScoreStep.score.label")), 2, 0);
 
         strengthModifier = new IntegerField();
         gridLayout.addComponent(strengthLabel, 0, 1);
@@ -133,7 +136,7 @@ public class AbilityScoreInitForm extends AbilityScoreForm {
                     fieldAction.setReadOnly(true);
                 }
             } else {
-                Notification.show("Le score maximum est " + (MAX_SCORE + modifier), Type.HUMANIZED_MESSAGE);
+                Notification.show(Messages.getInstance().getMessage("abilityScoreStep.notif.minScore", MAX_SCORE + modifier), Type.HUMANIZED_MESSAGE);
             }
         });
         return plusButton;
@@ -153,7 +156,7 @@ public class AbilityScoreInitForm extends AbilityScoreForm {
                 fieldAction.setValue(value - 1);
                 fieldAction.setReadOnly(true);
             } else {
-                Notification.show("Le score minimum est " + (MIN_SCORE + modifier), Type.HUMANIZED_MESSAGE);
+                Notification.show(Messages.getInstance().getMessage("abilityScoreStep.notif.maxScore", MIN_SCORE + modifier), Type.HUMANIZED_MESSAGE);
             }
         });
         return minusButton;
