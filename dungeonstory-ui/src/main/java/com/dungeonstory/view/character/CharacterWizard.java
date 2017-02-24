@@ -13,6 +13,7 @@ import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.service.impl.CharacterService;
 import com.dungeonstory.event.EventBus;
 import com.dungeonstory.event.NavigationEvent;
+import com.dungeonstory.i18n.Messages;
 import com.dungeonstory.util.CharacterWizardStep;
 import com.vaadin.server.Page;
 import com.vaadin.ui.Button;
@@ -44,10 +45,11 @@ public class CharacterWizard extends Wizard implements WizardProgressListener {
         setUriFragmentEnabled(false);
         addListener(this);
 
-        getBackButton().setCaption("Précédent");
-        getCancelButton().setCaption("Annuler");
-        getNextButton().setCaption("Suivant");
-        getFinishButton().setCaption("Terminer");
+        Messages messages = Messages.getInstance();
+        getBackButton().setCaption(messages.getMessage("button.back"));
+        getCancelButton().setCaption(messages.getMessage("button.cancel"));
+        getNextButton().setCaption(messages.getMessage("button.next"));
+        getFinishButton().setCaption(messages.getMessage("button.finish"));
 
         nextButtonListener = (ClickListener) getNextButton().getListeners(Button.ClickEvent.class).toArray()[0];
 
@@ -124,7 +126,7 @@ public class CharacterWizard extends Wizard implements WizardProgressListener {
     protected void activateStep(WizardStep step) {
         super.activateStep(step);
         if (step instanceof CharacterWizardStep) {
-            ((CharacterWizardStep) step).afterActivateStep();
+            ((CharacterWizardStep<?>) step).afterActivateStep();
         }
     }
 

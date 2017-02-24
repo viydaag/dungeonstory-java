@@ -1,6 +1,7 @@
 package com.dungeonstory.view.character;
 
 import com.dungeonstory.backend.data.CharacterBackground;
+import com.dungeonstory.i18n.Messages;
 import com.dungeonstory.util.CharacterWizardStep;
 import com.vaadin.ui.Component;
 
@@ -14,7 +15,7 @@ public class BackgroundStep extends CharacterWizardStep<CharacterBackground> {
 
     @Override
     public String getCaption() {
-        return "Choix de background";
+        return Messages.getInstance().getMessage("backgroundStep.caption");
     }
 
     @Override
