@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 
 import com.dungeonstory.authentication.AccessControl;
 import com.dungeonstory.authentication.BasicAccessControl;
+import com.dungeonstory.authentication.CurrentUser;
 import com.dungeonstory.authentication.DsAccessControl;
 import com.dungeonstory.authentication.LoginScreen;
 import com.dungeonstory.authentication.LoginScreen.LoginListener;
@@ -113,6 +114,7 @@ public class DungeonStoryUI extends UI {
     @Subscribe
     public void logout(LogoutEvent logoutEvent) {
         // Don't invalidate the underlying HTTP session if you are using it for something else
+        CurrentUser.set(null);
         VaadinSession.getCurrent().getSession().invalidate();
         VaadinSession.getCurrent().close();
         Page.getCurrent().reload();
