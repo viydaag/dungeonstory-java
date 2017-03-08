@@ -1,16 +1,11 @@
 package com.dungeonstory.view.character;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.vaadin.peter.imagestrip.ImageStrip;
 import org.vaadin.viritin.fields.IntegerField;
 import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.fields.TypedSelect;
 import org.vaadin.viritin.form.AbstractForm.SavedHandler;
 
-import com.dungeonstory.DSConstant;
 import com.dungeonstory.backend.data.Alignment;
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.Character.Gender;
@@ -20,11 +15,12 @@ import com.dungeonstory.backend.service.impl.AlignmentService;
 import com.dungeonstory.backend.service.impl.RegionService;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.i18n.Messages;
-import com.dungeonstory.util.ImageFilter;
+import com.dungeonstory.ui.component.DSImageStrip;
+import com.dungeonstory.ui.component.ImageStripFactory;
 import com.vaadin.data.Validator;
-import com.vaadin.server.FileResource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.Field;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextField;
 
@@ -39,20 +35,17 @@ public class InformationForm extends DSAbstractForm<Character> implements SavedH
     private TextField              height;
     private TypedSelect<Alignment> alignment;
     private TypedSelect<Region>    region;
-    private ImageStrip             imageStrip;
-
-    private Map<ImageStrip.Image, String> imageMap;
-    private String                        image;
+    private DSImageStrip           imageStrip;
+    private String                 image;
 
     private AlignmentDataService alignmentService = AlignmentService.getInstance();
     private RegionService        regionService    = RegionService.getInstance();
-    
+
     private FormLayout layout;
 
     public InformationForm() {
         super();
         setSavedHandler(this);
-        imageMap = new HashMap<ImageStrip.Image, String>();
     }
 
     @Override
@@ -97,9 +90,9 @@ public class InformationForm extends DSAbstractForm<Character> implements SavedH
 
         gender.addMValueChangeListener(event -> initImageStrip(event.getValue()));
 
-        initImageStrip(null);
+        layout.addComponents(name, gender, age, weight, height, alignment, region);
 
-        layout.addComponents(name, gender, age, weight, height, alignment, region, imageStrip);
+        initImageStrip(null);
 
         return layout;
     }
@@ -108,48 +101,20 @@ public class InformationForm extends DSAbstractForm<Character> implements SavedH
         if (imageStrip != null) {
             layout.removeComponent(imageStrip);
         }
-        
-        imageStrip = new ImageStrip(org.vaadin.peter.imagestrip.ImageStrip.Alignment.HORIZONTAL);
-        imageStrip.setHeight(200, Unit.PIXELS);
-        imageStrip.setCaption(Messages.getInstance().getMessage("informationStep.image.label"));
 
-        // Use animation
-        imageStrip.setAnimated(true);
+        imageStrip = ImageStripFactory.getInstance().getImageStrip(gender);
 
-        // Make strip to behave like select
-        imageStrip.setSelectable(true);
-
-        // Add ValueChangeListener to listen for image selection
-        imageStrip.addValueChangeListener(event -> {
-            ImageStrip.Image selectedImage = (ImageStrip.Image) event.getProperty().getValue();
-            image = imageMap.get(selectedImage);
-        });
-
-        // Set size of the box surrounding the images
-        imageStrip.setImageBoxWidth(120);
-        imageStrip.setImageBoxHeight(180);
-
-        // Set maximum size of the images
-        imageStrip.setImageMaxWidth(110);
-        imageStrip.setImageMaxHeight(170);
-
-        // Limit how many images are visible at most simultaneously
-        imageStrip.setMaxAllowed(7);
-
-        if (gender != null && gender.getImageDir() != null) {
-            File imageDir = new File(DSConstant.getImageDir() + "/" + gender.getImageDir());
-
-            if (imageDir.isDirectory()) { // make sure it's a directory
-                for (final File imageFile : imageDir.listFiles(new ImageFilter())) {
-                    FileResource resource = new FileResource(imageFile);
-                    ImageStrip.Image image = imageStrip.addImage(resource);
-                    imageMap.put(image, "/" + gender.getImageDir() + "/" + imageFile.getName());
-                }
+        if (imageStrip != null) {
+            if (imageStrip.getListeners(Field.ValueChangeEvent.class).isEmpty()) {
+                // Add ValueChangeListener to listen for image selection
+                imageStrip.addValueChangeListener(event -> {
+                    ImageStrip.Image selectedImage = (ImageStrip.Image) event.getProperty().getValue();
+                    image = imageStrip.getImageMap().get(selectedImage);
+                });
             }
+
+            layout.addComponent(imageStrip);
         }
-        
-        layout.addComponent(imageStrip);
-        
     }
 
     @Override

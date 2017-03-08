@@ -36,6 +36,7 @@ import com.dungeonstory.view.admin.SkillView;
 import com.dungeonstory.view.admin.SpellView;
 import com.dungeonstory.view.admin.UserListView;
 import com.dungeonstory.view.admin.WeaponTypeView;
+import com.dungeonstory.view.character.CharacterView;
 import com.dungeonstory.view.character.NewCharacterView;
 import com.dungeonstory.view.user.UserView;
 import com.google.common.eventbus.Subscribe;
@@ -44,7 +45,6 @@ import com.vaadin.navigator.View;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.MenuBar;
-import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.VerticalLayout;
 
@@ -143,15 +143,8 @@ public class MainScreen extends HorizontalLayout {
         if (CurrentUser.get().getCharacter() == null) {
             addView(NewCharacterView.class);
         } else {
-            bar.addItem("Personnage", null, new Command() {
-
-                private static final long serialVersionUID = -1306426193509128919L;
-
-                @Override
-                public void menuSelected(MenuItem selectedItem) {
-                    //navigator.navigateTo(CharacterView.URI);
-                }
-            });
+            addViewNoNavBar(CharacterView.class);
+            bar.addItem("Personnage", null, command -> navigator.navigateTo(CharacterView.URI));
         }
 
         if (DungeonStoryUI.get().getAccessControl().isUserInRole("ADMIN")) {
