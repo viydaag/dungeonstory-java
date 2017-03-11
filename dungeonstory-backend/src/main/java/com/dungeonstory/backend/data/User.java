@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
@@ -68,7 +69,7 @@ public class User extends AbstractTimestampEntity implements Serializable {
     @Column(name = "status", nullable = false)
     private UserStatus status;
 
-    @OneToOne(mappedBy = "user", orphanRemoval = true)
+    @OneToOne(mappedBy = "user", orphanRemoval = true, fetch=FetchType.EAGER)
     private Character character;
 
     public User() {
