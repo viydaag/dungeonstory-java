@@ -25,6 +25,10 @@ public class ImageFilter implements FilenameFilter {
         return false;
     }
 
+    public static String[] getImgExtensions() {
+        return IMG_EXTENSIONS;
+    }
+
     public void setExtension(String... extension) {
         extensions.clear();
         extensions.addAll(Arrays.asList(extension));

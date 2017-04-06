@@ -330,5 +330,13 @@ $v-layout-spacing-horizontal: round($v-unit-size / 1.8) !default;
     .centerAligned {
       text-align: center;
     }
+    
+    
+    .image-bordered-selected {
+        border-radius: 5px;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        box-shadow: 0 0 0 7px #cdcdcd;
+    }
 
 }
