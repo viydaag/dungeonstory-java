@@ -3,6 +3,7 @@ package com.dungeonstory.i18n;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
@@ -15,7 +16,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.vaadin.ui.UI;
 
-public final class Messages {
+public final class Messages implements Serializable {
+
+    private static final long serialVersionUID = 2894567439582767757L;
 
     private final ResourceBundle messages;
     private final Locale         locale;

@@ -14,6 +14,7 @@ import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.event.LogoutEvent;
 import com.dungeonstory.event.NavigationEvent;
 import com.dungeonstory.i18n.Translatable;
+import com.dungeonstory.ui.factory.ImageFactory;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.annotations.Theme;
@@ -74,6 +75,8 @@ public class DungeonStoryUI extends UI {
         }
 
         setLocale(vaadinRequest.getLocale());
+
+        ImageFactory.getInstance();
     }
 
     protected void showMainView() {
