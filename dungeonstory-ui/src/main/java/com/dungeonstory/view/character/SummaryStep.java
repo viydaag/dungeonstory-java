@@ -1,10 +1,12 @@
 package com.dungeonstory.view.character;
 
+import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.vaadin.viritin.label.MLabel;
 
+import com.dungeonstory.DSConstant;
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.CharacterClass;
 import com.dungeonstory.backend.data.Feat;
@@ -13,9 +15,11 @@ import com.dungeonstory.i18n.Messages;
 import com.dungeonstory.util.CharacterWizardStep;
 import com.dungeonstory.util.converter.CollectionToStringConverter;
 import com.dungeonstory.util.layout.FormLayoutNoSpace;
+import com.vaadin.server.FileResource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
+import com.vaadin.ui.Image;
 import com.vaadin.ui.themes.ValoTheme;
 
 public class SummaryStep extends CharacterWizardStep<Character> {
@@ -120,6 +124,10 @@ public class SummaryStep extends CharacterWizardStep<Character> {
 
         if (character.getId() == null) {
             MLabel infoLabel = new MLabel().withCaption(messages.getMessage("summaryStep.info.label")).withStyleName(ValoTheme.LABEL_H4);
+            File imageFile = new File(DSConstant.getImageDir() + character.getImage());
+            FileResource resource = new FileResource(imageFile);
+            Image image = new Image("Image", resource);
+            layout.addComponent(image);
             MLabel nameLabel = new MLabel(messages.getMessage("summaryStep.name.label"), character.getName());
             MLabel genderLabel = new MLabel(messages.getMessage("summaryStep.sex.label"), character.getGender().toString());
             MLabel ageLabel = new MLabel(messages.getMessage("summaryStep.age.label"), String.valueOf(character.getAge()));
@@ -129,7 +137,8 @@ public class SummaryStep extends CharacterWizardStep<Character> {
             MLabel regionLabel = new MLabel(messages.getMessage("summaryStep.region.label"), character.getRegion().toString());
             MLabel backgroundLabel = new MLabel(messages.getMessage("summaryStep.background.label"),
                     character.getBackground().getBackground().toString());
-            layout.addComponents(infoLabel, nameLabel, genderLabel, ageLabel, weightLabel, heightLabel, alignmentLabel, regionLabel, backgroundLabel);
+            layout.addComponents(infoLabel, image, nameLabel, genderLabel, ageLabel, weightLabel, heightLabel, alignmentLabel, regionLabel,
+                    backgroundLabel);
         }
 
         //Starting gold
