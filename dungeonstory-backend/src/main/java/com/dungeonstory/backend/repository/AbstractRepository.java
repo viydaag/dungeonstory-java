@@ -17,12 +17,12 @@ import com.dungeonstory.backend.Configuration;
 public abstract class AbstractRepository<E extends Entity, K extends Serializable> implements Repository<E, K>, Serializable {
 
     private static final long serialVersionUID = 2825199262413194217L;
-    
+
     private static final String PERSISTENCE_UNIT_HSQL_NAME  = "dungeonstory-hsql2";
     private static final String PERSISTENCE_UNIT_MYSQL_NAME = "dungeonstory-mysql";
 
     protected static EntityManagerFactory factory;
-    protected static EntityManager entityManager;
+    protected static EntityManager        entityManager;
 
     private String tableName;
 
@@ -33,8 +33,14 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
         } else {
             factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_MYSQL_NAME);
         }
-        
+
         entityManager = factory.createEntityManager();
+    }
+
+    private void rollback(EntityTransaction transac) {
+        if (transac != null && transac.isActive()) {
+            transac.rollback();
+        }
     }
 
     @Override
@@ -45,7 +51,7 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
             entityManager.persist(entity);
             transac.commit();
         } catch (Exception e) {
-            transac.rollback();
+            rollback(transac);
             throw e;
         }
     }
@@ -60,13 +66,14 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
         if (entity.getId() == null) {
             return;
         }
-        entityManager.getTransaction().begin();
+        EntityTransaction transac = entityManager.getTransaction();
+        transac.begin();
         try {
             E entity2 = entityManager.getReference(getEntityClass(), entity.getId());
             entityManager.remove(entity2);
-            entityManager.getTransaction().commit();
+            transac.commit();
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
+            rollback(transac);
             throw e;
         }
 
@@ -91,7 +98,7 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
             query.executeUpdate();
             transac.commit();
         } catch (Exception e) {
-            transac.rollback();
+            rollback(transac);
             throw e;
         }
     }
@@ -99,11 +106,11 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
     private String getTableName() {
         if (tableName == null) {
             tableName = getEntityClass().getName();
-//            Annotation annotation = getEntityClass().getAnnotation(Table.class);
-//            if (annotation != null) {
-//                Table tableAnnotation = (Table) annotation;
-//                tableName = tableAnnotation.name();
-//            }
+            //            Annotation annotation = getEntityClass().getAnnotation(Table.class);
+            //            if (annotation != null) {
+            //                Table tableAnnotation = (Table) annotation;
+            //                tableName = tableAnnotation.name();
+            //            }
         }
         return tableName;
     }
@@ -124,8 +131,7 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
     @Override
     public List<E> findAllOrderBy(String[] orderColumn, String[] order) {
         String orderQuery = getOrderQuery(orderColumn, order);
-        TypedQuery<E> query = entityManager.createQuery(
-                "SELECT o FROM " + getTableName() + " o ORDER BY " + orderQuery, getEntityClass());
+        TypedQuery<E> query = entityManager.createQuery("SELECT o FROM " + getTableName() + " o ORDER BY " + orderQuery, getEntityClass());
         return query.getResultList();
     }
 
@@ -140,27 +146,25 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
         }
         return orderQuery;
     }
-    
+
     @Override
     public List<E> findAllBy(String column, String value) {
-        TypedQuery<E> query = entityManager.createQuery(
-                "SELECT o FROM " + getTableName() + " o WHERE o." + column + " = " + value, getEntityClass());
+        TypedQuery<E> query = entityManager.createQuery("SELECT o FROM " + getTableName() + " o WHERE o." + column + " = :value", getEntityClass());
+        query.setParameter("value", value);
         return query.getResultList();
     }
-    
+
     @Override
     public List<E> findAllByLike(String column, String value) {
-        TypedQuery<E> query = entityManager.createQuery(
-                "SELECT o FROM " + getTableName() + " o WHERE o." + column + " LIKE :value", getEntityClass());
+        TypedQuery<E> query = entityManager.createQuery("SELECT o FROM " + getTableName() + " o WHERE o." + column + " LIKE :value",
+                getEntityClass());
         query.setParameter("value", "%" + value + "%");
         return query.getResultList();
     }
 
     @Override
     public List<E> findAllByLikePaged(String column, String value, int firstRow, int pageSize) {
-        TypedQuery<E> query = entityManager
-                .createQuery("SELECT o FROM " + getTableName() + " o WHERE o." + column + " LIKE :value",
-                        getEntityClass())
+        TypedQuery<E> query = entityManager.createQuery("SELECT o FROM " + getTableName() + " o WHERE o." + column + " LIKE :value", getEntityClass())
                 .setFirstResult(firstRow).setMaxResults(pageSize);
         query.setParameter("value", "%" + value + "%");
         return query.getResultList();
@@ -168,29 +172,26 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
 
     @Override
     public List<E> findAllPaged(int firstRow, int pageSize) {
-        TypedQuery<E> query = entityManager.createQuery("SELECT o FROM " + getTableName() + " o", getEntityClass())
-                .setFirstResult(firstRow).setMaxResults(pageSize);
+        TypedQuery<E> query = entityManager.createQuery("SELECT o FROM " + getTableName() + " o", getEntityClass()).setFirstResult(firstRow)
+                .setMaxResults(pageSize);
         return query.getResultList();
     }
 
     @Override
     public List<E> findAllPagedOrderBy(int firstRow, int pageSize, String[] orderColumn, String[] order) {
         String orderQuery = getOrderQuery(orderColumn, order);
-        TypedQuery<E> query = entityManager
-                .createQuery("SELECT o FROM " + getTableName() + " o ORDER BY " + orderQuery,
-                        getEntityClass())
+        TypedQuery<E> query = entityManager.createQuery("SELECT o FROM " + getTableName() + " o ORDER BY " + orderQuery, getEntityClass())
                 .setFirstResult(firstRow).setMaxResults(pageSize);
         return query.getResultList();
     }
 
     @Override
-    public List<E> findAllByLikePagedOrderBy(String column, String value, int firstRow, int pageSize,
-            String[] orderColumn, String[] order) {
+    public List<E> findAllByLikePagedOrderBy(String column, String value, int firstRow, int pageSize, String[] orderColumn, String[] order) {
 
         String orderQuery = getOrderQuery(orderColumn, order);
-        TypedQuery<E> query = entityManager.createQuery("SELECT o FROM " + getTableName() + " o WHERE o." + column
-                + " LIKE :value ORDER BY " + orderQuery, getEntityClass()).setFirstResult(firstRow)
-                .setMaxResults(pageSize);
+        TypedQuery<E> query = entityManager
+                .createQuery("SELECT o FROM " + getTableName() + " o WHERE o." + column + " LIKE :value ORDER BY " + orderQuery, getEntityClass())
+                .setFirstResult(firstRow).setMaxResults(pageSize);
         query.setParameter("value", "%" + value + "%");
         return query.getResultList();
     }
@@ -240,7 +241,7 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
             transac.commit();
             return result;
         } catch (Exception e) {
-            transac.rollback();
+            rollback(transac);
             throw e;
         }
     }
