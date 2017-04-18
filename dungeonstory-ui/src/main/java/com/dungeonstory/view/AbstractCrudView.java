@@ -1,5 +1,6 @@
 package com.dungeonstory.view;
 
+import org.vaadin.resetbuttonfortextfield.ResetButtonForTextField;
 import org.vaadin.viritin.LazyList;
 import org.vaadin.viritin.fields.MTextField;
 
@@ -12,13 +13,11 @@ import com.dungeonstory.view.grid.DSGrid;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.themes.ValoTheme;
 
 public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedLayout implements CrudView<T> {
 
@@ -54,13 +53,8 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
         filter.addTextChangeListener(e -> {
             listEntries(e.getText());
         });
-        Button clearFilterButton = new Button(FontAwesome.CLOSE);
-        clearFilterButton.addClickListener(event -> {
-            filter.clear();
-            listEntries(); //not necessary on Vaadin 8
-        });
-        CssLayout filterLayout = new CssLayout(filter, clearFilterButton);
-        filterLayout.addStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
+        ResetButtonForTextField resetText = ResetButtonForTextField.extend(filter);
+        resetText.addResetButtonClickedListener(() -> listEntries());
 
         initForm();
 
@@ -73,12 +67,12 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
             }
             addComponent(form);
             if (isFilterAllowed()) {
-                addComponent(filterLayout);
+                addComponent(filter);
             }
             addComponent(grid);
         } else {
             if (isFilterAllowed()) {
-                addComponent(filterLayout);
+                addComponent(filter);
             }
             addComponents(grid);
         }
