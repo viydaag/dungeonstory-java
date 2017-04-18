@@ -1,7 +1,6 @@
 package com.dungeonstory.view.character;
 
-import java.util.List;
-
+import org.vaadin.peter.imagestrip.ImageStrip;
 import org.vaadin.viritin.fields.IntegerField;
 import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.fields.TypedSelect;
@@ -16,12 +15,12 @@ import com.dungeonstory.backend.service.impl.AlignmentService;
 import com.dungeonstory.backend.service.impl.RegionService;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.i18n.Messages;
-import com.dungeonstory.ui.component.DSImage;
-import com.dungeonstory.ui.component.ImageSelector;
-import com.dungeonstory.ui.factory.ImageFactory;
+import com.dungeonstory.ui.component.DSImageStrip;
+import com.dungeonstory.ui.component.ImageStripFactory;
 import com.vaadin.data.Validator;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.Field;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextField;
 
@@ -36,7 +35,7 @@ public class InformationForm extends DSAbstractForm<Character> implements SavedH
     private TextField              height;
     private TypedSelect<Alignment> alignment;
     private TypedSelect<Region>    region;
-    private ImageSelector          imageSelector;
+    private DSImageStrip           imageStrip;
     private String                 image;
 
     private AlignmentDataService alignmentService = AlignmentService.getInstance();
@@ -89,42 +88,33 @@ public class InformationForm extends DSAbstractForm<Character> implements SavedH
             }
         });
 
-        gender.addMValueChangeListener(event -> initImageSelector(event.getValue()));
+        gender.addMValueChangeListener(event -> initImageStrip(event.getValue()));
 
         layout.addComponents(name, gender, age, weight, height, alignment, region);
 
-        initImageSelector(null);
+        initImageStrip(null);
 
         return layout;
     }
 
-    private void initImageSelector(Gender gender) {
-        if (imageSelector == null) {
-            imageSelector = new ImageSelector();
-        } else {
-            imageSelector.clear();
+    private void initImageStrip(Gender gender) {
+        if (imageStrip != null) {
+            layout.removeComponent(imageStrip);
         }
 
-        imageSelector.setMaxAllowed(5);
-        imageSelector.setSelectable(true);
-        imageSelector.setImageMaxHeight(150);
-        imageSelector.setImageMaxWidth(150);
+        imageStrip = ImageStripFactory.getInstance().getImageStrip(gender);
 
-        List<DSImage> imageList = null;
-        if (gender != null) {
-            if (gender.equals(Gender.M)) {
-                imageList = ImageFactory.getInstance().getMaleImages();
-            } else {
-                imageList = ImageFactory.getInstance().getFemaleImages();
+        if (imageStrip != null) {
+            if (imageStrip.getListeners(Field.ValueChangeEvent.class).isEmpty()) {
+                // Add ValueChangeListener to listen for image selection
+                imageStrip.addValueChangeListener(event -> {
+                    ImageStrip.Image selectedImage = (ImageStrip.Image) event.getProperty().getValue();
+                    image = imageStrip.getImageMap().get(selectedImage);
+                });
             }
-            imageSelector.addImages(imageList);
-            imageSelector.addValueChangeListener(event -> {
-                DSImage value = (DSImage) event.getProperty().getValue();
-                this.image = value.getRelativePath();
-            });
-        }
 
-        layout.addComponent(imageSelector);
+            layout.addComponent(imageStrip);
+        }
     }
 
     @Override
