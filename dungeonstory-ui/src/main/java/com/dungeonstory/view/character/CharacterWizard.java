@@ -112,7 +112,8 @@ public class CharacterWizard extends Wizard implements WizardProgressListener {
 
     @Override
     public void wizardCompleted(WizardCompletedEvent event) {
-        EventBus.post(new NavigationEvent(CharacterView.URI));
+        EventBus.post(new NavigationEvent(""));
+        //EventBus.post(new NavigationEvent("character"));
     }
 
     @Override

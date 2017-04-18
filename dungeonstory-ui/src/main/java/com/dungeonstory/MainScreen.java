@@ -38,7 +38,6 @@ import com.dungeonstory.view.admin.UserListView;
 import com.dungeonstory.view.admin.WeaponTypeView;
 import com.dungeonstory.view.character.CharacterView;
 import com.dungeonstory.view.character.NewCharacterView;
-import com.dungeonstory.view.shop.ShopListView;
 import com.dungeonstory.view.user.UserView;
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.navigator.Navigator;
@@ -144,9 +143,8 @@ public class MainScreen extends HorizontalLayout {
         if (CurrentUser.get().getCharacter() == null) {
             addView(NewCharacterView.class);
         } else {
-            addViewToMenuBar(CharacterView.class);
-            addViewToMenuBar(ShopListView.class);
-            addViewNoNavBar(com.dungeonstory.view.shop.ShopView.class);
+            addViewNoNavBar(CharacterView.class);
+            bar.addItem("Personnage", null, command -> navigator.navigateTo(CharacterView.URI));
         }
 
         if (DungeonStoryUI.get().getAccessControl().isUserInRole("ADMIN")) {
@@ -230,33 +228,6 @@ public class MainScreen extends HorizontalLayout {
                         e.printStackTrace();
                     }
             }
-        }
-    }
-    
-    /**
-     * Registers a given view to the navigator.
-     */
-    private void addViewToMenuBar(Class<? extends View> viewClass) {
-        ViewConfig viewConfig = viewClass.getAnnotation(ViewConfig.class);
-
-        if (viewConfig == null) {
-            System.out.println("ViewConfig est absent pour la vue " + viewClass.getSimpleName());
-        } else {
-            switch (viewConfig.createMode()) {
-                case ALWAYS_NEW:
-                    navigator.addView(viewConfig.uri(), viewClass);
-                    break;
-                case LAZY_INIT:
-                    navigator.addProvider(new LazyProvider(viewConfig.uri(), viewClass));
-                    break;
-                case EAGER_INIT:
-                    try {
-                        navigator.addView(viewConfig.uri(), viewClass.newInstance());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-            }
-            bar.addItem(ViewConfigUtil.getDisplayName(viewConfig.displayName()), null, command -> navigator.navigateTo(viewConfig.uri()));
         }
     }
 

@@ -36,11 +36,9 @@ public class CharacterRepository extends AbstractRepository<Character, Long> {
         try {
             Character character = entityManager.getReference(getEntityClass(), entity.getId());
             User user = character.getUser();
-            if (user != null) {
-                user.setCharacter(null);
-                entityManager.merge(user);
-            }
+            user.setCharacter(null);
             character.setUser(null);
+            entityManager.merge(user);
             entityManager.remove(entityManager.merge(character));
             entityManager.getTransaction().commit();
         } catch (Exception e) {

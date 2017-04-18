@@ -7,7 +7,6 @@ import com.dungeonstory.util.ViewConfig.CreateMode;
 import com.dungeonstory.util.layout.VerticalSpacedLayout;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.ui.TabSheet;
 
 @ViewConfig(uri = CharacterView.URI, displayName = "characterView.caption", createMode = CreateMode.ALWAYS_NEW)
 public class CharacterView extends VerticalSpacedLayout implements View {
@@ -16,28 +15,16 @@ public class CharacterView extends VerticalSpacedLayout implements View {
 
     public static final String URI = "character";
 
-    private TabSheet tabsheet;
-
     public CharacterView() {
-        tabsheet = new TabSheet();
+        // TODO Auto-generated constructor stub
     }
 
     @Override
     public void enter(ViewChangeEvent event) {
-
-        CharacterInfoForm infoForm = new CharacterInfoForm();
+        CharacterInfoForm form = new CharacterInfoForm();
         Character character = CurrentUser.get().getCharacter();
-        infoForm.setEntity(character);
-        tabsheet.addTab(infoForm, "Informations");
-
-        EquipmentList equipment = new EquipmentList();
-        tabsheet.addTab(equipment, "Équipement");
-
-        ProficiencyList proficiencies = new ProficiencyList(character);
-        tabsheet.addTab(proficiencies, "Maitrises");
-
-        addComponent(tabsheet);
-
+        form.setEntity(character);
+        addComponent(form);
     }
 
 }

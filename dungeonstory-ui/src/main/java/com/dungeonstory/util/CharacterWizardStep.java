@@ -46,13 +46,6 @@ public abstract class CharacterWizardStep<T> implements WizardStep, Serializable
             form.onFieldGroupChange(form.getFieldGroup());
         }
 
-        //sets the character from previous step
-        int index = wizard.getSteps().indexOf(this);
-        if (index > 0) {
-            CharacterWizardStep<?> previousStep = (CharacterWizardStep<?>) wizard.getSteps().get(index - 1);
-            wizard.setCharacterFromPreviousStep(previousStep.getStepCharacter());
-        }
-
         stepCharacter = wizard.getCharacter().clone();
     }
 
@@ -69,10 +62,6 @@ public abstract class CharacterWizardStep<T> implements WizardStep, Serializable
             form.setSaveButton(wizard.getNextButton());
             isSaveButtonSet = true;
         }
-    }
-
-    public Character getStepCharacter() {
-        return stepCharacter;
     }
 
 }

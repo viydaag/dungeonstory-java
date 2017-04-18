@@ -1,22 +1,21 @@
 package com.dungeonstory.view.character;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
+import org.vaadin.peter.imagestrip.ImageStrip.Image;
 import org.vaadin.viritin.fields.LabelField;
 import org.vaadin.viritin.form.AbstractForm;
 
 import com.dungeonstory.backend.data.Alignment;
 import com.dungeonstory.backend.data.Character;
-import com.dungeonstory.backend.data.Character.Gender;
 import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.backend.data.Race;
 import com.dungeonstory.backend.data.Region;
 import com.dungeonstory.backend.service.impl.CharacterService;
 import com.dungeonstory.i18n.Messages;
-import com.dungeonstory.ui.component.DSImage;
-import com.dungeonstory.ui.component.ImageSelector;
-import com.dungeonstory.ui.factory.ImageFactory;
+import com.dungeonstory.ui.component.DSImageStrip;
+import com.dungeonstory.ui.component.ImageStripFactory;
 import com.dungeonstory.util.captionGenerator.ClassLevelCaptionGenerator;
 import com.dungeonstory.util.field.ImageField;
 import com.dungeonstory.util.layout.HorizontalSpacedLayout;
@@ -52,7 +51,7 @@ public class CharacterInfoForm extends AbstractForm<Character> {
     private LabelField<Integer> wisdom;
     private LabelField<Integer> charisma;
     private ImageField          image;
-    private ImageSelector       imageSelector;
+    private DSImageStrip        imageStrip;
 
     private FormLayout infoLayout;
 
@@ -85,8 +84,7 @@ public class CharacterInfoForm extends AbstractForm<Character> {
         HorizontalSpacedLayout imageLayout = new HorizontalSpacedLayout();
         image = new ImageField();
         changeImageButton = new Button("Changer");
-        //        changeImageButton.addClickListener(e -> showImageStrip());
-        changeImageButton.addClickListener(e -> showImageSelector());
+        changeImageButton.addClickListener(e -> showImageStrip());
         saveImageButton = new Button(messages.getMessage("button.save"));
         saveImageButton.addClickListener(e -> saveImage());
         saveImageButton.setVisible(false);
@@ -125,44 +123,37 @@ public class CharacterInfoForm extends AbstractForm<Character> {
         return layout;
     }
 
-    private void showImageSelector() {
+    private void showImageStrip() {
+
         changeImageButton.setVisible(false);
-        if (imageSelector == null) {
-            createImageSelector();
+        if (imageStrip == null) {
+            imageStrip = ImageStripFactory.getInstance().getImageStrip(getEntity().getGender());
+            imageStrip.addValueChangeListener(event -> {
+                Image value = (Image) event.getProperty().getValue();
+                String imagePath = imageStrip.getImageMap().get(value);
+                image.setImagePath(imagePath);
+                saveImageButton.setVisible(true);
+            });
         }
-        if (!imageSelector.isVisible()) {
-            imageSelector.setVisible(true);
+        if (!imageStrip.isVisible()) {
+            imageStrip.setVisible(true);
         }
 
         //find selected image
-        Optional<DSImage> selectedImage = imageSelector.getImages().stream().filter(img -> img.getRelativePath().equals(this.image.getImagePath()))
-                .findFirst();
-        if (selectedImage.isPresent()) {
-            imageSelector.setValueWithScroll(selectedImage.get());
+        Image selectedImage = null;
+        Map<Image, String> imageMap = imageStrip.getImageMap();
+        for (Map.Entry<Image, String> entry : imageMap.entrySet()) {
+            if (entry.getValue().equals(image.getImagePath())) {
+                selectedImage = entry.getKey();
+            }
+        }
+        if (selectedImage != null) {
+            imageStrip.setValue(selectedImage);
         }
 
-        infoLayout.addComponent(imageSelector);
-    }
+        infoLayout.addComponent(imageStrip);
 
-    private void createImageSelector() {
-        imageSelector = new ImageSelector();
-        imageSelector.setMaxAllowed(5);
-        imageSelector.setSelectable(true);
-        imageSelector.setImageMaxHeight(150);
-        imageSelector.setImageMaxWidth(150);
 
-        List<DSImage> imageList = null;
-        if (getEntity().getGender().equals(Gender.M)) {
-            imageList = ImageFactory.getInstance().getMaleImages();
-        } else {
-            imageList = ImageFactory.getInstance().getFemaleImages();
-        }
-        imageSelector.addImages(imageList);
-        imageSelector.addValueChangeListener(event -> {
-            DSImage value = (DSImage) event.getProperty().getValue();
-            image.setImagePath(value.getRelativePath());
-            saveImageButton.setVisible(true);
-        });
     }
 
     private void saveImage() {
@@ -170,7 +161,7 @@ public class CharacterInfoForm extends AbstractForm<Character> {
         Character c = service.saveOrUpdate(getEntity());
         setEntity(c);
         saveImageButton.setVisible(false);
-        imageSelector.setVisible(false);
+        imageStrip.setVisible(false);
         changeImageButton.setVisible(true);
     }
 
