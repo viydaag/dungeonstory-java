@@ -30,8 +30,8 @@ public class CharacterView extends VerticalSpacedLayout implements View {
         infoForm.setEntity(character);
         tabsheet.addTab(infoForm, "Informations");
 
-        EquipmentList equipment = new EquipmentList();
-        tabsheet.addTab(equipment, "Équipement");
+//        EquipmentList equipment = new EquipmentList();
+//        tabsheet.addTab(equipment, "Équipement");
 
         ProficiencyList proficiencies = new ProficiencyList(character);
         tabsheet.addTab(proficiencies, "Maitrises");

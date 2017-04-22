@@ -38,6 +38,10 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
     private boolean isDeleteAllowed = true;
     private boolean isFilterAllowed = true;
 
+	private Button addButton;
+
+	private CssLayout filterLayout;
+
     public abstract DSAbstractForm<T> getForm();
 
     public abstract DSGrid<T> getGrid();
@@ -59,7 +63,7 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
             filter.clear();
             listEntries(); //not necessary on Vaadin 8
         });
-        CssLayout filterLayout = new CssLayout(filter, clearFilterButton);
+        filterLayout = new CssLayout(filter, clearFilterButton);
         filterLayout.addStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
 
         initForm();
@@ -116,9 +120,9 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
             title = new Label(form.toString());
 
             if (isCreateAllowed()) {
-                Button addNew = new Button("", FontAwesome.PLUS);
-                addNew.addClickListener(this::addNew);
-                buttonLayout = new HorizontalLayout(addNew);
+                addButton = new Button("", FontAwesome.PLUS);
+                addButton.addClickListener(this::addNew);
+                buttonLayout = new HorizontalLayout(addButton);
             }
 
             form.setEntity(null);
@@ -221,6 +225,7 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
 
     public void setCreateAllowed(boolean isCreateAllowed) {
         this.isCreateAllowed = isCreateAllowed;
+        addButton.setVisible(isCreateAllowed);
     }
 
     public boolean isDeleteAllowed() {
@@ -229,6 +234,7 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
 
     public void setDeleteAllowed(boolean isDeleteAllowed) {
         this.isDeleteAllowed = isDeleteAllowed;
+        form.getDeleteButton().setVisible(isDeleteAllowed);
     }
 
     protected void setService(DataService<T, Long> service) {
@@ -249,6 +255,15 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
 
     public void setFilterAllowed(boolean isFilterAllowed) {
         this.isFilterAllowed = isFilterAllowed;
+        filterLayout.setVisible(isFilterAllowed);
     }
+
+	public Button getAddButton() {
+		return addButton;
+	}
+
+	public void setAddButton(Button addButton) {
+		this.addButton = addButton;
+	}
 
 }
