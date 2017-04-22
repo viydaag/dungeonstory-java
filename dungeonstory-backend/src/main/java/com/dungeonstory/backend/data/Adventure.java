@@ -38,10 +38,15 @@ public class Adventure extends AbstractTimestampEntity implements Serializable {
     @NotNull
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
-    private AdventureStatus status;
+    private AdventureStatus status = AdventureStatus.OPENED;
 
     @OneToMany(mappedBy = "adventure")
     private List<Message> messages;
+    
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "challengeRating")
+    private Level challengeRating;
 
     public Adventure() {
         super();
@@ -79,4 +84,12 @@ public class Adventure extends AbstractTimestampEntity implements Serializable {
         this.status = status;
     }
 
+	public Level getChallengeRating() {
+		return challengeRating;
+	}
+
+	public void setChallengeRating(Level challengeRating) {
+		this.challengeRating = challengeRating;
+	}
+    
 }

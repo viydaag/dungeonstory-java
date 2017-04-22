@@ -71,6 +71,10 @@ public class User extends AbstractTimestampEntity implements Serializable {
 
     @OneToOne(mappedBy = "user", orphanRemoval = true, fetch=FetchType.EAGER)
     private Character character;
+    
+    @OneToOne
+    @JoinColumn(name = "adventureId")
+    private Adventure adventure;
 
     public User() {
         super();
@@ -149,7 +153,15 @@ public class User extends AbstractTimestampEntity implements Serializable {
         this.character = character;
     }
 
-    public boolean isActive() {
+    public Adventure getAdventure() {
+		return adventure;
+	}
+
+	public void setAdventure(Adventure adventure) {
+		this.adventure = adventure;
+	}
+
+	public boolean isActive() {
         return getStatus() == UserStatus.ACTIVE;
     }
 
