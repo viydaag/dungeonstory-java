@@ -37,6 +37,7 @@ import com.dungeonstory.view.admin.SpellView;
 import com.dungeonstory.view.admin.UserListView;
 import com.dungeonstory.view.admin.WeaponTypeView;
 import com.dungeonstory.view.adventure.AdventureListView;
+import com.dungeonstory.view.adventure.AdventureView;
 import com.dungeonstory.view.character.CharacterView;
 import com.dungeonstory.view.character.NewCharacterView;
 import com.dungeonstory.view.shop.ShopListView;
@@ -152,7 +153,8 @@ public class MainScreen extends HorizontalLayout {
         
 //        if (CurrentUser.get().getAdventure() == null) {
         addViewToMenuBar(AdventureListView.class);
-//        }
+//        } else {
+        addViewNoNavBar(AdventureView.class);
 
         if (DungeonStoryUI.get().getAccessControl().isUserInRole("ADMIN")) {
             addView(UserListView.class);
