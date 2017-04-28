@@ -11,7 +11,10 @@ import com.dungeonstory.backend.data.Adventure;
 import com.dungeonstory.backend.data.Adventure.AdventureStatus;
 import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.backend.service.impl.LevelService;
+import com.dungeonstory.event.EventBus;
+import com.dungeonstory.event.NavigationEvent;
 import com.dungeonstory.form.DSAbstractForm;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 
@@ -25,6 +28,8 @@ public class AdventureForm extends DSAbstractForm<Adventure> {
 	private EnumSelect<AdventureStatus> status;
 
 	private FormLayout layout;
+
+	private Button messageButton;
 
 	public AdventureForm() {
 
@@ -43,6 +48,12 @@ public class AdventureForm extends DSAbstractForm<Adventure> {
 		status.setBeans(Arrays.asList(AdventureStatus.values()));
 		layout.addComponents(name, description, challengeRating, status);
 		layout.addComponent(getToolbar());
+		
+		messageButton = new Button("Messages", event -> {
+			EventBus.post(new NavigationEvent(AdventureView.URI + "/" + getEntity().getId()));
+		});
+		layout.addComponent(messageButton);
+		
 		return layout;
 	}
 
@@ -56,6 +67,7 @@ public class AdventureForm extends DSAbstractForm<Adventure> {
 		super.afterSetEntity();
 		if (getEntity() != null) {
 			status.setVisible(getEntity().getId() != null);
+			messageButton.setVisible(getEntity().getId() != null);
 		}
 	}
 

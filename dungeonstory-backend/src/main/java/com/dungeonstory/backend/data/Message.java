@@ -15,8 +15,7 @@ public class Message extends AbstractTimestampEntity implements Serializable {
 
     private static final long serialVersionUID = 5957535520695031224L;
 
-    @NotNull
-    @Column(name = "title", nullable = false)
+    @Column(name = "title")
     private String title;
 
     @NotNull

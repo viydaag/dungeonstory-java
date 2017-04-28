@@ -1,6 +1,7 @@
 package com.dungeonstory.backend.data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -50,6 +51,7 @@ public class Adventure extends AbstractTimestampEntity implements Serializable {
 
     public Adventure() {
         super();
+        messages = new ArrayList<>();
     }
 
     public String getName() {
@@ -90,6 +92,18 @@ public class Adventure extends AbstractTimestampEntity implements Serializable {
 
 	public void setChallengeRating(Level challengeRating) {
 		this.challengeRating = challengeRating;
+	}
+
+	public List<Message> getMessages() {
+		return messages;
+	}
+
+	public void setMessages(List<Message> messages) {
+		this.messages = messages;
+	}
+	
+	public void addMessage(Message message) {
+		this.messages.add(message);
 	}
     
 }
