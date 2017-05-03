@@ -7,9 +7,10 @@ public class SpellGrid extends DSGrid<Spell> {
     private static final long serialVersionUID = 1178337698356790032L;
 
     public SpellGrid() {
-        super(Spell.class);
-        withProperties("level", "name", "school");
-        withColumnHeaders("Niveau", "Nom", "École de magie");
+        super();
+        addColumn(Spell::getLevel).setCaption("Niveau").setId("level");
+        addColumn(Spell::getName).setCaption("Nom").setId("name");
+        addColumn(Spell::getSchool).setCaption("École de magie").setId("school");
     }
 
 }

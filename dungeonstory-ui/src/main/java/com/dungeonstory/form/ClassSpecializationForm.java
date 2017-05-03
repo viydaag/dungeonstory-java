@@ -1,9 +1,8 @@
 package com.dungeonstory.form;
 
-import org.vaadin.viritin.fields.ElementCollectionTable;
-import org.vaadin.viritin.fields.MTextArea;
 import org.vaadin.viritin.fields.MTextField;
-import org.vaadin.viritin.fields.TypedSelect;
+import org.vaadin.viritin.v7.fields.ElementCollectionTable;
+import org.vaadin.viritin.v7.fields.TypedSelect;
 
 import com.dungeonstory.FormCheckBox;
 import com.dungeonstory.backend.Configuration;
@@ -29,9 +28,11 @@ import com.dungeonstory.backend.service.mock.MockFeatService;
 import com.dungeonstory.backend.service.mock.MockLevelService;
 import com.dungeonstory.backend.service.mock.MockSpellService;
 import com.dungeonstory.form.ClassForm.ClassLevelFeatureRow;
+import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.util.field.LevelSpellsCollectionField;
 import com.dungeonstory.util.field.LevelSpellsCollectionField.LevelSpellsRow;
-import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.HasValue.ValueChangeEvent;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextArea;
@@ -42,10 +43,10 @@ public class ClassSpecializationForm extends DSAbstractForm<ClassSpecialization>
     private static final long serialVersionUID = -9195608720966852469L;
 
     private TextField                                                 name;
-    private TypedSelect<DSClass>                                      parentClass;
+    private ComboBox<DSClass>                                         parentClass;
     private TextArea                                                  description;
     private FormCheckBox                                              isSpellCasting;
-    private TypedSelect<Ability>                                      spellCastingAbility;
+    private ComboBox<Ability>                                         spellCastingAbility;
     private LevelSpellsCollectionField<ClassSpecializationSpellSlots> spellSlots;
     private ElementCollectionTable<ClassSpecLevelSpell>               classSpecSpells;
     private ElementCollectionTable<ClassSpecLevelFeature>             classSpecFeatures;
@@ -67,7 +68,7 @@ public class ClassSpecializationForm extends DSAbstractForm<ClassSpecialization>
     }
 
     public ClassSpecializationForm() {
-        super();
+        super(ClassSpecialization.class);
         if (Configuration.getInstance().isMock()) {
             levelService = MockLevelService.getInstance();
             featService = MockFeatService.getInstance();
@@ -93,13 +94,13 @@ public class ClassSpecializationForm extends DSAbstractForm<ClassSpecialization>
         FormLayout layout = new FormLayout();
 
         name = new MTextField("Nom");
-        description = new MTextArea("Description").withFullWidth();
-        parentClass = new TypedSelect<DSClass>("Classe parente");
-        parentClass.setOptions(classService.findAll());
+        description = new DSTextArea("Description").withFullWidth();
+        parentClass = new ComboBox<DSClass>("Classe parente");
+        parentClass.setItems(classService.findAll());
 
         isSpellCasting = new FormCheckBox("Capacité à lancer des sorts");
-        spellCastingAbility = new TypedSelect<Ability>("Caractéristique de sort");
-        spellCastingAbility.setOptions(abilityService.findAll());
+        spellCastingAbility = new ComboBox<Ability>("Caractéristique de sort");
+        spellCastingAbility.setItems(abilityService.findAll());
         isSpellCasting.addValueChangeListener(this::isSpellCastingChange);
 
         spellSlots = (LevelSpellsCollectionField<ClassSpecializationSpellSlots>) new LevelSpellsCollectionField<ClassSpecializationSpellSlots>(
@@ -142,7 +143,7 @@ public class ClassSpecializationForm extends DSAbstractForm<ClassSpecialization>
         return layout;
     }
 
-    public void isSpellCastingChange(ValueChangeEvent event) {
+    public void isSpellCastingChange(ValueChangeEvent<Boolean> event) {
         if (isSpellCasting.getValue() == null || isSpellCasting.getValue() == false) {
             spellCastingAbility.setValue(null);
             spellCastingAbility.setVisible(false);

@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import com.dungeonstory.backend.data.util.Sort;
 import com.dungeonstory.backend.factory.Factory;
 import com.dungeonstory.backend.repository.Entity;
 import com.dungeonstory.backend.repository.Repository;
@@ -204,6 +205,27 @@ public abstract class AbstractDataService<E extends Entity, K extends Serializab
     @Override
     public int countWithFilter(String column, String value) {
         return findAllByLike(column, value).size();
+    }
+
+    @Override
+    public Sort createSort(String propertyName, boolean descending) {
+        Sort.SortOrder order = Sort.SortOrder.ASC;
+        if (descending) {
+            order = Sort.SortOrder.DESC;
+        }
+        return new Sort(propertyName, order);
+    }
+
+    @Override
+    public List<E> findAllPagedOrderBy(int firstRow, int pageSize, List<Sort> orders) {
+        if (orders.isEmpty()) {
+            return findAllPaged(firstRow, pageSize);
+        }
+
+        String[] columns = orders.stream().map(p -> p.getProperty()).toArray(String[]::new);
+        String[] directions = orders.stream().map(o -> o.getOrder().toString()).toArray(String[]::new);
+
+        return entityRepository.findAllPagedOrderBy(firstRow, pageSize, columns, directions);
     }
 
 }

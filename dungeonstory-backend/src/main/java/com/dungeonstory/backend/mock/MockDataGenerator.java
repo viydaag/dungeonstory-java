@@ -34,61 +34,51 @@ import com.dungeonstory.backend.data.WeaponType.ProficiencyType;
 import com.dungeonstory.backend.data.WeaponType.RangeType;
 import com.dungeonstory.backend.data.WeaponType.SizeType;
 import com.dungeonstory.backend.data.WeaponType.UsageType;
-import com.dungeonstory.backend.service.impl.UserService;
 import com.dungeonstory.backend.service.mock.MockAbilityService;
 import com.dungeonstory.backend.service.mock.MockAccessRoleService;
 import com.dungeonstory.backend.service.mock.MockDamageTypeService;
-import com.dungeonstory.backend.service.mock.MockLanguageService;
 import com.dungeonstory.backend.service.mock.MockLevelService;
 import com.dungeonstory.backend.service.mock.MockUserService;
 
 public class MockDataGenerator {
 
-    private static final String      storedAbilities[][]  = new String[][] { { "Force", "FOR" }, { "Dextérité", "DEX" },
-            { "Constitution", "CON" }, { "Intelligence", "INT" }, { "Sagesse", "SAG" }, { "Charisme", "CHA" } };
+    private static final String storedAbilities[][] = new String[][] { { "Force", "FOR" }, { "Dextérité", "DEX" }, { "Constitution", "CON" },
+            { "Intelligence", "INT" }, { "Sagesse", "SAG" }, { "Charisme", "CHA" } };
 
-    private static final String      storedAlignment[][]  = new String[][] { { "Loyal Bon" }, { "Neutre Bon" },
-            { "Chaotique Bon" }, { "Loyal Neutre" }, { "Neutre strict" }, { "Chaotique Neutre" }, { "Loyal Mauvais" },
-            { "Neutre Mauvais" }, { "Chaotique Mauvais" } };
+    private static final String storedAlignment[][] = new String[][] { { "Loyal Bon" }, { "Neutre Bon" }, { "Chaotique Bon" }, { "Loyal Neutre" },
+            { "Neutre strict" }, { "Chaotique Neutre" }, { "Loyal Mauvais" }, { "Neutre Mauvais" }, { "Chaotique Mauvais" } };
 
-    private static final String      storedDamageType[][] = new String[][] { { "Tranchant" }, { "Contandant" },
-            { "Perçant" }, { "Feu" }, { "Froid" }, { "Acide" }, { "Électricité" }, { "Nécrotique" }, { "Force" },
-            { "Magique" }, { "Radiant" }, };
+    private static final String storedDamageType[][] = new String[][] { { "Tranchant" }, { "Contandant" }, { "Perçant" }, { "Feu" }, { "Froid" },
+            { "Acide" }, { "Électricité" }, { "Nécrotique" }, { "Force" }, { "Magique" }, { "Radiant" }, };
 
-    private static final String      storedSkills[][]     = new String[][] { { "Athlétisme", "1" },
-            { "Acrobatie", "2" }, { "Vol à la tire", "2" }, { "Furtivité", "2" }, { "Arcane", "4" },
-            { "Histoire", "4" }, { "Investigation", "4" }, { "Nature", "4" }, { "Religion", "4" },
-            { "Manipulation des animaux", "5" }, { "Perspicacité", "5" }, { "Soin", "5" }, { "Perception", "5" },
-            { "Survie", "5" }, { "Tromperie", "6" }, { "Intimidation", "6" }, { "Performance", "6" },
-            { "Persuasion", "6" } };
+    private static final String storedSkills[][] = new String[][] { { "Athlétisme", "1" }, { "Acrobatie", "2" }, { "Vol à la tire", "2" },
+            { "Furtivité", "2" }, { "Arcane", "4" }, { "Histoire", "4" }, { "Investigation", "4" }, { "Nature", "4" }, { "Religion", "4" },
+            { "Manipulation des animaux", "5" }, { "Perspicacité", "5" }, { "Soin", "5" }, { "Perception", "5" }, { "Survie", "5" },
+            { "Tromperie", "6" }, { "Intimidation", "6" }, { "Performance", "6" }, { "Persuasion", "6" } };
 
-    private static final Integer[][] storedLevels         = new Integer[][] { { 1, 1000, 1 }, { 2, 2000, 2 } };
+    private static final Integer[][] storedLevels = new Integer[][] { { 1, 1000, 1 }, { 2, 2000, 2 } };
 
-    private static final String[][]  storedRegions        = new String[][] { { "test region" }, { "another region" } };
+    private static final String[][] storedRegions = new String[][] { { "test region" }, { "another region" } };
 
-    private static final String[][]  storedClass          = new String[][] { { "Guerrier" }, { "Mage" }, { "Voleur" },
-            { "Barde" }, { "Sorcier" }, { "Paladin" }, { "Rodeur" }, { "Druide" }, { "Clerc" }, { "Barbare" }, };
+    private static final String[][] storedClass = new String[][] { { "Guerrier" }, { "Mage" }, { "Voleur" }, { "Barde" }, { "Sorcier" },
+            { "Paladin" }, { "Rodeur" }, { "Druide" }, { "Clerc" }, { "Barbare" }, };
 
-    private static final String[][]  storedRoles          = new String[][] { { "Administrateur", "ADMIN" },
-            { "Joueur", "PLAYER" }, { "Modérateur", "MODERATOR" } };
+    private static final String[][] storedRoles = new String[][] { { "Administrateur", "ADMIN" }, { "Joueur", "PLAYER" },
+            { "Modérateur", "MODERATOR" } };
 
-    private static final String[][]  storedUsers          = new String[][] {
-            { "admin", "admin", "admin", "0", "ACTIVE" }, { "test", "test", "user", "1", "ACTIVE" },
-            { "inactive", "inactive", "user", "1", "INACTIVE" },
+    private static final String[][] storedUsers = new String[][] { { "admin", "admin", "admin", "0", "ACTIVE" },
+            { "test", "test", "user", "1", "ACTIVE" }, { "inactive", "inactive", "user", "1", "INACTIVE" },
             { "waiting", "waiting", "user", "1", "WAITING_FOR_APPROBATION" } };
 
-    private static final String[][]  storedWeaponTypes    = new String[][] {
+    private static final String[][] storedWeaponTypes = new String[][] {
             { "Dague", "SIMPLE", "LIGHT", "ONE_HANDED", "MELEE_RANGE", "THROWN", "1d4", "1" } };
 
-    private static final String[][]  storedArmorTypes     = new String[][] {
-            { "Cuir", "LIGHT", "-1", "12", "false", "1", "1" } };
+    private static final String[][] storedArmorTypes = new String[][] { { "Cuir", "LIGHT", "-1", "12", "false", "1", "1" } };
 
-    private static final String[][]  storedRaces          = new String[][] {
-            { "Humain", "1", "1", "1", "1", "1", "1", "16", "60", "5'4\"", "150" },
-            { "Elfe", "0", "1", "0", "1", "0", "0", "75", "800", "5'0\"", "90" }};
+    private static final String[][] storedRaces = new String[][] { { "Humain", "1", "1", "1", "1", "1", "1", "16", "60", "5'4\"", "150" },
+            { "Elfe", "0", "1", "0", "1", "0", "0", "75", "800", "5'0\"", "90" } };
 
-    private static final String[][]  storedFeats          = new String[][] { { "feat1", "ACTION" },
-            { "feat2", "PASSIVE" }, { "feat3", "REACTION" } };
+    private static final String[][] storedFeats = new String[][] { { "feat1", "ACTION" }, { "feat2", "PASSIVE" }, { "feat3", "REACTION" } };
 
     public static List<Ability> createAbilities() {
         List<Ability> abilities = new ArrayList<Ability>();
@@ -118,8 +108,7 @@ public class MockDataGenerator {
         List<Skill> skills = new ArrayList<Skill>();
         Collection<Ability> abilities = MockAbilityService.getInstance().findAll();
         for (String[] skill : storedSkills) {
-            Optional<Ability> ability = abilities.stream().filter(a -> a.getId().equals(Long.valueOf(skill[1])))
-                    .findFirst();
+            Optional<Ability> ability = abilities.stream().filter(a -> a.getId().equals(Long.valueOf(skill[1]))).findFirst();
             if (ability.isPresent()) {
                 skills.add(new Skill(skill[0], ability.get()));
             }
@@ -147,8 +136,7 @@ public class MockDataGenerator {
         List<AccessRole> roles = MockAccessRoleService.getInstance().findAll();
         List<User> users = new ArrayList<User>();
         for (String[] user : storedUsers) {
-            users.add(new User(user[0], user[1], roles.get(Integer.parseInt(user[3])), user[1], "",
-                    UserStatus.valueOf(user[4])));
+            users.add(new User(user[0], user[1], roles.get(Integer.parseInt(user[3])), user[1], "", UserStatus.valueOf(user[4])));
         }
         return users;
     }
@@ -177,8 +165,8 @@ public class MockDataGenerator {
         Collection<DamageType> damageTypes = MockDamageTypeService.getInstance().findAll();
         if (!damageTypes.isEmpty()) {
             for (String[] tab : storedWeaponTypes) {
-                WeaponType type = new WeaponType(tab[0], ProficiencyType.valueOf(tab[1]), SizeType.valueOf(tab[2]),
-                        HandleType.valueOf(tab[3]), UsageType.valueOf(tab[4]), damageTypes.iterator().next());
+                WeaponType type = new WeaponType(tab[0], ProficiencyType.valueOf(tab[1]), SizeType.valueOf(tab[2]), HandleType.valueOf(tab[3]),
+                        UsageType.valueOf(tab[4]), damageTypes.iterator().next());
                 type.setRangeType(RangeType.valueOf(tab[5]));
                 type.setOneHandBaseDamage(tab[6]);
                 type.setBaseWeight(Integer.parseInt(tab[7]));
@@ -197,8 +185,7 @@ public class MockDataGenerator {
             boolean stealthDisavantage = Boolean.parseBoolean(tab[4]);
             int minStrength = Integer.parseInt(tab[5]);
             int weight = Integer.parseInt(tab[6]);
-            ArmorType type = new ArmorType(tab[0], "", armorProficiency, maxDexBonus, armorClass, stealthDisavantage,
-                    minStrength, weight, 10);
+            ArmorType type = new ArmorType(tab[0], "", armorProficiency, maxDexBonus, armorClass, stealthDisavantage, minStrength, weight, 10);
             types.add(type);
         }
         return types;

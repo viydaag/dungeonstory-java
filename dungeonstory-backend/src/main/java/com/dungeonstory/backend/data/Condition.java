@@ -13,7 +13,7 @@ public enum Condition {
     MUTED("Muet"),
     PARALYZED("Paralysé"),
     PETRIFIED("Pétrifié"),
-    POISONED("Empoisonné"),
+    POISONED("Empoisonn?"),
     PRONE("À terre"),
     RESTRAINED("Entravé"),
     SLEEP("Endormi"),

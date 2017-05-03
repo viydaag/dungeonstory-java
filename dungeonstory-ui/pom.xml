@@ -21,7 +21,7 @@
         </dependency>
         <dependency>
             <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-server</artifactId>
+            <artifactId>vaadin-compatibility-server</artifactId>
         </dependency>
         <dependency>
             <groupId>com.vaadin</groupId>
@@ -31,37 +31,42 @@
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-themes</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-compatibility-client</artifactId>
+            <scope>provided</scope>
+        </dependency>
         
         <!-- Vaadin addons -->
         <dependency>
 		   <groupId>org.vaadin</groupId>
 		   <artifactId>viritin</artifactId>
-		   <version>1.61</version>
+		   <version>2.0.beta1</version>
 		</dependency>
-        
-        <dependency>
-           <groupId>org.vaadin.addon</groupId>
-           <artifactId>easyuploads</artifactId>
-           <version>7.4.10</version>
-        </dependency>
         
         <dependency>
            <groupId>org.vaadin.addons</groupId>
            <artifactId>wizards-for-vaadin</artifactId>
-           <version>1.1.1</version>
+           <version>2.0.1</version>
         </dependency>
         
         <dependency>
-           <groupId>org.vaadin.addons</groupId>
-           <artifactId>dtabs-add-on</artifactId>
-           <version>0.6.0</version>
+           <groupId>org.vaadin.addon</groupId>
+           <artifactId>easyuploads</artifactId>
+           <version>8.0.0</version>
         </dependency>
         
-        <dependency>
-		   <groupId>org.vaadin.addons</groupId>
-		   <artifactId>dmenu-widget</artifactId>
-		   <version>1.12.0</version>
-		</dependency>
+<!--         <dependency> -->
+<!--            <groupId>org.vaadin.addons</groupId> -->
+<!--            <artifactId>dtabs-add-on</artifactId> -->
+<!--            <version>0.6.0</version> -->
+<!--         </dependency> -->
+        
+<!--         <dependency> -->
+<!-- 		   <groupId>org.vaadin.addons</groupId> -->
+<!-- 		   <artifactId>dmenu-widget</artifactId> -->
+<!-- 		   <version>1.12.0</version> -->
+<!-- 		</dependency> -->
 
         <!-- Project dependencies -->
         <dependency>

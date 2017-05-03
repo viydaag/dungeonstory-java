@@ -36,7 +36,6 @@ public class ImageFactory {
         File imageDir = new File(DSConstant.getImageDir());
         Collection<File> listFiles = FileUtils.listFiles(imageDir, ImageFilter.getImgExtensions(), true);
 
-        int index = 0;
         for (File file : listFiles) {
             String fullPath = file.getAbsolutePath();
             int lastSlash = fullPath.lastIndexOf(File.separator);

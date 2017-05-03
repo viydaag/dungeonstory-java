@@ -1,5 +1,6 @@
 package com.dungeonstory.util.renderer;
 
+
 import com.vaadin.ui.renderers.HtmlRenderer;
 
 import elemental.json.JsonValue;

@@ -7,9 +7,9 @@ public class DamageTypeGrid extends DSGrid<DamageType> {
     private static final long serialVersionUID = 1703049496748455895L;
 
     public DamageTypeGrid() {
-        super(DamageType.class);
-        withProperties("name", "description");
-        withColumnHeaders("Nom", "Description");
+        super();
+        addColumn(DamageType::getName).setCaption("Nom").setId("name");
+        addColumn(DamageType::getDescription).setCaption("Description").setId("description");
     }
 
 }

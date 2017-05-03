@@ -7,9 +7,8 @@ public class BackgroundGrid extends DSGrid<Background> {
     private static final long serialVersionUID = 9205275025444235763L;
 
     public BackgroundGrid() {
-        super(Background.class);
-        withProperties("name");
-        withColumnHeaders("Nom");
+        super();
+        addColumn(Background::getName).setCaption("Nom").setId("name");
     }
 
 }

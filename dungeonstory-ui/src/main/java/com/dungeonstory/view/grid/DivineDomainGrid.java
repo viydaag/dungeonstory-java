@@ -7,9 +7,8 @@ public class DivineDomainGrid extends DSGrid<DivineDomain> {
     private static final long serialVersionUID = 1828782098286866129L;
 
     public DivineDomainGrid() {
-        super(DivineDomain.class);
-        withProperties("name");
-        withColumnHeaders("Nom");
+        super();
+        addColumn(DivineDomain::getName).setCaption("Nom").setId("name");
     }
 
 }

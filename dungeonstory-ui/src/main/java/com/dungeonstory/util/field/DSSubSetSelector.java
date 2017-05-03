@@ -1,7 +1,7 @@
 package com.dungeonstory.util.field;
 
-import org.vaadin.viritin.fields.MTable;
-import org.vaadin.viritin.fields.SubSetSelector;
+import org.vaadin.viritin.v7.fields.MTable;
+import org.vaadin.viritin.v7.fields.SubSetSelector;
 
 /**
  * Classe temporaire pour corriger bug de SubSetSelector
@@ -15,7 +15,7 @@ public class DSSubSetSelector<T> extends SubSetSelector<T> {
     public DSSubSetSelector(Class<T> elementType) {
         super(elementType);
     }
-    
+
     @Override
     @SuppressWarnings("unchecked")
     public MTable<T> getTable() {

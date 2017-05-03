@@ -8,13 +8,13 @@ import com.dungeonstory.event.EventBus;
 import com.dungeonstory.event.NavigationEvent;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.util.ViewConfig.CreateMode;
-import com.dungeonstory.util.layout.VerticalSpacedLayout;
 import com.dungeonstory.view.grid.DSGrid;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.ui.VerticalLayout;
 
 @ViewConfig(uri = ShopListView.URI, displayName = "Magasins", createMode = CreateMode.EAGER_INIT)
-public class ShopListView extends VerticalSpacedLayout implements View {
+public class ShopListView extends VerticalLayout implements View {
 
     private static final long serialVersionUID = -7089021010337428023L;
 
@@ -31,8 +31,8 @@ public class ShopListView extends VerticalSpacedLayout implements View {
 
         grid.addSelectionListener(
                 selection -> {
-                    if (grid.getSelectedRow() != null) {
-                        EventBus.post(new NavigationEvent(ShopView.URI + "/" + grid.getSelectedRow().getId()));
+                    if (grid.asSingleSelect().getValue() != null) {
+                        EventBus.post(new NavigationEvent(ShopView.URI + "/" + grid.asSingleSelect().getValue().getId()));
                         grid.deselectAll();
                     }
                 });
@@ -46,7 +46,7 @@ public class ShopListView extends VerticalSpacedLayout implements View {
             shopList = service.findAll();
         }
         
-        grid.setRows(shopList);
+        grid.setItems(shopList);
     }
 
 }

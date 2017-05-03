@@ -1,10 +1,9 @@
 package com.dungeonstory.form;
 
-import org.vaadin.viritin.fields.ElementCollectionTable;
 import org.vaadin.viritin.fields.IntegerField;
-import org.vaadin.viritin.fields.MTextArea;
 import org.vaadin.viritin.fields.MTextField;
-import org.vaadin.viritin.fields.TypedSelect;
+import org.vaadin.viritin.v7.fields.ElementCollectionTable;
+import org.vaadin.viritin.v7.fields.TypedSelect;
 
 import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.City;
@@ -17,6 +16,8 @@ import com.dungeonstory.backend.service.impl.CityService;
 import com.dungeonstory.backend.service.impl.EquipmentService;
 import com.dungeonstory.backend.service.mock.MockCityService;
 import com.dungeonstory.backend.service.mock.MockEquipmentService;
+import com.dungeonstory.ui.component.DSTextArea;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextArea;
@@ -28,7 +29,7 @@ public class ShopForm extends DSAbstractForm<Shop> {
 
     private TextField                             name;
     private TextArea                              description;
-    private TypedSelect<City>                     city;
+    private ComboBox<City>                        city;
     private ElementCollectionTable<ShopEquipment> shopEquipments;
 
     private EquipmentDataService    equipmentService = null;
@@ -41,7 +42,7 @@ public class ShopForm extends DSAbstractForm<Shop> {
     }
 
     public ShopForm() {
-        super();
+        super(Shop.class);
         if (Configuration.getInstance().isMock()) {
             equipmentService = MockEquipmentService.getInstance();
             cityService = MockCityService.getInstance();
@@ -56,8 +57,8 @@ public class ShopForm extends DSAbstractForm<Shop> {
         FormLayout layout = new FormLayout();
 
         name = new MTextField("Nom");
-        description = new MTextArea("Description").withFullWidth();
-        city = new TypedSelect<City>("Ville", cityService.findAll());
+        description = new DSTextArea("Description").withFullWidth();
+        city = new ComboBox<City>("Ville", cityService.findAll());
 
         shopEquipments = new ElementCollectionTable<ShopEquipment>(ShopEquipment.class, ShopEquipmentRow.class)
                 .withCaption("Équipement").withEditorInstantiator(() -> {

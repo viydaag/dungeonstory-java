@@ -1,9 +1,9 @@
 package com.dungeonstory.form;
 
-import org.vaadin.viritin.fields.MTextArea;
 import org.vaadin.viritin.fields.MTextField;
 
 import com.dungeonstory.backend.data.CreatureType;
+import com.dungeonstory.ui.component.DSTextArea;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextArea;
@@ -17,7 +17,7 @@ public class CreatureTypeForm extends DSAbstractForm<CreatureType> {
     private TextArea  description;
 
     public CreatureTypeForm() {
-        super();
+        super(CreatureType.class);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class CreatureTypeForm extends DSAbstractForm<CreatureType> {
         FormLayout layout = new FormLayout();
 
         name = new MTextField("Nom").withWidth("30%");
-        description = new MTextArea("Description").withFullWidth();
+        description = new DSTextArea("Description").withFullWidth();
 
         layout.addComponent(name);
         layout.addComponent(description);

@@ -5,13 +5,13 @@ import org.vaadin.viritin.label.MLabel;
 import com.dungeonstory.backend.data.ShopEquipment;
 import com.dungeonstory.i18n.Messages;
 import com.dungeonstory.util.DSTheme;
-import com.dungeonstory.util.layout.HorizontalSpacedLayout;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.MouseEventDetails.MouseButton;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.FormLayout;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.UI;
@@ -27,7 +27,7 @@ public class ShopItem extends CustomComponent {
         this.item = item;
         
         Panel panel = new Panel();
-        HorizontalSpacedLayout layout = new HorizontalSpacedLayout();
+        HorizontalLayout layout = new HorizontalLayout();
         layout.setWidth(100, Unit.PERCENTAGE);
         
         Label itemName = new MLabel(this.item.getEquipment().getName());
@@ -42,7 +42,7 @@ public class ShopItem extends CustomComponent {
             }
         });
         
-        Button minusButton = new Button(FontAwesome.MINUS);
+        Button minusButton = new Button(VaadinIcons.MINUS);
         minusButton.addClickListener(event -> {
             int stockQuantity = Integer.parseInt(stockQuantityLabel.getValue());
             int buyQuantity = Integer.parseInt(buyQuantityLabel.getValue());
@@ -53,7 +53,7 @@ public class ShopItem extends CustomComponent {
             totalPriceLabel.setValue(String.valueOf(calculateBuyPrice(buyQuantity, this.item.getUnitPrice())));
         });
         
-        Button plusButton = new Button(FontAwesome.PLUS);
+        Button plusButton = new Button(VaadinIcons.PLUS);
         plusButton.addClickListener(event -> {
             int stockQuantity = Integer.parseInt(stockQuantityLabel.getValue());
             int buyQuantity = Integer.parseInt(buyQuantityLabel.getValue());

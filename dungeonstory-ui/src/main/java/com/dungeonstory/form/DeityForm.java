@@ -1,9 +1,7 @@
 package com.dungeonstory.form;
 
 import org.vaadin.easyuploads.ImagePreviewField;
-import org.vaadin.viritin.fields.MTextArea;
 import org.vaadin.viritin.fields.MTextField;
-import org.vaadin.viritin.fields.TypedSelect;
 
 import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.Alignment;
@@ -13,7 +11,9 @@ import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.impl.AlignmentService;
 import com.dungeonstory.backend.service.impl.DivineDomainService;
 import com.dungeonstory.backend.service.mock.MockAlignmentService;
+import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.util.field.DSSubSetSelector;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextArea;
@@ -26,7 +26,7 @@ public class DeityForm extends DSAbstractForm<Deity> {
     private TextField                      name;
     private TextField                      shortDescription;
     private TextArea                       description;
-    private TypedSelect<Alignment>         alignment;
+    private ComboBox<Alignment>            alignment;
     private DSSubSetSelector<DivineDomain> domains;
     private TextField                      symbol;
     private ImagePreviewField              image;
@@ -35,7 +35,7 @@ public class DeityForm extends DSAbstractForm<Deity> {
     private DataService<Alignment, Long>    alignmentService = null;
 
     public DeityForm() {
-        super();
+        super(Deity.class);
         if (Configuration.getInstance().isMock()) {
             //TODO
             //            domainService = MockDivineDomainService.getInstance();
@@ -57,9 +57,9 @@ public class DeityForm extends DSAbstractForm<Deity> {
 
         name = new MTextField("Nom").withWidth("50%");
         shortDescription = new MTextField("Description courte").withFullWidth();
-        description = new MTextArea("Description").withFullWidth();
+        description = new DSTextArea("Description").withFullWidth();
         symbol = new MTextField("Symbole").withWidth("50%");
-        alignment = new TypedSelect<Alignment>("Alignement", alignmentService.findAll());
+        alignment = new ComboBox<Alignment>("Alignement", alignmentService.findAll());
 
         image = new ImagePreviewField();
         image.setCaption("Image");

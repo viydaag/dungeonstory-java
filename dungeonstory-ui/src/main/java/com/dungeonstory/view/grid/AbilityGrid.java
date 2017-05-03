@@ -7,9 +7,9 @@ public class AbilityGrid extends DSGrid<Ability> {
     private static final long serialVersionUID = 8060713315641761422L;
 
     public AbilityGrid() {
-        super(Ability.class);
-        withProperties("name", "abbreviation");
-        withColumnHeaders("Nom", "Abbréviation");
+        super();
+        addColumn(Ability::getName).setCaption("Nom").setId("name");
+        addColumn(Ability::getAbbreviation).setCaption("Abbréviation").setId("abbreviation");
     }
 
 }

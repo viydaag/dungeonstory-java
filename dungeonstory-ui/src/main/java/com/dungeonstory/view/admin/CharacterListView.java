@@ -13,7 +13,6 @@ import com.dungeonstory.view.AbstractCrudView;
 import com.dungeonstory.view.grid.CharacterGrid;
 import com.dungeonstory.view.grid.DSGrid;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.ui.Grid.Column;
 import com.vaadin.ui.renderers.ButtonRenderer;
 
 @ViewConfig(uri = "characters", displayName = "Personnages")
@@ -44,12 +43,22 @@ public class CharacterListView extends AbstractCrudView<Character> {
         super.enter(event);
 
         // Render a button that deletes the data row (item)
-        Column deleteColumn = grid.getColumn("delete");
-        deleteColumn.setRenderer(new ButtonRenderer(e -> {
+        //        Column deleteColumn = grid.getColumn("delete");
+        //        deleteColumn.setRenderer(new ButtonRenderer(e -> {
+        //            ConfirmDialog.show(getUI(), "Supprimer", "?tes-vous certain?", "OK", "Annuler", new Runnable() {
+        //                @Override
+        //                public void run() {
+        //                    Character character = (Character) e.getItemId();
+        //                    deleteSelected(character);
+        //                }
+        //            });
+        //        }));
+
+        grid.addColumn(character -> "Supprimer", new ButtonRenderer<Character>(clickEvent -> {
             ConfirmDialog.show(getUI(), "Supprimer", "Êtes-vous certain?", "OK", "Annuler", new Runnable() {
                 @Override
                 public void run() {
-                    Character character = (Character) e.getItemId();
+                    Character character = clickEvent.getItem();
                     deleteSelected(character);
                 }
             });

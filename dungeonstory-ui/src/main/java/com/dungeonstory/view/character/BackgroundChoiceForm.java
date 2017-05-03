@@ -2,9 +2,6 @@ package com.dungeonstory.view.character;
 
 import java.util.ArrayList;
 
-import org.vaadin.viritin.fields.MTextArea;
-import org.vaadin.viritin.fields.TypedSelect;
-import org.vaadin.viritin.fields.config.ListSelectConfig;
 import org.vaadin.viritin.form.AbstractForm;
 import org.vaadin.viritin.label.MLabel;
 
@@ -18,12 +15,15 @@ import com.dungeonstory.backend.service.LanguageDataService;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.i18n.Messages;
+import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.util.converter.CollectionToStringConverter;
 import com.dungeonstory.util.field.DSSubSetSelector;
-import com.dungeonstory.util.layout.HorizontalSpacedLayout;
-import com.dungeonstory.util.layout.VerticalSpacedLayout;
+import com.vaadin.data.ValueContext;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 public class BackgroundChoiceForm extends DSAbstractForm<CharacterBackground> implements AbstractForm.SavedHandler<CharacterBackground> {
@@ -35,18 +35,18 @@ public class BackgroundChoiceForm extends DSAbstractForm<CharacterBackground> im
 
     private Character character;
 
-    TypedSelect<Background>    background;
-    private MTextArea          look;
-    private MTextArea          traits;
-    private MTextArea          ideals;
-    private MTextArea          purposes;
-    private MTextArea          flaws;
-    DSSubSetSelector<Language> language;
+    private ComboBox<Background>       background;
+    private DSTextArea          look;
+    private DSTextArea          traits;
+    private DSTextArea          ideals;
+    private DSTextArea          purposes;
+    private DSTextArea          flaws;
+    private DSSubSetSelector<Language> language;
 
-    private MTextArea traitsSuggestion;
-    private MTextArea idealsSuggestion;
-    private MTextArea purposesSuggestion;
-    private MTextArea flawsSuggestion;
+    private DSTextArea traitsSuggestion;
+    private DSTextArea idealsSuggestion;
+    private DSTextArea purposesSuggestion;
+    private DSTextArea flawsSuggestion;
 
     private MLabel proficienciesLabel;
     private MLabel skillProficiencies;
@@ -54,7 +54,7 @@ public class BackgroundChoiceForm extends DSAbstractForm<CharacterBackground> im
     private MLabel additionalLanguage;
 
     public BackgroundChoiceForm(Character character) {
-        super();
+        super(CharacterBackground.class);
         this.character = character;
         setSavedHandler(this);
 
@@ -67,11 +67,10 @@ public class BackgroundChoiceForm extends DSAbstractForm<CharacterBackground> im
 
         Messages messages = Messages.getInstance();
 
-        HorizontalSpacedLayout layout = new HorizontalSpacedLayout();
+        HorizontalLayout layout = new HorizontalLayout();
 
-        VerticalSpacedLayout backgroundFieldsLayout = new VerticalSpacedLayout();
-        background = new TypedSelect<Background>(messages.getMessage("backgroundStep.background.label"), backgroundService.findAll())
-                .asListSelectType(new ListSelectConfig().withRows((int) backgroundService.count())).withNullSelectionAllowed(false);
+        VerticalLayout backgroundFieldsLayout = new VerticalLayout();
+        background = new ComboBox<Background>(messages.getMessage("backgroundStep.background.label"), backgroundService.findAll());
         language = new DSSubSetSelector<Language>(Language.class);
         language.setCaption(messages.getMessage("backgroundStep.languages.label"));
         language.setVisibleProperties("name");
@@ -79,11 +78,11 @@ public class BackgroundChoiceForm extends DSAbstractForm<CharacterBackground> im
         language.setOptions(languageService.findAll());
         language.setVisible(false);
 
-        look = new MTextArea(messages.getMessage("backgroundStep.look.label")).withFullWidth().withRows(6);
-        traits = new MTextArea(messages.getMessage("backgroundStep.traits.label")).withFullWidth().withRows(6);
-        ideals = new MTextArea(messages.getMessage("backgroundStep.ideals.label")).withFullWidth().withRows(6);
-        purposes = new MTextArea(messages.getMessage("backgroundStep.purposes.label")).withFullWidth().withRows(6);
-        flaws = new MTextArea(messages.getMessage("backgroundStep.flaws.label")).withFullWidth().withRows(6);
+        look = new DSTextArea(messages.getMessage("backgroundStep.look.label")).withFullWidth().withRows(6);
+        traits = new DSTextArea(messages.getMessage("backgroundStep.traits.label")).withFullWidth().withRows(6);
+        ideals = new DSTextArea(messages.getMessage("backgroundStep.ideals.label")).withFullWidth().withRows(6);
+        purposes = new DSTextArea(messages.getMessage("backgroundStep.purposes.label")).withFullWidth().withRows(6);
+        flaws = new DSTextArea(messages.getMessage("backgroundStep.flaws.label")).withFullWidth().withRows(6);
 
         FormLayout backgroundProperties = new FormLayout();
         proficienciesLabel = new MLabel().withCaption(messages.getMessage("backgroundStep.proficiencies.label")).withStyleName(ValoTheme.LABEL_H4);
@@ -92,18 +91,18 @@ public class BackgroundChoiceForm extends DSAbstractForm<CharacterBackground> im
         additionalLanguage = new MLabel().withCaption(messages.getMessage("backgroundStep.additionalLanguages.label"));
         backgroundProperties.addComponents(proficienciesLabel, skillProficiencies, toolProficiencies, additionalLanguage);
 
-        traitsSuggestion = new MTextArea(messages.getMessage("backgroundStep.suggestedTraits.label")).withFullWidth().withRows(12);
-        idealsSuggestion = new MTextArea(messages.getMessage("backgroundStep.suggestedIdeals.label")).withFullWidth().withRows(12);
-        purposesSuggestion = new MTextArea(messages.getMessage("backgroundStep.suggestedPurposes.label")).withFullWidth().withRows(12);
-        flawsSuggestion = new MTextArea(messages.getMessage("backgroundStep.suggestedFlaws.label")).withFullWidth().withRows(12);
+        traitsSuggestion = new DSTextArea(messages.getMessage("backgroundStep.suggestedTraits.label")).withFullWidth().withRows(12);
+        idealsSuggestion = new DSTextArea(messages.getMessage("backgroundStep.suggestedIdeals.label")).withFullWidth().withRows(12);
+        purposesSuggestion = new DSTextArea(messages.getMessage("backgroundStep.suggestedPurposes.label")).withFullWidth().withRows(12);
+        flawsSuggestion = new DSTextArea(messages.getMessage("backgroundStep.suggestedFlaws.label")).withFullWidth().withRows(12);
 
         backgroundFieldsLayout.addComponents(background, language, look, traits, ideals, purposes, flaws);
 
         CollectionToStringConverter collectionConverter = new CollectionToStringConverter();
 
-        VerticalSpacedLayout backgroundDescriptionLayout = new VerticalSpacedLayout();
+        VerticalLayout backgroundDescriptionLayout = new VerticalLayout();
 
-        background.addMValueChangeListener(event -> {
+        background.addValueChangeListener(event -> {
             Background chosenBackground = event.getValue();
             if (chosenBackground != null) {
                 if (chosenBackground.getAdditionalLanguage() != LanguageChoice.NONE) {
@@ -120,9 +119,9 @@ public class BackgroundChoiceForm extends DSAbstractForm<CharacterBackground> im
                 toolProficiencies.setVisible(true);
                 additionalLanguage.setVisible(true);
                 skillProficiencies.setValue(chosenBackground.getSkillProficiencies().isEmpty() ? messages.getMessage("backgroundStep.none.text")
-                        : collectionConverter.convertToPresentation(chosenBackground.getSkillProficiencies(), String.class, null));
+                        : collectionConverter.convertToPresentation(chosenBackground.getSkillProficiencies(), new ValueContext()));
                 toolProficiencies.setValue(chosenBackground.getToolProficiencies().isEmpty() ? messages.getMessage("backgroundStep.none.text")
-                        : collectionConverter.convertToPresentation(chosenBackground.getToolProficiencies(), String.class, null));
+                        : collectionConverter.convertToPresentation(chosenBackground.getToolProficiencies(), new ValueContext()));
                 additionalLanguage.setValue(String.valueOf(chosenBackground.getAdditionalLanguage().getNbLanguage()));
                 traitsSuggestion.setValue(chosenBackground.getTraits());
                 idealsSuggestion.setValue(chosenBackground.getIdeals());

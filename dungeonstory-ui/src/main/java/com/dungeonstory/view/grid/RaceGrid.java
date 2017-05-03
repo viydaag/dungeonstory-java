@@ -7,9 +7,8 @@ public class RaceGrid extends DSGrid<Race> {
     private static final long serialVersionUID = -3155610367819192232L;
 
     public RaceGrid() {
-        super(Race.class);
-        withProperties("name");
-        withColumnHeaders("Nom");
+        super();
+        addColumn(Race::getName).setCaption("Nom").setId("name");
     }
 
 }

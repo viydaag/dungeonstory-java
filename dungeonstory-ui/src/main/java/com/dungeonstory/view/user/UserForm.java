@@ -25,8 +25,7 @@ public class UserForm extends AbstractForm<User> implements Translatable {
     private LabelField<LocalDateTime> created;
     
     public UserForm() {
-        super();
-
+        super(User.class);
     }
 
     @Override
@@ -35,10 +34,10 @@ public class UserForm extends AbstractForm<User> implements Translatable {
 
         username = new LabelField<>();
         name = new LabelField<>();
-        role = new LabelField<>(AccessRole.class);
-        status = new LabelField<>(UserStatus.class);
+        role = new LabelField<>();
+        status = new LabelField<>();
         email = new LabelField<>();
-        created = new LabelField<>(LocalDateTime.class);
+        created = new LabelField<>();
 
         layout.addComponents(username, name, email, role, status, created);
 

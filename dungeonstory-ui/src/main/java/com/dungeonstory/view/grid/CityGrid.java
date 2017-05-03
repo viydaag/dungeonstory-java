@@ -7,9 +7,9 @@ public class CityGrid extends DSGrid<City> {
     private static final long serialVersionUID = 8197937450154143949L;
 
     public CityGrid() {
-        super(City.class);
-        withProperties("name", "shortDescription");
-        withColumnHeaders("Nom", "Description courte");
+        super();
+        addColumn(City::getName).setCaption("Nom").setId("name");
+        addColumn(City::getShortDescription).setCaption("Description courte").setId("shortDescription");
     }
 
 }

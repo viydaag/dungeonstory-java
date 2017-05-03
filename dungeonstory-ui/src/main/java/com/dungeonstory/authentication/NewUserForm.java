@@ -26,13 +26,6 @@ public class NewUserForm extends FormLayout implements Translatable {
         setMargin(false);
         setSpacing(true);
 
-        username.setNullRepresentation("");
-        password.setNullRepresentation("");
-        name.setNullRepresentation("");
-        email.setNullRepresentation("");
-
-        setValidationVisible(false);
-
         addComponents(username, password, name, email);
     }
 
@@ -41,13 +34,6 @@ public class NewUserForm extends FormLayout implements Translatable {
         password.clear();
         name.clear();
         email.clear();
-    }
-
-    public void setValidationVisible(boolean visible) {
-        username.setValidationVisible(visible);
-        password.setValidationVisible(visible);
-        name.setValidationVisible(visible);
-        email.setValidationVisible(visible);
     }
 
     @Override

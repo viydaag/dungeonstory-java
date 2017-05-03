@@ -4,12 +4,12 @@ import com.dungeonstory.authentication.CurrentUser;
 import com.dungeonstory.backend.data.User;
 import com.dungeonstory.i18n.Translatable;
 import com.dungeonstory.util.ViewConfig;
-import com.dungeonstory.util.layout.VerticalSpacedLayout;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.ui.VerticalLayout;
 
 @ViewConfig(uri = UserView.USER_URI, displayName = "userView.caption")
-public class UserView extends VerticalSpacedLayout implements View, Translatable {
+public class UserView extends VerticalLayout implements View, Translatable {
 
     private static final long serialVersionUID = -3654948295501447567L;
 

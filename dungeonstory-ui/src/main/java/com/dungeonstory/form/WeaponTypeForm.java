@@ -1,13 +1,7 @@
 package com.dungeonstory.form;
 
-import org.vaadin.viritin.fields.CaptionGenerator;
-import org.vaadin.viritin.fields.EnumSelect;
 import org.vaadin.viritin.fields.IntegerField;
-import org.vaadin.viritin.fields.MTextArea;
 import org.vaadin.viritin.fields.MTextField;
-import org.vaadin.viritin.fields.MValueChangeEvent;
-import org.vaadin.viritin.fields.MValueChangeListener;
-import org.vaadin.viritin.fields.TypedSelect;
 
 import com.dungeonstory.FormCheckBox;
 import com.dungeonstory.backend.data.DamageType;
@@ -19,7 +13,12 @@ import com.dungeonstory.backend.data.WeaponType.SizeType;
 import com.dungeonstory.backend.data.WeaponType.UsageType;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.impl.DamageTypeService;
+import com.dungeonstory.ui.component.DSTextArea;
+import com.dungeonstory.ui.component.EnumComboBox;
 import com.dungeonstory.util.field.DoubleField;
+import com.vaadin.event.selection.SingleSelectionEvent;
+import com.vaadin.shared.Registration;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextArea;
@@ -31,14 +30,14 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
 
     private TextField                   name;
     private TextArea                    description;
-    private EnumSelect<ProficiencyType> proficiencyType;
-    private EnumSelect<SizeType>        sizeType;
-    private EnumSelect<HandleType>      handleType;
-    private EnumSelect<UsageType>       usageType;
-    private EnumSelect<RangeType>       rangeType;
+    private EnumComboBox<ProficiencyType> proficiencyType;
+    private EnumComboBox<SizeType>        sizeType;
+    private EnumComboBox<HandleType>      handleType;
+    private EnumComboBox<UsageType>       usageType;
+    private EnumComboBox<RangeType>       rangeType;
     private TextField                   oneHandBaseDamage;
     private TextField                   twoHandBaseDamage;
-    private TypedSelect<DamageType>     damageType;
+    private ComboBox<DamageType>          damageType;
     private FormCheckBox                isReach;
     private FormCheckBox                isFinesse;
     private FormCheckBox                isLoading;
@@ -47,7 +46,11 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
 
     private DataService<DamageType, Long> damageTypeService = DamageTypeService.getInstance();
 
-    MValueChangeListener<UsageType> usageListener;
+    Registration usageListener;
+
+    public WeaponTypeForm() {
+        super(WeaponType.class);
+    }
 
     @Override
     public String toString() {
@@ -59,12 +62,12 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
         FormLayout layout = new FormLayout();
 
         name = new MTextField("Nom");
-        description = new MTextArea("Description").withFullWidth();
-        proficiencyType = new EnumSelect<ProficiencyType>("Type de maitrise");
-        sizeType = new EnumSelect<SizeType>("Taille");
-        handleType = new EnumSelect<HandleType>("Type");
-        usageType = new EnumSelect<UsageType>("Type d'usage");
-        rangeType = new EnumSelect<RangeType>("Type de portée");
+        description = new DSTextArea("Description").withFullWidth();
+        proficiencyType = new EnumComboBox<>(ProficiencyType.class, "Type de maitrise");
+        sizeType = new EnumComboBox<>(SizeType.class, "Taille");
+        handleType = new EnumComboBox<>(HandleType.class, "Type");
+        usageType = new EnumComboBox<>(UsageType.class, "Type d'usage");
+        rangeType = new EnumComboBox<RangeType>(RangeType.class, "Type de portée");
         oneHandBaseDamage = new MTextField("Dommage à 1 main");
         twoHandBaseDamage = new MTextField("Dommage à 2 mains");
         isReach = new FormCheckBox("Allonge");
@@ -73,21 +76,11 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
         baseWeight = new DoubleField("Poids de base (lbs)");
         basePrice = new IntegerField("Prix de base");
 
-        damageType = new TypedSelect<DamageType>("Type de dommage", damageTypeService.findAll());
-        damageType.setCaptionGenerator(new CaptionGenerator<DamageType>() {
+        damageType = new ComboBox<DamageType>("Type de dommage", damageTypeService.findAll());
 
-            private static final long serialVersionUID = 9011176307449121578L;
+        handleType.addSelectionListener(this::handleTypeValueChange);
 
-            @Override
-            public String getCaption(DamageType option) {
-                return option.getName();
-            }
-        });
-
-        handleType.addMValueChangeListener(createHandleTypeValueChangeListener());
-
-        usageListener = createUsageTypeValueChangeListener();
-        usageType.addMValueChangeListener(usageListener);
+        usageListener = usageType.addSelectionListener(this::usageTypeValueChange);
 
         layout.addComponent(name);
         layout.addComponent(description);
@@ -109,27 +102,17 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
         return layout;
     }
 
-    private MValueChangeListener<UsageType> createUsageTypeValueChangeListener() {
-        return new MValueChangeListener<UsageType>() {
 
-            private static final long serialVersionUID = 1L;
 
-            @Override
-            public void valueChange(MValueChangeEvent<UsageType> event) {
+    public void usageTypeValueChange(SingleSelectionEvent<UsageType> event) {
                 if (event != null && event.getValue() != null) {
                     initRangeType(event.getValue());
                 }
             }
-        };
-    }
 
-    private MValueChangeListener<HandleType> createHandleTypeValueChangeListener() {
-        return new MValueChangeListener<HandleType>() {
 
-            private static final long serialVersionUID = 1L;
 
-            @Override
-            public void valueChange(MValueChangeEvent<HandleType> event) {
+    public void handleTypeValueChange(SingleSelectionEvent<HandleType> event) {
                 if (event != null && event.getValue() != null) {
                     switch (event.getValue()) {
                         case ONE_HANDED:
@@ -155,8 +138,7 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
                     }
                 }
             }
-        };
-    }
+
 
     @Override
     public void beforeSetEntity(WeaponType entity) {
@@ -166,13 +148,13 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
             rangeType.setReadOnly(false);
         }
         if (usageType != null) {
-            usageType.removeMValueChangeListener(usageListener);
+            usageListener.remove();
         }
     }
 
     @Override
     public void afterSetEntity() {
-        usageType.addMValueChangeListener(usageListener);
+        usageType.addSelectionListener(this::usageTypeValueChange);
         initRangeType(usageType.getValue());
     }
 
