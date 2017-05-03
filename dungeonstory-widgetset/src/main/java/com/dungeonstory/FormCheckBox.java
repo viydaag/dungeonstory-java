@@ -1,6 +1,5 @@
 package com.dungeonstory;
 
-import com.vaadin.data.Property;
 import com.vaadin.ui.CheckBox;
 
 public class FormCheckBox extends CheckBox {
@@ -34,17 +33,6 @@ public class FormCheckBox extends CheckBox {
      */
     public FormCheckBox(final String caption, final boolean initialState) {
         super(caption, initialState);
-    }
-
-    /**
-     * Creates a new checkbox that is connected to a boolean property.
-     *
-     * @param state
-     *            the Initial state of the switch-button.
-     * @param dataSource
-     */
-    public FormCheckBox(final String caption, final Property<?> dataSource) {
-        super(caption, dataSource);
     }
 
 }

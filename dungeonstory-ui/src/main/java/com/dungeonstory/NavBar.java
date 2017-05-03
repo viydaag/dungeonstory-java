@@ -9,10 +9,10 @@ import com.dungeonstory.event.NavigationEvent;
 import com.dungeonstory.util.DSTheme;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Label;
+import com.vaadin.v7.ui.Label;
 
 public class NavBar extends CssLayout implements ViewChangeListener {
 

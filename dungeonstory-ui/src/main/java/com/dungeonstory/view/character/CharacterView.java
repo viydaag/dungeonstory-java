@@ -4,13 +4,13 @@ import com.dungeonstory.authentication.CurrentUser;
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.util.ViewConfig.CreateMode;
-import com.dungeonstory.util.layout.VerticalSpacedLayout;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.TabSheet;
+import com.vaadin.ui.VerticalLayout;
 
 @ViewConfig(uri = CharacterView.URI, displayName = "characterView.caption", createMode = CreateMode.ALWAYS_NEW)
-public class CharacterView extends VerticalSpacedLayout implements View {
+public class CharacterView extends VerticalLayout implements View {
 
     private static final long serialVersionUID = 3904939774479485709L;
 

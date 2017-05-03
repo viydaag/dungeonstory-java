@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import org.vaadin.viritin.fields.MTextArea;
-import org.vaadin.viritin.fields.TypedSelect;
 import org.vaadin.viritin.form.AbstractForm;
 import org.vaadin.viritin.label.MLabel;
 
@@ -28,18 +26,21 @@ import com.dungeonstory.backend.service.DivineDomainDataService;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.i18n.Messages;
+import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.util.converter.CollectionToStringConverter;
 import com.dungeonstory.util.converter.CollectionToStringListConverter.ListType;
 import com.dungeonstory.util.converter.CollectionToStringListConverter.UnorderedListType;
 import com.dungeonstory.util.converter.DescriptiveEntityCollectionToStringListConverter;
 import com.dungeonstory.util.field.DSSubSetSelector;
+import com.dungeonstory.util.field.DSSubSetSelector2;
 import com.dungeonstory.util.layout.FormLayoutNoSpace;
-import com.dungeonstory.util.layout.HorizontalSpacedLayout;
-import com.dungeonstory.util.layout.VerticalSpacedLayout;
-import com.vaadin.data.validator.NullValidator;
-import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.data.ValueContext;
+import com.vaadin.data.provider.ListDataProvider;
+import com.vaadin.shared.ui.ContentMode;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
@@ -48,18 +49,21 @@ public class ClassChoiceForm extends DSAbstractForm<Character> implements Abstra
 
     private static final long serialVersionUID = 6382868944768026273L;
 
+    private DSClass chosenClass = null;
+
     private DataService<DSClass, Long>      classService;
     private DataService<Skill, Long>        skillService;
     private DataService<CreatureType, Long> creatureTypeService;
     private DataService<Deity, Long>        deityService;
     private DivineDomainDataService         domainService;
 
-    private TypedSelect<DSClass>           classe;
+    //    private ComboBox<DSClass>              classe;
+    private DSSubSetSelector2<DSClass>        classes;
     private DSSubSetSelector<Skill>        classSkills;
     private DSSubSetSelector<CreatureType> favoredEnnemies;
     private DSSubSetSelector<Terrain>      favoredTerrains;
-    private TypedSelect<Deity>             deity;
-    private TypedSelect<DivineDomain>      divineDomain;
+    private ComboBox<Deity>                deity;
+    private ComboBox<DivineDomain>         divineDomain;
 
     private Label deityDescription;
     private Label domainDescription;
@@ -69,7 +73,7 @@ public class ClassChoiceForm extends DSAbstractForm<Character> implements Abstra
     private Deity              backupDeity;
     private DivineDomain       backupDivineDomain;
 
-    private MTextArea classDescription;
+    private DSTextArea classDescription;
     private MLabel    proficienciesLabel;
     private MLabel    armorProficiencies;
     private MLabel    weaponProficiencies;
@@ -79,7 +83,7 @@ public class ClassChoiceForm extends DSAbstractForm<Character> implements Abstra
     private MLabel    classFeatures;
 
     public ClassChoiceForm() {
-        super();
+        super(Character.class);
         setSavedHandler(this);
 
         classService = Services.getClassService();
@@ -94,20 +98,26 @@ public class ClassChoiceForm extends DSAbstractForm<Character> implements Abstra
 
         CollectionToStringConverter collectionConverter = new CollectionToStringConverter();
 
-        HorizontalSpacedLayout layout = new HorizontalSpacedLayout();
+        HorizontalLayout layout = new HorizontalLayout();
 
         Messages messages = Messages.getInstance();
 
-        VerticalSpacedLayout classFieldsLayout = new VerticalSpacedLayout();
-        classe = new TypedSelect<DSClass>(messages.getMessage("classStep.class.label"), classService.findAll())
-                .asComboBoxType().withNullSelectionAllowed(false);
-        classe.setRequired(true);
-        classe.setImmediate(true);
-        classe.addValidator(new NullValidator(messages.getMessage("classStep.class.validator"), false));
-        classe.addMValueChangeListener(event -> {
-            getFieldGroup().setBeanModified(true);
-            onFieldGroupChange(getFieldGroup());
-        });
+         VerticalLayout classFieldsLayout = new VerticalLayout();
+//        classe = new ComboBox<DSClass>(messages.getMessage("classStep.class.label"), classService.findAll());
+//        classe.setEmptySelectionAllowed(false);
+//        classe.setRequiredIndicatorVisible(true);
+//        classe.addValidator(new NullValidator(messages.getMessage("classStep.class.validator"), false));
+//        classe.addValueChangeListener(event -> {
+//            getFieldGroup().setBeanModified(true);
+//            onFieldGroupChange(getFieldGroup());
+//        });
+        classes = new DSSubSetSelector2<DSClass>(DSClass.class);
+        classes.setCaption(messages.getMessage("classStep.class.label"));
+        //        classes.setVisibleProperties("name");
+        //        classes.setColumnHeader("name", "");
+        classes.getGrid().addColumn(DSClass::getName).setCaption("").setId("name");
+        classes.setItems(classService.findAll());
+
 
         classSkills = new DSSubSetSelector<Skill>(Skill.class);
         classSkills.setCaption(messages.getMessage("classStep.proficientSkills.label"));
@@ -131,21 +141,24 @@ public class ClassChoiceForm extends DSAbstractForm<Character> implements Abstra
         favoredTerrains.setOptions(Arrays.asList(Terrain.values()));
         favoredTerrains.setVisible(false);
 
-        deity = new TypedSelect<Deity>(messages.getMessage("classStep.deity.label"),
-                deityService.findAllOrderBy("name", "ASC")).asComboBoxType().withVisible(false);
-        divineDomain = new TypedSelect<DivineDomain>(messages.getMessage("classStep.divineDomain.label"))
-                .asComboBoxType().withNullSelectionAllowed(false).withVisible(false);
+        deity = new ComboBox<Deity>(messages.getMessage("classStep.deity.label"), deityService.findAllOrderBy("name", "ASC"));
+        deity.setVisible(false);
+        divineDomain = new ComboBox<DivineDomain>(messages.getMessage("classStep.divineDomain.label"));
+        divineDomain.setEmptySelectionAllowed(false);
+        divineDomain.setVisible(false);
         deityDescription = new Label();
         domainDescription = new Label();
 
-        deity.addMValueChangeListener(event -> {
+        deity.addValueChangeListener(event -> {
             Deity value = event.getValue();
             if (value != null) {
                 deityDescription.setValue(value.getShortDescription());
-                divineDomain.setOptions(domainService.findAllByDeity(value));
-                if (divineDomain.getOptions().size() >= 1) {
-                    divineDomain.setValue(divineDomain.getOptions().get(0));
-                    domainDescription.setValue(divineDomain.getOptions().get(0).getDescription());
+                divineDomain.setItems(domainService.findAllByDeity(value));
+                ListDataProvider<DivineDomain> domainProvider = (ListDataProvider<DivineDomain>) divineDomain.getDataProvider();
+                List<DivineDomain> items = (List<DivineDomain>) domainProvider.getItems();
+                if (items.size() >= 1) {
+                    divineDomain.setValue(items.get(0));
+                    domainDescription.setValue(divineDomain.getValue().getDescription());
                 } else {
                     divineDomain.setValue(null);
                     domainDescription.setValue("");
@@ -157,7 +170,7 @@ public class ClassChoiceForm extends DSAbstractForm<Character> implements Abstra
             }
         });
 
-        divineDomain.addMValueChangeListener(event -> {
+        divineDomain.addValueChangeListener(event -> {
             if (event.getValue() != null) {
                 domainDescription.setValue(event.getValue().getDescription());
             } else {
@@ -165,11 +178,11 @@ public class ClassChoiceForm extends DSAbstractForm<Character> implements Abstra
             }
         });
 
-        classFieldsLayout.addComponents(classe, classSkills, favoredEnnemies, favoredTerrains, deity, deityDescription,
-                divineDomain, domainDescription);
+        classFieldsLayout.addComponents(classes, classSkills, favoredEnnemies, favoredTerrains, deity, deityDescription, divineDomain,
+                domainDescription);
 
         VerticalLayout classDescriptionLayout = new VerticalLayout();
-        classDescription = new MTextArea(messages.getMessage("classStep.class.description")).withRows(10);
+        classDescription = new DSTextArea(messages.getMessage("classStep.class.description")).withFullWidth().withRows(10);
 
         FormLayout properties = new FormLayout();
         proficienciesLabel = new MLabel().withStyleName(ValoTheme.LABEL_H4);
@@ -189,8 +202,8 @@ public class ClassChoiceForm extends DSAbstractForm<Character> implements Abstra
         classFeatures = new MLabel().withContentMode(ContentMode.HTML);
         classFeatureLayout.addComponents(classFeatures);
 
-        classe.addMValueChangeListener(event -> {
-            DSClass chosenClass = event.getValue();
+        classes.getComboBox().addValueChangeListener(event -> {
+            chosenClass = event.getValue();
             if (chosenClass != null) {
 
                 Optional<CharacterClass> assignedClass = ClassUtil.getCharacterClass(getEntity(), chosenClass);
@@ -248,16 +261,13 @@ public class ClassChoiceForm extends DSAbstractForm<Character> implements Abstra
                 classDescription.setReadOnly(true);
                 proficienciesLabel.withCaption(messages.getMessage("classStep.proficiencies.label"));
                 armorProficiencies.withCaption(messages.getMessage("classStep.proficiencies.armor.label"))
-                        .withContent(collectionConverter.convertToPresentation(chosenClass.getArmorProficiencies(),
-                                String.class, null));
+                        .withContent(collectionConverter.convertToPresentation(chosenClass.getArmorProficiencies(), new ValueContext()));
                 weaponProficiencies.withCaption(messages.getMessage("classStep.proficiencies.weapon.label"))
-                        .withContent(collectionConverter.convertToPresentation(chosenClass.getWeaponProficiencies(),
-                                String.class, null));
+                        .withContent(collectionConverter.convertToPresentation(chosenClass.getWeaponProficiencies(), new ValueContext()));
                 savingThrowProficiencies.withCaption(messages.getMessage("classStep.proficiencies.savingThrow.label"))
-                        .withContent(collectionConverter
-                                .convertToPresentation(chosenClass.getSavingThrowProficiencies(), String.class, null));
-                skillProficiencies.withCaption(messages.getMessage("classStep.proficiencies.skill.label")).withContent(
-                        collectionConverter.convertToPresentation(chosenClass.getBaseSkills(), String.class, null));
+                        .withContent(collectionConverter.convertToPresentation(chosenClass.getSavingThrowProficiencies(), new ValueContext()));
+                skillProficiencies.withCaption(messages.getMessage("classStep.proficiencies.skill.label"))
+                        .withContent(collectionConverter.convertToPresentation(chosenClass.getBaseSkills(), new ValueContext()));
                 classFeaturesLabel.withCaption(messages.getMessage("classStep.classFeatures.label"));
 
                 DescriptiveEntityCollectionToStringListConverter listConverter = new DescriptiveEntityCollectionToStringListConverter();
@@ -321,14 +331,14 @@ public class ClassChoiceForm extends DSAbstractForm<Character> implements Abstra
         classDescription.setReadOnly(true);
     }
 
-    public TypedSelect<DSClass> getClasse() {
-        return classe;
+    public DSClass getChosenClass() {
+        return chosenClass;
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public void onSave(Character entity) {
-        DSClass chosenClass = getClasse().getValue();
+        DSClass chosenClass = getChosenClass();
         CharacterClass chosenCharacterClass = null;
 
         Optional<CharacterClass> assignedClass = ClassUtil.getCharacterClass(entity, chosenClass);

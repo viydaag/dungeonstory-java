@@ -11,7 +11,6 @@ import com.dungeonstory.util.LazyProvider;
 import com.dungeonstory.util.PageTitleUpdater;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.util.ViewConfigUtil;
-import com.dungeonstory.util.layout.VerticalSpacedLayout;
 import com.dungeonstory.view.AboutView;
 import com.dungeonstory.view.ErrorView;
 import com.dungeonstory.view.HomeView;
@@ -84,10 +83,10 @@ public class MainScreen extends HorizontalLayout {
     private void initLayout() {
         navBar = new NavBar();
 
-        viewContainer = new VerticalSpacedLayout();
+        viewContainer = new VerticalLayout();
         viewContainer.addStyleName(DSTheme.VALO_CONTENT);
         viewContainer.addStyleName(DSTheme.CRUD_VIEW);
-        viewContainer.setSizeFull();
+        //        viewContainer.setSizeFull();
 
         // DMenu menu = new DMenu();
         // menu.setCenteredTabs(true);

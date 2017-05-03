@@ -2,11 +2,9 @@ package com.dungeonstory.form;
 
 import java.util.Arrays;
 
-import org.vaadin.viritin.fields.EnumSelect;
 import org.vaadin.viritin.fields.IntegerField;
-import org.vaadin.viritin.fields.MTextArea;
 import org.vaadin.viritin.fields.MTextField;
-import org.vaadin.viritin.fields.TypedSelect;
+import org.vaadin.viritin.v7.fields.TypedSelect;
 
 import com.dungeonstory.FormCheckBox;
 import com.dungeonstory.backend.Configuration;
@@ -22,11 +20,11 @@ import com.dungeonstory.backend.service.impl.AbilityService;
 import com.dungeonstory.backend.service.impl.FeatService;
 import com.dungeonstory.backend.service.mock.MockAbilityService;
 import com.dungeonstory.backend.service.mock.MockFeatService;
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.ui.ComboBox;
+import com.dungeonstory.ui.component.DSTextArea;
+import com.dungeonstory.ui.component.EnumComboBox;
+import com.vaadin.data.HasValue.ValueChangeEvent;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
-import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 
 public class FeatForm extends DSAbstractForm<Feat> {
@@ -34,23 +32,23 @@ public class FeatForm extends DSAbstractForm<Feat> {
     private static final long serialVersionUID = 5697384706401456761L;
 
     private TextField                              name;
-    private TextArea                               description;
-    private EnumSelect<FeatUsage>                  usage;
+    private DSTextArea                              description;
+    private EnumComboBox<FeatUsage>                usage;
     private FormCheckBox                           isClassFeature;
-    private EnumSelect<PrerequisiteType>           prerequisiteType;
+    private EnumComboBox<PrerequisiteType>         prerequisiteType;
     private TypedSelect<ArmorType.ProficiencyType> prerequisiteArmorProficiency;
     private TypedSelect<Ability>                   prerequisiteAbility;
     private IntegerField                           prerequisiteAbilityScore;
     private TypedSelect<Feat>                      parent;
     private IntegerField                           nbUse;
-    private EnumSelect<RestType>                   restType;
+    private EnumComboBox<RestType>                 restType;
     private TypedSelect<Feat>                      replacement;
 
     private DataService<Ability, Long> abilityService = null;
     private FeatDataService            featService    = null;
 
     public FeatForm() {
-        super();
+        super(Feat.class);
         if (Configuration.getInstance().isMock()) {
             featService = MockFeatService.getInstance();
             abilityService = MockAbilityService.getInstance();
@@ -65,12 +63,12 @@ public class FeatForm extends DSAbstractForm<Feat> {
         FormLayout layout = new FormLayout();
 
         name = new MTextField("Nom").withWidth(50, Unit.PERCENTAGE);
-        description = new MTextArea("Description").withFullWidth().withRows(10);
-        usage = new EnumSelect<FeatUsage>("Usage").withSelectType(ComboBox.class);
+        description = new DSTextArea("Description").withFullWidth().withRows(10);
+        usage = new EnumComboBox<FeatUsage>(FeatUsage.class, "Usage");
         nbUse = new IntegerField("Nombre d'utilisation avant repos");
-        restType = new EnumSelect<RestType>("Type de repos requis").withSelectType(ComboBox.class);
+        restType = new EnumComboBox<RestType>(RestType.class, "Type de repos requis");
         isClassFeature = new FormCheckBox("Don de classe");
-        prerequisiteType = new EnumSelect<PrerequisiteType>("Type de prérequis");
+        prerequisiteType = new EnumComboBox<PrerequisiteType>(PrerequisiteType.class, "Type de prérequis");
         prerequisiteArmorProficiency = new TypedSelect<ArmorType.ProficiencyType>("Maitrise d'armure prérequise",
                 Arrays.asList(ArmorType.ProficiencyType.values())).asComboBoxType();
         prerequisiteAbility = new TypedSelect<Ability>("Caractéristique prérequise", abilityService.findAll())
@@ -82,7 +80,7 @@ public class FeatForm extends DSAbstractForm<Feat> {
 
         isClassFeature.addValueChangeListener(event -> isClassFeatureChange(event));
 
-        prerequisiteType.addMValueChangeListener(event -> adjustTypeVisibility((PrerequisiteType) event.getValue()));
+        prerequisiteType.addSelectionListener(event -> adjustTypeVisibility(event.getValue()));
 
         layout.addComponent(name);
         layout.addComponent(description);

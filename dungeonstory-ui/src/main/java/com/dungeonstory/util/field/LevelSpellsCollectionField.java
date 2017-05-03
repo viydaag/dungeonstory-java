@@ -1,8 +1,8 @@
 package com.dungeonstory.util.field;
 
-import org.vaadin.viritin.fields.ElementCollectionField;
 import org.vaadin.viritin.fields.IntegerField;
-import org.vaadin.viritin.fields.TypedSelect;
+import org.vaadin.viritin.v7.fields.ElementCollectionField;
+import org.vaadin.viritin.v7.fields.TypedSelect;
 
 import com.dungeonstory.backend.data.Level;
 import com.vaadin.ui.Component;

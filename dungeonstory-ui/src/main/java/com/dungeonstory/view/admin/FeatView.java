@@ -11,9 +11,8 @@ import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.AbstractCrudView;
 import com.dungeonstory.view.grid.DSGrid;
 import com.dungeonstory.view.grid.FeatGrid;
-import com.vaadin.data.sort.Sort;
+import com.vaadin.data.provider.GridSortOrder;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.shared.data.sort.SortDirection;
 
 @ViewConfig(uri = "feats", displayName = "Dons")
 public class FeatView extends AbstractCrudView<Feat> {
@@ -41,7 +40,8 @@ public class FeatView extends AbstractCrudView<Feat> {
     @Override
     public void enter(ViewChangeEvent event) {
         super.enter(event);
-        grid.sort(Sort.by("isClassFeature", SortDirection.ASCENDING).then("name", SortDirection.ASCENDING));
+        //        grid.sort(Sort.by("isClassFeature", SortDirection.ASCENDING).then("name", SortDirection.ASCENDING));
+        grid.setSortOrder(GridSortOrder.asc(grid.getColumn("isClassFeature")).thenDesc(grid.getColumn("name")));
     }
 
 }

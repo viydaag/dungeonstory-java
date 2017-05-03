@@ -15,6 +15,7 @@ import com.dungeonstory.i18n.Messages;
 import com.dungeonstory.util.CharacterWizardStep;
 import com.dungeonstory.util.converter.CollectionToStringConverter;
 import com.dungeonstory.util.layout.FormLayoutNoSpace;
+import com.vaadin.data.ValueContext;
 import com.vaadin.server.FileResource;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Component;
@@ -55,14 +56,14 @@ public class SummaryStep extends CharacterWizardStep<Character> {
             MLabel raceLabel = new MLabel(messages.getMessage("summaryStep.race.label"), character.getRace().getName());
             layout.addComponent(raceLabel);
             MLabel languagesLabel = new MLabel(messages.getMessage("summaryStep.language.label"),
-                    collectionConverter.convertToPresentation(character.getLanguages(), String.class, null));
+                    collectionConverter.convertToPresentation(character.getLanguages(), new ValueContext()));
             layout.addComponent(languagesLabel);
         }
 
         CollectionToStringConverter classCollectionConverter = new CollectionToStringConverter();
         classCollectionConverter.setDelimiter(" / ");
         MLabel classesLabel = new MLabel(messages.getMessage("summaryStep.class.label"),
-                classCollectionConverter.convertToPresentation(character.getClasses(), String.class, null));
+                classCollectionConverter.convertToPresentation(character.getClasses(), new ValueContext()));
         layout.addComponent(classesLabel);
 
         int nbLifePoints = 0;
@@ -86,7 +87,7 @@ public class SummaryStep extends CharacterWizardStep<Character> {
         featSet.removeAll(original.getFeats());
         if (!featSet.isEmpty()) {
             MLabel featsLabel = new MLabel(messages.getMessage("summaryStep.newFeat.label"),
-                    collectionConverter.convertToPresentation(featSet, String.class, null));
+                    collectionConverter.convertToPresentation(featSet, new ValueContext()));
             layout.addComponent(featsLabel);
         }
 
@@ -109,13 +110,13 @@ public class SummaryStep extends CharacterWizardStep<Character> {
             MLabel proficienciesLabel = new MLabel().withCaption(messages.getMessage("summaryStep.proficiency.label"))
                     .withStyleName(ValoTheme.LABEL_H4);
             MLabel armorProficienciesLabel = new MLabel(messages.getMessage("summaryStep.proficiency.armor.label"),
-                    collectionConverter.convertToPresentation(character.getArmorProficiencies(), String.class, null));
+                    collectionConverter.convertToPresentation(character.getArmorProficiencies(), new ValueContext()));
             MLabel weaponProficienciesLabel = new MLabel(messages.getMessage("summaryStep.proficiency.weapon.label"),
-                    collectionConverter.convertToPresentation(character.getWeaponProficiencies(), String.class, null));
+                    collectionConverter.convertToPresentation(character.getWeaponProficiencies(), new ValueContext()));
             MLabel savingThrowProficienciesLabel = new MLabel(messages.getMessage("summaryStep.proficiency.savingThrow.label"),
-                    collectionConverter.convertToPresentation(character.getSavingThrowProficiencies(), String.class, null));
+                    collectionConverter.convertToPresentation(character.getSavingThrowProficiencies(), new ValueContext()));
             MLabel skillProficienciesLabel = new MLabel(messages.getMessage("summaryStep.proficiency.skill.label"),
-                    collectionConverter.convertToPresentation(character.getSkillProficiencies(), String.class, null));
+                    collectionConverter.convertToPresentation(character.getSkillProficiencies(), new ValueContext()));
             layout.addComponents(proficienciesLabel, armorProficienciesLabel, weaponProficienciesLabel, savingThrowProficienciesLabel,
                     skillProficienciesLabel);
         } else {

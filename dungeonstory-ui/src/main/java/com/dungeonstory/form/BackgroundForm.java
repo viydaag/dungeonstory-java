@@ -3,10 +3,6 @@ package com.dungeonstory.form;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import org.vaadin.viritin.fields.EnumSelect;
-import org.vaadin.viritin.fields.MTextArea;
-import org.vaadin.viritin.fields.MTextField;
-
 import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.Background;
 import com.dungeonstory.backend.data.Background.LanguageChoice;
@@ -15,7 +11,9 @@ import com.dungeonstory.backend.data.Tool.ToolType;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.impl.SkillService;
 import com.dungeonstory.backend.service.mock.MockSkillService;
+import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.util.field.DSSubSetSelector;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextArea;
@@ -34,12 +32,12 @@ public class BackgroundForm extends DSAbstractForm<Background> {
 
     private DSSubSetSelector<Skill>    skillProficiencies;
     private DSSubSetSelector<ToolType> toolProficiencies;
-    private EnumSelect<LanguageChoice> additionalLanguage;
+    private ComboBox<LanguageChoice>   additionalLanguage;
 
     private DataService<Skill, Long> skillService     = null;
 
     public BackgroundForm() {
-        super();
+        super(Background.class);
         if (Configuration.getInstance().isMock()) {
             skillService = MockSkillService.getInstance();
         } else {
@@ -56,12 +54,12 @@ public class BackgroundForm extends DSAbstractForm<Background> {
     protected Component createContent() {
         FormLayout layout = new FormLayout();
 
-        name = new MTextField("Nom");
-        description = new MTextArea("Description").withFullWidth().withRows(12);
-        traits = new MTextArea("Traits de personnalité").withFullWidth().withRows(12);
-        ideals = new MTextArea("Idéaux").withFullWidth().withRows(12);
-        purposes = new MTextArea("Buts").withFullWidth().withRows(12);
-        flaws = new MTextArea("Défauts").withFullWidth().withRows(12);
+        name = new TextField("Nom");
+        description = new DSTextArea("Description").withFullWidth().withRows(12);
+        traits = new DSTextArea("Traits de personnalité").withFullWidth().withRows(12);
+        ideals = new DSTextArea("Idéaux").withFullWidth().withRows(12);
+        purposes = new DSTextArea("Buts").withFullWidth().withRows(12);
+        flaws = new DSTextArea("Défauts").withFullWidth().withRows(12);
 
         skillProficiencies = new DSSubSetSelector<Skill>(Skill.class);
         skillProficiencies.setCaption("Maitrise de compétence");
@@ -80,7 +78,7 @@ public class BackgroundForm extends DSAbstractForm<Background> {
         toolProficiencies.setWidth("80%");
         toolProficiencies.setValue(new HashSet<ToolType>()); //nothing selected
 
-        additionalLanguage = new EnumSelect<LanguageChoice>("Nb langage additionnel");
+        additionalLanguage = new ComboBox<LanguageChoice>("Nb langage additionnel");
 
         layout.addComponent(name);
         layout.addComponent(description);

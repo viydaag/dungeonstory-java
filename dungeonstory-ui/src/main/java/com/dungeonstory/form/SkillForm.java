@@ -1,14 +1,13 @@
 package com.dungeonstory.form;
 
-import org.vaadin.viritin.fields.CaptionGenerator;
-import org.vaadin.viritin.fields.MTextArea;
 import org.vaadin.viritin.fields.MTextField;
-import org.vaadin.viritin.fields.TypedSelect;
 
 import com.dungeonstory.backend.data.Ability;
 import com.dungeonstory.backend.data.Skill;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.impl.AbilityService;
+import com.dungeonstory.ui.component.DSTextArea;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextArea;
@@ -19,14 +18,14 @@ public class SkillForm extends DSAbstractForm<Skill> {
     private static final long serialVersionUID = -4123881637907722632L;
 
     private TextField            name;
-    private TextField            shortDescription;
+    private MTextField        shortDescription;
     private TextArea             description;
-    private TypedSelect<Ability> keyAbility;
+    private ComboBox<Ability> keyAbility;
 
     private DataService<Ability, Long> abilityService = AbilityService.getInstance();
 
     public SkillForm() {
-        super();
+        super(Skill.class);
     }
 
     @Override
@@ -40,17 +39,8 @@ public class SkillForm extends DSAbstractForm<Skill> {
 
         name = new MTextField("Nom");
         shortDescription = new MTextField("Description courte").withFullWidth();
-        description = new MTextArea("Description").withFullWidth();
-        keyAbility = new TypedSelect<Ability>("Attribut clé", abilityService.findAll());
-        keyAbility.setCaptionGenerator(new CaptionGenerator<Ability>() {
-
-            private static final long serialVersionUID = -3188362153311215227L;
-
-            @Override
-            public String getCaption(Ability option) {
-                return option.getName();
-            }
-        });
+        description = new DSTextArea("Description").withFullWidth();
+        keyAbility = new ComboBox<Ability>("Attribut clé", abilityService.findAll());
 
         layout.addComponent(name);
         layout.addComponent(shortDescription);

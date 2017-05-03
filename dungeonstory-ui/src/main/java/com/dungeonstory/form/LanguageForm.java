@@ -17,7 +17,7 @@ public class LanguageForm extends DSAbstractForm<Language> {
     private FormCheckBox playable;
 
     public LanguageForm() {
-        super();
+        super(Language.class);
     }
 
     @Override

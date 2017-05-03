@@ -6,15 +6,11 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.vaadin.viritin.fields.ElementCollectionTable;
-import org.vaadin.viritin.fields.EnumSelect;
 import org.vaadin.viritin.fields.IntegerField;
-import org.vaadin.viritin.fields.MCheckBox;
-import org.vaadin.viritin.fields.MTextArea;
 import org.vaadin.viritin.fields.MTextField;
-import org.vaadin.viritin.fields.MValueChangeEvent;
-import org.vaadin.viritin.fields.TypedSelect;
-import org.vaadin.viritin.fields.config.ComboBoxConfig;
+import org.vaadin.viritin.v7.fields.ElementCollectionTable;
+import org.vaadin.viritin.v7.fields.TypedSelect;
+import org.vaadin.viritin.v7.fields.config.ComboBoxConfig;
 
 import com.dungeonstory.FormCheckBox;
 import com.dungeonstory.backend.Configuration;
@@ -51,20 +47,22 @@ import com.dungeonstory.backend.service.mock.MockLevelService;
 import com.dungeonstory.backend.service.mock.MockSkillService;
 import com.dungeonstory.backend.service.mock.MockSpellService;
 import com.dungeonstory.backend.service.mock.MockWeaponTypeService;
+import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.util.field.DSSubSetSelector;
 import com.dungeonstory.util.field.LevelBonusCollectionField;
 import com.dungeonstory.util.field.LevelBonusCollectionField.ClassLevelBonusRow;
 import com.dungeonstory.util.field.LevelSpellsCollectionField;
 import com.dungeonstory.util.field.LevelSpellsCollectionField.LevelSpellsRow;
-import com.dungeonstory.util.layout.HorizontalSpacedLayout;
-import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.HasValue.ValueChangeEvent;
+import com.vaadin.event.selection.SingleSelectionEvent;
+import com.vaadin.shared.Registration;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Field;
 import com.vaadin.ui.FormLayout;
-import com.vaadin.ui.OptionGroup;
-import com.vaadin.ui.TextArea;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.RadioButtonGroup;
 import com.vaadin.ui.TextField;
 
 public class ClassForm extends DSAbstractForm<DSClass> {
@@ -73,12 +71,12 @@ public class ClassForm extends DSAbstractForm<DSClass> {
 
     private TextField                                   name;
     private TextField                                   shortDescription;
-    private TextArea                                    description;
+    private DSTextArea                                   description;
     private IntegerField                                lifePointPerLevel;
     private IntegerField                                startingGold;
     private FormCheckBox                                isSpellCasting;
-    private TypedSelect<Ability>                        spellCastingAbility;
-    private EnumSelect<SpellCastingType>                spellCastingType;
+    private ComboBox<Ability>                           spellCastingAbility;
+    private RadioButtonGroup<SpellCastingType>          spellCastingType;
     private LevelSpellsCollectionField<ClassSpellSlots> spellSlots;
     private DSSubSetSelector<Ability>                   savingThrowProficiencies;
     private DSSubSetSelector<ArmorType.ProficiencyType> armorProficiencies;
@@ -125,7 +123,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     }
 
     public ClassForm() {
-        super();
+        super(DSClass.class);
         if (Configuration.getInstance().isMock()) {
             skillService = MockSkillService.getInstance();
             levelService = MockLevelService.getInstance();
@@ -157,17 +155,16 @@ public class ClassForm extends DSAbstractForm<DSClass> {
 
         name = new MTextField("Nom");
         shortDescription = new MTextField("Description courte").withWidth("80%");
-        description = new MTextArea("Description").withWidth("80%").withRows(12);
+        description = new DSTextArea("Description").withWidth("80%").withRows(12);
         lifePointPerLevel = new IntegerField("Points de vie par niveau");
         startingGold = new IntegerField("Pièces d'or de départ");
         isSpellCasting = new FormCheckBox("Capacité à lancer des sorts");
-        spellCastingAbility = new TypedSelect<Ability>("Caractéristique de sort").asComboBoxType();
-        spellCastingAbility.setOptions(abilityService.findAll());
-        spellCastingType = new EnumSelect<SpellCastingType>("Sorts innés ou préparés?")
-                .withSelectType(OptionGroup.class);
+        spellCastingAbility = new ComboBox<Ability>("Caractéristique de sort");
+        spellCastingAbility.setItems(abilityService.findAll());
+        spellCastingType = new RadioButtonGroup<SpellCastingType>("Sorts innés ou préparésé");
 
         isSpellCasting.addValueChangeListener(this::isSpellCastingChange);
-        spellCastingType.addMValueChangeListener(this::spellCastingTypeChange);
+        spellCastingType.addSelectionListener(this::spellCastingTypeChange);
 
         savingThrowProficiencies = new DSSubSetSelector<Ability>(Ability.class);
         savingThrowProficiencies.setCaption("Maitrise applicable au jets de sauvegarde");
@@ -200,7 +197,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
             weaponProficiencies.setValue(allMartial);
         });
         clearWeapons = new Button("Enlever tout", event -> weaponProficiencies.setValue(new HashSet<WeaponType>()));
-        HorizontalSpacedLayout buttonLayout = new HorizontalSpacedLayout(addAllSimpleWeapons, addAllMartialWeapons,
+        HorizontalLayout buttonLayout = new HorizontalLayout(addAllSimpleWeapons, addAllMartialWeapons,
                 clearWeapons);
 
         weaponProficiencies = new DSSubSetSelector<WeaponType>(WeaponType.class);
@@ -237,16 +234,16 @@ public class ClassForm extends DSAbstractForm<DSClass> {
             return row;
         });
 
-        martialArts = new MCheckBox("Arts martiaux");
-        sorcery = new MCheckBox("Sorcellerie");
-        rage = new MCheckBox("Rage");
-        invocation = new MCheckBox("Invocation");
-        hunter = new MCheckBox("Chasseur");
-        sneak = new MCheckBox("Attaque furtive");
-        deity = new MCheckBox("Dieu");
+        martialArts = new CheckBox("Arts martiaux");
+        sorcery = new CheckBox("Sorcellerie");
+        rage = new CheckBox("Rage");
+        invocation = new CheckBox("Invocation");
+        hunter = new CheckBox("Chasseur");
+        sneak = new CheckBox("Attaque furtive");
+        deity = new CheckBox("Dieu");
         activateCheckboxListeners();
 
-        HorizontalSpacedLayout checkboxLayout = new HorizontalSpacedLayout(martialArts, sorcery, rage, invocation,
+        HorizontalLayout checkboxLayout = new HorizontalLayout(martialArts, sorcery, rage, invocation,
                 hunter, sneak, deity);
 
         spellSlots = (LevelSpellsCollectionField<ClassSpellSlots>) new LevelSpellsCollectionField<ClassSpellSlots>(
@@ -310,15 +307,13 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     }
 
     private void activateCheckboxListeners() {
-        martialArts
-                .addValueChangeListener(event -> levelBonuses.setMartialArts((boolean) event.getProperty().getValue()));
-        sorcery.addValueChangeListener(event -> levelBonuses.setSorcery((boolean) event.getProperty().getValue()));
-        rage.addValueChangeListener(event -> levelBonuses.setRage((boolean) event.getProperty().getValue()));
-        invocation
-                .addValueChangeListener(event -> levelBonuses.setInvocation((boolean) event.getProperty().getValue()));
-        hunter.addValueChangeListener(event -> levelBonuses.setHunter((boolean) event.getProperty().getValue()));
-        sneak.addValueChangeListener(event -> levelBonuses.setSneak((boolean) event.getProperty().getValue()));
-        deity.addValueChangeListener(event -> levelBonuses.setDeity((boolean) event.getProperty().getValue()));
+        Registration reg = martialArts.addValueChangeListener(event -> levelBonuses.setMartialArts(event.getValue()));
+        sorcery.addValueChangeListener(event -> levelBonuses.setSorcery(event.getValue()));
+        rage.addValueChangeListener(event -> levelBonuses.setRage(event.getValue()));
+        invocation.addValueChangeListener(event -> levelBonuses.setInvocation(event.getValue()));
+        hunter.addValueChangeListener(event -> levelBonuses.setHunter(event.getValue()));
+        sneak.addValueChangeListener(event -> levelBonuses.setSneak(event.getValue()));
+        deity.addValueChangeListener(event -> levelBonuses.setDeity(event.getValue()));
     }
 
     @Override
@@ -342,20 +337,13 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     }
 
     private void deactivateCheckboxListeners() {
-        hunter.getListeners(Field.ValueChangeEvent.class)
-                .forEach(listener -> hunter.removeListener(Field.ValueChangeEvent.class, listener));
-        rage.getListeners(Field.ValueChangeEvent.class)
-                .forEach(listener -> rage.removeListener(Field.ValueChangeEvent.class, listener));
-        invocation.getListeners(Field.ValueChangeEvent.class)
-                .forEach(listener -> invocation.removeListener(Field.ValueChangeEvent.class, listener));
-        martialArts.getListeners(Field.ValueChangeEvent.class)
-                .forEach(listener -> martialArts.removeListener(Field.ValueChangeEvent.class, listener));
-        sneak.getListeners(Field.ValueChangeEvent.class)
-                .forEach(listener -> sneak.removeListener(Field.ValueChangeEvent.class, listener));
-        sorcery.getListeners(Field.ValueChangeEvent.class)
-                .forEach(listener -> sorcery.removeListener(Field.ValueChangeEvent.class, listener));
-        deity.getListeners(Field.ValueChangeEvent.class)
-                .forEach(listener -> deity.removeListener(Field.ValueChangeEvent.class, listener));
+        hunter.getListeners(ValueChangeEvent.class).forEach(listener -> hunter.removeListener(ValueChangeEvent.class, listener));
+        rage.getListeners(ValueChangeEvent.class).forEach(listener -> rage.removeListener(ValueChangeEvent.class, listener));
+        invocation.getListeners(ValueChangeEvent.class).forEach(listener -> invocation.removeListener(ValueChangeEvent.class, listener));
+        martialArts.getListeners(ValueChangeEvent.class).forEach(listener -> martialArts.removeListener(ValueChangeEvent.class, listener));
+        sneak.getListeners(ValueChangeEvent.class).forEach(listener -> sneak.removeListener(ValueChangeEvent.class, listener));
+        sorcery.getListeners(ValueChangeEvent.class).forEach(listener -> sorcery.removeListener(ValueChangeEvent.class, listener));
+        deity.getListeners(ValueChangeEvent.class).forEach(listener -> deity.removeListener(ValueChangeEvent.class, listener));
     }
 
     @Override
@@ -372,7 +360,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         refreshLevelBonusCheckBoxVisibility();
     }
 
-    public void isSpellCastingChange(ValueChangeEvent event) {
+    public void isSpellCastingChange(ValueChangeEvent<Boolean> event) {
         if (isSpellCasting.getValue() == null || isSpellCasting.getValue() == false) {
             spellCastingAbility.setValue(null);
             spellCastingAbility.setVisible(false);
@@ -392,7 +380,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         }
     }
 
-    public void spellCastingTypeChange(MValueChangeEvent<SpellCastingType> event) {
+    public void spellCastingTypeChange(SingleSelectionEvent<SpellCastingType> event) {
         //hide the known spell column if spells are prepared (nbSpells = level + ability modifier)
         spellSlots.setKnownSpells(
                 event != null && event.getValue() != null && event.getValue() == SpellCastingType.KNOWN);

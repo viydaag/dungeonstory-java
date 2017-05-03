@@ -7,7 +7,7 @@ import java.util.Locale;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.vaadin.data.util.converter.Converter;
+import com.vaadin.v7.data.util.converter.Converter;
 
 /**
  * A converter that allows displaying a collection as a html list (ul or ol).
@@ -72,13 +72,13 @@ public class CollectionToStringListConverter implements Converter<String, Collec
 
     @Override
     public Collection convertToModel(String value, Class<? extends Collection> targetType, Locale locale)
-            throws com.vaadin.data.util.converter.Converter.ConversionException {
+            throws com.vaadin.v7.data.util.converter.Converter.ConversionException {
         throw new UnsupportedOperationException("Can only convert from collection to string");
     }
 
     @Override
     public String convertToPresentation(Collection value, Class<? extends String> targetType, Locale locale)
-            throws com.vaadin.data.util.converter.Converter.ConversionException {
+            throws com.vaadin.v7.data.util.converter.Converter.ConversionException {
         if (value == null || value.isEmpty()) {
             return "";
         }

@@ -30,7 +30,7 @@ public class ClassStep extends CharacterWizardStep<Character> {
     @Override
     public boolean onAdvance() {
 
-        wizard.setChosenClass(((ClassChoiceForm) form).getClasse().getValue());
+        wizard.setChosenClass(((ClassChoiceForm) form).getChosenClass());
 
         return super.onAdvance();
     }

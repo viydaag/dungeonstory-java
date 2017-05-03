@@ -43,7 +43,7 @@ public abstract class CharacterWizardStep<T> implements WizardStep, Serializable
     public void afterActivateStep() {
         if (form != null) {
             setSaveButton();
-            form.onFieldGroupChange(form.getFieldGroup());
+            //form.onFieldGroupChange(form.getFieldGroup()); //TODO
         }
 
         //sets the character from previous step
@@ -66,7 +66,7 @@ public abstract class CharacterWizardStep<T> implements WizardStep, Serializable
 
     protected void setSaveButton() {
         if (form != null && !isSaveButtonSet) {
-            form.setSaveButton(wizard.getNextButton());
+            //form.setSaveButton(wizard.getNextButton());     //TODO
             isSaveButtonSet = true;
         }
     }

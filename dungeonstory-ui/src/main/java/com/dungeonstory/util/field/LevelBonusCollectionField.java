@@ -2,10 +2,10 @@ package com.dungeonstory.util.field;
 
 import java.util.stream.IntStream;
 
-import org.vaadin.viritin.fields.ElementCollectionField;
 import org.vaadin.viritin.fields.IntegerField;
 import org.vaadin.viritin.fields.MTextField;
-import org.vaadin.viritin.fields.TypedSelect;
+import org.vaadin.viritin.v7.fields.ElementCollectionField;
+import org.vaadin.viritin.v7.fields.TypedSelect;
 
 import com.dungeonstory.backend.data.ClassLevelBonus;
 import com.dungeonstory.backend.data.Level;

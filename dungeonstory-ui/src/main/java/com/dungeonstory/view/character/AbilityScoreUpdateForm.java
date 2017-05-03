@@ -2,9 +2,7 @@ package com.dungeonstory.view.character;
 
 import java.util.Arrays;
 
-import org.vaadin.viritin.fields.EnumSelect;
 import org.vaadin.viritin.fields.IntegerField;
-import org.vaadin.viritin.fields.TypedSelect;
 import org.vaadin.viritin.label.MLabel;
 
 import com.dungeonstory.backend.data.Character;
@@ -12,14 +10,15 @@ import com.dungeonstory.backend.data.Feat;
 import com.dungeonstory.backend.service.FeatDataService;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.i18n.Messages;
-import com.dungeonstory.util.layout.HorizontalSpacedLayout;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
-import com.vaadin.ui.OptionGroup;
+import com.vaadin.ui.RadioButtonGroup;
 
 public class AbilityScoreUpdateForm extends AbilityScoreForm {
 
@@ -30,10 +29,10 @@ public class AbilityScoreUpdateForm extends AbilityScoreForm {
     private Character       backupEntity;
     private FeatDataService featService = null;
 
-    private EnumSelect<UpdateType> updateType;
-    private TypedSelect<Feat>      featChoice;
+    private RadioButtonGroup<UpdateType> updateType;
+    private ComboBox<Feat>           featChoice;
     private Label                  featDescription;
-    private HorizontalSpacedLayout featLayout;
+    private HorizontalLayout             featLayout;
 
     public enum UpdateType {
         ABILITY("abilityScoreStep.updateType.ability.value"), FEAT("abilityScoreStep.updateType.feat.value");
@@ -64,12 +63,12 @@ public class AbilityScoreUpdateForm extends AbilityScoreForm {
     protected Component createContent() {
         Messages messages = Messages.getInstance();
         Component content = super.createContent();
-        featLayout = new HorizontalSpacedLayout();
+        featLayout = new HorizontalLayout();
         featLayout.setWidth(100, Unit.PERCENTAGE);
 
-        updateType = new EnumSelect<UpdateType>(messages.getMessage("abilityScoreStep.updateType.label")).withSelectType(OptionGroup.class);
-        updateType.setBeans(Arrays.asList(UpdateType.values()));
-        updateType.addMValueChangeListener(event -> {
+        updateType = new RadioButtonGroup<UpdateType>(messages.getMessage("abilityScoreStep.updateType.label"));
+        updateType.setItems(Arrays.asList(UpdateType.values()));
+        updateType.addValueChangeListener(event -> {
             if (event.getValue() != null) {
                 abilityLayout.setVisible(event.getValue() == UpdateType.ABILITY);
                 featLayout.setVisible(event.getValue() == UpdateType.FEAT);
@@ -100,7 +99,7 @@ public class AbilityScoreUpdateForm extends AbilityScoreForm {
                     wisdom.setReadOnly(true);
                     charisma.setReadOnly(true);
                 }
-                onFieldGroupChange(getFieldGroup());
+                adjustButtons();
             }
         });
 
@@ -108,8 +107,8 @@ public class AbilityScoreUpdateForm extends AbilityScoreForm {
 
         resetPointToSpend();
 
-        featChoice = new TypedSelect<Feat>(Feat.class).withCaption(messages.getMessage("abilityScoreStep.feat.label")).asComboBoxType()
-                .withFullWidth();
+        featChoice = new ComboBox<Feat>(messages.getMessage("abilityScoreStep.feat.label"));
+        featChoice.setWidth(100, Unit.PERCENTAGE);
         featDescription = new MLabel();
         featLayout.addComponents(featChoice, featDescription);
 
@@ -127,14 +126,14 @@ public class AbilityScoreUpdateForm extends AbilityScoreForm {
     @Override
     public void afterSetEntity() {
 
-        featChoice.setBeans(featService.findAllUnassignedFeats(getEntity()));
-        featChoice.addMValueChangeListener(event -> {
+        featChoice.setItems(featService.findAllUnassignedFeats(getEntity()));
+        featChoice.addValueChangeListener(event -> {
             if (event.getValue() != null) {
                 featDescription.setValue(event.getValue().getDescription());
             } else {
                 featDescription.setValue("");
             }
-            onFieldGroupChange(getFieldGroup());
+            adjustButtons();
         });
         updateType.setValue(UpdateType.ABILITY);
 
@@ -164,7 +163,7 @@ public class AbilityScoreUpdateForm extends AbilityScoreForm {
     }
 
     private Button createPlusButton(IntegerField fieldAction) {
-        Button plusButton = new Button(FontAwesome.PLUS);
+        Button plusButton = new Button(VaadinIcons.PLUS);
         plusButton.addClickListener(event -> {
             int value = fieldAction.getValue().intValue() + 1;
             int nbPointToSpend = 1;
@@ -185,7 +184,7 @@ public class AbilityScoreUpdateForm extends AbilityScoreForm {
     }
 
     private Button createMinusButton(IntegerField fieldAction, int minValue) {
-        Button minusButton = new Button(FontAwesome.MINUS);
+        Button minusButton = new Button(VaadinIcons.MINUS);
         minusButton.addClickListener(event -> {
             int value = fieldAction.getValue().intValue();
             int nbPointToSpend = 1;
@@ -212,11 +211,11 @@ public class AbilityScoreUpdateForm extends AbilityScoreForm {
 
     @Override
     protected void adjustSaveButtonState() {
-        if (isEagerValidation() && isBound()) {
+        if (isBound()) {
             if (updateType.getValue() == UpdateType.ABILITY) {
-                boolean beanModified = getFieldGroup().isBeanModified();
+                boolean isValid = getBinder().isValid();
                 boolean allPointsSpent = pointsToSpend.getValue() == 0;
-                getSaveButton().setEnabled(beanModified && allPointsSpent && isValid());
+                getSaveButton().setEnabled(allPointsSpent && isValid);
             } else {
                 getSaveButton().setEnabled(featChoice.getValue() != null);
             }
