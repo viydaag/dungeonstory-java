@@ -35,7 +35,7 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
 
     private TextField                   name;
     private EnumComboBox<EquipmentType> type;
-    private DSTextArea                   description;
+    private DSTextArea                  description;
     private DoubleField                 weight;
     private FormCheckBox                isPurchasable;
     private FormCheckBox                isSellable;
@@ -44,16 +44,16 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
 
     // Armor fields
     private ComboBox<ArmorType> armorType;
-    private IntegerField           armorClass;
-    private IntegerField           magicalAcBonus;
+    private IntegerField        armorClass;
+    private IntegerField        magicalAcBonus;
 
     // Weapon fields
     private ComboBox<WeaponType> weaponType;
-    private TextField               oneHandDamage;
-    private TextField               twoHandDamage;
-    private TextField               additionalDamage;
+    private TextField            oneHandDamage;
+    private TextField            twoHandDamage;
+    private TextField            additionalDamage;
     private ComboBox<DamageType> additionalDamageType;
-    private IntegerField            magicalBonus;
+    private IntegerField         magicalBonus;
 
     // Tool fields
     private EnumComboBox<ToolType> toolType;
@@ -105,7 +105,7 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
         additionalDamage = new MTextField("Dommages additionnels");
         additionalDamageType = new ComboBox<DamageType>("Type dommages additionnels", damageTypeService.findAll());
         magicalBonus = new IntegerField("Bonus magique");
-        
+
         toolType = new EnumComboBox<ToolType>(ToolType.class, "Type d'outil");
 
         isMagical.addValueChangeListener(this::isMagicalChange);
@@ -121,8 +121,7 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
         layout.addComponent(isMagical);
 
         layout.addComponents(armorType, armorClass, magicalAcBonus);
-        layout.addComponents(weaponType, oneHandDamage, twoHandDamage, additionalDamage, additionalDamageType,
-                magicalBonus);
+        layout.addComponents(weaponType, oneHandDamage, twoHandDamage, additionalDamage, additionalDamageType, magicalBonus);
         layout.addComponent(toolType);
 
         layout.addComponent(weight);

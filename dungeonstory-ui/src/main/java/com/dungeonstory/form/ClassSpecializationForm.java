@@ -1,6 +1,5 @@
 package com.dungeonstory.form;
 
-import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.v7.fields.ElementCollectionTable;
 import org.vaadin.viritin.v7.fields.TypedSelect;
 
@@ -93,7 +92,7 @@ public class ClassSpecializationForm extends DSAbstractForm<ClassSpecialization>
     protected Component createContent() {
         FormLayout layout = new FormLayout();
 
-        name = new MTextField("Nom");
+        name = new TextField("Nom");
         description = new DSTextArea("Description").withFullWidth();
         parentClass = new ComboBox<DSClass>("Classe parente");
         parentClass.setItems(classService.findAll());

@@ -1,6 +1,7 @@
 package com.dungeonstory.view.character;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.vaadin.viritin.form.AbstractForm;
 import org.vaadin.viritin.label.MLabel;
@@ -17,7 +18,7 @@ import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.i18n.Messages;
 import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.util.converter.CollectionToStringConverter;
-import com.dungeonstory.util.field.DSSubSetSelector;
+import com.dungeonstory.util.field.DSSubSetSelector2;
 import com.vaadin.data.ValueContext;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
@@ -41,7 +42,7 @@ public class BackgroundChoiceForm extends DSAbstractForm<CharacterBackground> im
     private DSTextArea          ideals;
     private DSTextArea          purposes;
     private DSTextArea          flaws;
-    private DSSubSetSelector<Language> language;
+    private DSSubSetSelector2<Language, List<Language>> language;
 
     private DSTextArea traitsSuggestion;
     private DSTextArea idealsSuggestion;
@@ -71,11 +72,13 @@ public class BackgroundChoiceForm extends DSAbstractForm<CharacterBackground> im
 
         VerticalLayout backgroundFieldsLayout = new VerticalLayout();
         background = new ComboBox<Background>(messages.getMessage("backgroundStep.background.label"), backgroundService.findAll());
-        language = new DSSubSetSelector<Language>(Language.class);
+        language = new DSSubSetSelector2<>(Language.class);
         language.setCaption(messages.getMessage("backgroundStep.languages.label"));
-        language.setVisibleProperties("name");
-        language.setColumnHeader("name", messages.getMessage("backgroundStep.languages.table.column.name"));
-        language.setOptions(languageService.findAll());
+        //        language.setVisibleProperties("name");
+        //        language.setColumnHeader("name", messages.getMessage("backgroundStep.languages.table.column.name"));
+        language.getGrid().addColumn(Language::getName).setCaption(messages.getMessage("backgroundStep.languages.table.column.name")).setId("name");
+        language.getGrid().setColumnOrder("name");
+        language.setItems(languageService.findAll());
         language.setVisible(false);
 
         look = new DSTextArea(messages.getMessage("backgroundStep.look.label")).withFullWidth().withRows(6);
@@ -107,7 +110,7 @@ public class BackgroundChoiceForm extends DSAbstractForm<CharacterBackground> im
             if (chosenBackground != null) {
                 if (chosenBackground.getAdditionalLanguage() != LanguageChoice.NONE) {
                     language.setVisible(true);
-                    language.setOptions(languageService.getUnassignedLanguages(character));
+                    language.setItems(languageService.getUnassignedLanguages(character));
                     language.setValue(new ArrayList<>());
                     language.setLimit(chosenBackground.getAdditionalLanguage().getNbLanguage());
                 } else {
@@ -157,7 +160,6 @@ public class BackgroundChoiceForm extends DSAbstractForm<CharacterBackground> im
         getEntity().setCharacter(character);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void onSave(CharacterBackground entity) {
         if (language.getValue() != null) {

@@ -28,21 +28,21 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
 
     private static final long serialVersionUID = 7328613287024515502L;
 
-    private TextField                   name;
-    private TextArea                    description;
+    private TextField                     name;
+    private TextArea                      description;
     private EnumComboBox<ProficiencyType> proficiencyType;
     private EnumComboBox<SizeType>        sizeType;
     private EnumComboBox<HandleType>      handleType;
     private EnumComboBox<UsageType>       usageType;
     private EnumComboBox<RangeType>       rangeType;
-    private TextField                   oneHandBaseDamage;
-    private TextField                   twoHandBaseDamage;
+    private TextField                     oneHandBaseDamage;
+    private TextField                     twoHandBaseDamage;
     private ComboBox<DamageType>          damageType;
-    private FormCheckBox                isReach;
-    private FormCheckBox                isFinesse;
-    private FormCheckBox                isLoading;
-    private DoubleField                 baseWeight;
-    private IntegerField                basePrice;
+    private FormCheckBox                  isReach;
+    private FormCheckBox                  isFinesse;
+    private FormCheckBox                  isLoading;
+    private DoubleField                   baseWeight;
+    private IntegerField                  basePrice;
 
     private DataService<DamageType, Long> damageTypeService = DamageTypeService.getInstance();
 
@@ -102,43 +102,38 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
         return layout;
     }
 
-
-
     public void usageTypeValueChange(SingleSelectionEvent<UsageType> event) {
-                if (event != null && event.getValue() != null) {
-                    initRangeType(event.getValue());
-                }
-            }
-
-
+        if (event != null && event.getValue() != null) {
+            initRangeType(event.getValue());
+        }
+    }
 
     public void handleTypeValueChange(SingleSelectionEvent<HandleType> event) {
-                if (event != null && event.getValue() != null) {
-                    switch (event.getValue()) {
-                        case ONE_HANDED:
-                            oneHandBaseDamage.setVisible(true);
-                            twoHandBaseDamage.setVisible(false);
-                            twoHandBaseDamage.setValue(null);
-                            break;
-                        case TWO_HANDED:
-                            oneHandBaseDamage.setVisible(false);
-                            oneHandBaseDamage.setValue(null);
-                            twoHandBaseDamage.setVisible(true);
-                            break;
-                        case VERSATILE:
-                            oneHandBaseDamage.setVisible(true);
-                            twoHandBaseDamage.setVisible(true);
-                            break;
-                        default:
-                            oneHandBaseDamage.setVisible(false);
-                            oneHandBaseDamage.setValue(null);
-                            twoHandBaseDamage.setVisible(false);
-                            twoHandBaseDamage.setValue(null);
-                            break;
-                    }
-                }
+        if (event != null && event.getValue() != null) {
+            switch (event.getValue()) {
+                case ONE_HANDED:
+                    oneHandBaseDamage.setVisible(true);
+                    twoHandBaseDamage.setVisible(false);
+                    twoHandBaseDamage.setValue(null);
+                    break;
+                case TWO_HANDED:
+                    oneHandBaseDamage.setVisible(false);
+                    oneHandBaseDamage.setValue(null);
+                    twoHandBaseDamage.setVisible(true);
+                    break;
+                case VERSATILE:
+                    oneHandBaseDamage.setVisible(true);
+                    twoHandBaseDamage.setVisible(true);
+                    break;
+                default:
+                    oneHandBaseDamage.setVisible(false);
+                    oneHandBaseDamage.setValue(null);
+                    twoHandBaseDamage.setVisible(false);
+                    twoHandBaseDamage.setValue(null);
+                    break;
             }
-
+        }
+    }
 
     @Override
     public void beforeSetEntity(WeaponType entity) {

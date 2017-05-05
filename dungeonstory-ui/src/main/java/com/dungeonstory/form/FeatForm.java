@@ -1,10 +1,7 @@
 package com.dungeonstory.form;
 
-import java.util.Arrays;
-
 import org.vaadin.viritin.fields.IntegerField;
 import org.vaadin.viritin.fields.MTextField;
-import org.vaadin.viritin.v7.fields.TypedSelect;
 
 import com.dungeonstory.FormCheckBox;
 import com.dungeonstory.backend.Configuration;
@@ -23,6 +20,7 @@ import com.dungeonstory.backend.service.mock.MockFeatService;
 import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.ui.component.EnumComboBox;
 import com.vaadin.data.HasValue.ValueChangeEvent;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextField;
@@ -36,13 +34,13 @@ public class FeatForm extends DSAbstractForm<Feat> {
     private EnumComboBox<FeatUsage>                usage;
     private FormCheckBox                           isClassFeature;
     private EnumComboBox<PrerequisiteType>         prerequisiteType;
-    private TypedSelect<ArmorType.ProficiencyType> prerequisiteArmorProficiency;
-    private TypedSelect<Ability>                   prerequisiteAbility;
+    private EnumComboBox<ArmorType.ProficiencyType> prerequisiteArmorProficiency;
+    private ComboBox<Ability>                       prerequisiteAbility;
     private IntegerField                           prerequisiteAbilityScore;
-    private TypedSelect<Feat>                      parent;
+    private ComboBox<Feat>                          parent;
     private IntegerField                           nbUse;
     private EnumComboBox<RestType>                 restType;
-    private TypedSelect<Feat>                      replacement;
+    private ComboBox<Feat>                          replacement;
 
     private DataService<Ability, Long> abilityService = null;
     private FeatDataService            featService    = null;
@@ -69,14 +67,13 @@ public class FeatForm extends DSAbstractForm<Feat> {
         restType = new EnumComboBox<RestType>(RestType.class, "Type de repos requis");
         isClassFeature = new FormCheckBox("Don de classe");
         prerequisiteType = new EnumComboBox<PrerequisiteType>(PrerequisiteType.class, "Type de prérequis");
-        prerequisiteArmorProficiency = new TypedSelect<ArmorType.ProficiencyType>("Maitrise d'armure prérequise",
-                Arrays.asList(ArmorType.ProficiencyType.values())).asComboBoxType();
-        prerequisiteAbility = new TypedSelect<Ability>("Caractéristique prérequise", abilityService.findAll())
-                .asComboBoxType();
+        prerequisiteArmorProficiency = new EnumComboBox<>(ArmorType.ProficiencyType.class, "Maitrise d'armure prérequise");
+        prerequisiteAbility = new ComboBox<Ability>("Caractéristique prérequise", abilityService.findAll());
         prerequisiteAbilityScore = new IntegerField("Score de caractéristique");
-        parent = new TypedSelect<Feat>("Don parent", featService.findAllClassFeaturesWithoutParent()).asComboBoxType()
-                .withWidth(50, Unit.PERCENTAGE);
-        replacement = new TypedSelect<Feat>("Remplace le don").asComboBoxType().withWidth(50, Unit.PERCENTAGE);
+        parent = new ComboBox<Feat>("Don parent", featService.findAllClassFeaturesWithoutParent());
+        parent.setWidth(50, Unit.PERCENTAGE);
+        replacement = new ComboBox<Feat>("Remplace le don");
+        replacement.setWidth(50, Unit.PERCENTAGE);
 
         isClassFeature.addValueChangeListener(event -> isClassFeatureChange(event));
 
@@ -95,7 +92,7 @@ public class FeatForm extends DSAbstractForm<Feat> {
         return layout;
     }
 
-    private void isClassFeatureChange(ValueChangeEvent event) {
+    private void isClassFeatureChange(ValueChangeEvent<Boolean> event) {
         if (isClassFeature.getValue() == true) {
             parent.setVisible(true);
             prerequisiteType.setValue(PrerequisiteType.NONE);
@@ -155,8 +152,8 @@ public class FeatForm extends DSAbstractForm<Feat> {
     @Override
     public void afterSetEntity() {
         super.afterSetEntity();
-        parent.setBeans(featService.findAllClassFeaturesWithoutParent());
-        replacement.setBeans(featService.findAllClassFeatureExcept(getEntity()));
+        parent.setItems(featService.findAllClassFeaturesWithoutParent());
+        replacement.setItems(featService.findAllClassFeatureExcept(getEntity()));
         isClassFeatureChange(null);
     }
 

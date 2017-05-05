@@ -86,7 +86,7 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalLayout 
 
     protected void initGrid() {
         grid.addSelectionListener(selectionEvent -> {
-            entrySelected();
+            entrySelected(selectionEvent.getFirstSelectedItem().orElse(null));
         });
     }
 
@@ -166,6 +166,7 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalLayout 
         } catch (Exception e) {
             Notification.show("Failed! " + e.getLocalizedMessage(), Type.ERROR_MESSAGE);
             listEntries();
+            throw e;
         }
     }
 
@@ -194,16 +195,18 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalLayout 
 
     public void cancel(T entity) {
         closeForm();
+        grid.deselectAll();
     }
 
     @Override
-    public void entrySelected() {
+    public void entrySelected(T entity) {
         if (form != null) {
-            if (grid.getSelectionModel().getFirstSelectedItem().isPresent()) {
-                form.setEntity(grid.getSelectionModel().getFirstSelectedItem().get());
-            } else {
-                form.setEntity(null);
-            }
+            form.setEntity(entity);
+            //            if (grid.getSelectionModel().getFirstSelectedItem().isPresent()) {
+            //                form.setEntity(grid.getSelectionModel().getFirstSelectedItem().get());
+            //            } else {
+            //                form.setEntity(null);
+            //            }
 
             if (isFormPopup()) {
                 form.openInModalPopup();

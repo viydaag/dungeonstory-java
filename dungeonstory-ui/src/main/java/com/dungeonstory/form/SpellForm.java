@@ -2,10 +2,16 @@ package com.dungeonstory.form;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.vaadin.viritin.fields.IntegerField;
 import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.v7.fields.ElementCollectionField;
+import org.vaadin.viritin.v7.fields.EnumSelect;
+import org.vaadin.viritin.v7.fields.MValueChangeEvent;
+import org.vaadin.viritin.v7.fields.MValueChangeListener;
+import org.vaadin.viritin.v7.fields.TypedSelect;
 
 import com.dungeonstory.FormCheckBox;
 import com.dungeonstory.backend.Configuration;
@@ -35,11 +41,7 @@ import com.dungeonstory.backend.service.mock.MockDamageTypeService;
 import com.dungeonstory.backend.service.mock.MockEquipmentService;
 import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.ui.component.EnumComboBox;
-import com.dungeonstory.util.converter.CollectionListConverter;
-import com.dungeonstory.util.field.DSSubSetSelector;
 import com.dungeonstory.util.field.DSSubSetSelector2;
-import com.vaadin.event.selection.SingleSelectionEvent;
-import com.vaadin.event.selection.SingleSelectionListener;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
@@ -56,26 +58,26 @@ public class SpellForm extends DSAbstractForm<Spell> {
 
     private EnumComboBox<MagicSchool> school;
 
-    private DSSubSetSelector<ComponentType> componentTypes;
-    private DSSubSetSelector2<Equipment>    components;
+    private DSSubSetSelector2<ComponentType, Set<ComponentType>> componentTypes;
+    private DSSubSetSelector2<Equipment, List<Equipment>>        components;
 
     private EnumComboBox<CastingTime> castingTime;
-    private IntegerField            castingTimeValue;
+    private IntegerField              castingTimeValue;
     private EnumComboBox<TimeUnit>    castingTimeUnit;
 
     private EnumComboBox<DurationType> duration;
-    private IntegerField             durationValue;
+    private IntegerField               durationValue;
     private EnumComboBox<TimeUnit>     durationTimeUnit;
 
     private EnumComboBox<Target>       target;
     private EnumComboBox<AreaOfEffect> areaOfEffect;
 
     private EnumComboBox<RangeType> range;
-    private IntegerField          rangeValueInFeet;
+    private IntegerField            rangeValueInFeet;
 
     private ComboBox<Ability> savingThrowAbility;
-    private FormCheckBox         attackRoll;
-    private FormCheckBox         higherLevel;
+    private FormCheckBox      attackRoll;
+    private FormCheckBox      higherLevel;
 
     private ElementCollectionField<SpellEffect> effects;
 
@@ -102,11 +104,11 @@ public class SpellForm extends DSAbstractForm<Spell> {
     }
 
     public static class SpellEffectRow {
-        EnumComboBox<EffectType> effectType = new EnumComboBox<EffectType>(EffectType.class);
+        EnumSelect<EffectType>  effectType = new EnumSelect<EffectType>();
         MTextField              damage     = new MTextField().withWidth("100px");
-        ComboBox<DamageType>     damageType = new ComboBox<DamageType>();
+        TypedSelect<DamageType> damageType = new TypedSelect<DamageType>();
         IntegerField            armorClass = new IntegerField().withWidth("100px");
-        EnumComboBox<Condition>  condition  = new EnumComboBox<Condition>(Condition.class);
+        EnumSelect<Condition>   condition  = new EnumSelect<Condition>();
     }
 
     @Override
@@ -118,11 +120,13 @@ public class SpellForm extends DSAbstractForm<Spell> {
         description = new DSTextArea("Description").withFullWidth();
         school = new EnumComboBox<>(MagicSchool.class, "École de magie");
 
-        componentTypes = new DSSubSetSelector<ComponentType>(ComponentType.class);
+        componentTypes = new DSSubSetSelector2<>(ComponentType.class);
         componentTypes.setCaption("Types de composant");
-        componentTypes.setVisibleProperties("name");
-        componentTypes.setColumnHeader("name", "Type de composant");
-        componentTypes.setOptions(Arrays.asList(ComponentType.values()));
+        //        componentTypes.setVisibleProperties("name");
+        //        componentTypes.setColumnHeader("name", "Type de composant");
+        componentTypes.getGrid().addColumn(ComponentType::getName).setCaption("Type de composant").setId("name");
+        componentTypes.getGrid().setColumnOrder("name");
+        componentTypes.setItems(Arrays.asList(ComponentType.values()));
         componentTypes.setValue(new HashSet<ComponentType>()); // nothing selected
         componentTypes.setWidth("50%");
         componentTypes.addValueChangeListener(event -> showComponents());
@@ -141,7 +145,7 @@ public class SpellForm extends DSAbstractForm<Spell> {
         //                return c;
         //            }
         //        };
-        components = new DSSubSetSelector2<Equipment>(Equipment.class);
+        components = new DSSubSetSelector2<>(Equipment.class);
         components.setNewItemsAllowed(true, (stringInput) -> {
             SpellComponent c = new SpellComponent();
             if (stringInput != null) {
@@ -155,9 +159,9 @@ public class SpellForm extends DSAbstractForm<Spell> {
         //        components.setVisibleProperties("name");
         //        components.setColumnHeader("name", "Composant");
         components.setItems(equipmentService.findAll());
-        components.setValue(new HashSet<Equipment>()); // nothing selected
+        components.setValue(null); // nothing selected
         components.setWidth("50%");
-        getBinder().forField(components).withConverter(new CollectionListConverter<>()).bind("components");
+        //        getBinder().forField(components).withConverter(new CollectionListConverter<>()).bind("components");
 
         castingTime = new EnumComboBox<CastingTime>(CastingTime.class, "Type de temps d'incantation");
         castingTimeValue = new IntegerField("Valeur de temps");
@@ -184,56 +188,57 @@ public class SpellForm extends DSAbstractForm<Spell> {
         effects = new ElementCollectionField<SpellEffect>(SpellEffect.class, SpellEffectRow.class).withCaption("Effets")
                 .withEditorInstantiator(() -> {
                     SpellEffectRow row = new SpellEffectRow();
-                    row.effectType.setItems(Arrays.asList(EffectType.values()));
-                    row.condition.setItems(Arrays.asList(Condition.values()));
-                    row.damageType.setItems(damageTypeService.findAll());
-                    
-                    row.effectType.addSelectionListener(new SingleSelectionListener<EffectType>() {
+                    row.effectType.setOptions(Arrays.asList(EffectType.values()));
+                    row.condition.setOptions(Arrays.asList(Condition.values()));
+                    row.damageType.setOptions(damageTypeService.findAll());
 
-                        private static final long serialVersionUID = 1L;
+                    row.effectType.addMValueChangeListener(new MValueChangeListener<EffectType>() {
+
+                        private static final long serialVersionUID = 5150637627258948217L;
 
                         @Override
-                        public void selectionChange(SingleSelectionEvent<EffectType> event) {
+                        public void valueChange(MValueChangeEvent<EffectType> event) {
+
                             if (event != null && event.getValue() != null) {
                                 switch (event.getValue()) {
-                                case DAMAGE:
-                                    row.damage.setVisible(true);
-                                    row.damageType.setVisible(true);
-                                    row.armorClass.setVisible(false);
-                                    row.condition.setVisible(false);
-                                    break;
-                                case CURE:
-                                    row.damage.setVisible(true);
-                                    row.damageType.setVisible(false);
-                                    row.armorClass.setVisible(false);
-                                    row.condition.setVisible(false);
-                                    break;
-                                case ADD_CONDITION:
-                                case REMOVE_CONDITION:
-                                    row.damage.setVisible(false);
-                                    row.damageType.setVisible(false);
-                                    row.armorClass.setVisible(false);
-                                    row.condition.setVisible(true);
-                                    break;
-                                case PROTECTION:
-                                    row.damage.setVisible(false);
-                                    row.damageType.setVisible(false);
-                                    row.armorClass.setVisible(true);
-                                    row.condition.setVisible(false);
-                                    break;
-                                case RESISTANCE:
-                                    row.damage.setVisible(false);
-                                    row.damageType.setVisible(true);
-                                    row.armorClass.setVisible(false);
-                                    row.condition.setVisible(false);
-                                    break;
-                                case SUMMON:
-                                case OTHER:
-                                    row.damage.setVisible(false);
-                                    row.damageType.setVisible(false);
-                                    row.armorClass.setVisible(false);
-                                    row.condition.setVisible(false);
-                                    break;
+                                    case DAMAGE:
+                                        row.damage.setVisible(true);
+                                        row.damageType.setVisible(true);
+                                        row.armorClass.setVisible(false);
+                                        row.condition.setVisible(false);
+                                        break;
+                                    case CURE:
+                                        row.damage.setVisible(true);
+                                        row.damageType.setVisible(false);
+                                        row.armorClass.setVisible(false);
+                                        row.condition.setVisible(false);
+                                        break;
+                                    case ADD_CONDITION:
+                                    case REMOVE_CONDITION:
+                                        row.damage.setVisible(false);
+                                        row.damageType.setVisible(false);
+                                        row.armorClass.setVisible(false);
+                                        row.condition.setVisible(true);
+                                        break;
+                                    case PROTECTION:
+                                        row.damage.setVisible(false);
+                                        row.damageType.setVisible(false);
+                                        row.armorClass.setVisible(true);
+                                        row.condition.setVisible(false);
+                                        break;
+                                    case RESISTANCE:
+                                        row.damage.setVisible(false);
+                                        row.damageType.setVisible(true);
+                                        row.armorClass.setVisible(false);
+                                        row.condition.setVisible(false);
+                                        break;
+                                    case SUMMON:
+                                    case OTHER:
+                                        row.damage.setVisible(false);
+                                        row.damageType.setVisible(false);
+                                        row.armorClass.setVisible(false);
+                                        row.condition.setVisible(false);
+                                        break;
                                 }
                             } else {
                                 row.damage.setVisible(false);
@@ -241,13 +246,11 @@ public class SpellForm extends DSAbstractForm<Spell> {
                                 row.armorClass.setVisible(false);
                                 row.condition.setVisible(false);
                             }
-
                         }
                     });
-
                     return row;
                 });
-        
+
         effects.setPropertyHeader("effectType", "Effet");
         effects.setPropertyHeader("damage", "Dommage");
         effects.setPropertyHeader("damageType", "Type dommage");
@@ -289,7 +292,7 @@ public class SpellForm extends DSAbstractForm<Spell> {
     }
 
     private void showComponents() {
-        components.setVisible(componentTypes.getTable().containsId(ComponentType.M));
+        components.setVisible(componentTypes.getValue().contains(ComponentType.M));
     }
 
     private void showCastingTime() {
@@ -309,5 +312,5 @@ public class SpellForm extends DSAbstractForm<Spell> {
     private void showRange() {
         rangeValueInFeet.setVisible(range.getValue() == RangeType.DISTANCE);
     }
-    
+
 }

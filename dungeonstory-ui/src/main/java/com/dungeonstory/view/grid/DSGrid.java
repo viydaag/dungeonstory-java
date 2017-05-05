@@ -21,7 +21,7 @@ public class DSGrid<T> extends Grid<T> {
     }
 
     private void init() {
-        //        setSizeFull();
+        setWidth(100, Unit.PERCENTAGE);
         setSelectionMode(SelectionMode.SINGLE);
     }
 

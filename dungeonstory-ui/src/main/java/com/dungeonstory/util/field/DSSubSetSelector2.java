@@ -9,8 +9,6 @@ import java.util.function.Function;
 
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.form.AbstractForm;
-import org.vaadin.viritin.layouts.MHorizontalLayout;
-import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Button;
@@ -18,27 +16,31 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.Grid;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.ItemCaptionGenerator;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.renderers.ButtonRenderer;
 import com.vaadin.ui.themes.ValoTheme;
 
-public class DSSubSetSelector2<ET> extends CustomField<Collection<ET>> implements AbstractForm.SavedHandler<ET>, AbstractForm.ResetHandler<ET> {
+public class DSSubSetSelector2<ET, C extends Collection<ET>> extends CustomField<C>
+        implements AbstractForm.SavedHandler<ET>, AbstractForm.ResetHandler<ET> {
 
     private static final long serialVersionUID = -3340932901781677504L;
 
-    private ComboBox<ET>      cb;
+    private ComboBox<ET> cb;
 
     //    private MTable<ET>        table;
-    private Grid<ET>          grid;
-    private Collection<ET>    selected;
-    private Button            newInstanceBtn;
-    private final Class<ET>   elementType;
-    private MHorizontalLayout toprow;
-    private MVerticalLayout   verticalLayout;
-    private AbstractForm<ET>  newInstanceForm;
-    private List<ET>          availableOptions;
-    private int               limit = Integer.MAX_VALUE;
+    private Grid<ET>         grid;
+    private C                selected;
+    private Button           newInstanceBtn;
+    private final Class<ET>  elementType;
+    private Class<C>         containerType;
+    private HorizontalLayout toprow;
+    private VerticalLayout   verticalLayout;
+    private AbstractForm<ET> newInstanceForm;
+    private List<ET>         availableOptions;
+    private int              limit = Integer.MAX_VALUE;
 
     private Function<String, ET> instantiator = this::instantiateOption;
 
@@ -48,11 +50,13 @@ public class DSSubSetSelector2<ET> extends CustomField<Collection<ET>> implement
         //        table = new MTable<>(elementType).withFullWidth();
         grid = new Grid<>();
         setHeight("300px");
-        toprow = new MHorizontalLayout(cb);
-        verticalLayout = new MVerticalLayout(toprow).expand(grid);
+        toprow = new HorizontalLayout(cb);
+        verticalLayout = new VerticalLayout(toprow);
+        verticalLayout.addComponentsAndExpand(grid);
 
         //        table.setPageLength(5);
         grid.setHeightByRows(5);
+        grid.setWidth(100, Unit.PERCENTAGE);
 
         //TODO : replace with Component renderer in 8.1
         grid.addColumn(entity -> "-", new ButtonRenderer<ET>(clickEvent -> removeSelectedOption(clickEvent.getItem()))).setCaption("")
@@ -75,15 +79,16 @@ public class DSSubSetSelector2<ET> extends CustomField<Collection<ET>> implement
             public void valueChange(com.vaadin.data.HasValue.ValueChangeEvent<ET> event) {
                 if (event.getValue() != null) {
                     ET pojo = event.getValue();
-//                    cb.getBic().removeItem(pojo);
-//                    cb.setValue(null);
-//                    table.addItem(pojo);
+                    //                    cb.getBic().removeItem(pojo);
+                    //                    cb.setValue(null);
+                    //                    table.addItem(pojo);
                     //                    selected.add(pojo);
-                    ArrayList<ET> newValue = new ArrayList<>(selected);
+
+                    C newValue = cloneSelected();
                     newValue.add(pojo);
-//                    cb.setEnabled(selected.size() < limit);
+                    //                    cb.setEnabled(selected.size() < limit);
                     // fire value change
-//                    fireValueChange(true);
+                    //                    fireValueChange(true);
                     setValue(newValue);
                 }
 
@@ -92,7 +97,7 @@ public class DSSubSetSelector2<ET> extends CustomField<Collection<ET>> implement
     }
 
     @Override
-    public Collection<ET> getValue() {
+    public C getValue() {
         return selected;
     }
 
@@ -108,7 +113,7 @@ public class DSSubSetSelector2<ET> extends CustomField<Collection<ET>> implement
         //        table.addItem(entity);
         //        selected.add(entity);
 
-        ArrayList<ET> newValue = new ArrayList<>(selected);
+        C newValue = cloneSelected();
         newValue.add(entity);
         /*
          * Here we check the table for limit because the added entity could be equal to another added previously.
@@ -120,7 +125,7 @@ public class DSSubSetSelector2<ET> extends CustomField<Collection<ET>> implement
             newInstanceForm.closePopup();
         }
         // fire value change
-//        fireValueChange(true);
+        //        fireValueChange(true);
         setValue(newValue);
 
     }
@@ -131,31 +136,33 @@ public class DSSubSetSelector2<ET> extends CustomField<Collection<ET>> implement
     }
 
     @Override
-    protected void doSetValue(Collection<ET> value) {
+    protected void doSetValue(C value) {
         selected = value;
+
         if (selected == null) {
-            Class<Collection> clazz = getType();
+            Class<C> clazz = getType();
             if (clazz != null && List.class.isAssignableFrom(clazz)) {
-                selected = new ArrayList<ET>();
+                selected = (C) new ArrayList<ET>();
             } else {
-                selected = new HashSet<ET>();
+                selected = (C) new HashSet<ET>();
             }
-            return;
+        } else {
+            containerType = (Class<C>) value.getClass();
         }
         final ArrayList<ET> arrayList = new ArrayList<>(availableOptions);
         arrayList.removeAll(selected);
         cb.clear();
 
         cb.setItems(arrayList);
-//        cb.getBic().fireItemSetChange();
+        //        cb.getBic().fireItemSetChange();
         cb.setEnabled(selected.size() < limit);
         grid.setItems(new ArrayList<ET>(selected));
 
     }
 
     @SuppressWarnings("rawtypes")
-    private Class<Collection> getType() {
-        return Collection.class;
+    private Class<C> getType() {
+        return containerType;
     }
 
     /**
@@ -180,15 +187,15 @@ public class DSSubSetSelector2<ET> extends CustomField<Collection<ET>> implement
      * @param entity the entity to be removed from the selection
      */
     public void removeSelectedOption(ET entity) {
-//        cb.addOption(entity);
-//        table.removeItem(entity);
+        //        cb.addOption(entity);
+        //        table.removeItem(entity);
         //        selected.remove(entity);
-        ArrayList<ET> newValue = new ArrayList<>(selected);
+        C newValue = cloneSelected();
         newValue.remove(entity);
 
-//        cb.setEnabled(selected.size() < limit);
+        //        cb.setEnabled(selected.size() < limit);
         // fire value change
-//        fireValueChange(true);
+        //        fireValueChange(true);
         setValue(newValue);
     }
 
@@ -212,7 +219,7 @@ public class DSSubSetSelector2<ET> extends CustomField<Collection<ET>> implement
             if (newInstanceBtn == null) {
                 newInstanceBtn = new MButton(VaadinIcons.PLUS).withStyleName(ValoTheme.BUTTON_ICON_ONLY);
                 newInstanceBtn.addClickListener(click -> addEntity(null));
-                toprow.add(newInstanceBtn);
+                toprow.addComponent(newInstanceBtn);
             }
         } else if (newInstanceBtn != null) {
             toprow.removeComponent(newInstanceBtn);
@@ -266,7 +273,7 @@ public class DSSubSetSelector2<ET> extends CustomField<Collection<ET>> implement
      * @param options the list of options from which the sub set is selected
      * @return this
      */
-    public DSSubSetSelector2<ET> setItems(List<ET> options) {
+    public DSSubSetSelector2 setItems(List<ET> options) {
         availableOptions = options;
         cb.setItems(new ArrayList<>(options));
         return this;
@@ -333,6 +340,17 @@ public class DSSubSetSelector2<ET> extends CustomField<Collection<ET>> implement
 
     public ComboBox<ET> getComboBox() {
         return cb;
+    }
+
+    private C cloneSelected() {
+        Class<C> clazz = getType();
+        C collection = null;
+        if (clazz != null && List.class.isAssignableFrom(clazz)) {
+            collection = (C) new ArrayList<ET>(selected);
+        } else {
+            collection = (C) new HashSet<ET>(selected);
+        }
+        return collection;
     }
 
 }
