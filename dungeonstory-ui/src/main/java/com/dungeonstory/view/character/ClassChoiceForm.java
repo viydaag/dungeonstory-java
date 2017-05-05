@@ -31,7 +31,6 @@ import com.dungeonstory.util.converter.CollectionToStringConverter;
 import com.dungeonstory.util.converter.CollectionToStringListConverter.ListType;
 import com.dungeonstory.util.converter.CollectionToStringListConverter.UnorderedListType;
 import com.dungeonstory.util.converter.DescriptiveEntityCollectionToStringListConverter;
-import com.dungeonstory.util.field.DSSubSetSelector;
 import com.dungeonstory.util.field.DSSubSetSelector2;
 import com.dungeonstory.util.layout.FormLayoutNoSpace;
 import com.vaadin.data.ValueContext;
@@ -58,10 +57,10 @@ public class ClassChoiceForm extends DSAbstractForm<Character> implements Abstra
     private DivineDomainDataService         domainService;
 
     //    private ComboBox<DSClass>              classe;
-    private DSSubSetSelector2<DSClass>        classes;
-    private DSSubSetSelector<Skill>        classSkills;
-    private DSSubSetSelector<CreatureType> favoredEnnemies;
-    private DSSubSetSelector<Terrain>      favoredTerrains;
+    private DSSubSetSelector2<DSClass, List<DSClass>> classes;
+    private DSSubSetSelector2<Skill, List<Skill>>               classSkills;
+    private DSSubSetSelector2<CreatureType, List<CreatureType>> favoredEnnemies;
+    private DSSubSetSelector2<Terrain, Set<Terrain>>            favoredTerrains;
     private ComboBox<Deity>                deity;
     private ComboBox<DivineDomain>         divineDomain;
 
@@ -111,34 +110,38 @@ public class ClassChoiceForm extends DSAbstractForm<Character> implements Abstra
 //            getFieldGroup().setBeanModified(true);
 //            onFieldGroupChange(getFieldGroup());
 //        });
-        classes = new DSSubSetSelector2<DSClass>(DSClass.class);
+        classes = new DSSubSetSelector2<>(DSClass.class);
         classes.setCaption(messages.getMessage("classStep.class.label"));
         //        classes.setVisibleProperties("name");
         //        classes.setColumnHeader("name", "");
         classes.getGrid().addColumn(DSClass::getName).setCaption("").setId("name");
         classes.setItems(classService.findAll());
 
-
-        classSkills = new DSSubSetSelector<Skill>(Skill.class);
+        classSkills = new DSSubSetSelector2<>(Skill.class);
         classSkills.setCaption(messages.getMessage("classStep.proficientSkills.label"));
-        classSkills.setVisibleProperties("name");
-        classSkills.setColumnHeader("name", messages.getMessage("classStep.proficientSkills.table.column.name"));
-        classSkills.setOptions(skillService.findAll());
+        //        classSkills.setVisibleProperties("name");
+        //        classSkills.setColumnHeader("name", messages.getMessage("classStep.proficientSkills.table.column.name"));
+        classSkills.getGrid().addColumn(Skill::getName).setCaption(messages.getMessage("classStep.proficientSkills.table.column.name")).setId("name");
+        classSkills.setItems(skillService.findAll());
         classSkills.setVisible(false);
 
-        favoredEnnemies = new DSSubSetSelector<CreatureType>(CreatureType.class);
+        favoredEnnemies = new DSSubSetSelector2<>(CreatureType.class);
         favoredEnnemies.setCaption(messages.getMessage("classStep.favoredEnnemy.label"));
-        favoredEnnemies.setVisibleProperties("name");
-        favoredEnnemies.setColumnHeader("name", messages.getMessage("classStep.favoredEnnemy.table.column.name"));
-        favoredEnnemies.setOptions(creatureTypeService.findAll());
+        //        favoredEnnemies.setVisibleProperties("name");
+        //        favoredEnnemies.setColumnHeader("name", messages.getMessage("classStep.favoredEnnemy.table.column.name"));
+        favoredEnnemies.getGrid().addColumn(CreatureType::getName).setCaption(messages.getMessage("classStep.favoredEnnemy.table.column.name"))
+                .setId("name");
+        favoredEnnemies.setItems(creatureTypeService.findAll());
         favoredEnnemies.setVisible(false);
-        // favoredEnnemies.setValue(null); //nothing selected
+        //        favoredEnnemies.setValue(null); //nothing selected
 
-        favoredTerrains = new DSSubSetSelector<Terrain>(Terrain.class);
+        favoredTerrains = new DSSubSetSelector2<>(Terrain.class);
         favoredTerrains.setCaption(messages.getMessage("classStep.favoredTerrain.label"));
-        favoredTerrains.setVisibleProperties("name");
-        favoredTerrains.setColumnHeader("name", messages.getMessage("classStep.favoredTerrain.table.column.name"));
-        favoredTerrains.setOptions(Arrays.asList(Terrain.values()));
+        //        favoredTerrains.setVisibleProperties("name");
+        //        favoredTerrains.setColumnHeader("name", messages.getMessage("classStep.favoredTerrain.table.column.name"));
+        favoredTerrains.getGrid().addColumn(Terrain::getName).setCaption(messages.getMessage("classStep.favoredTerrain.table.column.name"))
+                .setId("name");
+        favoredTerrains.setItems(Arrays.asList(Terrain.values()));
         favoredTerrains.setVisible(false);
 
         deity = new ComboBox<Deity>(messages.getMessage("classStep.deity.label"), deityService.findAllOrderBy("name", "ASC"));
@@ -212,7 +215,7 @@ public class ClassChoiceForm extends DSAbstractForm<Character> implements Abstra
                 // show skills only if its a new class
                 if (!assignedClass.isPresent()) {
                     classSkills.setVisible(true);
-                    classSkills.setOptions(new ArrayList<Skill>(chosenClass.getBaseSkills()));
+                    classSkills.setItems(new ArrayList<Skill>(chosenClass.getBaseSkills()));
                     classSkills.setValue(new ArrayList<>());
                     classSkills.setLimit(chosenClass.getNbChosenSkills());
                 } else {

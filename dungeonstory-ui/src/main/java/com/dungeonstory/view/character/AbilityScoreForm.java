@@ -31,7 +31,7 @@ public abstract class AbilityScoreForm extends DSAbstractForm<Character> impleme
     protected MLabel wisdomLabel;
     protected MLabel charismaLabel;
 
-    protected IntegerField         pointsToSpend;
+    protected IntegerField   pointsToSpend;
     protected GridLayout     gridLayout;
     protected VerticalLayout abilityLayout;
     private VerticalLayout   layout;

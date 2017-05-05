@@ -1,5 +1,6 @@
 package com.dungeonstory.view.character;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +10,7 @@ import org.vaadin.viritin.form.AbstractForm;
 import com.dungeonstory.backend.data.Alignment;
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.Character.Gender;
+import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.backend.data.Race;
 import com.dungeonstory.backend.data.Region;
@@ -41,7 +43,7 @@ public class CharacterInfoForm extends AbstractForm<Character> {
     private LabelField<String>  height;
 
     private LabelField<Race>    race;
-    private LabelField<List>    classes;
+    private LabelField<Collection<DSClass>> classes;
     private LabelField<Level>   level;
     private LabelField<Long>    experience;
     private LabelField<Integer> lifePoints;

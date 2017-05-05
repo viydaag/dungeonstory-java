@@ -2,6 +2,7 @@ package com.dungeonstory.form;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Set;
 
 import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.Background;
@@ -12,7 +13,7 @@ import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.impl.SkillService;
 import com.dungeonstory.backend.service.mock.MockSkillService;
 import com.dungeonstory.ui.component.DSTextArea;
-import com.dungeonstory.util.field.DSSubSetSelector;
+import com.dungeonstory.util.field.DSSubSetSelector2;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
@@ -30,11 +31,11 @@ public class BackgroundForm extends DSAbstractForm<Background> {
     private TextArea  purposes;
     private TextArea  flaws;
 
-    private DSSubSetSelector<Skill>    skillProficiencies;
-    private DSSubSetSelector<ToolType> toolProficiencies;
-    private ComboBox<LanguageChoice>   additionalLanguage;
+    private DSSubSetSelector2<Skill, Set<Skill>>       skillProficiencies;
+    private DSSubSetSelector2<ToolType, Set<ToolType>> toolProficiencies;
+    private ComboBox<LanguageChoice>                   additionalLanguage;
 
-    private DataService<Skill, Long> skillService     = null;
+    private DataService<Skill, Long> skillService = null;
 
     public BackgroundForm() {
         super(Background.class);
@@ -61,20 +62,26 @@ public class BackgroundForm extends DSAbstractForm<Background> {
         purposes = new DSTextArea("Buts").withFullWidth().withRows(12);
         flaws = new DSTextArea("Défauts").withFullWidth().withRows(12);
 
-        skillProficiencies = new DSSubSetSelector<Skill>(Skill.class);
+        skillProficiencies = new DSSubSetSelector2<>(Skill.class);
         skillProficiencies.setCaption("Maitrise de compétence");
-        skillProficiencies.setVisibleProperties("name", "keyAbility.name");
-        skillProficiencies.setColumnHeader("name", "Compétence");
-        skillProficiencies.setColumnHeader("keyAbility.name", "Caractéristique clé");
-        skillProficiencies.setOptions(skillService.findAll());
+        //        skillProficiencies.setVisibleProperties("name", "keyAbility.name");
+        //        skillProficiencies.setColumnHeader("name", "Compétence");
+        //        skillProficiencies.setColumnHeader("keyAbility.name", "Caractéristique clé");
+        //        skillProficiencies.setOptions(skillService.findAll());
+        skillProficiencies.getGrid().addColumn(Skill::getName).setCaption("Compétence").setId("name");
+        skillProficiencies.getGrid().addColumn(Skill::getKeyAbility).setCaption("Caractéristique clé").setId("keyAbility.name");
+        skillProficiencies.getGrid().setColumnOrder("name", "keyAbility.name");
+        skillProficiencies.setItems(skillService.findAll());
         skillProficiencies.setWidth("80%");
         skillProficiencies.setValue(null); //nothing selected
 
-        toolProficiencies = new DSSubSetSelector<ToolType>(ToolType.class);
+        toolProficiencies = new DSSubSetSelector2<>(ToolType.class);
         toolProficiencies.setCaption("Maitrise d'outil");
-        toolProficiencies.setVisibleProperties("name");
-        toolProficiencies.setColumnHeader("name", "Outil");
-        toolProficiencies.setOptions(Arrays.asList(ToolType.values()));
+        //        toolProficiencies.setVisibleProperties("name");
+        //        toolProficiencies.setColumnHeader("name", "Outil");
+        toolProficiencies.getGrid().addColumn(ToolType::getName).setCaption("Outil").setId("name");
+        toolProficiencies.getGrid().setColumnOrder("name");
+        toolProficiencies.setItems(Arrays.asList(ToolType.values()));
         toolProficiencies.setWidth("80%");
         toolProficiencies.setValue(new HashSet<ToolType>()); //nothing selected
 

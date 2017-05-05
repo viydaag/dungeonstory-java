@@ -7,14 +7,11 @@ import com.vaadin.data.Converter;
 import com.vaadin.data.Result;
 import com.vaadin.data.ValueContext;
 
-
 /**
  * A converter that allows displaying a collection as a comma separated list of
  * strings.
  */
-@SuppressWarnings("rawtypes")
-public class CollectionToStringConverter implements
-        Converter<String, Collection> {
+public class CollectionToStringConverter implements Converter<String, Collection<?>> {
 
     private static final long serialVersionUID = 2735322733987431192L;
 
@@ -25,13 +22,13 @@ public class CollectionToStringConverter implements
     }
 
     @Override
-    public Result<Collection> convertToModel(String value, ValueContext context) {
+    public Result<Collection<?>> convertToModel(String value, ValueContext context) {
         throw new UnsupportedOperationException("Can only convert from collection to string");
     }
 
     @Override
-    public String convertToPresentation(Collection value, ValueContext context) {
-        return (String) value.stream().map(Object::toString).collect(Collectors.joining(delimiter));
+    public String convertToPresentation(Collection<?> value, ValueContext context) {
+        return value.stream().map(Object::toString).collect(Collectors.joining(delimiter));
     }
 
 }

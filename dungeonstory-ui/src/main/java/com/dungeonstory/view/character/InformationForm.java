@@ -33,15 +33,15 @@ public class InformationForm extends DSAbstractForm<Character> implements SavedH
 
     private static final long serialVersionUID = -2704789930623304546L;
 
-    private TextField              name;
+    private TextField                name;
     private RadioButtonGroup<Gender> gender;
-    private IntegerField           age;
-    private IntegerField           weight;
-    private TextField              height;
+    private IntegerField             age;
+    private IntegerField             weight;
+    private TextField                height;
     private ComboBox<Alignment>      alignment;
     private ComboBox<Region>         region;
-    private ImageSelector          imageSelector;
-    private String                 image;
+    private ImageSelector            imageSelector;
+    private String                   image;
 
     private AlignmentDataService      alignmentService = Services.getAlignmentService();
     private DataService<Region, Long> regionService    = Services.getRegionService();
@@ -90,7 +90,6 @@ public class InformationForm extends DSAbstractForm<Character> implements SavedH
                 }
                 return ValidationResult.ok();
             }
-
 
             //            private static final long serialVersionUID = -2710504516977136307L;
             //

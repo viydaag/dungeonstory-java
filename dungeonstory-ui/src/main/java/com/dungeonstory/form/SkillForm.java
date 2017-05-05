@@ -17,9 +17,9 @@ public class SkillForm extends DSAbstractForm<Skill> {
 
     private static final long serialVersionUID = -4123881637907722632L;
 
-    private TextField            name;
+    private TextField         name;
     private MTextField        shortDescription;
-    private TextArea             description;
+    private TextArea          description;
     private ComboBox<Ability> keyAbility;
 
     private DataService<Ability, Long> abilityService = AbilityService.getInstance();
