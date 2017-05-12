@@ -8,9 +8,12 @@ import org.vaadin.teemu.wizards.event.WizardProgressListener;
 import org.vaadin.teemu.wizards.event.WizardStepActivationEvent;
 import org.vaadin.teemu.wizards.event.WizardStepSetChangedEvent;
 
+import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.DSClass;
+import com.dungeonstory.backend.service.CharacterDataService;
 import com.dungeonstory.backend.service.impl.CharacterService;
+import com.dungeonstory.backend.service.mock.MockCharacterService;
 import com.dungeonstory.event.EventBus;
 import com.dungeonstory.event.NavigationEvent;
 import com.dungeonstory.i18n.Messages;
@@ -28,7 +31,7 @@ public class CharacterWizard extends Wizard implements WizardProgressListener {
     protected Character characterFromPreviousStep;
     private DSClass     chosenClass;
 
-    protected CharacterService characterService = CharacterService.getInstance();
+    protected CharacterDataService characterService;
 
     private ClickListener nextButtonListener;
 
@@ -42,6 +45,13 @@ public class CharacterWizard extends Wizard implements WizardProgressListener {
 
     public CharacterWizard() {
         super();
+        
+        if (Configuration.getInstance().isMock()) {
+            characterService = MockCharacterService.getInstance();
+        } else {
+            characterService  = CharacterService.getInstance();
+        }
+        
         setUriFragmentEnabled(false);
         addListener(this);
 

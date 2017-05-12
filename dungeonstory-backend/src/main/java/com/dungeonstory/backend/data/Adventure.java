@@ -14,6 +14,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.eclipse.persistence.annotations.PrivateOwned;
+
+import com.dungeonstory.backend.Configuration;
+
 @Entity
 @Table(name = "Adventure")
 public class Adventure extends AbstractTimestampEntity implements Serializable {
@@ -26,15 +30,15 @@ public class Adventure extends AbstractTimestampEntity implements Serializable {
 
     @NotNull
     @Column(name = "name", nullable = false)
-    private String name;
+    private String          name;
 
     @Column(name = "description", columnDefinition = "TEXT")
-    private String description;
+    private String          description;
 
     @NotNull
     @ManyToOne
     @JoinColumn(name = "creatorId")
-    private User creator;
+    private User            creator;
 
     @NotNull
     @Column(name = "status", nullable = false)
@@ -42,12 +46,14 @@ public class Adventure extends AbstractTimestampEntity implements Serializable {
     private AdventureStatus status = AdventureStatus.OPENED;
 
     @OneToMany(mappedBy = "adventure")
-    private List<Message> messages;
-    
+    @PrivateOwned // means that a message will be deleted if not attached to an
+                  // adventure
+    private List<Message>   messages;
+
     @NotNull
     @ManyToOne
     @JoinColumn(name = "challengeRating")
-    private Level challengeRating;
+    private Level           challengeRating;
 
     public Adventure() {
         super();
@@ -86,24 +92,45 @@ public class Adventure extends AbstractTimestampEntity implements Serializable {
         this.status = status;
     }
 
-	public Level getChallengeRating() {
-		return challengeRating;
-	}
+    public Level getChallengeRating() {
+        return challengeRating;
+    }
 
-	public void setChallengeRating(Level challengeRating) {
-		this.challengeRating = challengeRating;
-	}
+    public void setChallengeRating(Level challengeRating) {
+        this.challengeRating = challengeRating;
+    }
 
-	public List<Message> getMessages() {
-		return messages;
-	}
+    public List<Message> getMessages() {
+        return messages;
+    }
 
-	public void setMessages(List<Message> messages) {
-		this.messages = messages;
-	}
-	
-	public void addMessage(Message message) {
-		this.messages.add(message);
-	}
-    
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
+    }
+
+    public void addMessage(Message message) {
+        this.messages.add(message);
+    }
+
+    public void removeMessage(Message message) {
+        this.messages.remove(message);
+    }
+
+    public boolean isCancelledOrClosed() {
+        return getStatus() == AdventureStatus.CANCELLED || getStatus() == AdventureStatus.CLOSED;
+    }
+
+    public Message getLastPersistedMessage() {
+        if (Configuration.getInstance().isMock()) {
+            return messages.get(messages.size() - 1);
+        }
+        for (int i = messages.size() - 1; i >= 0; i--) {
+            Message message = messages.get(i);
+            if (message.getId() != null) {
+                return message;
+            }
+        }
+        return null;
+    }
+
 }
