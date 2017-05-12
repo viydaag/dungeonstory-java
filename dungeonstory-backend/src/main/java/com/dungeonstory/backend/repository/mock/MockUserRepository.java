@@ -7,7 +7,7 @@ import com.dungeonstory.backend.mock.MockDataGenerator;
 
 public class MockUserRepository extends MockAbstractRepository<User> {
 
-    private static Long idUser = 1L;
+    public static Long idUser = 1L;
 
     public MockUserRepository() {
         super();

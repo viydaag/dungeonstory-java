@@ -475,6 +475,10 @@ public class Character extends AbstractTimestampEntity implements Serializable {
     public void setExperience(long experience) {
         this.experience = experience;
     }
+    
+    public void giveExperience(long xp) {
+    	this.experience += xp;
+    }
 
     public int getLifePoints() {
         return lifePoints;

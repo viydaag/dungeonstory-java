@@ -1,6 +1,12 @@
 package com.dungeonstory.authentication;
 
+import com.dungeonstory.backeUsernd.mock.MockUser;
+import com.dungeonstory.backend.Configuration;
+import com.dungeonstory.backend.data.AccessRole;
+import com.dungeonstory.backend.data.AccessRole.RoleType;
 import com.dungeonstory.backend.data.User;
+import com.dungeonstory.backend.mock.MockAdminUser;
+import com.dungeonstory.backend.service.mock.MockUserService;
 
 /**
  * Default mock implementation of {@link AccessControl}. This implementation
@@ -17,7 +23,13 @@ public class BasicAccessControl implements AccessControl {
         if (username == null || username.isEmpty()) {
             return false;
         }
-        User user = new User(username);
+        User user = null;
+        if (Configuration.getInstance().isLogAsAdmin()) {
+            user = new MockAdminUser();
+        } else {
+            user = new MockUser(username);
+        }
+        MockUserService.getInstance().create(user);
         CurrentUser.set(user);
         return true;
     }
@@ -35,7 +47,7 @@ public class BasicAccessControl implements AccessControl {
         }
 
         // All users are in all non-admin roles
-        return true;
+        return false;
     }
 
     @Override

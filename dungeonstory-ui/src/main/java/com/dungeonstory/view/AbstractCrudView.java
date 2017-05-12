@@ -3,6 +3,7 @@ package com.dungeonstory.view;
 import org.vaadin.viritin.LazyList;
 import org.vaadin.viritin.fields.MTextField;
 
+import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.repository.Entity;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.form.DSAbstractForm;
@@ -96,17 +97,26 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalSpacedL
 
     protected void listEntries(String text) {
         if (isFilterAllowed()) {
-            grid.lazyLoadFrom((int firstRow, boolean[] sortAscending, String[] property) -> {
-                String[] order = new String[sortAscending.length];
-                for (int i = 0; i < sortAscending.length; i++) {
-                    order[i] = sortAscending[i] ? "ASC" : "DESC";
-                }
-                return service.findAllByLikePagedOrderBy(getFilterBy(), text, firstRow, LazyList.DEFAULT_PAGE_SIZE,
-                        property, order);
-            }, () -> service.countWithFilter(getFilterBy(), text));
+        	if (Configuration.getInstance().isMock()) {
+        		grid.setRows(service.findAllBy(getFilterBy(), text));
+        	} else {
+	            grid.lazyLoadFrom((int firstRow, boolean[] sortAscending, String[] property) -> {
+	                String[] order = new String[sortAscending.length];
+	                for (int i = 0; i < sortAscending.length; i++) {
+	                    order[i] = sortAscending[i] ? "ASC" : "DESC";
+	                }
+	                return service.findAllByLikePagedOrderBy(getFilterBy(), text, firstRow, LazyList.DEFAULT_PAGE_SIZE,
+	                        property, order);
+	            }, () -> service.countWithFilter(getFilterBy(), text));
+        	}
         } else {
-            grid.lazyLoadFrom((int firstRow, boolean sortAscending, String property) -> service.findAllPaged(firstRow,
-                    LazyList.DEFAULT_PAGE_SIZE), () -> (int) service.count());
+        	if (Configuration.getInstance().isMock()) {
+        		grid.setRows(service.findAll());
+        	} else {
+        		grid.lazyLoadFrom((int firstRow, boolean sortAscending, String property) -> service.findAllPaged(firstRow,
+                        LazyList.DEFAULT_PAGE_SIZE), () -> (int) service.count());
+        	}
+            
         }
         //        grid.setRows(service.findAll());
     }

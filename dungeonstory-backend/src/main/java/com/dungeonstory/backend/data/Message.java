@@ -25,6 +25,10 @@ public class Message extends AbstractTimestampEntity implements Serializable {
     @ManyToOne
     @JoinColumn(name = "adventureId")
     private Adventure adventure;
+    
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private User creator;
 
     @ManyToOne
     @JoinColumn(name = "characterId")
@@ -35,6 +39,16 @@ public class Message extends AbstractTimestampEntity implements Serializable {
 
     public Message() {
         super();
+    }
+    
+    public Message(String text) {
+        this();
+        setText(text);
+    }
+    
+    public Message(String text, User creator) {
+        this(text);
+        setCreator(creator);
     }
 
     public String getTitle() {
@@ -69,7 +83,15 @@ public class Message extends AbstractTimestampEntity implements Serializable {
         this.character = character;
     }
 
-    public boolean isXpGiven() {
+    public User getCreator() {
+		return creator;
+	}
+
+	public void setCreator(User creator) {
+		this.creator = creator;
+	}
+
+	public boolean isXpGiven() {
         return isXpGiven;
     }
 

@@ -2,9 +2,11 @@ package com.dungeonstory.view.admin;
 
 import org.vaadin.dialogs.ConfirmDialog;
 
+import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.impl.CharacterService;
+import com.dungeonstory.backend.service.mock.MockCharacterService;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.AbstractCrudView;
@@ -31,6 +33,9 @@ public class CharacterListView extends AbstractCrudView<Character> {
 
     @Override
     public DataService<Character, Long> getDataService() {
+        if (Configuration.getInstance().isMock()) {
+            return MockCharacterService.getInstance();
+        }
         return CharacterService.getInstance();
     }
 
