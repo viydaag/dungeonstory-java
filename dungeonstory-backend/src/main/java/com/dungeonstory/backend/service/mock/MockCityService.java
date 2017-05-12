@@ -7,9 +7,9 @@ import com.dungeonstory.backend.service.AbstractDataService;
 
 public class MockCityService extends AbstractDataService<City, Long> {
 
-	private static final long serialVersionUID = -4844097587498289999L;
-	
-	private static MockCityService instance = null;
+    private static final long      serialVersionUID = -4844097587498289999L;
+
+    private static MockCityService instance         = null;
 
     public static synchronized MockCityService getInstance() {
         if (instance == null) {

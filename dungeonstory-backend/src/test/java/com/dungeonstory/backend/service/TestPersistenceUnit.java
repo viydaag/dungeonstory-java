@@ -42,16 +42,16 @@ public class TestPersistenceUnit {
 
     }
 
-    @Test
-    public void testMysql() {
-        try {
-            factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_MYSQL_NAME);
-            EntityManager em = factory.createEntityManager();
-            em.close();
-        } catch (Exception e) {
-            fail(e.getLocalizedMessage());
-        }
-
-    }
+//    @Test
+//    public void testMysql() {
+//        try {
+//            factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_MYSQL_NAME);
+//            EntityManager em = factory.createEntityManager();
+//            em.close();
+//        } catch (Exception e) {
+//            fail(e.getLocalizedMessage());
+//        }
+//
+//    }
 
 }
