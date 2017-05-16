@@ -3,6 +3,7 @@ package com.dungeonstory.form;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -163,7 +164,8 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         isSpellCasting = new FormCheckBox("Capacité à lancer des sorts");
         spellCastingAbility = new ComboBox<Ability>("Caractéristique de sort");
         spellCastingAbility.setItems(abilityService.findAll());
-        spellCastingType = new RadioButtonGroup<SpellCastingType>("Sorts innés ou préparésé");
+        spellCastingType = new RadioButtonGroup<SpellCastingType>("Sorts innés ou préparés");
+        spellCastingType.setItems(EnumSet.allOf(SpellCastingType.class));
 
         isSpellCasting.addValueChangeListener(this::isSpellCastingChange);
         spellCastingType.addSelectionListener(this::spellCastingTypeChange);
@@ -242,7 +244,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         levelBonuses.withCaption("Bonus de classe").withEditorInstantiator(() -> {
             ClassLevelBonusRow row = new ClassLevelBonusRow();
             // The ManyToOne field needs its options to be populated
-            row.level.setOptions(levelService.findAll());
+            row.level.setItems(levelService.findAll());
             return row;
         });
 
@@ -260,7 +262,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         spellSlots = (LevelSpellsCollectionField<ClassSpellSlots>) new LevelSpellsCollectionField<ClassSpellSlots>(ClassSpellSlots.class)
                 .withCaption("Nombre de sorts").withEditorInstantiator(() -> {
                     LevelSpellsRow row = new LevelSpellsRow();
-                    row.level.setOptions(levelService.findAll());
+                    row.level.setItems(levelService.findAll());
                     return row;
                 });
 

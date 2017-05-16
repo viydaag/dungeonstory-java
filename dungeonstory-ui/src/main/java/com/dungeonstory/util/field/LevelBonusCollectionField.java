@@ -3,17 +3,16 @@ package com.dungeonstory.util.field;
 import java.util.stream.IntStream;
 
 import org.vaadin.viritin.fields.IntegerField;
-import org.vaadin.viritin.fields.MTextField;
-import org.vaadin.viritin.v7.fields.ElementCollectionField;
-import org.vaadin.viritin.v7.fields.TypedSelect;
 
 import com.dungeonstory.backend.data.ClassLevelBonus;
 import com.dungeonstory.backend.data.Level;
+import com.vaadin.data.HasValue;
 import com.vaadin.ui.CheckBox;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.TextField;
 
-public class LevelBonusCollectionField extends ElementCollectionField<ClassLevelBonus>{
+public class LevelBonusCollectionField extends ElementCollectionField<ClassLevelBonus> {
 
     private static final long serialVersionUID = 2580712139242043824L;
 
@@ -34,22 +33,22 @@ public class LevelBonusCollectionField extends ElementCollectionField<ClassLevel
     private final int[] SNEAK_COLUMNS        = { 13 };
 
     public static class ClassLevelBonusRow {
-        public TypedSelect<Level> level                      = new TypedSelect<Level>();
-        public CheckBox           hasAbilityScoreImprovement = new CheckBox();
-        public CheckBox           chooseClassSpecialization  = new CheckBox();
-        public CheckBox           favoredEnemy               = new CheckBox();
-        public CheckBox           naturalExplorer            = new CheckBox();
-        public CheckBox           deity                      = new CheckBox();
-        public IntegerField       kiPoints                   = new IntegerField().withWidth("50px");
-        public MTextField         martialArtsDamage          = new MTextField();
-        public IntegerField       movementBonus              = new IntegerField().withWidth("50px");
-        public IntegerField       sorceryPoints              = new IntegerField().withWidth("50px");
-        public IntegerField       ragePoints                 = new IntegerField().withWidth("50px");
-        public IntegerField       rageDamageBonus            = new IntegerField().withWidth("50px");
-        public IntegerField       invocationsKnown           = new IntegerField().withWidth("50px");
-        public MTextField         sneakAttackDamage          = new MTextField();
+        public ComboBox<Level> level                      = new ComboBox<Level>();
+        public CheckBox        hasAbilityScoreImprovement = new CheckBox();
+        public CheckBox        chooseClassSpecialization  = new CheckBox();
+        public CheckBox        favoredEnemy               = new CheckBox();
+        public CheckBox        naturalExplorer            = new CheckBox();
+        public CheckBox        deity                      = new CheckBox();
+        public IntegerField    kiPoints                   = new IntegerField().withWidth("50px");
+        public TextField       martialArtsDamage          = new TextField();
+        public IntegerField    movementBonus              = new IntegerField().withWidth("50px");
+        public IntegerField    sorceryPoints              = new IntegerField().withWidth("50px");
+        public IntegerField    ragePoints                 = new IntegerField().withWidth("50px");
+        public IntegerField    rageDamageBonus            = new IntegerField().withWidth("50px");
+        public IntegerField    invocationsKnown           = new IntegerField().withWidth("50px");
+        public TextField       sneakAttackDamage          = new TextField();
     }
-    
+
     public LevelBonusCollectionField() {
         super(ClassLevelBonus.class, ClassLevelBonusRow.class);
         setPropertyHeader("level", "Niveau");
@@ -154,14 +153,8 @@ public class LevelBonusCollectionField extends ElementCollectionField<ClassLevel
                     final int visibleColumn = column;
                     boolean match = IntStream.of(columns).anyMatch(x -> x == visibleColumn);
                     if (match) {
-                        if (c instanceof IntegerField && !visible) {
-                            ((IntegerField) c).setValue(null);
-                        }
-                        if (c instanceof TextField && !visible) {
-                            ((TextField) c).setValue(null);
-                        }
-                        if (c instanceof CheckBox && !visible) {
-                            ((CheckBox) c).setValue(null);
+                        if (c instanceof HasValue && !visible) {
+                            ((HasValue) c).setValue(((HasValue) c).getEmptyValue());
                         }
                         c.setVisible(visible);
                     }
