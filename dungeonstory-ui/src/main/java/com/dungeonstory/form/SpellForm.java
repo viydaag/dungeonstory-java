@@ -7,11 +7,6 @@ import java.util.Set;
 
 import org.vaadin.viritin.fields.IntegerField;
 import org.vaadin.viritin.fields.MTextField;
-import org.vaadin.viritin.v7.fields.ElementCollectionField;
-import org.vaadin.viritin.v7.fields.EnumSelect;
-import org.vaadin.viritin.v7.fields.MValueChangeEvent;
-import org.vaadin.viritin.v7.fields.MValueChangeListener;
-import org.vaadin.viritin.v7.fields.TypedSelect;
 
 import com.dungeonstory.FormCheckBox;
 import com.dungeonstory.backend.Configuration;
@@ -42,6 +37,9 @@ import com.dungeonstory.backend.service.mock.MockEquipmentService;
 import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.ui.component.EnumComboBox;
 import com.dungeonstory.util.field.DSSubSetSelector2;
+import com.dungeonstory.util.field.ElementCollectionField;
+import com.vaadin.data.HasValue.ValueChangeEvent;
+import com.vaadin.data.HasValue.ValueChangeListener;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
@@ -104,11 +102,11 @@ public class SpellForm extends DSAbstractForm<Spell> {
     }
 
     public static class SpellEffectRow {
-        EnumSelect<EffectType>  effectType = new EnumSelect<EffectType>();
-        MTextField              damage     = new MTextField().withWidth("100px");
-        TypedSelect<DamageType> damageType = new TypedSelect<DamageType>();
+        EnumComboBox<EffectType> effectType = new EnumComboBox<>(EffectType.class);
+        TextField                damage     = new TextField();
+        ComboBox<DamageType>     damageType = new ComboBox<DamageType>();
         IntegerField            armorClass = new IntegerField().withWidth("100px");
-        EnumSelect<Condition>   condition  = new EnumSelect<Condition>();
+        EnumComboBox<Condition>  condition  = new EnumComboBox<>(Condition.class);
     }
 
     @Override
@@ -188,16 +186,14 @@ public class SpellForm extends DSAbstractForm<Spell> {
         effects = new ElementCollectionField<SpellEffect>(SpellEffect.class, SpellEffectRow.class).withCaption("Effets")
                 .withEditorInstantiator(() -> {
                     SpellEffectRow row = new SpellEffectRow();
-                    row.effectType.setOptions(Arrays.asList(EffectType.values()));
-                    row.condition.setOptions(Arrays.asList(Condition.values()));
-                    row.damageType.setOptions(damageTypeService.findAll());
+                    row.damageType.setItems(damageTypeService.findAll());
 
-                    row.effectType.addMValueChangeListener(new MValueChangeListener<EffectType>() {
+                    row.effectType.addValueChangeListener(new ValueChangeListener<EffectType>() {
 
                         private static final long serialVersionUID = 5150637627258948217L;
 
                         @Override
-                        public void valueChange(MValueChangeEvent<EffectType> event) {
+                        public void valueChange(ValueChangeEvent<EffectType> event) {
 
                             if (event != null && event.getValue() != null) {
                                 switch (event.getValue()) {

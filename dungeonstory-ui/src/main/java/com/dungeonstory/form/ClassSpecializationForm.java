@@ -106,7 +106,7 @@ public class ClassSpecializationForm extends DSAbstractForm<ClassSpecialization>
         spellSlots = (LevelSpellsCollectionField<ClassSpecializationSpellSlots>) new LevelSpellsCollectionField<ClassSpecializationSpellSlots>(
                 ClassSpecializationSpellSlots.class).withCaption("Nombre de sorts").withEditorInstantiator(() -> {
                     LevelSpellsRow row = new LevelSpellsRow();
-                    row.level.setOptions(levelService.findAll());
+                    row.level.setItems(levelService.findAll());
                     return row;
                 });
         spellSlots.setKnownSpells(true);

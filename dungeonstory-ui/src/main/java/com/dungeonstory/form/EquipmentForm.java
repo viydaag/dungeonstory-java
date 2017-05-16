@@ -22,6 +22,7 @@ import com.dungeonstory.backend.service.mock.MockWeaponTypeService;
 import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.ui.component.EnumComboBox;
 import com.dungeonstory.util.field.DoubleField;
+import com.google.common.base.Optional;
 import com.vaadin.data.HasValue.ValueChangeEvent;
 import com.vaadin.event.selection.SingleSelectionEvent;
 import com.vaadin.ui.ComboBox;
@@ -134,11 +135,11 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
         return layout;
     }
 
-    public void isMagicalChange(ValueChangeEvent event) {
+    public void isMagicalChange(ValueChangeEvent<Boolean> event) {
         if (type == null) {
-            magicalAcBonus.setValue(null);
+            magicalAcBonus.clear();
             magicalAcBonus.setVisible(false);
-            magicalBonus.setValue(null);
+            magicalBonus.clear();
             magicalBonus.setVisible(false);
         } else {
             if (type.getValue() == EquipmentType.ARMOR) {
@@ -184,7 +185,7 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
                     oneHandDamage.setVisible(false);
                 }
             }
-            description.setValue(currentweaponType.getDescription());
+            description.setValue(Optional.fromNullable(currentweaponType.getDescription()).or(""));
             weight.setValue(currentweaponType.getBaseWeight());
             basePrice.setValue(currentweaponType.getBasePrice());
         }

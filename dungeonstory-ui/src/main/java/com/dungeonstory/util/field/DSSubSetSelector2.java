@@ -1,6 +1,7 @@
 package com.dungeonstory.util.field;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -10,6 +11,10 @@ import java.util.function.Function;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.form.AbstractForm;
 
+import com.dungeonstory.ui.field.event.ElementAddedEvent;
+import com.dungeonstory.ui.field.event.ElementRemovedEvent;
+import com.dungeonstory.ui.field.listener.ElementAddedListener;
+import com.dungeonstory.ui.field.listener.ElementRemovedListener;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
@@ -22,6 +27,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.renderers.ButtonRenderer;
 import com.vaadin.ui.themes.ValoTheme;
+import com.vaadin.util.ReflectTools;
 
 public class DSSubSetSelector2<ET, C extends Collection<ET>> extends CustomField<C>
         implements AbstractForm.SavedHandler<ET>, AbstractForm.ResetHandler<ET> {
@@ -30,7 +36,6 @@ public class DSSubSetSelector2<ET, C extends Collection<ET>> extends CustomField
 
     private ComboBox<ET> cb;
 
-    //    private MTable<ET>        table;
     private Grid<ET>         grid;
     private C                selected;
     private Button           newInstanceBtn;
@@ -47,29 +52,19 @@ public class DSSubSetSelector2<ET, C extends Collection<ET>> extends CustomField
     public DSSubSetSelector2(Class<ET> elementType) {
         this.elementType = elementType;
         cb = new ComboBox<>();
-        //        table = new MTable<>(elementType).withFullWidth();
         grid = new Grid<>();
         setHeight("300px");
         toprow = new HorizontalLayout(cb);
         verticalLayout = new VerticalLayout(toprow);
         verticalLayout.addComponentsAndExpand(grid);
 
-        //        table.setPageLength(5);
         grid.setHeightByRows(5);
         grid.setWidth(100, Unit.PERCENTAGE);
 
         //TODO : replace with Component renderer in 8.1
         grid.addColumn(entity -> "-", new ButtonRenderer<ET>(clickEvent -> removeSelectedOption(clickEvent.getItem()))).setCaption("")
                 .setId("Remove");
-        //        grid.addColumnVisibilityChangeListener(event -> System.out.println("cloumn visible change"));
 
-        //        table.withGeneratedColumn("Remove", new MTable.SimpleColumnGenerator<ET>() {
-        //            @Override
-        //            public Object generate(final ET entity) {
-        //                return getToolColumnContent(entity);
-        //            }
-        //        });
-        //        table.setColumnHeader("Remove", "");
         cb.setPlaceholder("Add to selection...");
         cb.addValueChangeListener(new ValueChangeListener<ET>() {
 
@@ -79,19 +74,12 @@ public class DSSubSetSelector2<ET, C extends Collection<ET>> extends CustomField
             public void valueChange(com.vaadin.data.HasValue.ValueChangeEvent<ET> event) {
                 if (event.getValue() != null) {
                     ET pojo = event.getValue();
-                    //                    cb.getBic().removeItem(pojo);
-                    //                    cb.setValue(null);
-                    //                    table.addItem(pojo);
-                    //                    selected.add(pojo);
 
                     C newValue = cloneSelected();
                     newValue.add(pojo);
-                    //                    cb.setEnabled(selected.size() < limit);
-                    // fire value change
-                    //                    fireValueChange(true);
+                    fireEvent(new ElementAddedEvent<ET>(DSSubSetSelector2.this, pojo));
                     setValue(newValue);
                 }
-
             }
         });
     }
@@ -108,24 +96,14 @@ public class DSSubSetSelector2<ET, C extends Collection<ET>> extends CustomField
 
     @Override
     public void onSave(ET entity) {
-        // TODO, figure out something here, needs a listener/handler
-        // getProvider().persist(elementType, newInstance);
-        //        table.addItem(entity);
-        //        selected.add(entity);
-
         C newValue = cloneSelected();
         newValue.add(entity);
-        /*
-         * Here we check the table for limit because the added entity could be equal to another added previously.
-         * Since the table has a list container and selected has a map, they do not have the same behavior for equality.
-         */
 
-        //        cb.setEnabled(table.size() < limit);
         if (newInstanceForm != null) {
             newInstanceForm.closePopup();
         }
-        // fire value change
-        //        fireValueChange(true);
+
+        fireEvent(new ElementAddedEvent<ET>(this, entity));
         setValue(newValue);
 
     }
@@ -135,6 +113,7 @@ public class DSSubSetSelector2<ET, C extends Collection<ET>> extends CustomField
         return verticalLayout;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     protected void doSetValue(C value) {
         selected = value;
@@ -154,13 +133,11 @@ public class DSSubSetSelector2<ET, C extends Collection<ET>> extends CustomField
         cb.clear();
 
         cb.setItems(arrayList);
-        //        cb.getBic().fireItemSetChange();
         cb.setEnabled(selected.size() < limit);
         grid.setItems(new ArrayList<ET>(selected));
 
     }
 
-    @SuppressWarnings("rawtypes")
     private Class<C> getType() {
         return containerType;
     }
@@ -187,15 +164,9 @@ public class DSSubSetSelector2<ET, C extends Collection<ET>> extends CustomField
      * @param entity the entity to be removed from the selection
      */
     public void removeSelectedOption(ET entity) {
-        //        cb.addOption(entity);
-        //        table.removeItem(entity);
-        //        selected.remove(entity);
         C newValue = cloneSelected();
         newValue.remove(entity);
-
-        //        cb.setEnabled(selected.size() < limit);
-        // fire value change
-        //        fireValueChange(true);
+        fireEvent(new ElementRemovedEvent<ET>(this, entity));
         setValue(newValue);
     }
 
@@ -273,7 +244,7 @@ public class DSSubSetSelector2<ET, C extends Collection<ET>> extends CustomField
      * @param options the list of options from which the sub set is selected
      * @return this
      */
-    public DSSubSetSelector2 setItems(List<ET> options) {
+    public DSSubSetSelector2<ET, C> setItems(List<ET> options) {
         availableOptions = options;
         cb.setItems(new ArrayList<>(options));
         return this;
@@ -308,7 +279,6 @@ public class DSSubSetSelector2<ET, C extends Collection<ET>> extends CustomField
      * should add a new item.
      */
     public void setNewItemsAllowed(boolean allowAddingNewItems, Function<String, ET> instantiator) {
-        //        cb.setNewItemsAllowed(allowAddingNewItems);
         if (instantiator != null) {
             this.instantiator = instantiator;
         }
@@ -338,10 +308,15 @@ public class DSSubSetSelector2<ET, C extends Collection<ET>> extends CustomField
         cb.setEnabled(selected.size() < limit);
     }
 
+    public void setEmptySelectionAllowed(boolean emptySelectionAllowed) {
+        cb.setEmptySelectionAllowed(emptySelectionAllowed);
+    }
+
     public ComboBox<ET> getComboBox() {
         return cb;
     }
 
+    @SuppressWarnings("unchecked")
     private C cloneSelected() {
         Class<C> clazz = getType();
         C collection = null;
@@ -351,6 +326,22 @@ public class DSSubSetSelector2<ET, C extends Collection<ET>> extends CustomField
             collection = (C) new HashSet<ET>(selected);
         }
         return collection;
+    }
+
+    private static final Method addedMethod;
+    private static final Method removedMethod;
+
+    static {
+        addedMethod = ReflectTools.findMethod(ElementAddedListener.class, "elementAdded", ElementAddedEvent.class);
+        removedMethod = ReflectTools.findMethod(ElementRemovedListener.class, "elementRemoved", ElementRemovedEvent.class);
+    }
+
+    public void addElementAddedListener(ElementAddedListener<ET> listener) {
+        addListener(ElementAddedEvent.class, listener, addedMethod);
+    }
+
+    public void addElementRemovedListener(ElementRemovedListener<ET> listener) {
+        addListener(ElementRemovedEvent.class, listener, removedMethod);
     }
 
 }
