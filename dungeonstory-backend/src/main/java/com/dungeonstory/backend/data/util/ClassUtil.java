@@ -15,14 +15,21 @@ import com.dungeonstory.backend.data.Feat;
 public class ClassUtil {
 
     private ClassUtil() {
-        // TODO Auto-generated constructor stub
+
     }
 
-    public static Optional<CharacterClass> getCharacterClass(Character character, DSClass dsClass) {
-        Optional<CharacterClass> assignedClass = character.getClasses().stream()
-                .filter(characterClass -> characterClass.getClasse().equals(dsClass)).findFirst();
+    public static CharacterClass getCharacterClass(Character character, DSClass dsClass) {
+        //        List<CharacterClass> characterClasses = character.getClasses();
+        //        CharacterClass assignedClass = characterClasses.stream().filter(characterClass -> characterClass.getClasse().equals(dsClass)).findFirst()
+        //                .orElse(null);
 
-        return assignedClass;
+        for (CharacterClass characterClass : character.getClasses()) {
+            if (characterClass.getClasse().equals(dsClass)) {
+                return characterClass;
+            }
+        }
+
+        return null;
     }
 
     public static Optional<ClassLevelBonus> getClassLevelBonus(DSClass dsClass, int level) {

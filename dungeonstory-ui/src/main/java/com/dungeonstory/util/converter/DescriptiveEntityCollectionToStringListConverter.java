@@ -8,7 +8,7 @@ import com.dungeonstory.backend.repository.DescriptiveEntity;
  * A converter that allows displaying a collection as a html list (ul or ol).
  * 
  */
-public class DescriptiveEntityCollectionToStringListConverter extends CollectionToStringListConverter {
+public class DescriptiveEntityCollectionToStringListConverter<C extends Collection<?>> extends CollectionToStringListConverter<C> {
 
     private static final long serialVersionUID = 8736787817810180855L;
 

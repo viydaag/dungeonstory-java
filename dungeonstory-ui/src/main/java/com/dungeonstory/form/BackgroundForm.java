@@ -13,8 +13,8 @@ import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.impl.SkillService;
 import com.dungeonstory.backend.service.mock.MockSkillService;
 import com.dungeonstory.ui.component.DSTextArea;
+import com.dungeonstory.ui.component.EnumComboBox;
 import com.dungeonstory.util.field.DSSubSetSelector2;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextArea;
@@ -33,7 +33,7 @@ public class BackgroundForm extends DSAbstractForm<Background> {
 
     private DSSubSetSelector2<Skill, Set<Skill>>       skillProficiencies;
     private DSSubSetSelector2<ToolType, Set<ToolType>> toolProficiencies;
-    private ComboBox<LanguageChoice>                   additionalLanguage;
+    private EnumComboBox<LanguageChoice>               additionalLanguage;
 
     private DataService<Skill, Long> skillService = null;
 
@@ -85,7 +85,7 @@ public class BackgroundForm extends DSAbstractForm<Background> {
         toolProficiencies.setWidth("80%");
         toolProficiencies.setValue(new HashSet<ToolType>()); //nothing selected
 
-        additionalLanguage = new ComboBox<LanguageChoice>("Nb langage additionnel");
+        additionalLanguage = new EnumComboBox<>(LanguageChoice.class, "Nb langage additionnel");
 
         layout.addComponent(name);
         layout.addComponent(description);

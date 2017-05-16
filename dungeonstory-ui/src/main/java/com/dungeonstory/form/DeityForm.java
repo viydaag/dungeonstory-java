@@ -62,6 +62,7 @@ public class DeityForm extends DSAbstractForm<Deity> {
         description = new DSTextArea("Description").withFullWidth();
         symbol = new MTextField("Symbole").withWidth("50%");
         alignment = new ComboBox<Alignment>("Alignement", alignmentService.findAll());
+        alignment.setEmptySelectionAllowed(false);
 
         image = new ImagePreviewField();
         image.setCaption("Image");

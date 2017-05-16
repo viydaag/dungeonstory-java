@@ -1,7 +1,6 @@
 package com.dungeonstory.form;
 
 import org.vaadin.viritin.fields.IntegerField;
-import org.vaadin.viritin.fields.MTextField;
 
 import com.dungeonstory.FormCheckBox;
 import com.dungeonstory.backend.data.DamageType;
@@ -61,15 +60,15 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
     protected Component createContent() {
         FormLayout layout = new FormLayout();
 
-        name = new MTextField("Nom");
+        name = new TextField("Nom");
         description = new DSTextArea("Description").withFullWidth();
         proficiencyType = new EnumComboBox<>(ProficiencyType.class, "Type de maitrise");
         sizeType = new EnumComboBox<>(SizeType.class, "Taille");
         handleType = new EnumComboBox<>(HandleType.class, "Type");
         usageType = new EnumComboBox<>(UsageType.class, "Type d'usage");
         rangeType = new EnumComboBox<RangeType>(RangeType.class, "Type de portée");
-        oneHandBaseDamage = new MTextField("Dommage à 1 main");
-        twoHandBaseDamage = new MTextField("Dommage à 2 mains");
+        oneHandBaseDamage = new TextField("Dommage à 1 main");
+        twoHandBaseDamage = new TextField("Dommage à 2 mains");
         isReach = new FormCheckBox("Allonge");
         isFinesse = new FormCheckBox("Finesse (choix dextérité ou force)");
         isLoading = new FormCheckBox("Chargement requis");
@@ -114,11 +113,11 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
                 case ONE_HANDED:
                     oneHandBaseDamage.setVisible(true);
                     twoHandBaseDamage.setVisible(false);
-                    twoHandBaseDamage.setValue(null);
+                    twoHandBaseDamage.setValue(oneHandBaseDamage.getEmptyValue());
                     break;
                 case TWO_HANDED:
                     oneHandBaseDamage.setVisible(false);
-                    oneHandBaseDamage.setValue(null);
+                    oneHandBaseDamage.setValue(oneHandBaseDamage.getEmptyValue());
                     twoHandBaseDamage.setVisible(true);
                     break;
                 case VERSATILE:
@@ -127,9 +126,9 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
                     break;
                 default:
                     oneHandBaseDamage.setVisible(false);
-                    oneHandBaseDamage.setValue(null);
+                    oneHandBaseDamage.setValue(oneHandBaseDamage.getEmptyValue());
                     twoHandBaseDamage.setVisible(false);
-                    twoHandBaseDamage.setValue(null);
+                    twoHandBaseDamage.setValue(oneHandBaseDamage.getEmptyValue());
                     break;
             }
         }
@@ -138,10 +137,6 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
     @Override
     public void beforeSetEntity(WeaponType entity) {
 
-        //prevent the binding to cause read-only exception while setting the value
-        if (rangeType != null) {
-            rangeType.setReadOnly(false);
-        }
         if (usageType != null) {
             usageListener.remove();
         }
@@ -164,7 +159,6 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
                     isLoading.setVisible(true);
                     break;
                 case MELEE_RANGE:
-                    rangeType.setReadOnly(false);
                     rangeType.setVisible(true);
                     rangeType.setValue(RangeType.THROWN);
                     rangeType.setReadOnly(true);

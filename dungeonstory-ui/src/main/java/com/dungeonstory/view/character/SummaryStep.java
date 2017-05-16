@@ -12,7 +12,6 @@ import com.dungeonstory.backend.data.CharacterClass;
 import com.dungeonstory.backend.data.Feat;
 import com.dungeonstory.backend.data.util.ModifierUtil;
 import com.dungeonstory.i18n.Messages;
-import com.dungeonstory.util.CharacterWizardStep;
 import com.dungeonstory.util.converter.CollectionToStringConverter;
 import com.dungeonstory.util.layout.FormLayoutNoSpace;
 import com.vaadin.data.ValueContext;

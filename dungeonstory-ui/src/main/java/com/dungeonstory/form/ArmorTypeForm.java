@@ -7,8 +7,8 @@ import com.dungeonstory.FormCheckBox;
 import com.dungeonstory.backend.data.ArmorType;
 import com.dungeonstory.backend.data.ArmorType.ProficiencyType;
 import com.dungeonstory.ui.component.DSTextArea;
+import com.dungeonstory.ui.component.EnumComboBox;
 import com.dungeonstory.util.field.DoubleField;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextArea;
@@ -20,7 +20,7 @@ public class ArmorTypeForm extends DSAbstractForm<ArmorType> {
 
     private TextField                   name;
     private TextArea                    description;
-    private ComboBox<ProficiencyType> proficiencyType;
+    private EnumComboBox<ProficiencyType> proficiencyType;
     private IntegerField                maxDexBonus;
     private IntegerField                baseArmorClass;
     private FormCheckBox                stealthDisavantage;
@@ -43,7 +43,7 @@ public class ArmorTypeForm extends DSAbstractForm<ArmorType> {
 
         name = new MTextField("Nom");
         description = new DSTextArea("Description").withFullWidth();
-        proficiencyType = new ComboBox<ProficiencyType>("Type de maitrise");
+        proficiencyType = new EnumComboBox<>(ProficiencyType.class, "Type de maitrise");
         maxDexBonus = new IntegerField("Bonus de dextérité maximum");
         baseArmorClass = new IntegerField("Classe d'armure de base");
         stealthDisavantage = new FormCheckBox("Désavantage sur furtivité");

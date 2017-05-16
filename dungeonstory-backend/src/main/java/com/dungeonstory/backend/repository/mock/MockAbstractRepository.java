@@ -66,7 +66,6 @@ public abstract class MockAbstractRepository<E extends Entity> implements Reposi
 
     @Override
     public void refresh(E entity) {
-        // TODO Auto-generated method stub
 
     }
 
