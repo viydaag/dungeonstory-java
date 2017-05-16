@@ -78,26 +78,12 @@ public class AbilityScoreUpdateForm extends AbilityScoreForm {
                 } else {
                     resetPointToSpend();
 
-                    strength.setReadOnly(false);
-                    dexterity.setReadOnly(false);
-                    constitution.setReadOnly(false);
-                    intelligence.setReadOnly(false);
-                    wisdom.setReadOnly(false);
-                    charisma.setReadOnly(false);
-
                     strength.setValue(backupEntity.getStrength());
                     dexterity.setValue(backupEntity.getDexterity());
                     constitution.setValue(backupEntity.getConstitution());
                     intelligence.setValue(backupEntity.getIntelligence());
                     wisdom.setValue(backupEntity.getWisdom());
                     charisma.setValue(backupEntity.getCharisma());
-
-                    strength.setReadOnly(true);
-                    dexterity.setReadOnly(true);
-                    constitution.setReadOnly(true);
-                    intelligence.setReadOnly(true);
-                    wisdom.setReadOnly(true);
-                    charisma.setReadOnly(true);
                 }
                 adjustButtons();
             }
@@ -118,9 +104,7 @@ public class AbilityScoreUpdateForm extends AbilityScoreForm {
     }
 
     private void resetPointToSpend() {
-        pointsToSpend.setReadOnly(false);
         pointsToSpend.setValue(2);
-        pointsToSpend.setReadOnly(true);
     }
 
     @Override
@@ -169,12 +153,8 @@ public class AbilityScoreUpdateForm extends AbilityScoreForm {
             int nbPointToSpend = 1;
             if (value <= MAX_SCORE) {
                 if (pointsToSpend.getValue() >= nbPointToSpend) {
-                    pointsToSpend.setReadOnly(false);
                     pointsToSpend.setValue(pointsToSpend.getValue() - nbPointToSpend);
-                    pointsToSpend.setReadOnly(true);
-                    fieldAction.setReadOnly(false);
                     fieldAction.setValue(value);
-                    fieldAction.setReadOnly(true);
                 }
             } else {
                 Notification.show(Messages.getInstance().getMessage("abilityScoreStep.notif.maxScore", MAX_SCORE), Type.HUMANIZED_MESSAGE);
@@ -189,12 +169,8 @@ public class AbilityScoreUpdateForm extends AbilityScoreForm {
             int value = fieldAction.getValue().intValue();
             int nbPointToSpend = 1;
             if (value > minValue) {
-                pointsToSpend.setReadOnly(false);
                 pointsToSpend.setValue(pointsToSpend.getValue() + nbPointToSpend);
-                pointsToSpend.setReadOnly(true);
-                fieldAction.setReadOnly(false);
                 fieldAction.setValue(value - 1);
-                fieldAction.setReadOnly(true);
             } else {
                 Notification.show(Messages.getInstance().getMessage("abilityScoreStep.notif.minusInitial"), Type.HUMANIZED_MESSAGE);
             }

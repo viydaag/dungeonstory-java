@@ -35,7 +35,6 @@ public class AbilityScoreInitForm extends AbilityScoreForm {
 
         Messages messages = Messages.getInstance();
 
-        pointsToSpend.setReadOnly(false);
         pointsToSpend.setValue(27);
         pointsToSpend.setReadOnly(true);
 
@@ -128,12 +127,8 @@ public class AbilityScoreInitForm extends AbilityScoreForm {
             if (value <= MAX_SCORE + modifier) {
                 nbPointToSpend = getNbPointsToSpend(value);
                 if (pointsToSpend.getValue() >= nbPointToSpend) {
-                    pointsToSpend.setReadOnly(false);
                     pointsToSpend.setValue(pointsToSpend.getValue() - nbPointToSpend);
-                    pointsToSpend.setReadOnly(true);
-                    fieldAction.setReadOnly(false);
                     fieldAction.setValue(value);
-                    fieldAction.setReadOnly(true);
                 }
             } else {
                 Notification.show(Messages.getInstance().getMessage("abilityScoreStep.notif.minScore", MAX_SCORE + modifier), Type.HUMANIZED_MESSAGE);
@@ -149,12 +144,8 @@ public class AbilityScoreInitForm extends AbilityScoreForm {
             int nbPointToSpend = 0;
             if (value > (MIN_SCORE + modifier)) {
                 nbPointToSpend = getNbPointsToSpend(value);
-                pointsToSpend.setReadOnly(false);
                 pointsToSpend.setValue(pointsToSpend.getValue() + nbPointToSpend);
-                pointsToSpend.setReadOnly(true);
-                fieldAction.setReadOnly(false);
                 fieldAction.setValue(value - 1);
-                fieldAction.setReadOnly(true);
             } else {
                 Notification.show(Messages.getInstance().getMessage("abilityScoreStep.notif.maxScore", MIN_SCORE + modifier), Type.HUMANIZED_MESSAGE);
             }

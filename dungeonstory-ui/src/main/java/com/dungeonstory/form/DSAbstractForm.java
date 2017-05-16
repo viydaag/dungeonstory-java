@@ -28,7 +28,6 @@ public abstract class DSAbstractForm<T> extends AbstractForm<T> {
 
         //config des boutons
         setSaveCaption("Enregistrer");
-        setCancelCaption("Réinitialiser");
         setDeleteCaption("");
         setCancelCaption("Annuler");
         setModalWindowTitle("");

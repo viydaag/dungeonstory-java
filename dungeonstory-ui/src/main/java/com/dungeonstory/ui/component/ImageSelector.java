@@ -156,9 +156,9 @@ public class ImageSelector extends CustomField<DSImage> {
         loadedImage.setData(image.getIndex());
         loadedImage.addClickListener(event -> {
             if (isSelectable()) {
-                selectedImage = images.get((int) loadedImage.getData());
+                DSImage clicked = images.get((int) loadedImage.getData());
 //                Notification.show(selectedImage.toString(), Type.HUMANIZED_MESSAGE);
-                setValue(selectedImage);
+                setValue(clicked);
             }
         });
         loadedImages.add(loadedImage);
@@ -325,13 +325,13 @@ public class ImageSelector extends CustomField<DSImage> {
 
     @Override
     protected void doSetValue(DSImage value) {
-        super.setValue(value);
         if (isSelectable()) {
             visibleImages.values().stream().forEach(image -> image.removeStyleName("image-bordered-selected"));
             if (value != null) {
                 Image selected = loadedImages.get(value.getIndex());
                 selected.addStyleName("image-bordered-selected");
             }
+            selectedImage = value;
         }
 
     }

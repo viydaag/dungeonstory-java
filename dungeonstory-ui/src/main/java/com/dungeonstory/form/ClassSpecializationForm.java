@@ -100,6 +100,7 @@ public class ClassSpecializationForm extends DSAbstractForm<ClassSpecialization>
         isSpellCasting = new FormCheckBox("Capacité à lancer des sorts");
         spellCastingAbility = new ComboBox<Ability>("Caractéristique de sort");
         spellCastingAbility.setItems(abilityService.findAll());
+        spellCastingAbility.setEmptySelectionAllowed(false);
         isSpellCasting.addValueChangeListener(this::isSpellCastingChange);
 
         spellSlots = (LevelSpellsCollectionField<ClassSpecializationSpellSlots>) new LevelSpellsCollectionField<ClassSpecializationSpellSlots>(

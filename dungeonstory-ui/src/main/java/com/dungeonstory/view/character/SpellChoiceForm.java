@@ -110,12 +110,12 @@ public class SpellChoiceForm extends DSAbstractForm<Character> implements Abstra
     @Override
     public void afterSetEntity() {
 
-        Optional<CharacterClass> assignedClass = ClassUtil.getCharacterClass(getEntity(), this.classe);
+        CharacterClass assignedClass = ClassUtil.getCharacterClass(getEntity(), this.classe);
 
-        if (assignedClass.isPresent()) {
+        if (assignedClass != null) {
 
-            int classLevel = assignedClass.get().getClassLevel();
-            label.setValue(Messages.getInstance().getMessage("spellStep.class.label", assignedClass.get().toString()));
+            int classLevel = assignedClass.getClassLevel();
+            label.setValue(Messages.getInstance().getMessage("spellStep.class.label", assignedClass.toString()));
 
             Optional<ClassSpellSlots> spellSlotOpt = ClassUtil.getClassSpellSlots(this.classe, classLevel);
 
@@ -359,9 +359,9 @@ public class SpellChoiceForm extends DSAbstractForm<Character> implements Abstra
             }
         }
 
-        Optional<CharacterClass> assignedClass = ClassUtil.getCharacterClass(entity, classe);
-        if (assignedClass.isPresent()) {
-            assignedClass.get().setKnownSpells(characterKnownSpells);
+        CharacterClass assignedClass = ClassUtil.getCharacterClass(entity, classe);
+        if (assignedClass != null) {
+            assignedClass.setKnownSpells(characterKnownSpells);
         }
     }
 

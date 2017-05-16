@@ -54,15 +54,14 @@ public abstract class AbilityScoreForm extends DSAbstractForm<Character> impleme
         if (Configuration.getInstance().isDebug()) {
             Button assignAll = new Button("assign");
             assignAll.addClickListener(event -> {
-                pointsToSpend.setReadOnly(false);
                 pointsToSpend.setValue(0);
-                pointsToSpend.setReadOnly(true);
                 adjustButtons();
             });
             abilityLayout.addComponent(assignAll);
         }
 
         gridLayout = new GridLayout(5, 7);
+        gridLayout.setSpacing(true);
         gridLayout.addComponent(new MLabel(messages.getMessage("abilityScoreStep.ability.label")), 0, 0);
         gridLayout.addComponent(new MLabel(messages.getMessage("abilityScoreStep.score.label")), 1, 0);
 

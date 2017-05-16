@@ -1,10 +1,13 @@
 package com.dungeonstory.view.character;
 
+import java.util.Set;
+
 import org.apache.commons.lang3.StringUtils;
 
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.ui.component.HtmlLabel;
 import com.dungeonstory.util.converter.CollectionToStringListConverter;
+import com.vaadin.data.ValueContext;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
@@ -17,28 +20,28 @@ public class ProficiencyList extends VerticalLayout {
         
         setSpacing(true);
 
-        CollectionToStringListConverter converter = new CollectionToStringListConverter();
+        CollectionToStringListConverter<Set<?>> setConverter = new CollectionToStringListConverter<Set<?>>();
 
         Label proficiencyBonus = new Label("Bonus de maitrise : " + String.valueOf(character.getLevel().getProficiencyBonus()));
 
-        String armorProficiencies = converter.convertToPresentation(character.getArmorProficiencies(), String.class, null);
+        String armorProficiencies = setConverter.convertToPresentation(character.getArmorProficiencies(), new ValueContext());
         HtmlLabel armorLabel = new HtmlLabel(StringUtils.defaultIfEmpty(armorProficiencies, "Aucune"));
         Panel armorProficiencyPanel = new Panel("Armures", armorLabel);
 
-        String savingThrowProficiencies = converter.convertToPresentation(character.getSavingThrowProficiencies(), String.class, null);
+        String savingThrowProficiencies = setConverter.convertToPresentation(character.getSavingThrowProficiencies(), new ValueContext());
         HtmlLabel savingThrowLabel = new HtmlLabel(StringUtils.defaultIfEmpty(savingThrowProficiencies, "Aucune"));
         Panel savingThrowProficiencyPanel = new Panel("Jets de sauvegarde", savingThrowLabel);
 
-        String toolProficiencies = converter.convertToPresentation(character.getToolProficiencies(), String.class, null);
+        String toolProficiencies = setConverter.convertToPresentation(character.getToolProficiencies(), new ValueContext());
         HtmlLabel toolLabel = new HtmlLabel(StringUtils.defaultIfEmpty(toolProficiencies, "Aucune"));
         Panel toolProficiencyPanel = new Panel("Outils", toolLabel);
 
-        String skillProficiencies = converter.convertToPresentation(character.getSkillProficiencies(), String.class, null);
+        String skillProficiencies = setConverter.convertToPresentation(character.getSkillProficiencies(), new ValueContext());
         HtmlLabel skillLabel = new HtmlLabel(StringUtils.defaultIfEmpty(skillProficiencies, "Aucune"));
         Panel skillProficiencyPanel = new Panel("Compétences", skillLabel);
 
-        converter.setNbColumns(2);
-        String weaponProficiencies = converter.convertToPresentation(character.getWeaponProficiencies(), String.class, null);
+        setConverter.setNbColumns(2);
+        String weaponProficiencies = setConverter.convertToPresentation(character.getWeaponProficiencies(), new ValueContext());
         HtmlLabel weaponLabel = new HtmlLabel(StringUtils.defaultIfEmpty(weaponProficiencies, "Aucune"));
         Panel weaponProficiencyPanel = new Panel("Armes", weaponLabel);
 

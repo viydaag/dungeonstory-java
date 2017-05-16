@@ -15,7 +15,6 @@ import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.event.EventBus;
 import com.dungeonstory.event.NavigationEvent;
 import com.dungeonstory.i18n.Messages;
-import com.dungeonstory.util.CharacterWizardStep;
 import com.vaadin.server.Page;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;

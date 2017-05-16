@@ -1,11 +1,10 @@
 package com.dungeonstory.view.character;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.vaadin.viritin.fields.LabelField;
-import org.vaadin.viritin.form.AbstractForm;
 
 import com.dungeonstory.backend.data.Alignment;
 import com.dungeonstory.backend.data.Character;
@@ -16,6 +15,7 @@ import com.dungeonstory.backend.data.Race;
 import com.dungeonstory.backend.data.Region;
 import com.dungeonstory.backend.service.CharacterDataService;
 import com.dungeonstory.backend.service.Services;
+import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.i18n.Messages;
 import com.dungeonstory.ui.component.DSImage;
 import com.dungeonstory.ui.component.ImageSelector;
@@ -29,12 +29,12 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
-public class CharacterInfoForm extends AbstractForm<Character> {
+public class CharacterInfoForm extends DSAbstractForm<Character> {
 
     private static final long serialVersionUID = 667927823059386253L;
 
     private LabelField<String>    name;
-    private LabelField<String>    gender;
+    private LabelField<Gender>    gender;
     private LabelField<Alignment> alignment;
     private LabelField<Region>    region;
 
@@ -43,7 +43,7 @@ public class CharacterInfoForm extends AbstractForm<Character> {
     private LabelField<String>  height;
 
     private LabelField<Race>    race;
-    private LabelField<Collection<DSClass>> classes;
+    private LabelField<Set<DSClass>> classes;
     private LabelField<Level>   level;
     private LabelField<Long>    experience;
     private LabelField<Integer> lifePoints;
@@ -103,7 +103,6 @@ public class CharacterInfoForm extends AbstractForm<Character> {
         levelLayout.setMargin(true);
         race = new LabelField<>(messages.getMessage("characterView.race.label"));
         classes = new LabelField<>(messages.getMessage("characterView.class.label"));
-        classes.setCaptionGenerator(new ClassLevelCaptionGenerator());
         level = new LabelField<>(messages.getMessage("characterView.level.label"));
         experience = new LabelField<>(messages.getMessage("characterView.experience.label"));
         lifePoints = new LabelField<>(messages.getMessage("characterView.lifePoints.label"));
@@ -126,6 +125,12 @@ public class CharacterInfoForm extends AbstractForm<Character> {
         layout.addComponents(infoPanel, levelPanel, abilityPanel);
 
         return layout;
+    }
+
+    @Override
+    public void afterSetEntity() {
+        super.afterSetEntity();
+        classes.setCaptionGenerator(new ClassLevelCaptionGenerator());
     }
 
     private void showImageSelector() {
