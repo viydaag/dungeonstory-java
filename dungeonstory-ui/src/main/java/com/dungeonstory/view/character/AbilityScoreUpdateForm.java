@@ -10,7 +10,7 @@ import org.vaadin.viritin.label.MLabel;
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.Feat;
 import com.dungeonstory.backend.service.FeatDataService;
-import com.dungeonstory.backend.service.impl.FeatService;
+import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.i18n.Messages;
 import com.dungeonstory.util.layout.HorizontalSpacedLayout;
 import com.vaadin.server.FontAwesome;
@@ -56,7 +56,7 @@ public class AbilityScoreUpdateForm extends AbilityScoreForm {
 
     public AbilityScoreUpdateForm(Character character) {
         super();
-        featService = FeatService.getInstance();
+        featService = Services.getFeatService();
         backupEntity = character;
     }
 

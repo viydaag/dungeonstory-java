@@ -79,6 +79,11 @@ public class Background extends AbstractTimestampEntity implements Serializable 
         skillProficiencies = new HashSet<Skill>();
         toolProficiencies = new HashSet<ToolType>();
     }
+    
+    public Background(String name) {
+        this();
+        this.name = name;
+    }
 
     public String getName() {
         return name;

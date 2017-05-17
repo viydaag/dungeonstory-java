@@ -7,8 +7,9 @@ import com.dungeonstory.backend.data.DivineDomain;
 import com.dungeonstory.backend.factory.impl.DivineDomainFactory;
 import com.dungeonstory.backend.repository.impl.DivineDomainRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
+import com.dungeonstory.backend.service.DivineDomainDataService;
 
-public class DivineDomainService extends AbstractDataService<DivineDomain, Long> {
+public class DivineDomainService extends AbstractDataService<DivineDomain, Long> implements DivineDomainDataService {
 
     private static final long serialVersionUID = 6468595169787824606L;
 

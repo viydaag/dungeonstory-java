@@ -1,11 +1,9 @@
 package com.dungeonstory.authentication;
 
-import com.dungeonstory.backeUsernd.mock.MockUser;
 import com.dungeonstory.backend.Configuration;
-import com.dungeonstory.backend.data.AccessRole;
-import com.dungeonstory.backend.data.AccessRole.RoleType;
 import com.dungeonstory.backend.data.User;
 import com.dungeonstory.backend.mock.MockAdminUser;
+import com.dungeonstory.backend.mock.MockUser;
 import com.dungeonstory.backend.service.mock.MockUserService;
 
 /**
