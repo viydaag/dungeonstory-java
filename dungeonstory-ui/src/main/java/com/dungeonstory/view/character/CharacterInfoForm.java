@@ -12,7 +12,8 @@ import com.dungeonstory.backend.data.Character.Gender;
 import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.backend.data.Race;
 import com.dungeonstory.backend.data.Region;
-import com.dungeonstory.backend.service.impl.CharacterService;
+import com.dungeonstory.backend.service.CharacterDataService;
+import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.i18n.Messages;
 import com.dungeonstory.ui.component.DSImage;
 import com.dungeonstory.ui.component.ImageSelector;
@@ -166,7 +167,7 @@ public class CharacterInfoForm extends AbstractForm<Character> {
     }
 
     private void saveImage() {
-        CharacterService service = CharacterService.getInstance();
+        CharacterDataService service = Services.getCharacterService();
         Character c = service.saveOrUpdate(getEntity());
         setEntity(c);
         saveImageButton.setVisible(false);

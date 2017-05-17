@@ -37,11 +37,12 @@ public class Alignment extends AbstractTimestampEntity implements Serializable {
         super();
     }
 
-    public Alignment(String name, String shortDescription, String description) {
+    public Alignment(String name, String shortDescription, String description, boolean playable) {
         this();
         this.name = name;
         this.shortDescription = shortDescription;
         this.description = description;
+        this.playable = playable;
     }
 
     public String getName() {

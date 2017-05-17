@@ -16,8 +16,6 @@ import javax.validation.constraints.NotNull;
 
 import org.eclipse.persistence.annotations.PrivateOwned;
 
-import com.dungeonstory.backend.Configuration;
-
 @Entity
 @Table(name = "Adventure")
 public class Adventure extends AbstractTimestampEntity implements Serializable {
@@ -118,19 +116,6 @@ public class Adventure extends AbstractTimestampEntity implements Serializable {
 
     public boolean isCancelledOrClosed() {
         return getStatus() == AdventureStatus.CANCELLED || getStatus() == AdventureStatus.CLOSED;
-    }
-
-    public Message getLastPersistedMessage() {
-        if (Configuration.getInstance().isMock()) {
-            return messages.get(messages.size() - 1);
-        }
-        for (int i = messages.size() - 1; i >= 0; i--) {
-            Message message = messages.get(i);
-            if (message.getId() != null) {
-                return message;
-            }
-        }
-        return null;
     }
 
 }

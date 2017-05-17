@@ -13,8 +13,9 @@ import com.dungeonstory.backend.data.Background.LanguageChoice;
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.CharacterBackground;
 import com.dungeonstory.backend.data.Language;
-import com.dungeonstory.backend.service.impl.BackgroundService;
-import com.dungeonstory.backend.service.impl.LanguageService;
+import com.dungeonstory.backend.service.DataService;
+import com.dungeonstory.backend.service.LanguageDataService;
+import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.i18n.Messages;
 import com.dungeonstory.util.converter.CollectionToStringConverter;
@@ -29,8 +30,8 @@ public class BackgroundChoiceForm extends DSAbstractForm<CharacterBackground> im
 
     private static final long serialVersionUID = -8079455641743140814L;
 
-    private BackgroundService backgroundService = BackgroundService.getInstance();
-    private LanguageService   languageService   = LanguageService.getInstance();
+    private DataService<Background, Long> backgroundService;
+    private LanguageDataService           languageService;
 
     private Character character;
 
@@ -56,6 +57,9 @@ public class BackgroundChoiceForm extends DSAbstractForm<CharacterBackground> im
         super();
         this.character = character;
         setSavedHandler(this);
+
+        backgroundService = Services.getBackgroundService();
+        languageService = Services.getLanguageService();
     }
 
     @Override

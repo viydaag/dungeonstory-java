@@ -12,8 +12,8 @@ import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.Character.Gender;
 import com.dungeonstory.backend.data.Region;
 import com.dungeonstory.backend.service.AlignmentDataService;
-import com.dungeonstory.backend.service.impl.AlignmentService;
-import com.dungeonstory.backend.service.impl.RegionService;
+import com.dungeonstory.backend.service.DataService;
+import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.i18n.Messages;
 import com.dungeonstory.ui.component.DSImage;
@@ -39,8 +39,8 @@ public class InformationForm extends DSAbstractForm<Character> implements SavedH
     private ImageSelector          imageSelector;
     private String                 image;
 
-    private AlignmentDataService alignmentService = AlignmentService.getInstance();
-    private RegionService        regionService    = RegionService.getInstance();
+    private AlignmentDataService      alignmentService = Services.getAlignmentService();
+    private DataService<Region, Long> regionService    = Services.getRegionService();
 
     private FormLayout layout;
 

@@ -6,6 +6,8 @@ import com.dungeonstory.authentication.CurrentUser;
 import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.data.User;
 import com.dungeonstory.event.EventBus;
+import com.dungeonstory.event.ViewAddedEvent;
+import com.dungeonstory.event.ViewAddedEvent.ViewDestination;
 import com.dungeonstory.event.ViewRemovedEvent;
 import com.dungeonstory.i18n.Messages;
 import com.vaadin.ui.Notification;
@@ -58,6 +60,7 @@ public class NewCharacterWizard extends CharacterWizard {
         characterService.create(character);
         Notification.show(messages.getMessage("newCharacterView.notif.created"), Type.HUMANIZED_MESSAGE);
         EventBus.post(new ViewRemovedEvent(NewCharacterView.NEW_CHARACTER_URI));
+        EventBus.post(new ViewAddedEvent(CharacterView.class, ViewDestination.MENUBAR));
         super.wizardCompleted(event);
     }
 

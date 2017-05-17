@@ -139,7 +139,7 @@ public class MainScreen extends HorizontalLayout {
         addViewToNavBar(HomeView.class);
 
         if (CurrentUser.get().getCharacter() == null) {
-            addView(NewCharacterView.class);
+            addViewToNavBar(NewCharacterView.class);
         } else {
             addViewToMenuBar(CharacterView.class);
             addViewToMenuBar(ShopListView.class);

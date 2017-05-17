@@ -1,4 +1,4 @@
-package com.dungeonstory.backeUsernd.mock;
+package com.dungeonstory.backend.mock;
 
 import javax.persistence.Entity;
 

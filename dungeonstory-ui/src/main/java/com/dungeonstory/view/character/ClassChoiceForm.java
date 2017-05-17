@@ -23,11 +23,9 @@ import com.dungeonstory.backend.data.Feat;
 import com.dungeonstory.backend.data.Skill;
 import com.dungeonstory.backend.data.Terrain;
 import com.dungeonstory.backend.data.util.ClassUtil;
-import com.dungeonstory.backend.service.impl.ClassService;
-import com.dungeonstory.backend.service.impl.CreatureTypeService;
-import com.dungeonstory.backend.service.impl.DeityService;
-import com.dungeonstory.backend.service.impl.DivineDomainService;
-import com.dungeonstory.backend.service.impl.SkillService;
+import com.dungeonstory.backend.service.DataService;
+import com.dungeonstory.backend.service.DivineDomainDataService;
+import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.i18n.Messages;
 import com.dungeonstory.util.converter.CollectionToStringConverter;
@@ -50,11 +48,11 @@ public class ClassChoiceForm extends DSAbstractForm<Character> implements Abstra
 
     private static final long serialVersionUID = 6382868944768026273L;
 
-    private ClassService        classService        = ClassService.getInstance();
-    private SkillService        skillService        = SkillService.getInstance();
-    private CreatureTypeService creatureTypeService = CreatureTypeService.getInstance();
-    private DeityService        deityService        = DeityService.getInstance();
-    private DivineDomainService domainService       = DivineDomainService.getInstance();
+    private DataService<DSClass, Long>      classService;
+    private DataService<Skill, Long>        skillService;
+    private DataService<CreatureType, Long> creatureTypeService;
+    private DataService<Deity, Long>        deityService;
+    private DivineDomainDataService         domainService;
 
     private TypedSelect<DSClass>           classe;
     private DSSubSetSelector<Skill>        classSkills;
@@ -83,6 +81,12 @@ public class ClassChoiceForm extends DSAbstractForm<Character> implements Abstra
     public ClassChoiceForm() {
         super();
         setSavedHandler(this);
+
+        classService = Services.getClassService();
+        skillService = Services.getSkillService();
+        creatureTypeService = Services.getCreatureTypeService();
+        deityService = Services.getDeityService();
+        domainService = Services.getDivineDomainService();
     }
 
     @Override
@@ -95,8 +99,8 @@ public class ClassChoiceForm extends DSAbstractForm<Character> implements Abstra
         Messages messages = Messages.getInstance();
 
         VerticalSpacedLayout classFieldsLayout = new VerticalSpacedLayout();
-        classe = new TypedSelect<DSClass>(messages.getMessage("classStep.class.label"), classService.findAll()).asComboBoxType()
-                .withNullSelectionAllowed(false);
+        classe = new TypedSelect<DSClass>(messages.getMessage("classStep.class.label"), classService.findAll())
+                .asComboBoxType().withNullSelectionAllowed(false);
         classe.setRequired(true);
         classe.setImmediate(true);
         classe.addValidator(new NullValidator(messages.getMessage("classStep.class.validator"), false));
@@ -118,7 +122,7 @@ public class ClassChoiceForm extends DSAbstractForm<Character> implements Abstra
         favoredEnnemies.setColumnHeader("name", messages.getMessage("classStep.favoredEnnemy.table.column.name"));
         favoredEnnemies.setOptions(creatureTypeService.findAll());
         favoredEnnemies.setVisible(false);
-        //        favoredEnnemies.setValue(null); //nothing selected
+        // favoredEnnemies.setValue(null); //nothing selected
 
         favoredTerrains = new DSSubSetSelector<Terrain>(Terrain.class);
         favoredTerrains.setCaption(messages.getMessage("classStep.favoredTerrain.label"));
@@ -127,10 +131,10 @@ public class ClassChoiceForm extends DSAbstractForm<Character> implements Abstra
         favoredTerrains.setOptions(Arrays.asList(Terrain.values()));
         favoredTerrains.setVisible(false);
 
-        deity = new TypedSelect<Deity>(messages.getMessage("classStep.deity.label"), deityService.findAllOrderBy("name", "ASC"))
-                .asComboBoxType().withVisible(false);
-        divineDomain = new TypedSelect<DivineDomain>(messages.getMessage("classStep.divineDomain.label")).asComboBoxType()
-                .withNullSelectionAllowed(false).withVisible(false);
+        deity = new TypedSelect<Deity>(messages.getMessage("classStep.deity.label"),
+                deityService.findAllOrderBy("name", "ASC")).asComboBoxType().withVisible(false);
+        divineDomain = new TypedSelect<DivineDomain>(messages.getMessage("classStep.divineDomain.label"))
+                .asComboBoxType().withNullSelectionAllowed(false).withVisible(false);
         deityDescription = new Label();
         domainDescription = new Label();
 
@@ -161,8 +165,8 @@ public class ClassChoiceForm extends DSAbstractForm<Character> implements Abstra
             }
         });
 
-        classFieldsLayout.addComponents(classe, classSkills, favoredEnnemies, favoredTerrains, deity, deityDescription, divineDomain,
-                domainDescription);
+        classFieldsLayout.addComponents(classe, classSkills, favoredEnnemies, favoredTerrains, deity, deityDescription,
+                divineDomain, domainDescription);
 
         VerticalLayout classDescriptionLayout = new VerticalLayout();
         classDescription = new MTextArea(messages.getMessage("classStep.class.description")).withRows(10);
@@ -174,7 +178,8 @@ public class ClassChoiceForm extends DSAbstractForm<Character> implements Abstra
         savingThrowProficiencies = new MLabel();
         skillProficiencies = new MLabel();
 
-        properties.addComponents(proficienciesLabel, armorProficiencies, weaponProficiencies, savingThrowProficiencies, skillProficiencies);
+        properties.addComponents(proficienciesLabel, armorProficiencies, weaponProficiencies, savingThrowProficiencies,
+                skillProficiencies);
 
         FormLayoutNoSpace classFeatureLabelLayout = new FormLayoutNoSpace();
         classFeaturesLabel = new MLabel().withStyleName(ValoTheme.LABEL_H4);
@@ -191,7 +196,7 @@ public class ClassChoiceForm extends DSAbstractForm<Character> implements Abstra
                 Optional<CharacterClass> assignedClass = ClassUtil.getCharacterClass(getEntity(), chosenClass);
                 int classLevel = 1;
 
-                //show skills only if its a new class
+                // show skills only if its a new class
                 if (!assignedClass.isPresent()) {
                     classSkills.setVisible(true);
                     classSkills.setOptions(new ArrayList<Skill>(chosenClass.getBaseSkills()));
@@ -201,7 +206,7 @@ public class ClassChoiceForm extends DSAbstractForm<Character> implements Abstra
                     classLevel = assignedClass.get().getClassLevel() + 1;
                 }
 
-                //show/hide custom class fields
+                // show/hide custom class fields
                 Optional<ClassLevelBonus> classLevelBonusOpt = ClassUtil.getClassLevelBonus(chosenClass, classLevel);
                 if (classLevelBonusOpt.isPresent()) {
                     ClassLevelBonus classLevelBonus = classLevelBonusOpt.get();
@@ -237,26 +242,30 @@ public class ClassChoiceForm extends DSAbstractForm<Character> implements Abstra
                     divineDomain.setValue(backupDivineDomain);
                 }
 
-                //refresh class info
+                // refresh class info
                 classDescription.setReadOnly(false);
                 classDescription.setValue(chosenClass.getDescription());
                 classDescription.setReadOnly(true);
                 proficienciesLabel.withCaption(messages.getMessage("classStep.proficiencies.label"));
                 armorProficiencies.withCaption(messages.getMessage("classStep.proficiencies.armor.label"))
-                        .withContent(collectionConverter.convertToPresentation(chosenClass.getArmorProficiencies(), String.class, null));
+                        .withContent(collectionConverter.convertToPresentation(chosenClass.getArmorProficiencies(),
+                                String.class, null));
                 weaponProficiencies.withCaption(messages.getMessage("classStep.proficiencies.weapon.label"))
-                        .withContent(collectionConverter.convertToPresentation(chosenClass.getWeaponProficiencies(), String.class, null));
+                        .withContent(collectionConverter.convertToPresentation(chosenClass.getWeaponProficiencies(),
+                                String.class, null));
                 savingThrowProficiencies.withCaption(messages.getMessage("classStep.proficiencies.savingThrow.label"))
-                        .withContent(collectionConverter.convertToPresentation(chosenClass.getSavingThrowProficiencies(), String.class, null));
-                skillProficiencies.withCaption(messages.getMessage("classStep.proficiencies.skill.label"))
-                        .withContent(collectionConverter.convertToPresentation(chosenClass.getBaseSkills(), String.class, null));
+                        .withContent(collectionConverter
+                                .convertToPresentation(chosenClass.getSavingThrowProficiencies(), String.class, null));
+                skillProficiencies.withCaption(messages.getMessage("classStep.proficiencies.skill.label")).withContent(
+                        collectionConverter.convertToPresentation(chosenClass.getBaseSkills(), String.class, null));
                 classFeaturesLabel.withCaption(messages.getMessage("classStep.classFeatures.label"));
 
                 DescriptiveEntityCollectionToStringListConverter listConverter = new DescriptiveEntityCollectionToStringListConverter();
                 listConverter.setListType(ListType.UNORDERED);
                 listConverter.setUnorderedBullet(UnorderedListType.CIRCLE);
                 List<Feat> classFeaturesForLevel = ClassUtil.getClassFeaturesForLevel(chosenClass, classLevel);
-                classFeatures.withContent(listConverter.convertToPresentation(classFeaturesForLevel, String.class, null));
+                classFeatures
+                        .withContent(listConverter.convertToPresentation(classFeaturesForLevel, String.class, null));
 
             } else {
                 hideClassFields();
