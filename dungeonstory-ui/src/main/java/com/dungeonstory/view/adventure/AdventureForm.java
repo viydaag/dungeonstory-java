@@ -20,55 +20,55 @@ import com.vaadin.ui.FormLayout;
 
 public class AdventureForm extends DSAbstractForm<Adventure> {
 
-	private static final long serialVersionUID = 2692854965104730175L;
+    private static final long           serialVersionUID = 2692854965104730175L;
 
-	private MTextField name;
-	private MTextArea description;
-	private TypedSelect<Level> challengeRating;
-	private EnumSelect<AdventureStatus> status;
+    private MTextField                  name;
+    private MTextArea                   description;
+    private TypedSelect<Level>          challengeRating;
+    private EnumSelect<AdventureStatus> status;
 
-	private FormLayout layout;
+    private FormLayout                  layout;
 
-	private Button messageButton;
+    private Button                      messageButton;
 
-	public AdventureForm() {
+    public AdventureForm() {
+        super();
+    }
 
-	}
+    @Override
+    protected Component createContent() {
+        layout = new FormLayout();
 
-	@Override
-	protected Component createContent() {
-		layout = new FormLayout();
+        name = new MTextField("Titre");
+        description = new MTextArea("Description");
+        challengeRating = new TypedSelect<>(Level.class);
+        challengeRating.setCaption("Degré de difficulté");
+        challengeRating.setBeans(LevelService.getInstance().findAll());
+        status = new EnumSelect<>("Statut");
+        status.setBeans(Arrays.asList(AdventureStatus.values()));
+        layout.addComponents(name, description, challengeRating, status);
+        layout.addComponent(getToolbar());
 
-		name = new MTextField("Titre");
-		description = new MTextArea("Description");
-		challengeRating = new TypedSelect<>(Level.class);
-		challengeRating.setCaption("Degré de difficulté");
-		challengeRating.setBeans(LevelService.getInstance().findAll());
-		status = new EnumSelect<>("Statut");
-		status.setBeans(Arrays.asList(AdventureStatus.values()));
-		layout.addComponents(name, description, challengeRating, status);
-		layout.addComponent(getToolbar());
-		
-		messageButton = new Button("Messages", event -> {
-			EventBus.post(new NavigationEvent(AdventureView.URI + "/" + getEntity().getId()));
-		});
-		layout.addComponent(messageButton);
-		
-		return layout;
-	}
+        messageButton = new Button("Messages", event -> {
+            EventBus.post(new NavigationEvent(AdventureView.URI + "/" + getEntity().getId()));
+        });
+        layout.addComponent(messageButton);
 
-	@Override
-	public String toString() {
-		return "Aventures";
-	}
+        return layout;
+    }
 
-	@Override
-	public void afterSetEntity() {
-		super.afterSetEntity();
-		if (getEntity() != null) {
-			status.setVisible(getEntity().getId() != null);
-			messageButton.setVisible(getEntity().getId() != null);
-		}
-	}
+    @Override
+    public String toString() {
+        return "Aventures";
+    }
+
+    @Override
+    public void afterSetEntity() {
+        super.afterSetEntity();
+        if (getEntity() != null) {
+            status.setVisible(getEntity().getId() != null);
+            messageButton.setVisible(getEntity().getId() != null);
+        }
+    }
 
 }
