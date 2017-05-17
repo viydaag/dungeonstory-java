@@ -155,7 +155,7 @@ public class Race extends AbstractTimestampEntity implements Serializable {
     }
 
     public Race(String name) {
-        super();
+        this();
         this.name = name;
     }
 

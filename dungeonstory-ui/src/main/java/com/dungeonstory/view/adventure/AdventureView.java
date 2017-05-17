@@ -5,22 +5,16 @@ import java.util.HashMap;
 import org.vaadin.dialogs.ConfirmDialog;
 
 import com.dungeonstory.authentication.CurrentUser;
-import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.Adventure;
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.Message;
 import com.dungeonstory.backend.data.User;
-import com.dungeonstory.backend.service.DataService;
+import com.dungeonstory.backend.service.AdventureDataService;
+import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.backend.service.UserDataService;
-import com.dungeonstory.backend.service.impl.AdventureService;
 import com.dungeonstory.backend.service.impl.CharacterService;
-import com.dungeonstory.backend.service.impl.UserService;
-import com.dungeonstory.backend.service.mock.MockAdventureService;
-import com.dungeonstory.backend.service.mock.MockUserService;
 import com.dungeonstory.event.EventBus;
 import com.dungeonstory.event.NavigationEvent;
-import com.dungeonstory.event.ViewAddedEvent;
-import com.dungeonstory.event.ViewAddedEvent.ViewDestination;
 import com.dungeonstory.event.ViewRemovedEvent;
 import com.dungeonstory.util.ViewConfig;
 import com.vaadin.navigator.View;
@@ -40,7 +34,7 @@ public class AdventureView extends VerticalLayout implements View {
     public static final String              URI              = "adventure";
 
     private Adventure                       adventure        = null;
-    private DataService<Adventure, Long>    service;
+    private AdventureDataService            service;
     private UserDataService                 userService;
     private HashMap<Long, MessageComponent> messageComponentMap;
 
@@ -53,13 +47,9 @@ public class AdventureView extends VerticalLayout implements View {
     private MessageForm                     form;
 
     public AdventureView() {
-        if (Configuration.getInstance().isMock()) {
-            service = MockAdventureService.getInstance();
-            userService = MockUserService.getInstance();
-        } else {
-            service = AdventureService.getInstance();
-            userService = UserService.getInstance();
-        }
+        service = Services.getAdventureService();
+        userService = Services.getUserService();
+        
         buttonLayout = new HorizontalLayout();
         buttonLayout.setWidth(100, Unit.PERCENTAGE);
         messageLayout = new VerticalLayout();
@@ -91,8 +81,8 @@ public class AdventureView extends VerticalLayout implements View {
                     quitAdventureButton = new Button("Quitter l'aventure");
                     quitAdventureButton.addStyleName(ValoTheme.BUTTON_DANGER);
                     quitAdventureButton.addClickListener(e -> {
-                        ConfirmDialog.show(getUI(), "Quitter l'aventure", "Êtes-vous certain de quitter cette aventure?",
-                                "Oui", "Non", new Runnable() {
+                        ConfirmDialog.show(getUI(), "Quitter l'aventure",
+                                "Êtes-vous certain de quitter cette aventure?", "Oui", "Non", new Runnable() {
                                     @Override
                                     public void run() {
                                         User user = CurrentUser.get();
@@ -104,28 +94,14 @@ public class AdventureView extends VerticalLayout implements View {
                                     }
                                 });
                     });
-                    
+
                     buttonLayout.addComponents(newMessageButton, quitAdventureButton);
                     buttonLayout.setComponentAlignment(quitAdventureButton, Alignment.MIDDLE_RIGHT);
                 }
-                
-
-                
 
                 addComponents(title, description, buttonLayout, messageLayout);
             }
         }
-
-        // messageLayout.addComponentDetachListener(new
-        // ComponentDetachListener() {
-        //
-        // @Override
-        // public void componentDetachedFromContainer(ComponentDetachEvent
-        // event) {
-        // System.out.println(event);
-        //
-        // }
-        // });
 
     }
 
@@ -149,7 +125,7 @@ public class AdventureView extends VerticalLayout implements View {
             adventure.addMessage(message);
             adventure = service.saveOrUpdate(adventure);
 
-            Message savedMessage = adventure.getLastPersistedMessage();
+            Message savedMessage = service.getLastPersistedMessage(adventure);
             MessageComponent component = new MessageComponent(savedMessage, this);
             messageLayout.addComponentAsFirst(component);
             messageComponentMap.put(savedMessage.getId(), component);

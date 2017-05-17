@@ -19,7 +19,8 @@ import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.data.DSClass.SpellCastingType;
 import com.dungeonstory.backend.data.Spell;
 import com.dungeonstory.backend.data.util.ClassUtil;
-import com.dungeonstory.backend.service.impl.SpellService;
+import com.dungeonstory.backend.service.Services;
+import com.dungeonstory.backend.service.SpellDataService;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.i18n.Messages;
 import com.dungeonstory.util.layout.VerticalSpacedLayout;
@@ -47,7 +48,7 @@ public class SpellChoiceForm extends DSAbstractForm<Character> implements Abstra
 
     private static final long serialVersionUID = 7418266123213990672L;
 
-    private SpellService spellService = SpellService.getInstance();
+    private SpellDataService spellService = Services.getSpellService();
 
     private DSClass classe;
 

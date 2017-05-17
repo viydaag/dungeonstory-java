@@ -6,10 +6,9 @@ import javax.security.auth.login.LoginException;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
-import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.User;
+import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.backend.service.UserDataService;
-import com.dungeonstory.backend.service.mock.MockUserService;
 
 public class LoginService implements Serializable {
     
@@ -18,11 +17,7 @@ public class LoginService implements Serializable {
     private UserDataService service = null;
     
     public LoginService() {
-        if (Configuration.getInstance().isMock()) {
-            service = MockUserService.getInstance();
-        } else {
-            service = UserService.getInstance();
-        }
+        service = Services.getUserService();
     }
 
     public User login(String username, String password) throws LoginException {
