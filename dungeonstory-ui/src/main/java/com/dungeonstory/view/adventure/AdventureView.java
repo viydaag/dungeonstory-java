@@ -29,27 +29,27 @@ import com.vaadin.ui.themes.ValoTheme;
 @ViewConfig(displayName = "", uri = AdventureView.URI)
 public class AdventureView extends VerticalLayout implements View {
 
-    private static final long               serialVersionUID = 4538696780640432869L;
+    private static final long serialVersionUID = 4538696780640432869L;
 
-    public static final String              URI              = "adventure";
+    public static final String URI = "adventure";
 
-    private Adventure                       adventure        = null;
+    private Adventure                       adventure = null;
     private AdventureDataService            service;
     private UserDataService                 userService;
     private HashMap<Long, MessageComponent> messageComponentMap;
 
-    private Label                           title;
-    private Label                           description;
-    private Button                          newMessageButton;
-    private Button                          quitAdventureButton;
-    private HorizontalLayout                buttonLayout;
-    private VerticalLayout                  messageLayout;
-    private MessageForm                     form;
+    private Label            title;
+    private Label            description;
+    private Button           newMessageButton;
+    private Button           quitAdventureButton;
+    private HorizontalLayout buttonLayout;
+    private VerticalLayout   messageLayout;
+    private MessageForm      form;
 
     public AdventureView() {
         service = Services.getAdventureService();
         userService = Services.getUserService();
-        
+
         buttonLayout = new HorizontalLayout();
         buttonLayout.setWidth(100, Unit.PERCENTAGE);
         messageLayout = new VerticalLayout();
@@ -81,8 +81,8 @@ public class AdventureView extends VerticalLayout implements View {
                     quitAdventureButton = new Button("Quitter l'aventure");
                     quitAdventureButton.addStyleName(ValoTheme.BUTTON_DANGER);
                     quitAdventureButton.addClickListener(e -> {
-                        ConfirmDialog.show(getUI(), "Quitter l'aventure",
-                                "Êtes-vous certain de quitter cette aventure?", "Oui", "Non", new Runnable() {
+                        ConfirmDialog.show(getUI(), "Quitter l'aventure", "Êtes-vous certain de quitter cette aventure?", "Oui", "Non",
+                                new Runnable() {
                                     @Override
                                     public void run() {
                                         User user = CurrentUser.get();

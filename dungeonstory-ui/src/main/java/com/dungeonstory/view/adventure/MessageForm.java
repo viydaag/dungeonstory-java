@@ -8,6 +8,10 @@ import com.vaadin.ui.RichTextArea;
 
 public class MessageForm extends DSAbstractForm<Message> {
 
+    public MessageForm() {
+        super(Message.class);
+    }
+
     private static final long serialVersionUID = -1798357547943670210L;
     private RichTextArea      text;
 
@@ -16,7 +20,6 @@ public class MessageForm extends DSAbstractForm<Message> {
         FormLayout layout = new FormLayout();
         text = new RichTextArea("Message");
         text.setSizeFull();
-        text.setNullRepresentation("");
         layout.addComponent(text);
         layout.addComponent(getToolbar());
         return layout;
