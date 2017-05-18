@@ -13,7 +13,6 @@ import org.vaadin.viritin.fields.IntegerField;
 import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.v7.fields.ElementCollectionTable;
 import org.vaadin.viritin.v7.fields.TypedSelect;
-import org.vaadin.viritin.v7.fields.config.ComboBoxConfig;
 
 import com.dungeonstory.FormCheckBox;
 import com.dungeonstory.backend.Configuration;
@@ -52,6 +51,7 @@ import com.dungeonstory.backend.service.mock.MockSpellService;
 import com.dungeonstory.backend.service.mock.MockWeaponTypeService;
 import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.util.field.DSSubSetSelector2;
+import com.dungeonstory.util.field.ElementCollectionGrid;
 import com.dungeonstory.util.field.LevelBonusCollectionField;
 import com.dungeonstory.util.field.LevelBonusCollectionField.ClassLevelBonusRow;
 import com.dungeonstory.util.field.LevelSpellsCollectionField;
@@ -88,7 +88,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     private IntegerField                                                                 nbChosenSkills;
     private DSSubSetSelector2<Skill, Set<Skill>>                                         baseSkills;
     private LevelBonusCollectionField                                                    levelBonuses;
-    private ElementCollectionTable<ClassLevelFeature>                                    classFeatures;
+    private ElementCollectionGrid<ClassLevelFeature> classFeatures;
     private DSSubSetSelector2<Spell, Set<Spell>>                                         spells;
     private ElementCollectionTable<ClassEquipment>                                       startingEquipment;
 
@@ -115,9 +115,14 @@ public class ClassForm extends DSAbstractForm<DSClass> {
 
     private boolean init = false;
 
+    //    public static class ClassLevelFeatureRow {
+    //        TypedSelect<Level> level = new TypedSelect<Level>();
+    //        TypedSelect<Feat>  feat  = new TypedSelect<Feat>().asComboBoxType(new ComboBoxConfig().withPageLength(20)).withFullWidth();
+    //    }
+
     public static class ClassLevelFeatureRow {
-        TypedSelect<Level> level = new TypedSelect<Level>();
-        TypedSelect<Feat>  feat  = new TypedSelect<Feat>().asComboBoxType(new ComboBoxConfig().withPageLength(20)).withFullWidth();
+        ComboBox<Level> level = new ComboBox<Level>();
+        ComboBox<Feat>  feat  = new ComboBox<Feat>();
     }
 
     public static class ClassEquipmentRow {
@@ -266,11 +271,15 @@ public class ClassForm extends DSAbstractForm<DSClass> {
                     return row;
                 });
 
-        classFeatures = new ElementCollectionTable<ClassLevelFeature>(ClassLevelFeature.class, ClassLevelFeatureRow.class)
+        classFeatures = new ElementCollectionGrid<ClassLevelFeature>(ClassLevelFeature.class, ClassLevelFeatureRow.class)
                 .withCaption("Dons de classe").withEditorInstantiator(() -> {
                     ClassLevelFeatureRow row = new ClassLevelFeatureRow();
-                    row.level.setOptions(levelService.findAll());
-                    row.feat.setOptions(featService.findAllClassFeatures());
+                    //                    row.level.setOptions(levelService.findAll());
+                    //                    row.feat.setOptions(featService.findAllClassFeatures());
+                    row.level.setItems(levelService.findAll());
+                    row.feat.setItems(featService.findAllClassFeatures());
+                    row.feat.setPageLength(20);
+                    row.feat.setWidth(100, Unit.PERCENTAGE);
                     return row;
                 });
         classFeatures.setPropertyHeader("level", "Niveau");
@@ -372,8 +381,8 @@ public class ClassForm extends DSAbstractForm<DSClass> {
             levelBonuses.clearForNew();
         }
         if (getEntity() != null) {
-            classFeatures.getTable().setPageLength(classFeatures.getTable().size());
-            classFeatures.setHeight("700px");
+            //            classFeatures.getGrid().setHeightByRows(classFeatures.getValue().size());
+            //            classFeatures.setHeight("700px");
         }
         refreshLevelBonusCheckBoxVisibility();
     }

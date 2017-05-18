@@ -28,6 +28,7 @@ import com.dungeonstory.backend.service.mock.MockLevelService;
 import com.dungeonstory.backend.service.mock.MockSpellService;
 import com.dungeonstory.form.ClassForm.ClassLevelFeatureRow;
 import com.dungeonstory.ui.component.DSTextArea;
+import com.dungeonstory.util.field.ElementCollectionGrid;
 import com.dungeonstory.util.field.LevelSpellsCollectionField;
 import com.dungeonstory.util.field.LevelSpellsCollectionField.LevelSpellsRow;
 import com.vaadin.data.HasValue.ValueChangeEvent;
@@ -48,7 +49,7 @@ public class ClassSpecializationForm extends DSAbstractForm<ClassSpecialization>
     private ComboBox<Ability>                                         spellCastingAbility;
     private LevelSpellsCollectionField<ClassSpecializationSpellSlots> spellSlots;
     private ElementCollectionTable<ClassSpecLevelSpell>               classSpecSpells;
-    private ElementCollectionTable<ClassSpecLevelFeature>             classSpecFeatures;
+    private ElementCollectionGrid<ClassSpecLevelFeature>              classSpecFeatures;
 
     private DataService<Level, Long>   levelService   = null;
     private FeatDataService            featService    = null;
@@ -122,11 +123,11 @@ public class ClassSpecializationForm extends DSAbstractForm<ClassSpecialization>
         classSpecSpells.setPropertyHeader("spell", "Sort");
         classSpecSpells.setWidth("80%");
 
-        classSpecFeatures = new ElementCollectionTable<ClassSpecLevelFeature>(ClassSpecLevelFeature.class,
+        classSpecFeatures = new ElementCollectionGrid<ClassSpecLevelFeature>(ClassSpecLevelFeature.class,
                 ClassSpecLevelFeatureRow.class).withCaption("Dons de spécialisation").withEditorInstantiator(() -> {
                     ClassLevelFeatureRow row = new ClassLevelFeatureRow();
-                    row.level.setOptions(levelService.findAll());
-                    row.feat.setOptions(featService.findAllClassFeatures());
+                    row.level.setItems(levelService.findAll());
+                    row.feat.setItems(featService.findAllClassFeatures());
                     return row;
                 });
         classSpecFeatures.setPropertyHeader("level", "Niveau");
