@@ -1,5 +1,10 @@
 package com.dungeonstory.view;
 
+import java.util.stream.Collectors;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+
 import com.dungeonstory.backend.repository.Entity;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.form.DSAbstractForm;
@@ -137,6 +142,11 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalLayout 
             closeForm();
 
             Notification.show("Saved!", Type.HUMANIZED_MESSAGE);
+        } catch (ConstraintViolationException e) {
+            String message = e.getConstraintViolations().stream().map(ConstraintViolation::getMessage).collect(Collectors.joining("\n"));
+            Notification.show("Failed! " + message, Type.ERROR_MESSAGE);
+            listEntries();
+            throw e;
         } catch (Exception e) {
             Notification.show("Failed! " + e.getLocalizedMessage(), Type.ERROR_MESSAGE);
             listEntries();
