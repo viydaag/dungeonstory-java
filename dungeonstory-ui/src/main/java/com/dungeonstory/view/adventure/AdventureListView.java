@@ -21,17 +21,16 @@ import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.AbstractCrudView;
 import com.dungeonstory.view.grid.DSGrid;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.ui.Grid.Column;
 import com.vaadin.ui.renderers.ButtonRenderer;
 
 @ViewConfig(displayName = "Aventures", uri = AdventureListView.URI)
 public class AdventureListView extends AbstractCrudView<Adventure> {
 
-    private static final long  serialVersionUID = -2282322292623232916L;
+    private static final long serialVersionUID = -2282322292623232916L;
 
-    public static final String URI              = "adventures";
+    public static final String URI = "adventures";
 
-    private UserDataService    userService;
+    private UserDataService userService;
 
     public AdventureListView() {
         super();
@@ -49,27 +48,25 @@ public class AdventureListView extends AbstractCrudView<Adventure> {
         setFilterAllowed(false);
 
         if (CurrentUser.get().getAdventure() == null) {
-            Column joinColumn = grid.getColumn("join");
+
             // TODO : replace with Component Renderer from Vaadin 8.1
             // TODO : button is visible only if adventure is OPENED
-            joinColumn.setRenderer(new ButtonRenderer(e -> {
-                ConfirmDialog.show(getUI(), "Joindre l'aventure", "Êtes-vous certain de joindre cette aventure", "Oui",
-                        "Non", new Runnable() {
-                            @Override
-                            public void run() {
-                                User user = CurrentUser.get();
-                                Adventure adventure = (Adventure) e.getItemId();
-                                user.setAdventure(adventure);
-                                user = userService.update(user);
-                                CurrentUser.set(user);
-                                grid.removeColumn("join");
-                                EventBus.post(new ViewAddedEvent(AdventureView.class, ViewDestination.MENUBAR,
-                                        "Mon aventure", AdventureView.URI + "/" + adventure.getId()));
-                            }
-                        });
-            }));
-        } else {
-            grid.removeColumn("join");
+            grid.addColumn(adventure -> "Joindre", new ButtonRenderer<Adventure>(clickEvent -> {
+                ConfirmDialog.show(getUI(), "Joindre l'aventure", "Êtes-vous certain de joindre cette aventure", "Oui", "Non", new Runnable() {
+                    @Override
+                    public void run() {
+                        User user = CurrentUser.get();
+                        Adventure adventure = clickEvent.getItem();
+                        user.setAdventure(adventure);
+                        user = userService.update(user);
+                        CurrentUser.set(user);
+                        grid.removeColumn("join");
+                        EventBus.post(new ViewAddedEvent(AdventureView.class, ViewDestination.MENUBAR, "Mon aventure",
+                                AdventureView.URI + "/" + adventure.getId()));
+                    }
+                });
+            })).setId("join");
+
         }
 
         super.enter(event);
@@ -102,21 +99,17 @@ public class AdventureListView extends AbstractCrudView<Adventure> {
     }
 
     @Override
-    public void entrySelected() {
+    public void entrySelected(Adventure entity) {
         User user = CurrentUser.get();
-        Adventure adventure = grid.getSelectedRow();
-        if (adventure != null) {
-            if (adventure.getCreator().equals(user)) {
-                super.entrySelected();
+        if (entity != null) {
+            if (entity.getCreator().equals(user)) {
+                super.entrySelected(entity);
             } else {
                 // go to messages
-                if (grid.getSelectedRow() != null) {
-                    EventBus.post(new NavigationEvent(AdventureView.URI + "/" + grid.getSelectedRow().getId()));
-                    grid.deselectAll();
-                }
+                EventBus.post(new NavigationEvent(AdventureView.URI + "/" + entity.getId()));
+                grid.deselectAll();
             }
-        } else {
-            form.setEntity(null);
         }
+        form.setEntity(entity);
     }
 }

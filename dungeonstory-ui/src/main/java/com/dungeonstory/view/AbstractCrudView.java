@@ -85,37 +85,14 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalLayout 
     }
 
     protected void initGrid() {
+        grid.setDataProvider(dataProvider);
         grid.addSelectionListener(selectionEvent -> {
             entrySelected(selectionEvent.getFirstSelectedItem().orElse(null));
         });
     }
 
     protected void listEntries(String text) {
-
         dataProvider.setFilter(text);
-        /*if (isFilterAllowed()) {
-        	if (Configuration.getInstance().isMock()) {
-        		grid.setRows(service.findAllBy(getFilterBy(), text));
-        	} else {
-                grid.lazyLoadFrom((int firstRow, boolean[] sortAscending, String[] property) -> {
-                    String[] order = new String[sortAscending.length];
-                    for (int i = 0; i < sortAscending.length; i++) {
-                        order[i] = sortAscending[i] ? "ASC" : "DESC";
-                    }
-                    return service.findAllByLikePagedOrderBy(getFilterBy(), text, firstRow, LazyList.DEFAULT_PAGE_SIZE,
-                            property, order);
-                }, () -> service.countWithFilter(getFilterBy(), text));
-        	}
-        } else {
-        	if (Configuration.getInstance().isMock()) {
-        		grid.setRows(service.findAll());
-        	} else {
-        		grid.lazyLoadFrom((int firstRow, boolean sortAscending, String property) -> service.findAllPaged(firstRow,
-                        LazyList.DEFAULT_PAGE_SIZE), () -> (int) service.count());
-        	}
-            
-        }*/
-        //        grid.setRows(service.findAll());
     }
 
     protected void listEntries() {
@@ -153,14 +130,11 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalLayout 
 
         try {
             //save to database
-            //            service.saveOrUpdate(entity);
             dataProvider.save(entity);
 
             //refresh ui
             grid.deselectAll();
             closeForm();
-            //        grid.refresh(entity);
-            //            grid.getDataProvider().refreshAll();
 
             Notification.show("Saved!", Type.HUMANIZED_MESSAGE);
         } catch (Exception e) {
@@ -181,11 +155,6 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalLayout 
 
     @Override
     public void entryReset(T entity) {
-        //        T original = dataProvider.get(entity.getId());
-        //        if (original == null) {
-        //            original = service.create();
-        //        }
-        //        form.setEntity(original);
         boolean isNew = dataProvider.refresh(entity);
         if (isNew) {
             entity = service.create();
@@ -202,11 +171,6 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalLayout 
     public void entrySelected(T entity) {
         if (form != null) {
             form.setEntity(entity);
-            //            if (grid.getSelectionModel().getFirstSelectedItem().isPresent()) {
-            //                form.setEntity(grid.getSelectionModel().getFirstSelectedItem().get());
-            //            } else {
-            //                form.setEntity(null);
-            //            }
 
             if (isFormPopup()) {
                 form.openInModalPopup();
@@ -227,9 +191,7 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalLayout 
     public void deleteSelected(T entity) {
         try {
             dataProvider.delete(entity);
-            //            service.delete(entity);
             closeForm();
-            //            grid.getDataProvider().refreshAll();
         } catch (Exception e) {
             Notification.show("Erreur suppression : soit les données n'existent pas ou ils sont utilisées sur d'autres objets", Type.ERROR_MESSAGE);
         }

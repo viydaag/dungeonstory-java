@@ -9,7 +9,7 @@ import com.dungeonstory.authentication.CurrentUser;
 import com.dungeonstory.backend.data.Message;
 import com.dungeonstory.util.DSTheme;
 import com.vaadin.server.FileResource;
-import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
@@ -28,7 +28,6 @@ public class MessageComponent extends CustomComponent {
         panel.setWidth(100, Unit.PERCENTAGE);
 
         HorizontalLayout layout = new HorizontalLayout();
-        layout.setSpacing(true);
         layout.setMargin(true);
         layout.setWidth(100, Unit.PERCENTAGE);
 
