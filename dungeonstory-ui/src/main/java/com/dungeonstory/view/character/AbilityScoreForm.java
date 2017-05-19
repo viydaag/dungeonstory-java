@@ -8,10 +8,10 @@ import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.i18n.Messages;
-import com.dungeonstory.util.layout.GridSpacedLayout;
-import com.dungeonstory.util.layout.VerticalSpacedLayout;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.VerticalLayout;
 
 public abstract class AbilityScoreForm extends DSAbstractForm<Character> implements AbstractForm.SavedHandler<Character> {
 
@@ -31,13 +31,13 @@ public abstract class AbilityScoreForm extends DSAbstractForm<Character> impleme
     protected MLabel wisdomLabel;
     protected MLabel charismaLabel;
 
-    protected IntegerField         pointsToSpend;
-    protected GridSpacedLayout     gridLayout;
-    protected VerticalSpacedLayout abilityLayout;
-    private VerticalSpacedLayout   layout;
+    protected IntegerField   pointsToSpend;
+    protected GridLayout     gridLayout;
+    protected VerticalLayout abilityLayout;
+    private VerticalLayout   layout;
 
     public AbilityScoreForm() {
-        super();
+        super(Character.class);
         setSavedHandler(this);
     }
 
@@ -46,24 +46,22 @@ public abstract class AbilityScoreForm extends DSAbstractForm<Character> impleme
 
         Messages messages = Messages.getInstance();
 
-        layout = new VerticalSpacedLayout();
-        abilityLayout = new VerticalSpacedLayout();
+        layout = new VerticalLayout();
+        abilityLayout = new VerticalLayout();
 
         pointsToSpend = new IntegerField(messages.getMessage("abilityScoreStep.points.label")).withWidth("50px");
 
         if (Configuration.getInstance().isDebug()) {
             Button assignAll = new Button("assign");
             assignAll.addClickListener(event -> {
-                pointsToSpend.setReadOnly(false);
                 pointsToSpend.setValue(0);
-                pointsToSpend.setReadOnly(true);
-                getFieldGroup().setBeanModified(true);
-                onFieldGroupChange(getFieldGroup());
+                adjustButtons();
             });
             abilityLayout.addComponent(assignAll);
         }
 
-        gridLayout = new GridSpacedLayout(5, 7);
+        gridLayout = new GridLayout(5, 7);
+        gridLayout.setSpacing(true);
         gridLayout.addComponent(new MLabel(messages.getMessage("abilityScoreStep.ability.label")), 0, 0);
         gridLayout.addComponent(new MLabel(messages.getMessage("abilityScoreStep.score.label")), 1, 0);
 
@@ -109,14 +107,19 @@ public abstract class AbilityScoreForm extends DSAbstractForm<Character> impleme
 
     @Override
     protected void adjustSaveButtonState() {
-        if (isEagerValidation() && isBound()) {
-            boolean beanModified = getFieldGroup().isBeanModified();
+        //        if (isEagerValidation() && isBound()) {
+        //            boolean beanModified = getFieldGroup().isBeanModified();
+        //            boolean allPointsSpent = pointsToSpend.getValue() == 0;
+        //            getSaveButton().setEnabled(beanModified && allPointsSpent && isValid());
+        //        }
+        if (isBound()) {
+            boolean valid = getBinder().isValid();
             boolean allPointsSpent = pointsToSpend.getValue() == 0;
-            getSaveButton().setEnabled(beanModified && allPointsSpent && isValid());
+            getSaveButton().setEnabled(allPointsSpent && valid);
         }
     }
 
-    public VerticalSpacedLayout getLayout() {
+    public VerticalLayout getLayout() {
         return layout;
     }
 

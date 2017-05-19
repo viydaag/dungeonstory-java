@@ -1,9 +1,9 @@
 package com.dungeonstory.client;
 
+import com.dungeonstory.FormCheckBox;
 import com.vaadin.client.communication.StateChangeEvent;
 import com.vaadin.client.ui.checkbox.CheckBoxConnector;
 import com.vaadin.shared.ui.Connect;
-import com.dungeonstory.FormCheckBox;
 
 @Connect(FormCheckBox.class)
 public class FormCheckBoxConnector extends CheckBoxConnector {

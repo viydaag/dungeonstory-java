@@ -1,9 +1,9 @@
 package com.dungeonstory.form;
 
-import org.vaadin.viritin.fields.MTextArea;
 import org.vaadin.viritin.fields.MTextField;
 
 import com.dungeonstory.backend.data.DamageType;
+import com.dungeonstory.ui.component.DSTextArea;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextArea;
@@ -17,7 +17,7 @@ public class DamageTypeForm extends DSAbstractForm<DamageType> {
     private TextArea  description;
 
     public DamageTypeForm() {
-        super();
+        super(DamageType.class);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class DamageTypeForm extends DSAbstractForm<DamageType> {
         FormLayout layout = new FormLayout();
 
         name = new MTextField("Nom");
-        description = new MTextArea("Description").withFullWidth();
+        description = new DSTextArea("Description").withFullWidth();
 
         layout.addComponent(name);
         layout.addComponent(description);

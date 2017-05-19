@@ -1,11 +1,7 @@
 package com.dungeonstory.form;
 
-import org.vaadin.viritin.fields.EnumSelect;
 import org.vaadin.viritin.fields.IntegerField;
-import org.vaadin.viritin.fields.MTextArea;
 import org.vaadin.viritin.fields.MTextField;
-import org.vaadin.viritin.fields.MValueChangeEvent;
-import org.vaadin.viritin.fields.TypedSelect;
 
 import com.dungeonstory.FormCheckBox;
 import com.dungeonstory.backend.Configuration;
@@ -23,41 +19,45 @@ import com.dungeonstory.backend.service.impl.WeaponTypeService;
 import com.dungeonstory.backend.service.mock.MockArmorTypeService;
 import com.dungeonstory.backend.service.mock.MockDamageTypeService;
 import com.dungeonstory.backend.service.mock.MockWeaponTypeService;
+import com.dungeonstory.ui.component.DSTextArea;
+import com.dungeonstory.ui.component.EnumComboBox;
 import com.dungeonstory.util.field.DoubleField;
-import com.vaadin.data.Property.ValueChangeEvent;
+import com.google.common.base.Optional;
+import com.vaadin.data.HasValue.ValueChangeEvent;
+import com.vaadin.event.selection.SingleSelectionEvent;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
-import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 
 public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
 
     private static final long serialVersionUID = -5986264153168207722L;
 
-    private TextField                 name;
-    private EnumSelect<EquipmentType> type;
-    private TextArea                  description;
-    private DoubleField               weight;
-    private FormCheckBox              isPurchasable;
-    private FormCheckBox              isSellable;
-    private FormCheckBox              isMagical;
-    private IntegerField              basePrice;
+    private TextField                   name;
+    private EnumComboBox<EquipmentType> type;
+    private DSTextArea                  description;
+    private DoubleField                 weight;
+    private FormCheckBox                isPurchasable;
+    private FormCheckBox                isSellable;
+    private FormCheckBox                isMagical;
+    private IntegerField                basePrice;
 
     // Armor fields
-    private TypedSelect<ArmorType> armorType;
-    private IntegerField           armorClass;
-    private IntegerField           magicalAcBonus;
+    private ComboBox<ArmorType> armorType;
+    private IntegerField        armorClass;
+    private IntegerField        magicalAcBonus;
 
     // Weapon fields
-    private TypedSelect<WeaponType> weaponType;
-    private TextField               oneHandDamage;
-    private TextField               twoHandDamage;
-    private TextField               additionalDamage;
-    private TypedSelect<DamageType> additionalDamageType;
-    private IntegerField            magicalBonus;
-    
+    private ComboBox<WeaponType> weaponType;
+    private TextField            oneHandDamage;
+    private TextField            twoHandDamage;
+    private TextField            additionalDamage;
+    private ComboBox<DamageType> additionalDamageType;
+    private IntegerField         magicalBonus;
+
     // Tool fields
-    private EnumSelect<ToolType> toolType;
+    private EnumComboBox<ToolType> toolType;
 
     private EquipmentType oldType = null;
 
@@ -66,7 +66,7 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
     private DataService<DamageType, Long> damageTypeService;
 
     public EquipmentForm() {
-        super();
+        super((Class<T>) Equipment.class);
         if (Configuration.getInstance().isMock()) {
             armorTypeService = MockArmorTypeService.getInstance();
             weaponTypeService = MockWeaponTypeService.getInstance();
@@ -88,31 +88,31 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
         FormLayout layout = new FormLayout();
 
         name = new MTextField("Nom").withWidth("50%");
-        type = new EnumSelect<EquipmentType>("Type");
-        description = new MTextArea("Description").withFullWidth().withRows(10);
+        type = new EnumComboBox<EquipmentType>(EquipmentType.class, "Type");
+        description = new DSTextArea("Description").withFullWidth().withRows(10);
         weight = new DoubleField("Poids (en lbs)");
         isPurchasable = new FormCheckBox("Peut être acheté");
         isSellable = new FormCheckBox("Peut être vendu");
         isMagical = new FormCheckBox("Magique");
         basePrice = new IntegerField("Prix de base");
 
-        armorType = new TypedSelect<ArmorType>("Type d'armure", armorTypeService.findAll());
+        armorType = new ComboBox<ArmorType>("Type d'armure", armorTypeService.findAll());
         armorClass = new IntegerField("Classe d'armure bonus");
         magicalAcBonus = new IntegerField("Classe d'armure magique bonus");
 
-        weaponType = new TypedSelect<WeaponType>("Type d'arme", weaponTypeService.findAll());
+        weaponType = new ComboBox<WeaponType>("Type d'arme", weaponTypeService.findAll());
         oneHandDamage = new MTextField("Dommages à une main");
         twoHandDamage = new MTextField("Dommages à deux main");
         additionalDamage = new MTextField("Dommages additionnels");
-        additionalDamageType = new TypedSelect<DamageType>("Type dommages additionnels", damageTypeService.findAll());
+        additionalDamageType = new ComboBox<DamageType>("Type dommages additionnels", damageTypeService.findAll());
         magicalBonus = new IntegerField("Bonus magique");
-        
-        toolType = new EnumSelect<ToolType>("Type d'outil");
+
+        toolType = new EnumComboBox<ToolType>(ToolType.class, "Type d'outil");
 
         isMagical.addValueChangeListener(this::isMagicalChange);
-        type.addMValueChangeListener(this::typeChange);
-        weaponType.addMValueChangeListener(this::weaponTypeChange);
-        armorType.addMValueChangeListener(this::armorTypeChange);
+        type.addSelectionListener(this::typeChange);
+        weaponType.addSelectionListener(this::weaponTypeChange);
+        armorType.addSelectionListener(this::armorTypeChange);
 
         layout.addComponent(name);
         layout.addComponent(type);
@@ -122,8 +122,7 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
         layout.addComponent(isMagical);
 
         layout.addComponents(armorType, armorClass, magicalAcBonus);
-        layout.addComponents(weaponType, oneHandDamage, twoHandDamage, additionalDamage, additionalDamageType,
-                magicalBonus);
+        layout.addComponents(weaponType, oneHandDamage, twoHandDamage, additionalDamage, additionalDamageType, magicalBonus);
         layout.addComponent(toolType);
 
         layout.addComponent(weight);
@@ -135,12 +134,12 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
 
         return layout;
     }
-    
-    public void isMagicalChange(ValueChangeEvent event) {
+
+    public void isMagicalChange(ValueChangeEvent<Boolean> event) {
         if (type == null) {
-            magicalAcBonus.setValue(null);
+            magicalAcBonus.clear();
             magicalAcBonus.setVisible(false);
-            magicalBonus.setValue(null);
+            magicalBonus.clear();
             magicalBonus.setVisible(false);
         } else {
             if (type.getValue() == EquipmentType.ARMOR) {
@@ -153,13 +152,13 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
         }
     }
 
-    public void typeChange(MValueChangeEvent<EquipmentType> event) {
+    public void typeChange(SingleSelectionEvent<EquipmentType> event) {
         EquipmentType type = event.getValue();
         initEntity(type);
         isMagicalChange(null);
     }
 
-    public void armorTypeChange(MValueChangeEvent<ArmorType> event) {
+    public void armorTypeChange(SingleSelectionEvent<ArmorType> event) {
         ArmorType currentarmorType = event.getValue();
         if (currentarmorType != null) {
             description.setValue(currentarmorType.getDescription());
@@ -169,26 +168,24 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
         }
     }
 
-    public void weaponTypeChange(MValueChangeEvent<WeaponType> event) {
+    public void weaponTypeChange(SingleSelectionEvent<WeaponType> event) {
         WeaponType currentweaponType = event.getValue();
         if (currentweaponType != null) {
-            if (currentweaponType.getHandleType() == HandleType.ONE_HANDED
-                    || currentweaponType.getHandleType() == HandleType.VERSATILE) {
+            if (currentweaponType.getHandleType() == HandleType.ONE_HANDED || currentweaponType.getHandleType() == HandleType.VERSATILE) {
                 oneHandDamage.setVisible(true);
                 oneHandDamage.setValue(currentweaponType.getOneHandBaseDamage());
                 if (currentweaponType.getHandleType() == HandleType.ONE_HANDED) {
                     twoHandDamage.setVisible(false);
                 }
             }
-            if (currentweaponType.getHandleType() == HandleType.TWO_HANDED
-                    || currentweaponType.getHandleType() == HandleType.VERSATILE) {
+            if (currentweaponType.getHandleType() == HandleType.TWO_HANDED || currentweaponType.getHandleType() == HandleType.VERSATILE) {
                 twoHandDamage.setVisible(true);
                 twoHandDamage.setValue(currentweaponType.getTwoHandBaseDamage());
                 if (currentweaponType.getHandleType() == HandleType.TWO_HANDED) {
                     oneHandDamage.setVisible(false);
                 }
             }
-            description.setValue(currentweaponType.getDescription());
+            description.setValue(Optional.fromNullable(currentweaponType.getDescription()).or(""));
             weight.setValue(currentweaponType.getBaseWeight());
             basePrice.setValue(currentweaponType.getBasePrice());
         }
@@ -204,11 +201,11 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
             Equipment equip;
             try {
                 equip = type.getEquipment();
-                
+
                 showArmorFields(type == EquipmentType.ARMOR);
                 showWeaponFields(type == EquipmentType.WEAPON);
                 showToolFields(type == EquipmentType.TOOL);
-                
+
                 equip.setName(name.getValue());
                 equip.setType(type);
                 equip.setDescription(description.getValue());
@@ -249,7 +246,7 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
             magicalBonus.setValue(0);
         }
     }
-    
+
     private void showToolFields(boolean visible) {
         toolType.setVisible(visible);
         if (!visible) {
@@ -271,7 +268,7 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
                 && (type2 != EquipmentType.ARMOR && type2 != EquipmentType.WEAPON && type2 != EquipmentType.TOOL)) {
             return true;
         }
-        
+
         return false;
     }
 }

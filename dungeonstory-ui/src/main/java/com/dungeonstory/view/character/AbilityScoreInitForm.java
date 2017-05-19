@@ -5,7 +5,7 @@ import org.vaadin.viritin.label.MLabel;
 
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.i18n.Messages;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Notification;
@@ -35,7 +35,6 @@ public class AbilityScoreInitForm extends AbilityScoreForm {
 
         Messages messages = Messages.getInstance();
 
-        pointsToSpend.setReadOnly(false);
         pointsToSpend.setValue(27);
         pointsToSpend.setReadOnly(true);
 
@@ -121,19 +120,15 @@ public class AbilityScoreInitForm extends AbilityScoreForm {
     }
 
     private Button createPlusButton(IntegerField fieldAction, int modifier) {
-        Button plusButton = new Button(FontAwesome.PLUS);
+        Button plusButton = new Button(VaadinIcons.PLUS);
         plusButton.addClickListener(event -> {
             int value = fieldAction.getValue().intValue() + 1;
             int nbPointToSpend = 0;
             if (value <= MAX_SCORE + modifier) {
                 nbPointToSpend = getNbPointsToSpend(value);
                 if (pointsToSpend.getValue() >= nbPointToSpend) {
-                    pointsToSpend.setReadOnly(false);
                     pointsToSpend.setValue(pointsToSpend.getValue() - nbPointToSpend);
-                    pointsToSpend.setReadOnly(true);
-                    fieldAction.setReadOnly(false);
                     fieldAction.setValue(value);
-                    fieldAction.setReadOnly(true);
                 }
             } else {
                 Notification.show(Messages.getInstance().getMessage("abilityScoreStep.notif.minScore", MAX_SCORE + modifier), Type.HUMANIZED_MESSAGE);
@@ -143,18 +138,14 @@ public class AbilityScoreInitForm extends AbilityScoreForm {
     }
 
     private Button createMinusButton(IntegerField fieldAction, int modifier) {
-        Button minusButton = new Button(FontAwesome.MINUS);
+        Button minusButton = new Button(VaadinIcons.MINUS);
         minusButton.addClickListener(event -> {
             int value = fieldAction.getValue().intValue();
             int nbPointToSpend = 0;
             if (value > (MIN_SCORE + modifier)) {
                 nbPointToSpend = getNbPointsToSpend(value);
-                pointsToSpend.setReadOnly(false);
                 pointsToSpend.setValue(pointsToSpend.getValue() + nbPointToSpend);
-                pointsToSpend.setReadOnly(true);
-                fieldAction.setReadOnly(false);
                 fieldAction.setValue(value - 1);
-                fieldAction.setReadOnly(true);
             } else {
                 Notification.show(Messages.getInstance().getMessage("abilityScoreStep.notif.maxScore", MIN_SCORE + modifier), Type.HUMANIZED_MESSAGE);
             }

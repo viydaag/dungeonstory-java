@@ -1,10 +1,9 @@
 package com.dungeonstory.form;
 
-import org.vaadin.viritin.fields.ElementCollectionTable;
 import org.vaadin.viritin.fields.IntegerField;
-import org.vaadin.viritin.fields.MTextArea;
 import org.vaadin.viritin.fields.MTextField;
-import org.vaadin.viritin.fields.TypedSelect;
+import org.vaadin.viritin.v7.fields.ElementCollectionTable;
+import org.vaadin.viritin.v7.fields.TypedSelect;
 
 import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.DivineDomain;
@@ -13,6 +12,7 @@ import com.dungeonstory.backend.data.Spell;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.impl.SpellService;
 import com.dungeonstory.backend.service.mock.MockSpellService;
+import com.dungeonstory.ui.component.DSTextArea;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextArea;
@@ -34,7 +34,7 @@ public class DivineDomainForm extends DSAbstractForm<DivineDomain> {
     }
 
     public DivineDomainForm() {
-        super();
+        super(DivineDomain.class);
         if (Configuration.getInstance().isMock()) {
             spellService = MockSpellService.getInstance();
         } else {
@@ -52,7 +52,7 @@ public class DivineDomainForm extends DSAbstractForm<DivineDomain> {
         FormLayout layout = new FormLayout();
 
         name = new MTextField("Nom");
-        description = new MTextArea("Description").withFullWidth();
+        description = new DSTextArea("Description").withFullWidth();
         
         spells = new ElementCollectionTable<DivineDomainSpell>(DivineDomainSpell.class, DivineDomainSpellRow.class)
                 .withCaption("Sorts").withEditorInstantiator(() -> {

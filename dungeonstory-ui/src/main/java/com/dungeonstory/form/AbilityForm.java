@@ -1,9 +1,7 @@
 package com.dungeonstory.form;
 
-import org.vaadin.viritin.fields.MTextArea;
-import org.vaadin.viritin.fields.MTextField;
-
 import com.dungeonstory.backend.data.Ability;
+import com.dungeonstory.ui.component.DSTextArea;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextArea;
@@ -18,7 +16,7 @@ public class AbilityForm extends DSAbstractForm<Ability> {
     private TextArea  description;
 
     public AbilityForm() {
-        super();
+        super(Ability.class);
     }
 
     @Override
@@ -30,9 +28,9 @@ public class AbilityForm extends DSAbstractForm<Ability> {
     protected Component createContent() {
         FormLayout layout = new FormLayout();
 
-        name = new MTextField("Nom");
-        abbreviation = new MTextField("Abbréviation");
-        description = new MTextArea("Description").withFullWidth();
+        name = new TextField("Nom");
+        abbreviation = new TextField("Abbréviation");
+        description = new DSTextArea("Description").withFullWidth();
 
         layout.addComponent(name);
         layout.addComponent(abbreviation);

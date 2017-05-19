@@ -1,9 +1,7 @@
 package com.dungeonstory.form;
 
-import org.vaadin.viritin.fields.ElementCollectionTable;
-import org.vaadin.viritin.fields.MTextArea;
-import org.vaadin.viritin.fields.MTextField;
-import org.vaadin.viritin.fields.TypedSelect;
+import org.vaadin.viritin.v7.fields.ElementCollectionTable;
+import org.vaadin.viritin.v7.fields.TypedSelect;
 
 import com.dungeonstory.FormCheckBox;
 import com.dungeonstory.backend.Configuration;
@@ -29,9 +27,12 @@ import com.dungeonstory.backend.service.mock.MockFeatService;
 import com.dungeonstory.backend.service.mock.MockLevelService;
 import com.dungeonstory.backend.service.mock.MockSpellService;
 import com.dungeonstory.form.ClassForm.ClassLevelFeatureRow;
+import com.dungeonstory.ui.component.DSTextArea;
+import com.dungeonstory.util.field.ElementCollectionGrid;
 import com.dungeonstory.util.field.LevelSpellsCollectionField;
 import com.dungeonstory.util.field.LevelSpellsCollectionField.LevelSpellsRow;
-import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.HasValue.ValueChangeEvent;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextArea;
@@ -42,13 +43,13 @@ public class ClassSpecializationForm extends DSAbstractForm<ClassSpecialization>
     private static final long serialVersionUID = -9195608720966852469L;
 
     private TextField                                                 name;
-    private TypedSelect<DSClass>                                      parentClass;
+    private ComboBox<DSClass>                                         parentClass;
     private TextArea                                                  description;
     private FormCheckBox                                              isSpellCasting;
-    private TypedSelect<Ability>                                      spellCastingAbility;
+    private ComboBox<Ability>                                         spellCastingAbility;
     private LevelSpellsCollectionField<ClassSpecializationSpellSlots> spellSlots;
     private ElementCollectionTable<ClassSpecLevelSpell>               classSpecSpells;
-    private ElementCollectionTable<ClassSpecLevelFeature>             classSpecFeatures;
+    private ElementCollectionGrid<ClassSpecLevelFeature>              classSpecFeatures;
 
     private DataService<Level, Long>   levelService   = null;
     private FeatDataService            featService    = null;
@@ -67,7 +68,7 @@ public class ClassSpecializationForm extends DSAbstractForm<ClassSpecialization>
     }
 
     public ClassSpecializationForm() {
-        super();
+        super(ClassSpecialization.class);
         if (Configuration.getInstance().isMock()) {
             levelService = MockLevelService.getInstance();
             featService = MockFeatService.getInstance();
@@ -92,20 +93,21 @@ public class ClassSpecializationForm extends DSAbstractForm<ClassSpecialization>
     protected Component createContent() {
         FormLayout layout = new FormLayout();
 
-        name = new MTextField("Nom");
-        description = new MTextArea("Description").withFullWidth();
-        parentClass = new TypedSelect<DSClass>("Classe parente");
-        parentClass.setOptions(classService.findAll());
+        name = new TextField("Nom");
+        description = new DSTextArea("Description").withFullWidth();
+        parentClass = new ComboBox<DSClass>("Classe parente");
+        parentClass.setItems(classService.findAll());
 
         isSpellCasting = new FormCheckBox("Capacité à lancer des sorts");
-        spellCastingAbility = new TypedSelect<Ability>("Caractéristique de sort");
-        spellCastingAbility.setOptions(abilityService.findAll());
+        spellCastingAbility = new ComboBox<Ability>("Caractéristique de sort");
+        spellCastingAbility.setItems(abilityService.findAll());
+        spellCastingAbility.setEmptySelectionAllowed(false);
         isSpellCasting.addValueChangeListener(this::isSpellCastingChange);
 
         spellSlots = (LevelSpellsCollectionField<ClassSpecializationSpellSlots>) new LevelSpellsCollectionField<ClassSpecializationSpellSlots>(
                 ClassSpecializationSpellSlots.class).withCaption("Nombre de sorts").withEditorInstantiator(() -> {
                     LevelSpellsRow row = new LevelSpellsRow();
-                    row.level.setOptions(levelService.findAll());
+                    row.level.setItems(levelService.findAll());
                     return row;
                 });
         spellSlots.setKnownSpells(true);
@@ -121,11 +123,11 @@ public class ClassSpecializationForm extends DSAbstractForm<ClassSpecialization>
         classSpecSpells.setPropertyHeader("spell", "Sort");
         classSpecSpells.setWidth("80%");
 
-        classSpecFeatures = new ElementCollectionTable<ClassSpecLevelFeature>(ClassSpecLevelFeature.class,
+        classSpecFeatures = new ElementCollectionGrid<ClassSpecLevelFeature>(ClassSpecLevelFeature.class,
                 ClassSpecLevelFeatureRow.class).withCaption("Dons de spécialisation").withEditorInstantiator(() -> {
                     ClassLevelFeatureRow row = new ClassLevelFeatureRow();
-                    row.level.setOptions(levelService.findAll());
-                    row.feat.setOptions(featService.findAllClassFeatures());
+                    row.level.setItems(levelService.findAll());
+                    row.feat.setItems(featService.findAllClassFeatures());
                     return row;
                 });
         classSpecFeatures.setPropertyHeader("level", "Niveau");
@@ -142,7 +144,7 @@ public class ClassSpecializationForm extends DSAbstractForm<ClassSpecialization>
         return layout;
     }
 
-    public void isSpellCastingChange(ValueChangeEvent event) {
+    public void isSpellCastingChange(ValueChangeEvent<Boolean> event) {
         if (isSpellCasting.getValue() == null || isSpellCasting.getValue() == false) {
             spellCastingAbility.setValue(null);
             spellCastingAbility.setVisible(false);

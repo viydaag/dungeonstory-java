@@ -1,11 +1,6 @@
 package com.dungeonstory.view.adventure;
 
-import java.util.Arrays;
-
-import org.vaadin.viritin.fields.EnumSelect;
-import org.vaadin.viritin.fields.MTextArea;
 import org.vaadin.viritin.fields.MTextField;
-import org.vaadin.viritin.fields.TypedSelect;
 
 import com.dungeonstory.backend.data.Adventure;
 import com.dungeonstory.backend.data.Adventure.AdventureStatus;
@@ -14,38 +9,39 @@ import com.dungeonstory.backend.service.impl.LevelService;
 import com.dungeonstory.event.EventBus;
 import com.dungeonstory.event.NavigationEvent;
 import com.dungeonstory.form.DSAbstractForm;
+import com.dungeonstory.ui.component.DSTextArea;
+import com.dungeonstory.ui.component.EnumComboBox;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 
 public class AdventureForm extends DSAbstractForm<Adventure> {
 
-    private static final long           serialVersionUID = 2692854965104730175L;
+    private static final long serialVersionUID = 2692854965104730175L;
 
-    private MTextField                  name;
-    private MTextArea                   description;
-    private TypedSelect<Level>          challengeRating;
-    private EnumSelect<AdventureStatus> status;
+    private MTextField                    name;
+    private DSTextArea                    description;
+    private ComboBox<Level>               challengeRating;
+    private EnumComboBox<AdventureStatus> status;
 
-    private FormLayout                  layout;
+    private FormLayout layout;
 
-    private Button                      messageButton;
+    private Button messageButton;
 
     public AdventureForm() {
-        super();
+        super(Adventure.class);
     }
 
     @Override
     protected Component createContent() {
         layout = new FormLayout();
 
-        name = new MTextField("Titre");
-        description = new MTextArea("Description");
-        challengeRating = new TypedSelect<>(Level.class);
-        challengeRating.setCaption("Degré de difficulté");
-        challengeRating.setBeans(LevelService.getInstance().findAll());
-        status = new EnumSelect<>("Statut");
-        status.setBeans(Arrays.asList(AdventureStatus.values()));
+        name = new MTextField("Titre").withWidth("50%");
+        description = new DSTextArea("Description").withFullWidth();
+        challengeRating = new ComboBox<>("Degré de difficulté");
+        challengeRating.setItems(LevelService.getInstance().findAll());
+        status = new EnumComboBox<>(AdventureStatus.class, "Statut");
         layout.addComponents(name, description, challengeRating, status);
         layout.addComponent(getToolbar());
 

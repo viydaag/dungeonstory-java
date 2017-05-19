@@ -7,9 +7,9 @@ public class ClassSpecializationGrid extends DSGrid<ClassSpecialization> {
     private static final long serialVersionUID = -2219582474895040784L;
 
     public ClassSpecializationGrid() {
-        super(ClassSpecialization.class);
-        withProperties("name", "parentClass.name");
-        withColumnHeaders("Nom", "Classe");
+        super();
+        addColumn(ClassSpecialization::getName).setCaption("Nom").setId("name");
+        addColumn(ClassSpecialization::getParentClass).setCaption("Classe").setId("parentClass");
     }
 
 }

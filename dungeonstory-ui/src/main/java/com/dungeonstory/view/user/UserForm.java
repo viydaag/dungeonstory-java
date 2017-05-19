@@ -17,16 +17,15 @@ public class UserForm extends AbstractForm<User> implements Translatable {
 
     private static final long serialVersionUID = 1062880819880337025L;
 
-    private LabelField<String>     username;
-    private LabelField<String>     name;
-    private LabelField<AccessRole> role;
-    private LabelField<UserStatus> status;
-    private LabelField<String> email;
+    private LabelField<String>        username;
+    private LabelField<String>        name;
+    private LabelField<AccessRole>    role;
+    private LabelField<UserStatus>    status;
+    private LabelField<String>        email;
     private LabelField<LocalDateTime> created;
-    
-    public UserForm() {
-        super();
 
+    public UserForm() {
+        super(User.class);
     }
 
     @Override
@@ -35,10 +34,10 @@ public class UserForm extends AbstractForm<User> implements Translatable {
 
         username = new LabelField<>();
         name = new LabelField<>();
-        role = new LabelField<>(AccessRole.class);
-        status = new LabelField<>(UserStatus.class);
+        role = new LabelField<>();
+        status = new LabelField<>();
         email = new LabelField<>();
-        created = new LabelField<>(LocalDateTime.class);
+        created = new LabelField<>();
 
         layout.addComponents(username, name, email, role, status, created);
 

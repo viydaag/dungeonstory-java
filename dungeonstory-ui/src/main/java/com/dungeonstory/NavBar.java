@@ -7,9 +7,9 @@ import com.dungeonstory.event.EventBus;
 import com.dungeonstory.event.LogoutEvent;
 import com.dungeonstory.event.NavigationEvent;
 import com.dungeonstory.util.DSTheme;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
@@ -39,7 +39,7 @@ public class NavBar extends CssLayout implements ViewChangeListener {
 
         logout.addStyleName(DSTheme.BUTTON_LOGOUT);
         logout.addStyleName(DSTheme.BUTTON_BORDERLESS);
-        logout.setIcon(FontAwesome.SIGN_OUT);
+        logout.setIcon(VaadinIcons.SIGN_OUT);
     }
 
     public void addView(String uri, String displayName) {

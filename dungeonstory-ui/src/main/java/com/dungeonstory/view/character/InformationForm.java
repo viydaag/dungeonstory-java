@@ -1,10 +1,10 @@
 package com.dungeonstory.view.character;
 
+import java.util.EnumSet;
 import java.util.List;
 
 import org.vaadin.viritin.fields.IntegerField;
 import org.vaadin.viritin.fields.MTextField;
-import org.vaadin.viritin.fields.TypedSelect;
 import org.vaadin.viritin.form.AbstractForm.SavedHandler;
 
 import com.dungeonstory.backend.data.Alignment;
@@ -19,25 +19,29 @@ import com.dungeonstory.i18n.Messages;
 import com.dungeonstory.ui.component.DSImage;
 import com.dungeonstory.ui.component.ImageSelector;
 import com.dungeonstory.ui.factory.ImageFactory;
+import com.vaadin.data.ValidationResult;
 import com.vaadin.data.Validator;
+import com.vaadin.data.ValueContext;
 import com.vaadin.shared.ui.MarginInfo;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
+import com.vaadin.ui.RadioButtonGroup;
 import com.vaadin.ui.TextField;
 
 public class InformationForm extends DSAbstractForm<Character> implements SavedHandler<Character> {
 
     private static final long serialVersionUID = -2704789930623304546L;
 
-    private TextField              name;
-    private TypedSelect<Gender>    gender;
-    private IntegerField           age;
-    private IntegerField           weight;
-    private TextField              height;
-    private TypedSelect<Alignment> alignment;
-    private TypedSelect<Region>    region;
-    private ImageSelector          imageSelector;
-    private String                 image;
+    private TextField                name;
+    private RadioButtonGroup<Gender> gender;
+    private IntegerField             age;
+    private IntegerField             weight;
+    private TextField                height;
+    private ComboBox<Alignment>      alignment;
+    private ComboBox<Region>         region;
+    private ImageSelector            imageSelector;
+    private String                   image;
 
     private AlignmentDataService      alignmentService = Services.getAlignmentService();
     private DataService<Region, Long> regionService    = Services.getRegionService();
@@ -45,7 +49,7 @@ public class InformationForm extends DSAbstractForm<Character> implements SavedH
     private FormLayout layout;
 
     public InformationForm() {
-        super();
+        super(Character.class);
         setSavedHandler(this);
     }
 
@@ -63,33 +67,45 @@ public class InformationForm extends DSAbstractForm<Character> implements SavedH
         layout.setMargin(new MarginInfo(true, true));
 
         name = new MTextField(messages.getMessage("informationStep.name.label")).withWidth("250px");
-        gender = new TypedSelect<Gender>(messages.getMessage("informationStep.sex.label")).asOptionGroupType();
-        gender.setOptions(Gender.values());
+        gender = new RadioButtonGroup<Gender>(messages.getMessage("informationStep.sex.label"), EnumSet.allOf(Gender.class));
         age = new IntegerField(messages.getMessage("informationStep.age.label"));
         weight = new IntegerField(messages.getMessage("informationStep.weight.label"));
         height = new TextField(messages.getMessage("informationStep.height.label"));
-        alignment = new TypedSelect<>(messages.getMessage("informationStep.alignment.label"), alignmentService.findAllPlayable()).asComboBoxType()
-                .withWidth("250px");
-        region = new TypedSelect<>(messages.getMessage("informationStep.region.label"), regionService.findAllOrderBy("name", "ASC")).asComboBoxType()
-                .withWidth("250px");
+        alignment = new ComboBox<>(messages.getMessage("informationStep.alignment.label"), alignmentService.findAllPlayable());
+        //                .withWidth("250px");
+        region = new ComboBox<>(messages.getMessage("informationStep.region.label"), regionService.findAllOrderBy("name", "ASC"));
+        //                .withWidth("250px");
 
-        age.addValidator(new Validator() {
+        getBinder().forField(age).withValidator(new Validator<Integer>() {
 
-            private static final long serialVersionUID = -2710504516977136307L;
+            private static final long serialVersionUID = 6735679580321486585L;
 
             @Override
-            public void validate(Object value) throws InvalidValueException {
-                Integer valueInt = (Integer) value;
+            public ValidationResult apply(Integer value, ValueContext context) {
                 int minAge = getEntity().getRace().getMinAge();
                 int maxAge = getEntity().getRace().getMaxAge();
-                if (valueInt.intValue() < minAge || valueInt.intValue() > maxAge) {
-                    throw new InvalidValueException(
-                            messages.getMessage("informationStep.age.validator", minAge, maxAge, getEntity().getRace().getName()));
+                if (value.intValue() < minAge || value.intValue() > maxAge) {
+                    return ValidationResult
+                            .error(messages.getMessage("informationStep.age.validator", minAge, maxAge, getEntity().getRace().getName()));
                 }
+                return ValidationResult.ok();
             }
+
+            //            private static final long serialVersionUID = -2710504516977136307L;
+            //
+            //            @Override
+            //            public void validate(Object value) throws InvalidValueException {
+            //                Integer valueInt = (Integer) value;
+            //                int minAge = getEntity().getRace().getMinAge();
+            //                int maxAge = getEntity().getRace().getMaxAge();
+            //                if (valueInt.intValue() < minAge || valueInt.intValue() > maxAge) {
+            //                    throw new InvalidValueException(
+            //                            messages.getMessage("informationStep.age.validator", minAge, maxAge, getEntity().getRace().getName()));
+            //                }
+            //            }
         });
 
-        gender.addMValueChangeListener(event -> initImageSelector(event.getValue()));
+        gender.addValueChangeListener(event -> initImageSelector(event.getValue()));
 
         layout.addComponents(name, gender, age, weight, height, alignment, region);
 
@@ -119,7 +135,7 @@ public class InformationForm extends DSAbstractForm<Character> implements SavedH
             }
             imageSelector.addImages(imageList);
             imageSelector.addValueChangeListener(event -> {
-                DSImage value = (DSImage) event.getProperty().getValue();
+                DSImage value = event.getValue();
                 this.image = value.getRelativePath();
             });
         }

@@ -1,4 +1,4 @@
-package com.dungeonstory.util;
+package com.dungeonstory.view.character;
 
 import java.io.Serializable;
 
@@ -6,7 +6,6 @@ import org.vaadin.teemu.wizards.WizardStep;
 import org.vaadin.viritin.form.AbstractForm;
 
 import com.dungeonstory.backend.data.Character;
-import com.dungeonstory.view.character.CharacterWizard;
 import com.vaadin.ui.Button;
 
 public abstract class CharacterWizardStep<T> implements WizardStep, Serializable {
@@ -43,7 +42,7 @@ public abstract class CharacterWizardStep<T> implements WizardStep, Serializable
     public void afterActivateStep() {
         if (form != null) {
             setSaveButton();
-            form.onFieldGroupChange(form.getFieldGroup());
+            form.getBinder().validate();
         }
 
         //sets the character from previous step

@@ -9,19 +9,17 @@ import com.dungeonstory.event.EventBus;
 import com.dungeonstory.event.NavigationEvent;
 import com.dungeonstory.util.DSTheme;
 import com.dungeonstory.util.ViewConfig;
-import com.dungeonstory.util.layout.HorizontalSpacedLayout;
-import com.dungeonstory.util.layout.VerticalSpacedLayout;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
 @ViewConfig(uri = ShopView.URI, displayName = "")
-public class ShopView extends VerticalSpacedLayout implements View {
+public class ShopView extends VerticalLayout implements View {
 
     private static final long serialVersionUID = -1712432045147930397L;
 
@@ -56,7 +54,7 @@ public class ShopView extends VerticalSpacedLayout implements View {
         addComponents(backButton, shopName, buyLayout);
         
         Panel buyHeaderPanel = new Panel();
-        HorizontalSpacedLayout buyHeaderLayout = new HorizontalSpacedLayout();
+        HorizontalLayout buyHeaderLayout = new HorizontalLayout();
         Label itemName = new MLabel("Item");
         Label stockQuantityLabel = new MLabel("Stock").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
         Label buyQuantityLabel = new MLabel("Qte achat").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);

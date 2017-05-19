@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
-import org.dussan.vaadin.dtabs.DTabs;
 import org.vaadin.viritin.form.AbstractForm;
 import org.vaadin.viritin.label.MLabel;
 
@@ -23,8 +22,8 @@ import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.backend.service.SpellDataService;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.i18n.Messages;
-import com.dungeonstory.util.layout.VerticalSpacedLayout;
-import com.vaadin.data.util.converter.StringToCollectionConverter;
+import com.dungeonstory.util.converter.CollectionToStringConverter;
+import com.vaadin.data.ValueContext;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.VaadinService;
 import com.vaadin.shared.MouseEventDetails.MouseButton;
@@ -54,7 +53,7 @@ public class SpellChoiceForm extends DSAbstractForm<Character> implements Abstra
 
     private MLabel label;
 
-    private DTabs                tabs  = null;
+    private TabSheet             tabs  = null;
     private HorizontalSplitPanel panel = null;
 
     private VerticalLayout unknownCantripLayout = new VerticalLayout();
@@ -68,7 +67,7 @@ public class SpellChoiceForm extends DSAbstractForm<Character> implements Abstra
     private Audio spellSound = null;
 
     public SpellChoiceForm() {
-        super();
+        super(Character.class);
 
         String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
         FileResource resource = new FileResource(new File(basepath + "/WEB-INF/sound/selectSpell.mp3"));
@@ -88,15 +87,16 @@ public class SpellChoiceForm extends DSAbstractForm<Character> implements Abstra
     @Override
     protected Component createContent() {
 
-        VerticalSpacedLayout layout = new VerticalSpacedLayout();
+        VerticalLayout layout = new VerticalLayout();
 
         layout.addComponent(spellSound);
 
         label = new MLabel();
         layout.addComponent(label);
 
-        tabs = new DTabs();
-        tabs.setTabBarBottom(true).setFramedTabs(true);
+        //        tabs = new DTabs();
+        //        tabs.setTabBarBottom(true).setFramedTabs(true);
+        tabs = new TabSheet();
 
         panel = new HorizontalSplitPanel();
         panel.setSizeFull();
@@ -110,12 +110,12 @@ public class SpellChoiceForm extends DSAbstractForm<Character> implements Abstra
     @Override
     public void afterSetEntity() {
 
-        Optional<CharacterClass> assignedClass = ClassUtil.getCharacterClass(getEntity(), this.classe);
+        CharacterClass assignedClass = ClassUtil.getCharacterClass(getEntity(), this.classe);
 
-        if (assignedClass.isPresent()) {
+        if (assignedClass != null) {
 
-            int classLevel = assignedClass.get().getClassLevel();
-            label.setValue(Messages.getInstance().getMessage("spellStep.class.label", assignedClass.get().toString()));
+            int classLevel = assignedClass.getClassLevel();
+            label.setValue(Messages.getInstance().getMessage("spellStep.class.label", assignedClass.toString()));
 
             Optional<ClassSpellSlots> spellSlotOpt = ClassUtil.getClassSpellSlots(this.classe, classLevel);
 
@@ -282,11 +282,11 @@ public class SpellChoiceForm extends DSAbstractForm<Character> implements Abstra
         window.setModal(true);
         window.setWidth("60%");
 
-        StringToCollectionConverter converter = new StringToCollectionConverter();
+        CollectionToStringConverter converter = new CollectionToStringConverter();
 
         FormLayout layout = new FormLayout();
         MLabel componentType = new MLabel(messages.getMessage("spellStep.component.label"),
-                converter.convertToPresentation(spell.getComponentTypes(), String.class, null));
+                converter.convertToPresentation(spell.getComponentTypes(), new ValueContext()));
         MLabel text = new MLabel(messages.getMessage("spellStep.description.label"), spell.getDescription()).withFullWidth();
         layout.addComponents(componentType, text);
 
@@ -316,8 +316,7 @@ public class SpellChoiceForm extends DSAbstractForm<Character> implements Abstra
             });
             addClickListener(event -> spellSound.play());
             addClickListener(event -> {
-                getFieldGroup().setBeanModified(true);
-                onFieldGroupChange(getFieldGroup());
+                adjustButtons();
             });
         }
 
@@ -329,12 +328,11 @@ public class SpellChoiceForm extends DSAbstractForm<Character> implements Abstra
 
     @Override
     protected void adjustSaveButtonState() {
-        if (isEagerValidation() && isBound()) {
-            boolean beanModified = getFieldGroup().isBeanModified();
+        if (isBound()) {
             boolean allSpellAssigned = true;
             //            boolean allSpellAssigned = (totalNbSpell == knownCantripLayout.getComponentCount()
             //                    + knownSpellLayout.getComponentCount());
-            getSaveButton().setEnabled(beanModified && allSpellAssigned && isValid());
+            getSaveButton().setEnabled(allSpellAssigned && getBinder().isValid());
         }
     }
 
@@ -361,9 +359,9 @@ public class SpellChoiceForm extends DSAbstractForm<Character> implements Abstra
             }
         }
 
-        Optional<CharacterClass> assignedClass = ClassUtil.getCharacterClass(entity, classe);
-        if (assignedClass.isPresent()) {
-            assignedClass.get().setKnownSpells(characterKnownSpells);
+        CharacterClass assignedClass = ClassUtil.getCharacterClass(entity, classe);
+        if (assignedClass != null) {
+            assignedClass.setKnownSpells(characterKnownSpells);
         }
     }
 

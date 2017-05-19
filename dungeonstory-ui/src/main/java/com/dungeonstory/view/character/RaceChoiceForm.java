@@ -1,8 +1,5 @@
 package com.dungeonstory.view.character;
 
-import org.vaadin.viritin.fields.MTextArea;
-import org.vaadin.viritin.fields.TypedSelect;
-import org.vaadin.viritin.fields.config.ListSelectConfig;
 import org.vaadin.viritin.form.AbstractForm;
 
 import com.dungeonstory.backend.data.Character;
@@ -12,10 +9,12 @@ import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.LanguageDataService;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.i18n.Messages;
-import com.dungeonstory.util.layout.HorizontalSpacedLayout;
-import com.dungeonstory.util.layout.VerticalSpacedLayout;
+import com.dungeonstory.ui.component.DSTextArea;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.VerticalLayout;
 
 public class RaceChoiceForm extends AbstractForm<Character> implements AbstractForm.SavedHandler<Character> {
 
@@ -24,13 +23,13 @@ public class RaceChoiceForm extends AbstractForm<Character> implements AbstractF
     private DataService<Race, Long> raceService;
     private LanguageDataService     languageService;
 
-    TypedSelect<Race>     race;
-    TypedSelect<Language> language;
-    private MTextArea     raceDescription;
-    private MTextArea     raceTraits;
+    ComboBox<Race>     race;
+    ComboBox<Language> language;
+    private DSTextArea raceDescription;
+    private DSTextArea raceTraits;
 
     public RaceChoiceForm() {
-        super();
+        super(Character.class);
         setSavedHandler(this);
 
         raceService = Services.getRaceService();
@@ -42,26 +41,25 @@ public class RaceChoiceForm extends AbstractForm<Character> implements AbstractF
 
         Messages messages = Messages.getInstance();
 
-        HorizontalSpacedLayout layout = new HorizontalSpacedLayout();
+        HorizontalLayout layout = new HorizontalLayout();
 
         FormLayout raceFieldsLayout = new FormLayout();
-        race = new TypedSelect<Race>(messages.getMessage("raceStep.race.label"), raceService.findAll())
-                .asListSelectType(new ListSelectConfig().withRows((int) raceService.count()))
-                .withNullSelectionAllowed(false);
-        language = new TypedSelect<Language>(messages.getMessage("raceStep.extraLanguage.label")).asComboBoxType()
-                .withVisible(false);
+        race = new ComboBox<Race>(messages.getMessage("raceStep.race.label"), raceService.findAll());
+        race.setEmptySelectionAllowed(false);
+        language = new ComboBox<Language>(messages.getMessage("raceStep.extraLanguage.label"));
+        language.setVisible(false);
         raceFieldsLayout.addComponents(race, language);
 
-        VerticalSpacedLayout raceDescriptionLayout = new VerticalSpacedLayout();
-        raceDescription = new MTextArea(messages.getMessage("raceStep.description.label")).withRows(10);
-        raceTraits = new MTextArea().withRows(10);
+        VerticalLayout raceDescriptionLayout = new VerticalLayout();
+        raceDescription = new DSTextArea(messages.getMessage("raceStep.description.label")).withFullWidth().withRows(10);
+        raceTraits = new DSTextArea().withFullWidth().withRows(10);
 
-        race.addMValueChangeListener(event -> {
+        race.addValueChangeListener(event -> {
             Race chosenRace = event.getValue();
             if (chosenRace != null) {
                 if (chosenRace.getExtraLanguage() == true) {
                     language.setVisible(true);
-                    language.setOptions(languageService.getLanguagesNotInRace(chosenRace));
+                    language.setItems(languageService.getLanguagesNotInRace(chosenRace));
                 } else {
                     language.clear();
                     language.setVisible(false);

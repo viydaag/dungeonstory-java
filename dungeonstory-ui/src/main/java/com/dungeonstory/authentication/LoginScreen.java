@@ -9,11 +9,11 @@ import com.dungeonstory.i18n.LanguageSelector;
 import com.dungeonstory.i18n.Messages;
 import com.dungeonstory.i18n.Translatable;
 import com.dungeonstory.util.DSTheme;
-import com.vaadin.data.fieldgroup.BeanFieldGroup;
-import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
+import com.vaadin.data.BeanValidationBinder;
+import com.vaadin.data.ValidationException;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.Page;
-import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -139,10 +139,13 @@ public class LoginScreen extends CssLayout implements Translatable {
 
         User user = new User();
 
-        BeanFieldGroup<User> binder = new BeanFieldGroup<User>(User.class);
-        binder.setItemDataSource(user);
-        binder.bindMemberFields(newUserForm);
-        binder.setBuffered(true);
+        //        BeanFieldGroup<User> binder = new BeanFieldGroup<User>(User.class);
+        //        binder.setItemDataSource(user);
+        //        binder.bindMemberFields(newUserForm);
+        //        binder.setBuffered(true);
+        BeanValidationBinder<User> binder = new BeanValidationBinder<>(User.class);
+        binder.bindInstanceFields(newUserForm);
+        binder.readBean(user);
 
         newUserFormSave = new Button();
         newUserFormSave.addStyleName(ValoTheme.BUTTON_FRIENDLY);
@@ -150,13 +153,17 @@ public class LoginScreen extends CssLayout implements Translatable {
 
         newUserFormSave.addClickListener(event -> {
             try {
-                binder.commit();
+                binder.writeBean(user);
                 service.create(user);
                 showLoginForm();
-            } catch (CommitException e) {
+                //            } catch (CommitException e) {
+                //                Messages messages = Messages.getInstance();
+                //                showNotification(new Notification(messages.getMessage("newUserForm.notif.text"), Notification.Type.ERROR_MESSAGE));
+                ////                newUserForm.setValidationVisible(true);
+            } catch (ValidationException e) {
                 Messages messages = Messages.getInstance();
-                showNotification(new Notification(messages.getMessage("newUserForm.notif.text"), Notification.Type.ERROR_MESSAGE));
-                newUserForm.setValidationVisible(true);
+                showNotification(new Notification(messages.getMessage("newUserForm.notif.text"),
+                        Notification.Type.ERROR_MESSAGE));
             }
         });
 
@@ -186,6 +193,7 @@ public class LoginScreen extends CssLayout implements Translatable {
                 "<h1>Login Information</h1>"
                         + "Log in as &quot;admin&quot; to have full access. Log in with any other username to have read-only access. For all users, any password is fine",
                 ContentMode.HTML);
+        loginInfoText.setWidth("270px");
         loginInformation.addComponent(loginInfoText);
         LanguageSelector language = new LanguageSelector();
         loginInformation.addComponent(language);

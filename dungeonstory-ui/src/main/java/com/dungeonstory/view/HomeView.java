@@ -5,14 +5,14 @@ import com.dungeonstory.event.EventBus;
 import com.dungeonstory.event.NavigationEvent;
 import com.dungeonstory.util.DSTheme;
 import com.dungeonstory.util.ViewConfig;
-import com.dungeonstory.util.layout.VerticalSpacedLayout;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.VerticalLayout;
 
 @ViewConfig(uri = "", displayName = "Home")
-public class HomeView extends VerticalSpacedLayout implements View {
+public class HomeView extends VerticalLayout implements View {
 
 	private static final long serialVersionUID = 114267808090423646L;
 

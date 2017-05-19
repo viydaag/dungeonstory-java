@@ -3,18 +3,19 @@ package com.dungeonstory.util.converter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Locale;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.vaadin.data.util.converter.Converter;
+import com.vaadin.data.Converter;
+import com.vaadin.data.Result;
+import com.vaadin.data.ValueContext;
 
 /**
  * A converter that allows displaying a collection as a html list (ul or ol).
  * 
  */
 @SuppressWarnings("rawtypes")
-public class CollectionToStringListConverter implements Converter<String, Collection> {
+public class CollectionToStringListConverter<C extends Collection> implements Converter<String, C> {
 
     private static final long serialVersionUID = 5950198194834411892L;
 
@@ -71,14 +72,12 @@ public class CollectionToStringListConverter implements Converter<String, Collec
     }
 
     @Override
-    public Collection convertToModel(String value, Class<? extends Collection> targetType, Locale locale)
-            throws com.vaadin.data.util.converter.Converter.ConversionException {
+    public Result<C> convertToModel(String value, ValueContext context) {
         throw new UnsupportedOperationException("Can only convert from collection to string");
     }
 
     @Override
-    public String convertToPresentation(Collection value, Class<? extends String> targetType, Locale locale)
-            throws com.vaadin.data.util.converter.Converter.ConversionException {
+    public String convertToPresentation(C value, ValueContext context) {
         if (value == null || value.isEmpty()) {
             return "";
         }
@@ -137,16 +136,6 @@ public class CollectionToStringListConverter implements Converter<String, Collec
         }
 
         return style;
-    }
-
-    @Override
-    public Class<Collection> getModelType() {
-        return Collection.class;
-    }
-
-    @Override
-    public Class<String> getPresentationType() {
-        return String.class;
     }
 
     public ListType getListType() {

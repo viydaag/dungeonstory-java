@@ -8,7 +8,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.vaadin.data.util.converter.Converter.ConversionException;
 import com.vaadin.server.FileResource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -16,8 +15,6 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.themes.ValoTheme;
 
@@ -105,10 +102,6 @@ public class ImageSelector extends CustomField<DSImage> {
         return mainPanel;
     }
 
-    @Override
-    public Class<? extends DSImage> getType() {
-        return DSImage.class;
-    }
 
     @Override
     public void setWidth(float width, Unit unit) {
@@ -163,9 +156,9 @@ public class ImageSelector extends CustomField<DSImage> {
         loadedImage.setData(image.getIndex());
         loadedImage.addClickListener(event -> {
             if (isSelectable()) {
-                selectedImage = images.get((int) loadedImage.getData());
+                DSImage clicked = images.get((int) loadedImage.getData());
 //                Notification.show(selectedImage.toString(), Type.HUMANIZED_MESSAGE);
-                setValue(selectedImage);
+                setValue(clicked);
             }
         });
         loadedImages.add(loadedImage);
@@ -247,18 +240,6 @@ public class ImageSelector extends CustomField<DSImage> {
         }
     }
 
-    @Override
-    public void setValue(DSImage newFieldValue) throws com.vaadin.data.Property.ReadOnlyException, ConversionException {
-        super.setValue(newFieldValue);
-        if (isSelectable()) {
-            visibleImages.values().stream().forEach(image -> image.removeStyleName("image-bordered-selected"));
-            if (newFieldValue != null) {
-                Image selected = loadedImages.get(newFieldValue.getIndex());
-                selected.addStyleName("image-bordered-selected");
-            }
-        }
-    }
-
     public void setValueWithScroll(int index) {
         setValue(images.get(index));
         scrollTo(index);
@@ -335,6 +316,24 @@ public class ImageSelector extends CustomField<DSImage> {
         visibleImages.clear();
         imageLayout.removeAllComponents();
         index = 0;
+    }
+
+    @Override
+    public DSImage getValue() {
+        return selectedImage;
+    }
+
+    @Override
+    protected void doSetValue(DSImage value) {
+        if (isSelectable()) {
+            visibleImages.values().stream().forEach(image -> image.removeStyleName("image-bordered-selected"));
+            if (value != null) {
+                Image selected = loadedImages.get(value.getIndex());
+                selected.addStyleName("image-bordered-selected");
+            }
+            selectedImage = value;
+        }
+
     }
 
 }
