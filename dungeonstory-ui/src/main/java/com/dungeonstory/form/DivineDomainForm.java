@@ -5,13 +5,10 @@ import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.v7.fields.ElementCollectionTable;
 import org.vaadin.viritin.v7.fields.TypedSelect;
 
-import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.DivineDomain;
 import com.dungeonstory.backend.data.DivineDomainSpell;
 import com.dungeonstory.backend.data.Spell;
-import com.dungeonstory.backend.service.DataService;
-import com.dungeonstory.backend.service.impl.SpellService;
-import com.dungeonstory.backend.service.mock.MockSpellService;
+import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSTextArea;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
@@ -26,7 +23,6 @@ public class DivineDomainForm extends DSAbstractForm<DivineDomain> {
     private TextArea  description;
 
     private ElementCollectionTable<DivineDomainSpell> spells;
-    private DataService<Spell, Long>                  spellService = null;
 
     public static class DivineDomainSpellRow {
         IntegerField       level = new IntegerField();
@@ -35,11 +31,6 @@ public class DivineDomainForm extends DSAbstractForm<DivineDomain> {
 
     public DivineDomainForm() {
         super(DivineDomain.class);
-        if (Configuration.getInstance().isMock()) {
-            spellService = MockSpellService.getInstance();
-        } else {
-            spellService = SpellService.getInstance();
-        }
     }
 
     @Override
@@ -58,7 +49,7 @@ public class DivineDomainForm extends DSAbstractForm<DivineDomain> {
                 .withCaption("Sorts").withEditorInstantiator(() -> {
                     DivineDomainSpellRow row = new DivineDomainSpellRow();
                     // The ManyToOne field needs its options to be populated
-                    row.spell.setOptions(spellService.findAll());
+                    row.spell.setOptions(Services.getSpellService().findAll());
                     return row;
                 });
         spells.setPropertyHeader("level", "Niveau");

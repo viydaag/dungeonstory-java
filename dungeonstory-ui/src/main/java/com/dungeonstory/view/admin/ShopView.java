@@ -3,12 +3,10 @@ package com.dungeonstory.view.admin;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.Shop;
 import com.dungeonstory.backend.data.ShopEquipment;
 import com.dungeonstory.backend.service.DataService;
-import com.dungeonstory.backend.service.impl.ShopService;
-import com.dungeonstory.backend.service.mock.MockShopService;
+import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.form.ShopForm;
 import com.dungeonstory.util.ViewConfig;
@@ -33,10 +31,7 @@ public class ShopView extends AbstractCrudView<Shop> {
 
     @Override
     public DataService<Shop, Long> getDataService() {
-        if (Configuration.getInstance().isMock()) {
-            return MockShopService.getInstance();
-        }
-        return ShopService.getInstance();
+        return Services.getShopService();
     }
     
     @Override

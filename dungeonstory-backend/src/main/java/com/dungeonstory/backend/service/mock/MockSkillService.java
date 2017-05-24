@@ -4,8 +4,9 @@ import com.dungeonstory.backend.data.Skill;
 import com.dungeonstory.backend.factory.impl.SkillFactory;
 import com.dungeonstory.backend.repository.mock.MockSkillRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
+import com.dungeonstory.backend.service.SkillDataService;
 
-public class MockSkillService extends AbstractDataService<Skill, Long> {
+public class MockSkillService extends AbstractDataService<Skill, Long> implements SkillDataService {
 
 	private static final long serialVersionUID = -3373138453796994075L;
 	

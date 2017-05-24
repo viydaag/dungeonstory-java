@@ -4,8 +4,9 @@ import com.dungeonstory.backend.data.Race;
 import com.dungeonstory.backend.factory.impl.RaceFactory;
 import com.dungeonstory.backend.repository.mock.MockRaceRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
+import com.dungeonstory.backend.service.RaceDataService;
 
-public class MockRaceService extends AbstractDataService<Race, Long> {
+public class MockRaceService extends AbstractDataService<Race, Long> implements RaceDataService {
 
 	private static final long serialVersionUID = 7176060836514456145L;
 	

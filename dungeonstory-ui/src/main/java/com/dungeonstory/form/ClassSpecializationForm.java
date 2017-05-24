@@ -4,7 +4,6 @@ import org.vaadin.viritin.v7.fields.ElementCollectionTable;
 import org.vaadin.viritin.v7.fields.TypedSelect;
 
 import com.dungeonstory.FormCheckBox;
-import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.Ability;
 import com.dungeonstory.backend.data.ClassSpecLevelFeature;
 import com.dungeonstory.backend.data.ClassSpecLevelSpell;
@@ -14,18 +13,12 @@ import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.data.Feat;
 import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.backend.data.Spell;
-import com.dungeonstory.backend.service.DataService;
+import com.dungeonstory.backend.service.AbilityDataService;
+import com.dungeonstory.backend.service.ClassDataService;
 import com.dungeonstory.backend.service.FeatDataService;
-import com.dungeonstory.backend.service.impl.AbilityService;
-import com.dungeonstory.backend.service.impl.ClassService;
-import com.dungeonstory.backend.service.impl.FeatService;
-import com.dungeonstory.backend.service.impl.LevelService;
-import com.dungeonstory.backend.service.impl.SpellService;
-import com.dungeonstory.backend.service.mock.MockAbilityService;
-import com.dungeonstory.backend.service.mock.MockClassService;
-import com.dungeonstory.backend.service.mock.MockFeatService;
-import com.dungeonstory.backend.service.mock.MockLevelService;
-import com.dungeonstory.backend.service.mock.MockSpellService;
+import com.dungeonstory.backend.service.LevelDataService;
+import com.dungeonstory.backend.service.Services;
+import com.dungeonstory.backend.service.SpellDataService;
 import com.dungeonstory.form.ClassForm.ClassLevelFeatureRow;
 import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.util.field.ElementCollectionGrid;
@@ -51,11 +44,11 @@ public class ClassSpecializationForm extends DSAbstractForm<ClassSpecialization>
     private ElementCollectionTable<ClassSpecLevelSpell>               classSpecSpells;
     private ElementCollectionGrid<ClassSpecLevelFeature>              classSpecFeatures;
 
-    private DataService<Level, Long>   levelService   = null;
-    private FeatDataService            featService    = null;
-    private DataService<Ability, Long> abilityService = null;
-    private DataService<Spell, Long>   spellService   = null;
-    private DataService<DSClass, Long> classService   = null;
+    private LevelDataService   levelService   = null;
+    private FeatDataService    featService    = null;
+    private AbilityDataService abilityService = null;
+    private SpellDataService   spellService   = null;
+    private ClassDataService   classService   = null;
 
     public static class ClassSpecLevelFeatureRow {
         TypedSelect<Level> level = new TypedSelect<Level>();
@@ -69,19 +62,11 @@ public class ClassSpecializationForm extends DSAbstractForm<ClassSpecialization>
 
     public ClassSpecializationForm() {
         super(ClassSpecialization.class);
-        if (Configuration.getInstance().isMock()) {
-            levelService = MockLevelService.getInstance();
-            featService = MockFeatService.getInstance();
-            abilityService = MockAbilityService.getInstance();
-            spellService = MockSpellService.getInstance();
-            classService = MockClassService.getInstance();
-        } else {
-            levelService = LevelService.getInstance();
-            featService = FeatService.getInstance();
-            abilityService = AbilityService.getInstance();
-            spellService = SpellService.getInstance();
-            classService = ClassService.getInstance();
-        }
+        levelService = Services.getLevelService();
+        featService = Services.getFeatService();
+        abilityService = Services.getAbilityService();
+        spellService = Services.getSpellService();
+        classService = Services.getClassService();
     }
 
     @Override

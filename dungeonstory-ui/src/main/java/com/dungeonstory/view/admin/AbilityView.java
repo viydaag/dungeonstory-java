@@ -1,10 +1,8 @@
 package com.dungeonstory.view.admin;
 
-import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.Ability;
-import com.dungeonstory.backend.service.DataService;
-import com.dungeonstory.backend.service.impl.AbilityService;
-import com.dungeonstory.backend.service.mock.MockAbilityService;
+import com.dungeonstory.backend.service.AbilityDataService;
+import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.form.AbilityForm;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.util.ViewConfig;
@@ -28,11 +26,8 @@ public class AbilityView extends AbstractCrudView<Ability> {
     }
 
     @Override
-    public DataService<Ability, Long> getDataService() {
-        if (Configuration.getInstance().isMock()) {
-            return MockAbilityService.getInstance();
-        }
-        return AbilityService.getInstance();
+    public AbilityDataService getDataService() {
+        return Services.getAbilityService();
     }
 
 }

@@ -1,10 +1,8 @@
 package com.dungeonstory.view.admin;
 
-import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.DamageType;
-import com.dungeonstory.backend.service.DataService;
-import com.dungeonstory.backend.service.impl.DamageTypeService;
-import com.dungeonstory.backend.service.mock.MockDamageTypeService;
+import com.dungeonstory.backend.service.DamageTypeDataService;
+import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.form.DamageTypeForm;
 import com.dungeonstory.util.ViewConfig;
@@ -32,11 +30,8 @@ public class DamageTypeView extends AbstractCrudView<DamageType> {
     }
 
     @Override
-    public DataService<DamageType, Long> getDataService() {
-        if (Configuration.getInstance().isMock()) {
-            return MockDamageTypeService.getInstance();
-        }
-        return DamageTypeService.getInstance();
+    public DamageTypeDataService getDataService() {
+        return Services.getDamageTypeService();
     }
 
 }

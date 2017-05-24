@@ -1,10 +1,8 @@
 package com.dungeonstory.view.admin;
 
-import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.Alignment;
-import com.dungeonstory.backend.service.DataService;
-import com.dungeonstory.backend.service.impl.AlignmentService;
-import com.dungeonstory.backend.service.mock.MockAlignmentService;
+import com.dungeonstory.backend.service.AlignmentDataService;
+import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.form.AlignmentForm;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.util.ViewConfig;
@@ -28,11 +26,8 @@ public class AlignmentView extends AbstractCrudView<Alignment> {
     }
 
     @Override
-    public DataService<Alignment, Long> getDataService() {
-        if (Configuration.getInstance().isMock()) {
-            return MockAlignmentService.getInstance();
-        }
-        return AlignmentService.getInstance();
+    public AlignmentDataService getDataService() {
+        return Services.getAlignmentService();
     }
 
 }

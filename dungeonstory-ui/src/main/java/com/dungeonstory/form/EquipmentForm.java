@@ -4,7 +4,6 @@ import org.vaadin.viritin.fields.IntegerField;
 import org.vaadin.viritin.fields.MTextField;
 
 import com.dungeonstory.FormCheckBox;
-import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.ArmorType;
 import com.dungeonstory.backend.data.DamageType;
 import com.dungeonstory.backend.data.Equipment;
@@ -12,13 +11,10 @@ import com.dungeonstory.backend.data.Equipment.EquipmentType;
 import com.dungeonstory.backend.data.Tool.ToolType;
 import com.dungeonstory.backend.data.WeaponType;
 import com.dungeonstory.backend.data.WeaponType.HandleType;
-import com.dungeonstory.backend.service.DataService;
-import com.dungeonstory.backend.service.impl.ArmorTypeService;
-import com.dungeonstory.backend.service.impl.DamageTypeService;
-import com.dungeonstory.backend.service.impl.WeaponTypeService;
-import com.dungeonstory.backend.service.mock.MockArmorTypeService;
-import com.dungeonstory.backend.service.mock.MockDamageTypeService;
-import com.dungeonstory.backend.service.mock.MockWeaponTypeService;
+import com.dungeonstory.backend.service.ArmorTypeDataService;
+import com.dungeonstory.backend.service.DamageTypeDataService;
+import com.dungeonstory.backend.service.Services;
+import com.dungeonstory.backend.service.WeaponTypeDataService;
 import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.ui.component.EnumComboBox;
 import com.dungeonstory.util.field.DoubleField;
@@ -61,21 +57,15 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
 
     private EquipmentType oldType = null;
 
-    private DataService<ArmorType, Long>  armorTypeService;
-    private DataService<WeaponType, Long> weaponTypeService;
-    private DataService<DamageType, Long> damageTypeService;
+    private ArmorTypeDataService  armorTypeService;
+    private WeaponTypeDataService weaponTypeService;
+    private DamageTypeDataService damageTypeService;
 
     public EquipmentForm() {
         super((Class<T>) Equipment.class);
-        if (Configuration.getInstance().isMock()) {
-            armorTypeService = MockArmorTypeService.getInstance();
-            weaponTypeService = MockWeaponTypeService.getInstance();
-            damageTypeService = MockDamageTypeService.getInstance();
-        } else {
-            armorTypeService = ArmorTypeService.getInstance();
-            weaponTypeService = WeaponTypeService.getInstance();
-            damageTypeService = DamageTypeService.getInstance();
-        }
+        armorTypeService = Services.getArmorTypeService();
+        weaponTypeService = Services.getWeaponTypeService();
+        damageTypeService = Services.getDamageTypeService();
     }
 
     @Override
@@ -122,7 +112,8 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
         layout.addComponent(isMagical);
 
         layout.addComponents(armorType, armorClass, magicalAcBonus);
-        layout.addComponents(weaponType, oneHandDamage, twoHandDamage, additionalDamage, additionalDamageType, magicalBonus);
+        layout.addComponents(weaponType, oneHandDamage, twoHandDamage, additionalDamage, additionalDamageType,
+                magicalBonus);
         layout.addComponent(toolType);
 
         layout.addComponent(weight);
@@ -171,14 +162,16 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
     public void weaponTypeChange(SingleSelectionEvent<WeaponType> event) {
         WeaponType currentweaponType = event.getValue();
         if (currentweaponType != null) {
-            if (currentweaponType.getHandleType() == HandleType.ONE_HANDED || currentweaponType.getHandleType() == HandleType.VERSATILE) {
+            if (currentweaponType.getHandleType() == HandleType.ONE_HANDED
+                    || currentweaponType.getHandleType() == HandleType.VERSATILE) {
                 oneHandDamage.setVisible(true);
                 oneHandDamage.setValue(currentweaponType.getOneHandBaseDamage());
                 if (currentweaponType.getHandleType() == HandleType.ONE_HANDED) {
                     twoHandDamage.setVisible(false);
                 }
             }
-            if (currentweaponType.getHandleType() == HandleType.TWO_HANDED || currentweaponType.getHandleType() == HandleType.VERSATILE) {
+            if (currentweaponType.getHandleType() == HandleType.TWO_HANDED
+                    || currentweaponType.getHandleType() == HandleType.VERSATILE) {
                 twoHandDamage.setVisible(true);
                 twoHandDamage.setValue(currentweaponType.getTwoHandBaseDamage());
                 if (currentweaponType.getHandleType() == HandleType.TWO_HANDED) {

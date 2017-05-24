@@ -12,7 +12,6 @@ import com.dungeonstory.backend.data.User;
 import com.dungeonstory.backend.service.AdventureDataService;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.backend.service.UserDataService;
-import com.dungeonstory.backend.service.impl.CharacterService;
 import com.dungeonstory.event.EventBus;
 import com.dungeonstory.event.NavigationEvent;
 import com.dungeonstory.event.ViewRemovedEvent;
@@ -172,7 +171,7 @@ public class AdventureView extends VerticalLayout implements View {
         if (character != null) {
             message.setXpGiven(true);
             character.giveExperience(50);
-            CharacterService.getInstance().saveOrUpdate(character);
+            Services.getCharacterService().saveOrUpdate(character);
             saveExistingMessage(message);
         }
     }

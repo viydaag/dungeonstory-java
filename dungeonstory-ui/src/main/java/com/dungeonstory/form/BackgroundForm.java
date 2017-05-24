@@ -4,14 +4,12 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.Background;
 import com.dungeonstory.backend.data.Background.LanguageChoice;
 import com.dungeonstory.backend.data.Skill;
 import com.dungeonstory.backend.data.Tool.ToolType;
 import com.dungeonstory.backend.service.DataService;
-import com.dungeonstory.backend.service.impl.SkillService;
-import com.dungeonstory.backend.service.mock.MockSkillService;
+import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.ui.component.EnumComboBox;
 import com.dungeonstory.util.field.DSSubSetSelector2;
@@ -39,11 +37,7 @@ public class BackgroundForm extends DSAbstractForm<Background> {
 
     public BackgroundForm() {
         super(Background.class);
-        if (Configuration.getInstance().isMock()) {
-            skillService = MockSkillService.getInstance();
-        } else {
-            skillService = SkillService.getInstance();
-        }
+        skillService = Services.getSkillService();
     }
 
     @Override

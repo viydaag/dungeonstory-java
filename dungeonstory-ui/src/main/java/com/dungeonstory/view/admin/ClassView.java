@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.ClassEquipment;
 import com.dungeonstory.backend.data.ClassLevelBonus;
 import com.dungeonstory.backend.data.ClassLevelFeature;
@@ -13,9 +12,8 @@ import com.dungeonstory.backend.data.ClassSpecLevelFeature;
 import com.dungeonstory.backend.data.ClassSpecialization;
 import com.dungeonstory.backend.data.ClassSpellSlots;
 import com.dungeonstory.backend.data.DSClass;
-import com.dungeonstory.backend.service.DataService;
-import com.dungeonstory.backend.service.impl.ClassService;
-import com.dungeonstory.backend.service.mock.MockClassService;
+import com.dungeonstory.backend.service.ClassDataService;
+import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.form.ClassForm;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.util.ViewConfig;
@@ -44,11 +42,8 @@ public class ClassView extends AbstractCrudView<DSClass> implements CrudView<DSC
     }
 
     @Override
-    public DataService<DSClass, Long> getDataService() {
-        if (Configuration.getInstance().isMock()) {
-            return MockClassService.getInstance();
-        }
-        return ClassService.getInstance();
+    public ClassDataService getDataService() {
+        return Services.getClassService();
     }
 
     @Override

@@ -13,6 +13,7 @@ import com.dungeonstory.backend.data.Adventure.AdventureStatus;
 import com.dungeonstory.backend.data.Alignment;
 import com.dungeonstory.backend.data.ArmorType;
 import com.dungeonstory.backend.data.Background;
+import com.dungeonstory.backend.data.ClassSpecialization;
 import com.dungeonstory.backend.data.CreatureType;
 import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.data.DamageType;
@@ -290,6 +291,11 @@ public class MockDataGenerator {
         backgrounds.add(new Background("background1"));
         backgrounds.add(new Background("background2"));
         return backgrounds;
+    }
+
+    public static List<ClassSpecialization> createClassSpecializations() {
+        // TODO Auto-generated method stub
+        return new ArrayList<>();
     }
 
 }

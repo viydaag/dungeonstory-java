@@ -2,12 +2,10 @@ package com.dungeonstory.form;
 
 import org.vaadin.viritin.fields.MTextField;
 
-import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.City;
 import com.dungeonstory.backend.data.Region;
 import com.dungeonstory.backend.service.DataService;
-import com.dungeonstory.backend.service.impl.RegionService;
-import com.dungeonstory.backend.service.mock.MockRegionService;
+import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSTextArea;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
@@ -28,11 +26,7 @@ public class CityForm extends DSAbstractForm<City> {
 
     public CityForm() {
         super(City.class);
-        if (Configuration.getInstance().isMock()) {
-            regionService = MockRegionService.getInstance();
-        } else {
-            regionService = RegionService.getInstance();
-        }
+            regionService = Services.getRegionService();
     }
 
     @Override

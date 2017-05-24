@@ -4,19 +4,15 @@ import org.vaadin.viritin.fields.IntegerField;
 import org.vaadin.viritin.fields.MTextField;
 
 import com.dungeonstory.FormCheckBox;
-import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.Ability;
 import com.dungeonstory.backend.data.ArmorType;
 import com.dungeonstory.backend.data.Feat;
 import com.dungeonstory.backend.data.Feat.FeatUsage;
 import com.dungeonstory.backend.data.Feat.PrerequisiteType;
 import com.dungeonstory.backend.data.Feat.RestType;
-import com.dungeonstory.backend.service.DataService;
+import com.dungeonstory.backend.service.AbilityDataService;
 import com.dungeonstory.backend.service.FeatDataService;
-import com.dungeonstory.backend.service.impl.AbilityService;
-import com.dungeonstory.backend.service.impl.FeatService;
-import com.dungeonstory.backend.service.mock.MockAbilityService;
-import com.dungeonstory.backend.service.mock.MockFeatService;
+import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.ui.component.EnumComboBox;
 import com.vaadin.data.HasValue.ValueChangeEvent;
@@ -29,31 +25,26 @@ public class FeatForm extends DSAbstractForm<Feat> {
 
     private static final long serialVersionUID = 5697384706401456761L;
 
-    private TextField                              name;
+    private TextField                               name;
     private DSTextArea                              description;
-    private EnumComboBox<FeatUsage>                usage;
-    private FormCheckBox                           isClassFeature;
-    private EnumComboBox<PrerequisiteType>         prerequisiteType;
+    private EnumComboBox<FeatUsage>                 usage;
+    private FormCheckBox                            isClassFeature;
+    private EnumComboBox<PrerequisiteType>          prerequisiteType;
     private EnumComboBox<ArmorType.ProficiencyType> prerequisiteArmorProficiency;
     private ComboBox<Ability>                       prerequisiteAbility;
-    private IntegerField                           prerequisiteAbilityScore;
+    private IntegerField                            prerequisiteAbilityScore;
     private ComboBox<Feat>                          parent;
-    private IntegerField                           nbUse;
-    private EnumComboBox<RestType>                 restType;
+    private IntegerField                            nbUse;
+    private EnumComboBox<RestType>                  restType;
     private ComboBox<Feat>                          replacement;
 
-    private DataService<Ability, Long> abilityService = null;
-    private FeatDataService            featService    = null;
+    private AbilityDataService abilityService = null;
+    private FeatDataService    featService    = null;
 
     public FeatForm() {
         super(Feat.class);
-        if (Configuration.getInstance().isMock()) {
-            featService = MockFeatService.getInstance();
-            abilityService = MockAbilityService.getInstance();
-        } else {
-            featService = FeatService.getInstance();
-            abilityService = AbilityService.getInstance();
-        }
+        featService = Services.getFeatService();
+        abilityService = Services.getAbilityService();
     }
 
     @Override
@@ -67,7 +58,8 @@ public class FeatForm extends DSAbstractForm<Feat> {
         restType = new EnumComboBox<RestType>(RestType.class, "Type de repos requis");
         isClassFeature = new FormCheckBox("Don de classe");
         prerequisiteType = new EnumComboBox<PrerequisiteType>(PrerequisiteType.class, "Type de prérequis");
-        prerequisiteArmorProficiency = new EnumComboBox<>(ArmorType.ProficiencyType.class, "Maitrise d'armure prérequise");
+        prerequisiteArmorProficiency = new EnumComboBox<>(ArmorType.ProficiencyType.class,
+                "Maitrise d'armure prérequise");
         prerequisiteAbility = new ComboBox<Ability>("Caractéristique prérequise", abilityService.findAll());
         prerequisiteAbilityScore = new IntegerField("Score de caractéristique");
         parent = new ComboBox<Feat>("Don parent", featService.findAllClassFeaturesWithoutParent());

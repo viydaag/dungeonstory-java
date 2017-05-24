@@ -3,11 +3,9 @@ package com.dungeonstory.view.admin;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.vaadin.dialogs.ConfirmDialog;
 
-import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.User;
 import com.dungeonstory.backend.service.DataService;
-import com.dungeonstory.backend.service.impl.UserService;
-import com.dungeonstory.backend.service.mock.MockUserService;
+import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.grid.UserGrid;
 import com.vaadin.navigator.View;
@@ -24,16 +22,11 @@ public class UserListView extends VerticalLayout implements View {
     private Label    titre;
     private UserGrid grid;
 
-    private DataService<User, Long> service;
+    private DataService<User, Long> service = Services.getUserService();
 
     public UserListView() {
         grid = new UserGrid();
         titre = new Label("Utilisateurs");
-        if (Configuration.getInstance().isMock()) {
-            service = MockUserService.getInstance();
-        } else {
-            service = UserService.getInstance();
-        }
 
         grid.getEditor().addSaveListener(event -> service.saveOrUpdate(event.getBean()));
 

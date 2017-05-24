@@ -4,8 +4,9 @@ import com.dungeonstory.backend.data.WeaponType;
 import com.dungeonstory.backend.factory.impl.WeaponTypeFactory;
 import com.dungeonstory.backend.repository.mock.MockWeaponTypeRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
+import com.dungeonstory.backend.service.WeaponTypeDataService;
 
-public class MockWeaponTypeService extends AbstractDataService<WeaponType, Long> {
+public class MockWeaponTypeService extends AbstractDataService<WeaponType, Long> implements WeaponTypeDataService {
 
 	private static final long serialVersionUID = 5408240455537708490L;
 	

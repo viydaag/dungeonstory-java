@@ -1,8 +1,8 @@
 package com.dungeonstory.view.admin;
 
 import com.dungeonstory.backend.data.CreatureType;
-import com.dungeonstory.backend.service.DataService;
-import com.dungeonstory.backend.service.impl.CreatureTypeService;
+import com.dungeonstory.backend.service.CreatureTypeDataService;
+import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.form.CreatureTypeForm;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.util.ViewConfig;
@@ -33,8 +33,8 @@ public class CreatureTypeView extends AbstractCrudView<CreatureType> {
     }
 
     @Override
-    public DataService<CreatureType, Long> getDataService() {
-        return CreatureTypeService.getInstance();
+    public CreatureTypeDataService getDataService() {
+        return Services.getCreatureTypeService();
     }
     
     @Override

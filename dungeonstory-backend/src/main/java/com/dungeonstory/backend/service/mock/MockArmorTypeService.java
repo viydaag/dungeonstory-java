@@ -4,12 +4,13 @@ import com.dungeonstory.backend.data.ArmorType;
 import com.dungeonstory.backend.factory.impl.ArmorTypeFactory;
 import com.dungeonstory.backend.repository.mock.MockArmorTypeRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
+import com.dungeonstory.backend.service.ArmorTypeDataService;
 
-public class MockArmorTypeService extends AbstractDataService<ArmorType, Long> {
+public class MockArmorTypeService extends AbstractDataService<ArmorType, Long> implements ArmorTypeDataService {
 
-	private static final long serialVersionUID = 3817601379726992189L;
-	
-	private static MockArmorTypeService instance = null;
+    private static final long serialVersionUID = 3817601379726992189L;
+
+    private static MockArmorTypeService instance = null;
 
     public static synchronized MockArmorTypeService getInstance() {
         if (instance == null) {

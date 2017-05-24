@@ -3,15 +3,11 @@ package com.dungeonstory.view.adventure;
 import org.vaadin.dialogs.ConfirmDialog;
 
 import com.dungeonstory.authentication.CurrentUser;
-import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.Adventure;
 import com.dungeonstory.backend.data.User;
-import com.dungeonstory.backend.service.DataService;
+import com.dungeonstory.backend.service.AdventureDataService;
+import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.backend.service.UserDataService;
-import com.dungeonstory.backend.service.impl.AdventureService;
-import com.dungeonstory.backend.service.impl.UserService;
-import com.dungeonstory.backend.service.mock.MockAdventureService;
-import com.dungeonstory.backend.service.mock.MockUserService;
 import com.dungeonstory.event.EventBus;
 import com.dungeonstory.event.NavigationEvent;
 import com.dungeonstory.event.ViewAddedEvent;
@@ -30,16 +26,10 @@ public class AdventureListView extends AbstractCrudView<Adventure> {
 
     public static final String URI = "adventures";
 
-    private UserDataService userService;
+    private UserDataService userService = Services.getUserService();
 
     public AdventureListView() {
         super();
-
-        if (Configuration.getInstance().isMock()) {
-            userService = MockUserService.getInstance();
-        } else {
-            userService = UserService.getInstance();
-        }
     }
 
     @Override
@@ -83,11 +73,8 @@ public class AdventureListView extends AbstractCrudView<Adventure> {
     }
 
     @Override
-    public DataService<Adventure, Long> getDataService() {
-        if (Configuration.getInstance().isMock()) {
-            return MockAdventureService.getInstance();
-        }
-        return AdventureService.getInstance();
+    public AdventureDataService getDataService() {
+        return Services.getAdventureService();
     }
 
     @Override

@@ -3,7 +3,8 @@ package com.dungeonstory.view.shop;
 import java.util.List;
 
 import com.dungeonstory.backend.data.Shop;
-import com.dungeonstory.backend.service.impl.ShopService;
+import com.dungeonstory.backend.service.Services;
+import com.dungeonstory.backend.service.ShopDataService;
 import com.dungeonstory.event.EventBus;
 import com.dungeonstory.event.NavigationEvent;
 import com.dungeonstory.util.ViewConfig;
@@ -21,13 +22,13 @@ public class ShopListView extends VerticalLayout implements View {
     public static final String URI = "shopList";
 
     protected DSGrid<Shop> grid;
-    protected ShopService  service;
+    protected ShopDataService  service;
 
     private List<Shop> shopList;
 
     public ShopListView() {
         grid = new DSGrid<>(Shop.class);
-        service = ShopService.getInstance();
+        service = Services.getShopService();
 
         grid.addSelectionListener(
                 selection -> {

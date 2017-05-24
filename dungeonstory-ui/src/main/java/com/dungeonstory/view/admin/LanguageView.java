@@ -1,10 +1,8 @@
 package com.dungeonstory.view.admin;
 
-import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.Language;
-import com.dungeonstory.backend.service.DataService;
-import com.dungeonstory.backend.service.impl.LanguageService;
-import com.dungeonstory.backend.service.mock.MockLanguageService;
+import com.dungeonstory.backend.service.LanguageDataService;
+import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.form.LanguageForm;
 import com.dungeonstory.util.ViewConfig;
@@ -32,11 +30,8 @@ public class LanguageView extends AbstractCrudView<Language> {
     }
 
     @Override
-    public DataService<Language, Long> getDataService() {
-        if (Configuration.getInstance().isMock()) {
-            return MockLanguageService.getInstance();
-        }
-        return LanguageService.getInstance();
+    public LanguageDataService getDataService() {
+        return Services.getLanguageService();
     }
 
 }

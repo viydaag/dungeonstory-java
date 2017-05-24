@@ -9,7 +9,6 @@ import org.vaadin.viritin.fields.IntegerField;
 import org.vaadin.viritin.fields.MTextField;
 
 import com.dungeonstory.FormCheckBox;
-import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.ArmorType;
 import com.dungeonstory.backend.data.Condition;
 import com.dungeonstory.backend.data.DamageType;
@@ -18,15 +17,11 @@ import com.dungeonstory.backend.data.Race;
 import com.dungeonstory.backend.data.Race.Size;
 import com.dungeonstory.backend.data.Skill;
 import com.dungeonstory.backend.data.WeaponType;
-import com.dungeonstory.backend.service.DataService;
-import com.dungeonstory.backend.service.impl.DamageTypeService;
-import com.dungeonstory.backend.service.impl.LanguageService;
-import com.dungeonstory.backend.service.impl.SkillService;
-import com.dungeonstory.backend.service.impl.WeaponTypeService;
-import com.dungeonstory.backend.service.mock.MockDamageTypeService;
-import com.dungeonstory.backend.service.mock.MockLanguageService;
-import com.dungeonstory.backend.service.mock.MockSkillService;
-import com.dungeonstory.backend.service.mock.MockWeaponTypeService;
+import com.dungeonstory.backend.service.DamageTypeDataService;
+import com.dungeonstory.backend.service.LanguageDataService;
+import com.dungeonstory.backend.service.Services;
+import com.dungeonstory.backend.service.SkillDataService;
+import com.dungeonstory.backend.service.WeaponTypeDataService;
 import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.ui.component.EnumComboBox;
 import com.dungeonstory.util.field.DSSubSetSelector2;
@@ -44,9 +39,9 @@ public class RaceForm extends DSAbstractForm<Race> {
     private TextArea  description;
     private TextArea  traits;
 
-    private EnumComboBox<Size>         size;
+    private EnumComboBox<Size>                         size;
     private DSSubSetSelector2<Language, Set<Language>> languages;
-    private FormCheckBox               extraLanguage;
+    private FormCheckBox                               extraLanguage;
 
     private IntegerField strModifier;
     private IntegerField dexModifier;
@@ -65,27 +60,20 @@ public class RaceForm extends DSAbstractForm<Race> {
     private DSSubSetSelector2<ArmorType.ProficiencyType, Set<ArmorType.ProficiencyType>> armorProficiencies;
     private DSSubSetSelector2<WeaponType, Set<WeaponType>>                               weaponProficiencies;
     private DSSubSetSelector2<Skill, Set<Skill>>                                         skillProficiencies;
-    private ComboBox<DamageType>                        damageResistance;
-    private ImagePreviewField                           image;
+    private ComboBox<DamageType>                                                         damageResistance;
+    private ImagePreviewField                                                            image;
 
-    private DataService<Language, Long>   languageService   = null;
-    private DataService<Skill, Long>      skillService      = null;
-    private DataService<WeaponType, Long> weaponTypeService = null;
-    private DataService<DamageType, Long> damageTypeService = null;
+    private LanguageDataService   languageService   = null;
+    private SkillDataService      skillService      = null;
+    private WeaponTypeDataService weaponTypeService = null;
+    private DamageTypeDataService damageTypeService = null;
 
     public RaceForm() {
         super(Race.class);
-        if (Configuration.getInstance().isMock()) {
-            languageService = MockLanguageService.getInstance();
-            skillService = MockSkillService.getInstance();
-            weaponTypeService = MockWeaponTypeService.getInstance();
-            damageTypeService = MockDamageTypeService.getInstance();
-        } else {
-            languageService = LanguageService.getInstance();
-            skillService = SkillService.getInstance();
-            weaponTypeService = WeaponTypeService.getInstance();
-            damageTypeService = DamageTypeService.getInstance();
-        }
+        languageService = Services.getLanguageService();
+        skillService = Services.getSkillService();
+        weaponTypeService = Services.getWeaponTypeService();
+        damageTypeService = Services.getDamageTypeService();
     }
 
     @Override
@@ -105,12 +93,13 @@ public class RaceForm extends DSAbstractForm<Race> {
         languages.setCaption("Langages de base");
         languages.getGrid().addColumn(Language::getName).setCaption("Langage").setId("languages");
         languages.getGrid().setColumnOrder("languages");
-        //        languages.setVisibleProperties("name");
-        //        languages.setColumnHeader("name", "Langage");
+        // languages.setVisibleProperties("name");
+        // languages.setColumnHeader("name", "Langage");
         languages.setItems(languageService.findAll());
         languages.setValue(new HashSet<>()); // nothing selected
         languages.setWidth("50%");
-        //        getBinder().forField(languages).withConverter(new CollectionSetConverter<Language>()).bind("languages");
+        // getBinder().forField(languages).withConverter(new
+        // CollectionSetConverter<Language>()).bind("languages");
 
         extraLanguage = new FormCheckBox("Langage extra");
         size = new EnumComboBox<Size>(Size.class, "Type de grandeur");
@@ -131,45 +120,54 @@ public class RaceForm extends DSAbstractForm<Race> {
 
         savingThrowProficiencies = new DSSubSetSelector2<>(Condition.class);
         savingThrowProficiencies.setCaption("Avantage au jet de sauvegarde contre");
-        //        savingThrowProficiencies.setVisibleProperties("name");
-        //        savingThrowProficiencies.setColumnHeader("name", "Condition");
-        savingThrowProficiencies.getGrid().addColumn(Condition::getName).setCaption("Condition").setId("savingThrowProficiencies");
+        // savingThrowProficiencies.setVisibleProperties("name");
+        // savingThrowProficiencies.setColumnHeader("name", "Condition");
+        savingThrowProficiencies.getGrid().addColumn(Condition::getName).setCaption("Condition")
+                .setId("savingThrowProficiencies");
         savingThrowProficiencies.setItems(Arrays.asList(Condition.values()));
-        savingThrowProficiencies.setValue(null); //nothing selected
+        savingThrowProficiencies.setValue(null); // nothing selected
         savingThrowProficiencies.setWidth("50%");
-        //        getBinder().forField(savingThrowProficiencies).withConverter(new CollectionSetConverter<Condition>()).bind("savingThrowProficiencies");
+        // getBinder().forField(savingThrowProficiencies).withConverter(new
+        // CollectionSetConverter<Condition>()).bind("savingThrowProficiencies");
 
         armorProficiencies = new DSSubSetSelector2<>(ArmorType.ProficiencyType.class);
         armorProficiencies.setCaption("Maitrises d'armure");
-        //        armorProficiencies.setVisibleProperties("name");
-        //        armorProficiencies.setColumnHeader("name", "Maitrise");
-        armorProficiencies.getGrid().addColumn(ArmorType.ProficiencyType::getName).setCaption("Maitrise").setId("armorProficiencies");
+        // armorProficiencies.setVisibleProperties("name");
+        // armorProficiencies.setColumnHeader("name", "Maitrise");
+        armorProficiencies.getGrid().addColumn(ArmorType.ProficiencyType::getName).setCaption("Maitrise")
+                .setId("armorProficiencies");
         armorProficiencies.setItems(Arrays.asList(ArmorType.ProficiencyType.values()));
-        armorProficiencies.setValue(null); //nothing selected
+        armorProficiencies.setValue(null); // nothing selected
         armorProficiencies.setWidth("50%");
-        //        getBinder().forField(armorProficiencies).withConverter(new CollectionSetConverter<ArmorType.ProficiencyType>()).bind("armorProficiencies");
+        // getBinder().forField(armorProficiencies).withConverter(new
+        // CollectionSetConverter<ArmorType.ProficiencyType>()).bind("armorProficiencies");
 
         weaponProficiencies = new DSSubSetSelector2<>(WeaponType.class);
         weaponProficiencies.setCaption("Maitrises d'arme");
-        //        weaponProficiencies.setVisibleProperties("name");
-        //        weaponProficiencies.setColumnHeader("name", "Maitrise");
-        weaponProficiencies.getGrid().addColumn(WeaponType::getName).setCaption("Maitrise").setId("weaponProficiencies");
+        // weaponProficiencies.setVisibleProperties("name");
+        // weaponProficiencies.setColumnHeader("name", "Maitrise");
+        weaponProficiencies.getGrid().addColumn(WeaponType::getName).setCaption("Maitrise")
+                .setId("weaponProficiencies");
         weaponProficiencies.setItems(weaponTypeService.findAll());
-        weaponProficiencies.setValue(null); //nothing selected
+        weaponProficiencies.setValue(null); // nothing selected
         weaponProficiencies.setWidth("50%");
-        //        getBinder().forField(weaponProficiencies).withConverter(new CollectionSetConverter<WeaponType>()).bind("weaponProficiencies");
+        // getBinder().forField(weaponProficiencies).withConverter(new
+        // CollectionSetConverter<WeaponType>()).bind("weaponProficiencies");
 
         skillProficiencies = new DSSubSetSelector2<>(Skill.class);
         skillProficiencies.setCaption("Maitrise de compétence");
-        //        skillProficiencies.setVisibleProperties("name", "keyAbility.name");
-        //        skillProficiencies.setColumnHeader("name", "Compétence");
-        //        skillProficiencies.setColumnHeader("keyAbility.name", "Caractéristique clé");
+        // skillProficiencies.setVisibleProperties("name", "keyAbility.name");
+        // skillProficiencies.setColumnHeader("name", "Compétence");
+        // skillProficiencies.setColumnHeader("keyAbility.name",
+        // "Caractéristique clé");
         skillProficiencies.getGrid().addColumn(Skill::getName).setCaption("Compétence").setId("name");
-        skillProficiencies.getGrid().addColumn(Skill::getKeyAbility).setCaption("Caractéristique clé").setId("keyAbility.name");
+        skillProficiencies.getGrid().addColumn(Skill::getKeyAbility).setCaption("Caractéristique clé")
+                .setId("keyAbility.name");
         skillProficiencies.setItems(skillService.findAll());
         skillProficiencies.setWidth("80%");
-        skillProficiencies.setValue(null); //nothing selected
-        //        getBinder().forField(skillProficiencies).withConverter(new CollectionSetConverter<Skill>()).bind("skillProficiencies");
+        skillProficiencies.setValue(null); // nothing selected
+        // getBinder().forField(skillProficiencies).withConverter(new
+        // CollectionSetConverter<Skill>()).bind("skillProficiencies");
 
         image = new ImagePreviewField();
         image.setCaption("Image");

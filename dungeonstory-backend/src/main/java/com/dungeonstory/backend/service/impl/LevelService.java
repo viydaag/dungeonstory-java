@@ -7,12 +7,13 @@ import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.backend.factory.impl.LevelFactory;
 import com.dungeonstory.backend.repository.impl.LevelRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
+import com.dungeonstory.backend.service.LevelDataService;
 
-public class LevelService extends AbstractDataService<Level, Long> {
+public class LevelService extends AbstractDataService<Level, Long> implements LevelDataService {
 
-	private static final long serialVersionUID = -201247987303396553L;
+    private static final long serialVersionUID = -201247987303396553L;
 	
-	private static LevelService instance = null;
+    private static LevelService instance = null;
 
     public static synchronized LevelService getInstance() {
         if (instance == null) {

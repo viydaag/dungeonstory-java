@@ -5,17 +5,13 @@ import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.v7.fields.ElementCollectionTable;
 import org.vaadin.viritin.v7.fields.TypedSelect;
 
-import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.City;
 import com.dungeonstory.backend.data.Equipment;
 import com.dungeonstory.backend.data.Shop;
 import com.dungeonstory.backend.data.ShopEquipment;
-import com.dungeonstory.backend.service.DataService;
+import com.dungeonstory.backend.service.CityDataService;
 import com.dungeonstory.backend.service.EquipmentDataService;
-import com.dungeonstory.backend.service.impl.CityService;
-import com.dungeonstory.backend.service.impl.EquipmentService;
-import com.dungeonstory.backend.service.mock.MockCityService;
-import com.dungeonstory.backend.service.mock.MockEquipmentService;
+import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSTextArea;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
@@ -32,8 +28,8 @@ public class ShopForm extends DSAbstractForm<Shop> {
     private ComboBox<City>                        city;
     private ElementCollectionTable<ShopEquipment> shopEquipments;
 
-    private EquipmentDataService    equipmentService = null;
-    private DataService<City, Long> cityService      = null;
+    private EquipmentDataService equipmentService = null;
+    private CityDataService      cityService      = null;
 
     public static class ShopEquipmentRow {
         TypedSelect<Equipment> equipment = new TypedSelect<Equipment>(Equipment.class);
@@ -43,13 +39,8 @@ public class ShopForm extends DSAbstractForm<Shop> {
 
     public ShopForm() {
         super(Shop.class);
-        if (Configuration.getInstance().isMock()) {
-            equipmentService = MockEquipmentService.getInstance();
-            cityService = MockCityService.getInstance();
-        } else {
-            equipmentService = EquipmentService.getInstance();
-            cityService = CityService.getInstance();
-        }
+        equipmentService = Services.getEquipmentService();
+        cityService = Services.getCityService();
     }
 
     @Override

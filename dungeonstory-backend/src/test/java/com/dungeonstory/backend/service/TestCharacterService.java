@@ -74,7 +74,7 @@ public class TestCharacterService {
         c.setWeight(150);
         c.setAlignment(AlignmentService.getInstance().read(1L));
         c.setRegion(RegionService.getInstance().read(1L));
-        c.setRace(RaceService.getInstance().read(1L));
+        c.setRace(RaceService.getInstance().read(2L));
         c.setImage("/male/abeirL.bmp");
 
         CharacterBackground cBackground = new CharacterBackground();
@@ -91,7 +91,7 @@ public class TestCharacterService {
 
         CharacterClass classe = new CharacterClass();
         classe.setCharacter(c);
-        DSClass theClass = ClassService.getInstance().read(1L);
+        DSClass theClass = ClassService.getInstance().read(2L);
         classe.setClasse(theClass);
         classe.setClassLevel(1);
         c.getClasses().add(classe);

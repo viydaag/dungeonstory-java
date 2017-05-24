@@ -4,8 +4,7 @@ import org.vaadin.viritin.fields.MTextField;
 
 import com.dungeonstory.backend.data.Ability;
 import com.dungeonstory.backend.data.Skill;
-import com.dungeonstory.backend.service.DataService;
-import com.dungeonstory.backend.service.impl.AbilityService;
+import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSTextArea;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
@@ -21,8 +20,6 @@ public class SkillForm extends DSAbstractForm<Skill> {
     private MTextField        shortDescription;
     private TextArea          description;
     private ComboBox<Ability> keyAbility;
-
-    private DataService<Ability, Long> abilityService = AbilityService.getInstance();
 
     public SkillForm() {
         super(Skill.class);
@@ -40,7 +37,7 @@ public class SkillForm extends DSAbstractForm<Skill> {
         name = new MTextField("Nom");
         shortDescription = new MTextField("Description courte").withFullWidth();
         description = new DSTextArea("Description").withFullWidth();
-        keyAbility = new ComboBox<Ability>("Attribut clé", abilityService.findAll());
+        keyAbility = new ComboBox<Ability>("Attribut clé", Services.getAbilityService().findAll());
 
         layout.addComponent(name);
         layout.addComponent(shortDescription);

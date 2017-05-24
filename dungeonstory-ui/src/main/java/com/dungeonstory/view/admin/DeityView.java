@@ -1,8 +1,8 @@
 package com.dungeonstory.view.admin;
 
 import com.dungeonstory.backend.data.Deity;
-import com.dungeonstory.backend.service.DataService;
-import com.dungeonstory.backend.service.impl.DeityService;
+import com.dungeonstory.backend.service.DeityDataService;
+import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.form.DeityForm;
 import com.dungeonstory.util.ViewConfig;
@@ -31,8 +31,8 @@ public class DeityView extends AbstractCrudView<Deity> implements CrudView<Deity
     }
 
     @Override
-    public DataService<Deity, Long> getDataService() {
-        return DeityService.getInstance();
+    public DeityDataService getDataService() {
+        return Services.getDeityService();
     }
 
 }

@@ -5,8 +5,8 @@ import java.util.List;
 
 import com.dungeonstory.backend.data.DivineDomain;
 import com.dungeonstory.backend.data.DivineDomainSpell;
-import com.dungeonstory.backend.service.DataService;
-import com.dungeonstory.backend.service.impl.DivineDomainService;
+import com.dungeonstory.backend.service.DivineDomainDataService;
+import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.form.DivineDomainForm;
 import com.dungeonstory.util.ViewConfig;
@@ -35,8 +35,8 @@ public class DivineDomainView extends AbstractCrudView<DivineDomain> implements 
     }
 
     @Override
-    public DataService<DivineDomain, Long> getDataService() {
-        return DivineDomainService.getInstance();
+    public DivineDomainDataService getDataService() {
+        return Services.getDivineDomainService();
     }
 
     @Override

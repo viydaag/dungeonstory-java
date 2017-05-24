@@ -4,12 +4,13 @@ import com.dungeonstory.backend.data.DamageType;
 import com.dungeonstory.backend.factory.impl.DamageTypeFactory;
 import com.dungeonstory.backend.repository.impl.DamageTypeRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
+import com.dungeonstory.backend.service.DamageTypeDataService;
 
-public class DamageTypeService extends AbstractDataService<DamageType, Long> {
+public class DamageTypeService extends AbstractDataService<DamageType, Long> implements DamageTypeDataService {
 
-	private static final long serialVersionUID = 661540660335270613L;
-	
-	private static DamageTypeService instance = null;
+    private static final long serialVersionUID = 661540660335270613L;
+
+    private static DamageTypeService instance = null;
 
     public static synchronized DamageTypeService getInstance() {
         if (instance == null) {

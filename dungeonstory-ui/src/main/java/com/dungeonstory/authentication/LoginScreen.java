@@ -3,8 +3,7 @@ package com.dungeonstory.authentication;
 import java.io.Serializable;
 
 import com.dungeonstory.backend.data.User;
-import com.dungeonstory.backend.service.DataService;
-import com.dungeonstory.backend.service.impl.UserService;
+import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.i18n.LanguageSelector;
 import com.dungeonstory.i18n.Messages;
 import com.dungeonstory.i18n.Translatable;
@@ -49,12 +48,9 @@ public class LoginScreen extends CssLayout implements Translatable {
     private Component loginForm;
     private Component newUserForm;
 
-    private DataService<User, Long> service;
-
     public LoginScreen(AccessControl accessControl, LoginListener loginListener) {
         this.loginListener = loginListener;
         this.accessControl = accessControl;
-        this.service = UserService.getInstance();
         buildUI();
         username.focus();
     }
@@ -154,7 +150,7 @@ public class LoginScreen extends CssLayout implements Translatable {
         newUserFormSave.addClickListener(event -> {
             try {
                 binder.writeBean(user);
-                service.create(user);
+                Services.getUserService().create(user);
                 showLoginForm();
                 //            } catch (CommitException e) {
                 //                Messages messages = Messages.getInstance();

@@ -7,8 +7,8 @@ import com.dungeonstory.backend.data.ClassSpecLevelFeature;
 import com.dungeonstory.backend.data.ClassSpecLevelSpell;
 import com.dungeonstory.backend.data.ClassSpecialization;
 import com.dungeonstory.backend.data.ClassSpecializationSpellSlots;
-import com.dungeonstory.backend.service.DataService;
-import com.dungeonstory.backend.service.impl.ClassSpecializationService;
+import com.dungeonstory.backend.service.ClassSpecializationDataService;
+import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.form.ClassSpecializationForm;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.util.ViewConfig;
@@ -36,8 +36,8 @@ public class ClassSpecializationView extends AbstractCrudView<ClassSpecializatio
     }
 
     @Override
-    public DataService<ClassSpecialization, Long> getDataService() {
-        return ClassSpecializationService.getInstance();
+    public ClassSpecializationDataService getDataService() {
+        return Services.getClassSpecializationService();
     }
 
     @Override

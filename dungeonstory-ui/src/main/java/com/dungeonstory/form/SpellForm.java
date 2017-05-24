@@ -9,7 +9,6 @@ import org.vaadin.viritin.fields.IntegerField;
 import org.vaadin.viritin.fields.MTextField;
 
 import com.dungeonstory.FormCheckBox;
-import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.Ability;
 import com.dungeonstory.backend.data.Condition;
 import com.dungeonstory.backend.data.DamageType;
@@ -28,12 +27,7 @@ import com.dungeonstory.backend.data.SpellComponent;
 import com.dungeonstory.backend.data.SpellEffect;
 import com.dungeonstory.backend.data.SpellEffect.EffectType;
 import com.dungeonstory.backend.service.DataService;
-import com.dungeonstory.backend.service.impl.AbilityService;
-import com.dungeonstory.backend.service.impl.DamageTypeService;
-import com.dungeonstory.backend.service.impl.EquipmentService;
-import com.dungeonstory.backend.service.mock.MockAbilityService;
-import com.dungeonstory.backend.service.mock.MockDamageTypeService;
-import com.dungeonstory.backend.service.mock.MockEquipmentService;
+import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.ui.component.EnumComboBox;
 import com.dungeonstory.util.field.DSSubSetSelector2;
@@ -85,15 +79,9 @@ public class SpellForm extends DSAbstractForm<Spell> {
 
     public SpellForm() {
         super(Spell.class);
-        if (Configuration.getInstance().isMock()) {
-            equipmentService = MockEquipmentService.getInstance();
-            damageTypeService = MockDamageTypeService.getInstance();
-            abilityService = MockAbilityService.getInstance();
-        } else {
-            equipmentService = EquipmentService.getInstance();
-            damageTypeService = DamageTypeService.getInstance();
-            abilityService = AbilityService.getInstance();
-        }
+        equipmentService = Services.getEquipmentService();
+        damageTypeService = Services.getDamageTypeService();
+        abilityService = Services.getAbilityService();
     }
 
     @Override
@@ -105,7 +93,7 @@ public class SpellForm extends DSAbstractForm<Spell> {
         EnumComboBox<EffectType> effectType = new EnumComboBox<>(EffectType.class);
         TextField                damage     = new TextField();
         ComboBox<DamageType>     damageType = new ComboBox<DamageType>();
-        IntegerField            armorClass = new IntegerField().withWidth("100px");
+        IntegerField             armorClass = new IntegerField().withWidth("100px");
         EnumComboBox<Condition>  condition  = new EnumComboBox<>(Condition.class);
     }
 
@@ -120,29 +108,30 @@ public class SpellForm extends DSAbstractForm<Spell> {
 
         componentTypes = new DSSubSetSelector2<>(ComponentType.class);
         componentTypes.setCaption("Types de composant");
-        //        componentTypes.setVisibleProperties("name");
-        //        componentTypes.setColumnHeader("name", "Type de composant");
+        // componentTypes.setVisibleProperties("name");
+        // componentTypes.setColumnHeader("name", "Type de composant");
         componentTypes.getGrid().addColumn(ComponentType::getName).setCaption("Type de composant").setId("name");
         componentTypes.getGrid().setColumnOrder("name");
         componentTypes.setItems(Arrays.asList(ComponentType.values()));
-        componentTypes.setValue(new HashSet<ComponentType>()); // nothing selected
+        componentTypes.setValue(new HashSet<ComponentType>()); // nothing
+                                                               // selected
         componentTypes.setWidth("50%");
         componentTypes.addValueChangeListener(event -> showComponents());
 
-        //        components = new DSSubSetSelector<Equipment>(Equipment.class) {
+        // components = new DSSubSetSelector<Equipment>(Equipment.class) {
         //
-        //            private static final long serialVersionUID = 1329224024667579287L;
+        // private static final long serialVersionUID = 1329224024667579287L;
         //
-        //            @Override
-        //            protected Equipment instantiateOption(String stringInput) {
-        //                SpellComponent c = new SpellComponent();
-        //                if(stringInput != null) {
-        //                    c.setName(stringInput);
-        //                    c.setType(EquipmentType.COMPONENT);
-        //                }
-        //                return c;
-        //            }
-        //        };
+        // @Override
+        // protected Equipment instantiateOption(String stringInput) {
+        // SpellComponent c = new SpellComponent();
+        // if(stringInput != null) {
+        // c.setName(stringInput);
+        // c.setType(EquipmentType.COMPONENT);
+        // }
+        // return c;
+        // }
+        // };
         components = new DSSubSetSelector2<>(Equipment.class);
         components.setNewItemsAllowed(true, (stringInput) -> {
             SpellComponent c = new SpellComponent();
@@ -154,12 +143,13 @@ public class SpellForm extends DSAbstractForm<Spell> {
         });
         components.setCaption("Composants matériels");
         components.getGrid().addColumn(Equipment::getName).setCaption("Composant");
-        //        components.setVisibleProperties("name");
-        //        components.setColumnHeader("name", "Composant");
+        // components.setVisibleProperties("name");
+        // components.setColumnHeader("name", "Composant");
         components.setItems(equipmentService.findAll());
         components.setValue(null); // nothing selected
         components.setWidth("50%");
-        //        getBinder().forField(components).withConverter(new CollectionListConverter<>()).bind("components");
+        // getBinder().forField(components).withConverter(new
+        // CollectionListConverter<>()).bind("components");
 
         castingTime = new EnumComboBox<CastingTime>(CastingTime.class, "Type de temps d'incantation");
         castingTimeValue = new IntegerField("Valeur de temps");

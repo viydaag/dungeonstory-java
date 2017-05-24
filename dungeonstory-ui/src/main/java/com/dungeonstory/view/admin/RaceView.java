@@ -1,10 +1,8 @@
 package com.dungeonstory.view.admin;
 
-import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.Race;
-import com.dungeonstory.backend.service.DataService;
-import com.dungeonstory.backend.service.impl.RaceService;
-import com.dungeonstory.backend.service.mock.MockRaceService;
+import com.dungeonstory.backend.service.RaceDataService;
+import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.form.RaceForm;
 import com.dungeonstory.util.ViewConfig;
@@ -28,11 +26,8 @@ public class RaceView extends AbstractCrudView<Race> {
     }
 
     @Override
-    public DataService<Race, Long> getDataService() {
-        if (Configuration.getInstance().isMock()) {
-            return MockRaceService.getInstance();
-        }
-        return RaceService.getInstance();
+    public RaceDataService getDataService() {
+        return Services.getRaceService();
     }
 
 }

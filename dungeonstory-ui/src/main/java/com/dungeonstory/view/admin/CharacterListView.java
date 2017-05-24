@@ -2,11 +2,9 @@ package com.dungeonstory.view.admin;
 
 import org.vaadin.dialogs.ConfirmDialog;
 
-import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.Character;
-import com.dungeonstory.backend.service.DataService;
-import com.dungeonstory.backend.service.impl.CharacterService;
-import com.dungeonstory.backend.service.mock.MockCharacterService;
+import com.dungeonstory.backend.service.CharacterDataService;
+import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.AbstractCrudView;
@@ -31,28 +29,13 @@ public class CharacterListView extends AbstractCrudView<Character> {
     }
 
     @Override
-    public DataService<Character, Long> getDataService() {
-        if (Configuration.getInstance().isMock()) {
-            return MockCharacterService.getInstance();
-        }
-        return CharacterService.getInstance();
+    public CharacterDataService getDataService() {
+        return Services.getCharacterService();
     }
 
     @Override
     public void enter(ViewChangeEvent event) {
         super.enter(event);
-
-        // Render a button that deletes the data row (item)
-        //        Column deleteColumn = grid.getColumn("delete");
-        //        deleteColumn.setRenderer(new ButtonRenderer(e -> {
-        //            ConfirmDialog.show(getUI(), "Supprimer", "?tes-vous certain?", "OK", "Annuler", new Runnable() {
-        //                @Override
-        //                public void run() {
-        //                    Character character = (Character) e.getItemId();
-        //                    deleteSelected(character);
-        //                }
-        //            });
-        //        }));
 
         grid.addColumn(character -> "Supprimer", new ButtonRenderer<Character>(clickEvent -> {
             ConfirmDialog.show(getUI(), "Supprimer", "Êtes-vous certain?", "OK", "Annuler", new Runnable() {

@@ -1,10 +1,8 @@
 package com.dungeonstory.view.admin;
 
-import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.backend.service.DataService;
-import com.dungeonstory.backend.service.impl.LevelService;
-import com.dungeonstory.backend.service.mock.MockLevelService;
+import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.util.ViewConfig;
 import com.dungeonstory.view.grid.LevelGrid;
 import com.vaadin.icons.VaadinIcons;
@@ -25,16 +23,11 @@ public class LevelView extends VerticalLayout implements View {
     private Label             titre;
     private LevelGrid         grid;
 
-    private DataService<Level, Long> service;
+    private DataService<Level, Long> service = Services.getLevelService();
 
     public LevelView() {
         grid = new LevelGrid();
         titre = new Label("Niveaux");
-        if (Configuration.getInstance().isMock()) {
-            service = MockLevelService.getInstance();
-        } else {
-            service = LevelService.getInstance();
-        }
 
         Button addNew = new Button("", VaadinIcons.PLUS);
 

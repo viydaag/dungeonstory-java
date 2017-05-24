@@ -4,12 +4,13 @@ import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.factory.impl.ClassFactory;
 import com.dungeonstory.backend.repository.impl.ClassRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
+import com.dungeonstory.backend.service.ClassDataService;
 
-public class ClassService extends AbstractDataService<DSClass, Long> {
+public class ClassService extends AbstractDataService<DSClass, Long> implements ClassDataService {
 
-	private static final long serialVersionUID = -188893833207480803L;
-	
-	private static ClassService instance = null;
+    private static final long serialVersionUID = -188893833207480803L;
+
+    private static ClassService instance = null;
 
     public static synchronized ClassService getInstance() {
         if (instance == null) {
@@ -23,5 +24,5 @@ public class ClassService extends AbstractDataService<DSClass, Long> {
         setEntityFactory(new ClassFactory());
         setRepository(new ClassRepository());
     }
-    
+
 }

@@ -15,7 +15,6 @@ import org.vaadin.viritin.v7.fields.ElementCollectionTable;
 import org.vaadin.viritin.v7.fields.TypedSelect;
 
 import com.dungeonstory.FormCheckBox;
-import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.Ability;
 import com.dungeonstory.backend.data.ArmorType;
 import com.dungeonstory.backend.data.ClassEquipment;
@@ -32,23 +31,14 @@ import com.dungeonstory.backend.data.Spell;
 import com.dungeonstory.backend.data.Tool.ToolType;
 import com.dungeonstory.backend.data.WeaponType;
 import com.dungeonstory.backend.data.WeaponType.ProficiencyType;
-import com.dungeonstory.backend.service.DataService;
+import com.dungeonstory.backend.service.AbilityDataService;
 import com.dungeonstory.backend.service.EquipmentDataService;
 import com.dungeonstory.backend.service.FeatDataService;
-import com.dungeonstory.backend.service.impl.AbilityService;
-import com.dungeonstory.backend.service.impl.EquipmentService;
-import com.dungeonstory.backend.service.impl.FeatService;
-import com.dungeonstory.backend.service.impl.LevelService;
-import com.dungeonstory.backend.service.impl.SkillService;
-import com.dungeonstory.backend.service.impl.SpellService;
-import com.dungeonstory.backend.service.impl.WeaponTypeService;
-import com.dungeonstory.backend.service.mock.MockAbilityService;
-import com.dungeonstory.backend.service.mock.MockEquipmentService;
-import com.dungeonstory.backend.service.mock.MockFeatService;
-import com.dungeonstory.backend.service.mock.MockLevelService;
-import com.dungeonstory.backend.service.mock.MockSkillService;
-import com.dungeonstory.backend.service.mock.MockSpellService;
-import com.dungeonstory.backend.service.mock.MockWeaponTypeService;
+import com.dungeonstory.backend.service.LevelDataService;
+import com.dungeonstory.backend.service.Services;
+import com.dungeonstory.backend.service.SkillDataService;
+import com.dungeonstory.backend.service.SpellDataService;
+import com.dungeonstory.backend.service.WeaponTypeDataService;
 import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.util.field.DSSubSetSelector2;
 import com.dungeonstory.util.field.ElementCollectionGrid;
@@ -88,7 +78,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     private IntegerField                                                                 nbChosenSkills;
     private DSSubSetSelector2<Skill, Set<Skill>>                                         baseSkills;
     private LevelBonusCollectionField                                                    levelBonuses;
-    private ElementCollectionGrid<ClassLevelFeature> classFeatures;
+    private ElementCollectionGrid<ClassLevelFeature>                                     classFeatures;
     private DSSubSetSelector2<Spell, Set<Spell>>                                         spells;
     private ElementCollectionTable<ClassEquipment>                                       startingEquipment;
 
@@ -96,29 +86,30 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     private Button addAllMartialWeapons;
     private Button clearWeapons;
 
-    private CheckBox martialArts;
-    private CheckBox sorcery;
-    private CheckBox rage;
-    private CheckBox invocation;
-    private CheckBox hunter;
-    private CheckBox sneak;
-    private CheckBox deity;
+    private CheckBox           martialArts;
+    private CheckBox           sorcery;
+    private CheckBox           rage;
+    private CheckBox           invocation;
+    private CheckBox           hunter;
+    private CheckBox           sneak;
+    private CheckBox           deity;
     private List<Registration> checkBoxListeners;
 
-    private DataService<Skill, Long>      skillService      = null;
-    private DataService<Level, Long>      levelService      = null;
-    private FeatDataService               featService       = null;
-    private DataService<WeaponType, Long> weaponTypeService = null;
-    private DataService<Ability, Long>    abilityService    = null;
-    private DataService<Spell, Long>      spellService      = null;
-    private EquipmentDataService          equipmentService  = null;
+    private SkillDataService      skillService      = null;
+    private LevelDataService      levelService      = null;
+    private FeatDataService       featService       = null;
+    private WeaponTypeDataService weaponTypeService = null;
+    private AbilityDataService    abilityService    = null;
+    private SpellDataService      spellService      = null;
+    private EquipmentDataService  equipmentService  = null;
 
     private boolean init = false;
 
-    //    public static class ClassLevelFeatureRow {
-    //        TypedSelect<Level> level = new TypedSelect<Level>();
-    //        TypedSelect<Feat>  feat  = new TypedSelect<Feat>().asComboBoxType(new ComboBoxConfig().withPageLength(20)).withFullWidth();
-    //    }
+    // public static class ClassLevelFeatureRow {
+    // TypedSelect<Level> level = new TypedSelect<Level>();
+    // TypedSelect<Feat> feat = new TypedSelect<Feat>().asComboBoxType(new
+    // ComboBoxConfig().withPageLength(20)).withFullWidth();
+    // }
 
     public static class ClassLevelFeatureRow {
         ComboBox<Level> level = new ComboBox<Level>();
@@ -133,23 +124,13 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     public ClassForm() {
         super(DSClass.class);
         checkBoxListeners = new ArrayList<>();
-        if (Configuration.getInstance().isMock()) {
-            skillService = MockSkillService.getInstance();
-            levelService = MockLevelService.getInstance();
-            featService = MockFeatService.getInstance();
-            weaponTypeService = MockWeaponTypeService.getInstance();
-            abilityService = MockAbilityService.getInstance();
-            spellService = MockSpellService.getInstance();
-            equipmentService = MockEquipmentService.getInstance();
-        } else {
-            skillService = SkillService.getInstance();
-            levelService = LevelService.getInstance();
-            featService = FeatService.getInstance();
-            weaponTypeService = WeaponTypeService.getInstance();
-            abilityService = AbilityService.getInstance();
-            spellService = SpellService.getInstance();
-            equipmentService = EquipmentService.getInstance();
-        }
+        skillService = Services.getSkillService();
+        levelService = Services.getLevelService();
+        featService = Services.getFeatService();
+        weaponTypeService = Services.getWeaponTypeService();
+        abilityService = Services.getAbilityService();
+        spellService = Services.getSpellService();
+        equipmentService = Services.getEquipmentService();
     }
 
     @Override
@@ -177,35 +158,37 @@ public class ClassForm extends DSAbstractForm<DSClass> {
 
         savingThrowProficiencies = new DSSubSetSelector2<>(Ability.class);
         savingThrowProficiencies.setCaption("Maitrise applicable au jets de sauvegarde");
-        //        savingThrowProficiencies.setVisibleProperties("name");
-        //        savingThrowProficiencies.setColumnHeader("name", "Caractéristique");
+        // savingThrowProficiencies.setVisibleProperties("name");
+        // savingThrowProficiencies.setColumnHeader("name", "Caractéristique");
         savingThrowProficiencies.getGrid().addColumn(Ability::getName).setCaption("Caractéristique").setId("name");
         savingThrowProficiencies.getGrid().setColumnOrder("name");
         savingThrowProficiencies.setItems(abilityService.findAll());
-        savingThrowProficiencies.setValue(new HashSet<Ability>()); //nothing selected
+        savingThrowProficiencies.setValue(new HashSet<Ability>()); // nothing
+                                                                   // selected
         savingThrowProficiencies.setWidth("50%");
 
         armorProficiencies = new DSSubSetSelector2<>(ArmorType.ProficiencyType.class);
         armorProficiencies.setCaption("Maitrises d'armure");
-        //        armorProficiencies.setVisibleProperties("name");
-        //        armorProficiencies.setColumnHeader("name", "Maitrise");
+        // armorProficiencies.setVisibleProperties("name");
+        // armorProficiencies.setColumnHeader("name", "Maitrise");
         armorProficiencies.getGrid().addColumn(ArmorType.ProficiencyType::getName).setCaption("Maitrise").setId("name");
         armorProficiencies.getGrid().setColumnOrder("name");
         armorProficiencies.setItems(Arrays.asList(ArmorType.ProficiencyType.values()));
-        armorProficiencies.setValue(new HashSet<ArmorType.ProficiencyType>()); //nothing selected
+        armorProficiencies.setValue(new HashSet<ArmorType.ProficiencyType>()); // nothing
+                                                                               // selected
         armorProficiencies.setWidth("50%");
 
         addAllSimpleWeapons = new Button("Armes simples", event -> {
             Collection<WeaponType> weaponTypes = weaponTypeService.findAll();
-            Set<WeaponType> allSimple = weaponTypes.stream().filter(type -> type.getProficiencyType() == ProficiencyType.SIMPLE)
-                    .collect(Collectors.toSet());
+            Set<WeaponType> allSimple = weaponTypes.stream()
+                    .filter(type -> type.getProficiencyType() == ProficiencyType.SIMPLE).collect(Collectors.toSet());
             allSimple.addAll(weaponProficiencies.getValue());
             weaponProficiencies.setValue(allSimple);
         });
         addAllMartialWeapons = new Button("Armes de guerre", event -> {
             Collection<WeaponType> weaponTypes = weaponTypeService.findAll();
-            Set<WeaponType> allMartial = weaponTypes.stream().filter(type -> type.getProficiencyType() == ProficiencyType.MARTIAL)
-                    .collect(Collectors.toSet());
+            Set<WeaponType> allMartial = weaponTypes.stream()
+                    .filter(type -> type.getProficiencyType() == ProficiencyType.MARTIAL).collect(Collectors.toSet());
             allMartial.addAll(weaponProficiencies.getValue());
             weaponProficiencies.setValue(allMartial);
         });
@@ -214,36 +197,37 @@ public class ClassForm extends DSAbstractForm<DSClass> {
 
         weaponProficiencies = new DSSubSetSelector2<>(WeaponType.class);
         weaponProficiencies.setCaption("Maitrises d'arme");
-        //        weaponProficiencies.setVisibleProperties("name");
-        //        weaponProficiencies.setColumnHeader("name", "Maitrise");
+        // weaponProficiencies.setVisibleProperties("name");
+        // weaponProficiencies.setColumnHeader("name", "Maitrise");
         weaponProficiencies.getGrid().addColumn(WeaponType::getName).setCaption("Maitrise").setId("name");
         weaponProficiencies.getGrid().setColumnOrder("name");
         weaponProficiencies.setItems(weaponTypeService.findAll());
-        weaponProficiencies.setValue(new HashSet<WeaponType>()); //nothing selected
+        weaponProficiencies.setValue(new HashSet<WeaponType>()); // nothing
+                                                                 // selected
         weaponProficiencies.setWidth("50%");
 
         toolProficiencies = new DSSubSetSelector2<>(ToolType.class);
         toolProficiencies.setCaption("Maitrise d'outil");
-        //        toolProficiencies.setVisibleProperties("name");
-        //        toolProficiencies.setColumnHeader("name", "Outil");
+        // toolProficiencies.setVisibleProperties("name");
+        // toolProficiencies.setColumnHeader("name", "Outil");
         toolProficiencies.getGrid().addColumn(ToolType::getName).setCaption("Outil").setId("name");
         toolProficiencies.getGrid().setColumnOrder("name");
         toolProficiencies.setItems(Arrays.asList(ToolType.values()));
         toolProficiencies.setWidth("50%");
-        toolProficiencies.setValue(new HashSet<ToolType>()); //nothing selected
+        toolProficiencies.setValue(new HashSet<ToolType>()); // nothing selected
 
         nbChosenSkills = new IntegerField("Nb de compétences à choisir");
         baseSkills = new DSSubSetSelector2<>(Skill.class);
         baseSkills.setCaption("Compétences de base");
-        //        baseSkills.setVisibleProperties("name", "keyAbility.name");
-        //        baseSkills.setColumnHeader("name", "Compétence");
-        //        baseSkills.setColumnHeader("keyAbility.name", "Caractéristique clé");
+        // baseSkills.setVisibleProperties("name", "keyAbility.name");
+        // baseSkills.setColumnHeader("name", "Compétence");
+        // baseSkills.setColumnHeader("keyAbility.name", "Caractéristique clé");
         baseSkills.getGrid().addColumn(Skill::getName).setCaption("Compétence").setId("name");
         baseSkills.getGrid().addColumn(Skill::getKeyAbility).setCaption("Caractéristique clé").setId("keyAbility.name");
         baseSkills.getGrid().setColumnOrder("name", "keyAbility.name");
         baseSkills.setItems(skillService.findAll());
         baseSkills.setWidth("80%");
-        baseSkills.setValue(new HashSet<Skill>()); //nothing selected
+        baseSkills.setValue(new HashSet<Skill>()); // nothing selected
 
         levelBonuses = new LevelBonusCollectionField();
         levelBonuses.withCaption("Bonus de classe").withEditorInstantiator(() -> {
@@ -262,20 +246,21 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         deity = new CheckBox("Dieu");
         activateCheckboxListeners();
 
-        HorizontalLayout checkboxLayout = new HorizontalLayout(martialArts, sorcery, rage, invocation, hunter, sneak, deity);
+        HorizontalLayout checkboxLayout = new HorizontalLayout(martialArts, sorcery, rage, invocation, hunter, sneak,
+                deity);
 
-        spellSlots = (LevelSpellsCollectionField<ClassSpellSlots>) new LevelSpellsCollectionField<ClassSpellSlots>(ClassSpellSlots.class)
-                .withCaption("Nombre de sorts").withEditorInstantiator(() -> {
+        spellSlots = (LevelSpellsCollectionField<ClassSpellSlots>) new LevelSpellsCollectionField<ClassSpellSlots>(
+                ClassSpellSlots.class).withCaption("Nombre de sorts").withEditorInstantiator(() -> {
                     LevelSpellsRow row = new LevelSpellsRow();
                     row.level.setItems(levelService.findAll());
                     return row;
                 });
 
-        classFeatures = new ElementCollectionGrid<ClassLevelFeature>(ClassLevelFeature.class, ClassLevelFeatureRow.class)
-                .withCaption("Dons de classe").withEditorInstantiator(() -> {
+        classFeatures = new ElementCollectionGrid<ClassLevelFeature>(ClassLevelFeature.class,
+                ClassLevelFeatureRow.class).withCaption("Dons de classe").withEditorInstantiator(() -> {
                     ClassLevelFeatureRow row = new ClassLevelFeatureRow();
-                    //                    row.level.setOptions(levelService.findAll());
-                    //                    row.feat.setOptions(featService.findAllClassFeatures());
+                    // row.level.setOptions(levelService.findAll());
+                    // row.feat.setOptions(featService.findAllClassFeatures());
                     row.level.setItems(levelService.findAll());
                     row.feat.setItems(featService.findAllClassFeatures());
                     row.feat.setPageLength(20);
@@ -288,17 +273,17 @@ public class ClassForm extends DSAbstractForm<DSClass> {
 
         spells = new DSSubSetSelector2<>(Spell.class);
         spells.setCaption("Sorts de classe");
-        //        spells.setVisibleProperties("level", "name", "school");
-        //        spells.setColumnHeader("name", "Sort");
-        //        spells.setColumnHeader("level", "Niveau du sort");
-        //        spells.setColumnHeader("school", "École");
+        // spells.setVisibleProperties("level", "name", "school");
+        // spells.setColumnHeader("name", "Sort");
+        // spells.setColumnHeader("level", "Niveau du sort");
+        // spells.setColumnHeader("school", "École");
         spells.getGrid().addColumn(Spell::getName).setCaption("Sort").setId("name");
         spells.getGrid().addColumn(Spell::getLevel).setCaption("Niveau du sort").setId("level");
         spells.getGrid().addColumn(Spell::getSchool).setCaption("École").setId("school");
         spells.getGrid().setColumnOrder("name", "level", "school");
         spells.setItems(spellService.findAll());
         spells.setWidth("80%");
-        spells.setValue(null); //nothing selected
+        spells.setValue(null); // nothing selected
 
         startingEquipment = new ElementCollectionTable<ClassEquipment>(ClassEquipment.class, ClassEquipmentRow.class)
                 .withCaption("Équipement de base").withEditorInstantiator(() -> {
@@ -333,7 +318,8 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     }
 
     private void activateCheckboxListeners() {
-        checkBoxListeners.add(martialArts.addValueChangeListener(event -> levelBonuses.setMartialArts(event.getValue())));
+        checkBoxListeners
+                .add(martialArts.addValueChangeListener(event -> levelBonuses.setMartialArts(event.getValue())));
         checkBoxListeners.add(sorcery.addValueChangeListener(event -> levelBonuses.setSorcery(event.getValue())));
         checkBoxListeners.add(rage.addValueChangeListener(event -> levelBonuses.setRage(event.getValue())));
         checkBoxListeners.add(invocation.addValueChangeListener(event -> levelBonuses.setInvocation(event.getValue())));
@@ -363,13 +349,20 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     }
 
     private void deactivateCheckboxListeners() {
-        //        hunter.getListeners(ValueChangeEvent.class).forEach(listener -> hunter.removeListener(ValueChangeEvent.class, listener));
-        //        rage.getListeners(ValueChangeEvent.class).forEach(listener -> rage.removeListener(ValueChangeEvent.class, listener));
-        //        invocation.getListeners(ValueChangeEvent.class).forEach(listener -> invocation.removeListener(ValueChangeEvent.class, listener));
-        //        martialArts.getListeners(ValueChangeEvent.class).forEach(listener -> martialArts.removeListener(ValueChangeEvent.class, listener));
-        //        sneak.getListeners(ValueChangeEvent.class).forEach(listener -> sneak.removeListener(ValueChangeEvent.class, listener));
-        //        sorcery.getListeners(ValueChangeEvent.class).forEach(listener -> sorcery.removeListener(ValueChangeEvent.class, listener));
-        //        deity.getListeners(ValueChangeEvent.class).forEach(listener -> deity.removeListener(ValueChangeEvent.class, listener));
+        // hunter.getListeners(ValueChangeEvent.class).forEach(listener ->
+        // hunter.removeListener(ValueChangeEvent.class, listener));
+        // rage.getListeners(ValueChangeEvent.class).forEach(listener ->
+        // rage.removeListener(ValueChangeEvent.class, listener));
+        // invocation.getListeners(ValueChangeEvent.class).forEach(listener ->
+        // invocation.removeListener(ValueChangeEvent.class, listener));
+        // martialArts.getListeners(ValueChangeEvent.class).forEach(listener ->
+        // martialArts.removeListener(ValueChangeEvent.class, listener));
+        // sneak.getListeners(ValueChangeEvent.class).forEach(listener ->
+        // sneak.removeListener(ValueChangeEvent.class, listener));
+        // sorcery.getListeners(ValueChangeEvent.class).forEach(listener ->
+        // sorcery.removeListener(ValueChangeEvent.class, listener));
+        // deity.getListeners(ValueChangeEvent.class).forEach(listener ->
+        // deity.removeListener(ValueChangeEvent.class, listener));
         checkBoxListeners.stream().forEach(registration -> registration.remove());
     }
 
@@ -381,8 +374,8 @@ public class ClassForm extends DSAbstractForm<DSClass> {
             levelBonuses.clearForNew();
         }
         if (getEntity() != null) {
-            //            classFeatures.getGrid().setHeightByRows(classFeatures.getValue().size());
-            //            classFeatures.setHeight("700px");
+            // classFeatures.getGrid().setHeightByRows(classFeatures.getValue().size());
+            // classFeatures.setHeight("700px");
         }
         refreshLevelBonusCheckBoxVisibility();
     }
@@ -408,8 +401,10 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     }
 
     public void spellCastingTypeChange(SingleSelectionEvent<SpellCastingType> event) {
-        //hide the known spell column if spells are prepared (nbSpells = level + ability modifier)
-        spellSlots.setKnownSpells(event != null && event.getValue() != null && event.getValue() == SpellCastingType.KNOWN);
+        // hide the known spell column if spells are prepared (nbSpells = level
+        // + ability modifier)
+        spellSlots.setKnownSpells(
+                event != null && event.getValue() != null && event.getValue() == SpellCastingType.KNOWN);
     }
 
     private void refreshLevelBonusCheckBoxVisibility() {
@@ -420,7 +415,8 @@ public class ClassForm extends DSAbstractForm<DSClass> {
                 if (levelBonus.getFavoredEnemy() != null || levelBonus.getNaturalExplorer() != null) {
                     hunter.setValue(true);
                 }
-                if (levelBonus.getKiPoints() != null || levelBonus.getMartialArtsDamage() != null || levelBonus.getMovementBonus() != null) {
+                if (levelBonus.getKiPoints() != null || levelBonus.getMartialArtsDamage() != null
+                        || levelBonus.getMovementBonus() != null) {
                     martialArts.setValue(true);
                 }
                 if (levelBonus.getRagePoints() != null || levelBonus.getRageDamageBonus() != null) {

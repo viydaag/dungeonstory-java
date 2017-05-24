@@ -4,8 +4,9 @@ import com.dungeonstory.backend.data.Background;
 import com.dungeonstory.backend.factory.impl.BackgroundFactory;
 import com.dungeonstory.backend.repository.mock.MockBackgroundRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
+import com.dungeonstory.backend.service.BackgroundDataService;
 
-public class MockBackgroundService extends AbstractDataService<Background, Long> {
+public class MockBackgroundService extends AbstractDataService<Background, Long> implements BackgroundDataService {
 
     private static final long serialVersionUID = -5763118490006048311L;
     

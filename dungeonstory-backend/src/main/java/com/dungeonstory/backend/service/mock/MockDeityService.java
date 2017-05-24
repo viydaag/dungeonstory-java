@@ -4,8 +4,9 @@ import com.dungeonstory.backend.data.Deity;
 import com.dungeonstory.backend.factory.impl.DeityFactory;
 import com.dungeonstory.backend.repository.mock.MockDeityRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
+import com.dungeonstory.backend.service.DeityDataService;
 
-public class MockDeityService extends AbstractDataService<Deity, Long> {
+public class MockDeityService extends AbstractDataService<Deity, Long> implements DeityDataService {
 
     private static final long serialVersionUID = 3713358506919598497L;
 

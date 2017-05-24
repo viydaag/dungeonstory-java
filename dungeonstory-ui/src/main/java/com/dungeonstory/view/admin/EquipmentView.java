@@ -1,8 +1,8 @@
 package com.dungeonstory.view.admin;
 
 import com.dungeonstory.backend.data.Equipment;
-import com.dungeonstory.backend.service.DataService;
-import com.dungeonstory.backend.service.impl.EquipmentService;
+import com.dungeonstory.backend.service.EquipmentDataService;
+import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.form.EquipmentForm;
 import com.dungeonstory.util.ViewConfig;
@@ -27,8 +27,8 @@ public class EquipmentView extends AbstractCrudView<Equipment> {
     }
 
     @Override
-    public DataService<Equipment, Long> getDataService() {
-        return EquipmentService.getInstance();
+    public EquipmentDataService getDataService() {
+        return Services.getEquipmentService();
     }
 
 }

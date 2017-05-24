@@ -3,12 +3,10 @@ package com.dungeonstory.view.admin;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.Spell;
 import com.dungeonstory.backend.data.SpellEffect;
-import com.dungeonstory.backend.service.DataService;
-import com.dungeonstory.backend.service.impl.SpellService;
-import com.dungeonstory.backend.service.mock.MockSpellService;
+import com.dungeonstory.backend.service.Services;
+import com.dungeonstory.backend.service.SpellDataService;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.form.SpellForm;
 import com.dungeonstory.util.ViewConfig;
@@ -32,11 +30,8 @@ public class SpellView extends AbstractCrudView<Spell> {
     }
 
     @Override
-    public DataService<Spell, Long> getDataService() {
-        if (Configuration.getInstance().isMock()) {
-            return MockSpellService.getInstance();
-        }
-        return SpellService.getInstance();
+    public SpellDataService getDataService() {
+        return Services.getSpellService();
     }
     
     @Override

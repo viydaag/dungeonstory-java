@@ -10,8 +10,7 @@ import com.dungeonstory.backend.data.WeaponType.ProficiencyType;
 import com.dungeonstory.backend.data.WeaponType.RangeType;
 import com.dungeonstory.backend.data.WeaponType.SizeType;
 import com.dungeonstory.backend.data.WeaponType.UsageType;
-import com.dungeonstory.backend.service.DataService;
-import com.dungeonstory.backend.service.impl.DamageTypeService;
+import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.ui.component.EnumComboBox;
 import com.dungeonstory.util.field.DoubleField;
@@ -43,9 +42,7 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
     private DoubleField                   baseWeight;
     private IntegerField                  basePrice;
 
-    private DataService<DamageType, Long> damageTypeService = DamageTypeService.getInstance();
-
-    Registration usageListener;
+    private Registration usageListener;
 
     public WeaponTypeForm() {
         super(WeaponType.class);
@@ -75,7 +72,7 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
         baseWeight = new DoubleField("Poids de base (lbs)");
         basePrice = new IntegerField("Prix de base");
 
-        damageType = new ComboBox<DamageType>("Type de dommage", damageTypeService.findAll());
+        damageType = new ComboBox<DamageType>("Type de dommage", Services.getDamageTypeService().findAll());
 
         handleType.addSelectionListener(this::handleTypeValueChange);
 

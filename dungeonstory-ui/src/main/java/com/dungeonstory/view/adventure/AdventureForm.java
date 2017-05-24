@@ -5,7 +5,7 @@ import org.vaadin.viritin.fields.MTextField;
 import com.dungeonstory.backend.data.Adventure;
 import com.dungeonstory.backend.data.Adventure.AdventureStatus;
 import com.dungeonstory.backend.data.Level;
-import com.dungeonstory.backend.service.impl.LevelService;
+import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.event.EventBus;
 import com.dungeonstory.event.NavigationEvent;
 import com.dungeonstory.form.DSAbstractForm;
@@ -40,7 +40,7 @@ public class AdventureForm extends DSAbstractForm<Adventure> {
         name = new MTextField("Titre").withWidth("50%");
         description = new DSTextArea("Description").withFullWidth();
         challengeRating = new ComboBox<>("Degré de difficulté");
-        challengeRating.setItems(LevelService.getInstance().findAll());
+        challengeRating.setItems(Services.getLevelService().findAll());
         status = new EnumComboBox<>(AdventureStatus.class, "Statut");
         layout.addComponents(name, description, challengeRating, status);
         layout.addComponent(getToolbar());

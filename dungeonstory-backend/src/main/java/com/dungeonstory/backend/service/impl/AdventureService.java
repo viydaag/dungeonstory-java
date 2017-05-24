@@ -11,9 +11,9 @@ import com.dungeonstory.backend.service.AdventureDataService;
 
 public class AdventureService extends AbstractDataService<Adventure, Long> implements AdventureDataService {
 
-    private static final long       serialVersionUID = -3637998347027964634L;
+    private static final long serialVersionUID = -3637998347027964634L;
 
-    private static AdventureService instance         = null;
+    private static AdventureService instance = null;
 
     public static synchronized AdventureService getInstance() {
         if (instance == null) {

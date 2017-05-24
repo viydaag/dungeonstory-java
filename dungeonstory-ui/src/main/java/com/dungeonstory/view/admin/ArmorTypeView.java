@@ -1,10 +1,8 @@
 package com.dungeonstory.view.admin;
 
-import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.ArmorType;
-import com.dungeonstory.backend.service.DataService;
-import com.dungeonstory.backend.service.impl.ArmorTypeService;
-import com.dungeonstory.backend.service.mock.MockArmorTypeService;
+import com.dungeonstory.backend.service.ArmorTypeDataService;
+import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.form.ArmorTypeForm;
 import com.dungeonstory.form.DSAbstractForm;
 import com.dungeonstory.util.ViewConfig;
@@ -28,11 +26,8 @@ public class ArmorTypeView extends AbstractCrudView<ArmorType> {
     }
 
     @Override
-    public DataService<ArmorType, Long> getDataService() {
-        if (Configuration.getInstance().isMock()) {
-            return MockArmorTypeService.getInstance();
-        }
-        return ArmorTypeService.getInstance();
+    public ArmorTypeDataService getDataService() {
+        return Services.getArmorTypeService();
     }
 
 }

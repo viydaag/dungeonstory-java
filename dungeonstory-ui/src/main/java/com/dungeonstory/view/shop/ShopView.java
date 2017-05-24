@@ -4,7 +4,8 @@ import org.vaadin.viritin.label.MLabel;
 
 import com.dungeonstory.backend.data.Shop;
 import com.dungeonstory.backend.data.ShopEquipment;
-import com.dungeonstory.backend.service.impl.ShopService;
+import com.dungeonstory.backend.service.Services;
+import com.dungeonstory.backend.service.ShopDataService;
 import com.dungeonstory.event.EventBus;
 import com.dungeonstory.event.NavigationEvent;
 import com.dungeonstory.util.DSTheme;
@@ -25,23 +26,23 @@ public class ShopView extends VerticalLayout implements View {
 
     public static final String URI = "shop";
 
-    protected ShopService service;
-    private Shop          shop;
-    
+    protected ShopDataService service;
+    private Shop              shop;
+
     private VerticalLayout buyLayout;
 
     public ShopView() {
-        service = ShopService.getInstance();
+        service = Services.getShopService();
         buyLayout = new VerticalLayout();
         buyLayout.setWidth(50, Unit.PERCENTAGE);
     }
 
     @Override
     public void enter(ViewChangeEvent event) {
-        
+
         Button backButton = new Button("Retour");
         backButton.addClickListener(click -> EventBus.post(new NavigationEvent(ShopListView.URI)));
-        
+
         Label shopName = new Label();
 
         if (event.getParameters() == null || event.getParameters().isEmpty()) {
@@ -50,9 +51,9 @@ public class ShopView extends VerticalLayout implements View {
             shop = service.read(Long.valueOf(event.getParameters()));
             shopName.setValue(shop.getName());
         }
-        
+
         addComponents(backButton, shopName, buyLayout);
-        
+
         Panel buyHeaderPanel = new Panel();
         HorizontalLayout buyHeaderLayout = new HorizontalLayout();
         Label itemName = new MLabel("Item");
@@ -64,7 +65,8 @@ public class ShopView extends VerticalLayout implements View {
         Label plusLabel = new MLabel("").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
         Label buyLabel = new MLabel("").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
         buyHeaderLayout.setWidth(100, Unit.PERCENTAGE);
-        buyHeaderLayout.addComponents(unitPriceLabel, itemName, stockQuantityLabel, minusLabel, buyQuantityLabel, plusLabel, totalPriceLabel, buyLabel);
+        buyHeaderLayout.addComponents(unitPriceLabel, itemName, stockQuantityLabel, minusLabel, buyQuantityLabel,
+                plusLabel, totalPriceLabel, buyLabel);
         buyHeaderLayout.setComponentAlignment(buyLabel, Alignment.MIDDLE_RIGHT);
         buyHeaderLayout.setExpandRatio(itemName, 4);
         buyHeaderLayout.setExpandRatio(unitPriceLabel, 1);
@@ -76,7 +78,7 @@ public class ShopView extends VerticalLayout implements View {
         buyHeaderLayout.setExpandRatio(buyLabel, 2);
         buyHeaderPanel.setContent(buyHeaderLayout);
         buyLayout.addComponent(buyHeaderPanel);
-        
+
         for (ShopEquipment shopEquipment : shop.getShopEquipments()) {
             ShopItem item = new ShopItem(shopEquipment);
             buyLayout.addComponent(item);
