@@ -8,10 +8,10 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
 
-import com.dungeonstory.DSConstant;
 import com.dungeonstory.backend.data.Character.Gender;
 import com.dungeonstory.ui.component.DSImage;
-import com.dungeonstory.util.ImageFilter;
+import com.dungeonstory.ui.util.DSConstant;
+import com.dungeonstory.ui.util.ImageFilter;
 import com.vaadin.server.FileResource;
 
 public class ImageFactory {
