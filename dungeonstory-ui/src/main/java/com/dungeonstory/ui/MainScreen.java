@@ -2,6 +2,7 @@ package com.dungeonstory.ui;
 
 import java.util.HashMap;
 
+import com.dungeonstory.backend.data.AccessRole;
 import com.dungeonstory.ui.authentication.CurrentUser;
 import com.dungeonstory.ui.event.ViewAddedEvent;
 import com.dungeonstory.ui.event.ViewRemovedEvent;
@@ -153,7 +154,7 @@ public class MainScreen extends HorizontalLayout {
                     .navigateTo(AdventureView.URI + "/" + CurrentUser.get().getAdventure().getId()));
         }
 
-        if (DungeonStoryUI.get().getAccessControl().isUserInRole("ADMIN")) {
+        if (DungeonStoryUI.get().getAccessControl().isUserInRole(AccessRole.ADMIN)) {
             addViewToNavBar(UserListView.class);
             addViewToNavBar(CharacterListView.class);
             addViewToNavBar(AbilityView.class);

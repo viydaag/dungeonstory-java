@@ -1,10 +1,5 @@
-/* AccessRole */
-insert into accessrole(id, name, roletype, version, created, updated) values (1, 'Administrateur', 0, 1, now(), now());
-insert into accessrole(id, name, roletype, version, created, updated) values (2, 'Modérateur', 1, 1, now(), now());
-insert into accessrole(id, name, roletype, version, created, updated) values (3, 'Joueur', 2, 1, now(), now());
-
 /* User */
-insert into user(id, username, password, name, email, status, roleId, version, created, updated) values (1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'JC Fortier', 'fortier.jc@gmail.com', 1, 1, 1, now(), now());
+insert into user(id, username, password, name, email, status, role, version, created, updated) values (1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'JC Fortier', 'fortier.jc@gmail.com', 1, 0, 1, now(), now());
 
 /* Ability */
 INSERT INTO ability (id, name, description, abbreviation, version, created, updated) VALUES (1,'Force','Mesure le pouvoir physique.\n\nUn jet de Force peut modéliser toute tentative de soulever, pousser, tirer ou casser quelque chose, de faire passer votre corps à travers un espace, ou bien d''appliquer la force brute à une situation. La compétence Athlétisme reflète une aptitude à certains types de jets de Force.\n\nVous ajoutez votre modificateur de Force à votre jet d''attaque et de dégâts lors d''une attaque avec une arme de corps à corps comme une masse, une hache ou un javelot. Les armes de corps à corps sont utilisées pour faire des attaques de corps à corps, et certaines d''entre elles peuvent être jetées pour effectuer une attaque à distance.\n\nVotre Force détermine le poids que vous pouvez porter. Les termes suivants définissent ce que vous pouvez soulever ou transporter.\n\nCapacité de charge. Votre capacité de charge est votre valeur de Force multipliée par 15. C''est le poids (en livres) que vous pouvez porter, ce qui est suffisamment élevé pour que la plupart des personnages n''aient généralement pas à s''inquiéter à ce sujet.\n\nPousser, Tirer, Soulever. Vous pouvez pousser, tirer ou soulever un poids en livres jusqu''à deux fois votre capacité de charge (ou 30 fois votre valeur de Force). Pousser ou tirer un poids au-delà de votre capacité de charge fait passer votre vitesse à 5 pieds.','For',2,now(),now());

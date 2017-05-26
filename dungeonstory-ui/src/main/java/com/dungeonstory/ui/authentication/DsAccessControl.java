@@ -2,6 +2,7 @@ package com.dungeonstory.ui.authentication;
 
 import javax.security.auth.login.LoginException;
 
+import com.dungeonstory.backend.data.AccessRole;
 import com.dungeonstory.backend.data.User;
 import com.dungeonstory.backend.service.impl.LoginService;
 
@@ -14,7 +15,7 @@ public class DsAccessControl implements AccessControl {
 
     private static final long serialVersionUID = -5090993487106313401L;
 
-    private LoginService      loginService     = new LoginService();
+    private LoginService loginService = new LoginService();
 
     @Override
     public boolean signIn(String username, String password) {
@@ -34,18 +35,20 @@ public class DsAccessControl implements AccessControl {
     }
 
     @Override
-    public boolean isUserInRole(String role) {
-        return getRoleName().equals(role);
+    public boolean isUserInRole(AccessRole role) {
+        AccessRole accessRole = getRole();
+        if (accessRole != null) {
+            return accessRole == role;
+        }
+        return false;        
     }
 
     @Override
-    public String getRoleName() {
+    public AccessRole getRole() {
         if (isUserSignedIn()) {
-            if (CurrentUser.get().getRole() != null) {
-                return CurrentUser.get().getRole().getType().name();
-            }
+            return CurrentUser.get().getRole();
         }
-        return "";
+        return null;
     }
 
 }

@@ -1,5 +1,6 @@
 package com.dungeonstory.backend.service.mock;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.dungeonstory.backend.data.Character;
@@ -41,31 +42,31 @@ public class MockFeatService extends AbstractDataService<Feat, Long> implements 
     @Override
     public List<Feat> findAllFeatsExcept(Feat feat) {
         // TODO Auto-generated method stub
-        return null;
+        return new ArrayList<Feat>();
     }
 
     @Override
     public List<Feat> findAllUnassignedFeats(Character character) {
         // TODO Auto-generated method stub
-        return null;
+        return new ArrayList<Feat>();
     }
 
     @Override
     public List<Feat> findAllClassFeaturesWithoutParent() {
         // TODO Auto-generated method stub
-        return null;
+        return new ArrayList<Feat>();
     }
 
     @Override
     public List<Feat> findAllClassFeaturesWithoutChildren() {
         // TODO Auto-generated method stub
-        return null;
+        return new ArrayList<Feat>();
     }
 
     @Override
     public List<Feat> findAllClassFeatureExcept(Feat feat) {
         // TODO Auto-generated method stub
-        return null;
+        return new ArrayList<Feat>();
     }
 
 }

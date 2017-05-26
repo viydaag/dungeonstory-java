@@ -1,6 +1,7 @@
 package com.dungeonstory.ui.authentication;
 
 import com.dungeonstory.backend.Configuration;
+import com.dungeonstory.backend.data.AccessRole;
 import com.dungeonstory.backend.data.User;
 import com.dungeonstory.backend.mock.MockAdminUser;
 import com.dungeonstory.backend.mock.MockUser;
@@ -37,22 +38,25 @@ public class BasicAccessControl implements AccessControl {
     }
 
     @Override
-    public boolean isUserInRole(String role) {
-        if ("admin".equals(role)) {
-            // Only the "admin" user is in the "admin" role
-            return getRoleName().equals("admin");
-        }
-
-        // All users are in all non-admin roles
-        return false;
+    public boolean isUserInRole(AccessRole role) {
+//        if (AccessRole2.ADMIN == role) {
+//            // Only the "admin" user is in the "admin" role
+//            return getRole() == AccessRole2.ADMIN;
+//        }
+//
+//        // All users are in all non-admin roles
+//        return false;
+        return getRole() == role;
     }
 
     @Override
-    public String getRoleName() {
+    public AccessRole getRole() {
         if (isUserSignedIn()) {
-            return CurrentUser.get().getUsername();
+            if (CurrentUser.get().getUsername().equals("admin")) {
+                return AccessRole.ADMIN;
+            }
         }
-        return "";
+        return AccessRole.PLAYER;
     }
 
 }

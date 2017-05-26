@@ -179,9 +179,10 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
                     oneHandDamage.setVisible(false);
                 }
             }
+            //FIXME
             description.setValue(Optional.fromNullable(currentweaponType.getDescription()).or(""));
-            weight.setValue(currentweaponType.getBaseWeight());
-            basePrice.setValue(currentweaponType.getBasePrice());
+            weight.setValue(Optional.fromNullable(currentweaponType.getBaseWeight()).or(0.0));
+            basePrice.setValue(Optional.fromNullable(currentweaponType.getBasePrice()).or(0));
         }
     }
 

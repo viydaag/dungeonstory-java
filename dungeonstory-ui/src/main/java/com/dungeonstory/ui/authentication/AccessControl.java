@@ -2,6 +2,8 @@ package com.dungeonstory.ui.authentication;
 
 import java.io.Serializable;
 
+import com.dungeonstory.backend.data.AccessRole;
+
 /**
  * Simple interface for authentication and authorization checks.
  */
@@ -19,7 +21,7 @@ public interface AccessControl extends Serializable {
 
     public boolean isUserSignedIn();
 
-    public boolean isUserInRole(String role);
+    public boolean isUserInRole(AccessRole role);
 
-    public String getRoleName();
+    public AccessRole getRole();
 }

@@ -1,30 +1,18 @@
 package com.dungeonstory.ui.view.admin.grid;
 
-import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.AccessRole;
 import com.dungeonstory.backend.data.User;
-import com.dungeonstory.backend.service.DataService;
-import com.dungeonstory.backend.service.impl.AccessRoleService;
-import com.dungeonstory.backend.service.mock.MockAccessRoleService;
+import com.dungeonstory.ui.component.EnumComboBox;
 import com.vaadin.data.Binder;
 import com.vaadin.data.validator.EmailValidator;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.TextField;
 
 public class UserGrid extends DSGrid<User> {
 
     private static final long serialVersionUID = -6906747725928178053L;
 
-    private DataService<AccessRole, Long> roleService;
-
     public UserGrid() {
-        super(User.class);
-
-        if (Configuration.getInstance().isMock()) {
-            roleService = MockAccessRoleService.getInstance();
-        } else {
-            roleService = AccessRoleService.getInstance();
-        }
+        super();
 
         Binder<User> binder = getEditor().getBinder();
 
@@ -32,8 +20,7 @@ public class UserGrid extends DSGrid<User> {
         getEditor().setCancelCaption("Annuler");
         getEditor().setSaveCaption("Enregistrer");
 
-        ComboBox<AccessRole> roleEditor = new ComboBox<AccessRole>();
-        roleEditor.setItems(roleService.findAll());
+        EnumComboBox<AccessRole> roleEditor = new EnumComboBox<>(AccessRole.class);
         binder.forField(roleEditor).bind(User::getRole, User::setRole);
 
         TextField emailEditor = new TextField();

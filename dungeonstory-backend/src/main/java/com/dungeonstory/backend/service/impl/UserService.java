@@ -2,6 +2,7 @@ package com.dungeonstory.backend.service.impl;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
+import com.dungeonstory.backend.data.AccessRole;
 import com.dungeonstory.backend.data.User;
 import com.dungeonstory.backend.factory.impl.UserFactory;
 import com.dungeonstory.backend.repository.impl.UserRepository;
@@ -35,6 +36,7 @@ public class UserService extends AbstractDataService<User, Long> implements User
     @Override
     public void create(User entity) {
         entity.setPassword(DigestUtils.md5Hex(entity.getPassword()));
+        entity.setRole(AccessRole.PLAYER);
         super.create(entity);
     }
 

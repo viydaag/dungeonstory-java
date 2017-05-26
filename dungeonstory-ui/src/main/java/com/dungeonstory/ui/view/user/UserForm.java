@@ -19,7 +19,7 @@ public class UserForm extends AbstractForm<User> implements Translatable {
 
     private LabelField<String>        username;
     private LabelField<String>        name;
-    private LabelField<AccessRole>    role;
+    private LabelField<AccessRole>   role;
     private LabelField<UserStatus>    status;
     private LabelField<String>        email;
     private LabelField<LocalDateTime> created;
