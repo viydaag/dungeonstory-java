@@ -1,7 +1,6 @@
 package com.dungeonstory.backend.service.mock;
 
 import com.dungeonstory.backend.data.Background;
-import com.dungeonstory.backend.factory.impl.BackgroundFactory;
 import com.dungeonstory.backend.repository.mock.MockBackgroundRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
 import com.dungeonstory.backend.service.BackgroundDataService;
@@ -21,7 +20,7 @@ public class MockBackgroundService extends AbstractDataService<Background, Long>
 
     private MockBackgroundService() {
         super();
-        setEntityFactory(new BackgroundFactory());
+        setEntityFactory(() -> new Background());
         setRepository(new MockBackgroundRepository());
     }
 

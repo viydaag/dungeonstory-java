@@ -1,7 +1,6 @@
 package com.dungeonstory.backend.service.mock;
 
 import com.dungeonstory.backend.data.ArmorType;
-import com.dungeonstory.backend.factory.impl.ArmorTypeFactory;
 import com.dungeonstory.backend.repository.mock.MockArmorTypeRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
 import com.dungeonstory.backend.service.ArmorTypeDataService;
@@ -21,7 +20,7 @@ public class MockArmorTypeService extends AbstractDataService<ArmorType, Long> i
 
     private MockArmorTypeService() {
         super();
-        setEntityFactory(new ArmorTypeFactory());
+        setEntityFactory(() -> new ArmorType());
         setRepository(new MockArmorTypeRepository());
     }
 

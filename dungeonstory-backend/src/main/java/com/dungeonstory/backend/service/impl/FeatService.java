@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.Feat;
-import com.dungeonstory.backend.factory.impl.FeatFactory;
 import com.dungeonstory.backend.repository.impl.FeatRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
 import com.dungeonstory.backend.service.FeatDataService;
@@ -24,7 +23,7 @@ public class FeatService extends AbstractDataService<Feat, Long> implements Feat
 
     private FeatService() {
         super();
-        setEntityFactory(new FeatFactory());
+        setEntityFactory(() -> new Feat());
         setRepository(new FeatRepository());
     }
 

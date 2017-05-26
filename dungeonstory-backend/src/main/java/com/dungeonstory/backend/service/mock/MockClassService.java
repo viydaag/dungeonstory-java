@@ -1,7 +1,6 @@
 package com.dungeonstory.backend.service.mock;
 
 import com.dungeonstory.backend.data.DSClass;
-import com.dungeonstory.backend.factory.impl.ClassFactory;
 import com.dungeonstory.backend.repository.mock.MockClassRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
 import com.dungeonstory.backend.service.ClassDataService;
@@ -21,7 +20,7 @@ public class MockClassService extends AbstractDataService<DSClass, Long> impleme
 
     private MockClassService() {
         super();
-        setEntityFactory(new ClassFactory());
+        setEntityFactory(() -> new DSClass());
         setRepository(new MockClassRepository());
     }
 

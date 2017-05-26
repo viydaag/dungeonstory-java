@@ -1,7 +1,6 @@
 package com.dungeonstory.backend.service.impl;
 
 import com.dungeonstory.backend.data.DamageType;
-import com.dungeonstory.backend.factory.impl.DamageTypeFactory;
 import com.dungeonstory.backend.repository.impl.DamageTypeRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
 import com.dungeonstory.backend.service.DamageTypeDataService;
@@ -21,7 +20,7 @@ public class DamageTypeService extends AbstractDataService<DamageType, Long> imp
 
     private DamageTypeService() {
         super();
-        setEntityFactory(new DamageTypeFactory());
+        setEntityFactory(() -> new DamageType());
         setRepository(new DamageTypeRepository());
     }
 

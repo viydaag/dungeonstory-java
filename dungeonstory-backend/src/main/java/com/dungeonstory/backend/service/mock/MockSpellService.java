@@ -3,7 +3,6 @@ package com.dungeonstory.backend.service.mock;
 import java.util.List;
 
 import com.dungeonstory.backend.data.Spell;
-import com.dungeonstory.backend.factory.impl.SpellFactory;
 import com.dungeonstory.backend.repository.mock.MockSpellRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
 import com.dungeonstory.backend.service.SpellDataService;
@@ -23,7 +22,7 @@ public class MockSpellService extends AbstractDataService<Spell, Long> implement
 
     private MockSpellService() {
         super();
-        setEntityFactory(new SpellFactory());
+        setEntityFactory(() -> new Spell());
         setRepository(new MockSpellRepository());
     }
 

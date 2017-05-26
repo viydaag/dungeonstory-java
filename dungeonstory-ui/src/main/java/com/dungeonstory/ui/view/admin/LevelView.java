@@ -1,7 +1,7 @@
 package com.dungeonstory.ui.view.admin;
 
 import com.dungeonstory.backend.data.Level;
-import com.dungeonstory.backend.service.DataService;
+import com.dungeonstory.backend.service.LevelDataService;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.util.ViewConfig;
 import com.dungeonstory.ui.view.admin.grid.LevelGrid;
@@ -23,7 +23,7 @@ public class LevelView extends VerticalLayout implements View {
     private Label             titre;
     private LevelGrid         grid;
 
-    private DataService<Level, Long> service = Services.getLevelService();
+    private LevelDataService service = Services.getLevelService();
 
     public LevelView() {
         grid = new LevelGrid();

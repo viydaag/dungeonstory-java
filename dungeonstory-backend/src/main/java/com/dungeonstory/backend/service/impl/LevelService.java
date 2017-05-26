@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.Optional;
 
 import com.dungeonstory.backend.data.Level;
-import com.dungeonstory.backend.factory.impl.LevelFactory;
 import com.dungeonstory.backend.repository.impl.LevelRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
 import com.dungeonstory.backend.service.LevelDataService;
@@ -24,7 +23,7 @@ public class LevelService extends AbstractDataService<Level, Long> implements Le
 
     private LevelService() {
         super();
-        setEntityFactory(new LevelFactory());
+        setEntityFactory(() -> new Level());
         setRepository(new LevelRepository());
     }
 

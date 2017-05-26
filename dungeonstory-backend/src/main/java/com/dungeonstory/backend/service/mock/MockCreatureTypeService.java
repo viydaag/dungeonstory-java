@@ -1,7 +1,6 @@
 package com.dungeonstory.backend.service.mock;
 
 import com.dungeonstory.backend.data.CreatureType;
-import com.dungeonstory.backend.factory.impl.CreatureTypeFactory;
 import com.dungeonstory.backend.repository.mock.MockCreatureTypeRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
 import com.dungeonstory.backend.service.CreatureTypeDataService;
@@ -21,7 +20,7 @@ public class MockCreatureTypeService extends AbstractDataService<CreatureType, L
 
     private MockCreatureTypeService() {
         super();
-        setEntityFactory(new CreatureTypeFactory());
+        setEntityFactory(() -> new CreatureType());
         setRepository(new MockCreatureTypeRepository());
     }
 

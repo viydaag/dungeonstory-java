@@ -1,7 +1,6 @@
 package com.dungeonstory.backend.service.mock;
 
 import com.dungeonstory.backend.data.Deity;
-import com.dungeonstory.backend.factory.impl.DeityFactory;
 import com.dungeonstory.backend.repository.mock.MockDeityRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
 import com.dungeonstory.backend.service.DeityDataService;
@@ -21,7 +20,7 @@ public class MockDeityService extends AbstractDataService<Deity, Long> implement
 
     private MockDeityService() {
         super();
-        setEntityFactory(new DeityFactory());
+        setEntityFactory(() -> new Deity());
         setRepository(new MockDeityRepository());
     }
 

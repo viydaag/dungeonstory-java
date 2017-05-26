@@ -1,7 +1,6 @@
 package com.dungeonstory.backend.service.impl;
 
 import com.dungeonstory.backend.data.DSClass;
-import com.dungeonstory.backend.factory.impl.ClassFactory;
 import com.dungeonstory.backend.repository.impl.ClassRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
 import com.dungeonstory.backend.service.ClassDataService;
@@ -21,7 +20,7 @@ public class ClassService extends AbstractDataService<DSClass, Long> implements 
 
     private ClassService() {
         super();
-        setEntityFactory(new ClassFactory());
+        setEntityFactory(() -> new DSClass());
         setRepository(new ClassRepository());
     }
 

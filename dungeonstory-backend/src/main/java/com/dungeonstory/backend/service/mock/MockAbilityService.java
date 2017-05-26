@@ -1,7 +1,6 @@
 package com.dungeonstory.backend.service.mock;
 
 import com.dungeonstory.backend.data.Ability;
-import com.dungeonstory.backend.factory.impl.AbilityFactory;
 import com.dungeonstory.backend.repository.mock.MockAbilityRepository;
 import com.dungeonstory.backend.service.AbilityDataService;
 import com.dungeonstory.backend.service.AbstractDataService;
@@ -21,7 +20,7 @@ public class MockAbilityService extends AbstractDataService<Ability, Long> imple
 
     private MockAbilityService() {
         super();
-        setEntityFactory(new AbilityFactory());
+        setEntityFactory(() -> new Ability());
         setRepository(new MockAbilityRepository());
     }
 

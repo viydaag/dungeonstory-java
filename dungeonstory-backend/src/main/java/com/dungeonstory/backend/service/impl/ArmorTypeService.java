@@ -1,7 +1,6 @@
 package com.dungeonstory.backend.service.impl;
 
 import com.dungeonstory.backend.data.ArmorType;
-import com.dungeonstory.backend.factory.impl.ArmorTypeFactory;
 import com.dungeonstory.backend.repository.impl.ArmorTypeRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
 import com.dungeonstory.backend.service.ArmorTypeDataService;
@@ -21,7 +20,7 @@ public class ArmorTypeService extends AbstractDataService<ArmorType, Long> imple
 
     private ArmorTypeService() {
         super();
-        setEntityFactory(new ArmorTypeFactory());
+        setEntityFactory(() -> new ArmorType());
         setRepository(new ArmorTypeRepository());
     }
 

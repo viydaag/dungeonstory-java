@@ -1,7 +1,6 @@
 package com.dungeonstory.backend.service.impl;
 
 import com.dungeonstory.backend.data.Skill;
-import com.dungeonstory.backend.factory.impl.SkillFactory;
 import com.dungeonstory.backend.repository.impl.SkillRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
 import com.dungeonstory.backend.service.SkillDataService;
@@ -21,7 +20,7 @@ public class SkillService extends AbstractDataService<Skill, Long> implements Sk
 
     private SkillService() {
         super();
-        setEntityFactory(new SkillFactory());
+        setEntityFactory(() -> new Skill());
         setRepository(new SkillRepository());
     }
 
