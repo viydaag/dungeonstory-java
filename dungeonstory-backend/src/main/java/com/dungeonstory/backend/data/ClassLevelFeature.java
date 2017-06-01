@@ -62,7 +62,7 @@ public class ClassLevelFeature implements Serializable {
         return feature;
     }
 
-    public void setFeat(ClassFeature feature) {
+    public void setFeature(ClassFeature feature) {
         this.feature = feature;
     }
 

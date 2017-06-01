@@ -114,7 +114,7 @@ public class ClassSpecializationForm extends DSAbstractForm<ClassSpecialization>
                     return row;
                 });
         classSpecFeatures.setPropertyHeader("level", "Niveau");
-        classSpecFeatures.setPropertyHeader("feat", "Don");
+        classSpecFeatures.setPropertyHeader("feature", "Don");
         classSpecFeatures.setWidth("80%");
 
         layout.addComponent(name);

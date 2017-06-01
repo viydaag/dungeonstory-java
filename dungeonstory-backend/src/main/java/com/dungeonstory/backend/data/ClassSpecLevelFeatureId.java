@@ -32,12 +32,12 @@ public class ClassSpecLevelFeatureId implements Serializable {
         this.level = level;
     }
 
-    public Long getFeat() {
+    public Long getFeature() {
         return feature;
     }
 
-    public void setFeat(Long feat) {
-        this.feature = feat;
+    public void setFeature(Long feature) {
+        this.feature = feature;
     }
 
     @Override

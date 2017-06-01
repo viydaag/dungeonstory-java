@@ -47,12 +47,12 @@ public class ClassSpecLevelFeature {
         this.level = level;
     }
 
-    public ClassFeature getFeat() {
+    public ClassFeature getFeature() {
         return feature;
     }
 
-    public void setFeat(ClassFeature feat) {
-        this.feature = feat;
+    public void setFeature(ClassFeature feature) {
+        this.feature = feature;
     }
         
 }
