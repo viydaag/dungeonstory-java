@@ -13,7 +13,7 @@ import com.dungeonstory.backend.service.DivineDomainDataService;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSAbstractForm;
 import com.dungeonstory.ui.component.DSTextArea;
-import com.dungeonstory.ui.field.DSSubSetSelector2;
+import com.dungeonstory.ui.field.SubSetSelector;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
@@ -24,13 +24,13 @@ public class DeityForm extends DSAbstractForm<Deity> {
 
     private static final long serialVersionUID = -8851250073630908019L;
 
-    private TextField                                          name;
-    private TextField                                          shortDescription;
-    private TextArea                                           description;
-    private ComboBox<Alignment>                                alignment;
-    private DSSubSetSelector2<DivineDomain, Set<DivineDomain>> domains;
-    private TextField                                          symbol;
-    private ImagePreviewField                                  image;
+    private TextField                                       name;
+    private TextField                                       shortDescription;
+    private TextArea                                        description;
+    private ComboBox<Alignment>                             alignment;
+    private SubSetSelector<DivineDomain, Set<DivineDomain>> domains;
+    private TextField                                       symbol;
+    private ImagePreviewField                               image;
 
     private DivineDomainDataService domainService    = null;
     private AlignmentDataService    alignmentService = null;
@@ -61,11 +61,8 @@ public class DeityForm extends DSAbstractForm<Deity> {
         image.setCaption("Image");
         image.setButtonCaption("Choisir une image");
 
-        domains = new DSSubSetSelector2<>(DivineDomain.class);
+        domains = new SubSetSelector<>(DivineDomain.class);
         domains.setCaption("Domaines divins");
-        // domains.setVisibleProperties("name");
-        // domains.setColumnHeader("name", "Domaine");
-        // domains.setOptions(domainService.findAll());
         domains.getGrid().addColumn(DivineDomain::getName).setCaption("Domaine").setId("name");
         domains.getGrid().setColumnOrder("name");
         domains.setItems(domainService.findAll());

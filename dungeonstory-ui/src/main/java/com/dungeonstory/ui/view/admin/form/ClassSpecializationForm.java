@@ -89,15 +89,15 @@ public class ClassSpecializationForm extends DSAbstractForm<ClassSpecialization>
         spellCastingAbility.setEmptySelectionAllowed(false);
         isSpellCasting.addValueChangeListener(this::isSpellCastingChange);
 
+        List<Level> allLevels = levelService.findAll();
         spellSlots = (LevelSpellsCollectionField<ClassSpecializationSpellSlots>) new LevelSpellsCollectionField<ClassSpecializationSpellSlots>(
                 ClassSpecializationSpellSlots.class).withCaption("Nombre de sorts").withEditorInstantiator(() -> {
                     LevelSpellsRow row = new LevelSpellsRow();
-                    row.level.setItems(levelService.findAll());
+                    row.level.setItems(allLevels);
                     return row;
                 });
         spellSlots.setKnownSpells(true);
 
-        List<Level> allLevels = levelService.findAll();
         List<Spell> allSpells = spellService.findAll();
         classSpecSpells = new ElementCollectionGrid<>(ClassSpecLevelSpell.class, ClassSpecLevelSpellRow.class)
                 .withCaption("Sorts de spécialisation").withEditorInstantiator(() -> {

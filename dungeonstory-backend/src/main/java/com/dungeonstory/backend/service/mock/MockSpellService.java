@@ -1,5 +1,6 @@
 package com.dungeonstory.backend.service.mock;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.dungeonstory.backend.data.Spell;
@@ -29,25 +30,25 @@ public class MockSpellService extends AbstractDataService<Spell, Long> implement
     @Override
     public List<Spell> findAllSpellsByLevel(int level) {
         // TODO Auto-generated method stub
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<Spell> findAllUnknownClassSpellsByLevel(int level, Long characterId, Long classId) {
         // TODO Auto-generated method stub
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<Spell> findAllKnownClassSpellsByLevel(int level, Long characterId, Long classId) {
         // TODO Auto-generated method stub
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<Spell> findAllSpellsSortedByLevelAndName() {
         // TODO Auto-generated method stub
-        return null;
+        return new ArrayList<>();
     }
 
 }

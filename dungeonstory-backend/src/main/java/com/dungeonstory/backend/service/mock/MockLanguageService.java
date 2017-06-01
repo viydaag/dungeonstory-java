@@ -1,5 +1,6 @@
 package com.dungeonstory.backend.service.mock;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.dungeonstory.backend.data.Character;
@@ -31,13 +32,13 @@ public class MockLanguageService extends AbstractDataService<Language, Long> imp
     @Override
     public List<Language> getLanguagesNotInRace(Race race) {
         // TODO Auto-generated method stub
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<Language> getUnassignedLanguages(Character character) {
         // TODO Auto-generated method stub
-        return null;
+        return new ArrayList<>();
     }
 
 }

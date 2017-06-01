@@ -29,7 +29,7 @@ import com.vaadin.ui.renderers.ButtonRenderer;
 import com.vaadin.ui.themes.ValoTheme;
 import com.vaadin.util.ReflectTools;
 
-public class DSSubSetSelector2<ET, C extends Collection<ET>> extends CustomField<C>
+public class SubSetSelector<ET, C extends Collection<ET>> extends CustomField<C>
         implements AbstractForm.SavedHandler<ET>, AbstractForm.ResetHandler<ET> {
 
     private static final long serialVersionUID = -3340932901781677504L;
@@ -49,7 +49,7 @@ public class DSSubSetSelector2<ET, C extends Collection<ET>> extends CustomField
 
     private Function<String, ET> instantiator = this::instantiateOption;
 
-    public DSSubSetSelector2(Class<ET> elementType) {
+    public SubSetSelector(Class<ET> elementType) {
         this.elementType = elementType;
         cb = new ComboBox<>();
         grid = new Grid<>();
@@ -77,7 +77,7 @@ public class DSSubSetSelector2<ET, C extends Collection<ET>> extends CustomField
 
                     C newValue = cloneSelected();
                     newValue.add(pojo);
-                    fireEvent(new ElementAddedEvent<ET>(DSSubSetSelector2.this, pojo));
+                    fireEvent(new ElementAddedEvent<ET>(SubSetSelector.this, pojo));
                     setValue(newValue);
                 }
             }
@@ -244,7 +244,7 @@ public class DSSubSetSelector2<ET, C extends Collection<ET>> extends CustomField
      * @param options the list of options from which the sub set is selected
      * @return this
      */
-    public DSSubSetSelector2<ET, C> setItems(List<ET> options) {
+    public SubSetSelector<ET, C> setItems(List<ET> options) {
         availableOptions = options;
         cb.setItems(new ArrayList<>(options));
         return this;

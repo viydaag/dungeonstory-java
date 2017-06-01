@@ -17,7 +17,7 @@ import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSAbstractForm;
 import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.ui.converter.CollectionToStringConverter;
-import com.dungeonstory.ui.field.DSSubSetSelector2;
+import com.dungeonstory.ui.field.SubSetSelector;
 import com.dungeonstory.ui.i18n.Messages;
 import com.vaadin.data.ValueContext;
 import com.vaadin.ui.ComboBox;
@@ -36,13 +36,13 @@ public class BackgroundChoiceForm extends DSAbstractForm<CharacterBackground> im
 
     private Character character;
 
-    private ComboBox<Background>       background;
-    private DSTextArea          look;
-    private DSTextArea          traits;
-    private DSTextArea          ideals;
-    private DSTextArea          purposes;
-    private DSTextArea          flaws;
-    private DSSubSetSelector2<Language, List<Language>> language;
+    private ComboBox<Background>                     background;
+    private DSTextArea                               look;
+    private DSTextArea                               traits;
+    private DSTextArea                               ideals;
+    private DSTextArea                               purposes;
+    private DSTextArea                               flaws;
+    private SubSetSelector<Language, List<Language>> language;
 
     private DSTextArea traitsSuggestion;
     private DSTextArea idealsSuggestion;
@@ -72,10 +72,8 @@ public class BackgroundChoiceForm extends DSAbstractForm<CharacterBackground> im
 
         VerticalLayout backgroundFieldsLayout = new VerticalLayout();
         background = new ComboBox<Background>(messages.getMessage("backgroundStep.background.label"), backgroundService.findAll());
-        language = new DSSubSetSelector2<>(Language.class);
+        language = new SubSetSelector<>(Language.class);
         language.setCaption(messages.getMessage("backgroundStep.languages.label"));
-        //        language.setVisibleProperties("name");
-        //        language.setColumnHeader("name", messages.getMessage("backgroundStep.languages.table.column.name"));
         language.getGrid().addColumn(Language::getName).setCaption(messages.getMessage("backgroundStep.languages.table.column.name")).setId("name");
         language.getGrid().setColumnOrder("name");
         language.setItems(languageService.findAll());

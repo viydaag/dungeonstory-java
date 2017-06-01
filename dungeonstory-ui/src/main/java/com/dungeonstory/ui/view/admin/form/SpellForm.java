@@ -31,8 +31,8 @@ import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSAbstractForm;
 import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.ui.component.EnumComboBox;
-import com.dungeonstory.ui.field.DSSubSetSelector2;
 import com.dungeonstory.ui.field.ElementCollectionField;
+import com.dungeonstory.ui.field.SubSetSelector;
 import com.vaadin.data.HasValue.ValueChangeEvent;
 import com.vaadin.data.HasValue.ValueChangeListener;
 import com.vaadin.ui.ComboBox;
@@ -51,8 +51,8 @@ public class SpellForm extends DSAbstractForm<Spell> {
 
     private EnumComboBox<MagicSchool> school;
 
-    private DSSubSetSelector2<ComponentType, Set<ComponentType>> componentTypes;
-    private DSSubSetSelector2<Equipment, List<Equipment>>        components;
+    private SubSetSelector<ComponentType, Set<ComponentType>> componentTypes;
+    private SubSetSelector<Equipment, List<Equipment>>        components;
 
     private EnumComboBox<CastingTime> castingTime;
     private IntegerField              castingTimeValue;
@@ -107,10 +107,8 @@ public class SpellForm extends DSAbstractForm<Spell> {
         description = new DSTextArea("Description").withFullWidth();
         school = new EnumComboBox<>(MagicSchool.class, "École de magie");
 
-        componentTypes = new DSSubSetSelector2<>(ComponentType.class);
+        componentTypes = new SubSetSelector<>(ComponentType.class);
         componentTypes.setCaption("Types de composant");
-        // componentTypes.setVisibleProperties("name");
-        // componentTypes.setColumnHeader("name", "Type de composant");
         componentTypes.getGrid().addColumn(ComponentType::getName).setCaption("Type de composant").setId("name");
         componentTypes.getGrid().setColumnOrder("name");
         componentTypes.setItems(Arrays.asList(ComponentType.values()));
@@ -119,21 +117,7 @@ public class SpellForm extends DSAbstractForm<Spell> {
         componentTypes.setWidth("50%");
         componentTypes.addValueChangeListener(event -> showComponents());
 
-        // components = new DSSubSetSelector<Equipment>(Equipment.class) {
-        //
-        // private static final long serialVersionUID = 1329224024667579287L;
-        //
-        // @Override
-        // protected Equipment instantiateOption(String stringInput) {
-        // SpellComponent c = new SpellComponent();
-        // if(stringInput != null) {
-        // c.setName(stringInput);
-        // c.setType(EquipmentType.COMPONENT);
-        // }
-        // return c;
-        // }
-        // };
-        components = new DSSubSetSelector2<>(Equipment.class);
+        components = new SubSetSelector<>(Equipment.class);
         components.setNewItemsAllowed(true, (stringInput) -> {
             SpellComponent c = new SpellComponent();
             if (stringInput != null) {
@@ -144,8 +128,6 @@ public class SpellForm extends DSAbstractForm<Spell> {
         });
         components.setCaption("Composants matériels");
         components.getGrid().addColumn(Equipment::getName).setCaption("Composant");
-        // components.setVisibleProperties("name");
-        // components.setColumnHeader("name", "Composant");
         components.setItems(equipmentService.findAll());
         components.setValue(null); // nothing selected
         components.setWidth("50%");
@@ -174,10 +156,11 @@ public class SpellForm extends DSAbstractForm<Spell> {
         attackRoll = new FormCheckBox("Nécessite un jet d'attaque");
         higherLevel = new FormCheckBox("Peut être lancé à plus haut niveau");
 
+        List<DamageType> allDamageTypes = damageTypeService.findAll();
         effects = new ElementCollectionField<SpellEffect>(SpellEffect.class, SpellEffectRow.class).withCaption("Effets")
                 .withEditorInstantiator(() -> {
                     SpellEffectRow row = new SpellEffectRow();
-                    row.damageType.setItems(damageTypeService.findAll());
+                    row.damageType.setItems(allDamageTypes);
 
                     row.effectType.addValueChangeListener(new ValueChangeListener<EffectType>() {
 

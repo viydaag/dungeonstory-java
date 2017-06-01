@@ -25,7 +25,7 @@ import com.dungeonstory.backend.service.WeaponTypeDataService;
 import com.dungeonstory.ui.component.DSAbstractForm;
 import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.ui.component.EnumComboBox;
-import com.dungeonstory.ui.field.DSSubSetSelector2;
+import com.dungeonstory.ui.field.SubSetSelector;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
@@ -40,9 +40,9 @@ public class RaceForm extends DSAbstractForm<Race> {
     private TextArea  description;
     private TextArea  traits;
 
-    private EnumComboBox<Size>                         size;
-    private DSSubSetSelector2<Language, Set<Language>> languages;
-    private FormCheckBox                               extraLanguage;
+    private EnumComboBox<Size>                      size;
+    private SubSetSelector<Language, Set<Language>> languages;
+    private FormCheckBox                            extraLanguage;
 
     private IntegerField strModifier;
     private IntegerField dexModifier;
@@ -57,12 +57,12 @@ public class RaceForm extends DSAbstractForm<Race> {
     private IntegerField averageWeight;
     private IntegerField speed;
 
-    private DSSubSetSelector2<Condition, Set<Condition>>                                 savingThrowProficiencies;
-    private DSSubSetSelector2<ArmorType.ProficiencyType, Set<ArmorType.ProficiencyType>> armorProficiencies;
-    private DSSubSetSelector2<WeaponType, Set<WeaponType>>                               weaponProficiencies;
-    private DSSubSetSelector2<Skill, Set<Skill>>                                         skillProficiencies;
-    private ComboBox<DamageType>                                                         damageResistance;
-    private ImagePreviewField                                                            image;
+    private SubSetSelector<Condition, Set<Condition>>                                 savingThrowProficiencies;
+    private SubSetSelector<ArmorType.ProficiencyType, Set<ArmorType.ProficiencyType>> armorProficiencies;
+    private SubSetSelector<WeaponType, Set<WeaponType>>                               weaponProficiencies;
+    private SubSetSelector<Skill, Set<Skill>>                                         skillProficiencies;
+    private ComboBox<DamageType>                                                      damageResistance;
+    private ImagePreviewField                                                         image;
 
     private LanguageDataService   languageService   = null;
     private SkillDataService      skillService      = null;
@@ -90,17 +90,13 @@ public class RaceForm extends DSAbstractForm<Race> {
         description = new DSTextArea("Description").withFullWidth().withRows(10);
         traits = new DSTextArea("Traits").withFullWidth().withRows(10);
 
-        languages = new DSSubSetSelector2<Language, Set<Language>>(Language.class);
+        languages = new SubSetSelector<Language, Set<Language>>(Language.class);
         languages.setCaption("Langages de base");
         languages.getGrid().addColumn(Language::getName).setCaption("Langage").setId("languages");
         languages.getGrid().setColumnOrder("languages");
-        // languages.setVisibleProperties("name");
-        // languages.setColumnHeader("name", "Langage");
         languages.setItems(languageService.findAll());
         languages.setValue(new HashSet<>()); // nothing selected
         languages.setWidth("50%");
-        // getBinder().forField(languages).withConverter(new
-        // CollectionSetConverter<Language>()).bind("languages");
 
         extraLanguage = new FormCheckBox("Langage extra");
         size = new EnumComboBox<Size>(Size.class, "Type de grandeur");
@@ -119,56 +115,34 @@ public class RaceForm extends DSAbstractForm<Race> {
         averageHeight = new MTextField("Taille moyenne (en pieds/pouce)");
         averageWeight = new IntegerField("Poids moyen (en lbs)");
 
-        savingThrowProficiencies = new DSSubSetSelector2<>(Condition.class);
+        savingThrowProficiencies = new SubSetSelector<>(Condition.class);
         savingThrowProficiencies.setCaption("Avantage au jet de sauvegarde contre");
-        // savingThrowProficiencies.setVisibleProperties("name");
-        // savingThrowProficiencies.setColumnHeader("name", "Condition");
-        savingThrowProficiencies.getGrid().addColumn(Condition::getName).setCaption("Condition")
-                .setId("savingThrowProficiencies");
+        savingThrowProficiencies.getGrid().addColumn(Condition::getName).setCaption("Condition").setId("savingThrowProficiencies");
         savingThrowProficiencies.setItems(Arrays.asList(Condition.values()));
         savingThrowProficiencies.setValue(null); // nothing selected
         savingThrowProficiencies.setWidth("50%");
-        // getBinder().forField(savingThrowProficiencies).withConverter(new
-        // CollectionSetConverter<Condition>()).bind("savingThrowProficiencies");
 
-        armorProficiencies = new DSSubSetSelector2<>(ArmorType.ProficiencyType.class);
+        armorProficiencies = new SubSetSelector<>(ArmorType.ProficiencyType.class);
         armorProficiencies.setCaption("Maitrises d'armure");
-        // armorProficiencies.setVisibleProperties("name");
-        // armorProficiencies.setColumnHeader("name", "Maitrise");
-        armorProficiencies.getGrid().addColumn(ArmorType.ProficiencyType::getName).setCaption("Maitrise")
-                .setId("armorProficiencies");
+        armorProficiencies.getGrid().addColumn(ArmorType.ProficiencyType::getName).setCaption("Maitrise").setId("armorProficiencies");
         armorProficiencies.setItems(Arrays.asList(ArmorType.ProficiencyType.values()));
         armorProficiencies.setValue(null); // nothing selected
         armorProficiencies.setWidth("50%");
-        // getBinder().forField(armorProficiencies).withConverter(new
-        // CollectionSetConverter<ArmorType.ProficiencyType>()).bind("armorProficiencies");
 
-        weaponProficiencies = new DSSubSetSelector2<>(WeaponType.class);
+        weaponProficiencies = new SubSetSelector<>(WeaponType.class);
         weaponProficiencies.setCaption("Maitrises d'arme");
-        // weaponProficiencies.setVisibleProperties("name");
-        // weaponProficiencies.setColumnHeader("name", "Maitrise");
-        weaponProficiencies.getGrid().addColumn(WeaponType::getName).setCaption("Maitrise")
-                .setId("weaponProficiencies");
+        weaponProficiencies.getGrid().addColumn(WeaponType::getName).setCaption("Maitrise").setId("weaponProficiencies");
         weaponProficiencies.setItems(weaponTypeService.findAll());
         weaponProficiencies.setValue(null); // nothing selected
         weaponProficiencies.setWidth("50%");
-        // getBinder().forField(weaponProficiencies).withConverter(new
-        // CollectionSetConverter<WeaponType>()).bind("weaponProficiencies");
 
-        skillProficiencies = new DSSubSetSelector2<>(Skill.class);
+        skillProficiencies = new SubSetSelector<>(Skill.class);
         skillProficiencies.setCaption("Maitrise de compétence");
-        // skillProficiencies.setVisibleProperties("name", "keyAbility.name");
-        // skillProficiencies.setColumnHeader("name", "Compétence");
-        // skillProficiencies.setColumnHeader("keyAbility.name",
-        // "Caractéristique clé");
         skillProficiencies.getGrid().addColumn(Skill::getName).setCaption("Compétence").setId("name");
-        skillProficiencies.getGrid().addColumn(Skill::getKeyAbility).setCaption("Caractéristique clé")
-                .setId("keyAbility.name");
+        skillProficiencies.getGrid().addColumn(Skill::getKeyAbility).setCaption("Caractéristique clé").setId("keyAbility.name");
         skillProficiencies.setItems(skillService.findAll());
         skillProficiencies.setWidth("80%");
         skillProficiencies.setValue(null); // nothing selected
-        // getBinder().forField(skillProficiencies).withConverter(new
-        // CollectionSetConverter<Skill>()).bind("skillProficiencies");
 
         image = new ImagePreviewField();
         image.setCaption("Image");

@@ -30,7 +30,7 @@ import com.dungeonstory.ui.converter.CollectionToStringConverter;
 import com.dungeonstory.ui.converter.CollectionToStringListConverter.ListType;
 import com.dungeonstory.ui.converter.CollectionToStringListConverter.UnorderedListType;
 import com.dungeonstory.ui.converter.DescriptiveEntityCollectionToStringListConverter;
-import com.dungeonstory.ui.field.DSSubSetSelector2;
+import com.dungeonstory.ui.field.SubSetSelector;
 import com.dungeonstory.ui.i18n.Messages;
 import com.dungeonstory.ui.layout.FormLayoutNoSpace;
 import com.vaadin.data.ValueContext;
@@ -58,10 +58,9 @@ public class ClassChoiceForm extends DSAbstractForm<CharacterClass> implements A
     private DivineDomainDataService         domainService;
 
     private ComboBox<DSClass> classe;
-    //    private DSSubSetSelector2<DSClass, Set<DSClass>>            classes;
-    private DSSubSetSelector2<Skill, List<Skill>>               classSkills;
-    private DSSubSetSelector2<CreatureType, List<CreatureType>> favoredEnnemies;
-    private DSSubSetSelector2<Terrain, Set<Terrain>>            favoredTerrains;
+    private SubSetSelector<Skill, List<Skill>>               classSkills;
+    private SubSetSelector<CreatureType, List<CreatureType>> favoredEnnemies;
+    private SubSetSelector<Terrain, Set<Terrain>>            favoredTerrains;
     private ComboBox<Deity>                deity;
     private ComboBox<DivineDomain>         divineDomain;
 
@@ -106,42 +105,24 @@ public class ClassChoiceForm extends DSAbstractForm<CharacterClass> implements A
         VerticalLayout classFieldsLayout = new VerticalLayout();
         classe = new ComboBox<DSClass>(messages.getMessage("classStep.class.label"), classService.findAll());
         classe.setEmptySelectionAllowed(false);
-        //        classe.setRequiredIndicatorVisible(true);
         classe.setItems(classService.findAll());
-//        classe.addValidator(new NullValidator(messages.getMessage("classStep.class.validator"), false));
-//        classe.addValueChangeListener(event -> {
-//            getFieldGroup().setBeanModified(true);
-//            onFieldGroupChange(getFieldGroup());
-//        });
-        //        classes = new DSSubSetSelector2<>(DSClass.class);
-        //        classes.setCaption(messages.getMessage("classStep.class.label"));
-        //        classes.setEmptySelectionAllowed(false);
-        //        //        classes.setVisibleProperties("name");
-        //        //        classes.setColumnHeader("name", "");
-        //        classes.getGrid().addColumn(DSClass::getName).setCaption("").setId("name");
 
-        classSkills = new DSSubSetSelector2<>(Skill.class);
+        classSkills = new SubSetSelector<>(Skill.class);
         classSkills.setCaption(messages.getMessage("classStep.proficientSkills.label"));
-        //        classSkills.setVisibleProperties("name");
-        //        classSkills.setColumnHeader("name", messages.getMessage("classStep.proficientSkills.table.column.name"));
         classSkills.getGrid().addColumn(Skill::getName).setCaption(messages.getMessage("classStep.proficientSkills.table.column.name")).setId("name");
         classSkills.setItems(skillService.findAll());
         classSkills.setVisible(false);
 
-        favoredEnnemies = new DSSubSetSelector2<>(CreatureType.class);
+        favoredEnnemies = new SubSetSelector<>(CreatureType.class);
         favoredEnnemies.setCaption(messages.getMessage("classStep.favoredEnnemy.label"));
-        //        favoredEnnemies.setVisibleProperties("name");
-        //        favoredEnnemies.setColumnHeader("name", messages.getMessage("classStep.favoredEnnemy.table.column.name"));
         favoredEnnemies.getGrid().addColumn(CreatureType::getName).setCaption(messages.getMessage("classStep.favoredEnnemy.table.column.name"))
                 .setId("name");
         favoredEnnemies.setItems(creatureTypeService.findAll());
         favoredEnnemies.setVisible(false);
         favoredEnnemies.setValue(new ArrayList<>()); //nothing selected
 
-        favoredTerrains = new DSSubSetSelector2<>(Terrain.class);
+        favoredTerrains = new SubSetSelector<>(Terrain.class);
         favoredTerrains.setCaption(messages.getMessage("classStep.favoredTerrain.label"));
-        //        favoredTerrains.setVisibleProperties("name");
-        //        favoredTerrains.setColumnHeader("name", messages.getMessage("classStep.favoredTerrain.table.column.name"));
         favoredTerrains.getGrid().addColumn(Terrain::getName).setCaption(messages.getMessage("classStep.favoredTerrain.table.column.name"))
                 .setId("name");
         favoredTerrains.setItems(Arrays.asList(Terrain.values()));
@@ -285,8 +266,6 @@ public class ClassChoiceForm extends DSAbstractForm<CharacterClass> implements A
             }
         });
 
-        //        classes.addElementRemovedListener(event -> hideClassFields());
-
         classDescriptionLayout.addComponents(classDescription, properties, classFeatureLabelLayout, classFeatureLayout);
 
         layout.setSizeFull();
@@ -350,10 +329,8 @@ public class ClassChoiceForm extends DSAbstractForm<CharacterClass> implements A
             assignedClass.setClassLevel(assignedClass.getClassLevel() + 1);
             chosenCharacterClass = assignedClass;
         } else {
-            //            CharacterClass classe = new CharacterClass();
             CharacterClass classe = getEntity();
             classe.setCharacter(character);
-            //            classe.setClasse(chosenClass);
             classe.setClassLevel(1);
             character.getClasses().add(classe);
             chosenCharacterClass = classe;
@@ -361,6 +338,7 @@ public class ClassChoiceForm extends DSAbstractForm<CharacterClass> implements A
 
         character.getArmorProficiencies().addAll(chosenClass.getArmorProficiencies());
         character.getWeaponProficiencies().addAll(chosenClass.getWeaponProficiencies());
+        //TODO 
 //        character.getFeats().addAll(ClassUtil.getClassFeaturesForLevel(chosenClass, chosenCharacterClass.getClassLevel()));
 
         if (classSkills.getValue() != null) {

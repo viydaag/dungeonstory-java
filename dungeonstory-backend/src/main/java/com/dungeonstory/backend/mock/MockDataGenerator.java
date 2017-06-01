@@ -207,7 +207,7 @@ public class MockDataGenerator {
 
     public static List<Shop> createShops() {
         // TODO Auto-generated method stub
-        return null;
+        return new ArrayList<>();
     }
 
     public static List<Adventure> createAdventures() {

@@ -39,12 +39,12 @@ import com.dungeonstory.backend.service.SpellDataService;
 import com.dungeonstory.backend.service.WeaponTypeDataService;
 import com.dungeonstory.ui.component.DSAbstractForm;
 import com.dungeonstory.ui.component.DSTextArea;
-import com.dungeonstory.ui.field.DSSubSetSelector2;
 import com.dungeonstory.ui.field.ElementCollectionGrid;
 import com.dungeonstory.ui.field.LevelBonusCollectionField;
 import com.dungeonstory.ui.field.LevelBonusCollectionField.ClassLevelBonusRow;
 import com.dungeonstory.ui.field.LevelSpellsCollectionField;
 import com.dungeonstory.ui.field.LevelSpellsCollectionField.LevelSpellsRow;
+import com.dungeonstory.ui.field.SubSetSelector;
 import com.vaadin.data.HasValue.ValueChangeEvent;
 import com.vaadin.event.selection.SingleSelectionEvent;
 import com.vaadin.shared.Registration;
@@ -61,25 +61,25 @@ public class ClassForm extends DSAbstractForm<DSClass> {
 
     private static final long serialVersionUID = -4123881637907722632L;
 
-    private TextField                                                                    name;
-    private TextField                                                                    shortDescription;
-    private DSTextArea                                                                   description;
-    private IntegerField                                                                 lifePointPerLevel;
-    private IntegerField                                                                 startingGold;
-    private FormCheckBox                                                                 isSpellCasting;
-    private ComboBox<Ability>                                                            spellCastingAbility;
-    private RadioButtonGroup<SpellCastingType>                                           spellCastingType;
-    private LevelSpellsCollectionField<ClassSpellSlots>                                  spellSlots;
-    private DSSubSetSelector2<Ability, Set<Ability>>                                     savingThrowProficiencies;
-    private DSSubSetSelector2<ArmorType.ProficiencyType, Set<ArmorType.ProficiencyType>> armorProficiencies;
-    private DSSubSetSelector2<WeaponType, Set<WeaponType>>                               weaponProficiencies;
-    private DSSubSetSelector2<ToolType, Set<ToolType>>                                   toolProficiencies;
-    private IntegerField                                                                 nbChosenSkills;
-    private DSSubSetSelector2<Skill, Set<Skill>>                                         baseSkills;
-    private LevelBonusCollectionField                                                    levelBonuses;
-    private ElementCollectionGrid<ClassLevelFeature>                                     classFeatures;
-    private DSSubSetSelector2<Spell, Set<Spell>>                                         spells;
-    private ElementCollectionGrid<ClassEquipment>                                        startingEquipment;
+    private TextField                                                                 name;
+    private TextField                                                                 shortDescription;
+    private DSTextArea                                                                description;
+    private IntegerField                                                              lifePointPerLevel;
+    private IntegerField                                                              startingGold;
+    private FormCheckBox                                                              isSpellCasting;
+    private ComboBox<Ability>                                                         spellCastingAbility;
+    private RadioButtonGroup<SpellCastingType>                                        spellCastingType;
+    private LevelSpellsCollectionField<ClassSpellSlots>                               spellSlots;
+    private SubSetSelector<Ability, Set<Ability>>                                     savingThrowProficiencies;
+    private SubSetSelector<ArmorType.ProficiencyType, Set<ArmorType.ProficiencyType>> armorProficiencies;
+    private SubSetSelector<WeaponType, Set<WeaponType>>                               weaponProficiencies;
+    private SubSetSelector<ToolType, Set<ToolType>>                                   toolProficiencies;
+    private IntegerField                                                              nbChosenSkills;
+    private SubSetSelector<Skill, Set<Skill>>                                         baseSkills;
+    private LevelBonusCollectionField                                                 levelBonuses;
+    private ElementCollectionGrid<ClassLevelFeature>                                  classFeatures;
+    private SubSetSelector<Spell, Set<Spell>>                                         spells;
+    private ElementCollectionGrid<ClassEquipment>                                     startingEquipment;
 
     private Button addAllSimpleWeapons;
     private Button addAllMartialWeapons;
@@ -149,26 +149,20 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         isSpellCasting.addValueChangeListener(this::isSpellCastingChange);
         spellCastingType.addSelectionListener(this::spellCastingTypeChange);
 
-        savingThrowProficiencies = new DSSubSetSelector2<>(Ability.class);
+        savingThrowProficiencies = new SubSetSelector<>(Ability.class);
         savingThrowProficiencies.setCaption("Maitrise applicable au jets de sauvegarde");
-        // savingThrowProficiencies.setVisibleProperties("name");
-        // savingThrowProficiencies.setColumnHeader("name", "Caractéristique");
         savingThrowProficiencies.getGrid().addColumn(Ability::getName).setCaption("Caractéristique").setId("name");
         savingThrowProficiencies.getGrid().setColumnOrder("name");
         savingThrowProficiencies.setItems(abilityService.findAll());
-        savingThrowProficiencies.setValue(new HashSet<Ability>()); // nothing
-                                                                   // selected
+        savingThrowProficiencies.setValue(new HashSet<Ability>()); // nothing selected
         savingThrowProficiencies.setWidth("50%");
 
-        armorProficiencies = new DSSubSetSelector2<>(ArmorType.ProficiencyType.class);
+        armorProficiencies = new SubSetSelector<>(ArmorType.ProficiencyType.class);
         armorProficiencies.setCaption("Maitrises d'armure");
-        // armorProficiencies.setVisibleProperties("name");
-        // armorProficiencies.setColumnHeader("name", "Maitrise");
         armorProficiencies.getGrid().addColumn(ArmorType.ProficiencyType::getName).setCaption("Maitrise").setId("name");
         armorProficiencies.getGrid().setColumnOrder("name");
         armorProficiencies.setItems(Arrays.asList(ArmorType.ProficiencyType.values()));
-        armorProficiencies.setValue(new HashSet<ArmorType.ProficiencyType>()); // nothing
-                                                                               // selected
+        armorProficiencies.setValue(new HashSet<ArmorType.ProficiencyType>()); // nothing selected
         armorProficiencies.setWidth("50%");
 
         addAllSimpleWeapons = new Button("Armes simples", event -> {
@@ -188,21 +182,16 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         clearWeapons = new Button("Enlever tout", event -> weaponProficiencies.setValue(new HashSet<WeaponType>()));
         HorizontalLayout buttonLayout = new HorizontalLayout(addAllSimpleWeapons, addAllMartialWeapons, clearWeapons);
 
-        weaponProficiencies = new DSSubSetSelector2<>(WeaponType.class);
+        weaponProficiencies = new SubSetSelector<>(WeaponType.class);
         weaponProficiencies.setCaption("Maitrises d'arme");
-        // weaponProficiencies.setVisibleProperties("name");
-        // weaponProficiencies.setColumnHeader("name", "Maitrise");
         weaponProficiencies.getGrid().addColumn(WeaponType::getName).setCaption("Maitrise").setId("name");
         weaponProficiencies.getGrid().setColumnOrder("name");
         weaponProficiencies.setItems(weaponTypeService.findAll());
-        weaponProficiencies.setValue(new HashSet<WeaponType>()); // nothing
-                                                                 // selected
+        weaponProficiencies.setValue(new HashSet<WeaponType>()); // nothing selected
         weaponProficiencies.setWidth("50%");
 
-        toolProficiencies = new DSSubSetSelector2<>(ToolType.class);
+        toolProficiencies = new SubSetSelector<>(ToolType.class);
         toolProficiencies.setCaption("Maitrise d'outil");
-        // toolProficiencies.setVisibleProperties("name");
-        // toolProficiencies.setColumnHeader("name", "Outil");
         toolProficiencies.getGrid().addColumn(ToolType::getName).setCaption("Outil").setId("name");
         toolProficiencies.getGrid().setColumnOrder("name");
         toolProficiencies.setItems(Arrays.asList(ToolType.values()));
@@ -210,11 +199,8 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         toolProficiencies.setValue(new HashSet<ToolType>()); // nothing selected
 
         nbChosenSkills = new IntegerField("Nb de compétences à choisir");
-        baseSkills = new DSSubSetSelector2<>(Skill.class);
+        baseSkills = new SubSetSelector<>(Skill.class);
         baseSkills.setCaption("Compétences de base");
-        // baseSkills.setVisibleProperties("name", "keyAbility.name");
-        // baseSkills.setColumnHeader("name", "Compétence");
-        // baseSkills.setColumnHeader("keyAbility.name", "Caractéristique clé");
         baseSkills.getGrid().addColumn(Skill::getName).setCaption("Compétence").setId("name");
         baseSkills.getGrid().addColumn(Skill::getKeyAbility).setCaption("Caractéristique clé").setId("keyAbility.name");
         baseSkills.getGrid().setColumnOrder("name", "keyAbility.name");
@@ -222,11 +208,12 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         baseSkills.setWidth("80%");
         baseSkills.setValue(new HashSet<Skill>()); // nothing selected
 
+        List<Level> allLevels = levelService.findAll();
         levelBonuses = new LevelBonusCollectionField();
         levelBonuses.withCaption("Bonus de classe").withEditorInstantiator(() -> {
             ClassLevelBonusRow row = new ClassLevelBonusRow();
             // The ManyToOne field needs its options to be populated
-            row.level.setItems(levelService.findAll());
+            row.level.setItems(allLevels);
             return row;
         });
 
@@ -244,17 +231,14 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         spellSlots = (LevelSpellsCollectionField<ClassSpellSlots>) new LevelSpellsCollectionField<ClassSpellSlots>(ClassSpellSlots.class)
                 .withCaption("Nombre de sorts").withEditorInstantiator(() -> {
                     LevelSpellsRow row = new LevelSpellsRow();
-                    row.level.setItems(levelService.findAll());
+                    row.level.setItems(allLevels);
                     return row;
                 });
 
-        List<Level> allLevels = levelService.findAll();
         List<ClassFeature> allClassFeatures = classFeatureService.findAll();
         classFeatures = new ElementCollectionGrid<ClassLevelFeature>(ClassLevelFeature.class, ClassLevelFeatureRow.class)
                 .withCaption("Dons de classe").withEditorInstantiator(() -> {
                     ClassLevelFeatureRow row = new ClassLevelFeatureRow();
-                    // row.level.setOptions(levelService.findAll());
-                    // row.feat.setOptions(featService.findAllClassFeatures());
                     row.level.setItems(allLevels);
                     row.feature.setItems(allClassFeatures);
                     row.feature.setPageLength(20);
@@ -265,12 +249,8 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         classFeatures.setPropertyHeader("feature", "Don");
         classFeatures.setWidth("80%");
 
-        spells = new DSSubSetSelector2<>(Spell.class);
+        spells = new SubSetSelector<>(Spell.class);
         spells.setCaption("Sorts de classe");
-        // spells.setVisibleProperties("level", "name", "school");
-        // spells.setColumnHeader("name", "Sort");
-        // spells.setColumnHeader("level", "Niveau du sort");
-        // spells.setColumnHeader("school", "École");
         spells.getGrid().addColumn(Spell::getName).setCaption("Sort").setId("name");
         spells.getGrid().addColumn(Spell::getLevel).setCaption("Niveau du sort").setId("level");
         spells.getGrid().addColumn(Spell::getSchool).setCaption("École").setId("school");
@@ -343,20 +323,6 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     }
 
     private void deactivateCheckboxListeners() {
-        // hunter.getListeners(ValueChangeEvent.class).forEach(listener ->
-        // hunter.removeListener(ValueChangeEvent.class, listener));
-        // rage.getListeners(ValueChangeEvent.class).forEach(listener ->
-        // rage.removeListener(ValueChangeEvent.class, listener));
-        // invocation.getListeners(ValueChangeEvent.class).forEach(listener ->
-        // invocation.removeListener(ValueChangeEvent.class, listener));
-        // martialArts.getListeners(ValueChangeEvent.class).forEach(listener ->
-        // martialArts.removeListener(ValueChangeEvent.class, listener));
-        // sneak.getListeners(ValueChangeEvent.class).forEach(listener ->
-        // sneak.removeListener(ValueChangeEvent.class, listener));
-        // sorcery.getListeners(ValueChangeEvent.class).forEach(listener ->
-        // sorcery.removeListener(ValueChangeEvent.class, listener));
-        // deity.getListeners(ValueChangeEvent.class).forEach(listener ->
-        // deity.removeListener(ValueChangeEvent.class, listener));
         checkBoxListeners.stream().forEach(registration -> registration.remove());
     }
 
@@ -366,10 +332,6 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         isSpellCastingChange(null);
         if (getEntity() == null || getEntity().getId() == null) {
             levelBonuses.clearForNew();
-        }
-        if (getEntity() != null) {
-            // classFeatures.getGrid().setHeightByRows(classFeatures.getValue().size());
-            // classFeatures.setHeight("700px");
         }
         refreshLevelBonusCheckBoxVisibility();
     }
@@ -395,8 +357,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     }
 
     public void spellCastingTypeChange(SingleSelectionEvent<SpellCastingType> event) {
-        // hide the known spell column if spells are prepared (nbSpells = level
-        // + ability modifier)
+        // hide the known spell column if spells are prepared (nbSpells = level + ability modifier)
         spellSlots.setKnownSpells(event != null && event.getValue() != null && event.getValue() == SpellCastingType.KNOWN);
     }
 
