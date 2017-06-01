@@ -18,13 +18,13 @@ import com.dungeonstory.FormCheckBox;
 import com.dungeonstory.backend.data.Ability;
 import com.dungeonstory.backend.data.ArmorType;
 import com.dungeonstory.backend.data.ClassEquipment;
+import com.dungeonstory.backend.data.ClassFeature;
 import com.dungeonstory.backend.data.ClassLevelBonus;
 import com.dungeonstory.backend.data.ClassLevelFeature;
 import com.dungeonstory.backend.data.ClassSpellSlots;
 import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.data.DSClass.SpellCastingType;
 import com.dungeonstory.backend.data.Equipment;
-import com.dungeonstory.backend.data.Feat;
 import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.backend.data.Skill;
 import com.dungeonstory.backend.data.Spell;
@@ -32,8 +32,8 @@ import com.dungeonstory.backend.data.Tool.ToolType;
 import com.dungeonstory.backend.data.WeaponType;
 import com.dungeonstory.backend.data.WeaponType.ProficiencyType;
 import com.dungeonstory.backend.service.AbilityDataService;
+import com.dungeonstory.backend.service.ClassFeatureDataService;
 import com.dungeonstory.backend.service.EquipmentDataService;
-import com.dungeonstory.backend.service.FeatDataService;
 import com.dungeonstory.backend.service.LevelDataService;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.backend.service.SkillDataService;
@@ -44,8 +44,8 @@ import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.ui.field.DSSubSetSelector2;
 import com.dungeonstory.ui.field.ElementCollectionGrid;
 import com.dungeonstory.ui.field.LevelBonusCollectionField;
-import com.dungeonstory.ui.field.LevelSpellsCollectionField;
 import com.dungeonstory.ui.field.LevelBonusCollectionField.ClassLevelBonusRow;
+import com.dungeonstory.ui.field.LevelSpellsCollectionField;
 import com.dungeonstory.ui.field.LevelSpellsCollectionField.LevelSpellsRow;
 import com.vaadin.data.HasValue.ValueChangeEvent;
 import com.vaadin.event.selection.SingleSelectionEvent;
@@ -98,7 +98,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
 
     private SkillDataService      skillService      = null;
     private LevelDataService      levelService      = null;
-    private FeatDataService       featService       = null;
+    private ClassFeatureDataService       classFeatureService       = null;
     private WeaponTypeDataService weaponTypeService = null;
     private AbilityDataService    abilityService    = null;
     private SpellDataService      spellService      = null;
@@ -113,8 +113,8 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     // }
 
     public static class ClassLevelFeatureRow {
-        ComboBox<Level> level = new ComboBox<Level>();
-        ComboBox<Feat>  feat  = new ComboBox<Feat>();
+        ComboBox<Level>        level = new ComboBox<>();
+        ComboBox<ClassFeature> feature  = new ComboBox<>();
     }
 
     public static class ClassEquipmentRow {
@@ -127,7 +127,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         checkBoxListeners = new ArrayList<>();
         skillService = Services.getSkillService();
         levelService = Services.getLevelService();
-        featService = Services.getFeatService();
+        classFeatureService = Services.getClassFeatureService();
         weaponTypeService = Services.getWeaponTypeService();
         abilityService = Services.getAbilityService();
         spellService = Services.getSpellService();
@@ -263,9 +263,9 @@ public class ClassForm extends DSAbstractForm<DSClass> {
                     // row.level.setOptions(levelService.findAll());
                     // row.feat.setOptions(featService.findAllClassFeatures());
                     row.level.setItems(levelService.findAll());
-                    row.feat.setItems(featService.findAllClassFeatures());
-                    row.feat.setPageLength(20);
-                    row.feat.setWidth(100, Unit.PERCENTAGE);
+                    row.feature.setItems(classFeatureService.findAll());
+                    row.feature.setPageLength(20);
+                    row.feature.setWidth(100, Unit.PERCENTAGE);
                     return row;
                 });
         classFeatures.setPropertyHeader("level", "Niveau");

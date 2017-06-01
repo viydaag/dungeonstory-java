@@ -29,16 +29,6 @@ public class MockFeatService extends AbstractDataService<Feat, Long> implements 
     }
 
     @Override
-    public List<Feat> findAllFeats() {
-        return ((MockFeatRepository) entityRepository).findAllFeats();
-    }
-
-    @Override
-    public List<Feat> findAllClassFeatures() {
-        return ((MockFeatRepository) entityRepository).findAllClassFeatures();
-    }
-
-    @Override
     public List<Feat> findAllFeatsExcept(Feat feat) {
         // TODO Auto-generated method stub
         return new ArrayList<Feat>();
@@ -46,24 +36,6 @@ public class MockFeatService extends AbstractDataService<Feat, Long> implements 
 
     @Override
     public List<Feat> findAllUnassignedFeats(Character character) {
-        // TODO Auto-generated method stub
-        return new ArrayList<Feat>();
-    }
-
-    @Override
-    public List<Feat> findAllClassFeaturesWithoutParent() {
-        // TODO Auto-generated method stub
-        return new ArrayList<Feat>();
-    }
-
-    @Override
-    public List<Feat> findAllClassFeaturesWithoutChildren() {
-        // TODO Auto-generated method stub
-        return new ArrayList<Feat>();
-    }
-
-    @Override
-    public List<Feat> findAllClassFeatureExcept(Feat feat) {
         // TODO Auto-generated method stub
         return new ArrayList<Feat>();
     }

@@ -2,7 +2,6 @@ package com.dungeonstory.backend.repository.mock;
 
 import java.util.List;
 
-import com.dungeonstory.backend.data.Ability;
 import com.dungeonstory.backend.data.Adventure;
 import com.dungeonstory.backend.data.Message;
 import com.dungeonstory.backend.mock.MockDataGenerator;

@@ -9,6 +9,7 @@ import com.dungeonstory.backend.service.impl.ArmorTypeService;
 import com.dungeonstory.backend.service.impl.BackgroundService;
 import com.dungeonstory.backend.service.impl.CharacterService;
 import com.dungeonstory.backend.service.impl.CityService;
+import com.dungeonstory.backend.service.impl.ClassFeatureService;
 import com.dungeonstory.backend.service.impl.ClassService;
 import com.dungeonstory.backend.service.impl.ClassSpecializationService;
 import com.dungeonstory.backend.service.impl.CreatureTypeService;
@@ -33,6 +34,7 @@ import com.dungeonstory.backend.service.mock.MockArmorTypeService;
 import com.dungeonstory.backend.service.mock.MockBackgroundService;
 import com.dungeonstory.backend.service.mock.MockCharacterService;
 import com.dungeonstory.backend.service.mock.MockCityService;
+import com.dungeonstory.backend.service.mock.MockClassFeatureService;
 import com.dungeonstory.backend.service.mock.MockClassService;
 import com.dungeonstory.backend.service.mock.MockClassSpecializationService;
 import com.dungeonstory.backend.service.mock.MockCreatureTypeService;
@@ -79,6 +81,13 @@ public abstract class Services {
             return MockFeatService.getInstance();
         }
         return FeatService.getInstance();
+    }
+    
+    public static ClassFeatureDataService getClassFeatureService() {
+        if (Configuration.getInstance().isMock()) {
+            return MockClassFeatureService.getInstance();
+        }
+        return ClassFeatureService.getInstance();
     }
     
     public static CharacterDataService getCharacterService() {

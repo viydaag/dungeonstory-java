@@ -1,21 +1,18 @@
 package com.dungeonstory.ui.view.admin.form;
 
-import org.vaadin.viritin.v7.fields.ElementCollectionTable;
-import org.vaadin.viritin.v7.fields.TypedSelect;
-
 import com.dungeonstory.FormCheckBox;
 import com.dungeonstory.backend.data.Ability;
+import com.dungeonstory.backend.data.ClassFeature;
 import com.dungeonstory.backend.data.ClassSpecLevelFeature;
 import com.dungeonstory.backend.data.ClassSpecLevelSpell;
 import com.dungeonstory.backend.data.ClassSpecialization;
 import com.dungeonstory.backend.data.ClassSpecializationSpellSlots;
 import com.dungeonstory.backend.data.DSClass;
-import com.dungeonstory.backend.data.Feat;
 import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.backend.data.Spell;
 import com.dungeonstory.backend.service.AbilityDataService;
 import com.dungeonstory.backend.service.ClassDataService;
-import com.dungeonstory.backend.service.FeatDataService;
+import com.dungeonstory.backend.service.ClassFeatureDataService;
 import com.dungeonstory.backend.service.LevelDataService;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.backend.service.SpellDataService;
@@ -42,29 +39,29 @@ public class ClassSpecializationForm extends DSAbstractForm<ClassSpecialization>
     private FormCheckBox                                              isSpellCasting;
     private ComboBox<Ability>                                         spellCastingAbility;
     private LevelSpellsCollectionField<ClassSpecializationSpellSlots> spellSlots;
-    private ElementCollectionTable<ClassSpecLevelSpell>               classSpecSpells;
+    private ElementCollectionGrid<ClassSpecLevelSpell>                classSpecSpells;
     private ElementCollectionGrid<ClassSpecLevelFeature>              classSpecFeatures;
 
-    private LevelDataService   levelService   = null;
-    private FeatDataService    featService    = null;
-    private AbilityDataService abilityService = null;
-    private SpellDataService   spellService   = null;
-    private ClassDataService   classService   = null;
+    private LevelDataService        levelService        = null;
+    private ClassFeatureDataService classFeatureService = null;
+    private AbilityDataService      abilityService      = null;
+    private SpellDataService        spellService        = null;
+    private ClassDataService        classService        = null;
 
     public static class ClassSpecLevelFeatureRow {
-        TypedSelect<Level> level = new TypedSelect<Level>();
-        TypedSelect<Feat>  feat  = new TypedSelect<Feat>();
+        ComboBox<Level>        level   = new ComboBox<>();
+        ComboBox<ClassFeature> feature = new ComboBox<>();
     }
 
     public static class ClassSpecLevelSpellRow {
-        TypedSelect<Level> level = new TypedSelect<Level>();
-        TypedSelect<Spell> spell = new TypedSelect<Spell>();
+        ComboBox<Level> level = new ComboBox<>();
+        ComboBox<Spell> spell = new ComboBox<>();
     }
 
     public ClassSpecializationForm() {
         super(ClassSpecialization.class);
         levelService = Services.getLevelService();
-        featService = Services.getFeatService();
+        classFeatureService = Services.getClassFeatureService();
         abilityService = Services.getAbilityService();
         spellService = Services.getSpellService();
         classService = Services.getClassService();
@@ -98,11 +95,11 @@ public class ClassSpecializationForm extends DSAbstractForm<ClassSpecialization>
                 });
         spellSlots.setKnownSpells(true);
 
-        classSpecSpells = new ElementCollectionTable<ClassSpecLevelSpell>(ClassSpecLevelSpell.class,
-                ClassSpecLevelSpellRow.class).withCaption("Sorts de spécialisation").withEditorInstantiator(() -> {
+        classSpecSpells = new ElementCollectionGrid<>(ClassSpecLevelSpell.class, ClassSpecLevelSpellRow.class)
+                .withCaption("Sorts de spécialisation").withEditorInstantiator(() -> {
                     ClassSpecLevelSpellRow row = new ClassSpecLevelSpellRow();
-                    row.level.setOptions(levelService.findAll());
-                    row.spell.setOptions(spellService.findAll());
+                    row.level.setItems(levelService.findAll());
+                    row.spell.setItems(spellService.findAll());
                     return row;
                 });
         classSpecSpells.setPropertyHeader("level", "Niveau");
@@ -113,7 +110,7 @@ public class ClassSpecializationForm extends DSAbstractForm<ClassSpecialization>
                 ClassSpecLevelFeatureRow.class).withCaption("Dons de spécialisation").withEditorInstantiator(() -> {
                     ClassLevelFeatureRow row = new ClassLevelFeatureRow();
                     row.level.setItems(levelService.findAll());
-                    row.feat.setItems(featService.findAllClassFeatures());
+                    row.feature.setItems(classFeatureService.findAll());
                     return row;
                 });
         classSpecFeatures.setPropertyHeader("level", "Niveau");

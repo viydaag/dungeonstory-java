@@ -12,6 +12,7 @@ import com.dungeonstory.backend.data.Adventure.AdventureStatus;
 import com.dungeonstory.backend.data.Alignment;
 import com.dungeonstory.backend.data.ArmorType;
 import com.dungeonstory.backend.data.Background;
+import com.dungeonstory.backend.data.ClassFeature;
 import com.dungeonstory.backend.data.ClassSpecialization;
 import com.dungeonstory.backend.data.CreatureType;
 import com.dungeonstory.backend.data.DSClass;
@@ -279,6 +280,11 @@ public class MockDataGenerator {
     }
 
     public static List<ClassSpecialization> createClassSpecializations() {
+        // TODO Auto-generated method stub
+        return new ArrayList<>();
+    }
+
+    public static List<ClassFeature> createClassFeatures() {
         // TODO Auto-generated method stub
         return new ArrayList<>();
     }

@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.CharacterClass;
+import com.dungeonstory.backend.data.ClassFeature;
 import com.dungeonstory.backend.data.ClassLevelBonus;
 import com.dungeonstory.backend.data.ClassLevelFeature;
 import com.dungeonstory.backend.data.ClassSpellSlots;
@@ -44,9 +45,9 @@ public class ClassUtil {
         return classSpellSlots;
     }
 
-    public static List<Feat> getClassFeaturesForLevel(DSClass dsClass, int level) {
-        List<Feat> classFeatures = dsClass.getClassFeatures().stream()
-                .filter(feature -> feature.getLevel().getId().intValue() == level).map(ClassLevelFeature::getFeat)
+    public static List<ClassFeature> getClassFeaturesForLevel(DSClass dsClass, int level) {
+        List<ClassFeature> classFeatures = dsClass.getClassFeatures().stream()
+                .filter(feature -> feature.getLevel().getId().intValue() == level).map(ClassLevelFeature::getFeature)
                 .collect(Collectors.toList());
         return classFeatures;
     }

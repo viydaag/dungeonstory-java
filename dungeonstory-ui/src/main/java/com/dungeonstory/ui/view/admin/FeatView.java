@@ -36,7 +36,7 @@ public class FeatView extends AbstractCrudView<Feat> {
     public void enter(ViewChangeEvent event) {
         super.enter(event);
         //        grid.sort(Sort.by("isClassFeature", SortDirection.ASCENDING).then("name", SortDirection.ASCENDING));
-        grid.setSortOrder(GridSortOrder.asc(grid.getColumn("isClassFeature")).thenDesc(grid.getColumn("name")));
+        grid.setSortOrder(GridSortOrder.asc(grid.getColumn("name")));
     }
 
 }

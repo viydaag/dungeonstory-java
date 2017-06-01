@@ -12,12 +12,12 @@ import org.vaadin.viritin.label.MLabel;
 
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.CharacterClass;
+import com.dungeonstory.backend.data.ClassFeature;
 import com.dungeonstory.backend.data.ClassLevelBonus;
 import com.dungeonstory.backend.data.CreatureType;
 import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.data.Deity;
 import com.dungeonstory.backend.data.DivineDomain;
-import com.dungeonstory.backend.data.Feat;
 import com.dungeonstory.backend.data.Skill;
 import com.dungeonstory.backend.data.Terrain;
 import com.dungeonstory.backend.data.util.ClassUtil;
@@ -27,9 +27,9 @@ import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSAbstractForm;
 import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.ui.converter.CollectionToStringConverter;
-import com.dungeonstory.ui.converter.DescriptiveEntityCollectionToStringListConverter;
 import com.dungeonstory.ui.converter.CollectionToStringListConverter.ListType;
 import com.dungeonstory.ui.converter.CollectionToStringListConverter.UnorderedListType;
+import com.dungeonstory.ui.converter.DescriptiveEntityCollectionToStringListConverter;
 import com.dungeonstory.ui.field.DSSubSetSelector2;
 import com.dungeonstory.ui.i18n.Messages;
 import com.dungeonstory.ui.layout.FormLayoutNoSpace;
@@ -277,7 +277,7 @@ public class ClassChoiceForm extends DSAbstractForm<CharacterClass> implements A
                 DescriptiveEntityCollectionToStringListConverter<List<?>> listConverter = new DescriptiveEntityCollectionToStringListConverter<List<?>>();
                 listConverter.setListType(ListType.UNORDERED);
                 listConverter.setUnorderedBullet(UnorderedListType.CIRCLE);
-                List<Feat> classFeaturesForLevel = ClassUtil.getClassFeaturesForLevel(chosenClass, classLevel);
+                List<ClassFeature> classFeaturesForLevel = ClassUtil.getClassFeaturesForLevel(chosenClass, classLevel);
                 classFeatures.withContent(listConverter.convertToPresentation(classFeaturesForLevel, new ValueContext()));
 
             } else {
@@ -361,7 +361,7 @@ public class ClassChoiceForm extends DSAbstractForm<CharacterClass> implements A
 
         character.getArmorProficiencies().addAll(chosenClass.getArmorProficiencies());
         character.getWeaponProficiencies().addAll(chosenClass.getWeaponProficiencies());
-        character.getFeats().addAll(ClassUtil.getClassFeaturesForLevel(chosenClass, chosenCharacterClass.getClassLevel()));
+//        character.getFeats().addAll(ClassUtil.getClassFeaturesForLevel(chosenClass, chosenCharacterClass.getClassLevel()));
 
         if (classSkills.getValue() != null) {
             character.getSkillProficiencies().addAll(classSkills.getValue());

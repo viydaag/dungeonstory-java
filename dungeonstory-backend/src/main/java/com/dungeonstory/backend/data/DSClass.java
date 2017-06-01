@@ -123,7 +123,7 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
     private List<ClassLevelBonus> levelBonuses;
     
     @OneToMany(mappedBy = "classe", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    @PrivateOwned   //means that a class level features will be deleted if not attached to a class
+    @PrivateOwned   //means that a class level feature will be deleted if not attached to a class
     private List<ClassLevelFeature> classFeatures;
     
     @OneToMany(mappedBy = "parentClass", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})

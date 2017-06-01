@@ -28,18 +28,18 @@ public class ClassLevelFeature implements Serializable {
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "featId")
-    private Feat feat;
+    @JoinColumn(name = "featureId")
+    private ClassFeature feature;
 
     public ClassLevelFeature() {
         super();
     }
 
-    public ClassLevelFeature(DSClass classe, Level level, Feat feat) {
+    public ClassLevelFeature(DSClass classe, Level level, ClassFeature feature) {
         this();
         this.classe = classe;
         this.level = level;
-        this.feat = feat;
+        this.feature = feature;
     }
 
     public DSClass getClasse() {
@@ -58,12 +58,12 @@ public class ClassLevelFeature implements Serializable {
         this.level = level;
     }
 
-    public Feat getFeat() {
-        return feat;
+    public ClassFeature getFeature() {
+        return feature;
     }
 
-    public void setFeat(Feat feat) {
-        this.feat = feat;
+    public void setFeat(ClassFeature feature) {
+        this.feature = feature;
     }
 
 }

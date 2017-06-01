@@ -10,7 +10,7 @@ public class ClassLevelFeatureId implements Serializable {
 
     private Long level;
 
-    private Long feat;
+    private Long feature;
 
     public ClassLevelFeatureId() {
 
@@ -32,12 +32,12 @@ public class ClassLevelFeatureId implements Serializable {
         this.level = level;
     }
 
-    public Long getFeat() {
-        return feat;
+    public Long getFeature() {
+        return feature;
     }
 
-    public void setFeat(Long feat) {
-        this.feat = feat;
+    public void setFeat(Long feature) {
+        this.feature = feature;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class ClassLevelFeatureId implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((classe == null) ? 0 : classe.hashCode());
-        result = prime * result + ((feat == null) ? 0 : feat.hashCode());
+        result = prime * result + ((feature == null) ? 0 : feature.hashCode());
         result = prime * result + ((level == null) ? 0 : level.hashCode());
         return result;
     }
@@ -69,11 +69,11 @@ public class ClassLevelFeatureId implements Serializable {
         } else if (!classe.equals(other.classe)) {
             return false;
         }
-        if (feat == null) {
-            if (other.feat != null) {
+        if (feature == null) {
+            if (other.feature != null) {
                 return false;
             }
-        } else if (!feat.equals(other.feat)) {
+        } else if (!feature.equals(other.feature)) {
             return false;
         }
         if (level == null) {
