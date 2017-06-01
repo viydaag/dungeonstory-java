@@ -207,7 +207,7 @@ public class DSSubSetSelector2<ET, C extends Collection<ET>> extends CustomField
     }
 
     /**
-     * @return the reference to the Table used by this field internally.
+     * @return the reference to the Grid used by this field internally.
      * Modifying this object directly might cause odd behavior.
      */
     public Grid<ET> getGrid() {

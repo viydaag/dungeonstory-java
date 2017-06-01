@@ -11,8 +11,6 @@ import java.util.stream.Collectors;
 
 import org.vaadin.viritin.fields.IntegerField;
 import org.vaadin.viritin.fields.MTextField;
-import org.vaadin.viritin.v7.fields.ElementCollectionTable;
-import org.vaadin.viritin.v7.fields.TypedSelect;
 
 import com.dungeonstory.FormCheckBox;
 import com.dungeonstory.backend.data.Ability;
@@ -81,7 +79,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     private LevelBonusCollectionField                                                    levelBonuses;
     private ElementCollectionGrid<ClassLevelFeature>                                     classFeatures;
     private DSSubSetSelector2<Spell, Set<Spell>>                                         spells;
-    private ElementCollectionTable<ClassEquipment>                                       startingEquipment;
+    private ElementCollectionGrid<ClassEquipment>                                        startingEquipment;
 
     private Button addAllSimpleWeapons;
     private Button addAllMartialWeapons;
@@ -96,30 +94,24 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     private CheckBox           deity;
     private List<Registration> checkBoxListeners;
 
-    private SkillDataService      skillService      = null;
-    private LevelDataService      levelService      = null;
-    private ClassFeatureDataService       classFeatureService       = null;
-    private WeaponTypeDataService weaponTypeService = null;
-    private AbilityDataService    abilityService    = null;
-    private SpellDataService      spellService      = null;
-    private EquipmentDataService  equipmentService  = null;
+    private SkillDataService        skillService        = null;
+    private LevelDataService        levelService        = null;
+    private ClassFeatureDataService classFeatureService = null;
+    private WeaponTypeDataService   weaponTypeService   = null;
+    private AbilityDataService      abilityService      = null;
+    private SpellDataService        spellService        = null;
+    private EquipmentDataService    equipmentService    = null;
 
     private boolean init = false;
 
-    // public static class ClassLevelFeatureRow {
-    // TypedSelect<Level> level = new TypedSelect<Level>();
-    // TypedSelect<Feat> feat = new TypedSelect<Feat>().asComboBoxType(new
-    // ComboBoxConfig().withPageLength(20)).withFullWidth();
-    // }
-
     public static class ClassLevelFeatureRow {
-        ComboBox<Level>        level = new ComboBox<>();
-        ComboBox<ClassFeature> feature  = new ComboBox<>();
+        ComboBox<Level>        level   = new ComboBox<>();
+        ComboBox<ClassFeature> feature = new ComboBox<>();
     }
 
     public static class ClassEquipmentRow {
-        TypedSelect<Equipment> equipment = new TypedSelect<Equipment>(Equipment.class);
-        IntegerField           quantity  = new IntegerField();
+        ComboBox<Equipment> equipment = new ComboBox<>();
+        IntegerField        quantity  = new IntegerField();
     }
 
     public ClassForm() {
@@ -181,15 +173,15 @@ public class ClassForm extends DSAbstractForm<DSClass> {
 
         addAllSimpleWeapons = new Button("Armes simples", event -> {
             Collection<WeaponType> weaponTypes = weaponTypeService.findAll();
-            Set<WeaponType> allSimple = weaponTypes.stream()
-                    .filter(type -> type.getProficiencyType() == ProficiencyType.SIMPLE).collect(Collectors.toSet());
+            Set<WeaponType> allSimple = weaponTypes.stream().filter(type -> type.getProficiencyType() == ProficiencyType.SIMPLE)
+                    .collect(Collectors.toSet());
             allSimple.addAll(weaponProficiencies.getValue());
             weaponProficiencies.setValue(allSimple);
         });
         addAllMartialWeapons = new Button("Armes de guerre", event -> {
             Collection<WeaponType> weaponTypes = weaponTypeService.findAll();
-            Set<WeaponType> allMartial = weaponTypes.stream()
-                    .filter(type -> type.getProficiencyType() == ProficiencyType.MARTIAL).collect(Collectors.toSet());
+            Set<WeaponType> allMartial = weaponTypes.stream().filter(type -> type.getProficiencyType() == ProficiencyType.MARTIAL)
+                    .collect(Collectors.toSet());
             allMartial.addAll(weaponProficiencies.getValue());
             weaponProficiencies.setValue(allMartial);
         });
@@ -247,29 +239,30 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         deity = new CheckBox("Dieu");
         activateCheckboxListeners();
 
-        HorizontalLayout checkboxLayout = new HorizontalLayout(martialArts, sorcery, rage, invocation, hunter, sneak,
-                deity);
+        HorizontalLayout checkboxLayout = new HorizontalLayout(martialArts, sorcery, rage, invocation, hunter, sneak, deity);
 
-        spellSlots = (LevelSpellsCollectionField<ClassSpellSlots>) new LevelSpellsCollectionField<ClassSpellSlots>(
-                ClassSpellSlots.class).withCaption("Nombre de sorts").withEditorInstantiator(() -> {
+        spellSlots = (LevelSpellsCollectionField<ClassSpellSlots>) new LevelSpellsCollectionField<ClassSpellSlots>(ClassSpellSlots.class)
+                .withCaption("Nombre de sorts").withEditorInstantiator(() -> {
                     LevelSpellsRow row = new LevelSpellsRow();
                     row.level.setItems(levelService.findAll());
                     return row;
                 });
 
-        classFeatures = new ElementCollectionGrid<ClassLevelFeature>(ClassLevelFeature.class,
-                ClassLevelFeatureRow.class).withCaption("Dons de classe").withEditorInstantiator(() -> {
+        List<Level> allLevels = levelService.findAll();
+        List<ClassFeature> allClassFeatures = classFeatureService.findAll();
+        classFeatures = new ElementCollectionGrid<ClassLevelFeature>(ClassLevelFeature.class, ClassLevelFeatureRow.class)
+                .withCaption("Dons de classe").withEditorInstantiator(() -> {
                     ClassLevelFeatureRow row = new ClassLevelFeatureRow();
                     // row.level.setOptions(levelService.findAll());
                     // row.feat.setOptions(featService.findAllClassFeatures());
-                    row.level.setItems(levelService.findAll());
-                    row.feature.setItems(classFeatureService.findAll());
+                    row.level.setItems(allLevels);
+                    row.feature.setItems(allClassFeatures);
                     row.feature.setPageLength(20);
                     row.feature.setWidth(100, Unit.PERCENTAGE);
                     return row;
                 });
         classFeatures.setPropertyHeader("level", "Niveau");
-        classFeatures.setPropertyHeader("feat", "Don");
+        classFeatures.setPropertyHeader("feature", "Don");
         classFeatures.setWidth("80%");
 
         spells = new DSSubSetSelector2<>(Spell.class);
@@ -286,10 +279,11 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         spells.setWidth("80%");
         spells.setValue(null); // nothing selected
 
-        startingEquipment = new ElementCollectionTable<ClassEquipment>(ClassEquipment.class, ClassEquipmentRow.class)
-                .withCaption("Équipement de base").withEditorInstantiator(() -> {
+        List<Equipment> allEquipment = equipmentService.findAll();
+        startingEquipment = new ElementCollectionGrid<>(ClassEquipment.class, ClassEquipmentRow.class).withCaption("Équipement de base")
+                .withEditorInstantiator(() -> {
                     ClassEquipmentRow row = new ClassEquipmentRow();
-                    row.equipment.setOptions(equipmentService.findAll());
+                    row.equipment.setItems(allEquipment);
                     return row;
                 });
         startingEquipment.setPropertyHeader("equipment", "Équipement");
@@ -319,8 +313,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     }
 
     private void activateCheckboxListeners() {
-        checkBoxListeners
-                .add(martialArts.addValueChangeListener(event -> levelBonuses.setMartialArts(event.getValue())));
+        checkBoxListeners.add(martialArts.addValueChangeListener(event -> levelBonuses.setMartialArts(event.getValue())));
         checkBoxListeners.add(sorcery.addValueChangeListener(event -> levelBonuses.setSorcery(event.getValue())));
         checkBoxListeners.add(rage.addValueChangeListener(event -> levelBonuses.setRage(event.getValue())));
         checkBoxListeners.add(invocation.addValueChangeListener(event -> levelBonuses.setInvocation(event.getValue())));
@@ -404,8 +397,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     public void spellCastingTypeChange(SingleSelectionEvent<SpellCastingType> event) {
         // hide the known spell column if spells are prepared (nbSpells = level
         // + ability modifier)
-        spellSlots.setKnownSpells(
-                event != null && event.getValue() != null && event.getValue() == SpellCastingType.KNOWN);
+        spellSlots.setKnownSpells(event != null && event.getValue() != null && event.getValue() == SpellCastingType.KNOWN);
     }
 
     private void refreshLevelBonusCheckBoxVisibility() {
@@ -416,8 +408,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
                 if (levelBonus.getFavoredEnemy() != null || levelBonus.getNaturalExplorer() != null) {
                     hunter.setValue(true);
                 }
-                if (levelBonus.getKiPoints() != null || levelBonus.getMartialArtsDamage() != null
-                        || levelBonus.getMovementBonus() != null) {
+                if (levelBonus.getKiPoints() != null || levelBonus.getMartialArtsDamage() != null || levelBonus.getMovementBonus() != null) {
                     martialArts.setValue(true);
                 }
                 if (levelBonus.getRagePoints() != null || levelBonus.getRageDamageBonus() != null) {

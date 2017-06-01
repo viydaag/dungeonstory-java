@@ -1,5 +1,7 @@
 package com.dungeonstory.ui.view.admin.form;
 
+import java.util.List;
+
 import com.dungeonstory.FormCheckBox;
 import com.dungeonstory.backend.data.Ability;
 import com.dungeonstory.backend.data.ClassFeature;
@@ -95,22 +97,25 @@ public class ClassSpecializationForm extends DSAbstractForm<ClassSpecialization>
                 });
         spellSlots.setKnownSpells(true);
 
+        List<Level> allLevels = levelService.findAll();
+        List<Spell> allSpells = spellService.findAll();
         classSpecSpells = new ElementCollectionGrid<>(ClassSpecLevelSpell.class, ClassSpecLevelSpellRow.class)
                 .withCaption("Sorts de spécialisation").withEditorInstantiator(() -> {
                     ClassSpecLevelSpellRow row = new ClassSpecLevelSpellRow();
-                    row.level.setItems(levelService.findAll());
-                    row.spell.setItems(spellService.findAll());
+                    row.level.setItems(allLevels);
+                    row.spell.setItems(allSpells);
                     return row;
                 });
         classSpecSpells.setPropertyHeader("level", "Niveau");
         classSpecSpells.setPropertyHeader("spell", "Sort");
         classSpecSpells.setWidth("80%");
 
+        List<ClassFeature> allClassFeatures = classFeatureService.findAll();
         classSpecFeatures = new ElementCollectionGrid<ClassSpecLevelFeature>(ClassSpecLevelFeature.class,
                 ClassSpecLevelFeatureRow.class).withCaption("Dons de spécialisation").withEditorInstantiator(() -> {
                     ClassLevelFeatureRow row = new ClassLevelFeatureRow();
-                    row.level.setItems(levelService.findAll());
-                    row.feature.setItems(classFeatureService.findAll());
+                    row.level.setItems(allLevels);
+                    row.feature.setItems(allClassFeatures);
                     return row;
                 });
         classSpecFeatures.setPropertyHeader("level", "Niveau");

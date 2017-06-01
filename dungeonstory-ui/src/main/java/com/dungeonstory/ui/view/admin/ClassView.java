@@ -1,9 +1,7 @@
 package com.dungeonstory.ui.view.admin;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import com.dungeonstory.backend.data.ClassEquipment;
 import com.dungeonstory.backend.data.ClassLevelBonus;
@@ -69,7 +67,7 @@ public class ClassView extends AbstractCrudView<DSClass> implements CrudView<DSC
             spec.setParentClass(entity);
         }
         
-        Set<ClassEquipment> equip = new HashSet<ClassEquipment>(entity.getStartingEquipment());
+        List<ClassEquipment> equip = new ArrayList<ClassEquipment>(entity.getStartingEquipment());
         equip.stream().forEach(item -> item.setClasse(entity));
         entity.setStartingEquipment(equip);
         
