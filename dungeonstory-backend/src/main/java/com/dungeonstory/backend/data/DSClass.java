@@ -13,7 +13,6 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -118,12 +117,12 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
             inverseJoinColumns = { @JoinColumn(name = "skillId", referencedColumnName = "id") })
     private Set<Skill> baseSkills;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "classe", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+    @OneToMany(mappedBy = "classe", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
     @PrivateOwned   //means that a class level bonus will be deleted if not attached to a class
     private List<ClassLevelBonus> levelBonuses;
     
     @OneToMany(mappedBy = "classe", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    @PrivateOwned   //means that a class level features will be deleted if not attached to a class
+    @PrivateOwned   //means that a class level feature will be deleted if not attached to a class
     private List<ClassLevelFeature> classFeatures;
     
     @OneToMany(mappedBy = "parentClass", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
@@ -142,7 +141,7 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
     
     @OneToMany(mappedBy = "classe", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @PrivateOwned
-    private Set<ClassEquipment> startingEquipment;
+    private List<ClassEquipment> startingEquipment;
     
     @NotNull
     @Min(value = 0)
@@ -157,7 +156,7 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
         levelBonuses = new ArrayList<ClassLevelBonus>();
         classFeatures = new ArrayList<ClassLevelFeature>();
         classSpecs = new HashSet<ClassSpecialization>();
-        startingEquipment = new HashSet<ClassEquipment>();
+        startingEquipment = new ArrayList<ClassEquipment>();
         spellSlots = new ArrayList<ClassSpellSlots>();
     }
 
@@ -313,11 +312,11 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
         this.startingGold = startingGold;
     }
 
-    public Set<ClassEquipment> getStartingEquipment() {
+    public List<ClassEquipment> getStartingEquipment() {
         return startingEquipment;
     }
 
-    public void setStartingEquipment(Set<ClassEquipment> startingEquipment) {
+    public void setStartingEquipment(List<ClassEquipment> startingEquipment) {
         this.startingEquipment = startingEquipment;
     }
 

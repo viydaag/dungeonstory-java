@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
+import com.dungeonstory.backend.data.util.Sort;
 import com.dungeonstory.backend.factory.Factory;
 import com.dungeonstory.backend.repository.Entity;
 import com.dungeonstory.backend.repository.Repository;
@@ -79,6 +80,8 @@ public interface DataService<E extends Entity, K extends Serializable> {
 
     List<E> findAllPagedOrderBy(int firstRow, int pageSize, String[] orderColumn, String[] order);
 
+    List<E> findAllPagedOrderBy(int firstRow, int pageSize, List<Sort> orders);
+
     List<E> findAllByLikePagedOrderBy(String column, String value, int firstRow, int pageSize, String[] orderColumn,
             String[] order);
 
@@ -145,5 +148,7 @@ public interface DataService<E extends Entity, K extends Serializable> {
      * @return the entity count
      */
     long count();
+
+    Sort createSort(String propertyName, boolean descending);
 
 }

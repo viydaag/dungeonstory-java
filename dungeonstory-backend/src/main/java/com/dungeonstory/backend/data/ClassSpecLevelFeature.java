@@ -24,8 +24,8 @@ public class ClassSpecLevelFeature {
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "featId")
-    private Feat feat;
+    @JoinColumn(name = "featureId")
+    private ClassFeature feature;
     
     public ClassSpecLevelFeature() {
         super();
@@ -47,12 +47,12 @@ public class ClassSpecLevelFeature {
         this.level = level;
     }
 
-    public Feat getFeat() {
-        return feat;
+    public ClassFeature getFeature() {
+        return feature;
     }
 
-    public void setFeat(Feat feat) {
-        this.feat = feat;
+    public void setFeature(ClassFeature feature) {
+        this.feature = feature;
     }
         
 }

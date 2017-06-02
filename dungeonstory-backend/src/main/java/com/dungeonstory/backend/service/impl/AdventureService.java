@@ -4,16 +4,15 @@ import java.util.List;
 
 import com.dungeonstory.backend.data.Adventure;
 import com.dungeonstory.backend.data.Message;
-import com.dungeonstory.backend.factory.impl.AdventureFactory;
 import com.dungeonstory.backend.repository.impl.AdventureRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
 import com.dungeonstory.backend.service.AdventureDataService;
 
 public class AdventureService extends AbstractDataService<Adventure, Long> implements AdventureDataService {
 
-    private static final long       serialVersionUID = -3637998347027964634L;
+    private static final long serialVersionUID = -3637998347027964634L;
 
-    private static AdventureService instance         = null;
+    private static AdventureService instance = null;
 
     public static synchronized AdventureService getInstance() {
         if (instance == null) {
@@ -24,7 +23,7 @@ public class AdventureService extends AbstractDataService<Adventure, Long> imple
 
     private AdventureService() {
         super();
-        setEntityFactory(new AdventureFactory());
+        setEntityFactory(() -> new Adventure());
         setRepository(new AdventureRepository());
     }
 

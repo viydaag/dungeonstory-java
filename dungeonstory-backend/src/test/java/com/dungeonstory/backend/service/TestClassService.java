@@ -10,13 +10,13 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.dungeonstory.backend.data.ClassFeature;
+import com.dungeonstory.backend.data.ClassFeature.ClassFeatureUsage;
 import com.dungeonstory.backend.data.ClassLevelFeature;
 import com.dungeonstory.backend.data.DSClass;
-import com.dungeonstory.backend.data.Feat;
-import com.dungeonstory.backend.data.Feat.FeatUsage;
 import com.dungeonstory.backend.data.Level;
+import com.dungeonstory.backend.service.impl.ClassFeatureService;
 import com.dungeonstory.backend.service.impl.ClassService;
-import com.dungeonstory.backend.service.impl.FeatService;
 import com.dungeonstory.backend.service.impl.LevelService;
 import com.dungeonstory.backend.service.mock.MockClassService;
 
@@ -84,15 +84,15 @@ public class TestClassService {
         Level level2 = new Level(200, 2000, 2);
         LevelService.getInstance().create(level2);
         
-        Feat feat1 = new Feat("test feat for class", "", FeatUsage.ACTION);
-        FeatService.getInstance().create(feat1);
+        ClassFeature cf1 = new ClassFeature("test feat for class", "", ClassFeatureUsage.ACTION);
+        ClassFeatureService.getInstance().create(cf1);
         
-        ClassLevelFeature bonusFeat1 = new ClassLevelFeature(entity, level1, feat1);
-        ClassLevelFeature bonusFeat2 = new ClassLevelFeature(entity, level2, feat1);
+        ClassLevelFeature classLevelFeature1 = new ClassLevelFeature(entity, level1, cf1);
+        ClassLevelFeature classLevelFeature2 = new ClassLevelFeature(entity, level2, cf1);
         
         List<ClassLevelFeature> bonusFeats = new ArrayList<ClassLevelFeature>();
-        bonusFeats.add(bonusFeat1);
-        bonusFeats.add(bonusFeat2);
+        bonusFeats.add(classLevelFeature1);
+        bonusFeats.add(classLevelFeature2);
         
         entity.setClassFeatures(bonusFeats);
         service.create(entity);
@@ -100,7 +100,7 @@ public class TestClassService {
         assertEquals(2, entity.getClassFeatures().size());
 
 //        service.deleteClassLevelBonusFeat(bonusFeat1);
-        entity.getClassFeatures().remove(bonusFeat1);
+        entity.getClassFeatures().remove(classLevelFeature1);
         entity = service.update(entity);
         
 //        service.refresh(entity);

@@ -34,7 +34,7 @@ public class SpellEffect extends AbstractTimestampEntity implements Serializable
     @Column(name = "effectType", nullable = false)
     private EffectType effectType;
     
-    @Pattern(regexp = "\\d+d\\d+([\\+\\-]\\d+)*")   //NdN(+/-)N
+    @Pattern(regexp = "^$|(\\d+d\\d+([\\+\\-]\\d+)*)") //NdN(+/-)N
     @Column(name = "damage")
     private String damage;                  //used in case of damage or cure
     

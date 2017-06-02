@@ -162,14 +162,21 @@ public class Character extends AbstractTimestampEntity implements Serializable {
     @OneToMany(mappedBy = "character")
     private List<Message> messages;
 
-    @OneToMany(mappedBy = "character", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
-    private List<CharacterClass> classes;
+    @OneToMany(mappedBy = "character", cascade = { CascadeType.ALL }, targetEntity = CharacterClass.class)
+    @PrivateOwned
+    private Set<CharacterClass> classes;
 
     @ManyToMany
     @JoinTable(name = "CharacterFeat", joinColumns = {
             @JoinColumn(name = "characterId", referencedColumnName = "id") }, inverseJoinColumns = {
                     @JoinColumn(name = "featId", referencedColumnName = "id") })
     private Set<Feat> feats;
+
+    @ManyToMany
+    @JoinTable(name = "CharacterClassFeature", joinColumns = {
+            @JoinColumn(name = "characterId", referencedColumnName = "id") }, inverseJoinColumns = {
+                    @JoinColumn(name = "featureId", referencedColumnName = "id") })
+    private Set<ClassFeature> classFeatures;
 
     @ManyToMany
     @JoinTable(name = "CharacterProficientSkill", joinColumns = @JoinColumn(name = "characterId", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "skillId", referencedColumnName = "id"))
@@ -234,8 +241,9 @@ public class Character extends AbstractTimestampEntity implements Serializable {
 
     public Character() {
         super();
-        classes = new ArrayList<CharacterClass>();
+        classes = new HashSet<CharacterClass>();
         feats = new HashSet<Feat>();
+        classFeatures = new HashSet<>();
         skillProficiencies = new HashSet<Skill>();
         equipment = new ArrayList<CharacterEquipment>();
         languages = new HashSet<Language>();
@@ -252,7 +260,7 @@ public class Character extends AbstractTimestampEntity implements Serializable {
     public Character clone() {
         try {
             Character c = (Character) super.clone();
-            c.setClasses(new ArrayList<CharacterClass>(c.getClasses()));
+            c.setClasses(new HashSet<CharacterClass>(c.getClasses()));
             c.setArmorProficiencies(new HashSet<>(c.getArmorProficiencies()));
             c.setFavoredEnnemies(new ArrayList<>(c.getFavoredEnnemies()));
             c.setFavoredTerrains(new HashSet<>(c.getFavoredTerrains()));
@@ -284,11 +292,11 @@ public class Character extends AbstractTimestampEntity implements Serializable {
         this.race = race;
     }
 
-    public List<CharacterClass> getClasses() {
+    public Set<CharacterClass> getClasses() {
         return classes;
     }
 
-    public void setClasses(List<CharacterClass> classes) {
+    public void setClasses(Set<CharacterClass> classes) {
         this.classes = classes;
     }
 
@@ -420,12 +428,28 @@ public class Character extends AbstractTimestampEntity implements Serializable {
         this.toolProficiencies = toolProficiencies;
     }
 
+    public List<CharacterEquipment> getEquipment() {
+        return equipment;
+    }
+
+    public void setEquipment(List<CharacterEquipment> equipment) {
+        this.equipment = equipment;
+    }
+
     public Set<Feat> getFeats() {
         return feats;
     }
 
     public void setFeats(Set<Feat> feats) {
         this.feats = feats;
+    }
+
+    public Set<ClassFeature> getClassFeatures() {
+        return classFeatures;
+    }
+
+    public void setClassFeatures(Set<ClassFeature> classFeatures) {
+        this.classFeatures = classFeatures;
     }
 
     public String getName() {

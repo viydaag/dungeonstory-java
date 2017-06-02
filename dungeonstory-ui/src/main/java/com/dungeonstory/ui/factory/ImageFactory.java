@@ -8,10 +8,10 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
 
-import com.dungeonstory.DSConstant;
 import com.dungeonstory.backend.data.Character.Gender;
 import com.dungeonstory.ui.component.DSImage;
-import com.dungeonstory.util.ImageFilter;
+import com.dungeonstory.ui.util.DSConstant;
+import com.dungeonstory.ui.util.ImageFilter;
 import com.vaadin.server.FileResource;
 
 public class ImageFactory {
@@ -36,7 +36,6 @@ public class ImageFactory {
         File imageDir = new File(DSConstant.getImageDir());
         Collection<File> listFiles = FileUtils.listFiles(imageDir, ImageFilter.getImgExtensions(), true);
 
-        int index = 0;
         for (File file : listFiles) {
             String fullPath = file.getAbsolutePath();
             int lastSlash = fullPath.lastIndexOf(File.separator);

@@ -66,7 +66,6 @@ public abstract class MockAbstractRepository<E extends Entity> implements Reposi
 
     @Override
     public void refresh(E entity) {
-        // TODO Auto-generated method stub
 
     }
 
@@ -120,7 +119,11 @@ public abstract class MockAbstractRepository<E extends Entity> implements Reposi
 
     @Override
     public List<E> findAllPaged(int firstRow, int pageSize) {
-        return findAll().subList(firstRow, pageSize);
+        List<E> findAll = findAll();
+        if (pageSize > findAll.size()) {
+            pageSize = findAll.size();
+        }
+        return findAll.subList(firstRow, pageSize);
     }
 
     @Override

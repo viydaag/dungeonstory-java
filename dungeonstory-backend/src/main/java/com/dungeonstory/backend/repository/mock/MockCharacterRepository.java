@@ -1,12 +1,8 @@
 package com.dungeonstory.backend.repository.mock;
 
-import java.util.List;
-
-import com.dungeonstory.backend.data.Alignment;
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.CharacterClass;
 import com.dungeonstory.backend.data.DSClass;
-import com.dungeonstory.backend.mock.MockDataGenerator;
 
 public class MockCharacterRepository extends MockAbstractRepository<Character> {
 

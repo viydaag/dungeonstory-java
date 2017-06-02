@@ -8,7 +8,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
@@ -52,8 +51,8 @@ public class User extends AbstractTimestampEntity implements Serializable {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @ManyToOne
-    @JoinColumn(name = "roleId")
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "role", nullable = false)
     private AccessRole role;
 
     @NotNull
@@ -166,7 +165,7 @@ public class User extends AbstractTimestampEntity implements Serializable {
     }
 
     public boolean isAdmin() {
-        return getRole().getName().equals("administrator");
+        return getRole() == AccessRole.ADMIN;
     }
 
     public boolean isInactive() {
