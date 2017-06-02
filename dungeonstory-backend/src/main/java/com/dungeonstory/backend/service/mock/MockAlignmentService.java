@@ -4,16 +4,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.dungeonstory.backend.data.Alignment;
-import com.dungeonstory.backend.factory.impl.AlignmentFactory;
 import com.dungeonstory.backend.repository.mock.MockAlignmentRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
 import com.dungeonstory.backend.service.AlignmentDataService;
 
 public class MockAlignmentService extends AbstractDataService<Alignment, Long> implements AlignmentDataService {
 
-	private static final long serialVersionUID = 5669347444406948099L;
-	
-	private static MockAlignmentService instance = null;
+    private static final long serialVersionUID = 5669347444406948099L;
+
+    private static MockAlignmentService instance = null;
 
     public static synchronized MockAlignmentService getInstance() {
         if (instance == null) {
@@ -24,7 +23,7 @@ public class MockAlignmentService extends AbstractDataService<Alignment, Long> i
 
     private MockAlignmentService() {
         super();
-        setEntityFactory(new AlignmentFactory());
+        setEntityFactory(() -> new Alignment());
         setRepository(new MockAlignmentRepository());
     }
 

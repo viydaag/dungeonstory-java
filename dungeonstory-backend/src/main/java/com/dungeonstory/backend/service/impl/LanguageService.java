@@ -5,7 +5,6 @@ import java.util.List;
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.Language;
 import com.dungeonstory.backend.data.Race;
-import com.dungeonstory.backend.factory.impl.LanguageFactory;
 import com.dungeonstory.backend.repository.impl.LanguageRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
 import com.dungeonstory.backend.service.LanguageDataService;
@@ -27,7 +26,7 @@ public class LanguageService extends AbstractDataService<Language, Long> impleme
 
     private LanguageService() {
         super();
-        setEntityFactory(new LanguageFactory());
+        setEntityFactory(() -> new Language());
         setRepository(repo);
     }
 

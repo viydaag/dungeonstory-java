@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.Feat;
-import com.dungeonstory.backend.factory.impl.FeatFactory;
 import com.dungeonstory.backend.repository.impl.FeatRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
 import com.dungeonstory.backend.service.FeatDataService;
@@ -14,6 +13,7 @@ public class FeatService extends AbstractDataService<Feat, Long> implements Feat
     private static final long serialVersionUID = -904004337605184211L;
 
     private static FeatService instance = null;
+    private FeatRepository repository = null;
 
     public static synchronized FeatService getInstance() {
         if (instance == null) {
@@ -24,43 +24,21 @@ public class FeatService extends AbstractDataService<Feat, Long> implements Feat
 
     private FeatService() {
         super();
-        setEntityFactory(new FeatFactory());
-        setRepository(new FeatRepository());
+        repository = new FeatRepository();
+        setEntityFactory(() -> new Feat());
+        setRepository(repository);
     }
 
-    @Override
-    public List<Feat> findAllFeats() {
-        return ((FeatRepository) entityRepository).findAllFeats();
-    }
-
-    @Override
-    public List<Feat> findAllClassFeatures() {
-        return ((FeatRepository) entityRepository).findAllClassFeatures();
-    }
 
     @Override
     public List<Feat> findAllFeatsExcept(Feat feat) {
-        return ((FeatRepository) entityRepository).findAllFeatsExcept(feat);
+        return repository.findAllFeatsExcept(feat);
     }
 
     @Override
     public List<Feat> findAllUnassignedFeats(Character character) {
-        return ((FeatRepository) entityRepository).findAllUnassignedFeats(character);
+        return repository.findAllUnassignedFeats(character);
     }
 
-    @Override
-    public List<Feat> findAllClassFeaturesWithoutParent() {
-        return ((FeatRepository) entityRepository).findAllClassFeaturesWithoutParent();
-    }
-
-    @Override
-    public List<Feat> findAllClassFeaturesWithoutChildren() {
-        return ((FeatRepository) entityRepository).findAllClassFeaturesWithoutChildren();
-    }
-
-    @Override
-    public List<Feat> findAllClassFeatureExcept(Feat feat) {
-        return ((FeatRepository) entityRepository).findAllClassFeatureExcept(feat);
-    }
 
 }

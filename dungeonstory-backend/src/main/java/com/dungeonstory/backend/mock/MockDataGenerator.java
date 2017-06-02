@@ -7,12 +7,13 @@ import java.util.Optional;
 
 import com.dungeonstory.backend.data.Ability;
 import com.dungeonstory.backend.data.AccessRole;
-import com.dungeonstory.backend.data.AccessRole.RoleType;
 import com.dungeonstory.backend.data.Adventure;
 import com.dungeonstory.backend.data.Adventure.AdventureStatus;
 import com.dungeonstory.backend.data.Alignment;
 import com.dungeonstory.backend.data.ArmorType;
 import com.dungeonstory.backend.data.Background;
+import com.dungeonstory.backend.data.ClassFeature;
+import com.dungeonstory.backend.data.ClassSpecialization;
 import com.dungeonstory.backend.data.CreatureType;
 import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.data.DamageType;
@@ -35,7 +36,6 @@ import com.dungeonstory.backend.data.WeaponType.RangeType;
 import com.dungeonstory.backend.data.WeaponType.SizeType;
 import com.dungeonstory.backend.data.WeaponType.UsageType;
 import com.dungeonstory.backend.service.mock.MockAbilityService;
-import com.dungeonstory.backend.service.mock.MockAccessRoleService;
 import com.dungeonstory.backend.service.mock.MockDamageTypeService;
 import com.dungeonstory.backend.service.mock.MockLevelService;
 import com.dungeonstory.backend.service.mock.MockUserService;
@@ -63,12 +63,9 @@ public class MockDataGenerator {
     private static final String[][] storedClass = new String[][] { { "Guerrier" }, { "Mage" }, { "Voleur" }, { "Barde" }, { "Sorcier" },
             { "Paladin" }, { "Rodeur" }, { "Druide" }, { "Clerc" }, { "Barbare" }, };
 
-    private static final String[][] storedRoles = new String[][] { { "Administrateur", "ADMIN" }, { "Joueur", "PLAYER" },
-            { "Modérateur", "MODERATOR" } };
-
-    private static final String[][] storedUsers = new String[][] { { "admin", "admin", "admin", "0", "ACTIVE" },
-            { "test", "test", "user", "1", "ACTIVE" }, { "inactive", "inactive", "user", "1", "INACTIVE" },
-            { "waiting", "waiting", "user", "1", "WAITING_FOR_APPROBATION" } };
+    private static final String[][] storedUsers = new String[][] { { "admin", "admin", "admin", "ADMIN", "ACTIVE" },
+            { "test", "test", "user", "PLAYER", "ACTIVE" }, { "inactive", "inactive", "user", "PLAYER", "INACTIVE" },
+            { "waiting", "waiting", "user", "PLAYER", "WAITING_FOR_APPROBATION" } };
 
     private static final String[][] storedWeaponTypes = new String[][] {
             { "Dague", "SIMPLE", "LIGHT", "ONE_HANDED", "MELEE_RANGE", "THROWN", "1d4", "1" } };
@@ -133,21 +130,11 @@ public class MockDataGenerator {
     }
 
     public static List<User> createUsers() {
-        List<AccessRole> roles = MockAccessRoleService.getInstance().findAll();
         List<User> users = new ArrayList<User>();
         for (String[] user : storedUsers) {
-            users.add(new User(user[0], user[1], roles.get(Integer.parseInt(user[3])), user[1], "", UserStatus.valueOf(user[4])));
+            users.add(new User(user[0], user[1], AccessRole.valueOf(user[3]), user[1], "", UserStatus.valueOf(user[4])));
         }
         return users;
-    }
-
-    public static List<AccessRole> createRoles() {
-        List<AccessRole> roles = new ArrayList<AccessRole>();
-        for (String[] roleString : storedRoles) {
-            AccessRole role = new AccessRole(roleString[0], RoleType.valueOf(roleString[1]));
-            roles.add(role);
-        }
-        return roles;
     }
 
     public static List<DSClass> createClasses() {
@@ -220,7 +207,7 @@ public class MockDataGenerator {
 
     public static List<Shop> createShops() {
         // TODO Auto-generated method stub
-        return null;
+        return new ArrayList<>();
     }
 
     public static List<Adventure> createAdventures() {
@@ -290,6 +277,16 @@ public class MockDataGenerator {
         backgrounds.add(new Background("background1"));
         backgrounds.add(new Background("background2"));
         return backgrounds;
+    }
+
+    public static List<ClassSpecialization> createClassSpecializations() {
+        // TODO Auto-generated method stub
+        return new ArrayList<>();
+    }
+
+    public static List<ClassFeature> createClassFeatures() {
+        // TODO Auto-generated method stub
+        return new ArrayList<>();
     }
 
 }

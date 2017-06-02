@@ -1,12 +1,13 @@
 package com.dungeonstory.backend.service.impl;
 
 import com.dungeonstory.backend.data.ClassSpecialization;
-import com.dungeonstory.backend.factory.impl.ClassSpecializationFactory;
 import com.dungeonstory.backend.repository.impl.ClassSpecializationRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
+import com.dungeonstory.backend.service.ClassSpecializationDataService;
 
-public class ClassSpecializationService extends AbstractDataService<ClassSpecialization, Long> {
-	
+public class ClassSpecializationService extends AbstractDataService<ClassSpecialization, Long>
+        implements ClassSpecializationDataService {
+
     private static final long serialVersionUID = 8366455895761725369L;
 
     private static ClassSpecializationService instance = null;
@@ -20,7 +21,7 @@ public class ClassSpecializationService extends AbstractDataService<ClassSpecial
 
     private ClassSpecializationService() {
         super();
-        setEntityFactory(new ClassSpecializationFactory());
+        setEntityFactory(() -> new ClassSpecialization());
         setRepository(new ClassSpecializationRepository());
     }
 

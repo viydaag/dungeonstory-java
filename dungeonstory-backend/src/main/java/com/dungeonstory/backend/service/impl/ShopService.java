@@ -1,15 +1,15 @@
 package com.dungeonstory.backend.service.impl;
 
 import com.dungeonstory.backend.data.Shop;
-import com.dungeonstory.backend.factory.impl.ShopFactory;
 import com.dungeonstory.backend.repository.impl.ShopRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
+import com.dungeonstory.backend.service.ShopDataService;
 
-public class ShopService extends AbstractDataService<Shop, Long> {
+public class ShopService extends AbstractDataService<Shop, Long> implements ShopDataService {
 
-	private static final long serialVersionUID = 4967508150181211443L;
-	
-	private static ShopService instance = null;
+    private static final long serialVersionUID = 4967508150181211443L;
+
+    private static ShopService instance = null;
 
     public static synchronized ShopService getInstance() {
         if (instance == null) {
@@ -20,7 +20,7 @@ public class ShopService extends AbstractDataService<Shop, Long> {
 
     private ShopService() {
         super();
-        setEntityFactory(new ShopFactory());
+        setEntityFactory(() -> new Shop());
         setRepository(new ShopRepository());
     }
 

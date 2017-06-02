@@ -1,7 +1,6 @@
 package com.dungeonstory.backend.mock;
 
 import com.dungeonstory.backend.data.AccessRole;
-import com.dungeonstory.backend.data.AccessRole.RoleType;
 import com.dungeonstory.backend.data.User;
 
 public class MockUser extends User {
@@ -13,7 +12,7 @@ public class MockUser extends User {
     }
 
     public MockUser(String username) {
-        super(username, "test", new AccessRole("player", RoleType.PLAYER), "test", "test@test.com", UserStatus.ACTIVE);
+        super(username, "test", AccessRole.PLAYER, "test", "test@test.com", UserStatus.ACTIVE);
     }
 
 }

@@ -2,7 +2,6 @@ package com.dungeonstory.backend.service.mock;
 
 import com.dungeonstory.backend.data.Adventure;
 import com.dungeonstory.backend.data.Message;
-import com.dungeonstory.backend.factory.impl.AdventureFactory;
 import com.dungeonstory.backend.repository.mock.MockAdventureRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
 import com.dungeonstory.backend.service.AdventureDataService;
@@ -22,7 +21,7 @@ public class MockAdventureService extends AbstractDataService<Adventure, Long> i
 
     private MockAdventureService() {
         super();
-        setEntityFactory(new AdventureFactory());
+        setEntityFactory(() -> new Adventure());
         setRepository(new MockAdventureRepository());
     }
 

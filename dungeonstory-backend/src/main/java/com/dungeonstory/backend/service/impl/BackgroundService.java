@@ -1,11 +1,11 @@
 package com.dungeonstory.backend.service.impl;
 
 import com.dungeonstory.backend.data.Background;
-import com.dungeonstory.backend.factory.impl.BackgroundFactory;
 import com.dungeonstory.backend.repository.impl.BackgroundRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
+import com.dungeonstory.backend.service.BackgroundDataService;
 
-public class BackgroundService extends AbstractDataService<Background, Long> {
+public class BackgroundService extends AbstractDataService<Background, Long> implements BackgroundDataService {
 
     private static final long serialVersionUID = -2912947409014871356L;
     
@@ -20,7 +20,7 @@ public class BackgroundService extends AbstractDataService<Background, Long> {
 
     private BackgroundService() {
         super();
-        setEntityFactory(new BackgroundFactory());
+        setEntityFactory(() -> new Background());
         setRepository(new BackgroundRepository());
     }
 

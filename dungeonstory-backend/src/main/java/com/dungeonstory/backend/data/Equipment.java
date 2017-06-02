@@ -66,7 +66,7 @@ public abstract class Equipment extends AbstractTimestampEntity implements Seria
 
     @Min(value = 0)
     @Column(name = "weight", nullable = false)
-    private double weight;
+    private Double weight = 0.0;
 
     @Column(name = "isMagical", nullable = false)
     private boolean isMagical;
@@ -109,11 +109,11 @@ public abstract class Equipment extends AbstractTimestampEntity implements Seria
         this.description = description;
     }
 
-    public double getWeight() {
+    public Double getWeight() {
         return weight;
     }
 
-    public void setWeight(double weight) {
+    public void setWeight(Double weight) {
         this.weight = weight;
     }
 

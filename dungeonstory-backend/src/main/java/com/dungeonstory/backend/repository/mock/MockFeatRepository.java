@@ -1,7 +1,6 @@
 package com.dungeonstory.backend.repository.mock;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.dungeonstory.backend.data.Feat;
 import com.dungeonstory.backend.mock.MockDataGenerator;
@@ -27,12 +26,5 @@ public class MockFeatRepository extends MockAbstractRepository<Feat> {
         }
     }
     
-    public List<Feat> findAllFeats() {
-        return findAll().stream().filter(feat -> !feat.getIsClassFeature()).collect(Collectors.toList());
-    }
-    
-    public List<Feat> findAllClassFeatures() {
-        return findAll().stream().filter(feat -> feat.getIsClassFeature()).collect(Collectors.toList());
-    }
 
 }

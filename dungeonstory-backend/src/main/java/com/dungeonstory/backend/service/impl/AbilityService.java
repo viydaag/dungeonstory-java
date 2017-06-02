@@ -1,11 +1,11 @@
 package com.dungeonstory.backend.service.impl;
 
 import com.dungeonstory.backend.data.Ability;
-import com.dungeonstory.backend.factory.impl.AbilityFactory;
 import com.dungeonstory.backend.repository.impl.AbilityRepository;
+import com.dungeonstory.backend.service.AbilityDataService;
 import com.dungeonstory.backend.service.AbstractDataService;
 
-public class AbilityService extends AbstractDataService<Ability, Long> {
+public class AbilityService extends AbstractDataService<Ability, Long> implements AbilityDataService {
 
     private static final long serialVersionUID = 6468595169787824606L;
 
@@ -20,7 +20,7 @@ public class AbilityService extends AbstractDataService<Ability, Long> {
 
     private AbilityService() {
         super();
-        setEntityFactory(new AbilityFactory());
+        setEntityFactory(() -> new Ability());
         setRepository(new AbilityRepository());
     }
 

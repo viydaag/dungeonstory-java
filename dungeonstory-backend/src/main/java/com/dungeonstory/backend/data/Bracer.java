@@ -9,13 +9,13 @@ import javax.persistence.Table;
 @Table(name = "Equipment")
 public class Bracer extends Equipment {
 
-	private static final long serialVersionUID = -5663851714905294026L;
-	
-	public Bracer() {
-		super();
-	}
-	
-	@Override
+    private static final long serialVersionUID = -5663851714905294026L;
+
+    public Bracer() {
+        super();
+    }
+
+    @Override
     public String toString() {
         return getName();
     }
