@@ -8,8 +8,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
+import org.vaadin.viritin.fields.LabelField;
 import org.vaadin.viritin.form.AbstractForm;
-import org.vaadin.viritin.label.MLabel;
 
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.CharacterClass;
@@ -21,6 +21,7 @@ import com.dungeonstory.backend.data.util.ClassUtil;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.backend.service.SpellDataService;
 import com.dungeonstory.ui.component.DSAbstractForm;
+import com.dungeonstory.ui.component.DSLabel;
 import com.dungeonstory.ui.converter.CollectionToStringConverter;
 import com.dungeonstory.ui.i18n.Messages;
 import com.vaadin.data.ValueContext;
@@ -34,6 +35,7 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalSplitPanel;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
@@ -43,15 +45,18 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
 
-public class SpellChoiceForm extends DSAbstractForm<Character> implements AbstractForm.SavedHandler<Character> {
+public class SpellChoiceForm extends DSAbstractForm<CharacterClass> implements AbstractForm.SavedHandler<CharacterClass> {
 
     private static final long serialVersionUID = 7418266123213990672L;
 
     private SpellDataService spellService = Services.getSpellService();
 
-    private DSClass classe;
+    private Character character;
+    private DSClass   chosenClass;
 
-    private MLabel label;
+    private Label               title;
+    private LabelField<DSClass> classe;
+    private LabelField<Integer> classLevel;
 
     private TabSheet             tabs  = null;
     private HorizontalSplitPanel panel = null;
@@ -66,8 +71,11 @@ public class SpellChoiceForm extends DSAbstractForm<Character> implements Abstra
 
     private Audio spellSound = null;
 
-    public SpellChoiceForm() {
-        super(Character.class);
+    public SpellChoiceForm(Character character, DSClass dsClass) {
+        super(CharacterClass.class);
+
+        this.character = character;
+        this.chosenClass = dsClass;
 
         String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
         FileResource resource = new FileResource(new File(basepath + "/WEB-INF/sound/selectSpell.mp3"));
@@ -80,10 +88,6 @@ public class SpellChoiceForm extends DSAbstractForm<Character> implements Abstra
         setSavedHandler(this);
     }
 
-    public void setClass(DSClass classe) {
-        this.classe = classe;
-    }
-
     @Override
     protected Component createContent() {
 
@@ -91,11 +95,11 @@ public class SpellChoiceForm extends DSAbstractForm<Character> implements Abstra
 
         layout.addComponent(spellSound);
 
-        label = new MLabel();
-        layout.addComponent(label);
+        title = new Label();
+        classe = new LabelField<>("Classe : ");
+        classLevel = new LabelField<>("Niveau de classe : ");
+        layout.addComponents(title);
 
-        //        tabs = new DTabs();
-        //        tabs.setTabBarBottom(true).setFramedTabs(true);
         tabs = new TabSheet();
 
         panel = new HorizontalSplitPanel();
@@ -110,14 +114,14 @@ public class SpellChoiceForm extends DSAbstractForm<Character> implements Abstra
     @Override
     public void afterSetEntity() {
 
-        CharacterClass assignedClass = ClassUtil.getCharacterClass(getEntity(), this.classe);
+        CharacterClass assignedClass = ClassUtil.getCharacterClass(this.character, this.chosenClass);
 
         if (assignedClass != null) {
 
             int classLevel = assignedClass.getClassLevel();
-            label.setValue(Messages.getInstance().getMessage("spellStep.class.label", assignedClass.toString()));
+            title.setValue(Messages.getInstance().getMessage("spellStep.class.label", assignedClass.toString()));
 
-            Optional<ClassSpellSlots> spellSlotOpt = ClassUtil.getClassSpellSlots(this.classe, classLevel);
+            Optional<ClassSpellSlots> spellSlotOpt = ClassUtil.getClassSpellSlots(this.chosenClass, classLevel);
 
             if (spellSlotOpt.isPresent()) {
                 ClassSpellSlots spellSlot = spellSlotOpt.get();
@@ -126,7 +130,7 @@ public class SpellChoiceForm extends DSAbstractForm<Character> implements Abstra
                 final Integer maxNumberOfSpellToChoose;
                 final Integer maxNumberOfCantripToChoose;
                 maxNumberOfCantripToChoose = spellSlot.getCantripsKnown();
-                if (this.classe.getSpellCastingType() == SpellCastingType.KNOWN) {
+                if (this.chosenClass.getSpellCastingType() == SpellCastingType.KNOWN) {
                     maxNumberOfSpellToChoose = spellSlot.getSpellsKnown();
                 } else {
                     maxNumberOfSpellToChoose = 6;
@@ -136,10 +140,10 @@ public class SpellChoiceForm extends DSAbstractForm<Character> implements Abstra
 
                     totalNbSpell += maxNumberOfCantripToChoose;
 
-                    List<Spell> unknownCantrips = spellService.findAllUnknownClassSpellsByLevel(Spell.CANTRIP_LEVEL, getEntity().getId(),
-                            this.classe.getId());
-                    List<Spell> knownCantrips = spellService.findAllKnownClassSpellsByLevel(Spell.CANTRIP_LEVEL, getEntity().getId(),
-                            this.classe.getId());
+                    List<Spell> unknownCantrips = spellService.findAllUnknownClassSpellsByLevel(Spell.CANTRIP_LEVEL, this.character.getId(),
+                            this.chosenClass.getId());
+                    List<Spell> knownCantrips = spellService.findAllKnownClassSpellsByLevel(Spell.CANTRIP_LEVEL, this.character.getId(),
+                            this.chosenClass.getId());
 
                     // fill cantrips
                     for (Spell cantrip : unknownCantrips) {
@@ -200,9 +204,10 @@ public class SpellChoiceForm extends DSAbstractForm<Character> implements Abstra
 
                     // fill each tab with spells
                     for (int spellLevel = Spell.MIN_SPELL_LEVEL; spellLevel <= maxLevelSpellSlot; spellLevel++) {
-                        List<Spell> unknownSpells = spellService.findAllUnknownClassSpellsByLevel(spellLevel, getEntity().getId(),
-                                this.classe.getId());
-                        List<Spell> knownSpells = spellService.findAllKnownClassSpellsByLevel(spellLevel, getEntity().getId(), this.classe.getId());
+                        List<Spell> unknownSpells = spellService.findAllUnknownClassSpellsByLevel(spellLevel, this.character.getId(),
+                                this.chosenClass.getId());
+                        List<Spell> knownSpells = spellService.findAllKnownClassSpellsByLevel(spellLevel, this.character.getId(),
+                                this.chosenClass.getId());
                         unknownSpellLayout[spellLevel] = new VerticalLayout();
                         final int index = spellLevel;
 
@@ -281,9 +286,9 @@ public class SpellChoiceForm extends DSAbstractForm<Character> implements Abstra
         CollectionToStringConverter converter = new CollectionToStringConverter();
 
         FormLayout layout = new FormLayout();
-        MLabel componentType = new MLabel(messages.getMessage("spellStep.component.label"),
+        DSLabel componentType = new DSLabel(messages.getMessage("spellStep.component.label"),
                 converter.convertToPresentation(spell.getComponentTypes(), new ValueContext()));
-        MLabel text = new MLabel(messages.getMessage("spellStep.description.label"), spell.getDescription()).withFullWidth();
+        DSLabel text = new DSLabel(messages.getMessage("spellStep.description.label"), spell.getDescription());
         layout.addComponents(componentType, text);
 
         //TODO : other useful info
@@ -333,7 +338,7 @@ public class SpellChoiceForm extends DSAbstractForm<Character> implements Abstra
     }
 
     @Override
-    public void onSave(Character entity) {
+    public void onSave(CharacterClass entity) {
 
         List<Spell> characterKnownSpells = new ArrayList<>();
         Iterator<Component> iteratorCantrip = knownCantripLayout.iterator();
@@ -355,10 +360,7 @@ public class SpellChoiceForm extends DSAbstractForm<Character> implements Abstra
             }
         }
 
-        CharacterClass assignedClass = ClassUtil.getCharacterClass(entity, classe);
-        if (assignedClass != null) {
-            assignedClass.setKnownSpells(characterKnownSpells);
-        }
+        entity.setKnownSpells(characterKnownSpells);
     }
 
 }

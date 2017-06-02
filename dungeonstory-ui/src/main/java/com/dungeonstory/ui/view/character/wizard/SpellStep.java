@@ -1,11 +1,12 @@
 package com.dungeonstory.ui.view.character.wizard;
 
-import com.dungeonstory.backend.data.Character;
+import com.dungeonstory.backend.data.CharacterClass;
+import com.dungeonstory.backend.data.util.ClassUtil;
 import com.dungeonstory.ui.i18n.Messages;
 import com.dungeonstory.ui.view.character.wizard.form.SpellChoiceForm;
 import com.vaadin.ui.Component;
 
-public class SpellStep extends CharacterWizardStep<Character> {
+public class SpellStep extends CharacterWizardStep<CharacterClass> {
 
     private static final long serialVersionUID = 13480232906069179L;
 
@@ -20,15 +21,15 @@ public class SpellStep extends CharacterWizardStep<Character> {
 
     @Override
     public Component getContent() {
-        form = new SpellChoiceForm();
+        form = new SpellChoiceForm(wizard.getCharacter(), wizard.getChosenClass());
         setSaveButton();
         return form;
     }
 
     @Override
     public void afterActivateStep() {
-        ((SpellChoiceForm) form).setClass(wizard.getChosenClass());
-        form.setEntity(wizard.getCharacter());
+        CharacterClass characterClass = ClassUtil.getCharacterClass(wizard.getCharacter(), wizard.getChosenClass());
+        form.setEntity(characterClass);
         super.afterActivateStep();
     }
 

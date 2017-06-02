@@ -8,6 +8,7 @@ import com.dungeonstory.backend.data.Race;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.LanguageDataService;
 import com.dungeonstory.backend.service.Services;
+import com.dungeonstory.ui.component.DSAbstractForm;
 import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.ui.i18n.Messages;
 import com.vaadin.ui.ComboBox;
@@ -16,7 +17,7 @@ import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 
-public class RaceChoiceForm extends AbstractForm<Character> implements AbstractForm.SavedHandler<Character> {
+public class RaceChoiceForm extends DSAbstractForm<Character> implements AbstractForm.SavedHandler<Character> {
 
     private static final long serialVersionUID = 7418266123213990672L;
 

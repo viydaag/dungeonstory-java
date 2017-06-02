@@ -3,19 +3,19 @@ package com.dungeonstory.ui.view.character.wizard;
 import java.io.Serializable;
 
 import org.vaadin.teemu.wizards.WizardStep;
-import org.vaadin.viritin.form.AbstractForm;
 
 import com.dungeonstory.backend.data.Character;
+import com.dungeonstory.ui.component.DSAbstractForm;
 import com.vaadin.ui.Button;
 
 public abstract class CharacterWizardStep<T> implements WizardStep, Serializable {
 
     private static final long serialVersionUID = 1566483351479714073L;
 
-    protected CharacterWizard wizard;
-    protected AbstractForm<T> form;
-    protected Character       stepCharacter;           //character state at the start of the step
-    protected boolean         isSaveButtonSet = false; //this is to prevent setting twice the click listener on the button
+    protected CharacterWizard   wizard;
+    protected DSAbstractForm<T> form;
+    protected Character         stepCharacter;           //character state at the start of the step
+    protected boolean           isSaveButtonSet = false; //this is to prevent setting twice the click listener on the button
 
     public CharacterWizardStep(CharacterWizard wizard) {
         this.wizard = wizard;
@@ -42,7 +42,7 @@ public abstract class CharacterWizardStep<T> implements WizardStep, Serializable
     public void afterActivateStep() {
         if (form != null) {
             setSaveButton();
-            form.getBinder().validate();
+            form.adjustButtons();
         }
 
         //sets the character from previous step
