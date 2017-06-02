@@ -87,6 +87,9 @@ public class ClassFeature extends AbstractTimestampEntity implements Descriptive
     @JoinColumn(name = "replaceFeatId")
     private ClassFeature replacement;
 
+    @OneToMany(mappedBy = "feature", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+    private List<ClassLevelFeature> classLevels;
+
     public ClassFeature() {
         super();
     }
@@ -162,6 +165,14 @@ public class ClassFeature extends AbstractTimestampEntity implements Descriptive
 
     public void setReplacement(ClassFeature replacement) {
         this.replacement = replacement;
+    }
+
+    public List<ClassLevelFeature> getClassLevels() {
+        return classLevels;
+    }
+
+    public void setClassLevels(List<ClassLevelFeature> classLevels) {
+        this.classLevels = classLevels;
     }
 
     @Override
