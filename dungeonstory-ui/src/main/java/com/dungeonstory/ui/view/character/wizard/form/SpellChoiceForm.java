@@ -136,10 +136,10 @@ public class SpellChoiceForm extends DSAbstractForm<Character> implements Abstra
 
                     totalNbSpell += maxNumberOfCantripToChoose;
 
-                    List<Spell> unknownCantrips = spellService.findAllUnknownClassSpellsByLevel(Spell.CANTRIP_LEVEL,
-                            getEntity().getId(), this.classe.getId());
-                    List<Spell> knownCantrips = spellService.findAllKnownClassSpellsByLevel(Spell.CANTRIP_LEVEL,
-                            getEntity().getId(), this.classe.getId());
+                    List<Spell> unknownCantrips = spellService.findAllUnknownClassSpellsByLevel(Spell.CANTRIP_LEVEL, getEntity().getId(),
+                            this.classe.getId());
+                    List<Spell> knownCantrips = spellService.findAllKnownClassSpellsByLevel(Spell.CANTRIP_LEVEL, getEntity().getId(),
+                            this.classe.getId());
 
                     // fill cantrips
                     for (Spell cantrip : unknownCantrips) {
@@ -158,8 +158,7 @@ public class SpellChoiceForm extends DSAbstractForm<Character> implements Abstra
                                     knownCantripLayout.removeComponent(source);
                                     unknownCantripLayout.addComponent(source);
                                 }
-                                unknownCantripLayout.setEnabled(
-                                        knownCantripLayout.getComponentCount() < maxNumberOfCantripToChoose.intValue());
+                                unknownCantripLayout.setEnabled(knownCantripLayout.getComponentCount() < maxNumberOfCantripToChoose.intValue());
 
                             }
                         });
@@ -193,18 +192,17 @@ public class SpellChoiceForm extends DSAbstractForm<Character> implements Abstra
                             if (nbSpells != null) {
                                 maxLevelSpellSlot = spellLevel;
                             }
-                        } catch (NoSuchMethodException | SecurityException | IllegalAccessException
-                                | IllegalArgumentException | InvocationTargetException e) {
+                        } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
+                                | InvocationTargetException e) {
                             continue;
                         }
                     }
 
                     // fill each tab with spells
                     for (int spellLevel = Spell.MIN_SPELL_LEVEL; spellLevel <= maxLevelSpellSlot; spellLevel++) {
-                        List<Spell> unknownSpells = spellService.findAllUnknownClassSpellsByLevel(spellLevel,
-                                getEntity().getId(), this.classe.getId());
-                        List<Spell> knownSpells = spellService.findAllKnownClassSpellsByLevel(spellLevel,
-                                getEntity().getId(), this.classe.getId());
+                        List<Spell> unknownSpells = spellService.findAllUnknownClassSpellsByLevel(spellLevel, getEntity().getId(),
+                                this.classe.getId());
+                        List<Spell> knownSpells = spellService.findAllKnownClassSpellsByLevel(spellLevel, getEntity().getId(), this.classe.getId());
                         unknownSpellLayout[spellLevel] = new VerticalLayout();
                         final int index = spellLevel;
 
@@ -226,8 +224,7 @@ public class SpellChoiceForm extends DSAbstractForm<Character> implements Abstra
                                     }
                                     //refresh spell availability
                                     for (int i = 1; i <= 9; i++) {
-                                        unknownSpellLayout[i].setEnabled(knownSpellLayout
-                                                .getComponentCount() < maxNumberOfSpellToChoose.intValue());
+                                        unknownSpellLayout[i].setEnabled(knownSpellLayout.getComponentCount() < maxNumberOfSpellToChoose.intValue());
                                     }
 
                                 }
@@ -260,8 +257,7 @@ public class SpellChoiceForm extends DSAbstractForm<Character> implements Abstra
                     @Override
                     public void selectedTabChange(SelectedTabChangeEvent event) {
                         TabSheet tabSheet = event.getTabSheet();
-                        if (tabSheet
-                                .getTabPosition(tabSheet.getTab(tabSheet.getSelectedTab())) == Spell.CANTRIP_LEVEL) {
+                        if (tabSheet.getTabPosition(tabSheet.getTab(tabSheet.getSelectedTab())) == Spell.CANTRIP_LEVEL) {
                             panel.setSecondComponent(knownCantripLayout);
                         } else {
                             panel.setSecondComponent(knownSpellLayout);

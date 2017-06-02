@@ -173,6 +173,12 @@ public class Character extends AbstractTimestampEntity implements Serializable {
     private Set<Feat> feats;
 
     @ManyToMany
+    @JoinTable(name = "CharacterClassFeature", joinColumns = {
+            @JoinColumn(name = "characterId", referencedColumnName = "id") }, inverseJoinColumns = {
+                    @JoinColumn(name = "featureId", referencedColumnName = "id") })
+    private Set<ClassFeature> classFeatures;
+
+    @ManyToMany
     @JoinTable(name = "CharacterProficientSkill", joinColumns = @JoinColumn(name = "characterId", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "skillId", referencedColumnName = "id"))
     private Set<Skill> skillProficiencies;
 
@@ -237,6 +243,7 @@ public class Character extends AbstractTimestampEntity implements Serializable {
         super();
         classes = new HashSet<CharacterClass>();
         feats = new HashSet<Feat>();
+        classFeatures = new HashSet<>();
         skillProficiencies = new HashSet<Skill>();
         equipment = new ArrayList<CharacterEquipment>();
         languages = new HashSet<Language>();
@@ -435,6 +442,14 @@ public class Character extends AbstractTimestampEntity implements Serializable {
 
     public void setFeats(Set<Feat> feats) {
         this.feats = feats;
+    }
+
+    public Set<ClassFeature> getClassFeatures() {
+        return classFeatures;
+    }
+
+    public void setClassFeatures(Set<ClassFeature> classFeatures) {
+        this.classFeatures = classFeatures;
     }
 
     public String getName() {

@@ -36,6 +36,9 @@ public class CharacterView extends VerticalLayout implements View {
         ProficiencyList proficiencies = new ProficiencyList(character);
         tabsheet.addTab(proficiencies, "Maitrises");
 
+        ClassFeatureList features = new ClassFeatureList(character);
+        tabsheet.addTab(features, "Dons");
+
         addComponent(tabsheet);
 
     }

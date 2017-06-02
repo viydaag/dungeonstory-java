@@ -93,6 +93,7 @@ public class ClassChoiceForm extends DSAbstractForm<CharacterClass> implements A
         domainService = Services.getDivineDomainService();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     protected Component createContent() {
 
@@ -338,8 +339,15 @@ public class ClassChoiceForm extends DSAbstractForm<CharacterClass> implements A
 
         character.getArmorProficiencies().addAll(chosenClass.getArmorProficiencies());
         character.getWeaponProficiencies().addAll(chosenClass.getWeaponProficiencies());
-        //TODO 
-//        character.getFeats().addAll(ClassUtil.getClassFeaturesForLevel(chosenClass, chosenCharacterClass.getClassLevel()));
+
+        character.getClassFeatures().addAll(ClassUtil.getClassFeaturesForLevel(chosenClass, chosenCharacterClass.getClassLevel()));
+        List<ClassFeature> featuresToRemove = new ArrayList<>();
+        for (ClassFeature feature : character.getClassFeatures()) {
+            if (feature.getReplacement() != null) {
+                featuresToRemove.add(feature.getReplacement());
+            }
+        }
+        character.getClassFeatures().removeAll(featuresToRemove);
 
         if (classSkills.getValue() != null) {
             character.getSkillProficiencies().addAll(classSkills.getValue());
