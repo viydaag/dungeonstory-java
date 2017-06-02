@@ -122,7 +122,7 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
 
         layout.addComponent(getToolbar());
 
-        initEntity(type.getValue());
+        initEntity(type.getValue(), false);
 
         return layout;
     }
@@ -146,7 +146,7 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
 
     public void typeChange(SingleSelectionEvent<EquipmentType> event) {
         EquipmentType type = event.getValue();
-        initEntity(type);
+        initEntity(type, event.isUserOriginated());
         isMagicalChange(null);
     }
 
@@ -187,7 +187,7 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
     }
 
     @SuppressWarnings("unchecked")
-    private void initEntity(EquipmentType type) {
+    private void initEntity(EquipmentType type, boolean isUserOriginated) {
         if (type == null) {
             showArmorFields(false);
             showWeaponFields(false);
@@ -195,18 +195,22 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
         } else if (typeChanged(oldType, type)) {
             Equipment equip;
             try {
-                equip = type.getEquipment();
-
                 showArmorFields(type == EquipmentType.ARMOR);
                 showWeaponFields(type == EquipmentType.WEAPON);
                 showToolFields(type == EquipmentType.TOOL);
 
-                equip.setName(name.getValue());
-                equip.setType(type);
-                equip.setDescription(description.getValue());
-                equip.setIsPurchasable(isPurchasable.getValue());
-                equip.setIsSellable(isSellable.getValue());
-                setEntity((T) equip);
+                if (isUserOriginated) {
+                    equip = type.getEquipment();
+                    if (getEntity() != null && getEntity().getId() != null) {
+                        equip.setId(getEntity().getId());
+                    }
+                    equip.setName(name.getValue());
+                    equip.setType(type);
+                    equip.setDescription(description.getValue());
+                    equip.setIsPurchasable(isPurchasable.getValue());
+                    equip.setIsSellable(isSellable.getValue());
+                    setEntity((T) equip);
+                }
             } catch (InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
             }
@@ -265,5 +269,11 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
         }
 
         return false;
+    }
+
+    @Override
+    public void afterSetEntity() {
+        super.afterSetEntity();
+        type.setReadOnly(getEntity() != null && getEntity().getId() != null);
     }
 }
