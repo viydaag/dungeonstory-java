@@ -127,4 +127,9 @@ public class ClassSpecialization extends AbstractTimestampEntity implements Seri
         this.isSpellCasting = isSpellCasting;
     }
 
+    @Override
+    public String toString() {
+        return getName();
+    }
+
 }

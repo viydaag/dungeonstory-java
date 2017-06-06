@@ -32,8 +32,6 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
 
     private static final long serialVersionUID = 4948845539537092288L;
     
-    public static final String deleteClassLevelBonusFeat =  "Class.deleteClassLevelBonusFeat";
-
     public enum SpellCastingType {
         KNOWN("Inné"), PREPARED("Préparé");
 
@@ -125,7 +123,7 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
     @PrivateOwned   //means that a class level feature will be deleted if not attached to a class
     private List<ClassLevelFeature> classFeatures;
     
-    @OneToMany(mappedBy = "parentClass", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "parentClass", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
     @PrivateOwned
     private Set<ClassSpecialization> classSpecs;
     
