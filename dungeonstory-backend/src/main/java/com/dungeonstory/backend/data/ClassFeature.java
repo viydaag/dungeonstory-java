@@ -3,6 +3,7 @@ package com.dungeonstory.backend.data;
 import static javax.persistence.LockModeType.READ;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -58,7 +59,7 @@ public class ClassFeature extends AbstractTimestampEntity implements Descriptive
     }
 
     @NotNull
-    @Column(name = "name", unique = true, nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "description", columnDefinition = "TEXT")
@@ -90,12 +91,18 @@ public class ClassFeature extends AbstractTimestampEntity implements Descriptive
     @OneToMany(mappedBy = "feature", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
     private List<ClassLevelFeature> classLevels;
 
+    @OneToMany(mappedBy = "feature", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+    private List<ClassSpecLevelFeature> classSpecLevels;
+
     public ClassFeature() {
         super();
+        this.children = new ArrayList<>();
+        this.classLevels = new ArrayList<>();
+        this.classSpecLevels = new ArrayList<>();
     }
 
     public ClassFeature(String name, String description, ClassFeatureUsage type) {
-        super();
+        this();
         this.name = name;
         this.description = description;
         this.usage = type;
@@ -173,6 +180,14 @@ public class ClassFeature extends AbstractTimestampEntity implements Descriptive
 
     public void setClassLevels(List<ClassLevelFeature> classLevels) {
         this.classLevels = classLevels;
+    }
+
+    public List<ClassSpecLevelFeature> getClassSpecLevels() {
+        return classSpecLevels;
+    }
+
+    public void setClassSpecLevels(List<ClassSpecLevelFeature> classSpecLevels) {
+        this.classSpecLevels = classSpecLevels;
     }
 
     @Override
