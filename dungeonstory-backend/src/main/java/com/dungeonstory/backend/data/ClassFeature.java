@@ -3,6 +3,7 @@ package com.dungeonstory.backend.data;
 import static javax.persistence.LockModeType.READ;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -58,7 +59,7 @@ public class ClassFeature extends AbstractTimestampEntity implements Descriptive
     }
 
     @NotNull
-    @Column(name = "name", unique = true, nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "description", columnDefinition = "TEXT")
@@ -83,19 +84,33 @@ public class ClassFeature extends AbstractTimestampEntity implements Descriptive
     @Column(name = "restType")
     private RestType restType;
 
+    @Column(name = "pointCost")
+    Integer pointCost;
+
     @OneToOne
     @JoinColumn(name = "replaceFeatId")
     private ClassFeature replacement;
 
+    @ManyToOne
+    @JoinColumn(name = "requiredLevelId")
+    // When the ClassFeature is a child (a choice), sometimes a class level is required to choose it.
+    private Level requiredLevel;
+
     @OneToMany(mappedBy = "feature", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
     private List<ClassLevelFeature> classLevels;
 
+    @OneToMany(mappedBy = "feature", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+    private List<ClassSpecLevelFeature> classSpecLevels;
+
     public ClassFeature() {
         super();
+        this.children = new ArrayList<>();
+        this.classLevels = new ArrayList<>();
+        this.classSpecLevels = new ArrayList<>();
     }
 
     public ClassFeature(String name, String description, ClassFeatureUsage type) {
-        super();
+        this();
         this.name = name;
         this.description = description;
         this.usage = type;
@@ -143,6 +158,14 @@ public class ClassFeature extends AbstractTimestampEntity implements Descriptive
         this.children = children;
     }
 
+    public boolean isAParent() {
+        return children != null && !children.isEmpty();
+    }
+
+    public boolean isAChild() {
+        return parent != null;
+    }
+
     public Integer getNbUse() {
         return nbUse;
     }
@@ -159,6 +182,14 @@ public class ClassFeature extends AbstractTimestampEntity implements Descriptive
         this.restType = restType;
     }
 
+    public Integer getPointCost() {
+        return pointCost;
+    }
+
+    public void setPointCost(Integer pointCost) {
+        this.pointCost = pointCost;
+    }
+
     public ClassFeature getReplacement() {
         return replacement;
     }
@@ -167,12 +198,28 @@ public class ClassFeature extends AbstractTimestampEntity implements Descriptive
         this.replacement = replacement;
     }
 
+    public Level getRequiredLevel() {
+        return requiredLevel;
+    }
+
+    public void setRequiredLevel(Level requiredLevel) {
+        this.requiredLevel = requiredLevel;
+    }
+
     public List<ClassLevelFeature> getClassLevels() {
         return classLevels;
     }
 
     public void setClassLevels(List<ClassLevelFeature> classLevels) {
         this.classLevels = classLevels;
+    }
+
+    public List<ClassSpecLevelFeature> getClassSpecLevels() {
+        return classSpecLevels;
+    }
+
+    public void setClassSpecLevels(List<ClassSpecLevelFeature> classSpecLevels) {
+        this.classSpecLevels = classSpecLevels;
     }
 
     @Override

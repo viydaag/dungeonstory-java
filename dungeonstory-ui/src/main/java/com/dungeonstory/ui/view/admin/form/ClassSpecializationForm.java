@@ -2,6 +2,8 @@ package com.dungeonstory.ui.view.admin.form;
 
 import java.util.List;
 
+import org.vaadin.viritin.fields.IntegerField;
+
 import com.dungeonstory.FormCheckBox;
 import com.dungeonstory.backend.data.Ability;
 import com.dungeonstory.backend.data.ClassFeature;
@@ -51,8 +53,9 @@ public class ClassSpecializationForm extends DSAbstractForm<ClassSpecialization>
     private ClassDataService        classService        = null;
 
     public static class ClassSpecLevelFeatureRow {
-        ComboBox<Level>        level   = new ComboBox<>();
-        ComboBox<ClassFeature> feature = new ComboBox<>();
+        ComboBox<Level>        level      = new ComboBox<>();
+        ComboBox<ClassFeature> feature    = new ComboBox<>();
+        IntegerField           nbToChoose = new IntegerField();
     }
 
     public static class ClassSpecLevelSpellRow {
@@ -99,8 +102,8 @@ public class ClassSpecializationForm extends DSAbstractForm<ClassSpecialization>
         spellSlots.setKnownSpells(true);
 
         List<Spell> allSpells = spellService.findAll();
-        classSpecSpells = new ElementCollectionGrid<>(ClassSpecLevelSpell.class, ClassSpecLevelSpellRow.class)
-                .withCaption("Sorts de spécialisation").withEditorInstantiator(() -> {
+        classSpecSpells = new ElementCollectionGrid<>(ClassSpecLevelSpell.class, ClassSpecLevelSpellRow.class).withCaption("Sorts de spécialisation")
+                .withEditorInstantiator(() -> {
                     ClassSpecLevelSpellRow row = new ClassSpecLevelSpellRow();
                     row.level.setItems(allLevels);
                     row.spell.setItems(allSpells);
@@ -111,11 +114,19 @@ public class ClassSpecializationForm extends DSAbstractForm<ClassSpecialization>
         classSpecSpells.setWidth("80%");
 
         List<ClassFeature> allClassFeatures = classFeatureService.findAll();
-        classSpecFeatures = new ElementCollectionGrid<ClassSpecLevelFeature>(ClassSpecLevelFeature.class,
-                ClassSpecLevelFeatureRow.class).withCaption("Dons de spécialisation").withEditorInstantiator(() -> {
+        classSpecFeatures = new ElementCollectionGrid<ClassSpecLevelFeature>(ClassSpecLevelFeature.class, ClassSpecLevelFeatureRow.class)
+                .withCaption("Dons de spécialisation").withEditorInstantiator(() -> {
                     ClassLevelFeatureRow row = new ClassLevelFeatureRow();
                     row.level.setItems(allLevels);
                     row.feature.setItems(allClassFeatures);
+                    row.feature.addSelectionListener(selection -> {
+                        if (selection.getValue() == null || selection.getValue().getChildren().isEmpty()) {
+                            row.nbToChoose.setVisible(false);
+                            row.nbToChoose.setValue(1);
+                        } else {
+                            row.nbToChoose.setVisible(true);
+                        }
+                    });
                     return row;
                 });
         classSpecFeatures.setPropertyHeader("level", "Niveau");
