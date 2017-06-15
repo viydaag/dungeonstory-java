@@ -26,6 +26,7 @@ public class ClassFeatureForm extends DSAbstractForm<ClassFeature> {
     private ComboBox<ClassFeature>          parent;
     private IntegerField                    nbUse;
     private EnumComboBox<RestType>          restType;
+    private IntegerField                    pointCost;
     private ComboBox<ClassFeature>          replacement;
 
     private ClassFeatureDataService classFeatureService = null;
@@ -44,7 +45,8 @@ public class ClassFeatureForm extends DSAbstractForm<ClassFeature> {
         usage = new EnumComboBox<>(ClassFeatureUsage.class, "Usage");
         nbUse = new IntegerField("Nombre d'utilisation avant repos");
         restType = new EnumComboBox<RestType>(RestType.class, "Type de repos requis");
-        parent = new ComboBox<>("Don parent", classFeatureService.findAllClassFeaturesWithoutParent());
+        pointCost = new IntegerField("Coût en points");
+        parent = new ComboBox<>("Don parent");
         parent.setWidth(50, Unit.PERCENTAGE);
         replacement = new ComboBox<>("Remplace le don");
         replacement.setWidth(50, Unit.PERCENTAGE);
@@ -52,7 +54,7 @@ public class ClassFeatureForm extends DSAbstractForm<ClassFeature> {
         layout.addComponent(name);
         layout.addComponent(description);
         layout.addComponent(usage);
-        layout.addComponents(nbUse, restType);
+        layout.addComponents(nbUse, restType, pointCost);
         layout.addComponents(parent, replacement);
         layout.addComponent(getToolbar());
 
@@ -62,8 +64,12 @@ public class ClassFeatureForm extends DSAbstractForm<ClassFeature> {
     @Override
     public void afterSetEntity() {
         super.afterSetEntity();
-        parent.setItems(classFeatureService.findAllClassFeaturesWithoutParent());
-        replacement.setItems(classFeatureService.findAllClassFeatureExcept(getEntity()));
+        if (getEntity() != null) {
+            parent.setItems(classFeatureService.findAllClassFeaturesWithoutParent());
+            parent.setValue(getEntity().getParent());
+            replacement.setItems(classFeatureService.findAllClassFeatureExcept(getEntity()));
+            replacement.setValue(getEntity().getReplacement());
+        }
     }
 
     @Override

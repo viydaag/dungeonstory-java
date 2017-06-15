@@ -27,7 +27,7 @@ public class ClassFeatureGrid extends DSGrid<ClassFeature> {
                     .collect(Collectors.joining(DELIMITER));
             String classSpecs = feature.getClassSpecLevels().stream().map(ClassSpecLevelFeature::getClassSpec).map(ClassSpecialization::getName)
                     .collect(Collectors.joining(DELIMITER));
-            return Arrays.asList(classes, classSpecs).stream().filter(StringUtils::isNotBlank).collect(Collectors.joining(DELIMITER));
+            return Arrays.asList(classes, classSpecs).stream().filter(StringUtils::isNotBlank).distinct().collect(Collectors.joining(DELIMITER));
         }).setCaption("Classe(s)").setId("classes").setSortable(false);
     }
 
