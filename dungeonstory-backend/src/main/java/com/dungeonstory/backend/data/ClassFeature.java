@@ -91,6 +91,11 @@ public class ClassFeature extends AbstractTimestampEntity implements Descriptive
     @JoinColumn(name = "replaceFeatId")
     private ClassFeature replacement;
 
+    @ManyToOne
+    @JoinColumn(name = "requiredLevelId")
+    // When the ClassFeature is a child (a choice), sometimes a class level is required to choose it.
+    private Level requiredLevel;
+
     @OneToMany(mappedBy = "feature", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
     private List<ClassLevelFeature> classLevels;
 
@@ -191,6 +196,14 @@ public class ClassFeature extends AbstractTimestampEntity implements Descriptive
 
     public void setReplacement(ClassFeature replacement) {
         this.replacement = replacement;
+    }
+
+    public Level getRequiredLevel() {
+        return requiredLevel;
+    }
+
+    public void setRequiredLevel(Level requiredLevel) {
+        this.requiredLevel = requiredLevel;
     }
 
     public List<ClassLevelFeature> getClassLevels() {
