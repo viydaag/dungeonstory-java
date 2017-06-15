@@ -84,6 +84,9 @@ public class ClassFeature extends AbstractTimestampEntity implements Descriptive
     @Column(name = "restType")
     private RestType restType;
 
+    @Column(name = "pointCost")
+    Integer pointCost;
+
     @OneToOne
     @JoinColumn(name = "replaceFeatId")
     private ClassFeature replacement;
@@ -150,6 +153,14 @@ public class ClassFeature extends AbstractTimestampEntity implements Descriptive
         this.children = children;
     }
 
+    public boolean isAParent() {
+        return children != null && !children.isEmpty();
+    }
+
+    public boolean isAChild() {
+        return parent != null;
+    }
+
     public Integer getNbUse() {
         return nbUse;
     }
@@ -164,6 +175,14 @@ public class ClassFeature extends AbstractTimestampEntity implements Descriptive
 
     public void setRestType(RestType restType) {
         this.restType = restType;
+    }
+
+    public Integer getPointCost() {
+        return pointCost;
+    }
+
+    public void setPointCost(Integer pointCost) {
+        this.pointCost = pointCost;
     }
 
     public ClassFeature getReplacement() {
