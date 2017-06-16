@@ -16,13 +16,10 @@ import com.dungeonstory.backend.data.ClassFeature;
 import com.dungeonstory.backend.data.ClassLevelBonus;
 import com.dungeonstory.backend.data.CreatureType;
 import com.dungeonstory.backend.data.DSClass;
-import com.dungeonstory.backend.data.Deity;
-import com.dungeonstory.backend.data.DivineDomain;
 import com.dungeonstory.backend.data.Skill;
 import com.dungeonstory.backend.data.Terrain;
 import com.dungeonstory.backend.data.util.ClassUtil;
 import com.dungeonstory.backend.service.DataService;
-import com.dungeonstory.backend.service.DivineDomainDataService;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSAbstractForm;
 import com.dungeonstory.ui.component.DSTextArea;
@@ -34,13 +31,11 @@ import com.dungeonstory.ui.field.SubSetSelector;
 import com.dungeonstory.ui.i18n.Messages;
 import com.dungeonstory.ui.layout.FormLayoutNoSpace;
 import com.vaadin.data.ValueContext;
-import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
@@ -54,23 +49,20 @@ public class ClassChoiceForm extends DSAbstractForm<CharacterClass> implements A
     private DataService<DSClass, Long>      classService;
     private DataService<Skill, Long>        skillService;
     private DataService<CreatureType, Long> creatureTypeService;
-    private DataService<Deity, Long>        deityService;
-    private DivineDomainDataService         domainService;
+    //    private DataService<Deity, Long>        deityService;
 
     private ComboBox<DSClass> classe;
     private SubSetSelector<Skill, List<Skill>>               classSkills;
     private SubSetSelector<CreatureType, List<CreatureType>> favoredEnnemies;
     private SubSetSelector<Terrain, Set<Terrain>>            favoredTerrains;
-    private ComboBox<Deity>                deity;
-    private ComboBox<DivineDomain>         divineDomain;
-
-    private Label deityDescription;
-    private Label domainDescription;
+    //    private ComboBox<Deity>                deity;
+    //
+    //    private Label deityDescription;
+    //    private Label domainDescription;
 
     private List<CreatureType> backupfavoredEnnemies;
     private Set<Terrain>       backupfavoredTerrains;
-    private Deity              backupDeity;
-    private DivineDomain       backupDivineDomain;
+    //    private Deity              backupDeity;
 
     private DSTextArea classDescription;
     private MLabel    proficienciesLabel;
@@ -89,11 +81,9 @@ public class ClassChoiceForm extends DSAbstractForm<CharacterClass> implements A
         classService = Services.getClassService();
         skillService = Services.getSkillService();
         creatureTypeService = Services.getCreatureTypeService();
-        deityService = Services.getDeityService();
-        domainService = Services.getDivineDomainService();
+        //        deityService = Services.getDeityService();
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     protected Component createContent() {
 
@@ -129,45 +119,44 @@ public class ClassChoiceForm extends DSAbstractForm<CharacterClass> implements A
         favoredTerrains.setVisible(false);
         favoredTerrains.setValue(new HashSet<>()); //nothing selected
 
-        deity = new ComboBox<Deity>(messages.getMessage("classStep.deity.label"), deityService.findAllOrderBy("name", "ASC"));
-        deity.setVisible(false);
-        divineDomain = new ComboBox<DivineDomain>(messages.getMessage("classStep.divineDomain.label"));
-        divineDomain.setEmptySelectionAllowed(false);
-        divineDomain.setVisible(false);
-        deityDescription = new Label();
-        domainDescription = new Label();
+        //        deity = new ComboBox<Deity>(messages.getMessage("classStep.deity.label"), deityService.findAllOrderBy("name", "ASC"));
+        //        deity.setVisible(false);
+        //        divineDomain = new ComboBox<DivineDomain>(messages.getMessage("classStep.divineDomain.label"));
+        //        divineDomain.setEmptySelectionAllowed(false);
+        //        divineDomain.setVisible(false);
+        //        deityDescription = new Label();
+        //        domainDescription = new Label();
 
-        deity.addValueChangeListener(event -> {
-            Deity value = event.getValue();
-            if (value != null) {
-                deityDescription.setValue(value.getShortDescription());
-                divineDomain.setItems(domainService.findAllByDeity(value));
-                ListDataProvider<DivineDomain> domainProvider = (ListDataProvider<DivineDomain>) divineDomain.getDataProvider();
-                List<DivineDomain> items = (List<DivineDomain>) domainProvider.getItems();
-                if (items.size() >= 1) {
-                    divineDomain.setValue(items.get(0));
-                    domainDescription.setValue(divineDomain.getValue().getDescription());
-                } else {
-                    divineDomain.setValue(null);
-                    domainDescription.setValue("");
-                }
-            } else {
-                deityDescription.setValue("");
-                divineDomain.setValue(null);
-                domainDescription.setValue("");
-            }
-        });
+        //        deity.addValueChangeListener(event -> {
+        //            Deity value = event.getValue();
+        //            if (value != null) {
+        //                deityDescription.setValue(value.getShortDescription());
+        //                divineDomain.setItems(domainService.findAllByDeity(value));
+        //                ListDataProvider<DivineDomain> domainProvider = (ListDataProvider<DivineDomain>) divineDomain.getDataProvider();
+        //                List<DivineDomain> items = (List<DivineDomain>) domainProvider.getItems();
+        //                if (items.size() >= 1) {
+        //                    divineDomain.setValue(items.get(0));
+        //                    domainDescription.setValue(divineDomain.getValue().getDescription());
+        //                } else {
+        //                    divineDomain.setValue(null);
+        //                    domainDescription.setValue("");
+        //                }
+        //            } else {
+        //                deityDescription.setValue("");
+        //                divineDomain.setValue(null);
+        //                domainDescription.setValue("");
+        //            }
+        //        });
 
-        divineDomain.addValueChangeListener(event -> {
-            if (event.getValue() != null) {
-                domainDescription.setValue(event.getValue().getDescription());
-            } else {
-                domainDescription.setValue("");
-            }
-        });
+        //        divineDomain.addValueChangeListener(event -> {
+        //            if (event.getValue() != null) {
+        //                domainDescription.setValue(event.getValue().getDescription());
+        //            } else {
+        //                domainDescription.setValue("");
+        //            }
+        //        });
 
-        classFieldsLayout.addComponents(classe, classSkills, favoredEnnemies, favoredTerrains, deity, deityDescription, divineDomain,
-                domainDescription);
+        classFieldsLayout.addComponents(classe, classSkills, favoredEnnemies, favoredTerrains);
 
         VerticalLayout classDescriptionLayout = new VerticalLayout();
         classDescription = new DSTextArea(messages.getMessage("classStep.class.description")).withFullWidth().withRows(10);
@@ -223,24 +212,24 @@ public class ClassChoiceForm extends DSAbstractForm<CharacterClass> implements A
                         favoredTerrains.setVisible(false);
                         favoredTerrains.setValue(backupfavoredTerrains);
                     }
-                    if (classLevelBonus.getDeity() != null && classLevelBonus.getDeity() == true) {
-                        deity.setVisible(true);
-                        divineDomain.setVisible(true);
-                    } else {
-                        deity.setVisible(false);
-                        deity.setValue(backupDeity);
-                        divineDomain.setVisible(false);
-                        divineDomain.setValue(backupDivineDomain);
-                    }
+                    //                    if (classLevelBonus.getDeity() != null && classLevelBonus.getDeity() == true) {
+                    //                        deity.setVisible(true);
+                    //                        divineDomain.setVisible(true);
+                    //                    } else {
+                    //                        deity.setVisible(false);
+                    //                        deity.setValue(backupDeity);
+                    //                        divineDomain.setVisible(false);
+                    //                        divineDomain.setValue(backupDivineDomain);
+                    //                    }
                 } else {
                     favoredEnnemies.setVisible(false);
                     favoredEnnemies.setValue(backupfavoredEnnemies);
                     favoredTerrains.setVisible(false);
                     favoredTerrains.setValue(backupfavoredTerrains);
-                    deity.setVisible(false);
-                    deity.setValue(backupDeity);
-                    divineDomain.setVisible(false);
-                    divineDomain.setValue(backupDivineDomain);
+                    //                    deity.setVisible(false);
+                    //                    deity.setValue(backupDeity);
+                    //                    divineDomain.setVisible(false);
+                    //                    divineDomain.setValue(backupDivineDomain);
                 }
 
                 // refresh class info
@@ -281,10 +270,10 @@ public class ClassChoiceForm extends DSAbstractForm<CharacterClass> implements A
         classSkills.setVisible(false);
         favoredEnnemies.setVisible(false);
         favoredTerrains.setVisible(false);
-        deity.setVisible(false);
-        divineDomain.setVisible(false);
-        deityDescription.setValue("");
-        domainDescription.setValue("");
+        //        deity.setVisible(false);
+        //        divineDomain.setVisible(false);
+        //        deityDescription.setValue("");
+        //        domainDescription.setValue("");
 
         classDescription.clear();
         proficienciesLabel.setCaption("");
@@ -304,12 +293,12 @@ public class ClassChoiceForm extends DSAbstractForm<CharacterClass> implements A
 
         backupfavoredEnnemies = new ArrayList<>(character.getFavoredEnnemies());
         backupfavoredTerrains = new HashSet<>(character.getFavoredTerrains());
-        if (character.getDeity() != null) {
-            backupDeity = character.getDeity().clone();
-        }
-        if (character.getDivineDomain() != null) {
-            backupDivineDomain = character.getDivineDomain().clone();
-        }
+        //        if (character.getDeity() != null) {
+        //            backupDeity = character.getDeity().clone();
+        //        }
+        //        if (character.getDivineDomain() != null) {
+        //            backupDivineDomain = character.getDivineDomain().clone();
+        //        }
 
         classDescription.setReadOnly(true);
         //        classe.setLimit(classes.getValue().size() + 1);

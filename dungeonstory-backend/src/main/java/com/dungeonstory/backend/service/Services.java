@@ -15,7 +15,6 @@ import com.dungeonstory.backend.service.impl.ClassSpecializationService;
 import com.dungeonstory.backend.service.impl.CreatureTypeService;
 import com.dungeonstory.backend.service.impl.DamageTypeService;
 import com.dungeonstory.backend.service.impl.DeityService;
-import com.dungeonstory.backend.service.impl.DivineDomainService;
 import com.dungeonstory.backend.service.impl.EquipmentService;
 import com.dungeonstory.backend.service.impl.FeatService;
 import com.dungeonstory.backend.service.impl.LanguageService;
@@ -40,7 +39,6 @@ import com.dungeonstory.backend.service.mock.MockClassSpecializationService;
 import com.dungeonstory.backend.service.mock.MockCreatureTypeService;
 import com.dungeonstory.backend.service.mock.MockDamageTypeService;
 import com.dungeonstory.backend.service.mock.MockDeityService;
-import com.dungeonstory.backend.service.mock.MockDivineDomainService;
 import com.dungeonstory.backend.service.mock.MockEquipmentService;
 import com.dungeonstory.backend.service.mock.MockFeatService;
 import com.dungeonstory.backend.service.mock.MockLanguageService;
@@ -95,13 +93,6 @@ public abstract class Services {
             return MockCharacterService.getInstance();
         }
         return CharacterService.getInstance();
-    }
-    
-    public static DivineDomainDataService getDivineDomainService() {
-        if (Configuration.getInstance().isMock()) {
-            return MockDivineDomainService.getInstance();
-        }
-        return DivineDomainService.getInstance();
     }
     
     public static SpellDataService getSpellService() {
