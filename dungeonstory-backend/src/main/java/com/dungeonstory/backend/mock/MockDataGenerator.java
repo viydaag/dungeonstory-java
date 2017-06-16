@@ -18,7 +18,6 @@ import com.dungeonstory.backend.data.CreatureType;
 import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.data.DamageType;
 import com.dungeonstory.backend.data.Deity;
-import com.dungeonstory.backend.data.DivineDomain;
 import com.dungeonstory.backend.data.Feat;
 import com.dungeonstory.backend.data.Feat.FeatUsage;
 import com.dungeonstory.backend.data.Level;
@@ -255,11 +254,6 @@ public class MockDataGenerator {
         adventures.add(closedAdventure);
 
         return adventures;
-    }
-
-    public static List<DivineDomain> createDivineDomains() {
-        // TODO Auto-generated method stub
-        return new ArrayList<>();
     }
 
     public static List<Deity> createDeities() {

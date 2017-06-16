@@ -231,10 +231,6 @@ public class Character extends AbstractTimestampEntity implements Serializable {
     @JoinColumn(name = "deityId", nullable = true)
     private Deity deity;
 
-    @ManyToOne
-    @JoinColumn(name = "divineDomainId", nullable = true)
-    private DivineDomain divineDomain;
-    
     @NotNull
     @Column(name = "image", nullable = false)
     private String image;
@@ -542,14 +538,6 @@ public class Character extends AbstractTimestampEntity implements Serializable {
 
     public void setDeity(Deity deity) {
         this.deity = deity;
-    }
-
-    public DivineDomain getDivineDomain() {
-        return divineDomain;
-    }
-
-    public void setDivineDomain(DivineDomain divineDomain) {
-        this.divineDomain = divineDomain;
     }
 
     public String getImage() {

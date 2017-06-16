@@ -55,6 +55,7 @@ public class SubSetSelector<ET, C extends Collection<ET>> extends CustomField<C>
         grid = new Grid<>();
         setHeight("300px");
         toprow = new HorizontalLayout(cb);
+        toprow.setWidth("100%");
         verticalLayout = new VerticalLayout(toprow);
         verticalLayout.addComponentsAndExpand(grid);
 

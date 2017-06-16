@@ -28,7 +28,6 @@ import com.dungeonstory.ui.view.admin.ClassView;
 import com.dungeonstory.ui.view.admin.CreatureTypeView;
 import com.dungeonstory.ui.view.admin.DamageTypeView;
 import com.dungeonstory.ui.view.admin.DeityView;
-import com.dungeonstory.ui.view.admin.DivineDomainView;
 import com.dungeonstory.ui.view.admin.EquipmentView;
 import com.dungeonstory.ui.view.admin.FeatView;
 import com.dungeonstory.ui.view.admin.LanguageView;
@@ -176,7 +175,6 @@ public class MainScreen extends HorizontalLayout {
             addViewToNavBar(ArmorTypeView.class);
             addViewToNavBar(ShopView.class);
             addViewToNavBar(EquipmentView.class);
-            addViewToNavBar(DivineDomainView.class);
             addViewToNavBar(DeityView.class);
             addViewToNavBar(BackgroundView.class);
             addViewToNavBar(CreatureTypeView.class);
