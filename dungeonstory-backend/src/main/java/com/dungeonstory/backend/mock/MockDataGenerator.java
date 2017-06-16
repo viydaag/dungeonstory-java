@@ -22,6 +22,7 @@ import com.dungeonstory.backend.data.Feat;
 import com.dungeonstory.backend.data.Feat.FeatUsage;
 import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.backend.data.Message;
+import com.dungeonstory.backend.data.Monster;
 import com.dungeonstory.backend.data.Race;
 import com.dungeonstory.backend.data.Region;
 import com.dungeonstory.backend.data.Shop;
@@ -279,6 +280,11 @@ public class MockDataGenerator {
     }
 
     public static List<ClassFeature> createClassFeatures() {
+        // TODO Auto-generated method stub
+        return new ArrayList<>();
+    }
+
+    public static List<Monster> createMonsters() {
         // TODO Auto-generated method stub
         return new ArrayList<>();
     }

@@ -30,7 +30,7 @@ import com.dungeonstory.backend.data.Tool.ToolType;
 
 @Entity
 @Table(name = "DSCharacter")
-public class Character extends AbstractTimestampEntity implements Serializable {
+public class Character extends AbstractTimestampEntity implements Serializable, HasStats {
 
     private static final long serialVersionUID = -967001655180847193L;
 
