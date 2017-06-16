@@ -14,6 +14,14 @@ public class DSLabel extends Label {
     public DSLabel(String text) {
         super(text);
     }
+    
+    public DSLabel(int text) {
+        super(String.valueOf(text));
+    }
+    
+    public DSLabel(Object object) {
+        super(object.toString());
+    }
 
     public DSLabel(String text, ContentMode contentMode) {
         super(text, contentMode);
@@ -21,6 +29,16 @@ public class DSLabel extends Label {
     
     public DSLabel(String caption, String text) {
         super(text);
+        setCaption(caption);
+    }
+    
+    public DSLabel(String caption, int text) {
+        this(text);
+        setCaption(caption);
+    }
+    
+    public DSLabel(String caption, Object object) {
+        this(object);
         setCaption(caption);
     }
 

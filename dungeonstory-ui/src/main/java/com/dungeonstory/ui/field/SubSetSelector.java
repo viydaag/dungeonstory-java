@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 
 import org.vaadin.viritin.button.MButton;
@@ -245,8 +246,8 @@ public class SubSetSelector<ET, C extends Collection<ET>> extends CustomField<C>
      * @param options the list of options from which the sub set is selected
      * @return this
      */
-    public SubSetSelector<ET, C> setItems(List<ET> options) {
-        availableOptions = options;
+    public SubSetSelector<ET, C> setItems(Collection<ET> options) {
+        availableOptions = new ArrayList<>(options);
         cb.setItems(new ArrayList<>(options));
         return this;
     }
