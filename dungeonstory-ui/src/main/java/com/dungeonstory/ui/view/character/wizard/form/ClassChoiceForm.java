@@ -109,7 +109,6 @@ public class ClassChoiceForm extends DSAbstractForm<CharacterClass> implements A
         classe.setItems(classService.findAll());
 
         classSkills = new SubSetSelector<>(Skill.class);
-        classSkills.setCaption(messages.getMessage("classStep.proficientSkills.label"));
         classSkills.getGrid().addColumn(Skill::getName).setCaption(messages.getMessage("classStep.proficientSkills.table.column.name")).setId("name");
         classSkills.setItems(skillService.findAll());
         classSkills.setVisible(false);
@@ -200,6 +199,7 @@ public class ClassChoiceForm extends DSAbstractForm<CharacterClass> implements A
                 // show skills only if its a new class
                 if (assignedClass == null) {
                     classSkills.setVisible(true);
+                    classSkills.setCaption(messages.getMessage("classStep.proficientSkills.label") + " (" + chosenClass.getNbChosenSkills() + ")");
                     classSkills.setItems(new ArrayList<Skill>(chosenClass.getBaseSkills()));
                     classSkills.setValue(new ArrayList<>());
                     classSkills.setLimit(chosenClass.getNbChosenSkills());
