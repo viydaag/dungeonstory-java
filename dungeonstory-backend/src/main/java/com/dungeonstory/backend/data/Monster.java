@@ -24,8 +24,6 @@ import javax.validation.constraints.NotNull;
 
 import org.eclipse.persistence.annotations.PrivateOwned;
 
-import com.mysql.fabric.xmlrpc.base.Array;
-
 /**
  * Entity implementation class for Entity: Monster
  *
@@ -130,7 +128,7 @@ public class Monster extends AbstractTimestampEntity implements Serializable, Ha
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "challengeRating", nullable = false)
-    private ChallengeRating2 challengeRating;
+    private ChallengeRating challengeRating;
 
     @ManyToMany
     @JoinTable(name = "MonsterDamageVulnerability", joinColumns = {
@@ -393,7 +391,7 @@ public class Monster extends AbstractTimestampEntity implements Serializable, Ha
     public void setSavingThrowProficiencies(Set<Ability> savingThrowProficiencies) {
         this.savingThrowProficiencies = savingThrowProficiencies;
     }
-
+    
     public Set<Language> getLanguages() {
         return languages;
     }
@@ -434,11 +432,11 @@ public class Monster extends AbstractTimestampEntity implements Serializable, Ha
         this.passivePerception = passivePerception;
     }
 
-    public ChallengeRating2 getChallengeRating() {
+    public ChallengeRating getChallengeRating() {
         return challengeRating;
     }
 
-    public void setChallengeRating(ChallengeRating2 challengeRating) {
+    public void setChallengeRating(ChallengeRating challengeRating) {
         this.challengeRating = challengeRating;
     }
 

@@ -9,7 +9,7 @@ import org.vaadin.viritin.fields.IntegerField;
 
 import com.dungeonstory.backend.data.Ability;
 import com.dungeonstory.backend.data.Alignment;
-import com.dungeonstory.backend.data.ChallengeRating2;
+import com.dungeonstory.backend.data.ChallengeRating;
 import com.dungeonstory.backend.data.Condition;
 import com.dungeonstory.backend.data.CreatureSize;
 import com.dungeonstory.backend.data.CreatureType;
@@ -25,6 +25,7 @@ import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSAbstractForm;
 import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.ui.component.EnumComboBox;
+import com.dungeonstory.ui.field.ElementCollectionField;
 import com.dungeonstory.ui.field.ElementCollectionGrid;
 import com.dungeonstory.ui.field.SubSetSelector;
 import com.dungeonstory.ui.i18n.Messages;
@@ -61,7 +62,7 @@ public class MonsterForm extends DSAbstractForm<Monster> {
     private IntegerField charisma;
     private IntegerField passivePerception;
 
-    private EnumComboBox<ChallengeRating2>              challengeRating;
+    private EnumComboBox<ChallengeRating>              challengeRating;
     private SubSetSelector<DamageType, Set<DamageType>> damageVulnerabilities;
     private SubSetSelector<DamageType, Set<DamageType>> damageResistances;
     private SubSetSelector<DamageType, Set<DamageType>> damageImmunities;
@@ -69,9 +70,9 @@ public class MonsterForm extends DSAbstractForm<Monster> {
 
     private SubSetSelector<Language, Set<Language>> languages;
     private SubSetSelector<Ability, Set<Ability>>   savingThrowProficiencies;
-    private ElementCollectionGrid<MonsterSkill>     skills;
+    private ElementCollectionField<MonsterSkill>    skills;
+    private ElementCollectionField<MonsterSense>    senses;
     private ElementCollectionGrid<MonsterAction>    attacks;
-    private ElementCollectionGrid<MonsterSense>     senses;
 
     public static class MonsterSkillRow {
         ComboBox<Skill> skill = new ComboBox<>();
@@ -135,7 +136,7 @@ public class MonsterForm extends DSAbstractForm<Monster> {
         charisma = new IntegerField(messages.getMessage("ability.cha.caption"));
         passivePerception = new IntegerField("Perception passive");
 
-        challengeRating = new EnumComboBox<>(ChallengeRating2.class, "Degré de difficulté");
+        challengeRating = new EnumComboBox<>(ChallengeRating.class, "Degré de difficulté");
 
         damageVulnerabilities = new SubSetSelector<>(DamageType.class);
         damageVulnerabilities.setCaption("Vulnérabilités aux types de dégâts");
@@ -191,7 +192,7 @@ public class MonsterForm extends DSAbstractForm<Monster> {
         savingThrowProficiencies.setWidth("50%");
 
         List<Skill> allSkills = Services.getSkillService().findAll();
-        skills = new ElementCollectionGrid<>(MonsterSkill.class, MonsterSkillRow.class)
+        skills = new ElementCollectionField<>(MonsterSkill.class, MonsterSkillRow.class)
                 .withCaption("Maitrises de compétence").withEditorInstantiator(() -> {
                     MonsterSkillRow row = new MonsterSkillRow();
                     row.skill.setItems(allSkills);
@@ -201,7 +202,7 @@ public class MonsterForm extends DSAbstractForm<Monster> {
         skills.setPropertyHeader("bonus", "Bonus de maitrise");
         skills.setWidth("80%");
 
-        senses = new ElementCollectionGrid<>(MonsterSense.class, MonsterSenseRow.class).withCaption("Sens")
+        senses = new ElementCollectionField<>(MonsterSense.class, MonsterSenseRow.class).withCaption("Sens")
                 .withEditorInstantiator(() -> {
                     MonsterSenseRow row = new MonsterSenseRow();
                     return row;

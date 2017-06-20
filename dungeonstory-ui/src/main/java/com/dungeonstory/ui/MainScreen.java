@@ -44,7 +44,7 @@ import com.dungeonstory.ui.view.adventure.AdventureListView;
 import com.dungeonstory.ui.view.adventure.AdventureView;
 import com.dungeonstory.ui.view.character.CharacterView;
 import com.dungeonstory.ui.view.character.NewCharacterView;
-import com.dungeonstory.ui.view.combat.PlayerVsMonsterView;
+import com.dungeonstory.ui.view.combat.PlayerVsMonsterListView;
 import com.dungeonstory.ui.view.shop.ShopListView;
 import com.dungeonstory.ui.view.user.UserView;
 import com.google.common.eventbus.Subscribe;
@@ -155,7 +155,7 @@ public class MainScreen extends HorizontalLayout {
             menuBar.addItem("Mon aventure", null, command -> navigator
                     .navigateTo(AdventureView.URI + "/" + CurrentUser.get().getAdventure().getId()));
         }
-        addViewToMenuBar(PlayerVsMonsterView.class);
+        addViewToMenuBar(PlayerVsMonsterListView.class);
 
         if (DungeonStoryUI.get().getAccessControl().isUserInRole(AccessRole.ADMIN)) {
             addViewToNavBar(UserListView.class);
