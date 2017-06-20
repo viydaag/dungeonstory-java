@@ -1,11 +1,10 @@
 package com.dungeonstory.ui.view.shop;
 
-import org.vaadin.viritin.label.MLabel;
-
 import com.dungeonstory.backend.data.Shop;
 import com.dungeonstory.backend.data.ShopEquipment;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.backend.service.ShopDataService;
+import com.dungeonstory.ui.component.DSLabel;
 import com.dungeonstory.ui.event.EventBus;
 import com.dungeonstory.ui.event.NavigationEvent;
 import com.dungeonstory.ui.util.DSTheme;
@@ -56,14 +55,14 @@ public class ShopView extends VerticalLayout implements View {
 
         Panel buyHeaderPanel = new Panel();
         HorizontalLayout buyHeaderLayout = new HorizontalLayout();
-        Label itemName = new MLabel("Item");
-        Label stockQuantityLabel = new MLabel("Stock").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
-        Label buyQuantityLabel = new MLabel("Qte achat").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
-        Label unitPriceLabel = new MLabel("Prix unitaire");
-        Label totalPriceLabel = new MLabel("Prix total").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
-        Label minusLabel = new MLabel("").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
-        Label plusLabel = new MLabel("").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
-        Label buyLabel = new MLabel("").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
+        Label itemName = new DSLabel("Item");
+        Label stockQuantityLabel = new DSLabel("Stock").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
+        Label buyQuantityLabel = new DSLabel("Qte achat").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
+        Label unitPriceLabel = new DSLabel("Prix unitaire");
+        Label totalPriceLabel = new DSLabel("Prix total").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
+        Label minusLabel = new DSLabel("").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
+        Label plusLabel = new DSLabel("").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
+        Label buyLabel = new DSLabel("").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
         buyHeaderLayout.setWidth(100, Unit.PERCENTAGE);
         buyHeaderLayout.addComponents(unitPriceLabel, itemName, stockQuantityLabel, minusLabel, buyQuantityLabel,
                 plusLabel, totalPriceLabel, buyLabel);

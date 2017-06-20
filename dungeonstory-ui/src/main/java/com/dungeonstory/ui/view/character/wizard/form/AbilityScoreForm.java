@@ -2,11 +2,11 @@ package com.dungeonstory.ui.view.character.wizard.form;
 
 import org.vaadin.viritin.fields.IntegerField;
 import org.vaadin.viritin.form.AbstractForm;
-import org.vaadin.viritin.label.MLabel;
 
 import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.ui.component.DSAbstractForm;
+import com.dungeonstory.ui.component.DSLabel;
 import com.dungeonstory.ui.i18n.Messages;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -24,12 +24,12 @@ public abstract class AbilityScoreForm extends DSAbstractForm<Character> impleme
     protected IntegerField wisdom;
     protected IntegerField charisma;
 
-    protected MLabel strengthLabel;
-    protected MLabel dexterityLabel;
-    protected MLabel constitutionLabel;
-    protected MLabel intelligenceLabel;
-    protected MLabel wisdomLabel;
-    protected MLabel charismaLabel;
+    protected DSLabel strengthLabel;
+    protected DSLabel dexterityLabel;
+    protected DSLabel constitutionLabel;
+    protected DSLabel intelligenceLabel;
+    protected DSLabel wisdoDSLabel;
+    protected DSLabel charismaLabel;
 
     protected IntegerField   pointsToSpend;
     protected GridLayout     gridLayout;
@@ -62,36 +62,36 @@ public abstract class AbilityScoreForm extends DSAbstractForm<Character> impleme
 
         gridLayout = new GridLayout(5, 7);
         gridLayout.setSpacing(true);
-        gridLayout.addComponent(new MLabel(messages.getMessage("abilityScoreStep.ability.label")), 0, 0);
-        gridLayout.addComponent(new MLabel(messages.getMessage("abilityScoreStep.score.label")), 1, 0);
+        gridLayout.addComponent(new DSLabel(messages.getMessage("abilityScoreStep.ability.label")), 0, 0);
+        gridLayout.addComponent(new DSLabel(messages.getMessage("abilityScoreStep.score.label")), 1, 0);
 
         strength = new IntegerField().withWidth("50px");
-        strengthLabel = new MLabel(messages.getMessage("ability.str.caption"));
+        strengthLabel = new DSLabel(messages.getMessage("ability.str.caption"));
         gridLayout.addComponent(strengthLabel, 0, 1);
         gridLayout.addComponent(strength, 1, 1);
 
         dexterity = new IntegerField().withWidth("50px");
-        dexterityLabel = new MLabel(messages.getMessage("ability.dex.caption"));
+        dexterityLabel = new DSLabel(messages.getMessage("ability.dex.caption"));
         gridLayout.addComponent(dexterityLabel, 0, 2);
         gridLayout.addComponent(dexterity, 1, 2);
 
         constitution = new IntegerField().withWidth("50px");
-        constitutionLabel = new MLabel(messages.getMessage("ability.con.caption"));
+        constitutionLabel = new DSLabel(messages.getMessage("ability.con.caption"));
         gridLayout.addComponent(constitutionLabel, 0, 3);
         gridLayout.addComponent(constitution, 1, 3);
 
         intelligence = new IntegerField().withWidth("50px");
-        intelligenceLabel = new MLabel(messages.getMessage("ability.int.caption"));
+        intelligenceLabel = new DSLabel(messages.getMessage("ability.int.caption"));
         gridLayout.addComponent(intelligenceLabel, 0, 4);
         gridLayout.addComponent(intelligence, 1, 4);
 
         wisdom = new IntegerField().withWidth("50px");
-        wisdomLabel = new MLabel(messages.getMessage("ability.wis.caption"));
-        gridLayout.addComponent(wisdomLabel, 0, 5);
+        wisdoDSLabel = new DSLabel(messages.getMessage("ability.wis.caption"));
+        gridLayout.addComponent(wisdoDSLabel, 0, 5);
         gridLayout.addComponent(wisdom, 1, 5);
 
         charisma = new IntegerField().withWidth("50px");
-        charismaLabel = new MLabel(messages.getMessage("ability.cha.caption"));
+        charismaLabel = new DSLabel(messages.getMessage("ability.cha.caption"));
         gridLayout.addComponent(charismaLabel, 0, 6);
         gridLayout.addComponent(charisma, 1, 6);
 
@@ -107,11 +107,6 @@ public abstract class AbilityScoreForm extends DSAbstractForm<Character> impleme
 
     @Override
     protected void adjustSaveButtonState() {
-        //        if (isEagerValidation() && isBound()) {
-        //            boolean beanModified = getFieldGroup().isBeanModified();
-        //            boolean allPointsSpent = pointsToSpend.getValue() == 0;
-        //            getSaveButton().setEnabled(beanModified && allPointsSpent && isValid());
-        //        }
         if (isBound()) {
             boolean valid = getBinder().isValid();
             boolean allPointsSpent = pointsToSpend.getValue() == 0;
