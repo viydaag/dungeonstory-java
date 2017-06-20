@@ -1,5 +1,8 @@
 package com.dungeonstory.backend.service.mock;
 
+import java.util.List;
+
+import com.dungeonstory.backend.data.ClassSpecialization;
 import com.dungeonstory.backend.data.Deity;
 import com.dungeonstory.backend.repository.mock.MockDeityRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
@@ -22,6 +25,11 @@ public class MockDeityService extends AbstractDataService<Deity, Long> implement
         super();
         setEntityFactory(() -> new Deity());
         setRepository(new MockDeityRepository());
+    }
+
+    @Override
+    public List<Deity> findAllByDomain(ClassSpecialization domain) {
+        return null;
     }
 
 }

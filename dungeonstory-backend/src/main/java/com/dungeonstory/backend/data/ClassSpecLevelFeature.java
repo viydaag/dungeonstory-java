@@ -66,5 +66,10 @@ public class ClassSpecLevelFeature {
     public void setNbToChoose(int nbToChoose) {
         this.nbToChoose = nbToChoose;
     }
+
+    @Override
+    public String toString() {
+        return feature.getName() + " (niv. " + level.getId() + ")";
+    }
         
 }

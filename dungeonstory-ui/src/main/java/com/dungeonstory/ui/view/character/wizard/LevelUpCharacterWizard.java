@@ -35,7 +35,7 @@ public class LevelUpCharacterWizard extends CharacterWizard {
         Optional<ClassLevelBonus> classLevelBonusOpt = ClassUtil.getClassLevelBonus(chosenClass, levelUp);
         if (classLevelBonusOpt.isPresent()) {
             ClassLevelBonus classLevelBonus = classLevelBonusOpt.get();
-            if (classLevelBonus.isHasAbilityScoreImprovement()) {
+            if (classLevelBonus.getHasAbilityScoreImprovement()) {
                 addStep(new AbilityScoreStep(this, true), ABILITY);
             }
         }
