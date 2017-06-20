@@ -148,7 +148,8 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         startingGold = new IntegerField("Pièces d'or de départ");
         isSpellCasting = new FormCheckBox("Capacité à lancer des sorts");
         spellCastingAbility = new ComboBox<Ability>("Caractéristique de sort");
-        spellCastingAbility.setItems(abilityService.findAll());
+        List<Ability> allAbilities = abilityService.findAll();
+        spellCastingAbility.setItems(allAbilities);
         spellCastingType = new RadioButtonGroup<SpellCastingType>("Sorts innés ou préparés");
         spellCastingType.setItems(EnumSet.allOf(SpellCastingType.class));
 
@@ -159,7 +160,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         savingThrowProficiencies.setCaption("Maitrise applicable au jets de sauvegarde");
         savingThrowProficiencies.getGrid().addColumn(Ability::getName).setCaption("Caractéristique").setId("name");
         savingThrowProficiencies.getGrid().setColumnOrder("name");
-        savingThrowProficiencies.setItems(abilityService.findAll());
+        savingThrowProficiencies.setItems(allAbilities);
         savingThrowProficiencies.setValue(new HashSet<Ability>()); // nothing selected
         savingThrowProficiencies.setWidth("50%");
 
@@ -408,7 +409,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
                 if (levelBonus.getSneakAttackDamage() != null) {
                     sneak.setValue(true);
                 }
-                if (levelBonus.getDeity() != null) {
+                if (levelBonus.getDeity()) {
                     deity.setValue(true);
                 }
             }

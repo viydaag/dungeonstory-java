@@ -11,12 +11,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "Deity")
+@NamedQuery(name = Deity.FIND_ALL_BY_DOMAIN, query = "SELECT deity FROM Deity deity JOIN deity.domains domain WHERE domain.id = :domainId")
 public class Deity extends AbstractTimestampEntity implements Serializable {
+
+    public static final String FIND_ALL_BY_DOMAIN = "findAllByDomain";
 
     private static final long serialVersionUID = -4390870225200515952L;
 

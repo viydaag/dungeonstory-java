@@ -35,6 +35,7 @@ public class CharacterWizard extends Wizard implements WizardProgressListener {
 
     public final static String RACE       = "raceChoice";
     public final static String CLASS      = "classChoice";
+    public final static String CLASS_SPEC = "classSpecChoice";
     public final static String ABILITY    = "abilityScores";
     public final static String SPELL      = "spellChoice";
     public final static String BACKGROUND = "backgroundChoice";
