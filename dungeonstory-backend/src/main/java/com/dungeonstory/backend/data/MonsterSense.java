@@ -18,7 +18,20 @@ public class MonsterSense extends AbstractTimestampEntity implements Serializabl
     private static final long serialVersionUID = -3163306637668112844L;
 
     public enum Sense {
-        BLINDSIGHT, DARKVISION, TREMORSENSE, TRUESIGHT
+        BLINDSIGHT("Vision à l'aveugle"), 
+        DARKVISION("Vision dans le noir"), 
+        TREMORSENSE("Vibration"), 
+        TRUESIGHT("Vision véritable");
+        
+        private String name;
+        
+        private Sense(String name) {
+            this.name = name;
+        }
+        
+        public String getName() {
+            return this.name;
+        }
     }
 
     @NotNull
@@ -60,6 +73,11 @@ public class MonsterSense extends AbstractTimestampEntity implements Serializabl
 
     public void setMonster(Monster monster) {
         this.monster = monster;
+    }
+    
+    @Override
+    public String toString() {
+        return getSense().getName() + " " + distanceInFeet + " pi";
     }
 
 }
