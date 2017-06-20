@@ -1,8 +1,7 @@
 package com.dungeonstory.ui.view.shop;
 
-import org.vaadin.viritin.label.MLabel;
-
 import com.dungeonstory.backend.data.ShopEquipment;
+import com.dungeonstory.ui.component.DSLabel;
 import com.dungeonstory.ui.i18n.Messages;
 import com.dungeonstory.ui.util.DSTheme;
 import com.vaadin.icons.VaadinIcons;
@@ -30,11 +29,11 @@ public class ShopItem extends CustomComponent {
         HorizontalLayout layout = new HorizontalLayout();
         layout.setWidth(100, Unit.PERCENTAGE);
         
-        Label itemName = new MLabel(this.item.getEquipment().getName());
-        Label stockQuantityLabel = new MLabel(String.valueOf(this.item.getQuantity())).withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
-        Label buyQuantityLabel = new MLabel("0").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
-        Label unitPriceLabel = new MLabel(String.valueOf(this.item.getUnitPrice()));
-        Label totalPriceLabel = new MLabel().withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
+        Label itemName = new DSLabel(this.item.getEquipment().getName());
+        Label stockQuantityLabel = new DSLabel(String.valueOf(this.item.getQuantity())).withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
+        Label buyQuantityLabel = new DSLabel("0").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
+        Label unitPriceLabel = new DSLabel(String.valueOf(this.item.getUnitPrice()));
+        Label totalPriceLabel = new DSLabel().withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
         
         itemName.addContextClickListener(event -> {
             if (event != null && event.getButton() == MouseButton.RIGHT) {
@@ -96,7 +95,7 @@ public class ShopItem extends CustomComponent {
         window.setWidth("60%");
 
         FormLayout layout = new FormLayout();
-        MLabel description = new MLabel("Description", this.item.getEquipment().getDescription());
+        DSLabel description = new DSLabel("Description", this.item.getEquipment().getDescription());
         layout.addComponents(description);
 
         //TODO : other useful info
