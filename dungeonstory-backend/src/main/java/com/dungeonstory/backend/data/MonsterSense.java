@@ -32,6 +32,11 @@ public class MonsterSense extends AbstractTimestampEntity implements Serializabl
         public String getName() {
             return this.name;
         }
+        
+        @Override
+        public String toString() {
+            return getName();
+        }
     }
 
     @NotNull
@@ -42,7 +47,6 @@ public class MonsterSense extends AbstractTimestampEntity implements Serializabl
     @Column(name = "distanceInFeet")
     private Integer distanceInFeet;
 
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "monsterId", nullable = false)
     private Monster monster;
