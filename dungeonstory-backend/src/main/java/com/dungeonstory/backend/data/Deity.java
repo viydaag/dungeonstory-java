@@ -11,12 +11,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "Deity")
+@NamedQuery(name = Deity.FIND_ALL_BY_DOMAIN, query = "SELECT deity FROM Deity deity JOIN deity.domains domain WHERE domain.id = :domainId")
 public class Deity extends AbstractTimestampEntity implements Serializable {
+
+    public static final String FIND_ALL_BY_DOMAIN = "findAllByDomain";
 
     private static final long serialVersionUID = -4390870225200515952L;
 
@@ -39,7 +43,7 @@ public class Deity extends AbstractTimestampEntity implements Serializable {
     @JoinTable(name = "DeityDomain", joinColumns = {
             @JoinColumn(name = "deityId", referencedColumnName = "id") }, inverseJoinColumns = {
                     @JoinColumn(name = "domainId", referencedColumnName = "id") })
-    private Set<DivineDomain> domains;
+    private Set<ClassSpecialization> domains;
 
     @Column(name = "symbol")
     private String symbol;
@@ -83,11 +87,11 @@ public class Deity extends AbstractTimestampEntity implements Serializable {
         this.alignment = alignment;
     }
 
-    public Set<DivineDomain> getDomains() {
+    public Set<ClassSpecialization> getDomains() {
         return domains;
     }
 
-    public void setDomains(Set<DivineDomain> domains) {
+    public void setDomains(Set<ClassSpecialization> domains) {
         this.domains = domains;
     }
 

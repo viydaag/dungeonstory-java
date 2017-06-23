@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -17,9 +18,12 @@ import org.eclipse.persistence.annotations.PrivateOwned;
 
 @Entity
 @Table(name = "ClassSpecialization")
+@NamedQuery(name = ClassSpecialization.FIND_ALL_DIVINE_DOMAIN_SPEC, query = "SELECT cs FROM ClassSpecialization cs WHERE cs.name LIKE :name")
 public class ClassSpecialization extends AbstractTimestampEntity implements Serializable {
 
     private static final long serialVersionUID = -2465166155999242520L;
+
+    public static final String FIND_ALL_DIVINE_DOMAIN_SPEC = "findAllDivineDomainSpec";
     
     @NotNull
     @Column(name = "name", unique = true, nullable = false)

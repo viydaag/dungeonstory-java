@@ -1,5 +1,8 @@
 package com.dungeonstory.backend.service.mock;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.dungeonstory.backend.data.ClassSpecialization;
 import com.dungeonstory.backend.repository.mock.MockClassSpecializationRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
@@ -22,6 +25,11 @@ public class MockClassSpecializationService extends AbstractDataService<ClassSpe
         super();
         setEntityFactory(() -> new ClassSpecialization());
         setRepository(new MockClassSpecializationRepository());
+    }
+
+    @Override
+    public List<ClassSpecialization> findAllDivineDomainSpecializations() {
+        return findAll().stream().filter(spec -> spec.getName().startsWith("Domaine")).collect(Collectors.toList());
     }
 
 }

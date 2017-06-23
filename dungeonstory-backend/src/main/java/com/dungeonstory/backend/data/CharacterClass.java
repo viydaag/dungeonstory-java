@@ -53,6 +53,11 @@ public class CharacterClass implements Serializable {
     @Column(name = "nbPreparedSpells")
     private Integer nbPreparedSpells;
 
+    @ManyToOne
+    @JoinColumn(name = "classSpecId")
+    // This is the specialization the character has chosen for this class.
+    private ClassSpecialization classSpecialization;
+
     public CharacterClass() {
         super();
         knownSpells = new ArrayList<Spell>();
@@ -105,6 +110,14 @@ public class CharacterClass implements Serializable {
 
     public void setNbPreparedSpells(Integer nbPreparedSpells) {
         this.nbPreparedSpells = nbPreparedSpells;
+    }
+
+    public ClassSpecialization getClassSpecialization() {
+        return classSpecialization;
+    }
+
+    public void setClassSpecialization(ClassSpecialization classSpecialization) {
+        this.classSpecialization = classSpecialization;
     }
 
     @Override

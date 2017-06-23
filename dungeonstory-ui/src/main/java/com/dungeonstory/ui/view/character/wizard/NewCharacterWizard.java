@@ -1,14 +1,19 @@
 package com.dungeonstory.ui.view.character.wizard;
 
+import java.util.Optional;
+
 import org.vaadin.teemu.wizards.event.WizardCompletedEvent;
 
+import com.dungeonstory.backend.data.CharacterClass;
+import com.dungeonstory.backend.data.ClassLevelBonus;
 import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.data.User;
+import com.dungeonstory.backend.data.util.ClassUtil;
 import com.dungeonstory.ui.authentication.CurrentUser;
 import com.dungeonstory.ui.event.EventBus;
 import com.dungeonstory.ui.event.ViewAddedEvent;
-import com.dungeonstory.ui.event.ViewRemovedEvent;
 import com.dungeonstory.ui.event.ViewAddedEvent.ViewDestination;
+import com.dungeonstory.ui.event.ViewRemovedEvent;
 import com.dungeonstory.ui.i18n.Messages;
 import com.dungeonstory.ui.view.character.CharacterView;
 import com.dungeonstory.ui.view.character.NewCharacterView;
@@ -36,6 +41,14 @@ public class NewCharacterWizard extends CharacterWizard {
 
         removeStepsAfterClass();
 
+        CharacterClass assignedClass = ClassUtil.getCharacterClass(character, chosenClass);
+        Optional<ClassLevelBonus> classLevelBonusOpt = ClassUtil.getClassLevelBonus(chosenClass, assignedClass.getClassLevel());
+        if (classLevelBonusOpt.isPresent()) {
+            if (classLevelBonusOpt.get().getChooseClassSpecialization()) {
+                addStep(new ClassSpecializationStep(this), CLASS_SPEC);
+            }
+        }
+
         if (chosenClass.getIsSpellCasting()) {
             addStep(new SpellStep(this), SPELL);
         }
@@ -46,6 +59,7 @@ public class NewCharacterWizard extends CharacterWizard {
     }
 
     private void removeStepsAfterClass() {
+        removeStep(CLASS_SPEC);
         removeStep(SPELL);
         removeStep(BACKGROUND);
         removeStep(INFO);
