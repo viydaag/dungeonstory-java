@@ -9,7 +9,8 @@ public class SkillGrid extends DSGrid<Skill> {
     public SkillGrid() {
         super();
         addColumn(Skill::getName).setCaption("Nom").setId("name");
-        addColumn(Skill::getKeyAbility).setCaption("Caractéristique clé").setId("keyAbility");
+        addColumn(Skill::getKeyAbility).setCaption("Caractéristique clé").setId("keyAbility")
+                .setComparator((s1, s2) -> s1.getKeyAbility().getName().compareTo(s2.getKeyAbility().getName()));
         addColumn(Skill::getShortDescription).setCaption("Description courte").setId("shortDescription");
     }
 
