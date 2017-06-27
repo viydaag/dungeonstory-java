@@ -269,4 +269,8 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalLayout 
         this.addButton = addButton;
     }
 
+    public void setSortInMemory(boolean sortInMemory) {
+        this.dataProvider.setSortInMemory(sortInMemory);
+    }
+
 }

@@ -15,6 +15,10 @@ public class SkillView extends AbstractCrudView<Skill> {
 
     private static final long serialVersionUID = -7630758272011003929L;
 
+    public SkillView() {
+        setSortInMemory(true);
+    }
+
     @Override
     public DSAbstractForm<Skill> getForm() {
         return new SkillForm();
