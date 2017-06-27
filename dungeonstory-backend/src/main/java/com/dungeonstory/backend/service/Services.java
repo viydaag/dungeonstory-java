@@ -1,59 +1,11 @@
 package com.dungeonstory.backend.service;
 
 import com.dungeonstory.backend.Configuration;
-import com.dungeonstory.backend.data.Region;
-import com.dungeonstory.backend.service.impl.AbilityService;
-import com.dungeonstory.backend.service.impl.AdventureService;
-import com.dungeonstory.backend.service.impl.AlignmentService;
-import com.dungeonstory.backend.service.impl.ArmorTypeService;
-import com.dungeonstory.backend.service.impl.BackgroundService;
-import com.dungeonstory.backend.service.impl.CharacterService;
-import com.dungeonstory.backend.service.impl.CityService;
-import com.dungeonstory.backend.service.impl.ClassFeatureService;
-import com.dungeonstory.backend.service.impl.ClassService;
-import com.dungeonstory.backend.service.impl.ClassSpecializationService;
-import com.dungeonstory.backend.service.impl.CreatureTypeService;
-import com.dungeonstory.backend.service.impl.DamageTypeService;
-import com.dungeonstory.backend.service.impl.DeityService;
-import com.dungeonstory.backend.service.impl.EquipmentService;
-import com.dungeonstory.backend.service.impl.FeatService;
-import com.dungeonstory.backend.service.impl.LanguageService;
-import com.dungeonstory.backend.service.impl.LevelService;
-import com.dungeonstory.backend.service.impl.RaceService;
-import com.dungeonstory.backend.service.impl.RegionService;
-import com.dungeonstory.backend.service.impl.ShopService;
-import com.dungeonstory.backend.service.impl.SkillService;
-import com.dungeonstory.backend.service.impl.SpellService;
-import com.dungeonstory.backend.service.impl.UserService;
-import com.dungeonstory.backend.service.impl.WeaponTypeService;
-import com.dungeonstory.backend.service.mock.MockAbilityService;
-import com.dungeonstory.backend.service.mock.MockAdventureService;
-import com.dungeonstory.backend.service.mock.MockAlignmentService;
-import com.dungeonstory.backend.service.mock.MockArmorTypeService;
-import com.dungeonstory.backend.service.mock.MockBackgroundService;
-import com.dungeonstory.backend.service.mock.MockCharacterService;
-import com.dungeonstory.backend.service.mock.MockCityService;
-import com.dungeonstory.backend.service.mock.MockClassFeatureService;
-import com.dungeonstory.backend.service.mock.MockClassService;
-import com.dungeonstory.backend.service.mock.MockClassSpecializationService;
-import com.dungeonstory.backend.service.mock.MockCreatureTypeService;
-import com.dungeonstory.backend.service.mock.MockDamageTypeService;
-import com.dungeonstory.backend.service.mock.MockDeityService;
-import com.dungeonstory.backend.service.mock.MockEquipmentService;
-import com.dungeonstory.backend.service.mock.MockFeatService;
-import com.dungeonstory.backend.service.mock.MockLanguageService;
-import com.dungeonstory.backend.service.mock.MockLevelService;
-import com.dungeonstory.backend.service.mock.MockRaceService;
-import com.dungeonstory.backend.service.mock.MockRegionService;
-import com.dungeonstory.backend.service.mock.MockShopService;
-import com.dungeonstory.backend.service.mock.MockSkillService;
-import com.dungeonstory.backend.service.mock.MockSpellService;
-import com.dungeonstory.backend.service.mock.MockUserService;
-import com.dungeonstory.backend.service.mock.MockWeaponTypeService;
-
+import com.dungeonstory.backend.service.impl.*;
+import com.dungeonstory.backend.service.mock.*;
 public abstract class Services {
     
-    public static DataService<Region, Long> getRegionService() {
+    public static RegionDataService getRegionService() {
         if (Configuration.getInstance().isMock()) {
             return MockRegionService.getInstance();
         }
@@ -219,6 +171,13 @@ public abstract class Services {
             return MockShopService.getInstance();
         }
         return ShopService.getInstance();
+    }
+
+    public static MonsterDataService getMonsterService() {
+        if (Configuration.getInstance().isMock()) {
+            return MockMonsterService.getInstance();
+        }
+        return MonsterService.getInstance();
     }
 
 

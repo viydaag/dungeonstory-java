@@ -4,9 +4,9 @@ public enum CreatureSize {
 
     TINY("TP", "Très petit", 2),
     SMALL("P", "Petit", 5),
-    MEDIUM("M", "Moyenne", 5),
+    MEDIUM("M", "Moyen", 5),
     LARGE("G", "Grand", 10),
-    HUGE("TG", "Très grang", 15),
+    HUGE("TG", "Très grand", 15),
     GARGANTUAN("Gig", "Gigantesque", 20);
 
     private String abbreviation;

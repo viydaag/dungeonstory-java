@@ -16,8 +16,8 @@ import javax.validation.constraints.Pattern;
 import com.dungeonstory.backend.data.WeaponType.UsageType;
 
 @Entity
-@Table(name = "MonsterAttack")
-public class MonsterAttack extends AbstractTimestampEntity implements Serializable {
+@Table(name = "MonsterAction")
+public class MonsterAction extends AbstractTimestampEntity implements Serializable {
 
     private static final long serialVersionUID = 7097778457561595984L;
 
@@ -62,7 +62,14 @@ public class MonsterAttack extends AbstractTimestampEntity implements Serializab
     @JoinColumn(name = "extraDamageTypeId", nullable = false)
     private DamageType extraDamageType;
 
-    @Min(value = 0)
+    @Column(name = "multiAttack")
+    private boolean multiAttack;
+    
+    @Min(value = 1)
+    @Column(name = "multiAttackRank")
+    private Integer multiAttackRank;
+
+    @Min(value = 1)
     @Column(name = "nbPerRound", nullable = false)
     private Integer nbPerRound = 1;
 
@@ -71,7 +78,7 @@ public class MonsterAttack extends AbstractTimestampEntity implements Serializab
     @JoinColumn(name = "monsterId", nullable = false)
     private Monster monster;
 
-    public MonsterAttack() {
+    public MonsterAction() {
         super();
     }
 
@@ -153,6 +160,22 @@ public class MonsterAttack extends AbstractTimestampEntity implements Serializab
 
     public void setExtraDamageType(DamageType extraDamageType) {
         this.extraDamageType = extraDamageType;
+    }
+
+    public boolean getMultiAttack() {
+        return multiAttack;
+    }
+
+    public void setMultiAttack(boolean multiAttack) {
+        this.multiAttack = multiAttack;
+    }
+
+    public Integer getMultiAttackRank() {
+        return multiAttackRank;
+    }
+
+    public void setMultiAttackRank(Integer multiAttackRank) {
+        this.multiAttackRank = multiAttackRank;
     }
 
     public Integer getNbPerRound() {

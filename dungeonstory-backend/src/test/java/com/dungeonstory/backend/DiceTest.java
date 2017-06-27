@@ -5,7 +5,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import com.dungeonstory.backend.Dice.DiceType;
+import com.dungeonstory.backend.rules.Dice;
+import com.dungeonstory.backend.rules.Dice.DiceType;
 
 public class DiceTest {
 

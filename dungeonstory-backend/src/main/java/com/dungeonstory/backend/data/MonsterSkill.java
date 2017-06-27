@@ -63,5 +63,10 @@ public class MonsterSkill implements Serializable {
     public void setBonus(Integer bonus) {
         this.bonus = bonus;
     }
+    
+    @Override
+    public String toString() {
+        return skill.getName() + " +" + bonus;
+    }
 
 }
