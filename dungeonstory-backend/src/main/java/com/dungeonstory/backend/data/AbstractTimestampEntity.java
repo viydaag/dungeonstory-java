@@ -21,6 +21,8 @@ import com.dungeonstory.backend.repository.Entity;
 @Customizer(OrderCustomizer.class)
 public abstract class AbstractTimestampEntity implements Entity {
 
+    private static final long serialVersionUID = -311217677252592435L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

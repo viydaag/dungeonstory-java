@@ -1,6 +1,5 @@
 package com.dungeonstory.backend.data;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,7 +19,7 @@ import com.dungeonstory.backend.data.Tool.ToolType;
 
 @Entity
 @Table(name = "Background")
-public class Background extends AbstractTimestampEntity implements Serializable {
+public class Background extends AbstractTimestampEntity {
 
     private static final long serialVersionUID = -8141940835860939919L;
     

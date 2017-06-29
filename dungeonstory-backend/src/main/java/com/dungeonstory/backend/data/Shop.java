@@ -1,6 +1,5 @@
 package com.dungeonstory.backend.data;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -14,7 +13,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "Shop")
-public class Shop extends AbstractTimestampEntity implements Serializable {
+public class Shop extends AbstractTimestampEntity {
 
     private static final long serialVersionUID = 4969359354645768702L;
 

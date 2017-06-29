@@ -1,6 +1,5 @@
 package com.dungeonstory.backend.data;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -20,7 +19,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "Equipment")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
-public abstract class Equipment extends AbstractTimestampEntity implements Serializable {
+public abstract class Equipment extends AbstractTimestampEntity {
 
     private static final long serialVersionUID = 1146171037304994442L;
 

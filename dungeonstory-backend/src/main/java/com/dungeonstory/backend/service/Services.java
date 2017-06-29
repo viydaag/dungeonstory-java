@@ -3,6 +3,7 @@ package com.dungeonstory.backend.service;
 import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.service.impl.*;
 import com.dungeonstory.backend.service.mock.*;
+
 public abstract class Services {
     
     public static RegionDataService getRegionService() {
@@ -178,6 +179,20 @@ public abstract class Services {
             return MockMonsterService.getInstance();
         }
         return MonsterService.getInstance();
+    }
+    
+    public static InnDataService getInnService() {
+        if (Configuration.getInstance().isMock()) {
+            return MockInnService.getInstance();
+        }
+        return InnService.getInstance();
+    }
+
+    public static TempleDataService getTempleService() {
+        if (Configuration.getInstance().isMock()) {
+            return MockTempleService.getInstance();
+        }
+        return TempleService.getInstance();
     }
 
 

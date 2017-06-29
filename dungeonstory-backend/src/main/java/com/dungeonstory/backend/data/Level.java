@@ -1,6 +1,5 @@
 package com.dungeonstory.backend.data;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -24,7 +23,7 @@ import com.dungeonstory.backend.data.util.OrderCustomizer;
 @Entity
 @Table(name = "Level")
 @Customizer(OrderCustomizer.class)
-public class Level implements com.dungeonstory.backend.repository.Entity, Serializable {
+public class Level implements com.dungeonstory.backend.repository.Entity {
 
     private static final long serialVersionUID = 4749488433122909200L;
 

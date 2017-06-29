@@ -1,7 +1,5 @@
 package com.dungeonstory.backend.data;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -14,7 +12,7 @@ import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "SpellEffect")
-public class SpellEffect extends AbstractTimestampEntity implements Serializable {
+public class SpellEffect extends AbstractTimestampEntity {
 
     private static final long serialVersionUID = -1874521533507413740L;
     

@@ -2,8 +2,6 @@ package com.dungeonstory.backend.data;
 
 import static javax.persistence.LockModeType.READ;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
@@ -16,7 +14,7 @@ import javax.validation.constraints.NotNull;
 @NamedQueries({
         @NamedQuery(name = Language.LANGUAGES_NOT_IN_RACE, lockMode = READ, query = "SELECT lang FROM Language lang WHERE lang.id NOT IN (SELECT l.id FROM Race r JOIN r.languages l WHERE r.id = :raceId) AND lang.playable = 1"),
         @NamedQuery(name = Language.UNASSIGNED_LANGUAGES, lockMode = READ, query = "SELECT lang FROM Language lang WHERE lang.id NOT IN (SELECT l.id FROM Character c JOIN c.languages l WHERE c.id = :characterId) AND lang.playable = 1") })
-public class Language extends AbstractTimestampEntity implements Serializable {
+public class Language extends AbstractTimestampEntity {
 
     private static final long serialVersionUID = 5355483080995035841L;
 
