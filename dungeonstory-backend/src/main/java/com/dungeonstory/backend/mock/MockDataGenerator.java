@@ -20,6 +20,7 @@ import com.dungeonstory.backend.data.DamageType;
 import com.dungeonstory.backend.data.Deity;
 import com.dungeonstory.backend.data.Feat;
 import com.dungeonstory.backend.data.Feat.FeatUsage;
+import com.dungeonstory.backend.data.Inn;
 import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.backend.data.Message;
 import com.dungeonstory.backend.data.Monster;
@@ -27,6 +28,7 @@ import com.dungeonstory.backend.data.Race;
 import com.dungeonstory.backend.data.Region;
 import com.dungeonstory.backend.data.Shop;
 import com.dungeonstory.backend.data.Skill;
+import com.dungeonstory.backend.data.Temple;
 import com.dungeonstory.backend.data.User;
 import com.dungeonstory.backend.data.User.UserStatus;
 import com.dungeonstory.backend.data.WeaponType;
@@ -285,7 +287,14 @@ public class MockDataGenerator {
     }
 
     public static List<Monster> createMonsters() {
-        // TODO Auto-generated method stub
+        return new ArrayList<>();
+    }
+    
+    public static List<Inn> createInns() {
+        return new ArrayList<>();
+    }
+
+    public static List<Temple> createTemples() {
         return new ArrayList<>();
     }
 

@@ -1,7 +1,5 @@
 package com.dungeonstory.backend.data;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -13,7 +11,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "MonsterSense")
-public class MonsterSense extends AbstractTimestampEntity implements Serializable {
+public class MonsterSense extends AbstractTimestampEntity {
 
     private static final long serialVersionUID = -3163306637668112844L;
 

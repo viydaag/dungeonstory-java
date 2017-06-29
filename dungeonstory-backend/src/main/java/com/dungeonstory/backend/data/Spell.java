@@ -2,7 +2,6 @@ package com.dungeonstory.backend.data;
 
 import static javax.persistence.LockModeType.READ;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -37,7 +36,7 @@ import org.eclipse.persistence.annotations.PrivateOwned;
         @NamedQuery(name = Spell.ALL_SPELLS_BY_LEVEL, query = "SELECT s FROM Spell s WHERE s.level = :level", lockMode = READ),
         @NamedQuery(name = Spell.ALL_CLASS_SPELLS_BY_LEVEL, query = "SELECT s FROM DSClass c JOIN c.spells s WHERE c.id = :classId AND s.level = :level", lockMode = READ),
         @NamedQuery(name = Spell.ALL_SPELLS_SORTED_BY_LEVEL_AND_NAME, query = "SELECT e FROM Spell e ORDER BY e.level ASC, e.name ASC", lockMode = READ) })
-public class Spell extends AbstractTimestampEntity implements Serializable {
+public class Spell extends AbstractTimestampEntity {
 
     private static final long serialVersionUID = -981852238942809050L;
     

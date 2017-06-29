@@ -1,6 +1,5 @@
 package com.dungeonstory.backend.data;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,7 +22,7 @@ import org.eclipse.persistence.annotations.PrivateOwned;
 
 @Entity
 @Table(name = "Race")
-public class Race extends AbstractTimestampEntity implements Serializable {
+public class Race extends AbstractTimestampEntity {
 
     private static final long serialVersionUID = -8654082699083199159L;
     

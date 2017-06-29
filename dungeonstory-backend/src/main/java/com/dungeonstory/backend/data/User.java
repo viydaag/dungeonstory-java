@@ -1,7 +1,5 @@
 package com.dungeonstory.backend.data;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -18,7 +16,7 @@ import javax.validation.constraints.Pattern;
 @Entity
 @Table(name = "User")
 @NamedQuery(name = User.findByUsername, query = "SELECT u FROM User u WHERE u.username = :username")
-public class User extends AbstractTimestampEntity implements Serializable {
+public class User extends AbstractTimestampEntity {
 
     private static final long serialVersionUID = -8735932805533401960L;
 

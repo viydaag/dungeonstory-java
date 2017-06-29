@@ -1,7 +1,5 @@
 package com.dungeonstory.backend.data;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -9,7 +7,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "DamageType")
-public class DamageType extends AbstractTimestampEntity implements Serializable {
+public class DamageType extends AbstractTimestampEntity {
 
     private static final long serialVersionUID = -8021182556188719646L;
 

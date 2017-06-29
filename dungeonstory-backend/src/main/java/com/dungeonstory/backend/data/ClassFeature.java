@@ -2,7 +2,6 @@ package com.dungeonstory.backend.data;
 
 import static javax.persistence.LockModeType.READ;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +31,7 @@ import com.dungeonstory.backend.repository.DescriptiveEntity;
 @NamedQueries({
         @NamedQuery(name = ClassFeature.FIND_ALL_CLASS_FEATURES_WITHOUT_PARENT, query = "SELECT e FROM ClassFeature e WHERE e.parent IS NULL ORDER BY e.name ASC", lockMode = READ),
         @NamedQuery(name = ClassFeature.FIND_ALL_CLASS_FEATURE_EXCEPT, query = "SELECT e FROM ClassFeature e WHERE e.id != :featId", lockMode = READ) })
-public class ClassFeature extends AbstractTimestampEntity implements DescriptiveEntity, Serializable {
+public class ClassFeature extends AbstractTimestampEntity implements DescriptiveEntity {
 
     public static final String FIND_ALL_CLASS_FEATURE_EXCEPT          = "findAllClassFeatureExcept";
     public static final String FIND_ALL_CLASS_FEATURES_WITHOUT_PARENT = "findAllClassFeaturesWithoutParent";

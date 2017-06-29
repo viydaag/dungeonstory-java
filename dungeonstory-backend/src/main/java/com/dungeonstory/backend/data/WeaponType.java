@@ -1,7 +1,5 @@
 package com.dungeonstory.backend.data;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -18,7 +16,7 @@ import org.eclipse.persistence.annotations.JoinFetchType;
 
 @Entity
 @Table(name = "WeaponType")
-public class WeaponType extends AbstractTimestampEntity implements Serializable {
+public class WeaponType extends AbstractTimestampEntity {
 
     private static final long serialVersionUID = -5780288141494436969L;
 

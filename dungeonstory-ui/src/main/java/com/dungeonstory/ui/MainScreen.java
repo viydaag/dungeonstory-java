@@ -30,6 +30,7 @@ import com.dungeonstory.ui.view.admin.DamageTypeView;
 import com.dungeonstory.ui.view.admin.DeityView;
 import com.dungeonstory.ui.view.admin.EquipmentView;
 import com.dungeonstory.ui.view.admin.FeatView;
+import com.dungeonstory.ui.view.admin.InnView;
 import com.dungeonstory.ui.view.admin.LanguageView;
 import com.dungeonstory.ui.view.admin.LevelView;
 import com.dungeonstory.ui.view.admin.MonsterView;
@@ -38,6 +39,7 @@ import com.dungeonstory.ui.view.admin.RegionView;
 import com.dungeonstory.ui.view.admin.ShopView;
 import com.dungeonstory.ui.view.admin.SkillView;
 import com.dungeonstory.ui.view.admin.SpellView;
+import com.dungeonstory.ui.view.admin.TempleView;
 import com.dungeonstory.ui.view.admin.UserListView;
 import com.dungeonstory.ui.view.admin.WeaponTypeView;
 import com.dungeonstory.ui.view.adventure.AdventureListView;
@@ -182,6 +184,8 @@ public class MainScreen extends HorizontalLayout {
             addViewToNavBar(BackgroundView.class);
             addViewToNavBar(CreatureTypeView.class);
             addViewToNavBar(MonsterView.class);
+            addViewToNavBar(InnView.class);
+            addViewToNavBar(TempleView.class);
         }
 
         addView(AboutView.class);

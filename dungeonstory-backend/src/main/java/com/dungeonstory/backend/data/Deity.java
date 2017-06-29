@@ -1,6 +1,5 @@
 package com.dungeonstory.backend.data;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,7 +22,7 @@ import org.eclipse.persistence.annotations.JoinFetchType;
 @Entity
 @Table(name = "Deity")
 @NamedQuery(name = Deity.FIND_ALL_BY_DOMAIN, query = "SELECT deity FROM Deity deity JOIN deity.domains domain WHERE domain.id = :domainId")
-public class Deity extends AbstractTimestampEntity implements Serializable {
+public class Deity extends AbstractTimestampEntity {
 
     public static final String FIND_ALL_BY_DOMAIN = "findAllByDomain";
 

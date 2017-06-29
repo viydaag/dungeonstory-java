@@ -1,7 +1,5 @@
 package com.dungeonstory.backend.data;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -11,11 +9,11 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "City")
-public class City extends AbstractTimestampEntity implements Serializable {
+public class City extends AbstractTimestampEntity {
 
-	private static final long serialVersionUID = 1536069812697538790L;
+    private static final long serialVersionUID = 1536069812697538790L;
 
-	@NotNull
+    @NotNull
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 
@@ -24,7 +22,7 @@ public class City extends AbstractTimestampEntity implements Serializable {
 
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
-    
+
     @NotNull
     @ManyToOne
     @JoinColumn(name = "regionId")
@@ -64,14 +62,14 @@ public class City extends AbstractTimestampEntity implements Serializable {
     }
 
     public Region getRegion() {
-		return region;
-	}
+        return region;
+    }
 
-	public void setRegion(Region region) {
-		this.region = region;
-	}
+    public void setRegion(Region region) {
+        this.region = region;
+    }
 
-	@Override
+    @Override
     public String toString() {
         return getName();
     }
