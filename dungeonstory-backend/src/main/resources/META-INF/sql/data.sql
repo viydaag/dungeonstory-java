@@ -1717,7 +1717,7 @@ INSERT INTO CreatureType (name, description, version, created, updated) VALUES (
 INSERT INTO CreatureType (name, description, version, created, updated) VALUES ('Mort-vivant', 'Les mort-vivants sont des créatures mortes et amenées à un horrible état de non-vie par la pratique de la magie nécromantique ou d''une malédiction. Les mort-vivants incluent les cadavres ambulants comme les zombies et les vampires ainsi que les esprits comme les fantômes et les spectres.', 1, now(), now());
 
 /* Monster */
-INSERT INTO Monster (name, description, size, creatureTypeId, tag, alignmentId, armorClass, hitPoints, groundSpeed, burrowSpeed, climbSpeed, flySpeed, swimSpeed, strength, dexterity, constitution, intelligence, wisdom, charisma, passivePerception, challengeRating, challengeRatingValue, hasMultiAttack, version, created, updated) VALUES ('Gobelin', null, 'SMALL', 10, 'goblinoïde', 8, 15, 7, 30, 0, 0, 0, 0, 8, 14, 10, 10, 8, 8, 9, 'CR_1_4', 0.25, 0, 1, now(), now());
+INSERT INTO Monster (name, description, size, creatureTypeId, tag, alignmentId, armorClass, hitPoints, groundSpeed, burrowSpeed, climbSpeed, flySpeed, swimSpeed, strength, dexterity, constitution, intelligence, wisdom, charisma, passivePerception, challengeRating, hasMultiAttack, version, created, updated) VALUES ('Gobelin', null, 'SMALL', 10, 'goblinoïde', 8, 15, 7, 30, 0, 0, 0, 0, 8, 14, 10, 10, 8, 8, 9, 'CR_1_4', 0, 1, now(), now());
 
 /* MonsterSense */
 INSERT INTO MonsterSense (sense, distanceInFeet, monsterId, version, created, updated) VALUES ('DARKVISION', 60, 1, 1, now(), now());
