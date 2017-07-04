@@ -13,6 +13,9 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import org.eclipse.persistence.annotations.JoinFetch;
+import org.eclipse.persistence.annotations.JoinFetchType;
+
 import com.dungeonstory.backend.data.WeaponType.UsageType;
 
 @Entity
@@ -49,6 +52,7 @@ public class MonsterAction extends AbstractTimestampEntity implements Serializab
     private Condition condition;
 
     @ManyToOne
+    @JoinFetch(JoinFetchType.OUTER)
     @JoinColumn(name = "savingThrowAbilityId")
     private Ability savingThrowToCondition;
 

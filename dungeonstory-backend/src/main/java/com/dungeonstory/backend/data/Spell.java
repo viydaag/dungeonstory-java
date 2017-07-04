@@ -24,6 +24,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.eclipse.persistence.annotations.JoinFetch;
+import org.eclipse.persistence.annotations.JoinFetchType;
 import org.eclipse.persistence.annotations.PrivateOwned;
 
 @Entity
@@ -187,6 +189,7 @@ public class Spell extends AbstractTimestampEntity implements Serializable {
     private Integer rangeValueInFeet;
 
     @ManyToOne
+    @JoinFetch(JoinFetchType.OUTER)
     @JoinColumn(name = "savingThrowAbilityId")
     private Ability savingThrowAbility;
     
