@@ -15,6 +15,11 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.eclipse.persistence.annotations.BatchFetch;
+import org.eclipse.persistence.annotations.BatchFetchType;
+import org.eclipse.persistence.annotations.JoinFetch;
+import org.eclipse.persistence.annotations.JoinFetchType;
+
 @Entity
 @Table(name = "Deity")
 @NamedQuery(name = Deity.FIND_ALL_BY_DOMAIN, query = "SELECT deity FROM Deity deity JOIN deity.domains domain WHERE domain.id = :domainId")
@@ -36,10 +41,12 @@ public class Deity extends AbstractTimestampEntity implements Serializable {
 
     @NotNull
     @ManyToOne
+    @JoinFetch(JoinFetchType.INNER)
     @JoinColumn(name = "alignmentId")
     private Alignment alignment;
 
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+    @BatchFetch(value = BatchFetchType.JOIN)
     @JoinTable(name = "DeityDomain", joinColumns = {
             @JoinColumn(name = "deityId", referencedColumnName = "id") }, inverseJoinColumns = {
                     @JoinColumn(name = "domainId", referencedColumnName = "id") })

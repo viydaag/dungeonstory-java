@@ -14,6 +14,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.eclipse.persistence.annotations.BatchFetch;
+import org.eclipse.persistence.annotations.BatchFetchType;
+import org.eclipse.persistence.annotations.JoinFetch;
+import org.eclipse.persistence.annotations.JoinFetchType;
 import org.eclipse.persistence.annotations.PrivateOwned;
 
 @Entity
@@ -41,18 +45,22 @@ public class ClassSpecialization extends AbstractTimestampEntity implements Seri
     private boolean isSpellCasting = false;
 
     @ManyToOne
-    @JoinColumn(name = "spellCasingAbilityId")
+    @JoinFetch(JoinFetchType.OUTER)
+    @JoinColumn(name = "spellCastingAbilityId")
     private Ability spellCastingAbility;
 
     @OneToMany(mappedBy = "classSpec", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @BatchFetch(value = BatchFetchType.JOIN)
     @PrivateOwned
     private List<ClassSpecLevelFeature> classSpecFeatures;
     
     @OneToMany(mappedBy = "classSpec", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+    @BatchFetch(value = BatchFetchType.JOIN)
     @PrivateOwned
     private List<ClassSpecializationSpellSlots> spellSlots;
 
     @OneToMany(mappedBy = "classSpec", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+    @BatchFetch(value = BatchFetchType.JOIN)
     @PrivateOwned
     private List<ClassSpecLevelSpell> classSpecSpells;
 

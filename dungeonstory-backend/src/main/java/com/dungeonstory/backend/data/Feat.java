@@ -17,6 +17,9 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.eclipse.persistence.annotations.JoinFetch;
+import org.eclipse.persistence.annotations.JoinFetchType;
+
 import com.dungeonstory.backend.repository.DescriptiveEntity;
 
 @Entity
@@ -61,6 +64,7 @@ public class Feat extends AbstractTimestampEntity implements DescriptiveEntity, 
     private ArmorType.ProficiencyType prerequisiteArmorProficiency;
 
     @ManyToOne
+    @JoinFetch(JoinFetchType.OUTER)
     @JoinColumn(name = "prerequisiteAbilityId")
     private Ability prerequisiteAbility;
 

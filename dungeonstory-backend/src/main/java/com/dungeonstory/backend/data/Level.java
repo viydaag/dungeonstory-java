@@ -15,6 +15,8 @@ import javax.persistence.Version;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import org.eclipse.persistence.annotations.BatchFetch;
+import org.eclipse.persistence.annotations.BatchFetchType;
 import org.eclipse.persistence.annotations.Customizer;
 
 import com.dungeonstory.backend.data.util.OrderCustomizer;
@@ -42,6 +44,7 @@ public class Level implements com.dungeonstory.backend.repository.Entity, Serial
     private int proficiencyBonus;
 
     @OneToMany(mappedBy = "level")
+    @BatchFetch(value = BatchFetchType.JOIN)
     private List<ClassLevelBonus> classBonuses;
     
     @Version

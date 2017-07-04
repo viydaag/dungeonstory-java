@@ -10,6 +10,9 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import org.eclipse.persistence.annotations.JoinFetch;
+import org.eclipse.persistence.annotations.JoinFetchType;
+
 @Entity
 @DiscriminatorValue("WEAPON")
 @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
@@ -31,6 +34,7 @@ public class Weapon extends Equipment {
     private String additionalDamage;
 
     @ManyToOne
+    @JoinFetch(JoinFetchType.INNER)
     @JoinColumn(name = "additionalDamageTypeId")
     private DamageType additionalDamageType;
 
@@ -39,6 +43,7 @@ public class Weapon extends Equipment {
 
     @NotNull
     @ManyToOne
+    @JoinFetch(JoinFetchType.INNER)
     @JoinColumn(name = "weaponTypeId")
     private WeaponType weaponType;
 

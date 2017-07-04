@@ -76,7 +76,7 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
     
     @ManyToOne
     @JoinFetch(JoinFetchType.OUTER)
-    @JoinColumn(name = "spellCasingAbilityId")
+    @JoinColumn(name = "spellCastingAbilityId")
     private Ability spellCastingAbility;
 
     @Column(name = "spellCastingType")
@@ -93,6 +93,7 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
     
     @ElementCollection(targetClass = ArmorType.ProficiencyType.class)
     @CollectionTable(name = "ClassArmorProficiencies", joinColumns = @JoinColumn(name = "classId", nullable = false))
+    @BatchFetch(value = BatchFetchType.JOIN)
     @Column(name = "proficiency", nullable = false)
     @Enumerated(EnumType.STRING)
     @PrivateOwned
@@ -108,6 +109,7 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
     @ElementCollection(targetClass = ToolType.class)
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "ClassToolProficiencies", joinColumns = @JoinColumn(name = "classId", nullable = false))
+    @BatchFetch(value = BatchFetchType.JOIN)
     @Column(name = "toolType", nullable = false)
     @PrivateOwned
     private Set<ToolType> toolProficiencies;
