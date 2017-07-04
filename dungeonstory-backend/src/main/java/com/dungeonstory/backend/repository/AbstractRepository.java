@@ -5,12 +5,15 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
+import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+
+import org.eclipse.persistence.config.QueryHints;
 
 import com.dungeonstory.backend.Configuration;
 
@@ -105,7 +108,7 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
 
     private String getTableName() {
         if (tableName == null) {
-            tableName = getEntityClass().getName();
+            tableName = getEntityClass().getSimpleName();
             //            Annotation annotation = getEntityClass().getAnnotation(Table.class);
             //            if (annotation != null) {
             //                Table tableAnnotation = (Table) annotation;
@@ -125,6 +128,39 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
     @Override
     public List<E> findAll() {
         TypedQuery<E> query = entityManager.createQuery("SELECT o FROM " + getTableName() + " o", getEntityClass());
+        return query.getResultList();
+    }
+
+    @Override
+    public List<E> findAllWithAttributes(String... attributes) {
+        //        String sql = "SELECT o FROM " + getTableName() + " o";
+
+        EntityGraph<E> graph = entityManager.createEntityGraph(getEntityClass());
+        graph.addAttributeNodes(attributes);
+
+        //        TypedQuery<E> query = entityManager.createQuery(sql, getEntityClass());
+        //        query.setHint("javax.persistence.loadgraph", graph);
+
+        //        TypedQuery<E> query = entityManager.createQuery(sql, getEntityClass());
+        //        LoadGroup lg = new LoadGroup();
+        //        lg.addAttributes(Arrays.asList(attributes));
+        //        query.setHint(QueryHints.LOAD_GROUP, lg);
+        //        for (String att : attributes) {
+        //            query.setHint(QueryHints.BATCH, "o." + att);
+        //        }
+
+        //        List<E> result = query.getResultList();
+        List<E> result = findAllWithGraph(graph);
+        return result;
+    }
+
+    @Override
+    public List<E> findAllWithGraph(EntityGraph<E> graph) {
+        String sql = "SELECT o FROM " + getTableName() + " o";
+
+        TypedQuery<E> query = entityManager.createQuery(sql, getEntityClass());
+
+        query.setHint(QueryHints.JPA_LOAD_GRAPH, graph);
         return query.getResultList();
     }
 
@@ -253,6 +289,10 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
         long count = (long) q.getSingleResult();
         entityManager.getTransaction().commit();
         return count;
+    }
+
+    public static EntityManager getEntityManager() {
+        return entityManager;
     }
 
 }

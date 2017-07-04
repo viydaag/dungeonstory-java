@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.EntityGraph;
+
 import com.dungeonstory.backend.repository.Entity;
 import com.dungeonstory.backend.repository.Repository;
 
@@ -140,6 +142,16 @@ public abstract class MockAbstractRepository<E extends Entity> implements Reposi
     public List<E> findAllByLikePagedOrderBy(String column, String value, int firstRow, int pageSize,
             String[] orderColumn, String[] order) {
         return findAllPaged(firstRow, pageSize);
+    }
+
+    @Override
+    public List<E> findAllWithAttributes(String... attributes) {
+        return findAll();
+    }
+
+    @Override
+    public List<E> findAllWithGraph(EntityGraph<E> graph) {
+        return findAll();
     }
 
 }

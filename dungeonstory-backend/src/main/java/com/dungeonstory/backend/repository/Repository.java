@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.EntityGraph;
+
 public interface Repository<E extends Entity, K extends Serializable> {
 
     /**
@@ -74,6 +76,20 @@ public interface Repository<E extends Entity, K extends Serializable> {
 
     List<E> findAllByLikePagedOrderBy(String column, String value, int firstRow, int pageSize, String[] orderColumn,
             String[] order);
+
+    /**
+     * Get all entities with attributes loaded according to graph.
+     * @param graph
+     * @return
+     */
+    List<E> findAllWithGraph(EntityGraph<E> graph);
+
+    /**
+     * Get all entities with loaded given attributes.
+     * @param graph
+     * @return
+     */
+    List<E> findAllWithAttributes(String... attributes);
 
     /**
     *
