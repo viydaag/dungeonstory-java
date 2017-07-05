@@ -273,7 +273,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         spells.getGrid().setColumnOrder("name", "level", "school");
         spells.setItems(spellService.findAll());
         spells.setWidth("80%");
-        spells.setValue(null); // nothing selected
+        spells.setValue(new HashSet<>()); // nothing selected
 
         classSpecs = new SubSetSelector<>(ClassSpecialization.class);
         classSpecs.setCaption("Spécialisations de classe");

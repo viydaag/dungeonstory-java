@@ -21,20 +21,20 @@ public class Weapon extends Equipment {
 
     private static final long serialVersionUID = 4509403800242686338L;
 
-    @Pattern(regexp = "\\d+d\\d+([\\+\\-]\\d+)*")
+    @Pattern(regexp = "^$|(\\d+d\\d+([\\+\\-]\\d+)*)")
     @Column(name = "oneHandDamage")
     private String oneHandDamage;
     
-    @Pattern(regexp = "\\d+d\\d+([\\+\\-]\\d+)*")
+    @Pattern(regexp = "^$|(\\d+d\\d+([\\+\\-]\\d+)*)")
     @Column(name = "twoHandDamage")
     private String twoHandDamage;
 
-    @Pattern(regexp = "\\d+d\\d+([\\+\\-]\\d+)*")
+    @Pattern(regexp = "^$|(\\d+d\\d+([\\+\\-]\\d+)*)")
     @Column(name = "additionalDamage")
     private String additionalDamage;
 
     @ManyToOne
-    @JoinFetch(JoinFetchType.INNER)
+    @JoinFetch(JoinFetchType.OUTER)
     @JoinColumn(name = "additionalDamageTypeId")
     private DamageType additionalDamageType;
 
