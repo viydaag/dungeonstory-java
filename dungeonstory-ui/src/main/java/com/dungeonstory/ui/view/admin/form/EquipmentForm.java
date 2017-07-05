@@ -67,6 +67,7 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
         armorTypeService = Services.getArmorTypeService();
         weaponTypeService = Services.getWeaponTypeService();
         damageTypeService = Services.getDamageTypeService();
+        setBindWhenSettingEntity(true);
     }
 
     @Override

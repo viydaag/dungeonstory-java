@@ -3,8 +3,6 @@ package com.dungeonstory.ui.view.character.wizard.form;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.vaadin.viritin.form.AbstractForm;
-
 import com.dungeonstory.backend.data.Background;
 import com.dungeonstory.backend.data.Background.LanguageChoice;
 import com.dungeonstory.backend.data.Character;
@@ -13,6 +11,7 @@ import com.dungeonstory.backend.data.Language;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.LanguageDataService;
 import com.dungeonstory.backend.service.Services;
+import com.dungeonstory.ui.component.AbstractForm;
 import com.dungeonstory.ui.component.DSAbstractForm;
 import com.dungeonstory.ui.component.DSLabel;
 import com.dungeonstory.ui.component.DSTextArea;
