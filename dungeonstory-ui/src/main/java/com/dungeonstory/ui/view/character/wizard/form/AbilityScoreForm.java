@@ -1,10 +1,10 @@
 package com.dungeonstory.ui.view.character.wizard.form;
 
 import org.vaadin.viritin.fields.IntegerField;
-import org.vaadin.viritin.form.AbstractForm;
 
 import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.Character;
+import com.dungeonstory.ui.component.AbstractForm;
 import com.dungeonstory.ui.component.DSAbstractForm;
 import com.dungeonstory.ui.component.DSLabel;
 import com.dungeonstory.ui.i18n.Messages;
