@@ -29,12 +29,15 @@ import com.dungeonstory.ui.field.ElementCollectionField;
 import com.dungeonstory.ui.field.ElementCollectionGrid;
 import com.dungeonstory.ui.field.SubSetSelector;
 import com.dungeonstory.ui.i18n.Messages;
+import com.dungeonstory.ui.layout.MultiColumnFormLayout;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.VerticalLayout;
 
 public class MonsterForm extends DSAbstractForm<Monster> {
 
@@ -62,7 +65,7 @@ public class MonsterForm extends DSAbstractForm<Monster> {
     private IntegerField charisma;
     private IntegerField passivePerception;
 
-    private EnumComboBox<ChallengeRating>              challengeRating;
+    private EnumComboBox<ChallengeRating>               challengeRating;
     private SubSetSelector<DamageType, Set<DamageType>> damageVulnerabilities;
     private SubSetSelector<DamageType, Set<DamageType>> damageResistances;
     private SubSetSelector<DamageType, Set<DamageType>> damageImmunities;
@@ -110,11 +113,13 @@ public class MonsterForm extends DSAbstractForm<Monster> {
 
     @Override
     protected Component createContent() {
-        FormLayout layout = new FormLayout();
+        VerticalLayout layout = new VerticalLayout();
+        layout.setMargin(new MarginInfo(true, false));
+
         Messages messages = Messages.getInstance();
 
         name = new TextField("Nom");
-        description = new DSTextArea("Description").withFullWidth();
+        description = new DSTextArea("Description").withFullWidth().withRows(10);
 
         size = new EnumComboBox<>(CreatureSize.class, "Ordre de grandeur");
         creatureType = new ComboBox<>("Type", Services.getCreatureTypeService().findAll());
@@ -143,8 +148,7 @@ public class MonsterForm extends DSAbstractForm<Monster> {
         damageVulnerabilities.getGrid().addColumn(DamageType::getName).setCaption("Type de dégât").setId("name");
         damageVulnerabilities.getGrid().setColumnOrder("name");
         damageVulnerabilities.setItems(Services.getDamageTypeService().findAll());
-        damageVulnerabilities.setValue(new HashSet<DamageType>()); // nothing
-                                                                   // selected
+        damageVulnerabilities.setValue(new HashSet<DamageType>()); // nothing selected
         damageVulnerabilities.setWidth("50%");
 
         damageResistances = new SubSetSelector<>(DamageType.class);
@@ -152,8 +156,7 @@ public class MonsterForm extends DSAbstractForm<Monster> {
         damageResistances.getGrid().addColumn(DamageType::getName).setCaption("Type de dégât").setId("name");
         damageResistances.getGrid().setColumnOrder("name");
         damageResistances.setItems(Services.getDamageTypeService().findAll());
-        damageResistances.setValue(new HashSet<DamageType>()); // nothing
-                                                               // selected
+        damageResistances.setValue(new HashSet<DamageType>()); // nothing selected
         damageResistances.setWidth("50%");
 
         damageImmunities = new SubSetSelector<>(DamageType.class);
@@ -161,8 +164,7 @@ public class MonsterForm extends DSAbstractForm<Monster> {
         damageImmunities.getGrid().addColumn(DamageType::getName).setCaption("Type de dégât").setId("name");
         damageImmunities.getGrid().setColumnOrder("name");
         damageImmunities.setItems(Services.getDamageTypeService().findAll());
-        damageImmunities.setValue(new HashSet<DamageType>()); // nothing
-                                                              // selected
+        damageImmunities.setValue(new HashSet<DamageType>()); // nothing selected
         damageImmunities.setWidth("50%");
 
         conditionImmunities = new SubSetSelector<>(Condition.class);
@@ -170,8 +172,7 @@ public class MonsterForm extends DSAbstractForm<Monster> {
         conditionImmunities.getGrid().addColumn(Condition::getName).setCaption("Condition").setId("name");
         conditionImmunities.getGrid().setColumnOrder("name");
         conditionImmunities.setItems(EnumSet.allOf(Condition.class));
-        conditionImmunities.setValue(new HashSet<Condition>()); // nothing
-                                                                // selected
+        conditionImmunities.setValue(new HashSet<Condition>()); // nothing selected
         conditionImmunities.setWidth("50%");
 
         languages = new SubSetSelector<>(Language.class);
@@ -187,8 +188,7 @@ public class MonsterForm extends DSAbstractForm<Monster> {
         savingThrowProficiencies.getGrid().addColumn(Ability::getName).setCaption("Charactéristique").setId("name");
         savingThrowProficiencies.getGrid().setColumnOrder("name");
         savingThrowProficiencies.setItems(Services.getAbilityService().findAll());
-        savingThrowProficiencies.setValue(new HashSet<Ability>()); // nothing
-                                                                   // selected
+        savingThrowProficiencies.setValue(new HashSet<Ability>()); // nothing selected
         savingThrowProficiencies.setWidth("50%");
 
         List<Skill> allSkills = Services.getSkillService().findAll();
@@ -225,14 +225,27 @@ public class MonsterForm extends DSAbstractForm<Monster> {
         // attacks.setPropertyHeader("distanceInFeet", "Distance en pieds");
         attacks.setWidth("100%");
 
-        layout.addComponents(name, description);
-        layout.addComponents(size, creatureType, tag, alignment, armorClass, hitPoints, groundSpeed, flySpeed,
-                burrowSpeed, swimSpeed, climbSpeed);
-        layout.addComponents(strength, dexterity, constitution, intelligence, wisdom, charisma, passivePerception);
-        layout.addComponents(challengeRating, damageVulnerabilities, damageResistances, damageImmunities,
-                conditionImmunities);
-        layout.addComponents(languages, savingThrowProficiencies, skills, senses, attacks);
-        layout.addComponent(getToolbar());
+        FormLayout nameForm = new FormLayout();
+        nameForm.addComponents(name, description);
+
+        MultiColumnFormLayout infoForm = new MultiColumnFormLayout(2, "Informations");
+        infoForm.addComponents(0, size, creatureType, tag, alignment);
+        infoForm.addComponents(1, armorClass, hitPoints, challengeRating, passivePerception);
+
+        MultiColumnFormLayout speedForm = new MultiColumnFormLayout(2, "Vitesse");
+        speedForm.addComponents(0, groundSpeed, flySpeed, burrowSpeed);
+        speedForm.addComponents(1, swimSpeed, climbSpeed);
+
+        MultiColumnFormLayout abilityForm = new MultiColumnFormLayout(2, "Caractéristiques");
+        abilityForm.addComponents(0, strength, dexterity, constitution);
+        abilityForm.addComponents(1, intelligence, wisdom, charisma);
+
+        FormLayout formLayout = new FormLayout();
+        formLayout.addComponents(damageVulnerabilities, damageResistances, damageImmunities, conditionImmunities);
+        formLayout.addComponents(languages, savingThrowProficiencies, skills, senses, attacks);
+        formLayout.addComponent(getToolbar());
+
+        layout.addComponents(nameForm, infoForm, abilityForm, speedForm, formLayout);
 
         return layout;
     }
