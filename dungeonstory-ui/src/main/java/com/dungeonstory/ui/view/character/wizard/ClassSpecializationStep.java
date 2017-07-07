@@ -23,7 +23,6 @@ public class ClassSpecializationStep extends CharacterWizardStep<CharacterClass>
     @Override
     public Component getContent() {
         form = new ClassSpecChoiceForm(wizard.getCharacter());
-        setSaveButton();
         form.setEntity(ClassUtil.getCharacterClass(wizard.getCharacter(), wizard.getChosenClass()));
         return form;
     }

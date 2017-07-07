@@ -30,7 +30,6 @@ public class AbilityScoreStep extends CharacterWizardStep<Character> {
         } else {
             form = new AbilityScoreInitForm();
         }
-        setSaveButton();
         form.setEntity(wizard.getCharacter());
         return form;
     }

@@ -5,7 +5,6 @@ import org.vaadin.viritin.fields.IntegerField;
 import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.ui.component.AbstractForm;
-import com.dungeonstory.ui.component.DSAbstractForm;
 import com.dungeonstory.ui.component.DSLabel;
 import com.dungeonstory.ui.i18n.Messages;
 import com.vaadin.ui.Button;
@@ -13,7 +12,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.VerticalLayout;
 
-public abstract class AbilityScoreForm extends DSAbstractForm<Character> implements AbstractForm.SavedHandler<Character> {
+public abstract class AbilityScoreForm extends CharacterWizardStepForm<Character> implements AbstractForm.SavedHandler<Character> {
 
     private static final long serialVersionUID = 1620075615699297395L;
 

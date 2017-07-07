@@ -8,6 +8,7 @@ import org.vaadin.viritin.button.PrimaryButton;
 
 import com.vaadin.data.BeanValidationBinder;
 import com.vaadin.data.Binder;
+import com.vaadin.shared.Registration;
 import com.vaadin.ui.AbstractComponentContainer;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.AbstractTextField;
@@ -66,6 +67,11 @@ public abstract class AbstractForm<T> extends CustomComponent {
     private Button resetButton;
     private Button deleteButton;
     private Button cancelButton;
+
+    private Registration saveRegistration;
+    private Registration resetRegistration;
+    private Registration deleteRegistration;
+    private Registration cancelRegistration;
 
     public AbstractForm(Class<T> entityType) {
         addAttachListener(new AttachListener() {
@@ -266,8 +272,9 @@ public abstract class AbstractForm<T> extends CustomComponent {
     }
 
     public void setSaveButton(Button button) {
+        removeSaveClickListener();
         this.saveButton = button;
-        saveButton.addClickListener(event -> save(event));
+        saveRegistration = this.saveButton.addClickListener(event -> save(event));
     }
 
     protected void save(ClickEvent e) {
@@ -290,6 +297,12 @@ public abstract class AbstractForm<T> extends CustomComponent {
     public void setSavedHandler(SavedHandler<T> savedHandler) {
         this.savedHandler = savedHandler;
         getSaveButton().setVisible(this.savedHandler != null);
+    }
+
+    public void removeSaveClickListener() {
+        if (saveRegistration != null) {
+            saveRegistration.remove();
+        }
     }
 
     /************* Reset button ****************/
@@ -315,7 +328,7 @@ public abstract class AbstractForm<T> extends CustomComponent {
 
     public void setResetButton(Button resetButton) {
         this.resetButton = resetButton;
-        this.resetButton.addClickListener(event -> reset(event));
+        resetRegistration = this.resetButton.addClickListener(event -> reset(event));
     }
 
     protected void reset(Button.ClickEvent e) {
@@ -349,6 +362,12 @@ public abstract class AbstractForm<T> extends CustomComponent {
         }
     }
 
+    public void removeResetClickListener() {
+        if (resetRegistration != null) {
+            resetRegistration.remove();
+        }
+    }
+
     /************* Delete button ****************/
 
     public String getDeleteCaption() {
@@ -365,7 +384,7 @@ public abstract class AbstractForm<T> extends CustomComponent {
 
     public void setDeleteButton(final Button deleteButton) {
         this.deleteButton = deleteButton;
-        deleteButton.addClickListener(event -> delete(event));
+        deleteRegistration = this.deleteButton.addClickListener(event -> delete(event));
     }
 
     protected void delete(Button.ClickEvent e) {
@@ -391,6 +410,12 @@ public abstract class AbstractForm<T> extends CustomComponent {
         getDeleteButton().setVisible(this.deleteHandler != null);
     }
 
+    public void removeDeleteClickListener() {
+        if (deleteRegistration != null) {
+            deleteRegistration.remove();
+        }
+    }
+
     /************* Cancel button ****************/
 
     public String getCancelCaption() {
@@ -414,7 +439,7 @@ public abstract class AbstractForm<T> extends CustomComponent {
 
     public void setCancelButton(Button cancelButton) {
         this.cancelButton = cancelButton;
-        this.cancelButton.addClickListener(event -> cancel(event));
+        cancelRegistration = this.cancelButton.addClickListener(event -> cancel(event));
     }
 
     protected void cancel(ClickEvent event) {
@@ -430,6 +455,12 @@ public abstract class AbstractForm<T> extends CustomComponent {
     public void setCancelHandler(CancelHandler<T> cancelHandler) {
         this.cancelHandler = cancelHandler;
         getCancelButton().setVisible(this.cancelHandler != null);
+    }
+
+    public void removeCancelClickListener() {
+        if (cancelRegistration != null) {
+            cancelRegistration.remove();
+        }
     }
 
     /**

@@ -12,7 +12,6 @@ import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.LanguageDataService;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.AbstractForm;
-import com.dungeonstory.ui.component.DSAbstractForm;
 import com.dungeonstory.ui.component.DSLabel;
 import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.ui.converter.CollectionToStringConverter;
@@ -26,7 +25,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
-public class BackgroundChoiceForm extends DSAbstractForm<CharacterBackground> implements AbstractForm.SavedHandler<CharacterBackground> {
+public class BackgroundChoiceForm extends CharacterWizardStepForm<CharacterBackground> implements AbstractForm.SavedHandler<CharacterBackground> {
 
     private static final long serialVersionUID = -8079455641743140814L;
 
