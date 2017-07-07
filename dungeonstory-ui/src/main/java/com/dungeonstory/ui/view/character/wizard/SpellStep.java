@@ -22,7 +22,6 @@ public class SpellStep extends CharacterWizardStep<CharacterClass> {
     @Override
     public Component getContent() {
         form = new SpellChoiceForm(wizard.getCharacter(), wizard.getChosenClass());
-        setSaveButton();
         return form;
     }
 

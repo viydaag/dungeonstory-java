@@ -21,7 +21,6 @@ public class BackgroundStep extends CharacterWizardStep<CharacterBackground> {
     @Override
     public Component getContent() {
         form = new BackgroundChoiceForm(wizard.getCharacter());
-        setSaveButton();
         form.setEntity(new CharacterBackground());
         return form;
     }

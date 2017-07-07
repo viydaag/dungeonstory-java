@@ -21,7 +21,6 @@ public class RaceStep extends CharacterWizardStep<Character> {
     @Override
     public Component getContent() {
         form = new RaceChoiceForm();
-        setSaveButton();
         form.setEntity(wizard.getCharacter());
         return form;
     }

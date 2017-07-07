@@ -14,7 +14,6 @@ import com.dungeonstory.backend.service.AlignmentDataService;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.AbstractForm;
-import com.dungeonstory.ui.component.DSAbstractForm;
 import com.dungeonstory.ui.component.DSImage;
 import com.dungeonstory.ui.component.ImageSelector;
 import com.dungeonstory.ui.factory.ImageFactory;
@@ -29,7 +28,7 @@ import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.RadioButtonGroup;
 import com.vaadin.ui.TextField;
 
-public class InformationForm extends DSAbstractForm<Character> implements AbstractForm.SavedHandler<Character> {
+public class InformationForm extends CharacterWizardStepForm<Character> implements AbstractForm.SavedHandler<Character> {
 
     private static final long serialVersionUID = -2704789930623304546L;
 

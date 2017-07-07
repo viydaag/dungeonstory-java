@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.CharacterClass;
@@ -19,7 +20,6 @@ import com.dungeonstory.backend.data.util.ClassUtil;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.AbstractForm;
-import com.dungeonstory.ui.component.DSAbstractForm;
 import com.dungeonstory.ui.component.DSLabel;
 import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.ui.converter.CollectionToStringConverter;
@@ -38,7 +38,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
-public class ClassChoiceForm extends DSAbstractForm<CharacterClass> implements AbstractForm.SavedHandler<CharacterClass> {
+public class ClassChoiceForm extends CharacterWizardStepForm<CharacterClass> implements AbstractForm.SavedHandler<CharacterClass> {
 
     private static final long serialVersionUID = 6382868944768026273L;
 
@@ -204,7 +204,8 @@ public class ClassChoiceForm extends DSAbstractForm<CharacterClass> implements A
                 DescriptiveEntityCollectionToStringListConverter<List<?>> listConverter = new DescriptiveEntityCollectionToStringListConverter<List<?>>();
                 listConverter.setListType(ListType.UNORDERED);
                 listConverter.setUnorderedBullet(UnorderedListType.CIRCLE);
-                List<ClassFeature> classFeaturesForLevel = ClassUtil.getClassFeaturesForLevel(chosenClass, classLevel);
+                List<ClassFeature> classFeaturesForLevel = ClassUtil.getClassFeaturesForLevel(chosenClass, classLevel)
+                        .filter(cf -> cf.getParent() == null).collect(Collectors.toList());
                 classFeatures.withContent(listConverter.convertToPresentation(classFeaturesForLevel, new ValueContext()));
 
             } else {
@@ -274,7 +275,8 @@ public class ClassChoiceForm extends DSAbstractForm<CharacterClass> implements A
         character.getArmorProficiencies().addAll(chosenClass.getArmorProficiencies());
         character.getWeaponProficiencies().addAll(chosenClass.getWeaponProficiencies());
 
-        character.getClassFeatures().addAll(ClassUtil.getClassFeaturesForLevel(chosenClass, chosenCharacterClass.getClassLevel()));
+        character.getClassFeatures().addAll(ClassUtil.getClassFeaturesForLevel(chosenClass, chosenCharacterClass.getClassLevel())
+                .filter(cf -> cf.getParent() == null).collect(Collectors.toList()));
         List<ClassFeature> featuresToRemove = new ArrayList<>();
         for (ClassFeature feature : character.getClassFeatures()) {
             if (feature.getReplacement() != null) {
@@ -294,7 +296,7 @@ public class ClassChoiceForm extends DSAbstractForm<CharacterClass> implements A
         if (isBound()) {
             boolean valid = getBinder().isValid();
             boolean requiredFieldsFilled = true;
-            if (classSkills.isVisible() && classSkills.getValue().size() < chosenClass.getNbChosenSkills()) {
+            if (chosenClass == null || (classSkills.isVisible() && classSkills.getValue().size() < chosenClass.getNbChosenSkills())) {
                 requiredFieldsFilled = false;
             }
             getSaveButton().setEnabled(requiredFieldsFilled && valid);
