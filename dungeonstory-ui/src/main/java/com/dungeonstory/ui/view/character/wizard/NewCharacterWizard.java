@@ -1,10 +1,13 @@
 package com.dungeonstory.ui.view.character.wizard;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.vaadin.teemu.wizards.event.WizardCompletedEvent;
 
 import com.dungeonstory.backend.data.CharacterClass;
+import com.dungeonstory.backend.data.ClassFeature;
 import com.dungeonstory.backend.data.ClassLevelBonus;
 import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.data.User;
@@ -42,11 +45,20 @@ public class NewCharacterWizard extends CharacterWizard {
         removeStepsAfterClass();
 
         CharacterClass assignedClass = ClassUtil.getCharacterClass(character, chosenClass);
+
+        //check if a class specialization is available
         Optional<ClassLevelBonus> classLevelBonusOpt = ClassUtil.getClassLevelBonus(chosenClass, assignedClass.getClassLevel());
         if (classLevelBonusOpt.isPresent()) {
             if (classLevelBonusOpt.get().getChooseClassSpecialization()) {
                 addStep(new ClassSpecializationStep(this), CLASS_SPEC);
             }
+        }
+
+        //check if some class features need a choice
+        List<ClassFeature> parentClassFeatures = ClassUtil.getClassFeaturesForLevel(chosenClass, assignedClass.getClassLevel())
+                .filter(cf -> !cf.getChildren().isEmpty()).collect(Collectors.toList());
+        if (!parentClassFeatures.isEmpty()) {
+            addStep(new ClassFeatureStep(this), CLASS_FEATURE);
         }
 
         if (chosenClass.getIsSpellCasting()) {

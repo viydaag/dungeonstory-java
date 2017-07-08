@@ -11,6 +11,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
 
+import org.eclipse.persistence.annotations.JoinFetch;
+import org.eclipse.persistence.annotations.JoinFetchType;
+
 @Entity
 @IdClass(ClassLevelBonusId.class)
 @Table(name = "ClassLevelBonus")
@@ -20,11 +23,13 @@ public class ClassLevelBonus implements Serializable {
 
     @Id
     @ManyToOne
+    @JoinFetch(JoinFetchType.INNER)
     @JoinColumn(name = "classId")
     private DSClass classe;
 
     @Id
     @ManyToOne
+    @JoinFetch(JoinFetchType.INNER)
     @JoinColumn(name = "levelId")
     private Level level;
 

@@ -22,17 +22,16 @@ public class ClassStep extends CharacterWizardStep<CharacterClass> {
     @Override
     public Component getContent() {
         form = new ClassChoiceForm(wizard.getCharacter());
-        setSaveButton();
         form.setEntity(new CharacterClass());
         return form;
     }
 
     @Override
     public boolean onAdvance() {
-
+        boolean advance = super.onAdvance();
         wizard.setChosenClass(((ClassChoiceForm) form).getChosenClass());
 
-        return super.onAdvance();
+        return advance;
     }
 
 }

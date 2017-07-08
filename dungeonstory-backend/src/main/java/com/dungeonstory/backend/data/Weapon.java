@@ -10,6 +10,9 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import org.eclipse.persistence.annotations.JoinFetch;
+import org.eclipse.persistence.annotations.JoinFetchType;
+
 @Entity
 @DiscriminatorValue("WEAPON")
 @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
@@ -18,19 +21,20 @@ public class Weapon extends Equipment {
 
     private static final long serialVersionUID = 4509403800242686338L;
 
-    @Pattern(regexp = "\\d+d\\d+([\\+\\-]\\d+)*")
+    @Pattern(regexp = "^$|(\\d+d\\d+([\\+\\-]\\d+)*)")
     @Column(name = "oneHandDamage")
     private String oneHandDamage;
     
-    @Pattern(regexp = "\\d+d\\d+([\\+\\-]\\d+)*")
+    @Pattern(regexp = "^$|(\\d+d\\d+([\\+\\-]\\d+)*)")
     @Column(name = "twoHandDamage")
     private String twoHandDamage;
 
-    @Pattern(regexp = "\\d+d\\d+([\\+\\-]\\d+)*")
+    @Pattern(regexp = "^$|(\\d+d\\d+([\\+\\-]\\d+)*)")
     @Column(name = "additionalDamage")
     private String additionalDamage;
 
     @ManyToOne
+    @JoinFetch(JoinFetchType.OUTER)
     @JoinColumn(name = "additionalDamageTypeId")
     private DamageType additionalDamageType;
 
@@ -39,6 +43,7 @@ public class Weapon extends Equipment {
 
     @NotNull
     @ManyToOne
+    @JoinFetch(JoinFetchType.INNER)
     @JoinColumn(name = "weaponTypeId")
     private WeaponType weaponType;
 

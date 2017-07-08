@@ -3,8 +3,6 @@ package com.dungeonstory.ui.view.character.wizard.form;
 import java.util.List;
 import java.util.Optional;
 
-import org.vaadin.viritin.form.AbstractForm;
-
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.CharacterClass;
 import com.dungeonstory.backend.data.ClassLevelBonus;
@@ -13,7 +11,7 @@ import com.dungeonstory.backend.data.ClassSpecialization;
 import com.dungeonstory.backend.data.Deity;
 import com.dungeonstory.backend.data.util.ClassUtil;
 import com.dungeonstory.backend.service.Services;
-import com.dungeonstory.ui.component.DSAbstractForm;
+import com.dungeonstory.ui.component.AbstractForm;
 import com.dungeonstory.ui.component.DSLabel;
 import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.ui.converter.CollectionToStringListConverter.ListType;
@@ -30,7 +28,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
-public class ClassSpecChoiceForm extends DSAbstractForm<CharacterClass> implements AbstractForm.SavedHandler<CharacterClass> {
+public class ClassSpecChoiceForm extends CharacterWizardStepForm<CharacterClass> implements AbstractForm.SavedHandler<CharacterClass> {
 
     private static final long serialVersionUID = 6382868944768026273L;
 

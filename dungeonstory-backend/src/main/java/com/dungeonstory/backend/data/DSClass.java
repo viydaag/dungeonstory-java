@@ -22,6 +22,10 @@ import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import org.eclipse.persistence.annotations.BatchFetch;
+import org.eclipse.persistence.annotations.BatchFetchType;
+import org.eclipse.persistence.annotations.JoinFetch;
+import org.eclipse.persistence.annotations.JoinFetchType;
 import org.eclipse.persistence.annotations.PrivateOwned;
 
 import com.dungeonstory.backend.data.Tool.ToolType;
@@ -71,7 +75,8 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
     private boolean isSpellCasting;
     
     @ManyToOne
-    @JoinColumn(name = "spellCasingAbilityId")
+    @JoinFetch(JoinFetchType.OUTER)
+    @JoinColumn(name = "spellCastingAbilityId")
     private Ability spellCastingAbility;
 
     @Column(name = "spellCastingType")
@@ -79,6 +84,7 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
     private SpellCastingType spellCastingType;
 
     @ManyToMany
+    @BatchFetch(value = BatchFetchType.JOIN)
     @JoinTable(name = "ClassSavingThrowProficiencies", joinColumns = {
         @JoinColumn(name = "classId", referencedColumnName = "id") }, 
             inverseJoinColumns = { @JoinColumn(name = "abilityId", referencedColumnName = "id") })
@@ -87,12 +93,14 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
     
     @ElementCollection(targetClass = ArmorType.ProficiencyType.class)
     @CollectionTable(name = "ClassArmorProficiencies", joinColumns = @JoinColumn(name = "classId", nullable = false))
+    @BatchFetch(value = BatchFetchType.JOIN)
     @Column(name = "proficiency", nullable = false)
     @Enumerated(EnumType.STRING)
     @PrivateOwned
     private Set<ArmorType.ProficiencyType> armorProficiencies;
     
     @ManyToMany
+    @BatchFetch(value = BatchFetchType.JOIN)
     @JoinTable(name = "ClassWeaponProficiencies", joinColumns = {
         @JoinColumn(name = "classId", referencedColumnName = "id") }, 
             inverseJoinColumns = { @JoinColumn(name = "weaponTypeId", referencedColumnName = "id") })
@@ -101,6 +109,7 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
     @ElementCollection(targetClass = ToolType.class)
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "ClassToolProficiencies", joinColumns = @JoinColumn(name = "classId", nullable = false))
+    @BatchFetch(value = BatchFetchType.JOIN)
     @Column(name = "toolType", nullable = false)
     @PrivateOwned
     private Set<ToolType> toolProficiencies;
@@ -110,34 +119,41 @@ public class DSClass extends AbstractTimestampEntity implements Serializable {
     private int nbChosenSkills = 0;
 
     @ManyToMany
+    @BatchFetch(value = BatchFetchType.JOIN)
     @JoinTable(name = "ClassSkill", joinColumns = {
         @JoinColumn(name = "classId", referencedColumnName = "id") }, 
             inverseJoinColumns = { @JoinColumn(name = "skillId", referencedColumnName = "id") })
     private Set<Skill> baseSkills;
 
     @OneToMany(mappedBy = "classe", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+    @BatchFetch(value = BatchFetchType.JOIN)
     @PrivateOwned   //means that a class level bonus will be deleted if not attached to a class
     private List<ClassLevelBonus> levelBonuses;
     
     @OneToMany(mappedBy = "classe", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @BatchFetch(value = BatchFetchType.JOIN)
     @PrivateOwned   //means that a class level feature will be deleted if not attached to a class
     private List<ClassLevelFeature> classFeatures;
     
     @OneToMany(mappedBy = "parentClass", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
+    @BatchFetch(value = BatchFetchType.JOIN)
     @PrivateOwned
     private Set<ClassSpecialization> classSpecs;
     
     @OneToMany(mappedBy = "classe", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+    @BatchFetch(value = BatchFetchType.JOIN)
     @PrivateOwned
     private List<ClassSpellSlots> spellSlots;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @BatchFetch(value = BatchFetchType.JOIN)
     @JoinTable(name = "ClassSpell", joinColumns = {
         @JoinColumn(name = "classId", referencedColumnName = "id") }, 
             inverseJoinColumns = { @JoinColumn(name = "spellId", referencedColumnName = "id") })
     private Set<Spell> spells;
     
     @OneToMany(mappedBy = "classe", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @BatchFetch(value = BatchFetchType.JOIN)
     @PrivateOwned
     private List<ClassEquipment> startingEquipment;
     

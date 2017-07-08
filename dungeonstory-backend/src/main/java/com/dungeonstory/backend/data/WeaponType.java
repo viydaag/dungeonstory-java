@@ -13,6 +13,9 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import org.eclipse.persistence.annotations.JoinFetch;
+import org.eclipse.persistence.annotations.JoinFetchType;
+
 @Entity
 @Table(name = "WeaponType")
 public class WeaponType extends AbstractTimestampEntity implements Serializable {
@@ -80,6 +83,7 @@ public class WeaponType extends AbstractTimestampEntity implements Serializable 
 
     @NotNull
     @ManyToOne
+    @JoinFetch(JoinFetchType.INNER)
     @JoinColumn(name = "damageTypeId", nullable = false)
     private DamageType damageType;
 

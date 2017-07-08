@@ -11,7 +11,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -20,6 +19,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
+import org.eclipse.persistence.annotations.BatchFetch;
+import org.eclipse.persistence.annotations.BatchFetchType;
+import org.eclipse.persistence.annotations.JoinFetch;
+import org.eclipse.persistence.annotations.JoinFetchType;
 
 import com.dungeonstory.backend.repository.DescriptiveEntity;
 
@@ -34,7 +38,7 @@ public class ClassFeature extends AbstractTimestampEntity implements Descriptive
     public static final String FIND_ALL_CLASS_FEATURES_WITHOUT_PARENT = "findAllClassFeaturesWithoutParent";
 
     private static final long serialVersionUID = 8584761126218855898L;
-    
+
     public enum ClassFeatureUsage {
         PASSIVE, ACTION, ACTION_BONUS, REACTION
     }
@@ -71,10 +75,12 @@ public class ClassFeature extends AbstractTimestampEntity implements Descriptive
     private ClassFeatureUsage usage;
 
     @ManyToOne(optional = true, cascade = { CascadeType.ALL })
+    @JoinFetch(JoinFetchType.OUTER)
     @JoinColumn(name = "parentId")
     private ClassFeature parent;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "parent")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "parent")
+    @BatchFetch(value = BatchFetchType.JOIN)
     private List<ClassFeature> children;
 
     @Column(name = "nbUse")
@@ -88,18 +94,22 @@ public class ClassFeature extends AbstractTimestampEntity implements Descriptive
     Integer pointCost;
 
     @OneToOne
+    @JoinFetch(JoinFetchType.OUTER)
     @JoinColumn(name = "replaceFeatId")
     private ClassFeature replacement;
 
     @ManyToOne
+    @JoinFetch(JoinFetchType.OUTER)
     @JoinColumn(name = "requiredLevelId")
     // When the ClassFeature is a child (a choice), sometimes a class level is required to choose it.
     private Level requiredLevel;
 
     @OneToMany(mappedBy = "feature", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+    @BatchFetch(value = BatchFetchType.JOIN)
     private List<ClassLevelFeature> classLevels;
 
     @OneToMany(mappedBy = "feature", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+    @BatchFetch(value = BatchFetchType.JOIN)
     private List<ClassSpecLevelFeature> classSpecLevels;
 
     public ClassFeature() {

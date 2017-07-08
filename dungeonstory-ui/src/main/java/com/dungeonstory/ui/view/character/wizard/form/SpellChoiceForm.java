@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.vaadin.viritin.fields.LabelField;
-import org.vaadin.viritin.form.AbstractForm;
 
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.CharacterClass;
@@ -20,7 +19,7 @@ import com.dungeonstory.backend.data.Spell;
 import com.dungeonstory.backend.data.util.ClassUtil;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.backend.service.SpellDataService;
-import com.dungeonstory.ui.component.DSAbstractForm;
+import com.dungeonstory.ui.component.AbstractForm;
 import com.dungeonstory.ui.component.DSLabel;
 import com.dungeonstory.ui.converter.CollectionToStringConverter;
 import com.dungeonstory.ui.i18n.Messages;
@@ -45,7 +44,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
 
-public class SpellChoiceForm extends DSAbstractForm<CharacterClass> implements AbstractForm.SavedHandler<CharacterClass> {
+public class SpellChoiceForm extends CharacterWizardStepForm<CharacterClass> implements AbstractForm.SavedHandler<CharacterClass> {
 
     private static final long serialVersionUID = 7418266123213990672L;
 
