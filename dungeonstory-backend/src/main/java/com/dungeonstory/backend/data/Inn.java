@@ -27,6 +27,12 @@ public class Inn extends AbstractTimestampEntity {
     public Inn() {
         super();
     }
+    
+    public Inn(String name, City city) {
+        this();
+        setName(name);
+        setCity(city);
+    }
 
     public String getName() {
         return name;
