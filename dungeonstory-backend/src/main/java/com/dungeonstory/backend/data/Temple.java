@@ -31,6 +31,13 @@ public class Temple extends AbstractTimestampEntity {
     public Temple() {
         super();
     }
+    
+    public Temple(String name, Deity deity, City city) {
+        super();
+        setName(name);
+        setDeity(deity);
+        setCity(city);
+    }
 
     public String getName() {
         return name;

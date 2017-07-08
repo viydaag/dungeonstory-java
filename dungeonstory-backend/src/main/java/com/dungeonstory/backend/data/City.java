@@ -32,9 +32,10 @@ public class City extends AbstractTimestampEntity {
         super();
     }
 
-    public City(String name) {
+    public City(String name, Region region) {
         this();
-        this.name = name;
+        setName(name);
+        setRegion(region);
     }
 
     public String getName() {

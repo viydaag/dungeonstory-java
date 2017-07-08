@@ -1,6 +1,9 @@
 package com.dungeonstory.backend.repository.mock;
 
+import java.util.List;
+
 import com.dungeonstory.backend.data.City;
+import com.dungeonstory.backend.mock.MockDataGenerator;
 
 public class MockCityRepository extends MockAbstractRepository<City> {
 
@@ -12,8 +15,8 @@ public class MockCityRepository extends MockAbstractRepository<City> {
 
     @Override
     public void init() {
-//        List<City> list = MockDataGenerator.createCities();
-//        list.stream().forEach(this::create);
+        List<City> list = MockDataGenerator.createCities();
+        list.stream().forEach(this::create);
     }
 
     @Override

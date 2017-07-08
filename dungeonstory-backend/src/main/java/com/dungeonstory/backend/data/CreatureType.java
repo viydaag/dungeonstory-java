@@ -21,6 +21,11 @@ public class CreatureType extends AbstractTimestampEntity {
     public CreatureType() {
         super();
     }
+    
+    public CreatureType(String name) {
+        this();
+        setName(name);
+    }
 
     public String getName() {
         return name;
