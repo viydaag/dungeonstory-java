@@ -136,6 +136,7 @@ public class InformationForm extends CharacterWizardStepForm<Character> implemen
             imageSelector.addValueChangeListener(event -> {
                 DSImage value = event.getValue();
                 this.image = value.getRelativePath();
+                adjustButtons();
             });
         }
 
@@ -148,6 +149,18 @@ public class InformationForm extends CharacterWizardStepForm<Character> implemen
         age.setValue(getEntity().getRace().getMinAge());
         weight.setValue(getEntity().getRace().getAverageWeight());
         height.setValue(getEntity().getRace().getAverageHeight());
+    }
+
+    @Override
+    protected void adjustSaveButtonState() {
+        if (isBound()) {
+            boolean valid = getBinder().isValid();
+            boolean requiredFieldsFilled = true;
+            if (image == null) {
+                requiredFieldsFilled = false;
+            }
+            getSaveButton().setEnabled(requiredFieldsFilled && valid);
+        }
     }
 
 }
