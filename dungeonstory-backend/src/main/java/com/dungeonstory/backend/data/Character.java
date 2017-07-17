@@ -13,6 +13,7 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -24,6 +25,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import org.eclipse.persistence.annotations.JoinFetch;
+import org.eclipse.persistence.annotations.JoinFetchType;
 import org.eclipse.persistence.annotations.PrivateOwned;
 
 import com.dungeonstory.backend.data.Tool.ToolType;
@@ -48,7 +51,7 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
         public String getName() {
             return this.name;
         }
-        
+
         public String getImageDir() {
             return imageDir;
         }
@@ -84,17 +87,19 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
     private String height;
 
     @NotNull
-    @OneToOne
-    @JoinColumn(name = "userId")
+    @OneToOne(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE })
+    @JoinColumn(name = "userId", referencedColumnName = "id", updatable = false)
     private User user;
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "raceId", nullable = false)
+    @JoinFetch(JoinFetchType.INNER)
+    @JoinColumn(name = "raceId", nullable = false, updatable = false)
     private Race race;
 
     @NotNull
     @ManyToOne
+    @JoinFetch(JoinFetchType.INNER)
     @JoinColumn(name = "levelId", nullable = false)
     private Level level;
 
@@ -167,16 +172,9 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
     private Set<CharacterClass> classes;
 
     @ManyToMany
-    @JoinTable(name = "CharacterFeat", joinColumns = {
-            @JoinColumn(name = "characterId", referencedColumnName = "id") }, inverseJoinColumns = {
-                    @JoinColumn(name = "featId", referencedColumnName = "id") })
+    @JoinTable(name = "CharacterFeat", joinColumns = { @JoinColumn(name = "characterId", referencedColumnName = "id") }, inverseJoinColumns = {
+            @JoinColumn(name = "featId", referencedColumnName = "id") })
     private Set<Feat> feats;
-
-    @ManyToMany
-    @JoinTable(name = "CharacterClassFeature", joinColumns = {
-            @JoinColumn(name = "characterId", referencedColumnName = "id") }, inverseJoinColumns = {
-                    @JoinColumn(name = "featureId", referencedColumnName = "id") })
-    private Set<ClassFeature> classFeatures;
 
     @ManyToMany
     @JoinTable(name = "CharacterProficientSkill", joinColumns = @JoinColumn(name = "characterId", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "skillId", referencedColumnName = "id"))
@@ -222,9 +220,8 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
     private Set<Terrain> favoredTerrains;
 
     @ManyToMany
-    @JoinTable(name = "CharacterLanguage", joinColumns = {
-            @JoinColumn(name = "characterId", referencedColumnName = "id") }, inverseJoinColumns = {
-                    @JoinColumn(name = "languageId", referencedColumnName = "id") })
+    @JoinTable(name = "CharacterLanguage", joinColumns = { @JoinColumn(name = "characterId", referencedColumnName = "id") }, inverseJoinColumns = {
+            @JoinColumn(name = "languageId", referencedColumnName = "id") })
     private Set<Language> languages;
 
     @ManyToOne
@@ -239,7 +236,6 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
         super();
         classes = new HashSet<CharacterClass>();
         feats = new HashSet<Feat>();
-        classFeatures = new HashSet<>();
         skillProficiencies = new HashSet<Skill>();
         equipment = new ArrayList<CharacterEquipment>();
         languages = new HashSet<Language>();
@@ -296,6 +292,7 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
         this.classes = classes;
     }
 
+    @Override
     public int getStrength() {
         return strength;
     }
@@ -312,6 +309,7 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
         this.level = level;
     }
 
+    @Override
     public int getDexterity() {
         return dexterity;
     }
@@ -320,6 +318,7 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
         this.dexterity = dexterity;
     }
 
+    @Override
     public int getConstitution() {
         return constitution;
     }
@@ -328,6 +327,7 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
         this.constitution = constitution;
     }
 
+    @Override
     public int getIntelligence() {
         return intelligence;
     }
@@ -336,6 +336,7 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
         this.intelligence = intelligence;
     }
 
+    @Override
     public int getWisdom() {
         return wisdom;
     }
@@ -344,6 +345,7 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
         this.wisdom = wisdom;
     }
 
+    @Override
     public int getCharisma() {
         return charisma;
     }
@@ -408,6 +410,7 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
         this.armorProficiencies = armorProficiencies;
     }
 
+    @Override
     public Set<Ability> getSavingThrowProficiencies() {
         return savingThrowProficiencies;
     }
@@ -438,14 +441,6 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
 
     public void setFeats(Set<Feat> feats) {
         this.feats = feats;
-    }
-
-    public Set<ClassFeature> getClassFeatures() {
-        return classFeatures;
-    }
-
-    public void setClassFeatures(Set<ClassFeature> classFeatures) {
-        this.classFeatures = classFeatures;
     }
 
     public String getName() {
@@ -495,9 +490,9 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
     public void setExperience(long experience) {
         this.experience = experience;
     }
-    
+
     public void giveExperience(long xp) {
-    	this.experience += xp;
+        this.experience += xp;
     }
 
     public int getLifePoints() {

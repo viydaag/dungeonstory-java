@@ -1,5 +1,6 @@
 package com.dungeonstory.backend.data.util;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -54,6 +55,12 @@ public class ClassUtil {
         List<ClassFeature> classFeatures = classSpec.getClassSpecFeatures().stream().filter(feature -> feature.getLevel().getId().intValue() == level)
                 .map(ClassSpecLevelFeature::getFeature).collect(Collectors.toList());
         return classFeatures;
+    }
+
+    public static Set<ClassFeature> getAllCharacterClassFeatures(Character character) {
+        Set<ClassFeature> allClassFeatures = new HashSet<>();
+        character.getClasses().forEach(cc -> allClassFeatures.addAll(cc.getClassFeatures()));
+        return allClassFeatures;
     }
 
 }

@@ -149,7 +149,7 @@ public class ClassSpecChoiceForm extends CharacterWizardStepForm<CharacterClass>
 
     @Override
     public void onSave(CharacterClass entity) {
-        character.getClassFeatures().addAll(ClassUtil.getClassFeaturesForLevel(entity.getClassSpecialization(), entity.getClassLevel()));
+        entity.getClassFeatures().addAll(ClassUtil.getClassFeaturesForLevel(entity.getClassSpecialization(), entity.getClassLevel()));
     }
 
     @Override

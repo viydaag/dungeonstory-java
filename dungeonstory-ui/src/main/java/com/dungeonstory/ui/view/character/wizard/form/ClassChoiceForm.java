@@ -265,7 +265,7 @@ public class ClassChoiceForm extends CharacterWizardStepForm<CharacterClass> imp
             assignedClass.setClassLevel(assignedClass.getClassLevel() + 1);
             chosenCharacterClass = assignedClass;
         } else {
-            CharacterClass classe = getEntity();
+            CharacterClass classe = entity;
             classe.setCharacter(character);
             classe.setClassLevel(1);
             character.getClasses().add(classe);
@@ -275,15 +275,15 @@ public class ClassChoiceForm extends CharacterWizardStepForm<CharacterClass> imp
         character.getArmorProficiencies().addAll(chosenClass.getArmorProficiencies());
         character.getWeaponProficiencies().addAll(chosenClass.getWeaponProficiencies());
 
-        character.getClassFeatures().addAll(ClassUtil.getClassFeaturesForLevel(chosenClass, chosenCharacterClass.getClassLevel())
+        chosenCharacterClass.getClassFeatures().addAll(ClassUtil.getClassFeaturesForLevel(chosenClass, chosenCharacterClass.getClassLevel())
                 .filter(cf -> cf.getParent() == null).collect(Collectors.toList()));
         List<ClassFeature> featuresToRemove = new ArrayList<>();
-        for (ClassFeature feature : character.getClassFeatures()) {
+        for (ClassFeature feature : chosenCharacterClass.getClassFeatures()) {
             if (feature.getReplacement() != null) {
                 featuresToRemove.add(feature.getReplacement());
             }
         }
-        character.getClassFeatures().removeAll(featuresToRemove);
+        chosenCharacterClass.getClassFeatures().removeAll(featuresToRemove);
 
         if (classSkills.getValue() != null) {
             character.getSkillProficiencies().addAll(classSkills.getValue());

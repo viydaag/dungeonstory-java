@@ -2,7 +2,9 @@ package com.dungeonstory.backend.data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,27 +27,32 @@ public class CharacterClass implements Serializable {
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "characterId")
+    @JoinColumn(name = "characterId", updatable = false)
     private Character character;
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "classId")
+    @JoinColumn(name = "classId", updatable = false)
     private DSClass classe;
-    
+
     @NotNull
     @Column(name = "classLevel")
     private int classLevel;
 
     @ManyToMany
-    @JoinTable(name = "CharacterClassKnownSpells", joinColumns = {
-            @JoinColumn(name = "characterId", referencedColumnName = "characterId"),
+    @JoinTable(name = "CharacterClassFeature", joinColumns = { @JoinColumn(name = "characterId", referencedColumnName = "characterId"),
+            @JoinColumn(name = "classId", referencedColumnName = "classId") }, inverseJoinColumns = {
+                    @JoinColumn(name = "featureId", referencedColumnName = "id") })
+    // These are the assigned character features for that class
+    private Set<ClassFeature> classFeatures;
+
+    @ManyToMany
+    @JoinTable(name = "CharacterClassKnownSpells", joinColumns = { @JoinColumn(name = "characterId", referencedColumnName = "characterId"),
             @JoinColumn(name = "classId", referencedColumnName = "classId") }, inverseJoinColumns = @JoinColumn(name = "spellId", referencedColumnName = "id"))
     private List<Spell> knownSpells;
 
     @ManyToMany
-    @JoinTable(name = "CharacterClassPreparedSpells", joinColumns = {
-            @JoinColumn(name = "characterId", referencedColumnName = "characterId"),
+    @JoinTable(name = "CharacterClassPreparedSpells", joinColumns = { @JoinColumn(name = "characterId", referencedColumnName = "characterId"),
             @JoinColumn(name = "classId", referencedColumnName = "classId") }, inverseJoinColumns = @JoinColumn(name = "spellId", referencedColumnName = "id"))
     private List<Spell> preparedSpells;
 
@@ -60,6 +67,7 @@ public class CharacterClass implements Serializable {
 
     public CharacterClass() {
         super();
+        classFeatures = new HashSet<>();
         knownSpells = new ArrayList<Spell>();
         preparedSpells = new ArrayList<Spell>();
     }
@@ -71,7 +79,7 @@ public class CharacterClass implements Serializable {
     public void setCharacter(Character character) {
         this.character = character;
     }
-    
+
     public DSClass getClasse() {
         return classe;
     }
@@ -86,6 +94,14 @@ public class CharacterClass implements Serializable {
 
     public void setClassLevel(int classLevel) {
         this.classLevel = classLevel;
+    }
+
+    public Set<ClassFeature> getClassFeatures() {
+        return classFeatures;
+    }
+
+    public void setClassFeatures(Set<ClassFeature> classFeatures) {
+        this.classFeatures = classFeatures;
     }
 
     public List<Spell> getKnownSpells() {
