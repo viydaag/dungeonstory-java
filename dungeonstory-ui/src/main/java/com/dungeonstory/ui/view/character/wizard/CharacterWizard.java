@@ -60,6 +60,17 @@ public class CharacterWizard extends Wizard implements WizardProgressListener {
     
     public void setCharacter(Character character) {
         this.character = character;
+
+        //set the new character for relationships
+        if (this.character.getBackground() != null) {
+            this.character.getBackground().setCharacter(this.character);
+        }
+        if (!this.character.getClasses().isEmpty()) {
+            this.character.getClasses().forEach(c -> c.setCharacter(this.character));
+        }
+        if (!this.character.getEquipment().isEmpty()) {
+            this.character.getEquipment().forEach(e -> e.setCharacter(this.character));
+        }
     }
 
     public Character getOriginal() {

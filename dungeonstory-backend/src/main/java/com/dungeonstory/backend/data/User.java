@@ -58,7 +58,7 @@ public class User extends AbstractTimestampEntity {
     private String name;
 
     @NotNull
-    @Pattern(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}$", message="Doit suivre le pattern \"aaaa@domaine.xxx\"")
+    @Pattern(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}$", message = "Doit suivre le pattern \"aaaa@domaine.xxx\"")
     @Column(name = "email", nullable = false)
     private String email;
 
@@ -66,9 +66,9 @@ public class User extends AbstractTimestampEntity {
     @Column(name = "status", nullable = false)
     private UserStatus status;
 
-    @OneToOne(mappedBy = "user", orphanRemoval = true, fetch=FetchType.EAGER)
+    @OneToOne(mappedBy = "user", orphanRemoval = true, fetch = FetchType.EAGER)
     private Character character;
-    
+
     @OneToOne
     @JoinColumn(name = "adventureId")
     private Adventure adventure;
@@ -151,14 +151,14 @@ public class User extends AbstractTimestampEntity {
     }
 
     public Adventure getAdventure() {
-		return adventure;
-	}
+        return adventure;
+    }
 
-	public void setAdventure(Adventure adventure) {
-		this.adventure = adventure;
-	}
+    public void setAdventure(Adventure adventure) {
+        this.adventure = adventure;
+    }
 
-	public boolean isActive() {
+    public boolean isActive() {
         return getStatus() == UserStatus.ACTIVE;
     }
 
