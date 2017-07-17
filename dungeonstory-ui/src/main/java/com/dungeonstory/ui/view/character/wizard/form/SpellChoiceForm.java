@@ -8,8 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
-import org.vaadin.viritin.fields.LabelField;
-
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.CharacterClass;
 import com.dungeonstory.backend.data.ClassSpellSlots;
@@ -22,6 +20,7 @@ import com.dungeonstory.backend.service.SpellDataService;
 import com.dungeonstory.ui.component.AbstractForm;
 import com.dungeonstory.ui.component.DSLabel;
 import com.dungeonstory.ui.converter.CollectionToStringConverter;
+import com.dungeonstory.ui.field.LabelField;
 import com.dungeonstory.ui.i18n.Messages;
 import com.vaadin.data.ValueContext;
 import com.vaadin.server.FileResource;

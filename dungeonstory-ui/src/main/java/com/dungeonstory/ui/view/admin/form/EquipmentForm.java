@@ -62,6 +62,7 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
     private WeaponTypeDataService weaponTypeService;
     private DamageTypeDataService damageTypeService;
 
+    @SuppressWarnings("unchecked")
     public EquipmentForm() {
         super((Class<T>) Equipment.class);
         armorTypeService = Services.getArmorTypeService();

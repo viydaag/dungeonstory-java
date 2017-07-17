@@ -8,6 +8,7 @@ import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.CharacterClass;
 import com.dungeonstory.backend.data.Feat;
 import com.dungeonstory.backend.data.util.ModifierUtil;
+import com.dungeonstory.ui.captionGenerator.ClassLevelCaptionGenerator;
 import com.dungeonstory.ui.component.DSLabel;
 import com.dungeonstory.ui.converter.CollectionToStringConverter;
 import com.dungeonstory.ui.i18n.Messages;
@@ -58,10 +59,9 @@ public class SummaryStep extends CharacterWizardStep<Character> {
             layout.addComponent(languagesLabel);
         }
 
-        CollectionToStringConverter classCollectionConverter = new CollectionToStringConverter();
-        classCollectionConverter.setDelimiter(" / ");
+        ClassLevelCaptionGenerator classCollectionConverter = new ClassLevelCaptionGenerator();
         DSLabel classesLabel = new DSLabel(messages.getMessage("summaryStep.class.label"),
-                classCollectionConverter.convertToPresentation(character.getClasses(), new ValueContext()));
+                classCollectionConverter.apply(character.getClasses()));
         layout.addComponent(classesLabel);
 
         int nbLifePoints = 0;

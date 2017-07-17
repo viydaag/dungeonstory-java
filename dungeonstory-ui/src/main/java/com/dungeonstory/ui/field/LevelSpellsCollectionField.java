@@ -50,6 +50,7 @@ public class LevelSpellsCollectionField<T> extends ElementCollectionField<T> {
         refreshVisibility();
     }
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     private void refreshVisibility() {
         if (isVisible()) {
             final int nbRows = getLayout().getRows();

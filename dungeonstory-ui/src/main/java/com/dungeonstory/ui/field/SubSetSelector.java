@@ -6,12 +6,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Function;
 
 import org.vaadin.viritin.button.MButton;
-import org.vaadin.viritin.form.AbstractForm;
 
+import com.dungeonstory.ui.component.AbstractForm;
 import com.dungeonstory.ui.field.event.ElementAddedEvent;
 import com.dungeonstory.ui.field.event.ElementRemovedEvent;
 import com.dungeonstory.ui.field.listener.ElementAddedListener;
