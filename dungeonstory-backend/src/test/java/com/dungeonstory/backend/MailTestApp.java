@@ -67,7 +67,7 @@ public class MailTestApp {
     }
 
     private static void sendMail(final Email email) {
-        ProxyConfig proxyconfig = new ProxyConfig("proxy-internet.pub.desjardins.com", 8080, "dzb1677", "Jesuisjc5");
+        ProxyConfig proxyconfig = new ProxyConfig("", 8080, "", "");
         new Mailer(serverConfigSMTP, TransportStrategy.SMTP_TLS, proxyconfig).sendMail(email);
         new Mailer(serverConfigTLS, TransportStrategy.SMTP_TLS, proxyconfig).sendMail(email);
         new Mailer(serverConfigSSL, TransportStrategy.SMTP_SSL).sendMail(email);
