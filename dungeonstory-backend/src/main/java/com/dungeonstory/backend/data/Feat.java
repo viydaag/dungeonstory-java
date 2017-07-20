@@ -2,7 +2,6 @@ package com.dungeonstory.backend.data;
 
 import static javax.persistence.LockModeType.READ;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -17,6 +16,9 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.eclipse.persistence.annotations.JoinFetch;
+import org.eclipse.persistence.annotations.JoinFetchType;
+
 import com.dungeonstory.backend.repository.DescriptiveEntity;
 
 @Entity
@@ -24,7 +26,7 @@ import com.dungeonstory.backend.repository.DescriptiveEntity;
 @NamedQueries({
         @NamedQuery(name = Feat.FIND_ALL_FEATS_EXCEPT, query = "SELECT e FROM Feat e WHERE e.id != :featId", lockMode = READ),
         @NamedQuery(name = Feat.FIND_ALL_UNASSIGNED_FEATS, query = "SELECT e FROM Feat e WHERE e.id NOT IN (SELECT f.id FROM Character c JOIN c.feats f WHERE c.id = :characterId)", lockMode = READ)})
-public class Feat extends AbstractTimestampEntity implements DescriptiveEntity, Serializable {
+public class Feat extends AbstractTimestampEntity implements DescriptiveEntity {
 
     public static final String FIND_ALL_UNASSIGNED_FEATS              = "findAllUnassignedFeats";
     public static final String FIND_ALL_FEATS_EXCEPT                  = "findAllFeatsExcept";
@@ -61,6 +63,7 @@ public class Feat extends AbstractTimestampEntity implements DescriptiveEntity, 
     private ArmorType.ProficiencyType prerequisiteArmorProficiency;
 
     @ManyToOne
+    @JoinFetch(JoinFetchType.OUTER)
     @JoinColumn(name = "prerequisiteAbilityId")
     private Ability prerequisiteAbility;
 

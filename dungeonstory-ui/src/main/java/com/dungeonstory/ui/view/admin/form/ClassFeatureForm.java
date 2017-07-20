@@ -6,6 +6,7 @@ import org.vaadin.viritin.fields.MTextField;
 import com.dungeonstory.backend.data.ClassFeature;
 import com.dungeonstory.backend.data.ClassFeature.ClassFeatureUsage;
 import com.dungeonstory.backend.data.ClassFeature.RestType;
+import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.backend.service.ClassFeatureDataService;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSAbstractForm;
@@ -24,8 +25,10 @@ public class ClassFeatureForm extends DSAbstractForm<ClassFeature> {
     private DSTextArea                      description;
     private EnumComboBox<ClassFeatureUsage> usage;
     private ComboBox<ClassFeature>          parent;
+    private ComboBox<Level>                 requiredLevel;
     private IntegerField                    nbUse;
     private EnumComboBox<RestType>          restType;
+    private IntegerField                    pointCost;
     private ComboBox<ClassFeature>          replacement;
 
     private ClassFeatureDataService classFeatureService = null;
@@ -44,16 +47,25 @@ public class ClassFeatureForm extends DSAbstractForm<ClassFeature> {
         usage = new EnumComboBox<>(ClassFeatureUsage.class, "Usage");
         nbUse = new IntegerField("Nombre d'utilisation avant repos");
         restType = new EnumComboBox<RestType>(RestType.class, "Type de repos requis");
-        parent = new ComboBox<>("Don parent", classFeatureService.findAllClassFeaturesWithoutParent());
+        pointCost = new IntegerField("Coût en points");
+        parent = new ComboBox<>("Don parent");
         parent.setWidth(50, Unit.PERCENTAGE);
         replacement = new ComboBox<>("Remplace le don");
         replacement.setWidth(50, Unit.PERCENTAGE);
+        requiredLevel = new ComboBox<>("Niveau requis", Services.getLevelService().findAll());
+
+        parent.addValueChangeListener(event -> {
+            requiredLevel.setVisible(event.getValue() != null);
+            if (event.getValue() == null) {
+                requiredLevel.setValue(null);
+            }
+        });
 
         layout.addComponent(name);
         layout.addComponent(description);
         layout.addComponent(usage);
-        layout.addComponents(nbUse, restType);
-        layout.addComponents(parent, replacement);
+        layout.addComponents(nbUse, restType, pointCost);
+        layout.addComponents(parent, requiredLevel, replacement);
         layout.addComponent(getToolbar());
 
         return layout;
@@ -62,8 +74,12 @@ public class ClassFeatureForm extends DSAbstractForm<ClassFeature> {
     @Override
     public void afterSetEntity() {
         super.afterSetEntity();
-        parent.setItems(classFeatureService.findAllClassFeaturesWithoutParent());
-        replacement.setItems(classFeatureService.findAllClassFeatureExcept(getEntity()));
+        if (getEntity() != null) {
+            parent.setItems(classFeatureService.findAllClassFeaturesWithoutParent());
+            parent.setValue(getEntity().getParent());
+            replacement.setItems(classFeatureService.findAllClassFeatureExcept(getEntity()));
+            replacement.setValue(getEntity().getReplacement());
+        }
     }
 
     @Override

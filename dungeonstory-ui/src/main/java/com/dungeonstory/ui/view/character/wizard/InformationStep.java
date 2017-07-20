@@ -21,7 +21,6 @@ public class InformationStep extends CharacterWizardStep<Character> {
     @Override
     public Component getContent() {
         form = new InformationForm();
-        setSaveButton();
         form.setEntity(wizard.getCharacter());
         return form;
     }

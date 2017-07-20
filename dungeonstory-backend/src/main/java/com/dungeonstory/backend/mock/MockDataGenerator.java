@@ -5,63 +5,34 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-import com.dungeonstory.backend.data.Ability;
-import com.dungeonstory.backend.data.AccessRole;
-import com.dungeonstory.backend.data.Adventure;
-import com.dungeonstory.backend.data.Adventure.AdventureStatus;
-import com.dungeonstory.backend.data.Alignment;
-import com.dungeonstory.backend.data.ArmorType;
-import com.dungeonstory.backend.data.Background;
-import com.dungeonstory.backend.data.ClassFeature;
-import com.dungeonstory.backend.data.ClassSpecialization;
-import com.dungeonstory.backend.data.CreatureType;
-import com.dungeonstory.backend.data.DSClass;
-import com.dungeonstory.backend.data.DamageType;
-import com.dungeonstory.backend.data.Deity;
-import com.dungeonstory.backend.data.DivineDomain;
-import com.dungeonstory.backend.data.Feat;
-import com.dungeonstory.backend.data.Feat.FeatUsage;
-import com.dungeonstory.backend.data.Level;
-import com.dungeonstory.backend.data.Message;
-import com.dungeonstory.backend.data.Race;
-import com.dungeonstory.backend.data.Region;
-import com.dungeonstory.backend.data.Shop;
-import com.dungeonstory.backend.data.Skill;
-import com.dungeonstory.backend.data.User;
-import com.dungeonstory.backend.data.User.UserStatus;
-import com.dungeonstory.backend.data.WeaponType;
-import com.dungeonstory.backend.data.WeaponType.HandleType;
-import com.dungeonstory.backend.data.WeaponType.ProficiencyType;
-import com.dungeonstory.backend.data.WeaponType.RangeType;
-import com.dungeonstory.backend.data.WeaponType.SizeType;
-import com.dungeonstory.backend.data.WeaponType.UsageType;
-import com.dungeonstory.backend.service.mock.MockAbilityService;
-import com.dungeonstory.backend.service.mock.MockDamageTypeService;
-import com.dungeonstory.backend.service.mock.MockLevelService;
-import com.dungeonstory.backend.service.mock.MockUserService;
+import com.dungeonstory.backend.data.*;
+import com.dungeonstory.backend.service.mock.*;
 
 public class MockDataGenerator {
 
-    private static final String storedAbilities[][] = new String[][] { { "Force", "FOR" }, { "Dextérité", "DEX" }, { "Constitution", "CON" },
-            { "Intelligence", "INT" }, { "Sagesse", "SAG" }, { "Charisme", "CHA" } };
+    private static final String storedAbilities[][] = new String[][] { { "Force", "FOR" }, { "Dextérité", "DEX" },
+            { "Constitution", "CON" }, { "Intelligence", "INT" }, { "Sagesse", "SAG" }, { "Charisme", "CHA" } };
 
-    private static final String storedAlignment[][] = new String[][] { { "Loyal Bon" }, { "Neutre Bon" }, { "Chaotique Bon" }, { "Loyal Neutre" },
-            { "Neutre strict" }, { "Chaotique Neutre" }, { "Loyal Mauvais" }, { "Neutre Mauvais" }, { "Chaotique Mauvais" } };
+    private static final String storedAlignment[][] = new String[][] { { "Loyal Bon" }, { "Neutre Bon" },
+            { "Chaotique Bon" }, { "Loyal Neutre" }, { "Neutre strict" }, { "Chaotique Neutre" }, { "Loyal Mauvais" },
+            { "Neutre Mauvais" }, { "Chaotique Mauvais" } };
 
-    private static final String storedDamageType[][] = new String[][] { { "Tranchant" }, { "Contandant" }, { "Perçant" }, { "Feu" }, { "Froid" },
-            { "Acide" }, { "Électricité" }, { "Nécrotique" }, { "Force" }, { "Magique" }, { "Radiant" }, };
+    private static final String storedDamageType[][] = new String[][] { { "Tranchant" }, { "Contandant" },
+            { "Perçant" }, { "Feu" }, { "Froid" }, { "Acide" }, { "Électricité" }, { "Nécrotique" }, { "Force" },
+            { "Magique" }, { "Radiant" }, };
 
-    private static final String storedSkills[][] = new String[][] { { "Athlétisme", "1" }, { "Acrobatie", "2" }, { "Vol à la tire", "2" },
-            { "Furtivité", "2" }, { "Arcane", "4" }, { "Histoire", "4" }, { "Investigation", "4" }, { "Nature", "4" }, { "Religion", "4" },
-            { "Manipulation des animaux", "5" }, { "Perspicacité", "5" }, { "Soin", "5" }, { "Perception", "5" }, { "Survie", "5" },
-            { "Tromperie", "6" }, { "Intimidation", "6" }, { "Performance", "6" }, { "Persuasion", "6" } };
+    private static final String storedSkills[][] = new String[][] { { "Athlétisme", "1" }, { "Acrobatie", "2" },
+            { "Vol à la tire", "2" }, { "Furtivité", "2" }, { "Arcane", "4" }, { "Histoire", "4" },
+            { "Investigation", "4" }, { "Nature", "4" }, { "Religion", "4" }, { "Manipulation des animaux", "5" },
+            { "Perspicacité", "5" }, { "Soin", "5" }, { "Perception", "5" }, { "Survie", "5" }, { "Tromperie", "6" },
+            { "Intimidation", "6" }, { "Performance", "6" }, { "Persuasion", "6" } };
 
     private static final Integer[][] storedLevels = new Integer[][] { { 1, 1000, 1 }, { 2, 2000, 2 } };
 
     private static final String[][] storedRegions = new String[][] { { "test region" }, { "another region" } };
 
-    private static final String[][] storedClass = new String[][] { { "Guerrier" }, { "Mage" }, { "Voleur" }, { "Barde" }, { "Sorcier" },
-            { "Paladin" }, { "Rodeur" }, { "Druide" }, { "Clerc" }, { "Barbare" }, };
+    private static final String[][] storedClass = new String[][] { { "Guerrier" }, { "Mage" }, { "Voleur" },
+            { "Barde" }, { "Sorcier" }, { "Paladin" }, { "Rodeur" }, { "Druide" }, { "Clerc" }, { "Barbare" }, };
 
     private static final String[][] storedUsers = new String[][] { { "admin", "admin", "admin", "ADMIN", "ACTIVE" },
             { "test", "test", "user", "PLAYER", "ACTIVE" }, { "inactive", "inactive", "user", "PLAYER", "INACTIVE" },
@@ -70,12 +41,15 @@ public class MockDataGenerator {
     private static final String[][] storedWeaponTypes = new String[][] {
             { "Dague", "SIMPLE", "LIGHT", "ONE_HANDED", "MELEE_RANGE", "THROWN", "1d4", "1" } };
 
-    private static final String[][] storedArmorTypes = new String[][] { { "Cuir", "LIGHT", "-1", "12", "false", "1", "1" } };
+    private static final String[][] storedArmorTypes = new String[][] {
+            { "Cuir", "LIGHT", "-1", "12", "false", "1", "1" } };
 
-    private static final String[][] storedRaces = new String[][] { { "Humain", "1", "1", "1", "1", "1", "1", "16", "60", "5'4\"", "150" },
+    private static final String[][] storedRaces = new String[][] {
+            { "Humain", "1", "1", "1", "1", "1", "1", "16", "60", "5'4\"", "150" },
             { "Elfe", "0", "1", "0", "1", "0", "0", "75", "800", "5'0\"", "90" } };
 
-    private static final String[][] storedFeats = new String[][] { { "feat1", "ACTION" }, { "feat2", "PASSIVE" }, { "feat3", "REACTION" } };
+    private static final String[][] storedFeats = new String[][] { { "feat1", "ACTION" }, { "feat2", "PASSIVE" },
+            { "feat3", "REACTION" } };
 
     public static List<Ability> createAbilities() {
         List<Ability> abilities = new ArrayList<Ability>();
@@ -105,7 +79,8 @@ public class MockDataGenerator {
         List<Skill> skills = new ArrayList<Skill>();
         Collection<Ability> abilities = MockAbilityService.getInstance().findAll();
         for (String[] skill : storedSkills) {
-            Optional<Ability> ability = abilities.stream().filter(a -> a.getId().equals(Long.valueOf(skill[1]))).findFirst();
+            Optional<Ability> ability = abilities.stream().filter(a -> a.getId().equals(Long.valueOf(skill[1])))
+                    .findFirst();
             if (ability.isPresent()) {
                 skills.add(new Skill(skill[0], ability.get()));
             }
@@ -132,7 +107,8 @@ public class MockDataGenerator {
     public static List<User> createUsers() {
         List<User> users = new ArrayList<User>();
         for (String[] user : storedUsers) {
-            users.add(new User(user[0], user[1], AccessRole.valueOf(user[3]), user[1], "", UserStatus.valueOf(user[4])));
+            users.add(new User(user[0], user[1], AccessRole.valueOf(user[3]), user[1], "",
+                    User.UserStatus.valueOf(user[4])));
         }
         return users;
     }
@@ -152,9 +128,10 @@ public class MockDataGenerator {
         Collection<DamageType> damageTypes = MockDamageTypeService.getInstance().findAll();
         if (!damageTypes.isEmpty()) {
             for (String[] tab : storedWeaponTypes) {
-                WeaponType type = new WeaponType(tab[0], ProficiencyType.valueOf(tab[1]), SizeType.valueOf(tab[2]), HandleType.valueOf(tab[3]),
-                        UsageType.valueOf(tab[4]), damageTypes.iterator().next());
-                type.setRangeType(RangeType.valueOf(tab[5]));
+                WeaponType type = new WeaponType(tab[0], WeaponType.ProficiencyType.valueOf(tab[1]),
+                        WeaponType.SizeType.valueOf(tab[2]), WeaponType.HandleType.valueOf(tab[3]),
+                        WeaponType.UsageType.valueOf(tab[4]), damageTypes.iterator().next());
+                type.setRangeType(WeaponType.RangeType.valueOf(tab[5]));
                 type.setOneHandBaseDamage(tab[6]);
                 type.setBaseWeight(Integer.parseInt(tab[7]));
                 types.add(type);
@@ -172,7 +149,8 @@ public class MockDataGenerator {
             boolean stealthDisavantage = Boolean.parseBoolean(tab[4]);
             int minStrength = Integer.parseInt(tab[5]);
             int weight = Integer.parseInt(tab[6]);
-            ArmorType type = new ArmorType(tab[0], "", armorProficiency, maxDexBonus, armorClass, stealthDisavantage, minStrength, weight, 10);
+            ArmorType type = new ArmorType(tab[0], "", armorProficiency, maxDexBonus, armorClass, stealthDisavantage,
+                    minStrength, weight, 10);
             types.add(type);
         }
         return types;
@@ -200,14 +178,19 @@ public class MockDataGenerator {
     public static List<Feat> createFeats() {
         List<Feat> feats = new ArrayList<Feat>();
         for (String[] tab : storedFeats) {
-            feats.add(new Feat(tab[0], "", FeatUsage.valueOf(tab[1])));
+            feats.add(new Feat(tab[0], "", Feat.FeatUsage.valueOf(tab[1])));
         }
         return feats;
     }
 
     public static List<Shop> createShops() {
-        // TODO Auto-generated method stub
-        return new ArrayList<>();
+        ArrayList<Shop> shops = new ArrayList<>();
+
+        Shop shop = new Shop();
+        shop.setName("testShop");
+
+        shops.add(shop);
+        return shops;
     }
 
     public static List<Adventure> createAdventures() {
@@ -216,7 +199,7 @@ public class MockDataGenerator {
         Adventure openedAdventure = new Adventure();
         openedAdventure.setName("Aventure ouverte");
         openedAdventure.setDescription("");
-        openedAdventure.setStatus(AdventureStatus.OPENED);
+        openedAdventure.setStatus(Adventure.AdventureStatus.OPENED);
         openedAdventure.setChallengeRating(MockLevelService.getInstance().read(1L));
         User user = MockUserService.getInstance().findByUsername("admin");
         openedAdventure.setCreator(user);
@@ -230,7 +213,7 @@ public class MockDataGenerator {
         Adventure startedAdventure = new Adventure();
         startedAdventure.setName("Aventure commencée");
         startedAdventure.setDescription("");
-        startedAdventure.setStatus(AdventureStatus.STARTED);
+        startedAdventure.setStatus(Adventure.AdventureStatus.STARTED);
         startedAdventure.setChallengeRating(MockLevelService.getInstance().read(1L));
         startedAdventure.setCreator(user);
         startedAdventure.addMessage(new Message("message 1"));
@@ -239,7 +222,7 @@ public class MockDataGenerator {
         Adventure cancelledAdventure = new Adventure();
         cancelledAdventure.setName("Aventure annulée");
         cancelledAdventure.setDescription("");
-        cancelledAdventure.setStatus(AdventureStatus.CANCELLED);
+        cancelledAdventure.setStatus(Adventure.AdventureStatus.CANCELLED);
         cancelledAdventure.setChallengeRating(MockLevelService.getInstance().read(1L));
         cancelledAdventure.setCreator(user);
         cancelledAdventure.addMessage(new Message("message 1", user));
@@ -248,7 +231,7 @@ public class MockDataGenerator {
         Adventure closedAdventure = new Adventure();
         closedAdventure.setName("Aventure fermée");
         closedAdventure.setDescription("");
-        closedAdventure.setStatus(AdventureStatus.CLOSED);
+        closedAdventure.setStatus(Adventure.AdventureStatus.CLOSED);
         closedAdventure.setChallengeRating(MockLevelService.getInstance().read(1L));
         closedAdventure.setCreator(user);
         closedAdventure.addMessage(new Message("message 1", user));
@@ -257,19 +240,26 @@ public class MockDataGenerator {
         return adventures;
     }
 
-    public static List<DivineDomain> createDivineDomains() {
-        // TODO Auto-generated method stub
-        return new ArrayList<>();
-    }
-
     public static List<Deity> createDeities() {
-        // TODO Auto-generated method stub
-        return new ArrayList<>();
+
+        ArrayList<Deity> deities = new ArrayList<>();
+
+        Deity heaume = new Deity();
+        heaume.setName("Heaume");
+        heaume.setAlignment(MockAlignmentService.getInstance().read(1L));
+
+        deities.add(heaume);
+        return deities;
     }
 
     public static List<CreatureType> createCreatureTypes() {
-        // TODO Auto-generated method stub
-        return new ArrayList<>();
+        ArrayList<CreatureType> types = new ArrayList<>();
+        CreatureType type1 = new CreatureType("Humanoïde");
+        CreatureType type2 = new CreatureType("Bête");
+
+        types.add(type1);
+        types.add(type2);
+        return types;
     }
 
     public static List<Background> createBackgrounds() {
@@ -280,13 +270,52 @@ public class MockDataGenerator {
     }
 
     public static List<ClassSpecialization> createClassSpecializations() {
-        // TODO Auto-generated method stub
-        return new ArrayList<>();
+        ArrayList<ClassSpecialization> specs = new ArrayList<>();
+        
+        ClassSpecialization spec = new ClassSpecialization();
+        spec.setName("spec1");
+        spec.setParentClass(MockClassService.getInstance().read(1L));
+        specs.add(spec);
+        
+        return specs;
     }
 
     public static List<ClassFeature> createClassFeatures() {
         // TODO Auto-generated method stub
         return new ArrayList<>();
+    }
+
+    public static List<Monster> createMonsters() {
+        return new ArrayList<>();
+    }
+
+    public static List<Inn> createInns() {
+        ArrayList<Inn> inns = new ArrayList<>();
+        
+        Inn inn = new Inn("Basamical", null);
+        inns.add(inn);
+
+        return inns;
+    }
+
+    public static List<Temple> createTemples() {
+        ArrayList<Temple> temples = new ArrayList<>();
+        
+        Temple temple1 = new Temple("Temple de Heaume", MockDeityService.getInstance().read(1L), MockCityService.getInstance().read(1L));
+        temples.add(temple1);
+        
+        return temples;
+    }
+
+    public static List<City> createCities() {
+        ArrayList<City> cities = new ArrayList<>();
+
+        City city1 = new City("EauProfonde", MockRegionService.getInstance().read(1L));
+        City city2 = new City("Nashkel", MockRegionService.getInstance().read(2L));
+        
+        cities.add(city1);
+        cities.add(city2);
+        return cities;
     }
 
 }

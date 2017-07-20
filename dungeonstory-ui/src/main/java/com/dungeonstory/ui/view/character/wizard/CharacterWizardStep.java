@@ -5,17 +5,15 @@ import java.io.Serializable;
 import org.vaadin.teemu.wizards.WizardStep;
 
 import com.dungeonstory.backend.data.Character;
-import com.dungeonstory.ui.component.DSAbstractForm;
-import com.vaadin.ui.Button;
+import com.dungeonstory.ui.view.character.wizard.form.CharacterWizardStepForm;
 
 public abstract class CharacterWizardStep<T> implements WizardStep, Serializable {
 
     private static final long serialVersionUID = 1566483351479714073L;
 
-    protected CharacterWizard   wizard;
-    protected DSAbstractForm<T> form;
-    protected Character         stepCharacter;           //character state at the start of the step
-    protected boolean           isSaveButtonSet = false; //this is to prevent setting twice the click listener on the button
+    protected CharacterWizard            wizard;
+    protected CharacterWizardStepForm<T> form;
+    protected Character                  stepCharacter;           //character state at the start of the step
 
     public CharacterWizardStep(CharacterWizard wizard) {
         this.wizard = wizard;
@@ -27,15 +25,16 @@ public abstract class CharacterWizardStep<T> implements WizardStep, Serializable
 
     @Override
     public boolean onAdvance() {
+        if (form != null) {
+            form.save();
+        }
         wizard.setCharacterFromPreviousStep(stepCharacter);
-        removeSaveButtonClickListener();
         return true;
     }
 
     @Override
     public boolean onBack() {
         wizard.setCharacter(wizard.getCharacterFromPreviousStep());
-        removeSaveButtonClickListener();
         return true;
     }
 
@@ -55,18 +54,9 @@ public abstract class CharacterWizardStep<T> implements WizardStep, Serializable
         stepCharacter = wizard.getCharacter().clone();
     }
 
-    private void removeSaveButtonClickListener() {
-        if (form != null) {
-            form.getSaveButton().getListeners(Button.ClickEvent.class)
-                    .forEach(listener -> form.getSaveButton().removeListener(Button.ClickEvent.class, listener));
-            isSaveButtonSet = false;
-        }
-    }
-
     protected void setSaveButton() {
-        if (form != null && !isSaveButtonSet) {
+        if (form != null) {
             form.setSaveButton(wizard.getNextButton());
-            isSaveButtonSet = true;
         }
     }
 

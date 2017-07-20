@@ -1,7 +1,5 @@
 package com.dungeonstory.backend.data;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -13,12 +11,30 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "MonsterSense")
-public class MonsterSense extends AbstractTimestampEntity implements Serializable {
+public class MonsterSense extends AbstractTimestampEntity {
 
     private static final long serialVersionUID = -3163306637668112844L;
 
     public enum Sense {
-        BLINDSIGHT, DARKVISION, TREMORSENSE, TRUESIGHT
+        BLINDSIGHT("Vision à l'aveugle"), 
+        DARKVISION("Vision dans le noir"), 
+        TREMORSENSE("Vibration"), 
+        TRUESIGHT("Vision véritable");
+        
+        private String name;
+        
+        private Sense(String name) {
+            this.name = name;
+        }
+        
+        public String getName() {
+            return this.name;
+        }
+        
+        @Override
+        public String toString() {
+            return getName();
+        }
     }
 
     @NotNull
@@ -29,7 +45,6 @@ public class MonsterSense extends AbstractTimestampEntity implements Serializabl
     @Column(name = "distanceInFeet")
     private Integer distanceInFeet;
 
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "monsterId", nullable = false)
     private Monster monster;
@@ -60,6 +75,11 @@ public class MonsterSense extends AbstractTimestampEntity implements Serializabl
 
     public void setMonster(Monster monster) {
         this.monster = monster;
+    }
+    
+    @Override
+    public String toString() {
+        return getSense().getName() + " " + distanceInFeet + " pi";
     }
 
 }

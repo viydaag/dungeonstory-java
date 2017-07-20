@@ -1,6 +1,5 @@
 package com.dungeonstory.backend.data;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -12,9 +11,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.eclipse.persistence.annotations.JoinFetch;
+import org.eclipse.persistence.annotations.JoinFetchType;
+
 @Entity
 @Table(name = "Skill")
-public class Skill extends AbstractTimestampEntity implements Serializable {
+public class Skill extends AbstractTimestampEntity {
 
     private static final long serialVersionUID = -2967904843715939261L;
 
@@ -29,6 +31,7 @@ public class Skill extends AbstractTimestampEntity implements Serializable {
     private String description;
 
     @ManyToOne
+    @JoinFetch(JoinFetchType.INNER)
     @JoinColumn(name = "keyAbilityId", nullable = false)
     private Ability keyAbility;
 

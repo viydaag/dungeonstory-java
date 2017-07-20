@@ -1,5 +1,6 @@
 package com.dungeonstory.backend.data;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
@@ -27,6 +28,9 @@ public class ClassSpecLevelFeature {
     @JoinColumn(name = "featureId")
     private ClassFeature feature;
     
+    @Column(name = "nbToChoose")
+    private int nbToChoose = 1;
+
     public ClassSpecLevelFeature() {
         super();
     }
@@ -53,6 +57,19 @@ public class ClassSpecLevelFeature {
 
     public void setFeature(ClassFeature feature) {
         this.feature = feature;
+    }
+
+    public int getNbToChoose() {
+        return nbToChoose;
+    }
+
+    public void setNbToChoose(int nbToChoose) {
+        this.nbToChoose = nbToChoose;
+    }
+
+    @Override
+    public String toString() {
+        return feature.getName() + " (niv. " + level.getId() + ")";
     }
         
 }

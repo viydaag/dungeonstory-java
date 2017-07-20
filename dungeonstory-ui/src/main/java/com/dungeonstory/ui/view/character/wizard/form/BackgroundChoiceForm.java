@@ -3,9 +3,6 @@ package com.dungeonstory.ui.view.character.wizard.form;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.vaadin.viritin.form.AbstractForm;
-import org.vaadin.viritin.label.MLabel;
-
 import com.dungeonstory.backend.data.Background;
 import com.dungeonstory.backend.data.Background.LanguageChoice;
 import com.dungeonstory.backend.data.Character;
@@ -14,7 +11,8 @@ import com.dungeonstory.backend.data.Language;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.LanguageDataService;
 import com.dungeonstory.backend.service.Services;
-import com.dungeonstory.ui.component.DSAbstractForm;
+import com.dungeonstory.ui.component.AbstractForm;
+import com.dungeonstory.ui.component.DSLabel;
 import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.ui.converter.CollectionToStringConverter;
 import com.dungeonstory.ui.field.SubSetSelector;
@@ -27,7 +25,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
-public class BackgroundChoiceForm extends DSAbstractForm<CharacterBackground> implements AbstractForm.SavedHandler<CharacterBackground> {
+public class BackgroundChoiceForm extends CharacterWizardStepForm<CharacterBackground> implements AbstractForm.SavedHandler<CharacterBackground> {
 
     private static final long serialVersionUID = -8079455641743140814L;
 
@@ -49,10 +47,10 @@ public class BackgroundChoiceForm extends DSAbstractForm<CharacterBackground> im
     private DSTextArea purposesSuggestion;
     private DSTextArea flawsSuggestion;
 
-    private MLabel proficienciesLabel;
-    private MLabel skillProficiencies;
-    private MLabel toolProficiencies;
-    private MLabel additionalLanguage;
+    private DSLabel proficienciesLabel;
+    private DSLabel skillProficiencies;
+    private DSLabel toolProficiencies;
+    private DSLabel additionalLanguage;
 
     public BackgroundChoiceForm(Character character) {
         super(CharacterBackground.class);
@@ -86,10 +84,10 @@ public class BackgroundChoiceForm extends DSAbstractForm<CharacterBackground> im
         flaws = new DSTextArea(messages.getMessage("backgroundStep.flaws.label")).withFullWidth().withRows(6);
 
         FormLayout backgroundProperties = new FormLayout();
-        proficienciesLabel = new MLabel().withCaption(messages.getMessage("backgroundStep.proficiencies.label")).withStyleName(ValoTheme.LABEL_H4);
-        skillProficiencies = new MLabel().withCaption(messages.getMessage("backgroundStep.proficiencies.skill.label"));
-        toolProficiencies = new MLabel().withCaption(messages.getMessage("backgroundStep.proficiencies.tool.label"));
-        additionalLanguage = new MLabel().withCaption(messages.getMessage("backgroundStep.additionalLanguages.label"));
+        proficienciesLabel = new DSLabel().withCaption(messages.getMessage("backgroundStep.proficiencies.label")).withStyleName(ValoTheme.LABEL_H4);
+        skillProficiencies = new DSLabel().withCaption(messages.getMessage("backgroundStep.proficiencies.skill.label"));
+        toolProficiencies = new DSLabel().withCaption(messages.getMessage("backgroundStep.proficiencies.tool.label"));
+        additionalLanguage = new DSLabel().withCaption(messages.getMessage("backgroundStep.additionalLanguages.label"));
         backgroundProperties.addComponents(proficienciesLabel, skillProficiencies, toolProficiencies, additionalLanguage);
 
         traitsSuggestion = new DSTextArea(messages.getMessage("backgroundStep.suggestedTraits.label")).withFullWidth().withRows(12);

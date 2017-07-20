@@ -11,6 +11,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
 
+import org.eclipse.persistence.annotations.JoinFetch;
+import org.eclipse.persistence.annotations.JoinFetchType;
+
 @Entity
 @IdClass(ClassLevelBonusId.class)
 @Table(name = "ClassLevelBonus")
@@ -20,11 +23,13 @@ public class ClassLevelBonus implements Serializable {
 
     @Id
     @ManyToOne
+    @JoinFetch(JoinFetchType.INNER)
     @JoinColumn(name = "classId")
     private DSClass classe;
 
     @Id
     @ManyToOne
+    @JoinFetch(JoinFetchType.INNER)
     @JoinColumn(name = "levelId")
     private Level level;
 
@@ -41,7 +46,7 @@ public class ClassLevelBonus implements Serializable {
     private Boolean naturalExplorer;
 
     @Column(name = "deity")
-    private Boolean deity;
+    private boolean deity;
 
     @Column(name = "kiPoints")
     private Integer kiPoints;
@@ -58,11 +63,11 @@ public class ClassLevelBonus implements Serializable {
     @Column(name = "movementBonus")
     private Integer movementBonus;
 
-    @Pattern(regexp = "\\d+d\\d+")
+    @Pattern(regexp = "^$|(\\d+d\\d+)")
     @Column(name = "martialArtsDamage")
     private String martialArtsDamage;
 
-    @Pattern(regexp = "\\d+d\\d+")
+    @Pattern(regexp = "^$|(\\d+d\\d+)")
     @Column(name = "sneakAttackDamage")
     private String sneakAttackDamage;
 
@@ -90,7 +95,7 @@ public class ClassLevelBonus implements Serializable {
         this.level = level;
     }
 
-    public boolean isHasAbilityScoreImprovement() {
+    public boolean getHasAbilityScoreImprovement() {
         return hasAbilityScoreImprovement;
     }
 
@@ -98,7 +103,7 @@ public class ClassLevelBonus implements Serializable {
         this.hasAbilityScoreImprovement = hasAbilityScoreImprovement;
     }
 
-    public boolean isChooseClassSpecialization() {
+    public boolean getChooseClassSpecialization() {
         return chooseClassSpecialization;
     }
 
@@ -122,11 +127,11 @@ public class ClassLevelBonus implements Serializable {
         this.naturalExplorer = naturalExplorer;
     }
 
-    public Boolean getDeity() {
+    public boolean getDeity() {
         return deity;
     }
 
-    public void setDeity(Boolean deity) {
+    public void setDeity(boolean deity) {
         this.deity = deity;
     }
 

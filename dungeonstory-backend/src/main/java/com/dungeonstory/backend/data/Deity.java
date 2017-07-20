@@ -1,6 +1,5 @@
 package com.dungeonstory.backend.data;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,12 +10,21 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.eclipse.persistence.annotations.BatchFetch;
+import org.eclipse.persistence.annotations.BatchFetchType;
+import org.eclipse.persistence.annotations.JoinFetch;
+import org.eclipse.persistence.annotations.JoinFetchType;
+
 @Entity
 @Table(name = "Deity")
-public class Deity extends AbstractTimestampEntity implements Serializable {
+@NamedQuery(name = Deity.FIND_ALL_BY_DOMAIN, query = "SELECT deity FROM Deity deity JOIN deity.domains domain WHERE domain.id = :domainId")
+public class Deity extends AbstractTimestampEntity {
+
+    public static final String FIND_ALL_BY_DOMAIN = "findAllByDomain";
 
     private static final long serialVersionUID = -4390870225200515952L;
 
@@ -32,14 +40,16 @@ public class Deity extends AbstractTimestampEntity implements Serializable {
 
     @NotNull
     @ManyToOne
+    @JoinFetch(JoinFetchType.INNER)
     @JoinColumn(name = "alignmentId")
     private Alignment alignment;
 
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+    @BatchFetch(value = BatchFetchType.JOIN)
     @JoinTable(name = "DeityDomain", joinColumns = {
             @JoinColumn(name = "deityId", referencedColumnName = "id") }, inverseJoinColumns = {
                     @JoinColumn(name = "domainId", referencedColumnName = "id") })
-    private Set<DivineDomain> domains;
+    private Set<ClassSpecialization> domains;
 
     @Column(name = "symbol")
     private String symbol;
@@ -83,11 +93,11 @@ public class Deity extends AbstractTimestampEntity implements Serializable {
         this.alignment = alignment;
     }
 
-    public Set<DivineDomain> getDomains() {
+    public Set<ClassSpecialization> getDomains() {
         return domains;
     }
 
-    public void setDomains(Set<DivineDomain> domains) {
+    public void setDomains(Set<ClassSpecialization> domains) {
         this.domains = domains;
     }
 

@@ -3,8 +3,9 @@ package com.dungeonstory.backend.service.impl;
 import com.dungeonstory.backend.data.Region;
 import com.dungeonstory.backend.repository.impl.RegionRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
+import com.dungeonstory.backend.service.RegionDataService;
 
-public class RegionService extends AbstractDataService<Region, Long> {
+public class RegionService extends AbstractDataService<Region, Long> implements RegionDataService {
 
     private static final long serialVersionUID = -170719357049601722L;
 

@@ -1,7 +1,5 @@
 package com.dungeonstory.backend.data;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.NamedQuery;
@@ -11,7 +9,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "Alignment")
 @NamedQuery(name = Alignment.FIND_ALL_PLAYABLE, query = "SELECT a FROM Alignment a WHERE a.playable = 1")
-public class Alignment extends AbstractTimestampEntity implements Serializable {
+public class Alignment extends AbstractTimestampEntity {
 
     private static final long serialVersionUID = -518798894253295092L;
 

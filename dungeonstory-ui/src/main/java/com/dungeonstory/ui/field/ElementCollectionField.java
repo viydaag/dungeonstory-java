@@ -8,9 +8,9 @@ import java.util.logging.Logger;
 
 import org.vaadin.viritin.button.ConfirmButton;
 import org.vaadin.viritin.button.MButton;
-import org.vaadin.viritin.form.AbstractForm;
 import org.vaadin.viritin.layouts.MGridLayout;
 
+import com.dungeonstory.ui.component.AbstractForm;
 import com.dungeonstory.ui.field.listener.ElementAddedListener;
 import com.dungeonstory.ui.field.listener.ElementRemovedListener;
 import com.vaadin.data.Binder;

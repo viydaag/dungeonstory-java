@@ -1,10 +1,14 @@
 package com.dungeonstory.ui.view.character.wizard;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.vaadin.teemu.wizards.event.WizardCompletedEvent;
 
 import com.dungeonstory.backend.data.Character;
+import com.dungeonstory.backend.data.CharacterClass;
+import com.dungeonstory.backend.data.ClassFeature;
 import com.dungeonstory.backend.data.ClassLevelBonus;
 import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.data.DSClass.SpellCastingType;
@@ -30,14 +34,29 @@ public class LevelUpCharacterWizard extends CharacterWizard {
 
         removeStepsAfterClass();
 
-        int levelUp = (int) (character.getLevel().getId() + 1);
+        CharacterClass assignedClass = ClassUtil.getCharacterClass(character, chosenClass);
+        int levelUp = assignedClass.getClassLevel();
 
         Optional<ClassLevelBonus> classLevelBonusOpt = ClassUtil.getClassLevelBonus(chosenClass, levelUp);
         if (classLevelBonusOpt.isPresent()) {
             ClassLevelBonus classLevelBonus = classLevelBonusOpt.get();
-            if (classLevelBonus.isHasAbilityScoreImprovement()) {
+
+            //check if a class specialization is available
+            if (classLevelBonus.getChooseClassSpecialization()) {
+                addStep(new ClassSpecializationStep(this), CLASS_SPEC);
+            }
+
+            //check if there is an ability score improvement
+            if (classLevelBonus.getHasAbilityScoreImprovement()) {
                 addStep(new AbilityScoreStep(this, true), ABILITY);
             }
+        }
+
+        //check if some class features need a choice
+        List<ClassFeature> parentClassFeatures = ClassUtil.getClassFeaturesForLevel(chosenClass, levelUp).filter(cf -> !cf.getChildren().isEmpty())
+                .collect(Collectors.toList());
+        if (!parentClassFeatures.isEmpty()) {
+            addStep(new ClassFeatureStep(this), CLASS_FEATURE);
         }
 
         if (chosenClass.getIsSpellCasting() && chosenClass.getSpellCastingType() == SpellCastingType.KNOWN) {

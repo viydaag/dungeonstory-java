@@ -9,17 +9,25 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.eclipse.persistence.annotations.BatchFetch;
+import org.eclipse.persistence.annotations.BatchFetchType;
+import org.eclipse.persistence.annotations.JoinFetch;
+import org.eclipse.persistence.annotations.JoinFetchType;
 import org.eclipse.persistence.annotations.PrivateOwned;
 
 @Entity
 @Table(name = "ClassSpecialization")
+@NamedQuery(name = ClassSpecialization.FIND_ALL_DIVINE_DOMAIN_SPEC, query = "SELECT cs FROM ClassSpecialization cs WHERE cs.name LIKE :name")
 public class ClassSpecialization extends AbstractTimestampEntity implements Serializable {
 
     private static final long serialVersionUID = -2465166155999242520L;
+
+    public static final String FIND_ALL_DIVINE_DOMAIN_SPEC = "findAllDivineDomainSpec";
     
     @NotNull
     @Column(name = "name", unique = true, nullable = false)
@@ -37,18 +45,22 @@ public class ClassSpecialization extends AbstractTimestampEntity implements Seri
     private boolean isSpellCasting = false;
 
     @ManyToOne
-    @JoinColumn(name = "spellCasingAbilityId")
+    @JoinFetch(JoinFetchType.OUTER)
+    @JoinColumn(name = "spellCastingAbilityId")
     private Ability spellCastingAbility;
 
     @OneToMany(mappedBy = "classSpec", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @BatchFetch(value = BatchFetchType.JOIN)
     @PrivateOwned
     private List<ClassSpecLevelFeature> classSpecFeatures;
     
     @OneToMany(mappedBy = "classSpec", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+    @BatchFetch(value = BatchFetchType.JOIN)
     @PrivateOwned
     private List<ClassSpecializationSpellSlots> spellSlots;
 
     @OneToMany(mappedBy = "classSpec", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+    @BatchFetch(value = BatchFetchType.JOIN)
     @PrivateOwned
     private List<ClassSpecLevelSpell> classSpecSpells;
 
@@ -125,6 +137,11 @@ public class ClassSpecialization extends AbstractTimestampEntity implements Seri
 
     public void setSpellCasting(boolean isSpellCasting) {
         this.isSpellCasting = isSpellCasting;
+    }
+
+    @Override
+    public String toString() {
+        return getName();
     }
 
 }

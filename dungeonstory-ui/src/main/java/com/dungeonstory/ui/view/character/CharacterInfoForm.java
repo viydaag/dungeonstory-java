@@ -4,12 +4,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import org.vaadin.viritin.fields.LabelField;
-
 import com.dungeonstory.backend.data.Alignment;
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.Character.Gender;
-import com.dungeonstory.backend.data.DSClass;
+import com.dungeonstory.backend.data.CharacterClass;
 import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.backend.data.Race;
 import com.dungeonstory.backend.data.Region;
@@ -21,6 +19,7 @@ import com.dungeonstory.ui.component.DSImage;
 import com.dungeonstory.ui.component.ImageSelector;
 import com.dungeonstory.ui.factory.ImageFactory;
 import com.dungeonstory.ui.field.ImageField;
+import com.dungeonstory.ui.field.LabelField;
 import com.dungeonstory.ui.i18n.Messages;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -42,11 +41,11 @@ public class CharacterInfoForm extends DSAbstractForm<Character> {
     private LabelField<Integer> weight;
     private LabelField<String>  height;
 
-    private LabelField<Race>    race;
-    private LabelField<Set<DSClass>> classes;
-    private LabelField<Level>   level;
-    private LabelField<Long>    experience;
-    private LabelField<Integer> lifePoints;
+    private LabelField<Race>                race;
+    private LabelField<Set<CharacterClass>> classes;
+    private LabelField<Level>               level;
+    private LabelField<Long>                experience;
+    private LabelField<Integer>             lifePoints;
 
     private LabelField<Integer> strength;
     private LabelField<Integer> dexterity;
@@ -88,7 +87,6 @@ public class CharacterInfoForm extends DSAbstractForm<Character> {
         HorizontalLayout imageLayout = new HorizontalLayout();
         image = new ImageField();
         changeImageButton = new Button("Changer");
-        //        changeImageButton.addClickListener(e -> showImageStrip());
         changeImageButton.addClickListener(e -> showImageSelector());
         saveImageButton = new Button(messages.getMessage("button.save"));
         saveImageButton.addClickListener(e -> saveImage());

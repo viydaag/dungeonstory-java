@@ -1,9 +1,9 @@
 package com.dungeonstory.backend.data;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -18,7 +18,7 @@ import org.eclipse.persistence.annotations.PrivateOwned;
 
 @Entity
 @Table(name = "Adventure")
-public class Adventure extends AbstractTimestampEntity implements Serializable {
+public class Adventure extends AbstractTimestampEntity {
 
     private static final long serialVersionUID = 2976001308437054432L;
 
@@ -43,9 +43,8 @@ public class Adventure extends AbstractTimestampEntity implements Serializable {
     @Enumerated(EnumType.STRING)
     private AdventureStatus status = AdventureStatus.OPENED;
 
-    @OneToMany(mappedBy = "adventure")
-    @PrivateOwned // means that a message will be deleted if not attached to an
-                  // adventure
+    @OneToMany(mappedBy = "adventure", cascade = CascadeType.PERSIST)
+    @PrivateOwned // means that a message will be deleted if not attached to an adventure
     private List<Message>   messages;
 
     @NotNull

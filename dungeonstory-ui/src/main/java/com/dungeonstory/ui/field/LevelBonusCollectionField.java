@@ -143,6 +143,7 @@ public class LevelBonusCollectionField extends ElementCollectionField<ClassLevel
         refreshLevelBonusVisibility(this.deity, DEITY_COLUMNS);
     }
 
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     private void refreshLevelBonusVisibility(boolean visible, int... columns) {
         final int nbRows = getLayout().getRows();
         final int nbColumns = getLayout().getColumns();

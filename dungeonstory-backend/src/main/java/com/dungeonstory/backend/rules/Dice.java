@@ -1,9 +1,11 @@
-package com.dungeonstory.backend;
+package com.dungeonstory.backend.rules;
 
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
+
+import com.dungeonstory.backend.Configuration;
 
 /**
  * Dice class.

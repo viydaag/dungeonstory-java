@@ -1,6 +1,7 @@
 package com.dungeonstory.backend.data;
 
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -20,19 +21,21 @@ import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import org.eclipse.persistence.annotations.PrivateOwned;
+
 /**
  * Entity implementation class for Entity: Monster
  *
  */
 @Entity
 @Table(name = "Monster")
-public class Monster extends AbstractTimestampEntity implements Serializable {
+public class Monster extends AbstractTimestampEntity implements HasStats {
 
     private static final long serialVersionUID = -4897720435357339184L;
 
     @NotNull
     @Column(name = "name", nullable = false, unique = true)
-	private String name;
+    private String name;
 
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
@@ -41,6 +44,11 @@ public class Monster extends AbstractTimestampEntity implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "size", nullable = false)
     private CreatureSize size;
+    
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "creatureTypeId", nullable = false)
+    private CreatureType creatureType;
 
     @Column(name = "tag")
     private String tag;
@@ -58,23 +66,23 @@ public class Monster extends AbstractTimestampEntity implements Serializable {
 
     @Min(value = 0)
     @Column(name = "groundSpeed")
-    private Integer groundSpeed;
+    private Integer groundSpeed = 0;
 
     @Min(value = 0)
     @Column(name = "burrowSpeed")
-    private Integer burrowSpeed;
+    private Integer burrowSpeed = 0;
 
     @Min(value = 0)
     @Column(name = "climbSpeed")
-    private Integer climbSpeed;
+    private Integer climbSpeed = 0;
 
     @Min(value = 0)
     @Column(name = "flySpeed")
-    private Integer flySpeed;
+    private Integer flySpeed = 0;
 
     @Min(value = 0)
     @Column(name = "swimSpeed")
-    private Integer swimSpeed;
+    private Integer swimSpeed = 0;
 
     @NotNull
     @Min(value = 1)
@@ -111,34 +119,39 @@ public class Monster extends AbstractTimestampEntity implements Serializable {
     @Column(name = "passivePerception", nullable = false)
     private int passivePerception = 0;
 
+    // @NotNull
+    // @ManyToOne
+    // @JoinColumn(name = "challengeRatingId", nullable = false)
+    // private ChallengeRating challengeRating;
+
     @NotNull
-    @ManyToOne
-    @JoinColumn(name = "challengeRatingId", nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "challengeRating", nullable = false)
     private ChallengeRating challengeRating;
 
     @ManyToMany
     @JoinTable(name = "MonsterDamageVulnerability", joinColumns = {
             @JoinColumn(name = "monsterId", referencedColumnName = "id") }, inverseJoinColumns = {
                     @JoinColumn(name = "damageTypeId", referencedColumnName = "id") })
-    private List<DamageType> damageVulnerabilities;
+    private Set<DamageType> damageVulnerabilities;
 
     @ManyToMany
     @JoinTable(name = "MonsterDamageResistance", joinColumns = {
             @JoinColumn(name = "monsterId", referencedColumnName = "id") }, inverseJoinColumns = {
                     @JoinColumn(name = "damageTypeId", referencedColumnName = "id") })
-    private List<DamageType> damageResistances;
+    private Set<DamageType> damageResistances;
 
     @ManyToMany
     @JoinTable(name = "MonsterDamageImmunity", joinColumns = {
             @JoinColumn(name = "monsterId", referencedColumnName = "id") }, inverseJoinColumns = {
                     @JoinColumn(name = "damageTypeId", referencedColumnName = "id") })
-    private List<DamageType> damageImmunities;
+    private Set<DamageType> damageImmunities;
 
     @ElementCollection(targetClass = Condition.class)
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "MonsterConditionImmunity", joinColumns = @JoinColumn(name = "monster", nullable = false))
     @Column(name = "conditionName", nullable = false)
-    private List<Condition> conditionImmunities;
+    private Set<Condition> conditionImmunities;
 
     @ManyToMany
     @JoinTable(name = "MonsterLanguage", joinColumns = {
@@ -146,20 +159,36 @@ public class Monster extends AbstractTimestampEntity implements Serializable {
                     @JoinColumn(name = "languageId", referencedColumnName = "id") })
     private Set<Language> languages;
 
-    @OneToMany(mappedBy = "monster", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
-    private List<MonsterSavingThrow> savingThrows;
+    @ManyToMany
+    @JoinTable(name = "MonsterSavingThrowProficiencies", joinColumns = {
+            @JoinColumn(name = "monsterId", referencedColumnName = "id") }, inverseJoinColumns = {
+                    @JoinColumn(name = "abilityId", referencedColumnName = "id") })
+    @PrivateOwned
+    private Set<Ability> savingThrowProficiencies;
 
     @OneToMany(mappedBy = "monster", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
     private List<MonsterSkill> skills;
+    
+    @Column(name="hasMultiAttack")
+    private boolean hasMultiAttack;
 
     @OneToMany(mappedBy = "monster", cascade = { CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE })
-    private List<MonsterAttack> attacks;
+    private List<MonsterAction> attacks;
 
     @OneToMany(mappedBy = "monster", cascade = { CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE })
     private List<MonsterSense> senses;
 
-	public Monster() {
-		super();
+    public Monster() {
+        super();
+        damageVulnerabilities = new HashSet<>();
+        damageResistances = new HashSet<>();
+        damageImmunities = new HashSet<>();
+        conditionImmunities = new HashSet<>();
+        languages = new HashSet<>();
+        savingThrowProficiencies = new HashSet<>();
+        skills = new ArrayList<>();
+        attacks = new ArrayList<>();
+        senses = new ArrayList<>();
     }
 
     public String getName() {
@@ -184,6 +213,14 @@ public class Monster extends AbstractTimestampEntity implements Serializable {
 
     public void setSize(CreatureSize size) {
         this.size = size;
+    }
+
+    public CreatureType getCreatureType() {
+        return creatureType;
+    }
+
+    public void setCreatureType(CreatureType creatureType) {
+        this.creatureType = creatureType;
     }
 
     public String getTag() {
@@ -306,60 +343,60 @@ public class Monster extends AbstractTimestampEntity implements Serializable {
         this.charisma = charisma;
     }
 
-    public ChallengeRating getChallengeRating() {
-        return challengeRating;
-    }
+    // public ChallengeRating getChallengeRating() {
+    // return challengeRating;
+    // }
+    //
+    // public void setChallengeRating(ChallengeRating challengeRating) {
+    // this.challengeRating = challengeRating;
+    // }
 
-    public void setChallengeRating(ChallengeRating challengeRating) {
-        this.challengeRating = challengeRating;
-    }
-
-    public List<DamageType> getDamageVulnerabilities() {
+    public Set<DamageType> getDamageVulnerabilities() {
         return damageVulnerabilities;
     }
 
-    public void setDamageVulnerabilities(List<DamageType> damageVulnerabilities) {
+    public void setDamageVulnerabilities(Set<DamageType> damageVulnerabilities) {
         this.damageVulnerabilities = damageVulnerabilities;
     }
 
-    public List<DamageType> getDamageResistances() {
+    public Set<DamageType> getDamageResistances() {
         return damageResistances;
     }
 
-    public void setDamageResistances(List<DamageType> damageResistances) {
+    public void setDamageResistances(Set<DamageType> damageResistances) {
         this.damageResistances = damageResistances;
     }
 
-    public List<DamageType> getDamageImmunities() {
+    public Set<DamageType> getDamageImmunities() {
         return damageImmunities;
     }
 
-    public void setDamageImmunities(List<DamageType> damageImmunities) {
+    public void setDamageImmunities(Set<DamageType> damageImmunities) {
         this.damageImmunities = damageImmunities;
     }
 
-    public List<Condition> getConditionImmunities() {
+    public Set<Condition> getConditionImmunities() {
         return conditionImmunities;
     }
 
-    public void setConditionImmunities(List<Condition> conditionImmunities) {
+    public void setConditionImmunities(Set<Condition> conditionImmunities) {
         this.conditionImmunities = conditionImmunities;
     }
 
+    public Set<Ability> getSavingThrowProficiencies() {
+        return savingThrowProficiencies;
+    }
+
+    public void setSavingThrowProficiencies(Set<Ability> savingThrowProficiencies) {
+        this.savingThrowProficiencies = savingThrowProficiencies;
+    }
+    
     public Set<Language> getLanguages() {
         return languages;
     }
 
     public void setLanguages(Set<Language> languages) {
         this.languages = languages;
-    }
-
-    public List<MonsterSavingThrow> getSavingThrows() {
-        return savingThrows;
-    }
-
-    public void setSavingThrows(List<MonsterSavingThrow> savingThrows) {
-        this.savingThrows = savingThrows;
     }
 
     public List<MonsterSkill> getSkills() {
@@ -370,11 +407,19 @@ public class Monster extends AbstractTimestampEntity implements Serializable {
         this.skills = skills;
     }
 
-    public List<MonsterAttack> getAttacks() {
+    public boolean getHasMultiAttack() {
+        return hasMultiAttack;
+    }
+
+    public void setHasMultiAttack(boolean hasMultiAttack) {
+        this.hasMultiAttack = hasMultiAttack;
+    }
+
+    public List<MonsterAction> getAttacks() {
         return attacks;
     }
 
-    public void setAttacks(List<MonsterAttack> attacks) {
+    public void setAttacks(List<MonsterAction> attacks) {
         this.attacks = attacks;
     }
 
@@ -386,6 +431,14 @@ public class Monster extends AbstractTimestampEntity implements Serializable {
         this.passivePerception = passivePerception;
     }
 
+    public ChallengeRating getChallengeRating() {
+        return challengeRating;
+    }
+
+    public void setChallengeRating(ChallengeRating challengeRating) {
+        this.challengeRating = challengeRating;
+    }
+
     public List<MonsterSense> getSenses() {
         return senses;
     }
@@ -393,5 +446,5 @@ public class Monster extends AbstractTimestampEntity implements Serializable {
     public void setSenses(List<MonsterSense> senses) {
         this.senses = senses;
     }
-   
+
 }

@@ -28,22 +28,25 @@ import com.dungeonstory.ui.view.admin.ClassView;
 import com.dungeonstory.ui.view.admin.CreatureTypeView;
 import com.dungeonstory.ui.view.admin.DamageTypeView;
 import com.dungeonstory.ui.view.admin.DeityView;
-import com.dungeonstory.ui.view.admin.DivineDomainView;
 import com.dungeonstory.ui.view.admin.EquipmentView;
 import com.dungeonstory.ui.view.admin.FeatView;
+import com.dungeonstory.ui.view.admin.InnView;
 import com.dungeonstory.ui.view.admin.LanguageView;
 import com.dungeonstory.ui.view.admin.LevelView;
+import com.dungeonstory.ui.view.admin.MonsterView;
 import com.dungeonstory.ui.view.admin.RaceView;
 import com.dungeonstory.ui.view.admin.RegionView;
 import com.dungeonstory.ui.view.admin.ShopView;
 import com.dungeonstory.ui.view.admin.SkillView;
 import com.dungeonstory.ui.view.admin.SpellView;
+import com.dungeonstory.ui.view.admin.TempleView;
 import com.dungeonstory.ui.view.admin.UserListView;
 import com.dungeonstory.ui.view.admin.WeaponTypeView;
 import com.dungeonstory.ui.view.adventure.AdventureListView;
 import com.dungeonstory.ui.view.adventure.AdventureView;
 import com.dungeonstory.ui.view.character.CharacterView;
 import com.dungeonstory.ui.view.character.NewCharacterView;
+import com.dungeonstory.ui.view.combat.PlayerVsMonsterListView;
 import com.dungeonstory.ui.view.shop.ShopListView;
 import com.dungeonstory.ui.view.user.UserView;
 import com.google.common.eventbus.Subscribe;
@@ -154,6 +157,7 @@ public class MainScreen extends HorizontalLayout {
             menuBar.addItem("Mon aventure", null, command -> navigator
                     .navigateTo(AdventureView.URI + "/" + CurrentUser.get().getAdventure().getId()));
         }
+        addViewToMenuBar(PlayerVsMonsterListView.class);
 
         if (DungeonStoryUI.get().getAccessControl().isUserInRole(AccessRole.ADMIN)) {
             addViewToNavBar(UserListView.class);
@@ -176,10 +180,12 @@ public class MainScreen extends HorizontalLayout {
             addViewToNavBar(ArmorTypeView.class);
             addViewToNavBar(ShopView.class);
             addViewToNavBar(EquipmentView.class);
-            addViewToNavBar(DivineDomainView.class);
             addViewToNavBar(DeityView.class);
             addViewToNavBar(BackgroundView.class);
             addViewToNavBar(CreatureTypeView.class);
+            addViewToNavBar(MonsterView.class);
+            addViewToNavBar(InnView.class);
+            addViewToNavBar(TempleView.class);
         }
 
         addView(AboutView.class);

@@ -1,8 +1,10 @@
 package com.dungeonstory.ui.view;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
@@ -26,6 +28,8 @@ public class CrudDataProvider<T extends Entity> extends AbstractBackEndDataProvi
     /** Property on which filter is applied */
     private String filterProperty;
 
+    private boolean sortInMemory = false;
+
 
     public CrudDataProvider(DataService<T, Long> service) {
         this(service, null);
@@ -45,14 +49,17 @@ public class CrudDataProvider<T extends Entity> extends AbstractBackEndDataProvi
         int limit = query.getLimit();
 
         List<Sort> sortOrders = new ArrayList<>();
-        query.getSortOrders().forEach(queryOrder -> {
-            Sort sort = service.createSort(
-                    // The name of the sorted property
-                    queryOrder.getSorted(),
-                    // The sort direction for this property
-                    queryOrder.getDirection() == SortDirection.DESCENDING);
-            sortOrders.add(sort);
-        });
+
+        if (!sortInMemory) {
+            query.getSortOrders().forEach(queryOrder -> {
+                Sort sort = service.createSort(
+                        // The name of the sorted property
+                        queryOrder.getSorted(),
+                        // The sort direction for this property
+                        queryOrder.getDirection() == SortDirection.DESCENDING);
+                sortOrders.add(sort);
+            });
+        }
 
         List<T> list = new ArrayList<>();
         if (StringUtils.isNoneBlank(filterProperty) && StringUtils.isNoneBlank(filterText)) {
@@ -61,7 +68,17 @@ public class CrudDataProvider<T extends Entity> extends AbstractBackEndDataProvi
             list = service.findAllPagedOrderBy(offset, limit, sortOrders);
         }
 
-        return list.stream();
+        Stream<T> stream = list.stream();
+
+        if (sortInMemory) {
+            Optional<Comparator<T>> comparing = Stream.of(query.getInMemorySorting()).filter(c -> c != null).reduce((c1, c2) -> c1.thenComparing(c2));
+
+            if (comparing.isPresent()) {
+                stream = stream.sorted(comparing.get());
+            }
+        }
+
+        return stream;
     }
 
     @Override
@@ -128,6 +145,15 @@ public class CrudDataProvider<T extends Entity> extends AbstractBackEndDataProvi
 
     public void setFilterProperty(String filterProperty) {
         this.filterProperty = filterProperty;
+    }
+
+    /**
+     * Use the in-memory sorting when fetching the data from the backend.
+     * The fetch process will not use the "order by" sql clause. It will instead use the comparator object set to the grid column.
+     * @param sortInMemory
+     */
+    public void setSortInMemory(boolean sortInMemory) {
+        this.sortInMemory = sortInMemory;
     }
 
 }

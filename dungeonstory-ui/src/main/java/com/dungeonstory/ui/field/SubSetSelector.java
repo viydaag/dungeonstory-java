@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.function.Function;
 
 import org.vaadin.viritin.button.MButton;
-import org.vaadin.viritin.form.AbstractForm;
 
+import com.dungeonstory.ui.component.AbstractForm;
 import com.dungeonstory.ui.field.event.ElementAddedEvent;
 import com.dungeonstory.ui.field.event.ElementRemovedEvent;
 import com.dungeonstory.ui.field.listener.ElementAddedListener;
@@ -55,6 +55,7 @@ public class SubSetSelector<ET, C extends Collection<ET>> extends CustomField<C>
         grid = new Grid<>();
         setHeight("300px");
         toprow = new HorizontalLayout(cb);
+        toprow.setWidth("100%");
         verticalLayout = new VerticalLayout(toprow);
         verticalLayout.addComponentsAndExpand(grid);
 
@@ -244,8 +245,8 @@ public class SubSetSelector<ET, C extends Collection<ET>> extends CustomField<C>
      * @param options the list of options from which the sub set is selected
      * @return this
      */
-    public SubSetSelector<ET, C> setItems(List<ET> options) {
-        availableOptions = options;
+    public SubSetSelector<ET, C> setItems(Collection<ET> options) {
+        availableOptions = new ArrayList<>(options);
         cb.setItems(new ArrayList<>(options));
         return this;
     }

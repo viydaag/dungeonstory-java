@@ -1,9 +1,9 @@
 package com.dungeonstory.ui.view.character.wizard.form;
 
 import org.vaadin.viritin.fields.IntegerField;
-import org.vaadin.viritin.label.MLabel;
 
 import com.dungeonstory.backend.data.Character;
+import com.dungeonstory.ui.component.DSLabel;
 import com.dungeonstory.ui.i18n.Messages;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Button;
@@ -39,9 +39,9 @@ public class AbilityScoreInitForm extends AbilityScoreForm {
         pointsToSpend.setReadOnly(true);
 
         gridLayout.removeAllComponents();
-        gridLayout.addComponent(new MLabel(messages.getMessage("abilityScoreStep.ability.label")), 0, 0);
-        gridLayout.addComponent(new MLabel(messages.getMessage("abilityScoreStep.raceModifier.label")), 1, 0);
-        gridLayout.addComponent(new MLabel(messages.getMessage("abilityScoreStep.score.label")), 2, 0);
+        gridLayout.addComponent(new DSLabel(messages.getMessage("abilityScoreStep.ability.label")), 0, 0);
+        gridLayout.addComponent(new DSLabel(messages.getMessage("abilityScoreStep.raceModifier.label")), 1, 0);
+        gridLayout.addComponent(new DSLabel(messages.getMessage("abilityScoreStep.score.label")), 2, 0);
 
         strengthModifier = new IntegerField();
         gridLayout.addComponent(strengthLabel, 0, 1);
@@ -64,7 +64,7 @@ public class AbilityScoreInitForm extends AbilityScoreForm {
         gridLayout.addComponent(intelligence, 2, 4);
 
         wisdomModifier = new IntegerField();
-        gridLayout.addComponent(wisdomLabel, 0, 5);
+        gridLayout.addComponent(wisdoDSLabel, 0, 5);
         gridLayout.addComponent(wisdomModifier, 1, 5);
         gridLayout.addComponent(wisdom, 2, 5);
 

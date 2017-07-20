@@ -8,6 +8,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import org.eclipse.persistence.annotations.JoinFetch;
+import org.eclipse.persistence.annotations.JoinFetchType;
+
 @Entity
 @DiscriminatorValue("ARMOR")
 @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
@@ -28,6 +31,7 @@ public class Armor extends Equipment {
     private Integer magicalAcBonus;
 
     @ManyToOne
+    @JoinFetch(JoinFetchType.INNER)
     @JoinColumn(name = "armorTypeId")
     private ArmorType armorType;
 

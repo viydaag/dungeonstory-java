@@ -1,6 +1,8 @@
 package com.dungeonstory.backend.repository;
 
-public interface Entity extends Cloneable {
+import java.io.Serializable;
+
+public interface Entity extends Cloneable, Serializable {
 
     public Long getId();
 

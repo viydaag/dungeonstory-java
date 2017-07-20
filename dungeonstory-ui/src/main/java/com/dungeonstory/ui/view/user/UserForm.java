@@ -2,12 +2,11 @@ package com.dungeonstory.ui.view.user;
 
 import java.time.LocalDateTime;
 
-import org.vaadin.viritin.fields.LabelField;
-import org.vaadin.viritin.form.AbstractForm;
-
 import com.dungeonstory.backend.data.AccessRole;
 import com.dungeonstory.backend.data.User;
 import com.dungeonstory.backend.data.User.UserStatus;
+import com.dungeonstory.ui.component.AbstractForm;
+import com.dungeonstory.ui.field.LabelField;
 import com.dungeonstory.ui.i18n.Messages;
 import com.dungeonstory.ui.i18n.Translatable;
 import com.vaadin.ui.Component;

@@ -10,6 +10,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.eclipse.persistence.annotations.JoinFetch;
+import org.eclipse.persistence.annotations.JoinFetchType;
+
 @Entity
 @IdClass(ClassEquipmentId.class)
 @Table(name = "ClassEquipment")
@@ -19,11 +22,13 @@ public class ClassEquipment implements Serializable {
 
     @Id
     @ManyToOne
+    @JoinFetch(JoinFetchType.INNER)
     @JoinColumn(name = "classId")
     private DSClass classe;
     
     @Id
     @ManyToOne
+    @JoinFetch(JoinFetchType.INNER)
     @JoinColumn(name = "equipmentId")
     private Equipment equipment;
     

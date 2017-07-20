@@ -1,7 +1,5 @@
 package com.dungeonstory.backend.data;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -13,9 +11,12 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import org.eclipse.persistence.annotations.JoinFetch;
+import org.eclipse.persistence.annotations.JoinFetchType;
+
 @Entity
 @Table(name = "WeaponType")
-public class WeaponType extends AbstractTimestampEntity implements Serializable {
+public class WeaponType extends AbstractTimestampEntity {
 
     private static final long serialVersionUID = -5780288141494436969L;
 
@@ -80,6 +81,7 @@ public class WeaponType extends AbstractTimestampEntity implements Serializable 
 
     @NotNull
     @ManyToOne
+    @JoinFetch(JoinFetchType.INNER)
     @JoinColumn(name = "damageTypeId", nullable = false)
     private DamageType damageType;
 

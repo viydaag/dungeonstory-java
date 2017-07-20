@@ -17,8 +17,6 @@ import com.dungeonstory.ui.event.NavigationEvent;
 import com.dungeonstory.ui.i18n.Messages;
 import com.dungeonstory.ui.view.character.CharacterView;
 import com.vaadin.server.Page;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickListener;
 
 public class CharacterWizard extends Wizard implements WizardProgressListener {
 
@@ -31,15 +29,15 @@ public class CharacterWizard extends Wizard implements WizardProgressListener {
 
     protected CharacterDataService characterService;
 
-    private ClickListener nextButtonListener;
-
-    public final static String RACE       = "raceChoice";
-    public final static String CLASS      = "classChoice";
-    public final static String ABILITY    = "abilityScores";
-    public final static String SPELL      = "spellChoice";
-    public final static String BACKGROUND = "backgroundChoice";
-    public final static String INFO       = "info";
-    public final static String SUMMARY    = "summary";
+    public final static String RACE          = "raceChoice";
+    public final static String CLASS         = "classChoice";
+    public final static String CLASS_SPEC    = "classSpecChoice";
+    public final static String ABILITY       = "abilityScores";
+    public final static String CLASS_FEATURE = "classFeatures";
+    public final static String SPELL         = "spellChoice";
+    public final static String BACKGROUND    = "backgroundChoice";
+    public final static String INFO          = "info";
+    public final static String SUMMARY       = "summary";
 
     public CharacterWizard() {
         super();
@@ -54,12 +52,6 @@ public class CharacterWizard extends Wizard implements WizardProgressListener {
         getCancelButton().setCaption(messages.getMessage("button.cancel"));
         getNextButton().setCaption(messages.getMessage("button.next"));
         getFinishButton().setCaption(messages.getMessage("button.finish"));
-
-        nextButtonListener = (ClickListener) getNextButton().getListeners(Button.ClickEvent.class).toArray()[0];
-
-        //remove the click listener from the next button. It will be added when the step is activated.
-        getNextButton().getListeners(Button.ClickEvent.class)
-                .forEach(listener -> getNextButton().removeListener(Button.ClickEvent.class, listener));
     }
 
     public Character getCharacter() {
@@ -68,6 +60,17 @@ public class CharacterWizard extends Wizard implements WizardProgressListener {
     
     public void setCharacter(Character character) {
         this.character = character;
+
+        //set the new character for relationships
+        if (this.character.getBackground() != null) {
+            this.character.getBackground().setCharacter(this.character);
+        }
+        if (!this.character.getClasses().isEmpty()) {
+            this.character.getClasses().forEach(c -> c.setCharacter(this.character));
+        }
+        if (!this.character.getEquipment().isEmpty()) {
+            this.character.getEquipment().forEach(e -> e.setCharacter(this.character));
+        }
     }
 
     public Character getOriginal() {
@@ -104,9 +107,6 @@ public class CharacterWizard extends Wizard implements WizardProgressListener {
     @Override
     public void activeStepChanged(WizardStepActivationEvent event) {
         Page.getCurrent().setTitle(event.getActivatedStep().getCaption());
-        if (!getNextButton().getListeners(Button.ClickEvent.class).contains(nextButtonListener)) {
-            getNextButton().addClickListener(nextButtonListener);
-        }
     }
 
     @Override

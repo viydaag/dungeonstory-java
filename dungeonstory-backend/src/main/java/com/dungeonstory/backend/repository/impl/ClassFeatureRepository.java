@@ -19,7 +19,6 @@ public class ClassFeatureRepository extends AbstractRepository<ClassFeature, Lon
         return ClassFeature.class;
     }
 
-
     public List<ClassFeature> findAllClassFeaturesWithoutParent() {
         EntityTransaction transaction = entityManager.getTransaction();
         List<ClassFeature> result = new ArrayList<ClassFeature>();

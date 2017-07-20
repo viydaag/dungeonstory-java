@@ -3,12 +3,12 @@ package com.dungeonstory.ui.view.character.wizard.form;
 import java.util.Arrays;
 
 import org.vaadin.viritin.fields.IntegerField;
-import org.vaadin.viritin.label.MLabel;
 
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.Feat;
 import com.dungeonstory.backend.service.FeatDataService;
 import com.dungeonstory.backend.service.Services;
+import com.dungeonstory.ui.component.DSLabel;
 import com.dungeonstory.ui.i18n.Messages;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Button;
@@ -95,7 +95,7 @@ public class AbilityScoreUpdateForm extends AbilityScoreForm {
 
         featChoice = new ComboBox<Feat>(messages.getMessage("abilityScoreStep.feat.label"));
         featChoice.setWidth(100, Unit.PERCENTAGE);
-        featDescription = new MLabel();
+        featDescription = new DSLabel();
         featLayout.addComponents(featChoice, featDescription);
 
         getLayout().addComponent(featLayout);

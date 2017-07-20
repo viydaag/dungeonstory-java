@@ -26,11 +26,14 @@ import com.dungeonstory.ui.component.DSAbstractForm;
 import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.ui.component.EnumComboBox;
 import com.dungeonstory.ui.field.SubSetSelector;
+import com.dungeonstory.ui.layout.MultiColumnFormLayout;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.VerticalLayout;
 
 public class RaceForm extends DSAbstractForm<Race> {
 
@@ -84,7 +87,8 @@ public class RaceForm extends DSAbstractForm<Race> {
 
     @Override
     protected Component createContent() {
-        FormLayout layout = new FormLayout();
+        VerticalLayout layout = new VerticalLayout();
+        layout.setMargin(new MarginInfo(true, false));
 
         name = new MTextField("Nom");
         description = new DSTextArea("Description").withFullWidth().withRows(10);
@@ -100,7 +104,7 @@ public class RaceForm extends DSAbstractForm<Race> {
 
         extraLanguage = new FormCheckBox("Langage extra");
         size = new EnumComboBox<Size>(Size.class, "Type de grandeur");
-        speed = new IntegerField("Vitesse de déplacement en 1 round (en pieds)");
+        speed = new IntegerField("Vitesse de déplacement en 1 round (en pieds)").withWidth(100, Unit.PIXELS);
         damageResistance = new ComboBox<>("Résistance au dommage", damageTypeService.findAll());
 
         strModifier = new IntegerField("Modificateur de force");
@@ -110,10 +114,10 @@ public class RaceForm extends DSAbstractForm<Race> {
         wisModifier = new IntegerField("Modificateur de sagesse");
         chaModifier = new IntegerField("Modificateur de charisme");
 
-        minAge = new IntegerField("Âge mimimum");
-        maxAge = new IntegerField("Âge maximum");
-        averageHeight = new MTextField("Taille moyenne (en pieds/pouce)");
-        averageWeight = new IntegerField("Poids moyen (en lbs)");
+        minAge = new IntegerField("Âge mimimum").withWidth(100, Unit.PIXELS);
+        maxAge = new IntegerField("Âge maximum").withWidth(100, Unit.PIXELS);
+        averageHeight = new MTextField("Taille moyenne (en pieds/pouce)").withWidth(100, Unit.PIXELS);
+        averageWeight = new IntegerField("Poids moyen (en lbs)").withWidth(100, Unit.PIXELS);
 
         savingThrowProficiencies = new SubSetSelector<>(Condition.class);
         savingThrowProficiencies.setCaption("Avantage au jet de sauvegarde contre");
@@ -148,34 +152,49 @@ public class RaceForm extends DSAbstractForm<Race> {
         image.setCaption("Image");
         image.setButtonCaption("Choisir une image");
 
-        layout.addComponent(name);
-        layout.addComponent(description);
-        layout.addComponent(traits);
-        layout.addComponent(size);
-        layout.addComponent(languages);
-        layout.addComponent(extraLanguage);
+//        layout.addComponent(name);
+//        layout.addComponent(description);
+//        layout.addComponent(traits);
+        
+        FormLayout nameForm = new FormLayout();
+        nameForm.addComponents(name, description, traits, size);
+        
+//        layout.addComponent(size);
+        
 
-        layout.addComponent(strModifier);
-        layout.addComponent(dexModifier);
-        layout.addComponent(conModifier);
-        layout.addComponent(intModifier);
-        layout.addComponent(wisModifier);
-        layout.addComponent(chaModifier);
+        MultiColumnFormLayout abilityForm = new MultiColumnFormLayout(2, "Modificateurs");
+        abilityForm.addComponents(0, strModifier, dexModifier, conModifier);
+        abilityForm.addComponents(1, intModifier, wisModifier, chaModifier);
+        
+//        layout.addComponent(strModifier);
+//        layout.addComponent(dexModifier);
+//        layout.addComponent(conModifier);
+//        layout.addComponent(intModifier);
+//        layout.addComponent(wisModifier);
+//        layout.addComponent(chaModifier);
 
-        layout.addComponent(minAge);
-        layout.addComponent(maxAge);
-        layout.addComponent(averageHeight);
-        layout.addComponent(averageWeight);
-        layout.addComponent(speed);
+        MultiColumnFormLayout infoForm = new MultiColumnFormLayout(2);
+        infoForm.addComponents(0, averageHeight, averageWeight, speed);
+        infoForm.addComponents(1, minAge, maxAge);
+//        layout.addComponent(minAge);
+//        layout.addComponent(maxAge);
+//        layout.addComponent(averageHeight);
+//        layout.addComponent(averageWeight);
+//        layout.addComponent(speed);
 
-        layout.addComponent(savingThrowProficiencies);
-        layout.addComponent(armorProficiencies);
-        layout.addComponent(weaponProficiencies);
-        layout.addComponent(skillProficiencies);
-        layout.addComponent(damageResistance);
-        layout.addComponent(image);
+        FormLayout formLayout = new FormLayout();
+        formLayout.addComponent(languages);
+        formLayout.addComponent(extraLanguage);
+        formLayout.addComponent(savingThrowProficiencies);
+        formLayout.addComponent(armorProficiencies);
+        formLayout.addComponent(weaponProficiencies);
+        formLayout.addComponent(skillProficiencies);
+        formLayout.addComponent(damageResistance);
+        formLayout.addComponent(image);
 
-        layout.addComponent(getToolbar());
+        formLayout.addComponent(getToolbar());
+        
+        layout.addComponents(nameForm, abilityForm, infoForm, formLayout);
 
         return layout;
     }

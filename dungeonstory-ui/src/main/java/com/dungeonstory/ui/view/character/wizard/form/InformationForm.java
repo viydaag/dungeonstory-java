@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.vaadin.viritin.fields.IntegerField;
 import org.vaadin.viritin.fields.MTextField;
-import org.vaadin.viritin.form.AbstractForm.SavedHandler;
 
 import com.dungeonstory.backend.data.Alignment;
 import com.dungeonstory.backend.data.Character;
@@ -14,7 +13,7 @@ import com.dungeonstory.backend.data.Region;
 import com.dungeonstory.backend.service.AlignmentDataService;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.Services;
-import com.dungeonstory.ui.component.DSAbstractForm;
+import com.dungeonstory.ui.component.AbstractForm;
 import com.dungeonstory.ui.component.DSImage;
 import com.dungeonstory.ui.component.ImageSelector;
 import com.dungeonstory.ui.factory.ImageFactory;
@@ -29,7 +28,7 @@ import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.RadioButtonGroup;
 import com.vaadin.ui.TextField;
 
-public class InformationForm extends DSAbstractForm<Character> implements SavedHandler<Character> {
+public class InformationForm extends CharacterWizardStepForm<Character> implements AbstractForm.SavedHandler<Character> {
 
     private static final long serialVersionUID = -2704789930623304546L;
 
@@ -137,6 +136,7 @@ public class InformationForm extends DSAbstractForm<Character> implements SavedH
             imageSelector.addValueChangeListener(event -> {
                 DSImage value = event.getValue();
                 this.image = value.getRelativePath();
+                adjustButtons();
             });
         }
 
@@ -149,6 +149,18 @@ public class InformationForm extends DSAbstractForm<Character> implements SavedH
         age.setValue(getEntity().getRace().getMinAge());
         weight.setValue(getEntity().getRace().getAverageWeight());
         height.setValue(getEntity().getRace().getAverageHeight());
+    }
+
+    @Override
+    protected void adjustSaveButtonState() {
+        if (isBound()) {
+            boolean valid = getBinder().isValid();
+            boolean requiredFieldsFilled = true;
+            if (image == null) {
+                requiredFieldsFilled = false;
+            }
+            getSaveButton().setEnabled(requiredFieldsFilled && valid);
+        }
     }
 
 }

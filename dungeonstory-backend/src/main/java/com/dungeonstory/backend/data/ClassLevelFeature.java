@@ -2,6 +2,7 @@ package com.dungeonstory.backend.data;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
@@ -9,27 +10,36 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.eclipse.persistence.annotations.JoinFetch;
+import org.eclipse.persistence.annotations.JoinFetchType;
+
 @Entity
 @IdClass(ClassLevelFeatureId.class)
-@Table(name = "ClassLevelBonusFeat")
+@Table(name = "ClassLevelFeature")
 public class ClassLevelFeature implements Serializable {
 
     private static final long serialVersionUID = 5198775399118036404L;
 
     @Id
     @ManyToOne
+    @JoinFetch(JoinFetchType.INNER)
     @JoinColumn(name = "classId")
     private DSClass classe;
 
     @Id
     @ManyToOne
+    @JoinFetch(JoinFetchType.INNER)
     @JoinColumn(name = "levelId")
     private Level level;
 
     @Id
     @ManyToOne
+    @JoinFetch(JoinFetchType.INNER)
     @JoinColumn(name = "featureId")
     private ClassFeature feature;
+
+    @Column(name = "nbToChoose")
+    private int nbToChoose = 1;
 
     public ClassLevelFeature() {
         super();
@@ -40,6 +50,7 @@ public class ClassLevelFeature implements Serializable {
         this.classe = classe;
         this.level = level;
         this.feature = feature;
+        this.nbToChoose = 1;
     }
 
     public DSClass getClasse() {
@@ -64,6 +75,14 @@ public class ClassLevelFeature implements Serializable {
 
     public void setFeature(ClassFeature feature) {
         this.feature = feature;
+    }
+
+    public int getNbToChoose() {
+        return nbToChoose;
+    }
+
+    public void setNbToChoose(int nbToChoose) {
+        this.nbToChoose = nbToChoose;
     }
 
 }

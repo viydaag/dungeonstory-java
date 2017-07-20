@@ -19,6 +19,7 @@ import com.dungeonstory.backend.data.ClassEquipment;
 import com.dungeonstory.backend.data.ClassFeature;
 import com.dungeonstory.backend.data.ClassLevelBonus;
 import com.dungeonstory.backend.data.ClassLevelFeature;
+import com.dungeonstory.backend.data.ClassSpecialization;
 import com.dungeonstory.backend.data.ClassSpellSlots;
 import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.data.DSClass.SpellCastingType;
@@ -31,6 +32,7 @@ import com.dungeonstory.backend.data.WeaponType;
 import com.dungeonstory.backend.data.WeaponType.ProficiencyType;
 import com.dungeonstory.backend.service.AbilityDataService;
 import com.dungeonstory.backend.service.ClassFeatureDataService;
+import com.dungeonstory.backend.service.ClassSpecializationDataService;
 import com.dungeonstory.backend.service.EquipmentDataService;
 import com.dungeonstory.backend.service.LevelDataService;
 import com.dungeonstory.backend.service.Services;
@@ -78,6 +80,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     private SubSetSelector<Skill, Set<Skill>>                                         baseSkills;
     private LevelBonusCollectionField                                                 levelBonuses;
     private ElementCollectionGrid<ClassLevelFeature>                                  classFeatures;
+    private SubSetSelector<ClassSpecialization, Set<ClassSpecialization>>             classSpecs;
     private SubSetSelector<Spell, Set<Spell>>                                         spells;
     private ElementCollectionGrid<ClassEquipment>                                     startingEquipment;
 
@@ -94,19 +97,21 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     private CheckBox           deity;
     private List<Registration> checkBoxListeners;
 
-    private SkillDataService        skillService        = null;
-    private LevelDataService        levelService        = null;
-    private ClassFeatureDataService classFeatureService = null;
-    private WeaponTypeDataService   weaponTypeService   = null;
-    private AbilityDataService      abilityService      = null;
-    private SpellDataService        spellService        = null;
-    private EquipmentDataService    equipmentService    = null;
+    private SkillDataService               skillService        = null;
+    private LevelDataService               levelService        = null;
+    private ClassFeatureDataService        classFeatureService = null;
+    private ClassSpecializationDataService classSpecService    = null;
+    private WeaponTypeDataService          weaponTypeService   = null;
+    private AbilityDataService             abilityService      = null;
+    private SpellDataService               spellService        = null;
+    private EquipmentDataService           equipmentService    = null;
 
     private boolean init = false;
 
     public static class ClassLevelFeatureRow {
-        ComboBox<Level>        level   = new ComboBox<>();
-        ComboBox<ClassFeature> feature = new ComboBox<>();
+        ComboBox<Level>        level      = new ComboBox<>();
+        ComboBox<ClassFeature> feature    = new ComboBox<>();
+        IntegerField           nbToChoose = new IntegerField();
     }
 
     public static class ClassEquipmentRow {
@@ -120,6 +125,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         skillService = Services.getSkillService();
         levelService = Services.getLevelService();
         classFeatureService = Services.getClassFeatureService();
+        classSpecService = Services.getClassSpecializationService();
         weaponTypeService = Services.getWeaponTypeService();
         abilityService = Services.getAbilityService();
         spellService = Services.getSpellService();
@@ -142,7 +148,8 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         startingGold = new IntegerField("Pièces d'or de départ");
         isSpellCasting = new FormCheckBox("Capacité à lancer des sorts");
         spellCastingAbility = new ComboBox<Ability>("Caractéristique de sort");
-        spellCastingAbility.setItems(abilityService.findAll());
+        List<Ability> allAbilities = abilityService.findAll();
+        spellCastingAbility.setItems(allAbilities);
         spellCastingType = new RadioButtonGroup<SpellCastingType>("Sorts innés ou préparés");
         spellCastingType.setItems(EnumSet.allOf(SpellCastingType.class));
 
@@ -153,7 +160,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         savingThrowProficiencies.setCaption("Maitrise applicable au jets de sauvegarde");
         savingThrowProficiencies.getGrid().addColumn(Ability::getName).setCaption("Caractéristique").setId("name");
         savingThrowProficiencies.getGrid().setColumnOrder("name");
-        savingThrowProficiencies.setItems(abilityService.findAll());
+        savingThrowProficiencies.setItems(allAbilities);
         savingThrowProficiencies.setValue(new HashSet<Ability>()); // nothing selected
         savingThrowProficiencies.setWidth("50%");
 
@@ -235,7 +242,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
                     return row;
                 });
 
-        List<ClassFeature> allClassFeatures = classFeatureService.findAll();
+        List<ClassFeature> allClassFeatures = classFeatureService.findAllClassFeaturesWithoutChildren();
         classFeatures = new ElementCollectionGrid<ClassLevelFeature>(ClassLevelFeature.class, ClassLevelFeatureRow.class)
                 .withCaption("Dons de classe").withEditorInstantiator(() -> {
                     ClassLevelFeatureRow row = new ClassLevelFeatureRow();
@@ -243,10 +250,19 @@ public class ClassForm extends DSAbstractForm<DSClass> {
                     row.feature.setItems(allClassFeatures);
                     row.feature.setPageLength(20);
                     row.feature.setWidth(100, Unit.PERCENTAGE);
+                    row.feature.addSelectionListener(selection -> {
+                        if (selection.getValue() == null || selection.getValue().getChildren().isEmpty()) {
+                            row.nbToChoose.setVisible(false);
+                            row.nbToChoose.setValue(1);
+                        } else {
+                            row.nbToChoose.setVisible(true);
+                        }
+                    });
                     return row;
                 });
         classFeatures.setPropertyHeader("level", "Niveau");
         classFeatures.setPropertyHeader("feature", "Don");
+        classFeatures.setPropertyHeader("nbToChoose", "Nb à choisir");
         classFeatures.setWidth("80%");
 
         spells = new SubSetSelector<>(Spell.class);
@@ -257,7 +273,15 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         spells.getGrid().setColumnOrder("name", "level", "school");
         spells.setItems(spellService.findAll());
         spells.setWidth("80%");
-        spells.setValue(null); // nothing selected
+        spells.setValue(new HashSet<>()); // nothing selected
+
+        classSpecs = new SubSetSelector<>(ClassSpecialization.class);
+        classSpecs.setCaption("Spécialisations de classe");
+        classSpecs.getGrid().addColumn(ClassSpecialization::getName).setCaption("Compétence").setId("name");
+        classSpecs.getGrid().setColumnOrder("name");
+        classSpecs.setItems(classSpecService.findAll());
+        classSpecs.setWidth("80%");
+        classSpecs.setValue(new HashSet<>()); // nothing selected
 
         List<Equipment> allEquipment = equipmentService.findAll();
         startingEquipment = new ElementCollectionGrid<>(ClassEquipment.class, ClassEquipmentRow.class).withCaption("Équipement de base")
@@ -283,6 +307,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         layout.addComponents(levelBonuses, checkboxLayout);
         layout.addComponents(isSpellCasting, spellCastingAbility, spellCastingType, spellSlots);
         layout.addComponent(classFeatures);
+        layout.addComponent(classSpecs);
         layout.addComponent(spells);
         layout.addComponent(startingEquipment);
         layout.addComponent(getToolbar());
@@ -384,7 +409,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
                 if (levelBonus.getSneakAttackDamage() != null) {
                     sneak.setValue(true);
                 }
-                if (levelBonus.getDeity() != null) {
+                if (levelBonus.getDeity()) {
                     deity.setValue(true);
                 }
             }

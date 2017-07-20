@@ -1,6 +1,8 @@
 package com.dungeonstory.ui.view.character;
 
 import com.dungeonstory.backend.data.Character;
+import com.dungeonstory.backend.data.User;
+import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.authentication.CurrentUser;
 import com.dungeonstory.ui.util.ViewConfig;
 import com.dungeonstory.ui.util.ViewConfig.CreateMode;
@@ -26,7 +28,9 @@ public class CharacterView extends VerticalLayout implements View {
     public void enter(ViewChangeEvent event) {
 
         CharacterInfoForm infoForm = new CharacterInfoForm();
-        Character character = CurrentUser.get().getCharacter();
+        User user = Services.getUserService().read(CurrentUser.get().getId());
+        Services.getUserService().refresh(user);
+        Character character = user.getCharacter();
         infoForm.setEntity(character);
         tabsheet.addTab(infoForm, "Informations");
 
