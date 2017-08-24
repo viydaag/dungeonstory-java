@@ -35,7 +35,7 @@ public class LoginScreen extends CssLayout implements Translatable {
 
     private TextField      username;
     private PasswordField  password;
-    private Button         login;
+    private Button         loginButton;
     private Button         forgotPassword;
     private LoginListener  loginListener;
     private AccessControl  accessControl;
@@ -91,35 +91,43 @@ public class LoginScreen extends CssLayout implements Translatable {
 
         username = new TextField();
         username.setValue("admin");
-        loginForm.addComponent(username);
+        username.setId("username");
         username.setWidth(15, Unit.EM);
-        loginForm.addComponent(password = new PasswordField());
+        loginForm.addComponent(username);
+
+        password = new PasswordField();
+        password.setId("password");
         password.setWidth(15, Unit.EM);
+        loginForm.addComponent(password);
+
         CssLayout buttons = new CssLayout();
         buttons.setStyleName(DSTheme.LOGIN_BUTTON_LAYOUT);
         loginForm.addComponent(buttons);
 
-        login = new Button();
-        login.setDisableOnClick(true);
-        login.addClickListener(e -> {
+        loginButton = new Button();
+        loginButton.setId("login");
+        loginButton.setDisableOnClick(true);
+        loginButton.addClickListener(e -> {
             try {
                 login();
             } finally {
-                login.setEnabled(true);
+                loginButton.setEnabled(true);
             }
         });
-        buttons.addComponent(login);
+        buttons.addComponent(loginButton);
 
-        login.setClickShortcut(ShortcutAction.KeyCode.ENTER);
-        login.addStyleName(ValoTheme.BUTTON_FRIENDLY);
+        loginButton.setClickShortcut(ShortcutAction.KeyCode.ENTER);
+        loginButton.addStyleName(ValoTheme.BUTTON_FRIENDLY);
 
         forgotPassword = new Button();
+        forgotPassword.setId("forgotPassword");
         forgotPassword.addStyleName(ValoTheme.BUTTON_LINK);
         //        forgotPassword.addClickListener(e -> showNotification(new Notification("Hint: Try anything")));
 
         buttons.addComponent(forgotPassword);
 
         newUserButton = new Button();
+        newUserButton.setId("newUser");
         newUserButton.addClickListener(e -> {
             centeringLayout.removeAllComponents();
             centeringLayout.addComponent(newUserForm);
@@ -223,7 +231,7 @@ public class LoginScreen extends CssLayout implements Translatable {
         username.setCaption(messages.getMessage("loginForm.textfield.user"));
         password.setCaption(messages.getMessage("loginForm.textfield.password"));
         password.setDescription(messages.getMessage("loginForm.textfield.password"));
-        login.setCaption(messages.getMessage("loginForm.button.login"));
+        loginButton.setCaption(messages.getMessage("loginForm.button.login"));
         forgotPassword.setCaption(messages.getMessage("loginForm.button.forgotpassword"));
         newUserButton.setCaption(messages.getMessage("loginScreen.button.newUser"));
         newUserFormSave.setCaption(messages.getMessage("button.send"));
