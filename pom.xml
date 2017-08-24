@@ -18,6 +18,7 @@
 		<jetty.plugin.version>9.3.9.v20160517</jetty.plugin.version>
 		<eclipselink.version>2.6.4</eclipselink.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<!-- If addon submodule is not used, this can also be "fetch" or "cdn" -->

@@ -55,18 +55,6 @@
            <artifactId>easyuploads</artifactId>
            <version>8.0.0</version>
         </dependency>
-        
-<!--         <dependency> -->
-<!--            <groupId>org.vaadin.addons</groupId> -->
-<!--            <artifactId>dtabs-add-on</artifactId> -->
-<!--            <version>0.6.0</version> -->
-<!--         </dependency> -->
-        
-<!--         <dependency> -->
-<!-- 		   <groupId>org.vaadin.addons</groupId> -->
-<!-- 		   <artifactId>dmenu-widget</artifactId> -->
-<!-- 		   <version>1.12.0</version> -->
-<!-- 		</dependency> -->
 
         <!-- Project dependencies -->
         <dependency>
@@ -93,7 +81,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>19.0</version>
+            <version>20.0</version>
         </dependency>
         
         <dependency>
@@ -106,13 +94,44 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.11</version>
+            <version>4.12</version>
             <scope>test</scope>
         </dependency>
+        
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-testbench</artifactId>
+            <version>5.0-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/vaadin-testbench-5.0-SNAPSHOT.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-testbench-standalone</artifactId>
+            <version>5.0-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/vaadin-testbench-standalone-5.0-SNAPSHOT.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-testbench-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
+			<groupId>com.machinepublishers</groupId>
+			<artifactId>jbrowserdriver</artifactId>
+			<version>0.17.9</version>
+			<scope>test</scope>
+		</dependency>
+        
     </dependencies>
 
     <build>
         <plugins>
+        
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
@@ -121,6 +140,7 @@
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
+            
             <!-- The Jetty plugin allows us to easily test the development 
                 build by running jetty:run on the command line. -->
             <plugin>
@@ -130,7 +150,32 @@
                 <configuration>
                     <scanIntervalSeconds>2</scanIntervalSeconds>
                 </configuration>
+                <executions>
+                    <!-- start and stop jetty (running our app) when running integration tests -->
+                    <execution>
+                        <id>start-jetty</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                        <configuration>
+                            <scanIntervalSeconds>0</scanIntervalSeconds>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>stop-jetty</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                        <configuration>
+                            <stopKey>STOP</stopKey>
+                            <stopPort>${jetty.stop.port}</stopPort>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
+            
             <plugin>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-maven-plugin</artifactId>
@@ -156,7 +201,57 @@
                     </execution>
                 </executions>
             </plugin>
+            
+			<!-- By default, the Failsafe Plugin will automatically include all test classes with the following wildcard patterns: -->
+			<!-- "**/IT*.java" - includes all of its subdirectories and all Java filenames that start with "IT". -->
+			<!-- "**/*IT.java" - includes all of its subdirectories and all Java filenames that end with "IT". -->
+			<!-- "**/*ITCase.java" - includes all of its subdirectories and all Java filenames that end with "ITCase". -->
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.20</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            
         </plugins>
+        
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
+        
     </build>
+    
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <test.port>8080</test.port>
+                <jetty.stop.port>8081</jetty.stop.port>
+                <test.hostname>localhost</test.hostname>
+                <test.browser>chrome</test.browser>
+            </properties>
+        </profile>
+        <profile>
+            <id>ci</id>
+            <properties>
+                <test.port>8080</test.port>
+                <jetty.stop.port>8081</jetty.stop.port>
+                <test.hostname>localhost</test.hostname>
+                <test.browser>jbrowser</test.browser>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>
