@@ -89,7 +89,7 @@ public abstract class AbstractForm<T> extends CustomComponent {
     private void createBinder(Class<T> entityType) {
         binder = new BeanValidationBinder<>(entityType);
         binder.addValueChangeListener(e -> {
-            // binder.hasChanges is not really usefull so track it manually
+            // binder.hasChanges is not really useful so track it manually
             if (!settingBean) {
                 hasChanges = true;
             }

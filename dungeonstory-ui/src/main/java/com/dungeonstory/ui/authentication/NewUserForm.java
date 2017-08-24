@@ -2,9 +2,11 @@ package com.dungeonstory.ui.authentication;
 
 import org.vaadin.viritin.fields.EmailField;
 
+import com.dungeonstory.backend.data.User;
 import com.dungeonstory.ui.i18n.Messages;
 import com.dungeonstory.ui.i18n.Translatable;
 import com.dungeonstory.ui.util.DSTheme;
+import com.vaadin.data.BeanValidationBinder;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
@@ -18,6 +20,8 @@ public class NewUserForm extends FormLayout implements Translatable {
     private TextField     name     = new TextField();
     private EmailField    email    = new EmailField();
 
+    private BeanValidationBinder<User> binder = null;
+
     public NewUserForm() {
         super();
 
@@ -25,8 +29,20 @@ public class NewUserForm extends FormLayout implements Translatable {
         setSizeUndefined();
         setMargin(false);
         setSpacing(true);
+        setId("newUserForm");
+
+        username.setId("newUsername");
+        password.setId("newPassword");
+        name.setId("newName");
+        email.setId("newEmail");
 
         addComponents(username, password, name, email);
+
+        binder = new BeanValidationBinder<>(User.class);
+        binder.forMemberField(username).asRequired("Nom d'utilisateur requis");
+        binder.forMemberField(password).asRequired("Mot de passe requis");
+        binder.forMemberField(name).asRequired("Nom requis");
+        binder.bindInstanceFields(this);
     }
 
     public void clear() {
@@ -43,6 +59,10 @@ public class NewUserForm extends FormLayout implements Translatable {
         password.setCaption(messages.getMessage("newUserForm.textfield.password"));
         name.setCaption(messages.getMessage("newUserForm.textfield.name"));
         email.setCaption(messages.getMessage("newUserForm.textfield.email"));
+    }
+
+    public BeanValidationBinder<User> getBinder() {
+        return binder;
     }
 
 }

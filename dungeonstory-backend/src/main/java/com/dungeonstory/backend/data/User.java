@@ -58,7 +58,7 @@ public class User extends AbstractTimestampEntity {
     private String name;
 
     @NotNull
-    @Pattern(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}$", message = "Doit suivre le pattern \"aaaa@domaine.xxx\"")
+    @Pattern(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}$", message = "Le courriel doit suivre le format \"aaaa@domaine.xxx\"")
     @Column(name = "email", nullable = false)
     private String email;
 

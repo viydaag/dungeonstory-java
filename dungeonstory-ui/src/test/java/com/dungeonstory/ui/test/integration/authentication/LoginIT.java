@@ -16,19 +16,26 @@ import com.vaadin.testbench.elements.NotificationElement;
 
 public class LoginIT extends IntegrationTestBase {
 
-    private LoginPageObject loginHelper;
+    private LoginPageObject loginPO;
 
     @Override
     public void setUp() throws Exception {
         super.setUp();
 
         // Use the PageFactory to automatically initialize fields.
-        loginHelper = PageFactory.initElements(getDriver(), LoginPageObject.class);
+        loginPO = PageFactory.initElements(getDriver(), LoginPageObject.class);
+    }
+
+    @Test
+    public void testLoginScreen() {
+        loginPO.open();
+
+        assertTrue(loginPO.isVisible());
     }
 
     @Test
     public void testLoginSuccessful() {
-        loginHelper.login("admin", "admin");
+        loginPO.login("admin", "admin");
 
         assertTrue($$(HorizontalLayoutElement.class).exists());
         assertTrue($(MenuBarElement.class).exists());
@@ -36,7 +43,7 @@ public class LoginIT extends IntegrationTestBase {
 
     @Test
     public void testLoginFail() {
-        loginHelper.login("admin", "");
+        loginPO.login("admin", "");
 
         // Verify the notification
         NotificationElement notification = $(NotificationElement.class).first();
