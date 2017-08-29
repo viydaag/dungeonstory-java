@@ -15,13 +15,12 @@ import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSAbstractForm;
 import com.dungeonstory.ui.util.ViewConfig;
 import com.dungeonstory.ui.view.AbstractCrudView;
-import com.dungeonstory.ui.view.CrudView;
 import com.dungeonstory.ui.view.admin.form.ClassForm;
 import com.dungeonstory.ui.view.admin.grid.ClassGrid;
 import com.dungeonstory.ui.view.admin.grid.DSGrid;
 
 @ViewConfig(uri = "classes", displayName = "Classes")
-public class ClassView extends AbstractCrudView<DSClass> implements CrudView<DSClass> {
+public class ClassView extends AbstractCrudView<DSClass> {
 
     private static final long serialVersionUID = 5117755861151432771L;
 

@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "Ability")
@@ -12,12 +13,14 @@ public class Ability extends AbstractTimestampEntity {
     private static final long serialVersionUID = 851333358232556465L;
 
     @NotNull
+    @Size(min = 1, max = 255)
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
+    @Size(max = 3)
     @Column(name = "abbreviation", length = 3)
     private String abbreviation;
 

@@ -8,6 +8,7 @@ import org.openqa.selenium.support.PageFactory;
 
 import com.dungeonstory.ui.test.integration.IntegrationTestBase;
 import com.vaadin.testbench.elements.NotificationElement;
+import com.vaadin.testbench.elements.TextFieldElement;
 
 public class NewUserIT extends IntegrationTestBase {
 
@@ -64,6 +65,8 @@ public class NewUserIT extends IntegrationTestBase {
         NotificationElement notification = $(NotificationElement.class).first();
         assertEquals("error", notification.getType());
         notification.close();
+
+        assertTrue($(TextFieldElement.class).id("newName").hasClassName("v-textfield-error"));
     }
 
     @Test
