@@ -12,10 +12,10 @@ import com.dungeonstory.backend.data.WeaponType.SizeType;
 import com.dungeonstory.backend.data.WeaponType.UsageType;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSAbstractForm;
-import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.ui.component.EnumComboBox;
 import com.dungeonstory.ui.field.DoubleField;
 import com.vaadin.event.selection.SingleSelectionEvent;
+import com.vaadin.fluent.ui.FTextArea;
 import com.vaadin.shared.Registration;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
@@ -59,7 +59,7 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
         FormLayout layout = new FormLayout();
 
         name = new TextField("Nom");
-        description = new DSTextArea("Description").withFullWidth();
+        description = new FTextArea("Description").withFullWidth();
         proficiencyType = new EnumComboBox<>(ProficiencyType.class, "Type de maitrise");
         sizeType = new EnumComboBox<>(SizeType.class, "Taille");
         handleType = new EnumComboBox<>(HandleType.class, "Type");

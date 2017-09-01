@@ -1,15 +1,15 @@
 package com.dungeonstory.ui.view.admin.form;
 
 import org.vaadin.viritin.fields.IntegerField;
-import org.vaadin.viritin.fields.MTextField;
 
 import com.dungeonstory.FormCheckBox;
 import com.dungeonstory.backend.data.ArmorType;
 import com.dungeonstory.backend.data.ArmorType.ProficiencyType;
 import com.dungeonstory.ui.component.DSAbstractForm;
-import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.ui.component.EnumComboBox;
 import com.dungeonstory.ui.field.DoubleField;
+import com.vaadin.fluent.ui.FTextArea;
+import com.vaadin.fluent.ui.FTextField;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextArea;
@@ -42,8 +42,8 @@ public class ArmorTypeForm extends DSAbstractForm<ArmorType> {
     protected Component createContent() {
         FormLayout layout = new FormLayout();
 
-        name = new MTextField("Nom");
-        description = new DSTextArea("Description").withFullWidth();
+        name = new FTextField("Nom");
+        description = new FTextArea("Description").withFullWidth();
         proficiencyType = new EnumComboBox<>(ProficiencyType.class, "Type de maitrise");
         maxDexBonus = new IntegerField("Bonus de dextérité maximum");
         baseArmorClass = new IntegerField("Classe d'armure de base");

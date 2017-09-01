@@ -1,12 +1,11 @@
 package com.dungeonstory.ui.view.admin.form;
 
 
-import org.vaadin.viritin.fields.MTextField;
-
 import com.dungeonstory.FormCheckBox;
 import com.dungeonstory.backend.data.Alignment;
 import com.dungeonstory.ui.component.DSAbstractForm;
-import com.dungeonstory.ui.component.DSTextArea;
+import com.vaadin.fluent.ui.FTextArea;
+import com.vaadin.fluent.ui.FTextField;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextArea;
@@ -35,11 +34,11 @@ public class AlignmentForm extends DSAbstractForm<Alignment> {
     protected Component createContent() {
         FormLayout layout = new FormLayout();
 
-        name = new MTextField("Nom");
-        abbreviation = new MTextField("Abbréviation");
+        name = new FTextField("Nom");
+        abbreviation = new FTextField("Abbréviation");
         playable = new FormCheckBox("Jouable par un personnage");
-        shortDescription = new MTextField("Description courte").withFullWidth();
-        description = new DSTextArea("Description").withFullWidth();
+        shortDescription = new FTextField("Description courte").withFullWidth();
+        description = new FTextArea("Description").withFullWidth();
 
         layout.addComponent(name);
         layout.addComponent(abbreviation);

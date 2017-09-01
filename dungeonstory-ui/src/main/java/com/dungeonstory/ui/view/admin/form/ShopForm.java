@@ -3,7 +3,6 @@ package com.dungeonstory.ui.view.admin.form;
 import java.util.List;
 
 import org.vaadin.viritin.fields.IntegerField;
-import org.vaadin.viritin.fields.MTextField;
 
 import com.dungeonstory.backend.data.City;
 import com.dungeonstory.backend.data.Equipment;
@@ -13,8 +12,9 @@ import com.dungeonstory.backend.service.CityDataService;
 import com.dungeonstory.backend.service.EquipmentDataService;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSAbstractForm;
-import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.ui.field.ElementCollectionGrid;
+import com.vaadin.fluent.ui.FTextArea;
+import com.vaadin.fluent.ui.FTextField;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
@@ -49,8 +49,8 @@ public class ShopForm extends DSAbstractForm<Shop> {
     protected Component createContent() {
         FormLayout layout = new FormLayout();
 
-        name = new MTextField("Nom");
-        description = new DSTextArea("Description").withFullWidth();
+        name = new FTextField("Nom");
+        description = new FTextArea("Description").withFullWidth();
         city = new ComboBox<City>("Ville", cityService.findAll());
 
         List<Equipment> purchasableEquipment = equipmentService.findAllPurchasable();

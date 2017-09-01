@@ -40,9 +40,9 @@ import com.vaadin.ui.themes.ValoTheme;
  * <pre><code>
  *  public static class AddressRow {
  *      EnumSelect type = new EnumSelect();
- *      MTextField street = new MTextField();
- *      MTextField city = new MTextField();
- *      MTextField zipCode = new MTextField();
+ *      FTextField street = new FTextField();
+ *      FTextField city = new FTextField();
+ *      FTextField zipCode = new FTextField();
  *  }
  *
  *  public static class PersonForm&lt;Person&gt; extends AbstractForm {

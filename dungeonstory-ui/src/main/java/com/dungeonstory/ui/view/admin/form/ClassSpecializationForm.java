@@ -21,12 +21,12 @@ import com.dungeonstory.backend.service.LevelDataService;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.backend.service.SpellDataService;
 import com.dungeonstory.ui.component.DSAbstractForm;
-import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.ui.field.ElementCollectionGrid;
 import com.dungeonstory.ui.field.LevelSpellsCollectionField;
 import com.dungeonstory.ui.field.LevelSpellsCollectionField.LevelSpellsRow;
 import com.dungeonstory.ui.view.admin.form.ClassForm.ClassLevelFeatureRow;
 import com.vaadin.data.HasValue.ValueChangeEvent;
+import com.vaadin.fluent.ui.FTextArea;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
@@ -82,7 +82,7 @@ public class ClassSpecializationForm extends DSAbstractForm<ClassSpecialization>
         FormLayout layout = new FormLayout();
 
         name = new TextField("Nom");
-        description = new DSTextArea("Description").withFullWidth();
+        description = new FTextArea("Description").withFullWidth();
         parentClass = new ComboBox<DSClass>("Classe parente");
         parentClass.setItems(classService.findAll());
 

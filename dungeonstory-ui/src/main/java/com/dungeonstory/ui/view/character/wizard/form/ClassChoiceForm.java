@@ -21,7 +21,6 @@ import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.AbstractForm;
 import com.dungeonstory.ui.component.DSLabel;
-import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.ui.converter.CollectionToStringConverter;
 import com.dungeonstory.ui.converter.CollectionToStringListConverter.ListType;
 import com.dungeonstory.ui.converter.CollectionToStringListConverter.UnorderedListType;
@@ -30,6 +29,7 @@ import com.dungeonstory.ui.field.SubSetSelector;
 import com.dungeonstory.ui.i18n.Messages;
 import com.dungeonstory.ui.layout.FormLayoutNoSpace;
 import com.vaadin.data.ValueContext;
+import com.vaadin.fluent.ui.FTextArea;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
@@ -57,7 +57,7 @@ public class ClassChoiceForm extends CharacterWizardStepForm<CharacterClass> imp
     private List<CreatureType> backupfavoredEnnemies;
     private Set<Terrain>       backupfavoredTerrains;
 
-    private DSTextArea classDescription;
+    private FTextArea classDescription;
     private DSLabel    proficienciesLabel;
     private DSLabel    armorProficiencies;
     private DSLabel    weaponProficiencies;
@@ -128,7 +128,7 @@ public class ClassChoiceForm extends CharacterWizardStepForm<CharacterClass> imp
         classFieldsLayout.addComponents(favoredEnnemies, favoredTerrains);
 
         VerticalLayout classDescriptionLayout = new VerticalLayout();
-        classDescription = new DSTextArea(messages.getMessage("classStep.class.description")).withFullWidth().withRows(10);
+        classDescription = new FTextArea(messages.getMessage("classStep.class.description")).withFullWidth().withRows(10);
 
         FormLayout properties = new FormLayout();
         proficienciesLabel = new DSLabel().withStyleName(ValoTheme.LABEL_H4);

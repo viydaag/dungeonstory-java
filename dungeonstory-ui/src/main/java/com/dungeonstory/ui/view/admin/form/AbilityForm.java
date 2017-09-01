@@ -2,7 +2,7 @@ package com.dungeonstory.ui.view.admin.form;
 
 import com.dungeonstory.backend.data.Ability;
 import com.dungeonstory.ui.component.DSAbstractForm;
-import com.dungeonstory.ui.component.DSTextArea;
+import com.vaadin.fluent.ui.FTextArea;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextArea;
@@ -31,7 +31,7 @@ public class AbilityForm extends DSAbstractForm<Ability> {
 
         name = new TextField("Nom");
         abbreviation = new TextField("Abbréviation");
-        description = new DSTextArea("Description").withFullWidth();
+        description = new FTextArea("Description").withFullWidth();
 
         layout.addComponent(name);
         layout.addComponent(abbreviation);

@@ -1,9 +1,12 @@
 package com.dungeonstory.ui.component;
 
+import com.vaadin.fluent.api.FluentLabel;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Label;
 
-public class DSLabel extends Label {
+public class DSLabel
+        extends Label
+        implements FluentLabel<DSLabel> {
 
     private static final long serialVersionUID = -5448155688464449028L;
 
@@ -40,28 +43,6 @@ public class DSLabel extends Label {
     public DSLabel(String caption, Object object) {
         this(object);
         setCaption(caption);
-    }
-
-    public DSLabel withFullWidth() {
-        setWidth(100, Unit.PERCENTAGE);
-        return this;
-    }
-
-    public DSLabel withWidth(int width, Unit unit) {
-        setWidth(width, unit);
-        return this;
-    }
-
-    public DSLabel withStyleName(String... styles) {
-        for (String styleName : styles) {
-            addStyleName(styleName);
-        }
-        return this;
-    }
-
-    public DSLabel withCaption(String caption) {
-        setCaption(caption);
-        return this;
     }
 
     public DSLabel withContent(String text) {

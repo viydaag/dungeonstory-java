@@ -10,7 +10,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.vaadin.viritin.fields.IntegerField;
-import org.vaadin.viritin.fields.MTextField;
 
 import com.dungeonstory.FormCheckBox;
 import com.dungeonstory.backend.data.Ability;
@@ -40,7 +39,6 @@ import com.dungeonstory.backend.service.SkillDataService;
 import com.dungeonstory.backend.service.SpellDataService;
 import com.dungeonstory.backend.service.WeaponTypeDataService;
 import com.dungeonstory.ui.component.DSAbstractForm;
-import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.ui.field.ElementCollectionGrid;
 import com.dungeonstory.ui.field.LevelBonusCollectionField;
 import com.dungeonstory.ui.field.LevelBonusCollectionField.ClassLevelBonusRow;
@@ -49,6 +47,8 @@ import com.dungeonstory.ui.field.LevelSpellsCollectionField.LevelSpellsRow;
 import com.dungeonstory.ui.field.SubSetSelector;
 import com.vaadin.data.HasValue.ValueChangeEvent;
 import com.vaadin.event.selection.SingleSelectionEvent;
+import com.vaadin.fluent.ui.FTextArea;
+import com.vaadin.fluent.ui.FTextField;
 import com.vaadin.shared.Registration;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
@@ -65,7 +65,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
 
     private TextField                                                                 name;
     private TextField                                                                 shortDescription;
-    private DSTextArea                                                                description;
+    private FTextArea                                                                description;
     private IntegerField                                                              lifePointPerLevel;
     private IntegerField                                                              startingGold;
     private FormCheckBox                                                              isSpellCasting;
@@ -141,9 +141,9 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     protected Component createContent() {
         FormLayout layout = new FormLayout();
 
-        name = new MTextField("Nom");
-        shortDescription = new MTextField("Description courte").withWidth("80%");
-        description = new DSTextArea("Description").withWidth("80%").withRows(12);
+        name = new FTextField("Nom");
+        shortDescription = new FTextField("Description courte").withWidth("80%");
+        description = new FTextArea("Description").withWidth("80%").withRows(12);
         lifePointPerLevel = new IntegerField("Points de vie par niveau");
         startingGold = new IntegerField("Pièces d'or de départ");
         isSpellCasting = new FormCheckBox("Capacité à lancer des sorts");

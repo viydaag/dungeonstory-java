@@ -4,7 +4,6 @@ import java.util.EnumSet;
 import java.util.List;
 
 import org.vaadin.viritin.fields.IntegerField;
-import org.vaadin.viritin.fields.MTextField;
 
 import com.dungeonstory.backend.data.Alignment;
 import com.dungeonstory.backend.data.Character;
@@ -21,6 +20,7 @@ import com.dungeonstory.ui.i18n.Messages;
 import com.vaadin.data.ValidationResult;
 import com.vaadin.data.Validator;
 import com.vaadin.data.ValueContext;
+import com.vaadin.fluent.ui.FTextField;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
@@ -65,7 +65,7 @@ public class InformationForm extends CharacterWizardStepForm<Character> implemen
         layout = new FormLayout();
         layout.setMargin(new MarginInfo(true, true));
 
-        name = new MTextField(messages.getMessage("informationStep.name.label")).withWidth("250px");
+        name = new FTextField(messages.getMessage("informationStep.name.label")).withWidth("250px");
         gender = new RadioButtonGroup<Gender>(messages.getMessage("informationStep.sex.label"), EnumSet.allOf(Gender.class));
         age = new IntegerField(messages.getMessage("informationStep.age.label"));
         weight = new IntegerField(messages.getMessage("informationStep.weight.label"));

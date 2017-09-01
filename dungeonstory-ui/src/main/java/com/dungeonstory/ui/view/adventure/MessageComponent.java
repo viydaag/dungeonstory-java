@@ -8,15 +8,17 @@ import com.dungeonstory.backend.data.Message;
 import com.dungeonstory.ui.authentication.CurrentUser;
 import com.dungeonstory.ui.util.DSConstant;
 import com.dungeonstory.ui.util.DSTheme;
+import com.vaadin.fluent.ui.FHorizontalLayout;
+import com.vaadin.fluent.ui.FLabel;
+import com.vaadin.fluent.ui.FPanel;
+import com.vaadin.fluent.ui.FVerticalLayout;
 import com.vaadin.server.FileResource;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
 public class MessageComponent extends CustomComponent {
@@ -24,18 +26,14 @@ public class MessageComponent extends CustomComponent {
     private static final long serialVersionUID = -1705445968181419822L;
 
     public MessageComponent(Message message, AdventureView view) {
-        Panel panel = new Panel();
-        panel.setWidth(100, Unit.PERCENTAGE);
+        FPanel panel = new FPanel().withFullWidth();
 
-        HorizontalLayout layout = new HorizontalLayout();
-        layout.setMargin(true);
-        layout.setWidth(100, Unit.PERCENTAGE);
+        FHorizontalLayout layout = new FHorizontalLayout().withFullWidth().withMargin(true);
 
         VerticalLayout infoLayout = new VerticalLayout();
         
         if (message.getCharacter() != null) {
-            Label characterName = new Label(message.getCharacter().getName());
-            characterName.addStyleName(DSTheme.TEXT_CENTER_ALIGNED);
+            FLabel characterName = new FLabel(message.getCharacter().getName()).withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
             
             File imageFile = new File(DSConstant.getImageDir() + message.getCharacter().getImage());
             FileResource resource = new FileResource(imageFile);
@@ -46,8 +44,7 @@ public class MessageComponent extends CustomComponent {
             
         } else {
             //debug purpose
-            Label characterName = new Label("test");
-            characterName.addStyleName(DSTheme.TEXT_CENTER_ALIGNED);
+            FLabel characterName = new FLabel("test").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
             
             File imageFile = new File(DSConstant.getImageDir() + "/male/abeirL.bmp");
             FileResource resource = new FileResource(imageFile);
@@ -65,9 +62,8 @@ public class MessageComponent extends CustomComponent {
         layout.setExpandRatio(text, 3);
 
         if (!view.getAdventure().isCancelledOrClosed()) {
-            VerticalLayout buttonLayout = new VerticalLayout();
-            buttonLayout.setSpacing(true);
-            buttonLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+            FVerticalLayout buttonLayout = new FVerticalLayout().withSpacing(true).withDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+
             if (CurrentUser.get().equals(message.getCreator()) || CurrentUser.get().isAdmin()) {
                 // edit
                 Button editMessageButton = new Button("Modifier");

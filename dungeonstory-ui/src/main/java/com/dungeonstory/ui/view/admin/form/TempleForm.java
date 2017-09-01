@@ -5,7 +5,7 @@ import com.dungeonstory.backend.data.Deity;
 import com.dungeonstory.backend.data.Temple;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSAbstractForm;
-import com.dungeonstory.ui.component.DSTextArea;
+import com.vaadin.fluent.ui.FTextArea;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
@@ -16,7 +16,7 @@ public class TempleForm extends DSAbstractForm<Temple> {
     private static final long serialVersionUID = -686895331834107475L;
     
     private TextField      name;
-    private DSTextArea     description;
+    private FTextArea     description;
     private ComboBox<City> city;
     private ComboBox<Deity> deity;
 
@@ -34,7 +34,7 @@ public class TempleForm extends DSAbstractForm<Temple> {
         FormLayout layout = new FormLayout();
 
         name = new TextField("Nom");
-        description = new DSTextArea("Description").withFullWidth().withRows(10);
+        description = new FTextArea("Description").withFullWidth().withRows(10);
         city = new ComboBox<City>("Ville", Services.getCityService().findAll());
         deity = new ComboBox<Deity>("Dieu", Services.getDeityService().findAll());
 

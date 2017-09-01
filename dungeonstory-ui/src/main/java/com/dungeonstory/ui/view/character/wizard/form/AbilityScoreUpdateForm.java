@@ -10,17 +10,18 @@ import com.dungeonstory.backend.service.FeatDataService;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSLabel;
 import com.dungeonstory.ui.i18n.Messages;
+import com.vaadin.fluent.ui.FComboBox;
+import com.vaadin.fluent.ui.FHorizontalLayout;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.RadioButtonGroup;
 
-public class AbilityScoreUpdateForm extends AbilityScoreForm {
+public class AbilityScoreUpdateForm
+        extends AbilityScoreForm {
 
     private static final long serialVersionUID = 1307298207679565178L;
 
@@ -30,9 +31,9 @@ public class AbilityScoreUpdateForm extends AbilityScoreForm {
     private FeatDataService featService = null;
 
     private RadioButtonGroup<UpdateType> updateType;
-    private ComboBox<Feat>           featChoice;
-    private Label                  featDescription;
-    private HorizontalLayout             featLayout;
+    private FComboBox<Feat>              featChoice;
+    private Label                        featDescription;
+    private FHorizontalLayout            featLayout;
 
     public enum UpdateType {
         ABILITY("abilityScoreStep.updateType.ability.value"), FEAT("abilityScoreStep.updateType.feat.value");
@@ -63,8 +64,7 @@ public class AbilityScoreUpdateForm extends AbilityScoreForm {
     protected Component createContent() {
         Messages messages = Messages.getInstance();
         Component content = super.createContent();
-        featLayout = new HorizontalLayout();
-        featLayout.setWidth(100, Unit.PERCENTAGE);
+        featLayout = new FHorizontalLayout().withFullWidth();
 
         updateType = new RadioButtonGroup<UpdateType>(messages.getMessage("abilityScoreStep.updateType.label"));
         updateType.setItems(Arrays.asList(UpdateType.values()));
@@ -93,8 +93,7 @@ public class AbilityScoreUpdateForm extends AbilityScoreForm {
 
         resetPointToSpend();
 
-        featChoice = new ComboBox<Feat>(messages.getMessage("abilityScoreStep.feat.label"));
-        featChoice.setWidth(100, Unit.PERCENTAGE);
+        featChoice = new FComboBox<Feat>(messages.getMessage("abilityScoreStep.feat.label")).withFullWidth();
         featDescription = new DSLabel();
         featLayout.addComponents(featChoice, featDescription);
 

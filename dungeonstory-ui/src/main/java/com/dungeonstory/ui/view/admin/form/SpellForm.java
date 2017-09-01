@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.vaadin.viritin.fields.IntegerField;
-import org.vaadin.viritin.fields.MTextField;
 
 import com.dungeonstory.FormCheckBox;
 import com.dungeonstory.backend.data.Ability;
@@ -29,12 +28,13 @@ import com.dungeonstory.backend.data.SpellEffect.EffectType;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSAbstractForm;
-import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.ui.component.EnumComboBox;
 import com.dungeonstory.ui.field.ElementCollectionField;
 import com.dungeonstory.ui.field.SubSetSelector;
 import com.vaadin.data.HasValue.ValueChangeEvent;
 import com.vaadin.data.HasValue.ValueChangeListener;
+import com.vaadin.fluent.ui.FTextArea;
+import com.vaadin.fluent.ui.FTextField;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
@@ -102,9 +102,9 @@ public class SpellForm extends DSAbstractForm<Spell> {
     protected Component createContent() {
         FormLayout layout = new FormLayout();
 
-        name = new MTextField("Nom");
+        name = new FTextField("Nom");
         level = new IntegerField("Niveau");
-        description = new DSTextArea("Description").withFullWidth();
+        description = new FTextArea("Description").withFullWidth();
         school = new EnumComboBox<>(MagicSchool.class, "École de magie");
 
         componentTypes = new SubSetSelector<>(ComponentType.class);

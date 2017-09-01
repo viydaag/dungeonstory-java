@@ -23,13 +23,13 @@ import com.dungeonstory.backend.data.Skill;
 import com.dungeonstory.backend.data.WeaponType.UsageType;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSAbstractForm;
-import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.ui.component.EnumComboBox;
 import com.dungeonstory.ui.field.ElementCollectionField;
 import com.dungeonstory.ui.field.ElementCollectionGrid;
 import com.dungeonstory.ui.field.SubSetSelector;
 import com.dungeonstory.ui.i18n.Messages;
 import com.dungeonstory.ui.layout.MultiColumnFormLayout;
+import com.vaadin.fluent.ui.FTextArea;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
@@ -119,7 +119,7 @@ public class MonsterForm extends DSAbstractForm<Monster> {
         Messages messages = Messages.getInstance();
 
         name = new TextField("Nom");
-        description = new DSTextArea("Description").withFullWidth().withRows(10);
+        description = new FTextArea("Description").withFullWidth().withRows(10);
 
         size = new EnumComboBox<>(CreatureSize.class, "Ordre de grandeur");
         creatureType = new ComboBox<>("Type", Services.getCreatureTypeService().findAll());

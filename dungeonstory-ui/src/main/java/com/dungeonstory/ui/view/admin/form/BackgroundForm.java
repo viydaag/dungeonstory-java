@@ -11,9 +11,9 @@ import com.dungeonstory.backend.data.Tool.ToolType;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSAbstractForm;
-import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.ui.component.EnumComboBox;
 import com.dungeonstory.ui.field.SubSetSelector;
+import com.vaadin.fluent.ui.FTextArea;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextArea;
@@ -51,11 +51,11 @@ public class BackgroundForm extends DSAbstractForm<Background> {
         FormLayout layout = new FormLayout();
 
         name = new TextField("Nom");
-        description = new DSTextArea("Description").withFullWidth().withRows(12);
-        traits = new DSTextArea("Traits de personnalité").withFullWidth().withRows(12);
-        ideals = new DSTextArea("Idéaux").withFullWidth().withRows(12);
-        purposes = new DSTextArea("Buts").withFullWidth().withRows(12);
-        flaws = new DSTextArea("Défauts").withFullWidth().withRows(12);
+        description = new FTextArea("Description").withFullWidth().withRows(12);
+        traits = new FTextArea("Traits de personnalité").withFullWidth().withRows(12);
+        ideals = new FTextArea("Idéaux").withFullWidth().withRows(12);
+        purposes = new FTextArea("Buts").withFullWidth().withRows(12);
+        flaws = new FTextArea("Défauts").withFullWidth().withRows(12);
 
         skillProficiencies = new SubSetSelector<>(Skill.class);
         skillProficiencies.setCaption("Maitrise de compétence");

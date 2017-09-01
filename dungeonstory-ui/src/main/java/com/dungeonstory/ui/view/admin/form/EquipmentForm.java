@@ -1,7 +1,6 @@
 package com.dungeonstory.ui.view.admin.form;
 
 import org.vaadin.viritin.fields.IntegerField;
-import org.vaadin.viritin.fields.MTextField;
 
 import com.dungeonstory.FormCheckBox;
 import com.dungeonstory.backend.data.ArmorType;
@@ -16,12 +15,13 @@ import com.dungeonstory.backend.service.DamageTypeDataService;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.backend.service.WeaponTypeDataService;
 import com.dungeonstory.ui.component.DSAbstractForm;
-import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.ui.component.EnumComboBox;
 import com.dungeonstory.ui.field.DoubleField;
 import com.google.common.base.Optional;
 import com.vaadin.data.HasValue.ValueChangeEvent;
 import com.vaadin.event.selection.SingleSelectionEvent;
+import com.vaadin.fluent.ui.FTextArea;
+import com.vaadin.fluent.ui.FTextField;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
@@ -33,7 +33,7 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
 
     private TextField                   name;
     private EnumComboBox<EquipmentType> type;
-    private DSTextArea                  description;
+    private FTextArea                  description;
     private DoubleField                 weight;
     private FormCheckBox                isPurchasable;
     private FormCheckBox                isSellable;
@@ -80,9 +80,9 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
     protected Component createContent() {
         FormLayout layout = new FormLayout();
 
-        name = new MTextField("Nom").withWidth("50%");
+        name = new FTextField("Nom").withWidth("50%");
         type = new EnumComboBox<EquipmentType>(EquipmentType.class, "Type");
-        description = new DSTextArea("Description").withFullWidth().withRows(10);
+        description = new FTextArea("Description").withFullWidth().withRows(10);
         weight = new DoubleField("Poids (en lbs)");
         isPurchasable = new FormCheckBox("Peut être acheté");
         isSellable = new FormCheckBox("Peut être vendu");
@@ -94,9 +94,9 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
         magicalAcBonus = new IntegerField("Classe d'armure magique bonus");
 
         weaponType = new ComboBox<WeaponType>("Type d'arme", weaponTypeService.findAll());
-        oneHandDamage = new MTextField("Dommages à une main");
-        twoHandDamage = new MTextField("Dommages à deux main");
-        additionalDamage = new MTextField("Dommages additionnels");
+        oneHandDamage = new FTextField("Dommages à une main");
+        twoHandDamage = new FTextField("Dommages à deux main");
+        additionalDamage = new FTextField("Dommages additionnels");
         additionalDamageType = new ComboBox<DamageType>("Type dommages additionnels", damageTypeService.findAll());
         magicalBonus = new IntegerField("Bonus magique");
 
