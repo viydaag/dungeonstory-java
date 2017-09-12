@@ -242,7 +242,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
                     return row;
                 });
 
-        List<ClassFeature> allClassFeatures = classFeatureService.findAllClassFeaturesWithoutChildren();
+        List<ClassFeature> allClassFeatures = classFeatureService.findAllClassFeaturesWithoutParent();
         classFeatures = new ElementCollectionGrid<ClassLevelFeature>(ClassLevelFeature.class, ClassLevelFeatureRow.class)
                 .withCaption("Dons de classe").withEditorInstantiator(() -> {
                     ClassLevelFeatureRow row = new ClassLevelFeatureRow();

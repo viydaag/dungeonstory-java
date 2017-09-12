@@ -12,32 +12,39 @@ public class DSLabel
 
     public DSLabel() {
         super();
+        init();
     }
 
     public DSLabel(String text) {
         super(text);
+        init();
     }
     
     public DSLabel(int text) {
         super(String.valueOf(text));
+        init();
     }
     
     public DSLabel(Object object) {
         super(object.toString());
+        init();
     }
 
     public DSLabel(String text, ContentMode contentMode) {
         super(text, contentMode);
+        init();
     }
     
     public DSLabel(String caption, String text) {
         super(text);
         setCaption(caption);
+        init();
     }
     
     public DSLabel(String caption, int text) {
         this(text);
         setCaption(caption);
+        init();
     }
     
     public DSLabel(String caption, Object object) {
@@ -47,7 +54,12 @@ public class DSLabel
 
     public DSLabel withContent(String text) {
         setValue(text);
+        init();
         return this;
+    }
+
+    private void init() {
+        setWidth(100, Unit.PERCENTAGE);
     }
 
 }

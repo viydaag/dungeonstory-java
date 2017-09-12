@@ -12,6 +12,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -28,8 +29,8 @@ import com.dungeonstory.backend.repository.DescriptiveEntity;
 
 @Entity
 @Table(name = "ClassFeature")
+@NamedNativeQuery(name = ClassFeature.FIND_ALL_CLASS_FEATURES_WITHOUT_PARENT, query = "SELECT * FROM ClassFeature cf where cf.parentId IS NULL", resultClass = ClassFeature.class)
 @NamedQueries({
-        @NamedQuery(name = ClassFeature.FIND_ALL_CLASS_FEATURES_WITHOUT_PARENT, query = "SELECT e FROM ClassFeature e WHERE e.parent IS NULL ORDER BY e.name ASC", lockMode = READ),
         @NamedQuery(name = ClassFeature.FIND_ALL_CLASS_FEATURE_EXCEPT, query = "SELECT e FROM ClassFeature e WHERE e.id != :featId", lockMode = READ) })
 public class ClassFeature extends AbstractTimestampEntity implements DescriptiveEntity {
 

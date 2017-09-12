@@ -67,16 +67,6 @@ public class ElementCollectionGrid<ET> extends AbstractElementCollection<ET, Lis
     private ListDataProvider<ET> dataProvider;
     private Button               addButton;
 
-    //    private MButton addButton = new MButton(VaadinIcons.PLUS, new Button.ClickListener() {
-    //
-    //        private static final long serialVersionUID = 6115218255676556647L;
-    //
-    //        @Override
-    //        public void buttonClick(Button.ClickEvent event) {
-    //            addElement(createInstance());
-    //        }
-    //    });
-
     private IdentityHashMap<ET, MButton> elementToDelButton = new IdentityHashMap<>();
 
     boolean inited = false;

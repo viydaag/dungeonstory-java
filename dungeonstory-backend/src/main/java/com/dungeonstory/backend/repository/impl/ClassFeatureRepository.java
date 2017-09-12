@@ -23,8 +23,7 @@ public class ClassFeatureRepository extends AbstractRepository<ClassFeature, Lon
         EntityTransaction transaction = entityManager.getTransaction();
         List<ClassFeature> result = new ArrayList<ClassFeature>();
         transaction.begin();
-        TypedQuery<ClassFeature> query = entityManager.createNamedQuery(ClassFeature.FIND_ALL_CLASS_FEATURES_WITHOUT_PARENT,
-                getEntityClass());
+        TypedQuery<ClassFeature> query = entityManager.createNamedQuery(ClassFeature.FIND_ALL_CLASS_FEATURES_WITHOUT_PARENT, getEntityClass());
         result = query.getResultList();
         transaction.commit();
         return result;

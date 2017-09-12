@@ -48,6 +48,7 @@ public abstract class AbstractForm<T> extends CustomComponent {
     private boolean   isDoingOperation      = false;
     private boolean   hasChanges            = false;
     private boolean   bindWhenSettingEntity = false;
+    private boolean   binding               = true;
     private T         entity;
     private Window    popup;
     private Binder<T> binder;
@@ -205,7 +206,9 @@ public abstract class AbstractForm<T> extends CustomComponent {
      * customize the binding.
      */
     protected void bind() {
-        binder.bindInstanceFields(this);
+        if (binding) {
+            binder.bindInstanceFields(this);
+        }
     }
 
     /**
@@ -245,6 +248,10 @@ public abstract class AbstractForm<T> extends CustomComponent {
 
     public void setBindWhenSettingEntity(boolean enabled) {
         this.bindWhenSettingEntity = enabled;
+    }
+
+    public void setBinding(boolean enabled) {
+        this.binding = enabled;
     }
 
     /************* Save button ****************/
