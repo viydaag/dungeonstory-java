@@ -15,6 +15,8 @@ import com.dungeonstory.ui.field.event.ElementAddedEvent;
 import com.dungeonstory.ui.field.event.ElementRemovedEvent;
 import com.dungeonstory.ui.field.listener.ElementAddedListener;
 import com.dungeonstory.ui.field.listener.ElementRemovedListener;
+import com.dungeonstory.ui.i18n.Messages;
+import com.vaadin.fluent.ui.FButton;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
@@ -25,7 +27,6 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.ItemCaptionGenerator;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
-import com.vaadin.ui.renderers.ButtonRenderer;
 import com.vaadin.ui.themes.ValoTheme;
 import com.vaadin.util.ReflectTools;
 
@@ -48,6 +49,7 @@ public class SubSetSelector<ET, C extends Collection<ET>> extends CustomField<C>
     private int              limit = Integer.MAX_VALUE;
 
     private Function<String, ET> instantiator = this::instantiateOption;
+    private String[]             deleteElementStyles;
 
     public SubSetSelector(Class<ET> elementType) {
         this.elementType = elementType;
@@ -63,8 +65,9 @@ public class SubSetSelector<ET, C extends Collection<ET>> extends CustomField<C>
         grid.setWidth(100, Unit.PERCENTAGE);
 
         //TODO : replace with Component renderer in 8.1
-        grid.addColumn(entity -> "-", new ButtonRenderer<ET>(clickEvent -> removeSelectedOption(clickEvent.getItem()))).setCaption("")
-                .setId("Remove");
+        //        grid.addColumn(entity -> "-", new ButtonRenderer<ET>(clickEvent -> removeSelectedOption(clickEvent.getItem()))).setCaption("")
+        //                .setId("Remove");
+        grid.addComponentColumn(entity -> createDeleteButton(entity)).setWidth(75).setId("Remove");
 
         cb.setPlaceholder("Add to selection...");
         cb.addValueChangeListener(new ValueChangeListener<ET>() {
@@ -83,6 +86,20 @@ public class SubSetSelector<ET, C extends Collection<ET>> extends CustomField<C>
                 }
             }
         });
+    }
+
+    protected FButton createDeleteButton(ET entity) {
+        FButton button = new FButton(VaadinIcons.TRASH).withClickListener(event -> removeSelectedOption(entity))
+                                                       .withStyleName(ValoTheme.BUTTON_ICON_ONLY)
+                                                       .withDescription(getDeleteElementDescription());
+
+        if (getDeleteElementStyles() != null) {
+            for (String style : getDeleteElementStyles()) {
+                button.addStyleName(style);
+            }
+        }
+
+        return button;
     }
 
     @Override
@@ -177,6 +194,16 @@ public class SubSetSelector<ET, C extends Collection<ET>> extends CustomField<C>
 
     public void setPlaceholder(String inputPrompt) {
         cb.setPlaceholder(inputPrompt);
+    }
+
+    public String getDeleteElementDescription() {
+        return deleteThisElementDescription;
+    }
+
+    private String deleteThisElementDescription = Messages.getInstance().getMessage("grid.button.delete.description");
+
+    public void setDeleteThisElementDescription(String deleteThisElementDescription) {
+        this.deleteThisElementDescription = deleteThisElementDescription;
     }
 
     /**
@@ -315,6 +342,14 @@ public class SubSetSelector<ET, C extends Collection<ET>> extends CustomField<C>
 
     public ComboBox<ET> getComboBox() {
         return cb;
+    }
+
+    public String[] getDeleteElementStyles() {
+        return deleteElementStyles;
+    }
+
+    public void addDeleteElementStyles(String... deleteElementStyles) {
+        this.deleteElementStyles = deleteElementStyles;
     }
 
     @SuppressWarnings("unchecked")

@@ -1,21 +1,22 @@
 package com.dungeonstory.ui.field;
 
 import java.util.ArrayList;
-import java.util.IdentityHashMap;
 import java.util.List;
-
-import org.vaadin.viritin.button.MButton;
 
 import com.dungeonstory.ui.field.listener.ElementAddedListener;
 import com.dungeonstory.ui.field.listener.ElementRemovedListener;
+import com.dungeonstory.ui.i18n.Messages;
+import com.vaadin.data.Binder;
 import com.vaadin.data.provider.DataProvider;
 import com.vaadin.data.provider.ListDataProvider;
+import com.vaadin.fluent.ui.FButton;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.renderers.ButtonRenderer;
+import com.vaadin.ui.themes.ValoTheme;
 
 /**
  * A field suitable for editing collection of referenced objects tied to parent
@@ -35,9 +36,9 @@ import com.vaadin.ui.renderers.ButtonRenderer;
  * <pre><code>
  *  public static class AddressRow {
  *      EnumSelect type = new EnumSelect();
- *      FTextField street = new FTextField();
- *      FTextField city = new FTextField();
- *      FTextField zipCode = new FTextField();
+ *      TextField street = new FTextField();
+ *      TextField city = new FTextField();
+ *      TextField zipCode = new FTextField();
  *  }
  *
  *  public static class PersonForm&lt;Person&gt; extends AbstractForm {
@@ -61,13 +62,10 @@ public class ElementCollectionGrid<ET> extends AbstractElementCollection<ET, Lis
 
     private static final long serialVersionUID = 3979170822301544331L;
 
-    //    private MTable<ET> table;
     private Grid<ET>             grid;
     private List<ET>             items = new ArrayList<ET>();
     private ListDataProvider<ET> dataProvider;
     private Button               addButton;
-
-    private IdentityHashMap<ET, MButton> elementToDelButton = new IdentityHashMap<>();
 
     boolean inited = false;
 
@@ -101,7 +99,6 @@ public class ElementCollectionGrid<ET> extends AbstractElementCollection<ET, Lis
     @Override
     public void removeInternalElement(ET v) {
         items.remove(v);
-        elementToDelButton.remove(v);
         dataProvider.refreshAll();
     }
 
@@ -141,76 +138,29 @@ public class ElementCollectionGrid<ET> extends AbstractElementCollection<ET, Lis
             addButton.addClickListener(click -> addElement(createInstance()));
 
             grid.removeAllColumns();
-            //TODO : add component for each field column with Vaadin 8.1
+
+            //generate all columns with proper component
             for (String propertyName : getVisibleProperties()) {
-                grid.addColumn(propertyName).setCaption(getPropertyHeader(propertyName));
+                grid.addComponentColumn(pojo -> {
+                    //  return getComponentFor(pojo, propertyName);
+                    Binder<ET> binder = getBinderFor(pojo);
+                    if (!isAllowEditItems()) {
+                        binder.setReadOnly(true);
+                    }
+                    Component component = (Component) binder.getBinding(propertyName).get().getField();
+                    if (component == null) {
+                        getComponentFor(pojo, propertyName);
+                    }
+                    return component;
+                }).setCaption(getPropertyHeader(propertyName));
+
+                grid.setRowHeight(40);
             }
 
-            //TODO : add better button component with icon with Vaadin 8.1
             if (isAllowRemovingItems()) {
-                grid.addColumn(entity -> "-", new ButtonRenderer<ET>(clickEvent -> removeElement(clickEvent.getItem()))).setCaption("")
-                        .setId("Remove");
+                grid.addComponentColumn(entity -> createDeleteButton(entity)).setWidth(75).setId("Remove");
             }
 
-            //            for (Object propertyId : getVisibleProperties()) {
-            //                grid.addGeneratedColumn(propertyId, new Table.ColumnGenerator() {
-            //
-            //                    private static final long serialVersionUID = 3637140096807147630L;
-            //
-            //                    @Override
-            //                    public Object generateCell(Table source, Object itemId, Object columnId) {
-            //                        Binder<ET> fg = getBinderFor((ET) itemId);
-            //                        if (!isAllowEditItems()) {
-            //                            fg.setReadOnly(true);
-            //                        }
-            //                        Component component = (Component) fg.getBinding((String) columnId).get().getField();
-            //                        if (component == null) {
-            //                            getComponentFor((ET) itemId, columnId.toString());
-            //                        }
-            //                        return component;
-            //                    }
-            //                });
-            //
-            //            }
-            //            ArrayList<Object> cols = new ArrayList<Object>(getVisibleProperties());
-
-            //            if (isAllowRemovingItems()) {
-            //                grid.addGeneratedColumn("__ACTIONS", new Table.ColumnGenerator() {
-            //
-            //                    private static final long serialVersionUID = 492486828008202547L;
-            //
-            //                    @Override
-            //                    public Object generateCell(Table source, final Object itemId, Object columnId) {
-            //
-            //                        MButton b = new MButton(VaadinIcons.TRASH).withListener(new Button.ClickListener() {
-            //
-            //                            private static final long serialVersionUID = -1257102620834362724L;
-            //
-            //                            @Override
-            //                            public void buttonClick(Button.ClickEvent event) {
-            //                                removeElement((ET) itemId);
-            //                            }
-            //                        }).withStyleName(ValoTheme.BUTTON_ICON_ONLY);
-            //                        b.setDescription(getDeleteElementDescription());
-            //
-            //                        if (getDeleteElementStyles() != null) {
-            //                            for (String style : getDeleteElementStyles()) {
-            //                                b.addStyleName(style);
-            //                            }
-            //                        }
-            //
-            //                        elementToDelButton.put((ET) itemId, b);
-            //                        return b;
-            //                    }
-            //                });
-            //                grid.setColumnHeader("__ACTIONS", "");
-            //                cols.add("__ACTIONS");
-            //            }
-
-            //            grid.setVisibleColumns(cols.toArray());
-            //            for (Object property : getVisibleProperties()) {
-            //                grid.setColumnHeader(property, getPropertyHeader(property.toString()));
-            //            }
             layout.addComponent(grid);
             if (isAllowNewItems()) {
                 layout.addComponent(addButton);
@@ -219,11 +169,30 @@ public class ElementCollectionGrid<ET> extends AbstractElementCollection<ET, Lis
         }
     }
 
+    protected FButton createDeleteButton(ET entity) {
+        FButton button = new FButton(VaadinIcons.TRASH).withClickListener(event -> removeElement(entity))
+                                                       .withStyleName(ValoTheme.BUTTON_ICON_ONLY)
+                                                       .withDescription(getDeleteElementDescription());
+
+        if (getDeleteElementStyles() != null) {
+            for (String style : getDeleteElementStyles()) {
+                button.addStyleName(style);
+            }
+        }
+
+        return button;
+    }
+
+    @Override
+    public void addElement(ET instance) {
+        super.addElement(instance);
+        grid.scrollToEnd();
+    }
+
     @Override
     public void clear() {
         if (inited) {
             items.clear();
-            elementToDelButton.clear();
             dataProvider.refreshAll();
         }
     }
@@ -240,7 +209,7 @@ public class ElementCollectionGrid<ET> extends AbstractElementCollection<ET, Lis
         return deleteThisElementDescription;
     }
 
-    private String deleteThisElementDescription = "Delete this element";
+    private String deleteThisElementDescription = Messages.getInstance().getMessage("grid.button.delete.description");
 
     public void setDeleteThisElementDescription(String deleteThisElementDescription) {
         this.deleteThisElementDescription = deleteThisElementDescription;
@@ -256,7 +225,7 @@ public class ElementCollectionGrid<ET> extends AbstractElementCollection<ET, Lis
 
     @Override
     public void onElementAdded() {
-        // NOP
+        //nothing
     }
 
     @Override

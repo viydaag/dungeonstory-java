@@ -117,4 +117,8 @@ public class Adventure extends AbstractTimestampEntity {
         return getStatus() == AdventureStatus.CANCELLED || getStatus() == AdventureStatus.CLOSED;
     }
 
+    public boolean isOpened() {
+        return getStatus() == AdventureStatus.OPENED;
+    }
+
 }

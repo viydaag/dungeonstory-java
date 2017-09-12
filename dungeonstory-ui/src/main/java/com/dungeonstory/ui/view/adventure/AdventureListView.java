@@ -16,11 +16,13 @@ import com.dungeonstory.ui.event.ViewAddedEvent.ViewDestination;
 import com.dungeonstory.ui.util.ViewConfig;
 import com.dungeonstory.ui.view.AbstractCrudView;
 import com.dungeonstory.ui.view.admin.grid.DSGrid;
+import com.vaadin.fluent.ui.FButton;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.ui.renderers.ButtonRenderer;
+import com.vaadin.ui.themes.ValoTheme;
 
 @ViewConfig(displayName = "Aventures", uri = AdventureListView.URI)
-public class AdventureListView extends AbstractCrudView<Adventure> {
+public class AdventureListView
+        extends AbstractCrudView<Adventure> {
 
     private static final long serialVersionUID = -2282322292623232916L;
 
@@ -39,23 +41,31 @@ public class AdventureListView extends AbstractCrudView<Adventure> {
 
         if (CurrentUser.get().getAdventure() == null) {
 
-            // TODO : replace with Component Renderer from Vaadin 8.1
-            // TODO : button is visible only if adventure is OPENED
-            grid.addColumn(adventure -> "Joindre", new ButtonRenderer<Adventure>(clickEvent -> {
-                ConfirmDialog.show(getUI(), "Joindre l'aventure", "Êtes-vous certain de joindre cette aventure", "Oui", "Non", new Runnable() {
-                    @Override
-                    public void run() {
-                        User user = CurrentUser.get();
-                        Adventure adventure = clickEvent.getItem();
-                        user.setAdventure(adventure);
-                        user = userService.update(user);
-                        CurrentUser.set(user);
-                        grid.removeColumn("join");
-                        EventBus.post(new ViewAddedEvent(AdventureView.class, ViewDestination.MENUBAR, "Mon aventure",
-                                AdventureView.URI + "/" + adventure.getId()));
-                    }
-                });
-            })).setId("join");
+            grid.addComponentColumn(adventure -> {
+                FButton button = new FButton("Joindre").withEnabled(adventure.isOpened())
+                                                       .withStyleName(ValoTheme.BUTTON_PRIMARY)
+                                                       .withClickListener(clickEvent -> {
+                                                           ConfirmDialog.show(getUI(), "Joindre l'aventure",
+                                                                   "Êtes-vous certain de joindre cette aventure", "Oui", "Non", new Runnable() {
+
+                                                                       @Override
+                                                                       public void run() {
+                                                                           User user = CurrentUser.get();
+                                                                           user.setAdventure(adventure);
+                                                                           user = userService.update(user);
+                                                                           CurrentUser.set(user);
+                                                                           grid.removeColumn("join");
+                                                                           EventBus.post(new ViewAddedEvent(AdventureView.class,
+                                                                                   ViewDestination.MENUBAR, "Mon aventure",
+                                                                                   AdventureView.URI + "/" + adventure.getId()));
+                                                                       }
+
+                                                                   });
+                                                       });
+                return button;
+            }).setId("join");
+
+            grid.setRowHeight(40);
 
         }
 
