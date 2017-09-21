@@ -6,6 +6,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "Message")
@@ -17,6 +18,7 @@ public class Message extends AbstractTimestampEntity {
     private String title;
 
     @NotNull
+    @Size(min = 1)
     @Column(name = "text", columnDefinition = "TEXT")
     private String text;
 

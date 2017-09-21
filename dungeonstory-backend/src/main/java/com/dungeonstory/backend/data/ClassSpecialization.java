@@ -13,6 +13,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.eclipse.persistence.annotations.BatchFetch;
 import org.eclipse.persistence.annotations.BatchFetchType;
@@ -30,6 +31,7 @@ public class ClassSpecialization extends AbstractTimestampEntity implements Seri
     public static final String FIND_ALL_DIVINE_DOMAIN_SPEC = "findAllDivineDomainSpec";
     
     @NotNull
+    @Size(min = 1)
     @Column(name = "name", unique = true, nullable = false)
     private String name;
     

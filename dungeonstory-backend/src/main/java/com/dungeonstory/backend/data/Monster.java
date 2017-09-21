@@ -20,6 +20,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.eclipse.persistence.annotations.PrivateOwned;
 
@@ -34,6 +35,7 @@ public class Monster extends AbstractTimestampEntity implements HasStats {
     private static final long serialVersionUID = -4897720435357339184L;
 
     @NotNull
+    @Size(min = 1)
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
@@ -295,6 +297,7 @@ public class Monster extends AbstractTimestampEntity implements HasStats {
         this.swimSpeed = swimSpeed;
     }
 
+    @Override
     public int getStrength() {
         return strength;
     }
@@ -303,6 +306,7 @@ public class Monster extends AbstractTimestampEntity implements HasStats {
         this.strength = strength;
     }
 
+    @Override
     public int getDexterity() {
         return dexterity;
     }
@@ -311,6 +315,7 @@ public class Monster extends AbstractTimestampEntity implements HasStats {
         this.dexterity = dexterity;
     }
 
+    @Override
     public int getConstitution() {
         return constitution;
     }
@@ -319,6 +324,7 @@ public class Monster extends AbstractTimestampEntity implements HasStats {
         this.constitution = constitution;
     }
 
+    @Override
     public int getIntelligence() {
         return intelligence;
     }
@@ -327,6 +333,7 @@ public class Monster extends AbstractTimestampEntity implements HasStats {
         this.intelligence = intelligence;
     }
 
+    @Override
     public int getWisdom() {
         return wisdom;
     }
@@ -335,6 +342,7 @@ public class Monster extends AbstractTimestampEntity implements HasStats {
         this.wisdom = wisdom;
     }
 
+    @Override
     public int getCharisma() {
         return charisma;
     }
@@ -383,6 +391,7 @@ public class Monster extends AbstractTimestampEntity implements HasStats {
         this.conditionImmunities = conditionImmunities;
     }
 
+    @Override
     public Set<Ability> getSavingThrowProficiencies() {
         return savingThrowProficiencies;
     }

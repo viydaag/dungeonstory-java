@@ -12,6 +12,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "User")
@@ -42,6 +43,7 @@ public class User extends AbstractTimestampEntity {
     };
 
     @NotNull
+    @Size(min = 1)
     @Column(name = "username", unique = true, nullable = false)
     private String username;
 

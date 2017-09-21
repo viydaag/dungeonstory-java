@@ -6,6 +6,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "City")
@@ -14,6 +15,7 @@ public class City extends AbstractTimestampEntity {
     private static final long serialVersionUID = 1536069812697538790L;
 
     @NotNull
+    @Size(min = 1)
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 

@@ -19,6 +19,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.eclipse.persistence.annotations.BatchFetch;
 import org.eclipse.persistence.annotations.BatchFetchType;
@@ -63,6 +64,7 @@ public class ClassFeature extends AbstractTimestampEntity implements Descriptive
     }
 
     @NotNull
+    @Size(min = 1)
     @Column(name = "name", nullable = false)
     private String name;
 

@@ -8,6 +8,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "Language")
@@ -22,6 +23,7 @@ public class Language extends AbstractTimestampEntity {
     public static final String UNASSIGNED_LANGUAGES  = "getUnassignedLanguages";
 
     @NotNull
+    @Size(min = 1)
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 

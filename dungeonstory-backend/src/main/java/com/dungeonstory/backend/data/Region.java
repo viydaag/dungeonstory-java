@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "Region")
@@ -12,6 +13,7 @@ public class Region extends AbstractTimestampEntity {
     private static final long serialVersionUID = -6174866486503922786L;
 
     @NotNull
+    @Size(min = 1)
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 

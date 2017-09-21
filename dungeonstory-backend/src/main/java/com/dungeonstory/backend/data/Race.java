@@ -32,6 +32,7 @@ public class Race extends AbstractTimestampEntity {
     }
 
     @NotNull
+    @javax.validation.constraints.Size(min = 1)
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
