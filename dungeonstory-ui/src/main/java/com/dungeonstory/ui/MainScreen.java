@@ -3,7 +3,11 @@ package com.dungeonstory.ui;
 import java.util.HashMap;
 
 import com.dungeonstory.backend.data.AccessRole;
+import com.dungeonstory.backend.data.Character;
+import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.authentication.CurrentUser;
+import com.dungeonstory.ui.event.CharacterCreatedEvent;
+import com.dungeonstory.ui.event.CharacterUpdatedEvent;
 import com.dungeonstory.ui.event.ViewAddedEvent;
 import com.dungeonstory.ui.event.ViewRemovedEvent;
 import com.dungeonstory.ui.i18n.MessageViewUpdater;
@@ -271,6 +275,22 @@ public class MainScreen extends HorizontalLayout {
                     break;
             }
         }
+    }
+
+    @Subscribe
+    public void characterAdded(CharacterCreatedEvent event) {
+        addViewToMenuBar(CharacterView.class);
+        addViewToMenuBar(ShopListView.class);
+        addView(com.dungeonstory.ui.view.shop.ShopView.class);
+
+        navigator.removeView(NewCharacterView.NEW_CHARACTER_URI);
+        navBar.removeView(NewCharacterView.NEW_CHARACTER_URI);
+    }
+
+    @Subscribe
+    public void characterUpdated(CharacterUpdatedEvent event) {
+        Character c = Services.getCharacterService().read(CurrentUser.get().getCharacter().getId());
+        CurrentUser.get().setCharacter(c);
     }
 
 }

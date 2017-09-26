@@ -27,12 +27,12 @@ public class CharacterClass implements Serializable {
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "characterId", updatable = false)
+    @JoinColumn(name = "characterId", updatable = false, nullable = false)
     private Character character;
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "classId", updatable = false)
+    @JoinColumn(name = "classId", updatable = false, nullable = false)
     private DSClass classe;
 
     @NotNull

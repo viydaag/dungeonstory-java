@@ -14,13 +14,9 @@ import com.dungeonstory.backend.data.User;
 import com.dungeonstory.backend.data.util.ClassUtil;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.authentication.CurrentUser;
+import com.dungeonstory.ui.event.CharacterCreatedEvent;
 import com.dungeonstory.ui.event.EventBus;
-import com.dungeonstory.ui.event.ViewAddedEvent;
-import com.dungeonstory.ui.event.ViewAddedEvent.ViewDestination;
-import com.dungeonstory.ui.event.ViewRemovedEvent;
 import com.dungeonstory.ui.i18n.Messages;
-import com.dungeonstory.ui.view.character.CharacterView;
-import com.dungeonstory.ui.view.character.NewCharacterView;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
 
@@ -88,8 +84,7 @@ public class NewCharacterWizard extends CharacterWizard {
         characterService.create(character);
         CurrentUser.set(user);
         Notification.show(messages.getMessage("newCharacterView.notif.created"), Type.HUMANIZED_MESSAGE);
-        EventBus.post(new ViewRemovedEvent(NewCharacterView.NEW_CHARACTER_URI));
-        EventBus.post(new ViewAddedEvent(CharacterView.class, ViewDestination.MENUBAR));
+        EventBus.post(new CharacterCreatedEvent(character));
         super.wizardCompleted(event);
     }
 
