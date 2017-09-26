@@ -7,6 +7,9 @@ import com.dungeonstory.ui.i18n.Messages;
 import com.dungeonstory.ui.i18n.Translatable;
 import com.dungeonstory.ui.util.DSTheme;
 import com.vaadin.data.BeanValidationBinder;
+import com.vaadin.fluent.ui.FPasswordField;
+import com.vaadin.fluent.ui.FTextField;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
@@ -31,10 +34,10 @@ public class NewUserForm extends FormLayout implements Translatable {
         setSpacing(true);
         setId("newUserForm");
 
-        username.setId("newUsername");
-        password.setId("newPassword");
-        name.setId("newName");
-        email.setId("newEmail");
+        username = new FTextField().withIcon(VaadinIcons.USER).withId("newUsername");
+        password = new FPasswordField().withIcon(VaadinIcons.PASSWORD).withId("newPassword");
+        name = new FTextField().withIcon(VaadinIcons.USER_CARD).withId("newName");
+        email = new EmailField().withIcon(VaadinIcons.ENVELOPE_O).withId("newEmail");
 
         addComponents(username, password, name, email);
 
