@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -26,7 +27,7 @@ public class Shop extends AbstractTimestampEntity {
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
     
-    @OneToMany(mappedBy = "shop", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "shop", cascade = { CascadeType.ALL }, orphanRemoval = true)
     private List<ShopEquipment> shopEquipments;
     
     @NotNull

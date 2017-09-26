@@ -289,6 +289,8 @@ public class ClassChoiceForm extends CharacterWizardStepForm<CharacterClass> imp
             character.getSkillProficiencies().addAll(classSkills.getValue());
         }
 
+        character.setGold(chosenClass.getStartingGold());
+
     }
 
     @Override

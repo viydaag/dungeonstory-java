@@ -1,6 +1,8 @@
 package com.dungeonstory.ui.view.admin.form;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.vaadin.viritin.fields.IntegerField;
 
@@ -13,6 +15,10 @@ import com.dungeonstory.backend.service.EquipmentDataService;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSAbstractForm;
 import com.dungeonstory.ui.field.ElementCollectionGrid;
+import com.vaadin.data.ValidationResult;
+import com.vaadin.data.Validator;
+import com.vaadin.data.ValueContext;
+import com.vaadin.fluent.ui.FComboBox;
 import com.vaadin.fluent.ui.FTextArea;
 import com.vaadin.fluent.ui.FTextField;
 import com.vaadin.ui.ComboBox;
@@ -34,7 +40,7 @@ public class ShopForm extends DSAbstractForm<Shop> {
     private CityDataService      cityService      = null;
 
     public static class ShopEquipmentRow {
-        ComboBox<Equipment> equipment = new ComboBox<>();
+        FComboBox<Equipment> equipment = new FComboBox<Equipment>().withEmptySelectionAllowed(false);
         IntegerField        quantity  = new IntegerField();
         IntegerField        unitPrice = new IntegerField();
     }
@@ -53,16 +59,38 @@ public class ShopForm extends DSAbstractForm<Shop> {
         description = new FTextArea("Description").withFullWidth();
         city = new ComboBox<City>("Ville", cityService.findAll());
 
-        List<Equipment> purchasableEquipment = equipmentService.findAllPurchasable();
         shopEquipments = new ElementCollectionGrid<>(ShopEquipment.class, ShopEquipmentRow.class).withCaption("Équipement")
                 .withEditorInstantiator(() -> {
                     ShopEquipmentRow row = new ShopEquipmentRow();
+                    List<Equipment> currentEquipment = new ArrayList<Equipment>();
+                    if (shopEquipments.getValue() != null) {
+                        currentEquipment = shopEquipments.getValue().stream().map(ShopEquipment::getEquipment).collect(Collectors.toList());
+                    }
+                    List<Equipment> purchasableEquipment = equipmentService.findAllPurchasable();
+                    purchasableEquipment.removeAll(currentEquipment);
                     row.equipment.setItems(purchasableEquipment);
+                    row.equipment.addValueChangeListener(event -> row.unitPrice.setValue(event.getValue().getBasePrice()));
                     return row;
                 });
         shopEquipments.setPropertyHeader("equipment", "Nom");
         shopEquipments.setPropertyHeader("quantity", "Quantité");
         shopEquipments.setPropertyHeader("unitPrice", "Prix à l'unité");
+        getBinder().forMemberField(shopEquipments).withValidator(new Validator<List<ShopEquipment>>() {
+
+            private static final long serialVersionUID = -2459730063721792829L;
+
+            @Override
+            public ValidationResult apply(List<ShopEquipment> value, ValueContext context) {
+                ValidationResult result = ValidationResult.ok();
+                for (ShopEquipment equip : value) {
+                    result = shopEquipments.validateBean(equip);
+                    if (result.isError()) {
+                        break;
+                    }
+                }
+                return result;
+            }
+        });
 
         layout.addComponent(name);
         layout.addComponent(city);

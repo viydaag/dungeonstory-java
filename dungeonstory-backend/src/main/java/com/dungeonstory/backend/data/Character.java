@@ -148,7 +148,7 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
     @Column(name = "charisma", nullable = false)
     private int charisma;
 
-    @OneToOne(mappedBy = "character", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+    @OneToOne(mappedBy = "character", cascade = { CascadeType.PERSIST, CascadeType.REMOVE }, targetEntity = CharacterBackground.class)
     private CharacterBackground background;
 
     @NotNull
@@ -167,7 +167,7 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
     @OneToMany(mappedBy = "character")
     private List<Message> messages;
 
-    @OneToMany(mappedBy = "character", cascade = { CascadeType.ALL }, targetEntity = CharacterClass.class)
+    @OneToMany(mappedBy = "character", cascade = { CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE }, targetEntity = CharacterClass.class)
     @PrivateOwned
     private Set<CharacterClass> classes;
 
@@ -231,6 +231,10 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
     @NotNull
     @Column(name = "image", nullable = false)
     private String image;
+
+    @Min(value = 0)
+    @Column(name = "gold", nullable = false)
+    private long gold = 0;
 
     public Character() {
         super();
@@ -541,5 +545,29 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public Adventure getAdventure() {
+        return adventure;
+    }
+
+    public void setAdventure(Adventure adventure) {
+        this.adventure = adventure;
+    }
+
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
+    }
+
+    public long getGold() {
+        return gold;
+    }
+
+    public void setGold(long gold) {
+        this.gold = gold;
     }
 }

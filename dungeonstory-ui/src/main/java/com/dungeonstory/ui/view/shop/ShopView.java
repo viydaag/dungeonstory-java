@@ -1,25 +1,32 @@
 package com.dungeonstory.ui.view.shop;
 
+import java.util.Iterator;
+
 import com.dungeonstory.backend.data.Shop;
 import com.dungeonstory.backend.data.ShopEquipment;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.backend.service.ShopDataService;
+import com.dungeonstory.ui.authentication.CurrentUser;
 import com.dungeonstory.ui.component.DSLabel;
 import com.dungeonstory.ui.event.EventBus;
 import com.dungeonstory.ui.event.NavigationEvent;
 import com.dungeonstory.ui.util.DSTheme;
+import com.dungeonstory.ui.util.Refresher;
 import com.dungeonstory.ui.util.ViewConfig;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
 @ViewConfig(uri = ShopView.URI, displayName = "")
-public class ShopView extends VerticalLayout implements View {
+public class ShopView
+        extends VerticalLayout
+        implements View, Refresher {
 
     private static final long serialVersionUID = -1712432045147930397L;
 
@@ -29,6 +36,7 @@ public class ShopView extends VerticalLayout implements View {
     private Shop              shop;
 
     private VerticalLayout buyLayout;
+    private DSLabel goldLabel;
 
     public ShopView() {
         service = Services.getShopService();
@@ -43,15 +51,19 @@ public class ShopView extends VerticalLayout implements View {
         backButton.addClickListener(click -> EventBus.post(new NavigationEvent(ShopListView.URI)));
 
         Label shopName = new Label();
+        goldLabel = new DSLabel().withCaption("Or :");
+        long gold = 0;
 
         if (event.getParameters() == null || event.getParameters().isEmpty()) {
             return;
         } else {
             shop = service.read(Long.valueOf(event.getParameters()));
             shopName.setValue(shop.getName());
+            gold = CurrentUser.get().getCharacter().getGold();
+            goldLabel.setValue(String.valueOf(gold));
         }
 
-        addComponents(backButton, shopName, buyLayout);
+        addComponents(backButton, shopName, goldLabel, buyLayout);
 
         Panel buyHeaderPanel = new Panel();
         HorizontalLayout buyHeaderLayout = new HorizontalLayout();
@@ -79,8 +91,23 @@ public class ShopView extends VerticalLayout implements View {
         buyLayout.addComponent(buyHeaderPanel);
 
         for (ShopEquipment shopEquipment : shop.getShopEquipments()) {
-            ShopItem item = new ShopItem(shopEquipment);
+            ShopItem item = new ShopItem(shopEquipment, gold, this);
             buyLayout.addComponent(item);
+        }
+
+    }
+
+    @Override
+    public void refresh() {
+        Iterator<Component> iterator = buyLayout.iterator();
+        while (iterator.hasNext()) {
+            Component c = iterator.next();
+            if (c instanceof ShopItem) {
+                ShopItem item = (ShopItem) c;
+                long remainingGold = CurrentUser.get().getCharacter().getGold();
+                goldLabel.setValue(String.valueOf(remainingGold));
+                item.refresh(remainingGold);
+            }
         }
 
     }

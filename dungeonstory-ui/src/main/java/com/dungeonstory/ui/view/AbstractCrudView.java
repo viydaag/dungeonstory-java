@@ -181,7 +181,11 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalLayout 
     }
 
     public void cancel(T entity) {
-        entryReset(entity);
+        try {
+            entryReset(entity);
+        } catch (Exception e) {
+            form.setEntity(null);
+        }
         closeForm();
         grid.deselectAll();
     }

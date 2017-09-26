@@ -9,6 +9,7 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.eclipse.persistence.annotations.JoinFetch;
@@ -28,6 +29,7 @@ public class ClassLevelBonus implements Serializable {
     private DSClass classe;
 
     @Id
+    @NotNull
     @ManyToOne
     @JoinFetch(JoinFetchType.INNER)
     @JoinColumn(name = "levelId")

@@ -1,13 +1,22 @@
 package com.dungeonstory.ui.view.shop;
 
+import org.vaadin.viritin.fields.IntegerField;
+
 import com.dungeonstory.backend.data.ShopEquipment;
+import com.dungeonstory.backend.rules.ShopRules;
+import com.dungeonstory.ui.authentication.CurrentUser;
 import com.dungeonstory.ui.component.DSLabel;
+import com.dungeonstory.ui.event.CharacterUpdatedEvent;
+import com.dungeonstory.ui.event.EventBus;
 import com.dungeonstory.ui.i18n.Messages;
 import com.dungeonstory.ui.util.DSTheme;
+import com.dungeonstory.ui.util.Refresher;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.MouseEventDetails.MouseButton;
+import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
@@ -21,9 +30,16 @@ public class ShopItem extends CustomComponent {
     private static final long serialVersionUID = 8179307377449371715L;
     
     private ShopEquipment item;
+    private long          remainingGold;
+    private Refresher     refresher;
 
-    public ShopItem(ShopEquipment item) {
+    private IntegerField buyQuantityField;
+    private Label        unitPriceLabel;
+    private Button       buyButton;
+
+    public ShopItem(ShopEquipment item, long remainingGold, Refresher refresher) {
         this.item = item;
+        this.remainingGold = remainingGold;
         
         Panel panel = new Panel();
         HorizontalLayout layout = new HorizontalLayout();
@@ -31,8 +47,8 @@ public class ShopItem extends CustomComponent {
         
         Label itemName = new DSLabel(this.item.getEquipment().getName());
         Label stockQuantityLabel = new DSLabel(String.valueOf(this.item.getQuantity())).withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
-        Label buyQuantityLabel = new DSLabel("0").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
-        Label unitPriceLabel = new DSLabel(String.valueOf(this.item.getUnitPrice()));
+        buyQuantityField = new IntegerField().withValue(0).withWidth("50px");
+        unitPriceLabel = new DSLabel(String.valueOf(this.item.getUnitPrice()));
         Label totalPriceLabel = new DSLabel().withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
         
         itemName.addContextClickListener(event -> {
@@ -43,39 +59,35 @@ public class ShopItem extends CustomComponent {
         
         Button minusButton = new Button(VaadinIcons.MINUS);
         minusButton.addClickListener(event -> {
-            int stockQuantity = Integer.parseInt(stockQuantityLabel.getValue());
-            int buyQuantity = Integer.parseInt(buyQuantityLabel.getValue());
-            stockQuantity++;
-            buyQuantity--;
-            stockQuantityLabel.setValue(String.valueOf(stockQuantity));
-            buyQuantityLabel.setValue(String.valueOf(buyQuantity));
-            totalPriceLabel.setValue(String.valueOf(calculateBuyPrice(buyQuantity, this.item.getUnitPrice())));
+            //            add(stockQuantityLabel, 1);
+            substract(buyQuantityField, 1);
+            totalPriceLabel.setValue(String.valueOf(calculateBuyPrice(buyQuantityField.getValue(), this.item.getUnitPrice())));
+            checkBuyButtonAvailibility();
         });
         
         Button plusButton = new Button(VaadinIcons.PLUS);
         plusButton.addClickListener(event -> {
-            int stockQuantity = Integer.parseInt(stockQuantityLabel.getValue());
-            int buyQuantity = Integer.parseInt(buyQuantityLabel.getValue());
-            stockQuantity--;
-            buyQuantity++;
-            stockQuantityLabel.setValue(String.valueOf(stockQuantity));
-            buyQuantityLabel.setValue(String.valueOf(buyQuantity));
-            totalPriceLabel.setValue(String.valueOf(calculateBuyPrice(buyQuantity, this.item.getUnitPrice())));
+            add(buyQuantityField, 1);
+            totalPriceLabel.setValue(String.valueOf(calculateBuyPrice(buyQuantityField.getValue(), this.item.getUnitPrice())));
+            checkBuyButtonAvailibility();
         });
         
-        Button buyButton = new Button("Acheter");
+        buyButton = new Button("Acheter");
         buyButton.addClickListener(event -> {
-            int quantity = Integer.parseInt(buyQuantityLabel.getValue());
-            this.item.setQuantity(quantity);
+            int quantity = buyQuantityField.getValue();
+            ShopRules.buyItem(CurrentUser.get().getCharacter(), item.getShop(), item, quantity);
+            EventBus.post(new CharacterUpdatedEvent());
+            substract(stockQuantityLabel, quantity);
+            refresher.refresh();
         });
         
-        layout.addComponents(unitPriceLabel, itemName, stockQuantityLabel, minusButton, buyQuantityLabel, plusButton, totalPriceLabel, buyButton);
+        layout.addComponents(unitPriceLabel, itemName, stockQuantityLabel, minusButton, buyQuantityField, plusButton, totalPriceLabel, buyButton);
         layout.setComponentAlignment(buyButton, Alignment.MIDDLE_RIGHT);
         layout.setExpandRatio(itemName, 4);
         layout.setExpandRatio(unitPriceLabel, 1);
         layout.setExpandRatio(stockQuantityLabel, 1);
         layout.setExpandRatio(minusButton, 1);
-        layout.setExpandRatio(buyQuantityLabel, 1);
+        layout.setExpandRatio(buyQuantityField, 1);
         layout.setExpandRatio(plusButton, 1);
         layout.setExpandRatio(totalPriceLabel, 1);
         layout.setExpandRatio(buyButton, 2);
@@ -104,5 +116,30 @@ public class ShopItem extends CustomComponent {
         UI.getCurrent().addWindow(window);
     }
     
+    public void refresh(long remainingGold) {
+        this.remainingGold = remainingGold;
+        checkBuyButtonAvailibility();
+    }
+
+    private void checkBuyButtonAvailibility() {
+        int total = buyQuantityField.getValue() * Integer.parseInt(unitPriceLabel.getValue());
+        buyButton.setEnabled(total <= this.remainingGold);
+    }
+
+    private void substract(Component c, int value) {
+        if (c instanceof AbstractField) {
+            ((AbstractField<Integer>) c).setValue(((AbstractField<Integer>) c).getValue() - value);
+        } else if (c instanceof Label) {
+            ((Label) c).setValue(String.valueOf(Integer.parseInt(((Label) c).getValue()) - value));
+        }
+    }
+
+    private void add(Component c, int value) {
+        if (c instanceof AbstractField) {
+            ((AbstractField<Integer>) c).setValue(((AbstractField<Integer>) c).getValue() + value);
+        } else if (c instanceof Label) {
+            ((Label) c).setValue(String.valueOf(Integer.parseInt(((Label) c).getValue()) + value));
+        }
+    }
 
 }
