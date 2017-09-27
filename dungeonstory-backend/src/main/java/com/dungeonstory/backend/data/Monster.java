@@ -22,8 +22,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.eclipse.persistence.annotations.PrivateOwned;
-
 /**
  * Entity implementation class for Entity: Monster
  *
@@ -165,7 +163,6 @@ public class Monster extends AbstractTimestampEntity implements HasStats {
     @JoinTable(name = "MonsterSavingThrowProficiencies", joinColumns = {
             @JoinColumn(name = "monsterId", referencedColumnName = "id") }, inverseJoinColumns = {
                     @JoinColumn(name = "abilityId", referencedColumnName = "id") })
-    @PrivateOwned
     private Set<Ability> savingThrowProficiencies;
 
     @OneToMany(mappedBy = "monster", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })

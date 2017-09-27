@@ -195,7 +195,6 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
     @JoinTable(name = "CharacterSavingThrowProficiencies", joinColumns = {
             @JoinColumn(name = "characterId", referencedColumnName = "id") }, inverseJoinColumns = {
                     @JoinColumn(name = "abilityId", referencedColumnName = "id") })
-    @PrivateOwned
     private Set<Ability> savingThrowProficiencies;
 
     @ElementCollection(targetClass = ToolType.class)

@@ -89,7 +89,6 @@ public class DSClass extends AbstractTimestampEntity {
     @JoinTable(name = "ClassSavingThrowProficiencies", joinColumns = {
         @JoinColumn(name = "classId", referencedColumnName = "id") }, 
             inverseJoinColumns = { @JoinColumn(name = "abilityId", referencedColumnName = "id") })
-    @PrivateOwned
     private Set<Ability> savingThrowProficiencies;
     
     @ElementCollection(targetClass = ArmorType.ProficiencyType.class)
