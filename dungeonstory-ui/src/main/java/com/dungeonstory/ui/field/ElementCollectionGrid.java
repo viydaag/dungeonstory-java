@@ -63,7 +63,6 @@ public class ElementCollectionGrid<ET> extends AbstractElementCollection<ET, Lis
     private static final long serialVersionUID = 3979170822301544331L;
 
     private Grid<ET>             grid;
-    private List<ET>             items = new ArrayList<ET>();
     private ListDataProvider<ET> dataProvider;
     private Button               addButton;
 
@@ -92,13 +91,11 @@ public class ElementCollectionGrid<ET> extends AbstractElementCollection<ET, Lis
     @Override
     public void addInternalElement(final ET v) {
         ensureInited();
-        items.add(v);
         dataProvider.refreshAll();
     }
 
     @Override
     public void removeInternalElement(ET v) {
-        items.remove(v);
         dataProvider.refreshAll();
     }
 
@@ -125,19 +122,20 @@ public class ElementCollectionGrid<ET> extends AbstractElementCollection<ET, Lis
 
     private void ensureInited() {
         if (!inited) {
+            value = new ArrayList<ET>();
             layout.setMargin(false);
+            layout.addComponent(statusLayout);
             //            setHeight("300px");
 
-            grid = new Grid<ET>(getElementType());
+            grid = new Grid<ET>();
             grid.setWidth(100, Unit.PERCENTAGE);
             grid.setHeightUndefined();
-            dataProvider = DataProvider.ofCollection(items);
+            
+            dataProvider = DataProvider.ofCollection(value);
             grid.setDataProvider(dataProvider);
 
             addButton = new Button(VaadinIcons.PLUS);
             addButton.addClickListener(click -> addElement(createInstance()));
-
-            grid.removeAllColumns();
 
             //generate all columns with proper component
             for (String propertyName : getVisibleProperties()) {
@@ -165,6 +163,7 @@ public class ElementCollectionGrid<ET> extends AbstractElementCollection<ET, Lis
             if (isAllowNewItems()) {
                 layout.addComponent(addButton);
             }
+
             inited = true;
         }
     }
@@ -192,7 +191,7 @@ public class ElementCollectionGrid<ET> extends AbstractElementCollection<ET, Lis
     @Override
     public void clear() {
         if (inited) {
-            items.clear();
+            super.clear();
             dataProvider.refreshAll();
         }
     }
@@ -284,7 +283,7 @@ public class ElementCollectionGrid<ET> extends AbstractElementCollection<ET, Lis
     @SuppressWarnings("unchecked")
     @Override
     protected Class<List<ET>> getContainerType() {
-        return (Class<List<ET>>) items.getClass();
+        return (Class<List<ET>>) value.getClass();
     }
 
 }

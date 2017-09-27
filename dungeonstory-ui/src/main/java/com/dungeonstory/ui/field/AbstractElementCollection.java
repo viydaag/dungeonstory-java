@@ -3,6 +3,7 @@ package com.dungeonstory.ui.field;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -14,6 +15,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -26,14 +28,21 @@ import com.dungeonstory.ui.field.listener.ElementAddedListener;
 import com.dungeonstory.ui.field.listener.ElementRemovedListener;
 import com.vaadin.data.BeanValidationBinder;
 import com.vaadin.data.Binder;
+import com.vaadin.data.BinderValidationStatusHandler;
+import com.vaadin.data.BindingValidationStatus;
 import com.vaadin.data.HasValue;
 import com.vaadin.data.StatusChangeEvent;
 import com.vaadin.data.StatusChangeListener;
+import com.vaadin.data.ValidationResult;
+import com.vaadin.fluent.ui.FLabel;
+import com.vaadin.fluent.ui.FVerticalLayout;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.util.SharedUtil;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomField;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
+import com.vaadin.ui.themes.ValoTheme;
 import com.vaadin.util.ReflectTools;
 
 /**
@@ -44,13 +53,13 @@ import com.vaadin.util.ReflectTools;
  * <ul>
  * <li>The field is valid when all elements are valid.
  * <li>The field is always non buffered
- * <li>The element type needs to have an empty paremeter constructor or user
+ * <li>The element type needs to have an empty parameter constructor or user
  * must provide an Instantiator.
  * </ul>
  *
  * @author Jean-Christophe Fortier
  * @param <ET> The type in the entity collection. The type must have empty
- * paremeter constructor or you have to provide Instantiator.
+ * parameter constructor or you have to provide Instantiator.
  */
 public abstract class AbstractElementCollection<ET, CT extends Collection<ET>> extends CustomField<CT> {
 
@@ -91,7 +100,9 @@ public abstract class AbstractElementCollection<ET, CT extends Collection<ET>> e
     private boolean      allowRemovingItems = true;
     private boolean      allowEditItems     = true;
 
-    private CT value;
+    protected CT value;
+
+    protected FVerticalLayout statusLayout = new FVerticalLayout().withSpacing(false);
 
     StatusChangeListener scl = new StatusChangeListener() {
 
@@ -101,10 +112,10 @@ public abstract class AbstractElementCollection<ET, CT extends Collection<ET>> e
         @Override
         public void statusChange(StatusChangeEvent event) {
             ET bean = (ET) event.getBinder().getBean();
+            final Binder<?> binder = event.getBinder();
+            final boolean valid = binder.isValid();
             if (bean == newInstance) {
 
-                final Binder<?> binder = event.getBinder();
-                final boolean valid = binder.isValid();
                 if (!valid || !isValidBean(bean)) {
                     return;
                 }
@@ -274,6 +285,38 @@ public abstract class AbstractElementCollection<ET, CT extends Collection<ET>> e
         ElementEditor es;
         Object o = createEditorInstance(pojo);
         BeanValidationBinder<ET> beanBinder = new BeanValidationBinder<ET>((Class<ET>) pojo.getClass());
+
+        BinderValidationStatusHandler<ET> defaultHandler = beanBinder.getValidationStatusHandler();
+        FLabel formStatusLabel = new FLabel().withContentMode(ContentMode.HTML).withStyleName(ValoTheme.LABEL_FAILURE);
+        statusLayout.addComponent(formStatusLabel);
+        formStatusLabel.setVisible(false);
+
+        beanBinder.setValidationStatusHandler(status -> {
+            List<BindingValidationStatus<?>> fieldErrors = status.getFieldValidationErrors();
+            List<ValidationResult> beanErrors = status.getBeanValidationErrors();
+
+            // collect all bean level error messages into a single string,
+            // separating each message with a <br> tag
+            String errorMessage = fieldErrors.stream()
+                                        .map(BindingValidationStatus::getMessage)
+                                        .map(Optional::get)
+                                        .collect(Collectors.joining("<br>"));
+
+            String errorMessage2 = beanErrors.stream()
+                                             .map(ValidationResult::getErrorMessage)
+                                             .collect(Collectors.joining("<br>"));
+
+            List<String> errorList = Arrays.asList(errorMessage, errorMessage2);
+            String errors = errorList.stream().filter(s -> !s.isEmpty()).collect(Collectors.joining("<br>"));
+
+            // finally, display all bean level validation errors in a single label
+            formStatusLabel.setValue(errors);
+            formStatusLabel.setVisible(!errors.isEmpty());
+
+            // Let the default handler show messages for each field
+            defaultHandler.statusChange(status);
+        });
+
         beanBinder.bindInstanceFields(o);
         beanBinder.setBean(pojo);
         beanBinder.addStatusChangeListener(scl);
@@ -313,13 +356,16 @@ public abstract class AbstractElementCollection<ET, CT extends Collection<ET>> e
     public void addElement(ET instance) {
         getAndEnsureValue().add(instance);
         addInternalElement(instance);
-        fireEvent(new ValueChangeEvent<CT>(this, null, true));
+        if (getBinderFor(instance).isValid() && isValidBean(instance)) {
+            fireEvent(new ValueChangeEvent<CT>(this, null, true));
+        }
+        
         fireEvent(new ElementAddedEvent<>(this, instance));
     }
 
     public void removeElement(ET elemnentToBeRemoved) {
-        removeInternalElement(elemnentToBeRemoved);
         getAndEnsureValue().remove(elemnentToBeRemoved);
+        removeInternalElement(elemnentToBeRemoved);
         fireEvent(new ValueChangeEvent<CT>(this, null, true));
         fireEvent(new ElementRemovedEvent<>(this, elemnentToBeRemoved));
     }
@@ -377,13 +423,18 @@ public abstract class AbstractElementCollection<ET, CT extends Collection<ET>> e
     @Override
     protected void doSetValue(CT newValue) {
         clear();
-        value = newValue;
+        value.addAll(newValue);
         if (value != null) {
             for (ET v : newValue) {
                 addInternalElement(v);
             }
         }
         onElementAdded();
+    }
+
+    @Override
+    public void clear() {
+        value.clear();
     }
 
     abstract protected void addInternalElement(ET v);
@@ -403,9 +454,37 @@ public abstract class AbstractElementCollection<ET, CT extends Collection<ET>> e
         return value;
     }
 
-    public boolean isValidBean(Object bean) {
-        Set<ConstraintViolation<Object>> violations = getJavaxBeanValidator().validate(bean);
+    public boolean isValueValid() {
+        boolean isValid = true;
+        if (value != null && !value.isEmpty()) {
+            for (ET element : value) {
+                Binder<ET> binder = getBinderFor(element);
+                isValid &= binder.isValid() & isValidBean(element);
+            }
+        }
+        return isValid;
+    }
+
+    public ValidationResult isValid() {
+        if (isValueValid()) {
+            return ValidationResult.ok();
+        } else {
+            return ValidationResult.error("Veuillez compléter tous les champs");
+        }
+    }
+
+    public boolean isValidBean(ET bean) {
+        Set<ConstraintViolation<ET>> violations = getJavaxBeanValidator().validate(bean);
         return violations.isEmpty();
+    }
+
+    public ValidationResult validateBean(ET bean) {
+        ValidationResult result = ValidationResult.ok();
+        Set<ConstraintViolation<ET>> violations = getJavaxBeanValidator().validate(bean);
+        if (!violations.isEmpty()) {
+            result = ValidationResult.error("L'entrée contient des erreurs");
+        }
+        return result;
     }
 
     /**

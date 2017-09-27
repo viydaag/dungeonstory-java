@@ -7,13 +7,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.vaadin.viritin.button.ConfirmButton;
-import org.vaadin.viritin.button.MButton;
-import org.vaadin.viritin.layouts.MGridLayout;
 
 import com.dungeonstory.ui.component.AbstractForm;
 import com.dungeonstory.ui.field.listener.ElementAddedListener;
 import com.dungeonstory.ui.field.listener.ElementRemovedListener;
 import com.vaadin.data.Binder;
+import com.vaadin.fluent.ui.FButton;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -39,10 +38,10 @@ import com.vaadin.ui.themes.ValoTheme;
  * List&gt;Address&lt; adresses:
  * <pre><code>
  *  public static class AddressRow {
- *      EnumSelect type = new EnumSelect();
- *      FTextField street = new FTextField();
- *      FTextField city = new FTextField();
- *      FTextField zipCode = new FTextField();
+ *      ComboBox type = new ComboBox();
+ *      TextField street = new TextField();
+ *      TextField city = new TextField();
+ *      TextField zipCode = new TextField();
  *  }
  *
  *  public static class PersonForm&lt;Person&gt; extends AbstractForm {
@@ -76,11 +75,12 @@ public class ElementCollectionField<ET> extends AbstractElementCollection<ET, Li
 
     private static final long serialVersionUID = 8573373104105052804L;
 
+    // Visible items on the page = value + 1 (empty)
     List<ET> items = new ArrayList<>();
 
     boolean inited = false;
 
-    MGridLayout layout = new MGridLayout();
+    GridLayout layout = new GridLayout();
 
     private boolean          visibleHeaders = true;
     private boolean          requireVerificationForRemoval;
@@ -93,6 +93,12 @@ public class ElementCollectionField<ET> extends AbstractElementCollection<ET, Li
     public ElementCollectionField(Class<ET> elementType, Instantiator<ET> i, Class<?> formType) {
         super(elementType, i, formType);
         items = new ArrayList<>();
+    }
+
+    @Override
+    public void attach() {
+        super.attach();
+        ensureInited();
     }
 
     @Override
@@ -114,18 +120,11 @@ public class ElementCollectionField<ET> extends AbstractElementCollection<ET, Li
             layout.setComponentAlignment(c, Alignment.MIDDLE_LEFT);
         }
         if (getPopupEditor() != null) {
-            MButton b = new MButton(VaadinIcons.EDIT).withStyleName(ValoTheme.BUTTON_ICON_ONLY).withListener(new Button.ClickListener() {
-                private static final long serialVersionUID = 5019806363620874205L;
-
-                @Override
-                public void buttonClick(Button.ClickEvent event) {
-                    editInPopup(v);
-                }
-            });
-            layout.add(b);
+            FButton b = new FButton(VaadinIcons.EDIT).withStyleName(ValoTheme.BUTTON_ICON_ONLY).withClickListener(event -> editInPopup(v));
+            layout.addComponent(b);
         }
         if (isAllowRemovingItems()) {
-            layout.add(createRemoveButton(v));
+            layout.addComponent(createRemoveButton(v));
         }
         if (!isAllowEditItems()) {
             beanBinder.setReadOnly(true);
@@ -137,7 +136,7 @@ public class ElementCollectionField<ET> extends AbstractElementCollection<ET, Li
         if (requireVerificationForRemoval) {
             b = new ConfirmButton();
         } else {
-            b = new MButton();
+            b = new Button();
         }
         b.setIcon(VaadinIcons.TRASH);
         b.addStyleName(ValoTheme.BUTTON_ICON_ONLY);
@@ -191,6 +190,7 @@ public class ElementCollectionField<ET> extends AbstractElementCollection<ET, Li
 
     private void ensureInited() {
         if (!inited) {
+            value = new ArrayList<>();
             layout.setSpacing(true);
             int columns = getVisibleProperties().size();
             if (isAllowRemovingItems()) {
@@ -247,6 +247,7 @@ public class ElementCollectionField<ET> extends AbstractElementCollection<ET, Li
     @Override
     public void clear() {
         if (inited) {
+            super.clear();
             items.clear();
             int rows = inited ? 1 : 0;
             while (layout.getRows() > rows) {
