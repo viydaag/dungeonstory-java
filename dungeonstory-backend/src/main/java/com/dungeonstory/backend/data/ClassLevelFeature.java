@@ -9,6 +9,7 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.eclipse.persistence.annotations.JoinFetch;
 import org.eclipse.persistence.annotations.JoinFetchType;
@@ -27,15 +28,17 @@ public class ClassLevelFeature implements Serializable {
     private DSClass classe;
 
     @Id
+    @NotNull
     @ManyToOne
     @JoinFetch(JoinFetchType.INNER)
-    @JoinColumn(name = "levelId")
+    @JoinColumn(name = "levelId", nullable = false)
     private Level level;
 
     @Id
+    @NotNull
     @ManyToOne
     @JoinFetch(JoinFetchType.INNER)
-    @JoinColumn(name = "featureId")
+    @JoinColumn(name = "featureId", nullable = false)
     private ClassFeature feature;
 
     @Column(name = "nbToChoose")

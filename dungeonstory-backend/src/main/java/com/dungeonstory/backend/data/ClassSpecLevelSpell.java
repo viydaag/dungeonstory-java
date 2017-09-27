@@ -6,6 +6,7 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @IdClass(ClassSpecLevelSpellId.class)
@@ -14,17 +15,19 @@ public class ClassSpecLevelSpell {
     
     @Id
     @ManyToOne
-    @JoinColumn(name = "classSpecId")
+    @JoinColumn(name = "classSpecId", nullable = false)
     private ClassSpecialization classSpec;
 
     @Id
+    @NotNull
     @ManyToOne
-    @JoinColumn(name = "levelId")
+    @JoinColumn(name = "levelId", nullable = false)
     private Level level;
 
     @Id
+    @NotNull
     @ManyToOne
-    @JoinColumn(name = "spellId")
+    @JoinColumn(name = "spellId", nullable = false)
     private Spell spell;
     
     public ClassSpecLevelSpell() {

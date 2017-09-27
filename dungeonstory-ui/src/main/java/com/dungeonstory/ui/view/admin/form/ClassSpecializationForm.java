@@ -26,6 +26,7 @@ import com.dungeonstory.ui.field.LevelSpellsCollectionField;
 import com.dungeonstory.ui.field.LevelSpellsCollectionField.LevelSpellsRow;
 import com.dungeonstory.ui.view.admin.form.ClassForm.ClassLevelFeatureRow;
 import com.vaadin.data.HasValue.ValueChangeEvent;
+import com.vaadin.fluent.ui.FComboBox;
 import com.vaadin.fluent.ui.FTextArea;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
@@ -53,14 +54,14 @@ public class ClassSpecializationForm extends DSAbstractForm<ClassSpecialization>
     private ClassDataService        classService        = null;
 
     public static class ClassSpecLevelFeatureRow {
-        ComboBox<Level>        level      = new ComboBox<>();
-        ComboBox<ClassFeature> feature    = new ComboBox<>();
-        IntegerField           nbToChoose = new IntegerField();
+        FComboBox<Level>        level      = new FComboBox<Level>().withEmptySelectionAllowed(false);
+        FComboBox<ClassFeature> feature    = new FComboBox<ClassFeature>().withEmptySelectionAllowed(false);
+        IntegerField            nbToChoose = new IntegerField();
     }
 
     public static class ClassSpecLevelSpellRow {
-        ComboBox<Level> level = new ComboBox<>();
-        ComboBox<Spell> spell = new ComboBox<>();
+        FComboBox<Level> level = new FComboBox<Level>().withEmptySelectionAllowed(false);
+        FComboBox<Spell> spell = new FComboBox<Spell>().withEmptySelectionAllowed(false);
     }
 
     public ClassSpecializationForm() {
@@ -112,6 +113,7 @@ public class ClassSpecializationForm extends DSAbstractForm<ClassSpecialization>
         classSpecSpells.setPropertyHeader("level", "Niveau");
         classSpecSpells.setPropertyHeader("spell", "Sort");
         classSpecSpells.setWidth("80%");
+        getBinder().forMemberField(classSpecSpells).withValidator((value, context) -> classSpecSpells.isValid());
 
         List<ClassFeature> allClassFeatures = classFeatureService.findAll();
         classSpecFeatures = new ElementCollectionGrid<ClassSpecLevelFeature>(ClassSpecLevelFeature.class, ClassSpecLevelFeatureRow.class)
@@ -132,6 +134,7 @@ public class ClassSpecializationForm extends DSAbstractForm<ClassSpecialization>
         classSpecFeatures.setPropertyHeader("level", "Niveau");
         classSpecFeatures.setPropertyHeader("feature", "Don");
         classSpecFeatures.setWidth("80%");
+        getBinder().forMemberField(classSpecFeatures).withValidator((value, context) -> classSpecFeatures.isValid());
 
         layout.addComponent(name);
         layout.addComponent(parentClass);

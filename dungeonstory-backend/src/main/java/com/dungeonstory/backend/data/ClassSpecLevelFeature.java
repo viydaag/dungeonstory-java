@@ -7,6 +7,7 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @IdClass(ClassSpecLevelFeatureId.class)
@@ -15,17 +16,19 @@ public class ClassSpecLevelFeature {
     
     @Id
     @ManyToOne
-    @JoinColumn(name = "classSpecId")
+    @JoinColumn(name = "classSpecId", nullable = false)
     private ClassSpecialization classSpec;
 
     @Id
+    @NotNull
     @ManyToOne
-    @JoinColumn(name = "levelId")
+    @JoinColumn(name = "levelId", nullable = false)
     private Level level;
 
     @Id
+    @NotNull
     @ManyToOne
-    @JoinColumn(name = "featureId")
+    @JoinColumn(name = "featureId", nullable = false)
     private ClassFeature feature;
     
     @Column(name = "nbToChoose")

@@ -224,6 +224,7 @@ public class MonsterForm extends DSAbstractForm<Monster> {
         // attacks.setPropertyHeader("sense", "Sens");
         // attacks.setPropertyHeader("distanceInFeet", "Distance en pieds");
         attacks.setWidth("100%");
+        getBinder().forMemberField(attacks).withValidator((value, context) -> attacks.isValid());
 
         FormLayout nameForm = new FormLayout();
         nameForm.addComponents(name, description);

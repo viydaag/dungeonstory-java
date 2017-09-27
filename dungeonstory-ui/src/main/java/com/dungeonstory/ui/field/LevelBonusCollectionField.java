@@ -7,12 +7,13 @@ import org.vaadin.viritin.fields.IntegerField;
 import com.dungeonstory.backend.data.ClassLevelBonus;
 import com.dungeonstory.backend.data.Level;
 import com.vaadin.data.HasValue;
+import com.vaadin.fluent.ui.FComboBox;
 import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.TextField;
 
-public class LevelBonusCollectionField extends ElementCollectionField<ClassLevelBonus> {
+public class LevelBonusCollectionField
+        extends ElementCollectionField<ClassLevelBonus> {
 
     private static final long serialVersionUID = 2580712139242043824L;
 
@@ -33,20 +34,20 @@ public class LevelBonusCollectionField extends ElementCollectionField<ClassLevel
     private final int[] SNEAK_COLUMNS        = { 13 };
 
     public static class ClassLevelBonusRow {
-        public ComboBox<Level> level                      = new ComboBox<Level>();
-        public CheckBox        hasAbilityScoreImprovement = new CheckBox();
-        public CheckBox        chooseClassSpecialization  = new CheckBox();
-        public CheckBox        favoredEnemy               = new CheckBox();
-        public CheckBox        naturalExplorer            = new CheckBox();
-        public CheckBox        deity                      = new CheckBox();
-        public IntegerField    kiPoints                   = new IntegerField().withWidth("50px");
-        public TextField       martialArtsDamage          = new TextField();
-        public IntegerField    movementBonus              = new IntegerField().withWidth("50px");
-        public IntegerField    sorceryPoints              = new IntegerField().withWidth("50px");
-        public IntegerField    ragePoints                 = new IntegerField().withWidth("50px");
-        public IntegerField    rageDamageBonus            = new IntegerField().withWidth("50px");
-        public IntegerField    invocationsKnown           = new IntegerField().withWidth("50px");
-        public TextField       sneakAttackDamage          = new TextField();
+        public FComboBox<Level> level                      = new FComboBox<Level>().withEmptySelectionAllowed(false);
+        public CheckBox         hasAbilityScoreImprovement = new CheckBox();
+        public CheckBox         chooseClassSpecialization  = new CheckBox();
+        public CheckBox         favoredEnemy               = new CheckBox();
+        public CheckBox         naturalExplorer            = new CheckBox();
+        public CheckBox         deity                      = new CheckBox();
+        public IntegerField     kiPoints                   = new IntegerField().withWidth("50px");
+        public TextField        martialArtsDamage          = new TextField();
+        public IntegerField     movementBonus              = new IntegerField().withWidth("50px");
+        public IntegerField     sorceryPoints              = new IntegerField().withWidth("50px");
+        public IntegerField     ragePoints                 = new IntegerField().withWidth("50px");
+        public IntegerField     rageDamageBonus            = new IntegerField().withWidth("50px");
+        public IntegerField     invocationsKnown           = new IntegerField().withWidth("50px");
+        public TextField        sneakAttackDamage          = new TextField();
     }
 
     public LevelBonusCollectionField() {

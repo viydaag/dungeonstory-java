@@ -30,10 +30,11 @@ public class ShopEquipment implements Serializable {
     @JoinColumn(name = "equipmentId", nullable = false)
     private Equipment equipment;
     
-    @Min(value = 1)
+    @Min(value = 1, message = "La quantité doit être au minimum 1")
     @Column(name = "quantity")
-    private int quantity;
+    private int quantity = 1;
     
+    @Min(value = 0, message = "La valeur doit être positive")
     @Column(name = "unitPrice")
     private int unitPrice;
     

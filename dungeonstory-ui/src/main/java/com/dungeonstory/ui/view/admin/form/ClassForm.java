@@ -47,6 +47,7 @@ import com.dungeonstory.ui.field.LevelSpellsCollectionField.LevelSpellsRow;
 import com.dungeonstory.ui.field.SubSetSelector;
 import com.vaadin.data.HasValue.ValueChangeEvent;
 import com.vaadin.event.selection.SingleSelectionEvent;
+import com.vaadin.fluent.ui.FComboBox;
 import com.vaadin.fluent.ui.FTextArea;
 import com.vaadin.fluent.ui.FTextField;
 import com.vaadin.shared.Registration;
@@ -59,13 +60,14 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.RadioButtonGroup;
 import com.vaadin.ui.TextField;
 
-public class ClassForm extends DSAbstractForm<DSClass> {
+public class ClassForm
+        extends DSAbstractForm<DSClass> {
 
     private static final long serialVersionUID = -4123881637907722632L;
 
     private TextField                                                                 name;
     private TextField                                                                 shortDescription;
-    private FTextArea                                                                description;
+    private FTextArea                                                                 description;
     private IntegerField                                                              lifePointPerLevel;
     private IntegerField                                                              startingGold;
     private FormCheckBox                                                              isSpellCasting;
@@ -109,14 +111,14 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     private boolean init = false;
 
     public static class ClassLevelFeatureRow {
-        ComboBox<Level>        level      = new ComboBox<>();
-        ComboBox<ClassFeature> feature    = new ComboBox<>();
-        IntegerField           nbToChoose = new IntegerField();
+        FComboBox<Level>        level      = new FComboBox<Level>().withEmptySelectionAllowed(false);
+        FComboBox<ClassFeature> feature    = new FComboBox<ClassFeature>().withEmptySelectionAllowed(false);
+        IntegerField            nbToChoose = new IntegerField();
     }
 
     public static class ClassEquipmentRow {
-        ComboBox<Equipment> equipment = new ComboBox<>();
-        IntegerField        quantity  = new IntegerField();
+        FComboBox<Equipment> equipment = new FComboBox<Equipment>().withEmptySelectionAllowed(false);
+        IntegerField         quantity  = new IntegerField();
     }
 
     public ClassForm() {
@@ -174,15 +176,17 @@ public class ClassForm extends DSAbstractForm<DSClass> {
 
         addAllSimpleWeapons = new Button("Armes simples", event -> {
             Collection<WeaponType> weaponTypes = weaponTypeService.findAll();
-            Set<WeaponType> allSimple = weaponTypes.stream().filter(type -> type.getProficiencyType() == ProficiencyType.SIMPLE)
-                    .collect(Collectors.toSet());
+            Set<WeaponType> allSimple = weaponTypes.stream()
+                                                   .filter(type -> type.getProficiencyType() == ProficiencyType.SIMPLE)
+                                                   .collect(Collectors.toSet());
             allSimple.addAll(weaponProficiencies.getValue());
             weaponProficiencies.setValue(allSimple);
         });
         addAllMartialWeapons = new Button("Armes de guerre", event -> {
             Collection<WeaponType> weaponTypes = weaponTypeService.findAll();
-            Set<WeaponType> allMartial = weaponTypes.stream().filter(type -> type.getProficiencyType() == ProficiencyType.MARTIAL)
-                    .collect(Collectors.toSet());
+            Set<WeaponType> allMartial = weaponTypes.stream()
+                                                    .filter(type -> type.getProficiencyType() == ProficiencyType.MARTIAL)
+                                                    .collect(Collectors.toSet());
             allMartial.addAll(weaponProficiencies.getValue());
             weaponProficiencies.setValue(allMartial);
         });
@@ -235,16 +239,16 @@ public class ClassForm extends DSAbstractForm<DSClass> {
 
         HorizontalLayout checkboxLayout = new HorizontalLayout(martialArts, sorcery, rage, invocation, hunter, sneak, deity);
 
-        spellSlots = (LevelSpellsCollectionField<ClassSpellSlots>) new LevelSpellsCollectionField<ClassSpellSlots>(ClassSpellSlots.class)
-                .withCaption("Nombre de sorts").withEditorInstantiator(() -> {
+        spellSlots = (LevelSpellsCollectionField<ClassSpellSlots>) new LevelSpellsCollectionField<ClassSpellSlots>(ClassSpellSlots.class).withCaption(
+                "Nombre de sorts").withEditorInstantiator(() -> {
                     LevelSpellsRow row = new LevelSpellsRow();
                     row.level.setItems(allLevels);
                     return row;
                 });
 
         List<ClassFeature> allClassFeatures = classFeatureService.findAllClassFeaturesWithoutParent();
-        classFeatures = new ElementCollectionGrid<ClassLevelFeature>(ClassLevelFeature.class, ClassLevelFeatureRow.class)
-                .withCaption("Dons de classe").withEditorInstantiator(() -> {
+        classFeatures = new ElementCollectionGrid<ClassLevelFeature>(ClassLevelFeature.class, ClassLevelFeatureRow.class).withCaption(
+                "Dons de classe").withEditorInstantiator(() -> {
                     ClassLevelFeatureRow row = new ClassLevelFeatureRow();
                     row.level.setItems(allLevels);
                     row.feature.setItems(allClassFeatures);
@@ -264,6 +268,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         classFeatures.setPropertyHeader("feature", "Don");
         classFeatures.setPropertyHeader("nbToChoose", "Nb à choisir");
         classFeatures.setWidth("80%");
+        getBinder().forMemberField(classFeatures).withValidator((value, context) -> classFeatures.isValid());
 
         spells = new SubSetSelector<>(Spell.class);
         spells.setCaption("Sorts de classe");
@@ -285,14 +290,15 @@ public class ClassForm extends DSAbstractForm<DSClass> {
 
         List<Equipment> allEquipment = equipmentService.findAll();
         startingEquipment = new ElementCollectionGrid<>(ClassEquipment.class, ClassEquipmentRow.class).withCaption("Équipement de base")
-                .withEditorInstantiator(() -> {
-                    ClassEquipmentRow row = new ClassEquipmentRow();
-                    row.equipment.setItems(allEquipment);
-                    return row;
-                });
+                                                                                                      .withEditorInstantiator(() -> {
+                                                                                                          ClassEquipmentRow row = new ClassEquipmentRow();
+                                                                                                          row.equipment.setItems(allEquipment);
+                                                                                                          return row;
+                                                                                                      });
         startingEquipment.setPropertyHeader("equipment", "Équipement");
         startingEquipment.setPropertyHeader("quantity", "Quantité");
         startingEquipment.setWidth("80%");
+        getBinder().forMemberField(startingEquipment).withValidator((value, context) -> startingEquipment.isValid());
 
         layout.addComponent(name);
         layout.addComponent(shortDescription);
