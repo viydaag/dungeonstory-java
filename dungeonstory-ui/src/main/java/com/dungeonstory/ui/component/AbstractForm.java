@@ -262,6 +262,7 @@ public abstract class AbstractForm<T> extends CustomComponent {
 
     public void setSaveCaption(String saveCaption) {
         this.saveCaption = saveCaption;
+        getSaveButton().setCaption(getSaveCaption());
     }
 
     protected void adjustSaveButtonState() {
@@ -320,6 +321,7 @@ public abstract class AbstractForm<T> extends CustomComponent {
 
     public void setResetCaption(String resetCaption) {
         this.resetCaption = resetCaption;
+        getResetButton().setCaption(getResetCaption());
     }
 
     protected Button createResetButton() {
@@ -383,6 +385,7 @@ public abstract class AbstractForm<T> extends CustomComponent {
 
     public void setDeleteCaption(String deleteCaption) {
         this.deleteCaption = deleteCaption;
+        getDeleteButton().setCaption(getDeleteCaption());
     }
 
     protected Button createDeleteButton() {
@@ -431,6 +434,7 @@ public abstract class AbstractForm<T> extends CustomComponent {
 
     public void setCancelCaption(String cancelCaption) {
         this.cancelCaption = cancelCaption;
+        getCancelButton().setCaption(getCancelCaption());
     }
 
     protected Button createCancelButton() {
