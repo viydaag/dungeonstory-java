@@ -128,9 +128,9 @@ public class Spell extends AbstractTimestampEntity {
     private String description;
     
     @NotNull
-    @Min(value = 1)
+    @Min(value = 0)
     @Column(name = "level", nullable = false)
-    private Integer level;
+    private Integer level = 0;
     
     @NotNull
     @Enumerated(EnumType.STRING)
