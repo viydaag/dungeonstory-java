@@ -30,12 +30,12 @@ import com.vaadin.ui.themes.ValoTheme;
  * must provide an Instantiator.
  * </ul>
  *
- * Elements in the edited collection are modified with BeanFieldGroup. Fields
- * should defined in a class. A simple usage example for editing
- * List&gt;Address&lt; adresses:
+ * Elements in the edited collection are modified with Binder. Fields
+ * should be defined in a class. A simple usage example for editing
+ * List&gt;Address&lt; addresses:
  * <pre><code>
  *  public static class AddressRow {
- *      EnumSelect type = new EnumSelect();
+ *      ComboBox type = new ComboBox();
  *      TextField street = new FTextField();
  *      TextField city = new FTextField();
  *      TextField zipCode = new FTextField();
@@ -44,7 +44,7 @@ import com.vaadin.ui.themes.ValoTheme;
  *  public static class PersonForm&lt;Person&gt; extends AbstractForm {
  *      private final ElementCollectionGrid&lt;Address&gt; addresses
  *              = new ElementCollectionGrid&lt;Address&gt;(Address.class,
- *                      AddressRow.class).withCaption("Addressess");
+ *                      AddressRow.class).withCaption("Addresses");
  *
  * </code></pre>
  *
@@ -75,11 +75,12 @@ public class ElementCollectionGrid<ET> extends AbstractElementCollection<ET, Lis
     private String disabledDeleteThisElementDescription = "Fill this row to add a new element, currently ignored";
 
     public ElementCollectionGrid(Class<ET> elementType, Class<?> formType) {
-        super(elementType, formType);
+        this(elementType, null, formType);
     }
 
     public ElementCollectionGrid(Class<ET> elementType, Instantiator<ET> i, Class<?> formType) {
         super(elementType, i, formType);
+        setShowStatusLabel(true);
     }
 
     @Override
@@ -125,7 +126,6 @@ public class ElementCollectionGrid<ET> extends AbstractElementCollection<ET, Lis
             value = new ArrayList<ET>();
             layout.setMargin(false);
             layout.addComponent(statusLayout);
-            //            setHeight("300px");
 
             grid = new Grid<ET>();
             grid.setWidth(100, Unit.PERCENTAGE);
@@ -140,7 +140,6 @@ public class ElementCollectionGrid<ET> extends AbstractElementCollection<ET, Lis
             //generate all columns with proper component
             for (String propertyName : getVisibleProperties()) {
                 grid.addComponentColumn(pojo -> {
-                    //  return getComponentFor(pojo, propertyName);
                     Binder<ET> binder = getBinderFor(pojo);
                     if (!isAllowEditItems()) {
                         binder.setReadOnly(true);

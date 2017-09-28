@@ -66,7 +66,7 @@ public class LevelBonusCollectionField
         setPropertyHeader("invocationsKnown", "Nb invocation");
         setPropertyHeader("sneakAttackDamage", "Dégâts attaque furtive");
         setPropertyHeader("deity", "Choix dieu");
-        getLayout().setHideEmptyRowsAndColumns(true);
+        gridLayout.setHideEmptyRowsAndColumns(true);
     }
 
     @Override
@@ -146,11 +146,11 @@ public class LevelBonusCollectionField
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     private void refreshLevelBonusVisibility(boolean visible, int... columns) {
-        final int nbRows = getLayout().getRows();
-        final int nbColumns = getLayout().getColumns();
+        final int nbRows = gridLayout.getRows();
+        final int nbColumns = gridLayout.getColumns();
         for (int row = 0; row < nbRows; row++) {
             for (int column = 0; column < nbColumns; column++) {
-                Component c = getLayout().getComponent(column, row);
+                Component c = gridLayout.getComponent(column, row);
                 if (c != null) {
                     final int visibleColumn = column;
                     boolean match = IntStream.of(columns).anyMatch(x -> x == visibleColumn);

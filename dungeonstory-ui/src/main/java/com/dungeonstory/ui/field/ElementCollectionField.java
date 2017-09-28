@@ -19,6 +19,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 /**
@@ -33,9 +34,9 @@ import com.vaadin.ui.themes.ValoTheme;
  * must provide an Instantiator.
  * </ul>
  *
- * Elements in the edited collection are modified with BeanFieldGroup. Fields
+ * Elements in the edited collection are modified with Binder. Fields
  * should defined in a class. A simple usage example for editing
- * List&gt;Address&lt; adresses:
+ * List&gt;Address&lt; addresses:
  * <pre><code>
  *  public static class AddressRow {
  *      ComboBox type = new ComboBox();
@@ -47,7 +48,7 @@ import com.vaadin.ui.themes.ValoTheme;
  *  public static class PersonForm&lt;Person&gt; extends AbstractForm {
  *      private final ElementCollectionField&lt;Address&gt; addresses
  *              = new ElementCollectionField&lt;Address&gt;(Address.class,
- *                      AddressRow.class).withCaption("Addressess");
+ *                      AddressRow.class).withCaption("Addresses");
  *
  * </code></pre>
  *
@@ -80,7 +81,8 @@ public class ElementCollectionField<ET> extends AbstractElementCollection<ET, Li
 
     boolean inited = false;
 
-    GridLayout layout = new GridLayout();
+    protected VerticalLayout mainLayout = new VerticalLayout();
+    protected GridLayout     gridLayout = new GridLayout();
 
     private boolean          visibleHeaders = true;
     private boolean          requireVerificationForRemoval;
@@ -116,15 +118,15 @@ public class ElementCollectionField<ET> extends AbstractElementCollection<ET, Li
             } else {
                 c = (Component) binding.get().getField();
             }
-            layout.addComponent(c);
-            layout.setComponentAlignment(c, Alignment.MIDDLE_LEFT);
+            gridLayout.addComponent(c);
+            gridLayout.setComponentAlignment(c, Alignment.MIDDLE_LEFT);
         }
         if (getPopupEditor() != null) {
             FButton b = new FButton(VaadinIcons.EDIT).withStyleName(ValoTheme.BUTTON_ICON_ONLY).withClickListener(event -> editInPopup(v));
-            layout.addComponent(b);
+            gridLayout.addComponent(b);
         }
         if (isAllowRemovingItems()) {
-            layout.addComponent(createRemoveButton(v));
+            gridLayout.addComponent(createRemoveButton(v));
         }
         if (!isAllowEditItems()) {
             beanBinder.setReadOnly(true);
@@ -157,19 +159,19 @@ public class ElementCollectionField<ET> extends AbstractElementCollection<ET, Li
         int index = itemsIdentityIndexOf(v);
         items.remove(index);
         int row = index + 1;
-        layout.removeRow(row);
+        gridLayout.removeRow(row);
     }
 
     @Override
-    public GridLayout getLayout() {
-        return layout;
+    public VerticalLayout getLayout() {
+        return mainLayout;
     }
 
     @Override
     public void setPersisted(ET v, boolean persisted) {
         int row = itemsIdentityIndexOf(v) + 1;
         if (isAllowRemovingItems()) {
-            Button c = (Button) layout.getComponent(layout.getColumns() - 1, row);
+            Button c = (Button) gridLayout.getComponent(gridLayout.getColumns() - 1, row);
             if (persisted) {
                 c.setDescription(getDeleteElementDescription());
             } else {
@@ -191,7 +193,9 @@ public class ElementCollectionField<ET> extends AbstractElementCollection<ET, Li
     private void ensureInited() {
         if (!inited) {
             value = new ArrayList<>();
-            layout.setSpacing(true);
+            gridLayout.setSpacing(true);
+            mainLayout.addComponent(statusLayout);
+            mainLayout.addComponent(gridLayout);
             int columns = getVisibleProperties().size();
             if (isAllowRemovingItems()) {
                 columns++;
@@ -199,16 +203,16 @@ public class ElementCollectionField<ET> extends AbstractElementCollection<ET, Li
             if (getPopupEditor() != null) {
                 columns++;
             }
-            layout.setColumns(columns);
+            gridLayout.setColumns(columns);
 
             if (visibleHeaders) {
                 for (Object property : getVisibleProperties()) {
                     Component header = createHeader(property);
-                    layout.addComponent(header);
+                    gridLayout.addComponent(header);
                 }
                 if (isAllowRemovingItems()) {
                     // leave last header slot empty, "actions" colunn
-                    layout.newLine();
+                    gridLayout.newLine();
                 }
             }
             inited = true;
@@ -250,8 +254,8 @@ public class ElementCollectionField<ET> extends AbstractElementCollection<ET, Li
             super.clear();
             items.clear();
             int rows = inited ? 1 : 0;
-            while (layout.getRows() > rows) {
-                layout.removeRow(rows);
+            while (gridLayout.getRows() > rows) {
+                gridLayout.removeRow(rows);
             }
         }
 
@@ -346,10 +350,10 @@ public class ElementCollectionField<ET> extends AbstractElementCollection<ET, Li
             if (index == -1) {
                 throw new IllegalArgumentException("The expanded property must available");
             }
-            layout.setColumnExpandRatio(index, 1);
+            gridLayout.setColumnExpandRatio(index, 1);
         }
-        if (layout.getWidth() == -1) {
-            layout.setWidth(100, Unit.PERCENTAGE);
+        if (gridLayout.getWidth() == -1) {
+            gridLayout.setWidth(100, Unit.PERCENTAGE);
         }
         // TODO should also make width of elements automatically 100%, both
         // existing and added, now obsolete config needed for row model

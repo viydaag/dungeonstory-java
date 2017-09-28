@@ -102,7 +102,8 @@ public abstract class AbstractElementCollection<ET, CT extends Collection<ET>> e
 
     protected CT value;
 
-    protected FVerticalLayout statusLayout = new FVerticalLayout().withSpacing(false);
+    protected FVerticalLayout statusLayout;
+    private boolean           showStatusLabel = false;
 
     StatusChangeListener scl = new StatusChangeListener() {
 
@@ -133,6 +134,18 @@ public abstract class AbstractElementCollection<ET, CT extends Collection<ET>> e
         }
     };
 
+    public AbstractElementCollection(Class<ET> elementType, Class<?> formType) {
+        this(elementType, null, formType);
+    }
+
+    public AbstractElementCollection(Class<ET> elementType, Instantiator<ET> i, Class<?> formType) {
+        this.elementType = elementType;
+        this.instantiator = i;
+        this.editorType = formType;
+        this.statusLayout = new FVerticalLayout().withSpacing(false);
+    }
+
+
     public boolean isAllowNewItems() {
         return allowNewItems;
     }
@@ -143,6 +156,10 @@ public abstract class AbstractElementCollection<ET, CT extends Collection<ET>> e
 
     public boolean isAllowEditItems() {
         return allowEditItems;
+    }
+
+    public boolean isShowStatusLabel() {
+        return showStatusLabel;
     }
 
     public AbstractElementCollection<ET, CT> setAllowEditItems(boolean allowEditItems) {
@@ -157,6 +174,11 @@ public abstract class AbstractElementCollection<ET, CT extends Collection<ET>> e
 
     public AbstractElementCollection<ET, CT> withCaption(String caption) {
         setCaption(caption);
+        return this;
+    }
+
+    public AbstractElementCollection<ET, CT> setShowStatusLabel(boolean visible) {
+        this.showStatusLabel = visible;
         return this;
     }
 
@@ -199,16 +221,6 @@ public abstract class AbstractElementCollection<ET, CT extends Collection<ET>> e
 
     public interface EditorInstantiator<T, ET> extends Serializable {
         T create(ET entity);
-    }
-
-    public AbstractElementCollection(Class<ET> elementType, Class<?> formType) {
-        this(elementType, null, formType);
-    }
-
-    public AbstractElementCollection(Class<ET> elementType, Instantiator<ET> i, Class<?> formType) {
-        this.elementType = elementType;
-        this.instantiator = i;
-        this.editorType = formType;
     }
 
     public Class<ET> getElementType() {
@@ -286,36 +298,36 @@ public abstract class AbstractElementCollection<ET, CT extends Collection<ET>> e
         Object o = createEditorInstance(pojo);
         BeanValidationBinder<ET> beanBinder = new BeanValidationBinder<ET>((Class<ET>) pojo.getClass());
 
-        BinderValidationStatusHandler<ET> defaultHandler = beanBinder.getValidationStatusHandler();
-        FLabel formStatusLabel = new FLabel().withContentMode(ContentMode.HTML).withStyleName(ValoTheme.LABEL_FAILURE);
-        statusLayout.addComponent(formStatusLabel);
-        formStatusLabel.setVisible(false);
+        if (isShowStatusLabel()) {
+            BinderValidationStatusHandler<ET> defaultHandler = beanBinder.getValidationStatusHandler();
+            FLabel formStatusLabel = new FLabel().withContentMode(ContentMode.HTML).withStyleName(ValoTheme.LABEL_FAILURE);
+            statusLayout.addComponent(formStatusLabel);
+            formStatusLabel.setVisible(false);
 
-        beanBinder.setValidationStatusHandler(status -> {
-            List<BindingValidationStatus<?>> fieldErrors = status.getFieldValidationErrors();
-            List<ValidationResult> beanErrors = status.getBeanValidationErrors();
+            beanBinder.setValidationStatusHandler(status -> {
+                List<BindingValidationStatus<?>> fieldErrors = status.getFieldValidationErrors();
+                List<ValidationResult> beanErrors = status.getBeanValidationErrors();
 
-            // collect all bean level error messages into a single string,
-            // separating each message with a <br> tag
-            String errorMessage = fieldErrors.stream()
-                                        .map(BindingValidationStatus::getMessage)
-                                        .map(Optional::get)
-                                        .collect(Collectors.joining("<br>"));
+                // collect all bean level error messages into a single string,
+                // separating each message with a <br> tag
+                String errorMessage = fieldErrors.stream()
+                                                 .map(BindingValidationStatus::getMessage)
+                                                 .map(Optional::get)
+                                                 .collect(Collectors.joining("<br>"));
 
-            String errorMessage2 = beanErrors.stream()
-                                             .map(ValidationResult::getErrorMessage)
-                                             .collect(Collectors.joining("<br>"));
+                String errorMessage2 = beanErrors.stream().map(ValidationResult::getErrorMessage).collect(Collectors.joining("<br>"));
 
-            List<String> errorList = Arrays.asList(errorMessage, errorMessage2);
-            String errors = errorList.stream().filter(s -> !s.isEmpty()).collect(Collectors.joining("<br>"));
+                List<String> errorList = Arrays.asList(errorMessage, errorMessage2);
+                String errors = errorList.stream().filter(s -> !s.isEmpty()).collect(Collectors.joining("<br>"));
 
-            // finally, display all bean level validation errors in a single label
-            formStatusLabel.setValue(errors);
-            formStatusLabel.setVisible(!errors.isEmpty());
+                // finally, display all bean level validation errors in a single label
+                formStatusLabel.setValue(errors);
+                formStatusLabel.setVisible(!errors.isEmpty());
 
-            // Let the default handler show messages for each field
-            defaultHandler.statusChange(status);
-        });
+                // Let the default handler show messages for each field
+                defaultHandler.statusChange(status);
+            });
+        }
 
         beanBinder.bindInstanceFields(o);
         beanBinder.setBean(pojo);

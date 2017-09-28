@@ -53,9 +53,9 @@ public class LevelSpellsCollectionField<T> extends ElementCollectionField<T> {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     private void refreshVisibility() {
         if (isVisible()) {
-            final int nbRows = getLayout().getRows();
+            final int nbRows = gridLayout.getRows();
             for (int row = 0; row < nbRows; row++) {
-                Component c = getLayout().getComponent(2, row);
+                Component c = gridLayout.getComponent(2, row);
                 if (c != null) {
                     if (c instanceof HasValue && !isKnownSpells) {
                         ((HasValue) c).setValue(((HasValue) c).getEmptyValue());
