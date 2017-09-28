@@ -55,13 +55,13 @@ public class ClassSpecializationForm extends DSAbstractForm<ClassSpecialization>
 
     public static class ClassSpecLevelFeatureRow {
         FComboBox<Level>        level      = new FComboBox<Level>().withEmptySelectionAllowed(false);
-        FComboBox<ClassFeature> feature    = new FComboBox<ClassFeature>().withEmptySelectionAllowed(false);
+        FComboBox<ClassFeature> feature    = new FComboBox<ClassFeature>().withEmptySelectionAllowed(false).withWidth("100%");
         IntegerField            nbToChoose = new IntegerField();
     }
 
     public static class ClassSpecLevelSpellRow {
         FComboBox<Level> level = new FComboBox<Level>().withEmptySelectionAllowed(false);
-        FComboBox<Spell> spell = new FComboBox<Spell>().withEmptySelectionAllowed(false);
+        FComboBox<Spell> spell = new FComboBox<Spell>().withEmptySelectionAllowed(false).withWidth("100%");
     }
 
     public ClassSpecializationForm() {
@@ -133,6 +133,7 @@ public class ClassSpecializationForm extends DSAbstractForm<ClassSpecialization>
                 });
         classSpecFeatures.setPropertyHeader("level", "Niveau");
         classSpecFeatures.setPropertyHeader("feature", "Don");
+        classSpecFeatures.setPropertyHeader("nbToChoose", "Nb à choisir");
         classSpecFeatures.setWidth("80%");
         getBinder().forMemberField(classSpecFeatures).withValidator((value, context) -> classSpecFeatures.isValid());
 
@@ -166,5 +167,7 @@ public class ClassSpecializationForm extends DSAbstractForm<ClassSpecialization>
     public void afterSetEntity() {
         super.afterSetEntity();
         isSpellCastingChange(null);
+        classSpecSpells.clearStatusLabel();
+        classSpecFeatures.clearStatusLabel();
     }
 }

@@ -109,4 +109,10 @@ public class ShopForm extends DSAbstractForm<Shop> {
         return "Magasins";
     }
 
+    @Override
+    public void afterSetEntity() {
+        super.afterSetEntity();
+        shopEquipments.clearStatusLabel();
+    }
+
 }

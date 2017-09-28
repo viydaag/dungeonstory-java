@@ -112,12 +112,12 @@ public class ClassForm
 
     public static class ClassLevelFeatureRow {
         FComboBox<Level>        level      = new FComboBox<Level>().withEmptySelectionAllowed(false);
-        FComboBox<ClassFeature> feature    = new FComboBox<ClassFeature>().withEmptySelectionAllowed(false);
+        FComboBox<ClassFeature> feature    = new FComboBox<ClassFeature>().withEmptySelectionAllowed(false).withWidth("100%");
         IntegerField            nbToChoose = new IntegerField();
     }
 
     public static class ClassEquipmentRow {
-        FComboBox<Equipment> equipment = new FComboBox<Equipment>().withEmptySelectionAllowed(false);
+        FComboBox<Equipment> equipment = new FComboBox<Equipment>().withEmptySelectionAllowed(false).withWidth("100%");
         IntegerField         quantity  = new IntegerField();
     }
 
@@ -365,6 +365,9 @@ public class ClassForm
             levelBonuses.clearForNew();
         }
         refreshLevelBonusCheckBoxVisibility();
+
+        classFeatures.clearStatusLabel();
+        startingEquipment.clearStatusLabel();
     }
 
     public void isSpellCastingChange(ValueChangeEvent<Boolean> event) {

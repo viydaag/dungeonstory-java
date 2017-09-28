@@ -17,7 +17,10 @@ import com.dungeonstory.ui.field.listener.ElementAddedListener;
 import com.dungeonstory.ui.field.listener.ElementRemovedListener;
 import com.dungeonstory.ui.i18n.Messages;
 import com.vaadin.fluent.ui.FButton;
+import com.vaadin.fluent.ui.FHorizontalLayout;
+import com.vaadin.fluent.ui.FVerticalLayout;
 import com.vaadin.icons.VaadinIcons;
+import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
@@ -56,20 +59,17 @@ public class SubSetSelector<ET, C extends Collection<ET>> extends CustomField<C>
         cb = new ComboBox<>();
         grid = new Grid<>();
         setHeight("300px");
-        toprow = new HorizontalLayout(cb);
-        toprow.setWidth("100%");
-        verticalLayout = new VerticalLayout(toprow);
+        toprow = new FHorizontalLayout(cb).withWidth("100%");
+        verticalLayout = new FVerticalLayout(toprow).withMargin(new MarginInfo(true, false));
         verticalLayout.addComponentsAndExpand(grid);
 
         grid.setHeightByRows(5);
+        grid.setRowHeight(40);
         grid.setWidth(100, Unit.PERCENTAGE);
-
-        //TODO : replace with Component renderer in 8.1
-        //        grid.addColumn(entity -> "-", new ButtonRenderer<ET>(clickEvent -> removeSelectedOption(clickEvent.getItem()))).setCaption("")
-        //                .setId("Remove");
         grid.addComponentColumn(entity -> createDeleteButton(entity)).setWidth(75).setId("Remove");
 
         cb.setPlaceholder("Add to selection...");
+        cb.setEmptySelectionAllowed(false);
         cb.addValueChangeListener(new ValueChangeListener<ET>() {
 
             private static final long serialVersionUID = 2474890452288971675L;
@@ -172,10 +172,9 @@ public class SubSetSelector<ET, C extends Collection<ET>> extends CustomField<C>
         Button button = new Button(VaadinIcons.MINUS);
         button.setDescription("Removes the selection from the list");
         button.addStyleName(ValoTheme.BUTTON_ICON_ONLY);
+        button.addStyleName(ValoTheme.BUTTON_SMALL);
         button.addClickListener(event -> removeSelectedOption(entity));
-        button.setStyleName(ValoTheme.BUTTON_SMALL);
         return button;
-
     }
 
     /**

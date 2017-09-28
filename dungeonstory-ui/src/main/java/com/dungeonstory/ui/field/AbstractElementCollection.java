@@ -142,7 +142,7 @@ public abstract class AbstractElementCollection<ET, CT extends Collection<ET>> e
         this.elementType = elementType;
         this.instantiator = i;
         this.editorType = formType;
-        this.statusLayout = new FVerticalLayout().withSpacing(false);
+        this.statusLayout = new FVerticalLayout().withSpacing(false).withMargin(false);
     }
 
 
@@ -447,6 +447,17 @@ public abstract class AbstractElementCollection<ET, CT extends Collection<ET>> e
     @Override
     public void clear() {
         value.clear();
+    }
+
+    public void clearStatusLabel() {
+        if (isShowStatusLabel()) {
+            Iterator<Component> it = statusLayout.iterator();
+            while (it.hasNext()) {
+                Label label = (Label) it.next();
+                label.setValue("");
+                label.setVisible(false);
+            }
+        }
     }
 
     abstract protected void addInternalElement(ET v);

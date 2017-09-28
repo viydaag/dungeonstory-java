@@ -13,6 +13,8 @@ import com.dungeonstory.ui.field.listener.ElementAddedListener;
 import com.dungeonstory.ui.field.listener.ElementRemovedListener;
 import com.vaadin.data.Binder;
 import com.vaadin.fluent.ui.FButton;
+import com.vaadin.fluent.ui.FGridLayout;
+import com.vaadin.fluent.ui.FVerticalLayout;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -81,8 +83,8 @@ public class ElementCollectionField<ET> extends AbstractElementCollection<ET, Li
 
     boolean inited = false;
 
-    protected VerticalLayout mainLayout = new VerticalLayout();
-    protected GridLayout     gridLayout = new GridLayout();
+    protected VerticalLayout mainLayout;
+    protected GridLayout     gridLayout;
 
     private boolean          visibleHeaders = true;
     private boolean          requireVerificationForRemoval;
@@ -95,6 +97,8 @@ public class ElementCollectionField<ET> extends AbstractElementCollection<ET, Li
     public ElementCollectionField(Class<ET> elementType, Instantiator<ET> i, Class<?> formType) {
         super(elementType, i, formType);
         items = new ArrayList<>();
+        mainLayout = new FVerticalLayout().withMargin(false);
+        gridLayout = new FGridLayout().withSpacing(true);
     }
 
     @Override
@@ -193,7 +197,6 @@ public class ElementCollectionField<ET> extends AbstractElementCollection<ET, Li
     private void ensureInited() {
         if (!inited) {
             value = new ArrayList<>();
-            gridLayout.setSpacing(true);
             mainLayout.addComponent(statusLayout);
             mainLayout.addComponent(gridLayout);
             int columns = getVisibleProperties().size();
