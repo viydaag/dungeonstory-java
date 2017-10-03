@@ -48,7 +48,7 @@ public abstract class AbilityScoreForm extends CharacterWizardStepForm<Character
         layout = new VerticalLayout();
         abilityLayout = new VerticalLayout();
 
-        pointsToSpend = new IntegerField(messages.getMessage("abilityScoreStep.points.label")).withWidth("50px");
+        pointsToSpend = new IntegerField(messages.getMessage("abilityScoreStep.points.label")).withWidth("50px").withId("remainingPoints");
 
         if (Configuration.getInstance().isDebug()) {
             Button assignAll = new Button("assign");

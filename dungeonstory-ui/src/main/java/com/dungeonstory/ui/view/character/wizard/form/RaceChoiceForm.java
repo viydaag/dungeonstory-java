@@ -47,6 +47,7 @@ public class RaceChoiceForm extends CharacterWizardStepForm<Character> implement
         race.setEmptySelectionAllowed(false);
         language = new ComboBox<Language>(messages.getMessage("raceStep.extraLanguage.label"));
         language.setVisible(false);
+        language.addValueChangeListener(event -> adjustButtons());
         raceFieldsLayout.addComponents(race, language);
 
         VerticalLayout raceDescriptionLayout = new VerticalLayout();
@@ -89,6 +90,18 @@ public class RaceChoiceForm extends CharacterWizardStepForm<Character> implement
             entity.getLanguages().add(language.getValue());
         }
         entity.getLanguages().addAll(race.getValue().getLanguages());
+    }
+
+    @Override
+    protected void adjustSaveButtonState() {
+        if (isBound()) {
+            boolean valid = getBinder().isValid();
+            boolean requiredFieldsFilled = true;
+            if (language.isVisible() && language.getValue() == null) {
+                requiredFieldsFilled = false;
+            }
+            getSaveButton().setEnabled(requiredFieldsFilled && valid);
+        }
     }
 
 }

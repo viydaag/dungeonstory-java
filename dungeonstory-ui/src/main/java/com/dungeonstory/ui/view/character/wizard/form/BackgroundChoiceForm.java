@@ -25,7 +25,9 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
-public class BackgroundChoiceForm extends CharacterWizardStepForm<CharacterBackground> implements AbstractForm.SavedHandler<CharacterBackground> {
+public class BackgroundChoiceForm
+        extends CharacterWizardStepForm<CharacterBackground>
+        implements AbstractForm.SavedHandler<CharacterBackground> {
 
     private static final long serialVersionUID = -8079455641743140814L;
 
@@ -35,11 +37,11 @@ public class BackgroundChoiceForm extends CharacterWizardStepForm<CharacterBackg
     private Character character;
 
     private ComboBox<Background>                     background;
-    private FTextArea                               look;
-    private FTextArea                               traits;
-    private FTextArea                               ideals;
-    private FTextArea                               purposes;
-    private FTextArea                               flaws;
+    private FTextArea                                look;
+    private FTextArea                                traits;
+    private FTextArea                                ideals;
+    private FTextArea                                purposes;
+    private FTextArea                                flaws;
     private SubSetSelector<Language, List<Language>> language;
 
     private FTextArea traitsSuggestion;
@@ -74,8 +76,9 @@ public class BackgroundChoiceForm extends CharacterWizardStepForm<CharacterBackg
         language.setCaption(messages.getMessage("backgroundStep.languages.label"));
         language.getGrid().addColumn(Language::getName).setCaption(messages.getMessage("backgroundStep.languages.table.column.name")).setId("name");
         language.getGrid().setColumnOrder("name");
-        language.setItems(languageService.findAll());
+        language.setItems(new ArrayList<>());
         language.setVisible(false);
+        language.addValueChangeListener(event -> adjustButtons());
 
         look = new FTextArea(messages.getMessage("backgroundStep.look.label")).withFullWidth().withRows(6);
         traits = new FTextArea(messages.getMessage("backgroundStep.traits.label")).withFullWidth().withRows(6);
@@ -164,6 +167,19 @@ public class BackgroundChoiceForm extends CharacterWizardStepForm<CharacterBackg
         character.getSkillProficiencies().addAll(entity.getBackground().getSkillProficiencies());
         character.getToolProficiencies().addAll(entity.getBackground().getToolProficiencies());
         character.setBackground(entity);
+    }
+
+    @Override
+    protected void adjustSaveButtonState() {
+        if (isBound()) {
+            boolean valid = getBinder().isValid();
+            boolean requiredFieldsFilled = true;
+            if (background.getValue() != null && language.isVisible()
+                    && language.getValue().size() < background.getValue().getAdditionalLanguage().getNbLanguage()) {
+                requiredFieldsFilled = false;
+            }
+            getSaveButton().setEnabled(requiredFieldsFilled && valid);
+        }
     }
 
 }

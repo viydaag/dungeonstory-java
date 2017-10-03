@@ -33,6 +33,10 @@ public class NewCharacterWizard extends CharacterWizard {
         addStep(new AbilityScoreStep(this, false), ABILITY);
 
         getNextButton().setEnabled(false); //set the next button disabled until a value is selected
+        getNextButton().setId("nextButton");
+        getBackButton().setId("backButton");
+        getCancelButton().setId("cancelButton");
+        getFinishButton().setId("finishButton");
     }
 
     @Override

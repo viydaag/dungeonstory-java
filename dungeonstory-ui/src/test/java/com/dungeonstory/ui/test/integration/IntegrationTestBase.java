@@ -8,6 +8,8 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 
 import com.vaadin.testbench.TestBenchTestCase;
 import com.vaadin.testbench.elements.AbstractTextFieldElement;
@@ -46,6 +48,19 @@ public class IntegrationTestBase extends TestBenchTestCase {
     public static int getRandomNumberInRange(int min, int max) {
         Random r = new Random();
         return r.ints(min, (max + 1)).findFirst().getAsInt();
+    }
+
+    public void moveTo(WebElement element) {
+        Actions actions = new Actions(getDriver());
+        actions.moveToElement(element);
+        actions.perform();
+    }
+
+    public void click(WebElement element, int nbTimes) {
+        moveTo(element);
+        for (int i = 0; i < nbTimes; i++) {
+            element.click();
+        }
     }
 
 }
