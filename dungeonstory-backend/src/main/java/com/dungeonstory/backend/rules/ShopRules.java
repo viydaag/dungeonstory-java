@@ -51,7 +51,6 @@ public class ShopRules {
             Services.getCharacterService().saveOrUpdate(character);
         }
 
-        
     }
 
     public static void sellItem(Character character, Shop shop, CharacterEquipment item, int quantity) {
@@ -84,7 +83,8 @@ public class ShopRules {
             if (equipOpt.isPresent()) {
                 equipOpt.get().addQuantity(quantity);
             } else {
-                ShopEquipment shopEquipment = new ShopEquipment(shop, item.getEquipment(), quantity, (int) (item.getSellableValue() * 1.2));
+                ShopEquipment shopEquipment = new ShopEquipment(shop, item.getEquipment(), quantity,
+                        (int) (item.getSellableValue() * 1.2));
                 shop.getShopEquipments().add(shopEquipment);
             }
             Services.getShopService().saveOrUpdate(shop);

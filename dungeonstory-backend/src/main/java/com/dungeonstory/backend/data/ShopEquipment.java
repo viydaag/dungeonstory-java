@@ -9,6 +9,7 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -30,10 +31,12 @@ public class ShopEquipment implements Serializable {
     @JoinColumn(name = "equipmentId", nullable = false)
     private Equipment equipment;
     
+    @Digits(fraction = 0, integer = 9)
     @Min(value = 1, message = "La quantité doit être au minimum 1")
     @Column(name = "quantity")
     private int quantity = 1;
     
+    @Digits(fraction = 0, integer = 9)
     @Min(value = 0, message = "La valeur doit être positive")
     @Column(name = "unitPrice")
     private int unitPrice;

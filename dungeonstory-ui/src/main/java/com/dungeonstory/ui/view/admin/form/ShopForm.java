@@ -7,8 +7,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.vaadin.viritin.fields.IntegerField;
-
 import com.dungeonstory.backend.data.City;
 import com.dungeonstory.backend.data.Equipment;
 import com.dungeonstory.backend.data.Shop;
@@ -17,6 +15,7 @@ import com.dungeonstory.backend.service.CityDataService;
 import com.dungeonstory.backend.service.EquipmentDataService;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSAbstractForm;
+import com.dungeonstory.ui.field.DSIntegerField;
 import com.dungeonstory.ui.field.ElementCollectionGrid;
 import com.vaadin.data.ValidationResult;
 import com.vaadin.data.Validator;
@@ -42,9 +41,10 @@ public class ShopForm extends DSAbstractForm<Shop> {
     private CityDataService      cityService      = null;
 
     public static class ShopEquipmentRow {
-        FComboBox<Equipment> equipment = new FComboBox<Equipment>().withEmptySelectionAllowed(false).withWidth(100, Unit.PERCENTAGE);
-        IntegerField         quantity  = new IntegerField();
-        IntegerField         unitPrice = new IntegerField();
+        FComboBox<Equipment> equipment = new FComboBox<Equipment>().withEmptySelectionAllowed(false).withWidth(100,
+                Unit.PERCENTAGE);
+        DSIntegerField       quantity  = new DSIntegerField();
+        DSIntegerField       unitPrice = new DSIntegerField();
     }
 
     public ShopForm() {
