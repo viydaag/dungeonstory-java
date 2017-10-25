@@ -61,7 +61,8 @@ import com.vaadin.util.ReflectTools;
  * @param <ET> The type in the entity collection. The type must have empty
  * parameter constructor or you have to provide Instantiator.
  */
-public abstract class AbstractElementCollection<ET, CT extends Collection<ET>> extends CustomField<CT> {
+public abstract class AbstractElementCollection<ET, CT extends Collection<ET>>
+        extends CustomField<CT> {
 
     private static final long serialVersionUID = 3667284589764781794L;
 
@@ -144,7 +145,6 @@ public abstract class AbstractElementCollection<ET, CT extends Collection<ET>> e
         this.editorType = formType;
         this.statusLayout = new FVerticalLayout().withSpacing(false).withMargin(false);
     }
-
 
     public boolean isAllowNewItems() {
         return allowNewItems;
@@ -371,7 +371,7 @@ public abstract class AbstractElementCollection<ET, CT extends Collection<ET>> e
         if (getBinderFor(instance).isValid() && isValidBean(instance)) {
             fireEvent(new ValueChangeEvent<CT>(this, null, true));
         }
-        
+
         fireEvent(new ElementAddedEvent<>(this, instance));
     }
 
@@ -434,6 +434,7 @@ public abstract class AbstractElementCollection<ET, CT extends Collection<ET>> e
 
     @Override
     protected void doSetValue(CT newValue) {
+        getAndEnsureValue();
         clear();
         value.addAll(newValue);
         if (value != null) {

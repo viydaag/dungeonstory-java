@@ -194,6 +194,13 @@ public class ElementCollectionGrid<ET> extends AbstractElementCollection<ET, Lis
             dataProvider.refreshAll();
         }
     }
+    
+    @Override
+    protected boolean setValue(List<ET> value, boolean userOriginated) {
+        boolean result = super.setValue(value, userOriginated);
+        dataProvider.refreshAll();
+        return result;
+    }
 
     public String getDisabledDeleteElementDescription() {
         return disabledDeleteThisElementDescription;
