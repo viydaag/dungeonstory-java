@@ -1,13 +1,14 @@
 package com.dungeonstory.ui.field;
 
 import org.apache.commons.lang3.StringUtils;
-import org.vaadin.viritin.fields.AbstractNumberField;
 
-public class DoubleField extends AbstractNumberField<DoubleField, Double> {
+public class DoubleField
+        extends AbstractNumberField<Double> {
 
-    private static final long serialVersionUID = -4745616387521535321L;
-    
+    private static final long serialVersionUID = 2515914871455163294L;
+
     public DoubleField() {
+        super();
         setSizeUndefined();
     }
 
@@ -17,29 +18,22 @@ public class DoubleField extends AbstractNumberField<DoubleField, Double> {
     }
 
     @Override
-    protected void userInputToValue(String str) {
+    protected boolean userInputToValue(String str) {
         if (StringUtils.isNotBlank(str)) {
-            value = Double.parseDouble(str);
+            try {
+                value = Double.parseDouble(str);
+            } catch (NumberFormatException e) {
+                return false;
+            }
         } else {
             value = null;
         }
+        return true;
     }
-
+    
     @Override
-    public Double getValue() {
-        return value;
-    }
-
-    @Override
-    protected void configureHtmlElement() {
-        super.configureHtmlElement();
-        s.setJavaScriptEventHandler("keypress", "function(e) {var c = viritin.getChar(e); return c==null || /^[-\\d\\n\\t\\r\\.\\,]+$/.test(c);}");
-        s.setProperty("step", "0.1");
-    }
-
-    @Override
-    public void clear() {
-        super.clear();
+    protected String getParsingErrorMessage() {
+        return "This is not a double";
     }
 
 }
