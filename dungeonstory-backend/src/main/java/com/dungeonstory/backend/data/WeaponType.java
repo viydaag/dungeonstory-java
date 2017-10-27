@@ -7,6 +7,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -103,6 +104,7 @@ public class WeaponType extends AbstractTimestampEntity {
     
     @NotNull
     @Min(value = 1)
+    @Digits(integer = 9, fraction = 0)
     @Column(name = "basePrice", nullable = false)
     private int basePrice;
 

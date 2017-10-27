@@ -9,6 +9,7 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 
 import org.eclipse.persistence.annotations.JoinFetch;
@@ -41,6 +42,7 @@ public class ClassLevelFeature implements Serializable {
     @JoinColumn(name = "featureId", nullable = false)
     private ClassFeature feature;
 
+    @Digits(integer = 1, fraction = 0)
     @Column(name = "nbToChoose")
     private int nbToChoose = 1;
 

@@ -50,24 +50,29 @@ public class DriverUtil {
                     break;
                 case "chrome":
                     int chromeVersion = Integer.parseInt(prop.getProperty("chrome.version"));
+                    ChromeOptions chromeOptions = new ChromeOptions();
 
                     if (chromeVersion <= 56) {
                         driverPath = "./lib/chromedriver-2.27.exe";
                     } else {
                         driverPath = "./lib/chromedriver-2.31.exe";
+                        chromeOptions.addArguments("disable-extensions");
+                        chromeOptions.addArguments("start-maximized");
+                        chromeOptions.setExperimentalOption("useAutomationExtension", false);
                     }
                     System.setProperty("webdriver.chrome.driver", driverPath);
-
-                    ChromeOptions chromeOptions = new ChromeOptions();
+                    
                     chromeOptions.setBinary(prop.getProperty("chrome.binary.path"));
                     driver = new ChromeDriver(chromeOptions);
                     break;
                 default:
-                    driver = new JBrowserDriver(Settings.builder().requestHeaders(RequestHeaders.CHROME)
-                            .userAgent(new UserAgent(UserAgent.Family.WEBKIT, "Google Inc.", "Win32", "Windows NT 6.1",
-                                    "5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2869.0 Safari/537.36",
-                                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2869.0 Safari/537.36"))
-                            .build());
+                    driver = new JBrowserDriver(
+                            Settings.builder()
+                                    .requestHeaders(RequestHeaders.CHROME)
+                                    .userAgent(new UserAgent(UserAgent.Family.WEBKIT, "Google Inc.", "Win32", "Windows NT 6.1",
+                                            "5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2869.0 Safari/537.36",
+                                            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2869.0 Safari/537.36"))
+                                    .build());
             }
             driver.manage().window().setSize(new Dimension(1280, 720));
         } catch (SecurityException e) {

@@ -18,6 +18,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -58,64 +59,80 @@ public class Monster extends AbstractTimestampEntity implements HasStats {
     @JoinColumn(name = "alignmentId", nullable = false)
     private Alignment alignment;
 
-    @Column(name = "armorClass")
+    @NotNull
+    @Digits(integer = 2, fraction = 0)
+    @Column(name = "armorClass", nullable = false)
     private int armorClass;
 
-    @Column(name = "hitPoints")
+    @NotNull
+    @Digits(integer = 4, fraction = 0)
+    @Column(name = "hitPoints", nullable = false)
     private int hitPoints;
 
     @Min(value = 0)
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "groundSpeed")
     private Integer groundSpeed = 0;
 
     @Min(value = 0)
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "burrowSpeed")
     private Integer burrowSpeed = 0;
 
     @Min(value = 0)
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "climbSpeed")
     private Integer climbSpeed = 0;
 
     @Min(value = 0)
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "flySpeed")
     private Integer flySpeed = 0;
 
     @Min(value = 0)
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "swimSpeed")
     private Integer swimSpeed = 0;
 
     @NotNull
     @Min(value = 1)
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "strength", nullable = false)
     private int strength;
 
     @NotNull
     @Min(value = 1)
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "dexterity", nullable = false)
     private int dexterity;
 
     @NotNull
     @Min(value = 1)
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "constitution", nullable = false)
     private int constitution;
 
     @NotNull
     @Min(value = 1)
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "intelligence", nullable = false)
     private int intelligence;
 
     @NotNull
     @Min(value = 1)
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "wisdom", nullable = false)
     private int wisdom;
 
     @NotNull
     @Min(value = 1)
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "charisma", nullable = false)
     private int charisma;
 
     @NotNull
     @Min(value = 0)
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "passivePerception", nullable = false)
     private int passivePerception = 0;
 

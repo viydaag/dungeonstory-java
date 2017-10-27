@@ -9,6 +9,7 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 
 @Entity
@@ -29,10 +30,12 @@ public class CharacterEquipment implements Serializable {
     private Equipment equipment;
     
     @Min(value = 1)
+    @Digits(integer = 3, fraction = 0)
     @Column(name = "quantity")
     private int quantity;
 
     @Min(value = 0)
+    @Digits(integer = 9, fraction = 0)
     @Column(name = "sellableValue")
     private int sellableValue;
 

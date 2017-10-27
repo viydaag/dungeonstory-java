@@ -7,6 +7,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -42,6 +43,7 @@ public class MonsterSense extends AbstractTimestampEntity {
     @Column(name = "sense", nullable = false)
     private Sense sense;
 
+    @Digits(integer = 3, fraction = 0)
     @Column(name = "distanceInFeet")
     private Integer distanceInFeet;
 

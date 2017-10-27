@@ -11,6 +11,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Version;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -34,11 +35,13 @@ public class Level implements com.dungeonstory.backend.repository.Entity {
 
     @NotNull
     @Min(value = 0)
+    @Digits(integer = 12, fraction = 0)
     @Column(name = "maxExperience")
     private long maxExperience;
 
     @NotNull
     @Min(value = 0)
+    @Digits(integer = 1, fraction = 0)
     @Column(name = "proficiencyBonus")
     private int proficiencyBonus;
 

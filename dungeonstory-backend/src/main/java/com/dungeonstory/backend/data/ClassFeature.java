@@ -18,6 +18,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -85,15 +86,17 @@ public class ClassFeature extends AbstractTimestampEntity implements Descriptive
     @BatchFetch(value = BatchFetchType.JOIN)
     private List<ClassFeature> children;
 
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "nbUse")
-    Integer nbUse;
+    private Integer nbUse;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "restType")
     private RestType restType;
 
+    @Digits(integer = 1, fraction = 0)
     @Column(name = "pointCost")
-    Integer pointCost;
+    private Integer pointCost;
 
     @OneToOne
     @JoinFetch(JoinFetchType.OUTER)

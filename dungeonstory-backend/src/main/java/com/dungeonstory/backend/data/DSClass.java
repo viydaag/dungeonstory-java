@@ -18,6 +18,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -69,6 +70,7 @@ public class DSClass extends AbstractTimestampEntity {
 
     @NotNull
     @Min(value = 0)
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "lifePointPerLevel", nullable = false)
     private int lifePointPerLevel;
     
@@ -115,6 +117,7 @@ public class DSClass extends AbstractTimestampEntity {
     private Set<ToolType> toolProficiencies;
     
     @Min(value = 0)
+    @Digits(integer = 1, fraction = 0)
     @Column(name = "nbChosenSkills")
     private int nbChosenSkills = 0;
 
@@ -159,6 +162,7 @@ public class DSClass extends AbstractTimestampEntity {
     
     @NotNull
     @Min(value = 0)
+    @Digits(integer = 3, fraction = 0)
     @Column(name = "startingGold", nullable = false)
     private int startingGold = 0;
 

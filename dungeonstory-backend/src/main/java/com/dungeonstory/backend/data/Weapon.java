@@ -7,6 +7,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -38,6 +39,7 @@ public class Weapon extends Equipment {
     @JoinColumn(name = "additionalDamageTypeId")
     private DamageType additionalDamageType;
 
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "magicalBonus")
     private Integer magicalBonus;
 

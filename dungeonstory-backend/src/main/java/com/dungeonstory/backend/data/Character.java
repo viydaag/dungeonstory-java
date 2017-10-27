@@ -21,6 +21,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -73,11 +74,13 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
 
     @NotNull
     @Min(value = 0)
+    @Digits(integer = 3, fraction = 0)
     @Column(name = "age", nullable = false)
     private int age;
 
     @NotNull
     @Min(value = 0)
+    @Digits(integer = 3, fraction = 0)
     @Column(name = "weight", nullable = false)
     private int weight;
 
@@ -105,46 +108,55 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
 
     @NotNull
     @Min(value = 0)
+    @Digits(integer = 9, fraction = 0)
     @Column(name = "experience", nullable = false)
     private long experience;
 
     @NotNull
     @Min(value = 0)
+    @Digits(integer = 3, fraction = 0)
     @Column(name = "lifePoints", nullable = false)
     private int lifePoints;
 
     @NotNull
     @Min(value = 10)
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "armorClass", nullable = false)
     private int armorClass;
 
     @NotNull
     @Min(value = 1)
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "strength", nullable = false)
     private int strength;
 
     @NotNull
     @Min(value = 1)
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "dexterity", nullable = false)
     private int dexterity;
 
     @NotNull
     @Min(value = 1)
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "constitution", nullable = false)
     private int constitution;
 
     @NotNull
     @Min(value = 1)
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "intelligence", nullable = false)
     private int intelligence;
 
     @NotNull
     @Min(value = 1)
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "wisdom", nullable = false)
     private int wisdom;
 
     @NotNull
     @Min(value = 1)
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "charisma", nullable = false)
     private int charisma;
 
@@ -232,6 +244,7 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
     private String image;
 
     @Min(value = 0)
+    @Digits(integer = 12, fraction = 0)
     @Column(name = "gold", nullable = false)
     private long gold = 0;
 

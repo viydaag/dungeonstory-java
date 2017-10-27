@@ -7,6 +7,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
 
 import org.eclipse.persistence.annotations.JoinFetch;
 import org.eclipse.persistence.annotations.JoinFetchType;
@@ -27,6 +28,7 @@ public class Armor extends Equipment {
     @Column(name = "armorClass")
     private int armorClass;
 
+    @Digits(integer = 3, fraction = 0)
     @Column(name = "magicalAcBonus")
     private Integer magicalAcBonus;
 

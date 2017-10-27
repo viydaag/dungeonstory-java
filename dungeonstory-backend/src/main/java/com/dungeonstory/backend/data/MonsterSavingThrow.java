@@ -9,6 +9,7 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 
 @Entity
@@ -29,6 +30,7 @@ public class MonsterSavingThrow implements Serializable {
     private Ability ability;
 
     @Min(value = 0)
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "bonus")
     private Integer bonus;
 
