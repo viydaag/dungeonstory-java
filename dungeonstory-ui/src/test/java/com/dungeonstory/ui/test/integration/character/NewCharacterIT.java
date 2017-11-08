@@ -247,15 +247,15 @@ public class NewCharacterIT
         nameTextField.setValue(name);
         sexRadioButtonGroup.selectByText(HOMME);
 
-        ImageElement image1 = $(ImageElement.class).first();
-        String imgSrc = image1.getAttribute("src").substring(image1.getAttribute("src").lastIndexOf('/'));
-        image1.click();
-
         age.setValue("12");
         height.setValue("6");
         weight.setValue("200");
         alignmentComboBox.selectByText(NEUTRE_BON);
         regionComboBox.selectByText(RASHEMEN);
+
+        ImageElement image1 = $(ImageElement.class).first();
+        String imgSrc = getAttribute(image1, "src").substring(getAttribute(image1, "src").lastIndexOf('/'));
+        image1.click();
 
         assertTrue(height.hasClassName("v-textfield-error"));
         assertTrue(age.hasClassName("v-textfield-error"));
@@ -282,14 +282,14 @@ public class NewCharacterIT
         LabelElement classLabel = $(LabelElement.class).caption(messages.getMessage("summaryStep.class.label")).first();
         LabelElement lifeLabel = $(LabelElement.class).caption(messages.getMessage("summaryStep.lifePoint.label")).first();
 
-        assertEquals("1", levelLabel.getText());
-        assertEquals(HUMAIN, raceLabel.getText());
-        assertTrue(languageLabel.getText().contains("Commun"));
-        assertTrue(languageLabel.getText().contains("Elfique"));
-        assertTrue(languageLabel.getText().contains("Gobelin"));
-        assertTrue(languageLabel.getText().contains("Halfelin"));
-        assertTrue(classLabel.getText().contains(BARBARE));
-        assertEquals("14", lifeLabel.getText());
+        assertEquals("1", getText(levelLabel));
+        assertEquals(HUMAIN, getText(raceLabel));
+        assertTrue(getText(languageLabel).contains("Commun"));
+        assertTrue(getText(languageLabel).contains("Elfique"));
+        assertTrue(getText(languageLabel).contains("Gobelin"));
+        assertTrue(getText(languageLabel).contains("Halfelin"));
+        assertTrue(getText(classLabel).contains(BARBARE));
+        assertEquals("14", getText(lifeLabel));
 
         LabelElement strLabel = $(LabelElement.class).caption(messages.getMessage("ability.str.caption")).first();
         LabelElement dexLabel = $(LabelElement.class).caption(messages.getMessage("ability.dex.caption")).first();
@@ -298,12 +298,12 @@ public class NewCharacterIT
         LabelElement wisLabel = $(LabelElement.class).caption(messages.getMessage("ability.wis.caption")).first();
         LabelElement chaLabel = $(LabelElement.class).caption(messages.getMessage("ability.cha.caption")).first();
 
-        assertEquals("16", strLabel.getText());
-        assertEquals("16", dexLabel.getText());
-        assertEquals("14", conLabel.getText());
-        assertEquals("9", intLabel.getText());
-        assertEquals("11", wisLabel.getText());
-        assertEquals("12", chaLabel.getText());
+        assertEquals("16", getText(strLabel));
+        assertEquals("16", getText(dexLabel));
+        assertEquals("14", getText(conLabel));
+        assertEquals("9", getText(intLabel));
+        assertEquals("11", getText(wisLabel));
+        assertEquals("12", getText(chaLabel));
 
         LabelElement armorProficiencyLabel = $(LabelElement.class).caption(messages.getMessage("summaryStep.proficiency.armor.label")).first();
         LabelElement weaponProficiencyLabel = $(LabelElement.class).caption(messages.getMessage("summaryStep.proficiency.weapon.label")).first();
@@ -311,12 +311,11 @@ public class NewCharacterIT
                                                                         .first();
         LabelElement skillProficiencyLabel = $(LabelElement.class).caption(messages.getMessage("summaryStep.proficiency.skill.label")).first();
 
-        moveTo(skillProficiencyLabel);
-        assertTrue(skillProficiencyLabel.getText().contains("Athlétisme"));
-        assertTrue(skillProficiencyLabel.getText().contains("Intimidation"));
+        assertTrue(getText(skillProficiencyLabel).contains("Athlétisme"));
+        assertTrue(getText(skillProficiencyLabel).contains("Intimidation"));
 
         ImageElement summaryImage = $(ImageElement.class).caption("Image").first();
-        String summaryImgSrc = summaryImage.getAttribute("src").substring(summaryImage.getAttribute("src").lastIndexOf('/'));
+        String summaryImgSrc = getAttribute(summaryImage, "src").substring(getAttribute(summaryImage, "src").lastIndexOf('/'));
         assertEquals(summaryImgSrc, imgSrc);
 
         LabelElement nameLabel = $(LabelElement.class).caption(messages.getMessage("summaryStep.name.label")).first();
@@ -328,15 +327,14 @@ public class NewCharacterIT
         LabelElement regionLabel = $(LabelElement.class).caption(messages.getMessage("summaryStep.region.label")).first();
         LabelElement backgroundLabel = $(LabelElement.class).caption(messages.getMessage("summaryStep.background.label")).first();
 
-        moveTo(backgroundLabel);
-        assertEquals(name, nameLabel.getText());
-        assertEquals(HOMME, sexLabel.getText());
-        assertEquals("20", ageLabel.getText());
-        assertEquals("200 lbs", weightLabel.getText());
-        assertEquals("6'", heightLabel.getText());
-        assertEquals(NEUTRE_BON, alignmentLabel.getText());
-        assertEquals(RASHEMEN, regionLabel.getText());
-        assertEquals(ACOLYTE, backgroundLabel.getText());
+        assertEquals(name, getText(nameLabel));
+        assertEquals(HOMME, getText(sexLabel));
+        assertEquals("20", getText(ageLabel));
+        assertEquals("200 lbs", getText(weightLabel));
+        assertEquals("6'", getText(heightLabel));
+        assertEquals(NEUTRE_BON, getText(alignmentLabel));
+        assertEquals(RASHEMEN, getText(regionLabel));
+        assertEquals(ACOLYTE, getText(backgroundLabel));
 
         newCharacterPO.clickFinish();
 

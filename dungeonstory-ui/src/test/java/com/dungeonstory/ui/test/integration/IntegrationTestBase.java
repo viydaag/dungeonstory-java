@@ -7,6 +7,8 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.runner.RunWith;
+import org.junit.runners.BlockJUnit4ClassRunner;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -14,6 +16,7 @@ import org.openqa.selenium.interactions.Actions;
 import com.vaadin.testbench.TestBenchTestCase;
 import com.vaadin.testbench.elements.AbstractTextFieldElement;
 
+@RunWith(BlockJUnit4ClassRunner.class)
 public class IntegrationTestBase extends TestBenchTestCase {
 
     @Before
@@ -61,6 +64,20 @@ public class IntegrationTestBase extends TestBenchTestCase {
         for (int i = 0; i < nbTimes; i++) {
             element.click();
         }
+    }
+
+    public String getText(WebElement element) {
+        moveTo(element);
+        return element.getText();
+    }
+
+    public String getValue(WebElement element) {
+        throw new RuntimeException("not supported");
+    }
+
+    public String getAttribute(WebElement element, String attributeName) {
+        moveTo(element);
+        return element.getAttribute(attributeName);
     }
 
 }

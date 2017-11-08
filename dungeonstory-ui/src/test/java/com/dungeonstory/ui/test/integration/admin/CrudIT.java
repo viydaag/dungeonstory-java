@@ -146,7 +146,7 @@ public class CrudIT extends IntegrationTestBase {
         GridElement crudGrid = $(GridElement.class).id("crudGrid");
         assertTrue(crudGrid.isDisplayed());
 
-        crudGrid.getRow((int) (crudGrid.getRowCount() - 1)).click();
+        crudPO.clickLastGridRow();
 
         assertTrue($(TextFieldElement.class).caption("Nom").exists());
         assertTrue($(TextFieldElement.class).caption("Abbréviation").exists());

@@ -57,7 +57,6 @@ public class DriverUtil {
                     } else {
                         driverPath = "./lib/chromedriver-2.31.exe";
                         chromeOptions.addArguments("disable-extensions");
-                        chromeOptions.addArguments("start-maximized");
                         chromeOptions.setExperimentalOption("useAutomationExtension", false);
                     }
                     System.setProperty("webdriver.chrome.driver", driverPath);

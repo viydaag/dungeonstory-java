@@ -91,6 +91,8 @@ public class AlignmentIT extends IntegrationTestBase {
 
         assertTrue(crudGrid.isDisplayed());
 
+        moveTo(crudGrid);
+
         GridRowElement newRow = crudGrid.getRow((int) (crudGrid.getRowCount() - 1));
         assertEquals(name, newRow.getCell(0).getText());
         assertEquals("TI", newRow.getCell(1).getText());
