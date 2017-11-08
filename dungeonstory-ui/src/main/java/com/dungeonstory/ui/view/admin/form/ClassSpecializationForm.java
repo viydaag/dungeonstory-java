@@ -2,8 +2,6 @@ package com.dungeonstory.ui.view.admin.form;
 
 import java.util.List;
 
-import org.vaadin.viritin.fields.IntegerField;
-
 import com.dungeonstory.FormCheckBox;
 import com.dungeonstory.backend.data.Ability;
 import com.dungeonstory.backend.data.ClassFeature;
@@ -21,7 +19,9 @@ import com.dungeonstory.backend.service.LevelDataService;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.backend.service.SpellDataService;
 import com.dungeonstory.ui.component.DSAbstractForm;
+import com.dungeonstory.ui.field.DSIntegerField;
 import com.dungeonstory.ui.field.ElementCollectionGrid;
+import com.dungeonstory.ui.field.IntegerField;
 import com.dungeonstory.ui.field.LevelSpellsCollectionField;
 import com.dungeonstory.ui.field.LevelSpellsCollectionField.LevelSpellsRow;
 import com.dungeonstory.ui.view.admin.form.ClassForm.ClassLevelFeatureRow;
@@ -56,7 +56,7 @@ public class ClassSpecializationForm extends DSAbstractForm<ClassSpecialization>
     public static class ClassSpecLevelFeatureRow {
         FComboBox<Level>        level      = new FComboBox<Level>().withEmptySelectionAllowed(false);
         FComboBox<ClassFeature> feature    = new FComboBox<ClassFeature>().withEmptySelectionAllowed(false).withWidth("100%");
-        IntegerField            nbToChoose = new IntegerField();
+        IntegerField            nbToChoose = new DSIntegerField();
     }
 
     public static class ClassSpecLevelSpellRow {

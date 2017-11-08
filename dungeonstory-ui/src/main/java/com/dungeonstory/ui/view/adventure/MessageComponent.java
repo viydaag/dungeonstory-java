@@ -2,10 +2,9 @@ package com.dungeonstory.ui.view.adventure;
 
 import java.io.File;
 
-import org.vaadin.dialogs.ConfirmDialog;
-
 import com.dungeonstory.backend.data.Message;
 import com.dungeonstory.ui.authentication.CurrentUser;
+import com.dungeonstory.ui.component.DeleteButton;
 import com.dungeonstory.ui.util.DSConstant;
 import com.dungeonstory.ui.util.DSTheme;
 import com.vaadin.fluent.ui.FHorizontalLayout;
@@ -71,14 +70,20 @@ public class MessageComponent extends CustomComponent {
                 buttonLayout.addComponent(editMessageButton);
 
                 // delete
-                Button deleteMessageButton = new Button("Supprimer");
-                deleteMessageButton.addClickListener(click -> ConfirmDialog.show(getUI(), "Supprimer",
-                        "Êtes-vous certain?", "OK", "Annuler", new Runnable() {
-                            @Override
-                            public void run() {
-                                view.deleteMessage(message);
-                            }
-                        }));
+                DeleteButton deleteMessageButton = new DeleteButton("Supprimer", "Êtes-vous certain?", click -> new Runnable() {
+                    @Override
+                    public void run() {
+                        view.deleteMessage(message);
+                    }
+                }).withI18NCaption("OK", "Annuler");
+                //                Button deleteMessageButton = new Button("Supprimer");
+                //                deleteMessageButton.addClickListener(click -> ConfirmDialog.show(getUI(), "Supprimer",
+                //                        "Êtes-vous certain?", "OK", "Annuler", new Runnable() {
+                //                            @Override
+                //                            public void run() {
+                //                                view.deleteMessage(message);
+                //                            }
+                //                        }));
                 buttonLayout.addComponent(deleteMessageButton);
 
             }
@@ -96,5 +101,6 @@ public class MessageComponent extends CustomComponent {
         panel.setContent(layout);
         setCompositionRoot(panel);
     }
+
 
 }

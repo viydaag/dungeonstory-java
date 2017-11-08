@@ -2,13 +2,12 @@ package com.dungeonstory.ui.view.character.wizard.form;
 
 import java.util.Arrays;
 
-import org.vaadin.viritin.fields.IntegerField;
-
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.Feat;
 import com.dungeonstory.backend.service.FeatDataService;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSLabel;
+import com.dungeonstory.ui.field.IntegerField;
 import com.dungeonstory.ui.i18n.Messages;
 import com.vaadin.fluent.ui.FComboBox;
 import com.vaadin.fluent.ui.FHorizontalLayout;

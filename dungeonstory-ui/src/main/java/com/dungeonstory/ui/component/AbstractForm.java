@@ -2,10 +2,6 @@ package com.dungeonstory.ui.component;
 
 import java.io.Serializable;
 
-import org.vaadin.viritin.button.DeleteButton;
-import org.vaadin.viritin.button.MButton;
-import org.vaadin.viritin.button.PrimaryButton;
-
 import com.vaadin.data.BeanValidationBinder;
 import com.vaadin.data.Binder;
 import com.vaadin.shared.Registration;
@@ -325,7 +321,9 @@ public abstract class AbstractForm<T> extends CustomComponent {
     }
 
     protected Button createResetButton() {
-        return new MButton(getResetCaption()).withVisible(false);
+        Button btn = new Button(getResetCaption());
+        btn.setVisible(false);
+        return btn;
     }
 
     public Button getResetButton() {
@@ -389,7 +387,9 @@ public abstract class AbstractForm<T> extends CustomComponent {
     }
 
     protected Button createDeleteButton() {
-        return new DeleteButton(getDeleteCaption()).withVisible(false);
+        DeleteButton btn = new DeleteButton(getDeleteCaption());
+        btn.setVisible(false);
+        return btn;
     }
 
     public void setDeleteButton(final Button deleteButton) {
@@ -438,7 +438,9 @@ public abstract class AbstractForm<T> extends CustomComponent {
     }
 
     protected Button createCancelButton() {
-        return new MButton(getCancelCaption()).withVisible(false);
+        Button btn = new Button(getCancelCaption());
+        btn.setVisible(false);
+        return btn;
     }
 
     public Button getCancelButton() {

@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.vaadin.viritin.fields.IntegerField;
-
 import com.dungeonstory.FormCheckBox;
 import com.dungeonstory.backend.data.Ability;
 import com.dungeonstory.backend.data.ArmorType;
@@ -39,7 +37,9 @@ import com.dungeonstory.backend.service.SkillDataService;
 import com.dungeonstory.backend.service.SpellDataService;
 import com.dungeonstory.backend.service.WeaponTypeDataService;
 import com.dungeonstory.ui.component.DSAbstractForm;
+import com.dungeonstory.ui.field.DSIntegerField;
 import com.dungeonstory.ui.field.ElementCollectionGrid;
+import com.dungeonstory.ui.field.IntegerField;
 import com.dungeonstory.ui.field.LevelBonusCollectionField;
 import com.dungeonstory.ui.field.LevelBonusCollectionField.ClassLevelBonusRow;
 import com.dungeonstory.ui.field.LevelSpellsCollectionField;
@@ -113,12 +113,12 @@ public class ClassForm
     public static class ClassLevelFeatureRow {
         FComboBox<Level>        level      = new FComboBox<Level>().withEmptySelectionAllowed(false);
         FComboBox<ClassFeature> feature    = new FComboBox<ClassFeature>().withEmptySelectionAllowed(false).withWidth("100%");
-        IntegerField            nbToChoose = new IntegerField();
+        IntegerField            nbToChoose = new DSIntegerField();
     }
 
     public static class ClassEquipmentRow {
         FComboBox<Equipment> equipment = new FComboBox<Equipment>().withEmptySelectionAllowed(false).withWidth("100%");
-        IntegerField         quantity  = new IntegerField();
+        IntegerField         quantity  = new DSIntegerField();
     }
 
     public ClassForm() {
@@ -146,8 +146,8 @@ public class ClassForm
         name = new FTextField("Nom");
         shortDescription = new FTextField("Description courte").withWidth("80%");
         description = new FTextArea("Description").withWidth("80%").withRows(12);
-        lifePointPerLevel = new IntegerField("Points de vie par niveau");
-        startingGold = new IntegerField("Pièces d'or de départ");
+        lifePointPerLevel = new DSIntegerField("Points de vie par niveau");
+        startingGold = new DSIntegerField("Pièces d'or de départ");
         isSpellCasting = new FormCheckBox("Capacité à lancer des sorts");
         spellCastingAbility = new ComboBox<Ability>("Caractéristique de sort");
         List<Ability> allAbilities = abilityService.findAll();
@@ -209,7 +209,7 @@ public class ClassForm
         toolProficiencies.setWidth("50%");
         toolProficiencies.setValue(new HashSet<ToolType>()); // nothing selected
 
-        nbChosenSkills = new IntegerField("Nb de compétences à choisir");
+        nbChosenSkills = new DSIntegerField("Nb de compétences à choisir");
         baseSkills = new SubSetSelector<>(Skill.class);
         baseSkills.setCaption("Compétences de base");
         baseSkills.getGrid().addColumn(Skill::getName).setCaption("Compétence").setId("name");

@@ -1,7 +1,5 @@
 package com.dungeonstory.ui.field;
 
-import org.vaadin.viritin.fields.IntegerField;
-
 import com.dungeonstory.backend.data.Level;
 import com.vaadin.data.HasValue;
 import com.vaadin.fluent.ui.FComboBox;
@@ -15,17 +13,17 @@ public class LevelSpellsCollectionField<T> extends ElementCollectionField<T> {
 
     public static class LevelSpellsRow {
         public FComboBox<Level> level         = new FComboBox<Level>().withEmptySelectionAllowed(false);
-        public IntegerField     cantripsKnown = new IntegerField().withWidth("110px");
-        public IntegerField     spellsKnown   = new IntegerField().withWidth("110px");
-        public IntegerField     spellSlots1   = new IntegerField().withWidth("50px");
-        public IntegerField     spellSlots2   = new IntegerField().withWidth("50px");
-        public IntegerField     spellSlots3   = new IntegerField().withWidth("50px");
-        public IntegerField     spellSlots4   = new IntegerField().withWidth("50px");
-        public IntegerField     spellSlots5   = new IntegerField().withWidth("50px");
-        public IntegerField     spellSlots6   = new IntegerField().withWidth("50px");
-        public IntegerField     spellSlots7   = new IntegerField().withWidth("50px");
-        public IntegerField     spellSlots8   = new IntegerField().withWidth("50px");
-        public IntegerField     spellSlots9   = new IntegerField().withWidth("50px");
+        public IntegerField     cantripsKnown = new DSIntegerField().withWidth("110px");
+        public IntegerField     spellsKnown   = new DSIntegerField().withWidth("110px");
+        public IntegerField     spellSlots1   = new DSIntegerField().withWidth("50px");
+        public IntegerField     spellSlots2   = new DSIntegerField().withWidth("50px");
+        public IntegerField     spellSlots3   = new DSIntegerField().withWidth("50px");
+        public IntegerField     spellSlots4   = new DSIntegerField().withWidth("50px");
+        public IntegerField     spellSlots5   = new DSIntegerField().withWidth("50px");
+        public IntegerField     spellSlots6   = new DSIntegerField().withWidth("50px");
+        public IntegerField     spellSlots7   = new DSIntegerField().withWidth("50px");
+        public IntegerField     spellSlots8   = new DSIntegerField().withWidth("50px");
+        public IntegerField     spellSlots9   = new DSIntegerField().withWidth("50px");
     }
 
     public LevelSpellsCollectionField(Class<T> elementType) {

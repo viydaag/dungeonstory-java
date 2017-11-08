@@ -5,8 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.vaadin.viritin.fields.IntegerField;
-
 import com.dungeonstory.backend.data.Ability;
 import com.dungeonstory.backend.data.Alignment;
 import com.dungeonstory.backend.data.ChallengeRating;
@@ -24,8 +22,10 @@ import com.dungeonstory.backend.data.WeaponType.UsageType;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSAbstractForm;
 import com.dungeonstory.ui.component.EnumComboBox;
+import com.dungeonstory.ui.field.DSIntegerField;
 import com.dungeonstory.ui.field.ElementCollectionField;
 import com.dungeonstory.ui.field.ElementCollectionGrid;
+import com.dungeonstory.ui.field.IntegerField;
 import com.dungeonstory.ui.field.SubSetSelector;
 import com.dungeonstory.ui.i18n.Messages;
 import com.dungeonstory.ui.layout.MultiColumnFormLayout;
@@ -79,12 +79,12 @@ public class MonsterForm extends DSAbstractForm<Monster> {
 
     public static class MonsterSkillRow {
         ComboBox<Skill> skill = new ComboBox<>();
-        IntegerField    bonus = new IntegerField();
+        IntegerField    bonus = new DSIntegerField();
     }
 
     public static class MonsterSenseRow {
         EnumComboBox<MonsterSense.Sense> sense          = new EnumComboBox<>(MonsterSense.Sense.class);
-        IntegerField                     distanceInFeet = new IntegerField();
+        IntegerField                     distanceInFeet = new DSIntegerField();
     }
 
     public static class MonsterAttackRow {
@@ -92,14 +92,14 @@ public class MonsterForm extends DSAbstractForm<Monster> {
         EnumComboBox<UsageType> usageType              = new EnumComboBox<>(UsageType.class);
         TextField               damage                 = new TextField();
         ComboBox<DamageType>    damageType             = new ComboBox<>();
-        IntegerField            bonusToHit             = new IntegerField();
+        IntegerField            bonusToHit             = new DSIntegerField();
         EnumComboBox<Condition> condition              = new EnumComboBox<>(Condition.class);
         ComboBox<Ability>       savingThrowToCondition = new ComboBox<>();
         TextField               extraDamage            = new TextField();
         ComboBox<DamageType>    extraDamageType        = new ComboBox<>();
         CheckBox                multiAttack            = new CheckBox();
-        IntegerField            multiAttackRank        = new IntegerField();
-        IntegerField            nbPerRound             = new IntegerField();
+        IntegerField            multiAttackRank        = new DSIntegerField();
+        IntegerField            nbPerRound             = new DSIntegerField();
     }
 
     public MonsterForm() {
@@ -125,21 +125,21 @@ public class MonsterForm extends DSAbstractForm<Monster> {
         creatureType = new ComboBox<>("Type", Services.getCreatureTypeService().findAll());
         tag = new TextField("tag");
         alignment = new ComboBox<>("Alignement", Services.getAlignmentService().findAll());
-        armorClass = new IntegerField("Classe d'armure");
-        hitPoints = new IntegerField("Points de vie");
-        groundSpeed = new IntegerField("Vitesse au sol");
-        flySpeed = new IntegerField("Vitesse de vol");
-        burrowSpeed = new IntegerField("Vitesse sous le sol");
-        swimSpeed = new IntegerField("Vitesse de nage");
-        climbSpeed = new IntegerField("Vitesse de grimpe");
+        armorClass = new DSIntegerField("Classe d'armure");
+        hitPoints = new DSIntegerField("Points de vie");
+        groundSpeed = new DSIntegerField("Vitesse au sol");
+        flySpeed = new DSIntegerField("Vitesse de vol");
+        burrowSpeed = new DSIntegerField("Vitesse sous le sol");
+        swimSpeed = new DSIntegerField("Vitesse de nage");
+        climbSpeed = new DSIntegerField("Vitesse de grimpe");
 
-        strength = new IntegerField(messages.getMessage("ability.str.caption"));
-        dexterity = new IntegerField(messages.getMessage("ability.dex.caption"));
-        constitution = new IntegerField(messages.getMessage("ability.con.caption"));
-        intelligence = new IntegerField(messages.getMessage("ability.int.caption"));
-        wisdom = new IntegerField(messages.getMessage("ability.wis.caption"));
-        charisma = new IntegerField(messages.getMessage("ability.cha.caption"));
-        passivePerception = new IntegerField("Perception passive");
+        strength = new DSIntegerField(messages.getMessage("ability.str.caption"));
+        dexterity = new DSIntegerField(messages.getMessage("ability.dex.caption"));
+        constitution = new DSIntegerField(messages.getMessage("ability.con.caption"));
+        intelligence = new DSIntegerField(messages.getMessage("ability.int.caption"));
+        wisdom = new DSIntegerField(messages.getMessage("ability.wis.caption"));
+        charisma = new DSIntegerField(messages.getMessage("ability.cha.caption"));
+        passivePerception = new DSIntegerField("Perception passive");
 
         challengeRating = new EnumComboBox<>(ChallengeRating.class, "Degré de difficulté");
 

@@ -1,9 +1,9 @@
 package com.dungeonstory.ui.view.character.wizard.form;
 
-import org.vaadin.viritin.fields.IntegerField;
-
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.ui.component.DSLabel;
+import com.dungeonstory.ui.field.DSIntegerField;
+import com.dungeonstory.ui.field.IntegerField;
 import com.dungeonstory.ui.i18n.Messages;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Button;
@@ -43,32 +43,32 @@ public class AbilityScoreInitForm extends AbilityScoreForm {
         gridLayout.addComponent(new DSLabel(messages.getMessage("abilityScoreStep.raceModifier.label")), 1, 0);
         gridLayout.addComponent(new DSLabel(messages.getMessage("abilityScoreStep.score.label")), 2, 0);
 
-        strengthModifier = new IntegerField();
+        strengthModifier = new DSIntegerField();
         gridLayout.addComponent(strengthLabel, 0, 1);
         gridLayout.addComponent(strengthModifier, 1, 1);
         gridLayout.addComponent(strength, 2, 1);
 
-        dexterityModifier = new IntegerField();
+        dexterityModifier = new DSIntegerField();
         gridLayout.addComponent(dexterityLabel, 0, 2);
         gridLayout.addComponent(dexterityModifier, 1, 2);
         gridLayout.addComponent(dexterity, 2, 2);
 
-        constitutionModifier = new IntegerField();
+        constitutionModifier = new DSIntegerField();
         gridLayout.addComponent(constitutionLabel, 0, 3);
         gridLayout.addComponent(constitutionModifier, 1, 3);
         gridLayout.addComponent(constitution, 2, 3);
 
-        intelligenceModifier = new IntegerField();
+        intelligenceModifier = new DSIntegerField();
         gridLayout.addComponent(intelligenceLabel, 0, 4);
         gridLayout.addComponent(intelligenceModifier, 1, 4);
         gridLayout.addComponent(intelligence, 2, 4);
 
-        wisdomModifier = new IntegerField();
+        wisdomModifier = new DSIntegerField();
         gridLayout.addComponent(wisdoDSLabel, 0, 5);
         gridLayout.addComponent(wisdomModifier, 1, 5);
         gridLayout.addComponent(wisdom, 2, 5);
 
-        charismaModifier = new IntegerField();
+        charismaModifier = new DSIntegerField();
         gridLayout.addComponent(charismaLabel, 0, 6);
         gridLayout.addComponent(charismaModifier, 1, 6);
         gridLayout.addComponent(charisma, 2, 6);

@@ -1,7 +1,5 @@
 package com.dungeonstory.ui.view.admin.form;
 
-import org.vaadin.viritin.fields.IntegerField;
-
 import com.dungeonstory.FormCheckBox;
 import com.dungeonstory.backend.data.ArmorType;
 import com.dungeonstory.backend.data.DamageType;
@@ -16,7 +14,9 @@ import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.backend.service.WeaponTypeDataService;
 import com.dungeonstory.ui.component.DSAbstractForm;
 import com.dungeonstory.ui.component.EnumComboBox;
+import com.dungeonstory.ui.field.DSIntegerField;
 import com.dungeonstory.ui.field.DoubleField;
+import com.dungeonstory.ui.field.IntegerField;
 import com.google.common.base.Optional;
 import com.vaadin.data.HasValue.ValueChangeEvent;
 import com.vaadin.event.selection.SingleSelectionEvent;
@@ -27,13 +27,14 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextField;
 
-public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
+public class EquipmentForm<T extends Equipment>
+        extends DSAbstractForm<T> {
 
     private static final long serialVersionUID = -5986264153168207722L;
 
     private TextField                   name;
     private EnumComboBox<EquipmentType> type;
-    private FTextArea                  description;
+    private FTextArea                   description;
     private DoubleField                 weight;
     private FormCheckBox                isPurchasable;
     private FormCheckBox                isSellable;
@@ -87,18 +88,18 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
         isPurchasable = new FormCheckBox("Peut être acheté");
         isSellable = new FormCheckBox("Peut être vendu");
         isMagical = new FormCheckBox("Magique");
-        basePrice = new IntegerField("Prix de base");
+        basePrice = new DSIntegerField("Prix de base");
 
         armorType = new ComboBox<ArmorType>("Type d'armure", armorTypeService.findAll());
-        armorClass = new IntegerField("Classe d'armure bonus");
-        magicalAcBonus = new IntegerField("Classe d'armure magique bonus");
+        armorClass = new DSIntegerField("Classe d'armure bonus");
+        magicalAcBonus = new DSIntegerField("Classe d'armure magique bonus");
 
         weaponType = new ComboBox<WeaponType>("Type d'arme", weaponTypeService.findAll());
         oneHandDamage = new FTextField("Dommages à une main");
         twoHandDamage = new FTextField("Dommages à deux main");
         additionalDamage = new FTextField("Dommages additionnels");
         additionalDamageType = new ComboBox<DamageType>("Type dommages additionnels", damageTypeService.findAll());
-        magicalBonus = new IntegerField("Bonus magique");
+        magicalBonus = new DSIntegerField("Bonus magique");
 
         toolType = new EnumComboBox<ToolType>(ToolType.class, "Type d'outil");
 
@@ -115,8 +116,7 @@ public class EquipmentForm<T extends Equipment> extends DSAbstractForm<T> {
         layout.addComponent(isMagical);
 
         layout.addComponents(armorType, armorClass, magicalAcBonus);
-        layout.addComponents(weaponType, oneHandDamage, twoHandDamage, additionalDamage, additionalDamageType,
-                magicalBonus);
+        layout.addComponents(weaponType, oneHandDamage, twoHandDamage, additionalDamage, additionalDamageType, magicalBonus);
         layout.addComponent(toolType);
 
         layout.addComponent(weight);

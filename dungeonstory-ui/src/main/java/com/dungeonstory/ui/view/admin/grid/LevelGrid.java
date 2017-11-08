@@ -1,8 +1,7 @@
 package com.dungeonstory.ui.view.admin.grid;
 
-import org.vaadin.viritin.fields.IntegerField;
-
 import com.dungeonstory.backend.data.Level;
+import com.dungeonstory.ui.field.DSIntegerField;
 import com.dungeonstory.ui.field.LongField;
 
 public class LevelGrid extends DSGrid<Level> {
@@ -15,7 +14,7 @@ public class LevelGrid extends DSGrid<Level> {
         getEditor().setEnabled(true);
 
         addColumn(Level::getId).setCaption("Niveau");
-        addColumn(Level::getProficiencyBonus).setCaption("Bonus de maitrise").setEditorComponent(new IntegerField(), Level::setProficiencyBonus);
+        addColumn(Level::getProficiencyBonus).setCaption("Bonus de maitrise").setEditorComponent(new DSIntegerField(), Level::setProficiencyBonus);
         addColumn(Level::getMaxExperience).setCaption("Plafond d'expérience").setEditorComponent(new LongField(), Level::setMaxExperience);
     }
 }

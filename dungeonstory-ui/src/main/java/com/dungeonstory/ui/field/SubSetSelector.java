@@ -8,8 +8,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.function.Function;
 
-import org.vaadin.viritin.button.MButton;
-
 import com.dungeonstory.ui.component.AbstractForm;
 import com.dungeonstory.ui.field.event.ElementAddedEvent;
 import com.dungeonstory.ui.field.event.ElementRemovedEvent;
@@ -215,7 +213,7 @@ public class SubSetSelector<ET, C extends Collection<ET>> extends CustomField<C>
         this.newInstanceForm = newInstanceForm;
         if (newInstanceForm != null) {
             if (newInstanceBtn == null) {
-                newInstanceBtn = new MButton(VaadinIcons.PLUS).withStyleName(ValoTheme.BUTTON_ICON_ONLY);
+                newInstanceBtn = new FButton(VaadinIcons.PLUS).withStyleName(ValoTheme.BUTTON_ICON_ONLY);
                 newInstanceBtn.addClickListener(click -> addEntity(null));
                 toprow.addComponent(newInstanceBtn);
             }

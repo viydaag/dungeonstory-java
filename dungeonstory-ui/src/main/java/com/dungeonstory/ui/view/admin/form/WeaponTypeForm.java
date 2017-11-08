@@ -1,7 +1,5 @@
 package com.dungeonstory.ui.view.admin.form;
 
-import org.vaadin.viritin.fields.IntegerField;
-
 import com.dungeonstory.FormCheckBox;
 import com.dungeonstory.backend.data.DamageType;
 import com.dungeonstory.backend.data.WeaponType;
@@ -13,7 +11,9 @@ import com.dungeonstory.backend.data.WeaponType.UsageType;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSAbstractForm;
 import com.dungeonstory.ui.component.EnumComboBox;
+import com.dungeonstory.ui.field.DSIntegerField;
 import com.dungeonstory.ui.field.DoubleField;
+import com.dungeonstory.ui.field.IntegerField;
 import com.vaadin.event.selection.SingleSelectionEvent;
 import com.vaadin.fluent.ui.FTextArea;
 import com.vaadin.shared.Registration;
@@ -71,7 +71,7 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
         isFinesse = new FormCheckBox("Finesse (choix dextérité ou force)");
         isLoading = new FormCheckBox("Chargement requis");
         baseWeight = new DoubleField("Poids de base (lbs)");
-        basePrice = new IntegerField("Prix de base");
+        basePrice = new DSIntegerField("Prix de base");
 
         damageType = new ComboBox<DamageType>("Type de dommage", Services.getDamageTypeService().findAll());
 

@@ -1,11 +1,11 @@
 package com.dungeonstory.ui.view.character.wizard.form;
 
-import org.vaadin.viritin.fields.IntegerField;
-
 import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.ui.component.AbstractForm;
 import com.dungeonstory.ui.component.DSLabel;
+import com.dungeonstory.ui.field.DSIntegerField;
+import com.dungeonstory.ui.field.IntegerField;
 import com.dungeonstory.ui.i18n.Messages;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
@@ -48,7 +48,8 @@ public abstract class AbilityScoreForm extends CharacterWizardStepForm<Character
         layout = new VerticalLayout();
         abilityLayout = new VerticalLayout();
 
-        pointsToSpend = new IntegerField(messages.getMessage("abilityScoreStep.points.label")).withWidth("50px").withId("remainingPoints");
+        pointsToSpend = new DSIntegerField(messages.getMessage("abilityScoreStep.points.label")).withWidth("50px")
+                                                                                                .withId("remainingPoints");
 
         if (Configuration.getInstance().isDebug()) {
             Button assignAll = new Button("assign");
@@ -64,32 +65,32 @@ public abstract class AbilityScoreForm extends CharacterWizardStepForm<Character
         gridLayout.addComponent(new DSLabel(messages.getMessage("abilityScoreStep.ability.label")), 0, 0);
         gridLayout.addComponent(new DSLabel(messages.getMessage("abilityScoreStep.score.label")), 1, 0);
 
-        strength = new IntegerField().withWidth("50px");
+        strength = new DSIntegerField().withWidth("50px");
         strengthLabel = new DSLabel(messages.getMessage("ability.str.caption"));
         gridLayout.addComponent(strengthLabel, 0, 1);
         gridLayout.addComponent(strength, 1, 1);
 
-        dexterity = new IntegerField().withWidth("50px");
+        dexterity = new DSIntegerField().withWidth("50px");
         dexterityLabel = new DSLabel(messages.getMessage("ability.dex.caption"));
         gridLayout.addComponent(dexterityLabel, 0, 2);
         gridLayout.addComponent(dexterity, 1, 2);
 
-        constitution = new IntegerField().withWidth("50px");
+        constitution = new DSIntegerField().withWidth("50px");
         constitutionLabel = new DSLabel(messages.getMessage("ability.con.caption"));
         gridLayout.addComponent(constitutionLabel, 0, 3);
         gridLayout.addComponent(constitution, 1, 3);
 
-        intelligence = new IntegerField().withWidth("50px");
+        intelligence = new DSIntegerField().withWidth("50px");
         intelligenceLabel = new DSLabel(messages.getMessage("ability.int.caption"));
         gridLayout.addComponent(intelligenceLabel, 0, 4);
         gridLayout.addComponent(intelligence, 1, 4);
 
-        wisdom = new IntegerField().withWidth("50px");
+        wisdom = new DSIntegerField().withWidth("50px");
         wisdoDSLabel = new DSLabel(messages.getMessage("ability.wis.caption"));
         gridLayout.addComponent(wisdoDSLabel, 0, 5);
         gridLayout.addComponent(wisdom, 1, 5);
 
-        charisma = new IntegerField().withWidth("50px");
+        charisma = new DSIntegerField().withWidth("50px");
         charismaLabel = new DSLabel(messages.getMessage("ability.cha.caption"));
         gridLayout.addComponent(charismaLabel, 0, 6);
         gridLayout.addComponent(charisma, 1, 6);

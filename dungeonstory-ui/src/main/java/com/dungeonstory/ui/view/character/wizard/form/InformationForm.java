@@ -14,6 +14,7 @@ import com.dungeonstory.ui.component.AbstractForm;
 import com.dungeonstory.ui.component.DSImage;
 import com.dungeonstory.ui.component.ImageSelector;
 import com.dungeonstory.ui.factory.ImageFactory;
+import com.dungeonstory.ui.field.DSIntegerField;
 import com.dungeonstory.ui.field.IntegerField;
 import com.dungeonstory.ui.i18n.Messages;
 import com.vaadin.data.ValidationResult;
@@ -64,8 +65,8 @@ public class InformationForm extends CharacterWizardStepForm<Character> implemen
 
         name = new FTextField(messages.getMessage("informationStep.name.label")).withWidth("250px");
         gender = new RadioButtonGroup<Gender>(messages.getMessage("informationStep.sex.label"), EnumSet.allOf(Gender.class));
-        age = new IntegerField(messages.getMessage("informationStep.age.label"));
-        weight = new IntegerField(messages.getMessage("informationStep.weight.label"));
+        age = new DSIntegerField(messages.getMessage("informationStep.age.label"));
+        weight = new DSIntegerField(messages.getMessage("informationStep.weight.label"));
         height = new TextField(messages.getMessage("informationStep.height.label"));
         alignment = new ComboBox<>(messages.getMessage("informationStep.alignment.label"), alignmentService.findAllPlayable());
         region = new ComboBox<>(messages.getMessage("informationStep.region.label"), regionService.findAllOrderBy("name", "ASC"));

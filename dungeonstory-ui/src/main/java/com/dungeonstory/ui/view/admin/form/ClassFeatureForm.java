@@ -1,7 +1,5 @@
 package com.dungeonstory.ui.view.admin.form;
 
-import org.vaadin.viritin.fields.IntegerField;
-
 import com.dungeonstory.backend.data.ClassFeature;
 import com.dungeonstory.backend.data.ClassFeature.ClassFeatureUsage;
 import com.dungeonstory.backend.data.ClassFeature.RestType;
@@ -10,6 +8,8 @@ import com.dungeonstory.backend.service.ClassFeatureDataService;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSAbstractForm;
 import com.dungeonstory.ui.component.EnumComboBox;
+import com.dungeonstory.ui.field.DSIntegerField;
+import com.dungeonstory.ui.field.IntegerField;
 import com.vaadin.fluent.ui.FComboBox;
 import com.vaadin.fluent.ui.FTextArea;
 import com.vaadin.fluent.ui.FTextField;
@@ -18,12 +18,13 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextField;
 
-public class ClassFeatureForm extends DSAbstractForm<ClassFeature> {
+public class ClassFeatureForm
+        extends DSAbstractForm<ClassFeature> {
 
     private static final long serialVersionUID = 5217088283624359889L;
 
     private TextField                       name;
-    private FTextArea                      description;
+    private FTextArea                       description;
     private EnumComboBox<ClassFeatureUsage> usage;
     private ComboBox<ClassFeature>          parent;
     private ComboBox<Level>                 requiredLevel;
@@ -46,9 +47,9 @@ public class ClassFeatureForm extends DSAbstractForm<ClassFeature> {
         name = new FTextField("Nom").withWidth(50, Unit.PERCENTAGE);
         description = new FTextArea("Description").withFullWidth().withRows(10);
         usage = new EnumComboBox<>(ClassFeatureUsage.class, "Usage");
-        nbUse = new IntegerField("Nombre d'utilisation avant repos");
+        nbUse = new DSIntegerField("Nombre d'utilisation avant repos");
         restType = new EnumComboBox<RestType>(RestType.class, "Type de repos requis");
-        pointCost = new IntegerField("Coût en points");
+        pointCost = new DSIntegerField("Coût en points");
         parent = new FComboBox<ClassFeature>("Don parent").withWidth(50, Unit.PERCENTAGE);
         replacement = new FComboBox<ClassFeature>("Remplace le don").withWidth(50, Unit.PERCENTAGE);
         requiredLevel = new ComboBox<>("Niveau requis", Services.getLevelService().findAll());

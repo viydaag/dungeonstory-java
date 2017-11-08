@@ -1,45 +1,39 @@
 package com.dungeonstory.ui.field;
 
 import org.apache.commons.lang3.StringUtils;
-import org.vaadin.viritin.fields.AbstractNumberField;
 
-import com.vaadin.event.FieldEvents;
-
-public class LongField extends AbstractNumberField<LongField, Long> {
+public class LongField
+        extends AbstractNumberField<Long> {
 
     private static final long serialVersionUID = -285601313783489470L;
-    private Long value;
 
     public LongField() {
+        super();
         setSizeUndefined();
     }
 
     public LongField(String caption) {
+        this();
         setCaption(caption);
     }
 
     @Override
-    protected void userInputToValue(String str) {
+    protected boolean userInputToValue(String str) {
         if (StringUtils.isNotBlank(str)) {
-            value = Long.parseLong(str);
+            try {
+                value = Long.parseLong(str);
+            } catch (NumberFormatException e) {
+                return false;
+            }
         } else {
             value = null;
         }
+        return true;
     }
 
     @Override
-    public LongField withBlurListener(FieldEvents.BlurListener listener) {
-        return (LongField) super.withBlurListener(listener);
-    }
-
-    @Override
-    public LongField withFocusListener(FieldEvents.FocusListener listener) {
-        return (LongField) super.withFocusListener(listener);
-    }
-
-    @Override
-    public Long getValue() {
-        return value;
+    protected String getParsingErrorMessage() {
+        return "This is not a long";
     }
 
 }
