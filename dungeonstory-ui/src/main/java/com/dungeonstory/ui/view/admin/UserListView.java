@@ -1,6 +1,5 @@
 package com.dungeonstory.ui.view.admin;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.vaadin.dialogs.ConfirmDialog;
 
 import com.dungeonstory.backend.data.User;
@@ -35,7 +34,7 @@ public class UserListView extends VerticalLayout implements View {
                 @Override
                 public void run() {
                     User user = clickEvent.getItem();
-                    user.setPassword(DigestUtils.md5Hex(user.getUsername()));
+                    user.setPassword(user.getUsername());
                     service.update(user);
                 }
             });

@@ -23,7 +23,7 @@ public class LoginService implements Serializable {
     public User login(String username, String password) throws LoginException {
 
         User user = service.findByUsername(username);
-        if (user == null || !user.getPassword().equals(DigestUtils.md5Hex(password))) {
+        if (user == null || !user.getPassword().equals(DigestUtils.sha1Hex(password))) {
             throw new LoginException();
         }
         return user;
