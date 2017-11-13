@@ -10,21 +10,26 @@ import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 
+import org.eclipse.persistence.annotations.Customizer;
+
+import com.dungeonstory.backend.data.util.OrderCustomizer;
+
 @Entity
 @IdClass(ClassSpecLevelFeatureId.class)
 @Table(name = "ClassSpecLevelFeature")
+@Customizer(OrderCustomizer.class)
 public class ClassSpecLevelFeature {
     
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "classSpecId", nullable = false)
-    private ClassSpecialization classSpec;
-
     @Id
     @NotNull
     @ManyToOne
     @JoinColumn(name = "levelId", nullable = false)
     private Level level;
+
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "classSpecId", nullable = false)
+    private ClassSpecialization classSpec;
 
     @Id
     @NotNull
@@ -34,7 +39,7 @@ public class ClassSpecLevelFeature {
     
     @Digits(integer = 1, fraction = 0)
     @Column(name = "nbToChoose")
-    private int nbToChoose = 1;
+    private Integer nbToChoose = null;
 
     public ClassSpecLevelFeature() {
         super();
@@ -64,11 +69,11 @@ public class ClassSpecLevelFeature {
         this.feature = feature;
     }
 
-    public int getNbToChoose() {
+    public Integer getNbToChoose() {
         return nbToChoose;
     }
 
-    public void setNbToChoose(int nbToChoose) {
+    public void setNbToChoose(Integer nbToChoose) {
         this.nbToChoose = nbToChoose;
     }
 
