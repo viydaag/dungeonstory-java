@@ -6,9 +6,9 @@ public class ClassLevelFeatureId implements Serializable {
 
     private static final long serialVersionUID = 6085535553525670809L;
 
-    private Long classe;
-
     private Long level;
+
+    private Long classe;
 
     private Long feature;
 

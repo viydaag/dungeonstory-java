@@ -12,21 +12,19 @@ import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 
+import org.eclipse.persistence.annotations.Customizer;
 import org.eclipse.persistence.annotations.JoinFetch;
 import org.eclipse.persistence.annotations.JoinFetchType;
+
+import com.dungeonstory.backend.data.util.OrderCustomizer;
 
 @Entity
 @IdClass(ClassLevelFeatureId.class)
 @Table(name = "ClassLevelFeature")
+@Customizer(OrderCustomizer.class)
 public class ClassLevelFeature implements Serializable {
 
     private static final long serialVersionUID = 5198775399118036404L;
-
-    @Id
-    @ManyToOne
-    @JoinFetch(JoinFetchType.INNER)
-    @JoinColumn(name = "classId")
-    private DSClass classe;
 
     @Id
     @NotNull
@@ -34,6 +32,12 @@ public class ClassLevelFeature implements Serializable {
     @JoinFetch(JoinFetchType.INNER)
     @JoinColumn(name = "levelId", nullable = false)
     private Level level;
+
+    @Id
+    @ManyToOne
+    @JoinFetch(JoinFetchType.INNER)
+    @JoinColumn(name = "classId", nullable = false)
+    private DSClass classe;
 
     @Id
     @NotNull
@@ -44,7 +48,7 @@ public class ClassLevelFeature implements Serializable {
 
     @Digits(integer = 1, fraction = 0)
     @Column(name = "nbToChoose")
-    private int nbToChoose = 1;
+    private Integer nbToChoose = null;
 
     public ClassLevelFeature() {
         super();
@@ -55,7 +59,7 @@ public class ClassLevelFeature implements Serializable {
         this.classe = classe;
         this.level = level;
         this.feature = feature;
-        this.nbToChoose = 1;
+        this.nbToChoose = null;
     }
 
     public DSClass getClasse() {
@@ -82,11 +86,11 @@ public class ClassLevelFeature implements Serializable {
         this.feature = feature;
     }
 
-    public int getNbToChoose() {
+    public Integer getNbToChoose() {
         return nbToChoose;
     }
 
-    public void setNbToChoose(int nbToChoose) {
+    public void setNbToChoose(Integer nbToChoose) {
         this.nbToChoose = nbToChoose;
     }
 

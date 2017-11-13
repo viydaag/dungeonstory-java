@@ -111,9 +111,9 @@ public class ClassForm
     private boolean init = false;
 
     public static class ClassLevelFeatureRow {
-        FComboBox<Level>        level      = new FComboBox<Level>().withEmptySelectionAllowed(false);
+        FComboBox<Level>        level      = new FComboBox<Level>().withEmptySelectionAllowed(false).withWidth("75px");
         FComboBox<ClassFeature> feature    = new FComboBox<ClassFeature>().withEmptySelectionAllowed(false).withWidth("100%");
-        IntegerField            nbToChoose = new DSIntegerField();
+        IntegerField            nbToChoose = new DSIntegerField().withWidth("50px");
     }
 
     public static class ClassEquipmentRow {
@@ -257,7 +257,7 @@ public class ClassForm
                     row.feature.addSelectionListener(selection -> {
                         if (selection.getValue() == null || selection.getValue().getChildren().isEmpty()) {
                             row.nbToChoose.setVisible(false);
-                            row.nbToChoose.setValue(1);
+                            row.nbToChoose.setValue(null);
                         } else {
                             row.nbToChoose.setVisible(true);
                         }

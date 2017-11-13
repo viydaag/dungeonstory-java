@@ -12,6 +12,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -66,8 +67,7 @@ public abstract class Equipment extends AbstractTimestampEntity {
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
-    @Min(value = 0)
-    @Digits(integer = 4, fraction = 1)
+    @DecimalMin("0.0")
     @Column(name = "weight", nullable = false)
     private Double weight = 0.0;
 
