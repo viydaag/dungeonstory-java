@@ -63,7 +63,7 @@ public class ClassLevelBonus implements Serializable {
     private Integer sorceryPoints;
 
     @Min(value = 0)
-    @Digits(integer = 2, fraction = 0)
+    @Digits(integer = 3, fraction = 0)
     @Column(name = "ragePoints")
     private Integer ragePoints;
 

@@ -26,7 +26,7 @@ public class TempleForm extends DSAbstractForm<Temple> {
 
     @Override
     public String toString() {
-        return "Auberges";
+        return "Temples";
     }
 
     @Override

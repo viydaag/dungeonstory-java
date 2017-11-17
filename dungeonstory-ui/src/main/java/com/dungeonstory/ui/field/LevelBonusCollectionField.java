@@ -32,7 +32,8 @@ public class LevelBonusCollectionField
     private final int[] SNEAK_COLUMNS        = { 13 };
 
     public static class ClassLevelBonusRow {
-        public FComboBox<Level> level                      = new FComboBox<Level>().withEmptySelectionAllowed(false);
+        public FComboBox<Level> level                      = new FComboBox<Level>().withEmptySelectionAllowed(false)
+                                                                                   .withWidth("75px");;
         public CheckBox         hasAbilityScoreImprovement = new CheckBox();
         public CheckBox         chooseClassSpecialization  = new CheckBox();
         public CheckBox         favoredEnemy               = new CheckBox();
