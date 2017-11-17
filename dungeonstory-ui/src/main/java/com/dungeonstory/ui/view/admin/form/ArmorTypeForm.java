@@ -51,7 +51,7 @@ public class ArmorTypeForm
         baseArmorClass = new DSIntegerField("Classe d'armure de base");
         stealthDisavantage = new FormCheckBox("Désavantage sur furtivité");
         minStrength = new DSIntegerField("Force minimum pour porter l'armure");
-        baseWeight = new DSDoubleField("Poids de base (lbs)");
+        baseWeight = new DSDoubleField("Poids de base (lbs)").withDigits(4).withFractions(1);
         basePrice = new DSIntegerField("Prix de base");
 
         layout.addComponent(name);

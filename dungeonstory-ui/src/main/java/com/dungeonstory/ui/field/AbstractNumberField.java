@@ -24,6 +24,7 @@ public abstract class AbstractNumberField<T extends Number>
 
     private boolean ignoreValueChange = false;
     private boolean aggressive        = true;
+    private boolean maskEnabled       = true;
     
     protected String parsingErrorMessage = "This is not a number";
 
@@ -163,6 +164,14 @@ public abstract class AbstractNumberField<T extends Number>
                 tf.setWidth(null);
             }
         }
+    }
+
+    public void setMaskEnabled(boolean enabled) {
+        this.maskEnabled = enabled;
+    }
+
+    public boolean isMaskEnabled() {
+        return this.maskEnabled;
     }
 
 }

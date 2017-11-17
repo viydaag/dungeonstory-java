@@ -71,7 +71,7 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
         isReach = new FormCheckBox("Allonge");
         isFinesse = new FormCheckBox("Finesse (choix dextérité ou force)");
         isLoading = new FormCheckBox("Chargement requis");
-        baseWeight = new DSDoubleField("Poids de base (lbs)");
+        baseWeight = new DSDoubleField("Poids de base (lbs)").withDigits(4).withFractions(1);
         basePrice = new DSIntegerField("Prix de base");
 
         damageType = new ComboBox<DamageType>("Type de dommage", Services.getDamageTypeService().findAll());

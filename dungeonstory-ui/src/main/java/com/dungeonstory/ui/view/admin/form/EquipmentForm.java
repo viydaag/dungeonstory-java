@@ -85,7 +85,7 @@ public class EquipmentForm<T extends Equipment>
         name = new FTextField("Nom").withWidth("50%");
         type = new EnumComboBox<EquipmentType>(EquipmentType.class, "Type");
         description = new FTextArea("Description").withFullWidth().withRows(10);
-        weight = new DSDoubleField("Poids (en lbs)");
+        weight = new DSDoubleField("Poids (en lbs)").withDigits(4).withFractions(1);
         isPurchasable = new FormCheckBox("Peut être acheté");
         isSellable = new FormCheckBox("Peut être vendu");
         isMagical = new FormCheckBox("Magique");

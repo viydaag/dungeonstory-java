@@ -22,4 +22,14 @@ public class DSDoubleField
         return msg.getMessage("doubleField.validation.message");
     }
 
+    public DSDoubleField withDigits(int digits) {
+        setDigits(digits);
+        return this;
+    }
+
+    public DSDoubleField withFractions(int fractions) {
+        setFractions(fractions);
+        return this;
+    }
+
 }

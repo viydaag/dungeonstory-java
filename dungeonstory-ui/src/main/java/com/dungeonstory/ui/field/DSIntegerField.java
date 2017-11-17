@@ -23,4 +23,9 @@ public class DSIntegerField
         return msg.getMessage("integerField.validation.message");
     }
 
+    public DSIntegerField withDigits(int digits) {
+        setDigits(digits);
+        return this;
+    }
+
 }
