@@ -11,6 +11,7 @@ import com.dungeonstory.backend.data.WeaponType.UsageType;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSAbstractForm;
 import com.dungeonstory.ui.component.EnumComboBox;
+import com.dungeonstory.ui.field.DSDoubleField;
 import com.dungeonstory.ui.field.DSIntegerField;
 import com.dungeonstory.ui.field.DoubleField;
 import com.dungeonstory.ui.field.IntegerField;
@@ -70,7 +71,7 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
         isReach = new FormCheckBox("Allonge");
         isFinesse = new FormCheckBox("Finesse (choix dextérité ou force)");
         isLoading = new FormCheckBox("Chargement requis");
-        baseWeight = new DoubleField("Poids de base (lbs)");
+        baseWeight = new DSDoubleField("Poids de base (lbs)");
         basePrice = new DSIntegerField("Prix de base");
 
         damageType = new ComboBox<DamageType>("Type de dommage", Services.getDamageTypeService().findAll());

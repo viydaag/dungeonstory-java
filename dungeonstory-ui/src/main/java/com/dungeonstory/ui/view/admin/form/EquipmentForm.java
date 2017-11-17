@@ -14,6 +14,7 @@ import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.backend.service.WeaponTypeDataService;
 import com.dungeonstory.ui.component.DSAbstractForm;
 import com.dungeonstory.ui.component.EnumComboBox;
+import com.dungeonstory.ui.field.DSDoubleField;
 import com.dungeonstory.ui.field.DSIntegerField;
 import com.dungeonstory.ui.field.DoubleField;
 import com.dungeonstory.ui.field.IntegerField;
@@ -84,7 +85,7 @@ public class EquipmentForm<T extends Equipment>
         name = new FTextField("Nom").withWidth("50%");
         type = new EnumComboBox<EquipmentType>(EquipmentType.class, "Type");
         description = new FTextArea("Description").withFullWidth().withRows(10);
-        weight = new DoubleField("Poids (en lbs)");
+        weight = new DSDoubleField("Poids (en lbs)");
         isPurchasable = new FormCheckBox("Peut être acheté");
         isSellable = new FormCheckBox("Peut être vendu");
         isMagical = new FormCheckBox("Magique");

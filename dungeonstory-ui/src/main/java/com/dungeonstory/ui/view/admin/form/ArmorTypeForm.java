@@ -5,6 +5,7 @@ import com.dungeonstory.backend.data.ArmorType;
 import com.dungeonstory.backend.data.ArmorType.ProficiencyType;
 import com.dungeonstory.ui.component.DSAbstractForm;
 import com.dungeonstory.ui.component.EnumComboBox;
+import com.dungeonstory.ui.field.DSDoubleField;
 import com.dungeonstory.ui.field.DSIntegerField;
 import com.dungeonstory.ui.field.DoubleField;
 import com.dungeonstory.ui.field.IntegerField;
@@ -50,7 +51,7 @@ public class ArmorTypeForm
         baseArmorClass = new DSIntegerField("Classe d'armure de base");
         stealthDisavantage = new FormCheckBox("Désavantage sur furtivité");
         minStrength = new DSIntegerField("Force minimum pour porter l'armure");
-        baseWeight = new DoubleField("Poids de base (lbs)");
+        baseWeight = new DSDoubleField("Poids de base (lbs)");
         basePrice = new DSIntegerField("Prix de base");
 
         layout.addComponent(name);

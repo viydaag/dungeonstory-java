@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -76,10 +77,10 @@ public class ArmorType extends AbstractTimestampEntity {
     private int minStrength = MINIMUM_STRENGTH;
 
     @NotNull
-    @Min(value = 0)
+    @DecimalMin("0.0")
     @Digits(integer = 4, fraction = 1)
     @Column(name = "baseWeight", nullable = false)
-    private double baseWeight;
+    private Double baseWeight;
     
     @NotNull
     @Min(value = 1)
@@ -92,7 +93,7 @@ public class ArmorType extends AbstractTimestampEntity {
     }
 
     public ArmorType(String name, String description, ProficiencyType proficiencyType, int maxDexBonus,
-            int baseArmorClass, boolean stealthDisavantage, int minStrength, int baseWeight, int speed) {
+            int baseArmorClass, boolean stealthDisavantage, int minStrength, double baseWeight, int speed) {
         this();
         this.name = name;
         this.description = description;
@@ -144,11 +145,11 @@ public class ArmorType extends AbstractTimestampEntity {
         this.baseArmorClass = baseArmorClass;
     }
 
-    public double getBaseWeight() {
+    public Double getBaseWeight() {
         return baseWeight;
     }
 
-    public void setBaseWeight(double baseWeight) {
+    public void setBaseWeight(Double baseWeight) {
         this.baseWeight = baseWeight;
     }
 

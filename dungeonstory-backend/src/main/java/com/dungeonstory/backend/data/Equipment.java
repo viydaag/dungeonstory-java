@@ -67,7 +67,9 @@ public abstract class Equipment extends AbstractTimestampEntity {
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
+    @NotNull
     @DecimalMin("0.0")
+    @Digits(integer = 4, fraction = 1)
     @Column(name = "weight", nullable = false)
     private Double weight = 0.0;
 
