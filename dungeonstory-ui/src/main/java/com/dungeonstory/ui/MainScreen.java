@@ -49,6 +49,7 @@ import com.dungeonstory.ui.view.admin.WeaponTypeView;
 import com.dungeonstory.ui.view.adventure.AdventureListView;
 import com.dungeonstory.ui.view.adventure.AdventureView;
 import com.dungeonstory.ui.view.character.CharacterView;
+import com.dungeonstory.ui.view.character.LevelUpView;
 import com.dungeonstory.ui.view.character.NewCharacterView;
 import com.dungeonstory.ui.view.combat.PlayerVsMonsterListView;
 import com.dungeonstory.ui.view.shop.ShopListView;
@@ -152,6 +153,7 @@ public class MainScreen extends HorizontalLayout {
             addViewToMenuBar(CharacterView.class);
             addViewToMenuBar(ShopListView.class);
             addView(com.dungeonstory.ui.view.shop.ShopView.class);
+            addView(LevelUpView.class);
         }
 
         addViewToMenuBar(UserView.class);
@@ -282,6 +284,7 @@ public class MainScreen extends HorizontalLayout {
         addViewToMenuBar(CharacterView.class);
         addViewToMenuBar(ShopListView.class);
         addView(com.dungeonstory.ui.view.shop.ShopView.class);
+        addView(LevelUpView.class);
 
         navigator.removeView(NewCharacterView.NEW_CHARACTER_URI);
         navBar.removeView(NewCharacterView.NEW_CHARACTER_URI);

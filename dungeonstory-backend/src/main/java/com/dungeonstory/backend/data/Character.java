@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
@@ -268,7 +269,7 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
     public Character clone() {
         try {
             Character c = (Character) super.clone();
-            c.setClasses(new HashSet<CharacterClass>(c.getClasses()));
+            c.setClasses(c.getClasses().stream().map(CharacterClass::clone).collect(Collectors.toSet()));
             c.setArmorProficiencies(new HashSet<>(c.getArmorProficiencies()));
             c.setFavoredEnnemies(new ArrayList<>(c.getFavoredEnnemies()));
             c.setFavoredTerrains(new HashSet<>(c.getFavoredTerrains()));

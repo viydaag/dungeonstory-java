@@ -259,6 +259,7 @@ public class ClassChoiceForm extends CharacterWizardStepForm<CharacterClass> imp
         DSClass chosenClass = getChosenClass();
         CharacterClass chosenCharacterClass = null;
 
+        // Check if the chosen class is already assigned to the character
         CharacterClass assignedClass = ClassUtil.getCharacterClass(character, chosenClass);
 
         if (assignedClass != null) {
@@ -272,11 +273,17 @@ public class ClassChoiceForm extends CharacterWizardStepForm<CharacterClass> imp
             chosenCharacterClass = classe;
         }
 
-        character.getArmorProficiencies().addAll(chosenClass.getArmorProficiencies());
-        character.getWeaponProficiencies().addAll(chosenClass.getWeaponProficiencies());
+        // Only if it's a new assigned class, the proficiencies are added
+        if (assignedClass != null) {
+            character.getArmorProficiencies().addAll(chosenClass.getArmorProficiencies());
+            character.getWeaponProficiencies().addAll(chosenClass.getWeaponProficiencies());
+        }
 
+        // Add class features for that level
         chosenCharacterClass.getClassFeatures().addAll(ClassUtil.getClassFeaturesForLevel(chosenClass, chosenCharacterClass.getClassLevel())
                 .filter(cf -> cf.getParent() == null).collect(Collectors.toList()));
+
+        // Remove class features that are replaced with new ones
         List<ClassFeature> featuresToRemove = new ArrayList<>();
         for (ClassFeature feature : chosenCharacterClass.getClassFeatures()) {
             if (feature.getReplacement() != null) {
@@ -285,11 +292,15 @@ public class ClassChoiceForm extends CharacterWizardStepForm<CharacterClass> imp
         }
         chosenCharacterClass.getClassFeatures().removeAll(featuresToRemove);
 
-        if (classSkills.getValue() != null) {
+        // Add skill proficiencies if new class
+        if (classSkills.getValue() != null && assignedClass == null) {
             character.getSkillProficiencies().addAll(classSkills.getValue());
         }
 
-        character.setGold(chosenClass.getStartingGold());
+        // On character creation, give starting gold
+        if (character.getId() == null) {
+            character.setGold(chosenClass.getStartingGold());
+        }
 
     }
 

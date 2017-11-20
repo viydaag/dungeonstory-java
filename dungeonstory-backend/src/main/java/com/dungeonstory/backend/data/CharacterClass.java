@@ -21,7 +21,8 @@ import javax.validation.constraints.NotNull;
 @Entity
 @IdClass(CharacterClassId.class)
 @Table(name = "CharacterClass")
-public class CharacterClass implements Serializable {
+public class CharacterClass
+        implements Serializable, Cloneable {
 
     private static final long serialVersionUID = -2633155753784402849L;
 
@@ -139,5 +140,14 @@ public class CharacterClass implements Serializable {
     @Override
     public String toString() {
         return classe.toString() + " (" + classLevel + ")";
+    }
+
+    @Override
+    public CharacterClass clone() {
+        try {
+            return (CharacterClass) super.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
     }
 }
