@@ -18,6 +18,7 @@ import com.dungeonstory.backend.data.ClassSpecialization;
 import com.dungeonstory.backend.data.ClassSpellSlots;
 import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.data.Level;
+import com.dungeonstory.backend.data.Skill;
 import com.dungeonstory.backend.service.Services;
 
 public class ClassUtil {
@@ -128,6 +129,17 @@ public class ClassUtil {
                                                             .findFirst()
                                                             .orElse(null);
         return classLevelFeature;
+    }
+
+    public static List<Skill> getUnassignedClassSkills(Character character, DSClass dsClass) {
+        if (character == null) {
+            return new ArrayList<>(dsClass.getBaseSkills());
+        }
+        List<Skill> skills = dsClass.getBaseSkills()
+                                    .stream()
+                                    .filter(skill -> !character.getSkillProficiencies().contains(skill))
+                                    .collect(Collectors.toList());
+        return skills;
     }
 
 }

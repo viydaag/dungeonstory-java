@@ -158,7 +158,7 @@ public class ClassChoiceForm extends CharacterWizardStepForm<CharacterClass> imp
                 if (assignedClass == null) {
                     classSkills.setVisible(true);
                     classSkills.setCaption(messages.getMessage("classStep.proficientSkills.label") + " (" + chosenClass.getNbChosenSkills() + ")");
-                    classSkills.setItems(new ArrayList<Skill>(chosenClass.getBaseSkills()));
+                    classSkills.setItems(ClassUtil.getUnassignedClassSkills(character, chosenClass));
                     classSkills.setValue(new ArrayList<>());
                     classSkills.setLimit(chosenClass.getNbChosenSkills());
                 } else {
