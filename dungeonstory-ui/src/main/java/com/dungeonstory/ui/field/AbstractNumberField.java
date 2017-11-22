@@ -174,4 +174,10 @@ public abstract class AbstractNumberField<T extends Number>
         return this.maskEnabled;
     }
 
+    @Override
+    public void setReadOnly(boolean readOnly) {
+        super.setReadOnly(readOnly);
+        tf.setReadOnly(readOnly);
+    }
+
 }

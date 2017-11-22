@@ -18,6 +18,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.RadioButtonGroup;
+import com.vaadin.ui.themes.ValoTheme;
 
 public class AbilityScoreUpdateForm
         extends AbilityScoreForm {
@@ -103,6 +104,7 @@ public class AbilityScoreUpdateForm
 
     private void resetPointToSpend() {
         pointsToSpend.setValue(2);
+        pointsToSpend.setReadOnly(true);
     }
 
     @Override
@@ -146,6 +148,7 @@ public class AbilityScoreUpdateForm
 
     private Button createPlusButton(IntegerField fieldAction) {
         Button plusButton = new Button(VaadinIcons.PLUS);
+        plusButton.addStyleName(ValoTheme.BUTTON_ICON_ONLY);
         plusButton.addClickListener(event -> {
             int value = fieldAction.getValue().intValue() + 1;
             int nbPointToSpend = 1;
@@ -163,6 +166,7 @@ public class AbilityScoreUpdateForm
 
     private Button createMinusButton(IntegerField fieldAction, int minValue) {
         Button minusButton = new Button(VaadinIcons.MINUS);
+        minusButton.addStyleName(ValoTheme.BUTTON_ICON_ONLY);
         minusButton.addClickListener(event -> {
             int value = fieldAction.getValue().intValue();
             int nbPointToSpend = 1;

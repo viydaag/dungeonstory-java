@@ -27,6 +27,7 @@ public class LevelUpCharacterWizard extends CharacterWizard {
     private static final long serialVersionUID = -1566093699384428874L;
 
     private boolean isWorking = false;
+    private String  stepActivatedAfterClass = null;
 
     public LevelUpCharacterWizard(Character character) {
         super();
@@ -52,6 +53,7 @@ public class LevelUpCharacterWizard extends CharacterWizard {
         if (!isWorking) {
 
             isWorking = true;
+            stepActivatedAfterClass = null;
 
             removeStepsAfterClass();
 
@@ -65,7 +67,6 @@ public class LevelUpCharacterWizard extends CharacterWizard {
 
             CharacterClass assignedClass = ClassUtil.getCharacterClass(character, chosenClass);
             int levelUp = assignedClass.getClassLevel();
-            boolean stepActivated = false;
 
             Optional<ClassLevelBonus> classLevelBonusOpt = ClassUtil.getClassLevelBonus(chosenClass, levelUp);
             if (classLevelBonusOpt.isPresent()) {
@@ -74,13 +75,13 @@ public class LevelUpCharacterWizard extends CharacterWizard {
                 //check if a class specialization is available
                 if (classLevelBonus.getChooseClassSpecialization()) {
                     addStep(new ClassSpecializationStep(this), CLASS_SPEC);
-                    stepActivated = activateStep(CLASS_SPEC, stepActivated);
+                    setStepActivatedAfterClass(CLASS_SPEC);
                 }
 
                 //check if there is an ability score improvement
                 if (classLevelBonus.getHasAbilityScoreImprovement()) {
                     addStep(new AbilityScoreStep(this, true), ABILITY);
-                    stepActivated = activateStep(ABILITY, stepActivated);
+                    setStepActivatedAfterClass(ABILITY);
                 }
             }
 
@@ -90,18 +91,20 @@ public class LevelUpCharacterWizard extends CharacterWizard {
                                                               .collect(Collectors.toList());
             if (!parentClassFeatures.isEmpty()) {
                 addStep(new ClassFeatureStep(this), CLASS_FEATURE);
-                stepActivated = activateStep(CLASS_FEATURE, stepActivated);
+                setStepActivatedAfterClass(CLASS_FEATURE);
             }
 
             //check spell change for known spells
             if (chosenClass.getIsSpellCasting() && chosenClass.getSpellCastingType() == SpellCastingType.KNOWN) {
                 addStep(new SpellStep(this), SPELL);
-                stepActivated = activateStep(SPELL, stepActivated);
+                setStepActivatedAfterClass(SPELL);
             }
 
             //summary
             addStep(new SummaryStep(this), SUMMARY);
-            stepActivated = activateStep(SUMMARY, stepActivated);
+            setStepActivatedAfterClass(SUMMARY);
+
+            activateStep(stepActivatedAfterClass, false);
 
             removeStep(DUMMY, true);
 
@@ -180,6 +183,12 @@ public class LevelUpCharacterWizard extends CharacterWizard {
     public void activeStepChanged(WizardStepActivationEvent event) {
         super.activeStepChanged(event);
         System.out.println("Active step = " + event.getActivatedStep().getCaption());
+    }
+
+    private void setStepActivatedAfterClass(String stepName) {
+        if (stepActivatedAfterClass == null) {
+            stepActivatedAfterClass = stepName;
+        }
     }
 
 }
