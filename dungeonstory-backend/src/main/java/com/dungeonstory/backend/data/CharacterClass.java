@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -145,7 +146,9 @@ public class CharacterClass
     @Override
     public CharacterClass clone() {
         try {
-            return (CharacterClass) super.clone();
+            CharacterClass cc = (CharacterClass) super.clone();
+            cc.setClassFeatures(cc.getClassFeatures().stream().map(ClassFeature::clone).collect(Collectors.toSet()));
+            return cc;
         } catch (CloneNotSupportedException e) {
             return null;
         }

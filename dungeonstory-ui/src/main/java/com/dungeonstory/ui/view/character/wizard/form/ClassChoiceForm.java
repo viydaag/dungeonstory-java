@@ -273,10 +273,12 @@ public class ClassChoiceForm extends CharacterWizardStepForm<CharacterClass> imp
             chosenCharacterClass = classe;
         }
 
-        // Only if it's a new assigned class, the proficiencies are added
-        if (assignedClass != null) {
+        // Only if it's a new class, the proficiencies are added
+        if (assignedClass == null) {
             character.getArmorProficiencies().addAll(chosenClass.getArmorProficiencies());
             character.getWeaponProficiencies().addAll(chosenClass.getWeaponProficiencies());
+            character.getSavingThrowProficiencies().addAll(chosenClass.getSavingThrowProficiencies());
+            //TODO : check rules for multi-classing
         }
 
         // Add class features for that level
