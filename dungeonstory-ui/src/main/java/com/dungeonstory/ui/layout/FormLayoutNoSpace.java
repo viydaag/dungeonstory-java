@@ -1,9 +1,10 @@
 package com.dungeonstory.ui.layout;
 
+import com.vaadin.fluent.ui.FFormLayout;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.FormLayout;
 
-public class FormLayoutNoSpace extends FormLayout {
+public class FormLayoutNoSpace
+        extends FFormLayout {
 
     private static final long serialVersionUID = -5128706580463856826L;
 

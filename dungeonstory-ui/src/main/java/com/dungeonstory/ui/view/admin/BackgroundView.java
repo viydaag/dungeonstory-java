@@ -10,7 +10,7 @@ import com.dungeonstory.ui.view.admin.form.BackgroundForm;
 import com.dungeonstory.ui.view.admin.grid.BackgroundGrid;
 import com.dungeonstory.ui.view.admin.grid.DSGrid;
 
-@ViewConfig(uri = "backgrounds", displayName = "Backgrounds")
+@ViewConfig(uri = "backgrounds", displayName = "Profils")
 public class BackgroundView extends AbstractCrudView<Background> {
 
     private static final long serialVersionUID = 4239959044896030062L;
