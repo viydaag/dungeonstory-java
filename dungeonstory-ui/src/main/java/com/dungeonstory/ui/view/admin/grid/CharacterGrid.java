@@ -1,31 +1,26 @@
 package com.dungeonstory.ui.view.admin.grid;
 
 import com.dungeonstory.backend.data.Character;
+import com.dungeonstory.backend.data.Level;
+import com.dungeonstory.backend.service.Services;
+import com.vaadin.ui.renderers.ProgressBarRenderer;
 
-public class CharacterGrid extends DSGrid<Character> {
+public class CharacterGrid
+        extends DSGrid<Character> {
 
     private static final long serialVersionUID = 8060713315641761422L;
 
     public CharacterGrid() {
         super();
-        //        withGeneratedColumn("delete", new PropertyValueGenerator<String>() {
-        //
-        //            private static final long serialVersionUID = 6332188902387035064L;
-        //
-        //            @Override
-        //            public String getValue(Item item, Object itemId, Object propertyId) {
-        //                return "Supprimer";
-        //            }
-        //
-        //            @Override
-        //            public Class<String> getType() {
-        //                return String.class;
-        //            }
-        //        });
-        //        withProperties("name", "delete");
-        //        withColumnHeaders("Nom", "");
 
         addColumn(Character::getName).setCaption("Nom").setId("name");
+        addColumn(character -> {
+            Level previousLevel = Services.getLevelService().read(character.getLevel().getId() - 1);
+            double progress = (double) (character.getExperience() - previousLevel.getMaxExperience())
+                    / (double) (character.getLevel().getMaxExperience() - previousLevel.getMaxExperience());
+            return progress;
+        }, new ProgressBarRenderer()).setCaption("Progrès").setId("progress");
+
     }
 
 }

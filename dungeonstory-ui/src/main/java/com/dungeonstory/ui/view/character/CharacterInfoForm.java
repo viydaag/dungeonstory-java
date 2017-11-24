@@ -14,6 +14,7 @@ import com.dungeonstory.backend.data.Region;
 import com.dungeonstory.backend.service.CharacterDataService;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.captionGenerator.ClassLevelCaptionGenerator;
+import com.dungeonstory.ui.captionGenerator.ExperienceCaptionGenerator;
 import com.dungeonstory.ui.component.DSAbstractForm;
 import com.dungeonstory.ui.component.DSImage;
 import com.dungeonstory.ui.component.ImageSelector;
@@ -28,7 +29,8 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
-public class CharacterInfoForm extends DSAbstractForm<Character> {
+public class CharacterInfoForm
+        extends DSAbstractForm<Character> {
 
     private static final long serialVersionUID = 667927823059386253L;
 
@@ -129,6 +131,7 @@ public class CharacterInfoForm extends DSAbstractForm<Character> {
     public void afterSetEntity() {
         super.afterSetEntity();
         classes.setCaptionGenerator(new ClassLevelCaptionGenerator());
+        experience.setCaptionGenerator(new ExperienceCaptionGenerator(getEntity().getLevel().getMaxExperience()));
     }
 
     private void showImageSelector() {
@@ -141,8 +144,10 @@ public class CharacterInfoForm extends DSAbstractForm<Character> {
         }
 
         //find selected image
-        Optional<DSImage> selectedImage = imageSelector.getImages().stream().filter(img -> img.getRelativePath().equals(this.image.getValue()))
-                .findFirst();
+        Optional<DSImage> selectedImage = imageSelector.getImages()
+                                                       .stream()
+                                                       .filter(img -> img.getRelativePath().equals(this.image.getValue()))
+                                                       .findFirst();
         if (selectedImage.isPresent()) {
             imageSelector.setValueWithScroll(selectedImage.get());
         }

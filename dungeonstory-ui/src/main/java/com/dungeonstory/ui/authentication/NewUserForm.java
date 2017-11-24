@@ -1,7 +1,5 @@
 package com.dungeonstory.ui.authentication;
 
-import org.vaadin.viritin.fields.EmailField;
-
 import com.dungeonstory.backend.data.User;
 import com.dungeonstory.ui.i18n.Messages;
 import com.dungeonstory.ui.i18n.Translatable;
@@ -18,10 +16,10 @@ public class NewUserForm extends FormLayout implements Translatable {
 
     private static final long serialVersionUID = -2396287642826582387L;
 
-    private TextField     username = new TextField();
-    private PasswordField password = new PasswordField();
-    private TextField     name     = new TextField();
-    private EmailField    email    = new EmailField();
+    private TextField     username;
+    private PasswordField password;
+    private TextField     name;
+    private TextField     email;
 
     private BeanValidationBinder<User> binder = null;
 
@@ -37,7 +35,7 @@ public class NewUserForm extends FormLayout implements Translatable {
         username = new FTextField().withIcon(VaadinIcons.USER).withId("newUsername");
         password = new FPasswordField().withIcon(VaadinIcons.PASSWORD).withId("newPassword");
         name = new FTextField().withIcon(VaadinIcons.USER_CARD).withId("newName");
-        email = new EmailField().withIcon(VaadinIcons.ENVELOPE_O).withId("newEmail");
+        email = new FTextField().withIcon(VaadinIcons.ENVELOPE_O).withId("newEmail");
 
         addComponents(username, password, name, email);
 
