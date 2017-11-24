@@ -4,12 +4,17 @@ import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.User;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.authentication.CurrentUser;
+import com.dungeonstory.ui.event.EventBus;
+import com.dungeonstory.ui.event.NavigationEvent;
 import com.dungeonstory.ui.util.ViewConfig;
 import com.dungeonstory.ui.util.ViewConfig.CreateMode;
+import com.vaadin.fluent.ui.FButton;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.ValoTheme;
 
 @ViewConfig(uri = CharacterView.URI, displayName = "characterView.caption", createMode = CreateMode.ALWAYS_NEW)
 public class CharacterView extends VerticalLayout implements View {
@@ -27,10 +32,19 @@ public class CharacterView extends VerticalLayout implements View {
     @Override
     public void enter(ViewChangeEvent event) {
 
-        CharacterInfoForm infoForm = new CharacterInfoForm();
         User user = Services.getUserService().read(CurrentUser.get().getId());
         Services.getUserService().refresh(user);
         Character character = user.getCharacter();
+
+        if (character.getExperience() >= character.getLevel().getMaxExperience()) {
+            FButton levelUpButton = new FButton("Niveau").withIcon(VaadinIcons.ARROW_UP)
+                                                         .withStyleName(ValoTheme.BUTTON_LARGE)
+                                                         .withStyleName(ValoTheme.BUTTON_FRIENDLY);
+            levelUpButton.addClickListener(e -> EventBus.post(new NavigationEvent(LevelUpView.LEVEL_UP_URI)));
+            addComponent(levelUpButton);
+        }
+
+        CharacterInfoForm infoForm = new CharacterInfoForm();
         infoForm.setEntity(character);
         tabsheet.addTab(infoForm, "Informations");
 
