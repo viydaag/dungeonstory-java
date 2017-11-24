@@ -39,17 +39,18 @@
         
         <!-- Vaadin addons -->
         <dependency>
-			<groupId>org.vaadin</groupId>
-			<artifactId>viritin</artifactId>
-			<version>2.0</version>
-		</dependency>
-        
-        <dependency>
            <groupId>org.vaadin.addons</groupId>
            <artifactId>wizards-for-vaadin</artifactId>
            <version>2.0.1</version>
         </dependency>
         
+        <dependency>
+		   <groupId>org.vaadin.addon</groupId>
+		   <artifactId>confirmdialog</artifactId>
+		   <version>3.2.0</version>
+		</dependency>
+        
+        <!-- This addon uses compatibility jars -->
         <dependency>
            <groupId>org.vaadin.addon</groupId>
            <artifactId>easyuploads</artifactId>
@@ -65,7 +66,7 @@
 		<dependency>
 		   <groupId>org.vaadin.addons</groupId>
 		   <artifactId>inputmask</artifactId>
-		   <version>1.0.1</version>
+		   <version>1.0.2</version>
 		</dependency>
 
         <!-- Project dependencies -->
