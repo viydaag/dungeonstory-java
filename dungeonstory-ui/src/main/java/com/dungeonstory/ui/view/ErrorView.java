@@ -19,7 +19,11 @@ public class ErrorView extends VerticalLayout implements View {
     private Label explanation;
 
     public ErrorView() {
-        Label header = new Label("The view could not be found");
+        this("The view could not be found");
+    }
+
+    public ErrorView(String message) {
+        Label header = new Label(message);
         header.addStyleName(ValoTheme.LABEL_H1);
         addComponent(header);
         addComponent(explanation = new Label());

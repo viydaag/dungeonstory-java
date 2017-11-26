@@ -1,7 +1,6 @@
 package com.dungeonstory.backend.data;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +9,7 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 
 @Entity
@@ -30,17 +30,27 @@ public class CharacterEquipment implements Serializable {
     private Equipment equipment;
     
     @Min(value = 1)
+    @Digits(integer = 3, fraction = 0)
     @Column(name = "quantity")
     private int quantity;
 
     @Min(value = 0)
+    @Digits(integer = 9, fraction = 0)
     @Column(name = "sellableValue")
-    private BigDecimal sellableValue;
+    private int sellableValue;
 
     public CharacterEquipment() {
         super();
     }
     
+    public CharacterEquipment(Character character, Equipment equipment, int quantity, int sellableValue) {
+        super();
+        this.character = character;
+        this.equipment = equipment;
+        this.quantity = quantity;
+        this.sellableValue = sellableValue;
+    }
+
     public Character getCharacter() {
         return character;
     }
@@ -65,12 +75,20 @@ public class CharacterEquipment implements Serializable {
         this.quantity = quantity;
     }
 
-    public BigDecimal getSellableValue() {
+    public int getSellableValue() {
         return sellableValue;
     }
 
-    public void setSellableValue(BigDecimal sellableValue) {
+    public void setSellableValue(int sellableValue) {
         this.sellableValue = sellableValue;
+    }
+
+    public void addQuantity(int quantity) {
+        this.quantity += quantity;
+    }
+
+    public void substractQuantity(int quantity) {
+        this.quantity -= quantity;
     }
 
 }

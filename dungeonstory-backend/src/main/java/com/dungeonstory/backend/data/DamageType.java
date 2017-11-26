@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "DamageType")
@@ -14,6 +15,7 @@ public class DamageType extends AbstractTimestampEntity {
     private static Long idDamageType = 1L;
 
     @NotNull
+    @Size(min = 1)
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 

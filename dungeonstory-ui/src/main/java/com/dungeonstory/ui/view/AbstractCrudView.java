@@ -58,11 +58,13 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalLayout 
         dataProvider = new CrudDataProvider<>(service, getFilterBy());
 
         filter = new TextField();
+        filter.setId("filterText");
         filter.setPlaceholder("filtre...");
         filter.addValueChangeListener(e -> {
             listEntries(e.getValue());
         });
         Button clearFilterButton = new Button(VaadinIcons.CLOSE);
+        clearFilterButton.setId("clearFilterButton");
         clearFilterButton.addClickListener(event -> filter.clear());
         filterLayout = new CssLayout(filter, clearFilterButton);
         filterLayout.addStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
@@ -90,6 +92,7 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalLayout 
     }
 
     protected void initGrid() {
+        grid.setId("crudGrid");
         grid.setDataProvider(dataProvider);
         grid.addSelectionListener(selectionEvent -> {
             entrySelected(selectionEvent.getFirstSelectedItem().orElse(null));
@@ -110,6 +113,7 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalLayout 
 
             if (isCreateAllowed()) {
                 addButton = new Button("", VaadinIcons.PLUS);
+                addButton.setId("crudAddButton");
                 addButton.addClickListener(this::addNew);
                 buttonLayout = new HorizontalLayout(addButton);
             }
@@ -119,6 +123,7 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalLayout 
             //ajout handlers pour boutons
             form.setSavedHandler(this::entrySaved);
             form.setResetHandler(this::entryReset);
+            form.setCancelHandler(this::cancel);
 
             if (isDeleteAllowed()) {
                 form.setDeleteHandler(this::deleteSelected);
@@ -126,7 +131,10 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalLayout 
                 form.getDeleteButton().setVisible(false);
             }
 
-            form.setCancelHandler(this::cancel);
+            form.getSaveButton().setId("crudSaveButton");
+            form.getResetButton().setId("crudResetButton");
+            form.getDeleteButton().setId("crudDeleteButton");
+            form.getCancelButton().setId("crudCancelButton");
         }
     }
 
@@ -173,7 +181,11 @@ public abstract class AbstractCrudView<T extends Entity> extends VerticalLayout 
     }
 
     public void cancel(T entity) {
-        entryReset(entity);
+        try {
+            entryReset(entity);
+        } catch (Exception e) {
+            form.setEntity(null);
+        }
         closeForm();
         grid.deselectAll();
     }

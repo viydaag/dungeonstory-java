@@ -5,6 +5,7 @@ import javax.persistence.NoResultException;
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.CharacterClass;
 import com.dungeonstory.backend.data.DSClass;
+import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.backend.factory.impl.CharacterFactory;
 import com.dungeonstory.backend.repository.impl.CharacterRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
@@ -36,6 +37,13 @@ public class CharacterService extends AbstractDataService<Character, Long> imple
         } catch (NoResultException e) {
             return null;
         }
+    }
+
+    @Override
+    public void levelUp(Character character) {
+        Level levelUp = LevelService.getInstance().read(character.getLevel().getId() + 1);
+        character.setLevel(levelUp);
+        update(character);
     }
 
 }

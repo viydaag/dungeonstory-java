@@ -12,8 +12,11 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "Equipment")
@@ -57,13 +60,16 @@ public abstract class Equipment extends AbstractTimestampEntity {
     }
 
     @NotNull
+    @Size(min = 1)
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
-    @Min(value = 0)
+    @NotNull
+    @DecimalMin("0.0")
+    @Digits(integer = 4, fraction = 1)
     @Column(name = "weight", nullable = false)
     private Double weight = 0.0;
 
@@ -82,6 +88,7 @@ public abstract class Equipment extends AbstractTimestampEntity {
     private boolean isSellable = true;
     
     @Min(value = 1)
+    @Digits(integer = 9, fraction = 0)
     @Column(name = "basePrice", nullable = false)
     private int basePrice = 1;
     

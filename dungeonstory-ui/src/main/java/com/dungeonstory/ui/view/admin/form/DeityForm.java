@@ -3,15 +3,15 @@ package com.dungeonstory.ui.view.admin.form;
 import java.util.Set;
 
 import org.vaadin.easyuploads.ImagePreviewField;
-import org.vaadin.viritin.fields.MTextField;
 
 import com.dungeonstory.backend.data.Alignment;
 import com.dungeonstory.backend.data.ClassSpecialization;
 import com.dungeonstory.backend.data.Deity;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSAbstractForm;
-import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.ui.field.SubSetSelector;
+import com.vaadin.fluent.ui.FTextArea;
+import com.vaadin.fluent.ui.FTextField;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
@@ -43,10 +43,10 @@ public class DeityForm extends DSAbstractForm<Deity> {
     protected Component createContent() {
         FormLayout layout = new FormLayout();
 
-        name = new MTextField("Nom").withWidth("50%");
-        shortDescription = new MTextField("Description courte").withFullWidth();
-        description = new DSTextArea("Description").withFullWidth();
-        symbol = new MTextField("Symbole").withWidth("50%");
+        name = new FTextField("Nom").withWidth("50%");
+        shortDescription = new FTextField("Description courte").withFullWidth();
+        description = new FTextArea("Description").withFullWidth();
+        symbol = new FTextField("Symbole").withWidth("50%");
         alignment = new ComboBox<Alignment>("Alignement", Services.getAlignmentService().findAll());
         alignment.setEmptySelectionAllowed(false);
 

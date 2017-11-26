@@ -12,12 +12,15 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.eclipse.persistence.annotations.BatchFetch;
 import org.eclipse.persistence.annotations.BatchFetchType;
@@ -28,10 +31,12 @@ import com.dungeonstory.backend.repository.DescriptiveEntity;
 
 @Entity
 @Table(name = "ClassFeature")
+@NamedNativeQuery(name = ClassFeature.FIND_ALL_CLASS_FEATURES_WITHOUT_PARENT, query = "SELECT * FROM ClassFeature cf where cf.parentId IS NULL", resultClass = ClassFeature.class)
 @NamedQueries({
-        @NamedQuery(name = ClassFeature.FIND_ALL_CLASS_FEATURES_WITHOUT_PARENT, query = "SELECT e FROM ClassFeature e WHERE e.parent IS NULL ORDER BY e.name ASC", lockMode = READ),
         @NamedQuery(name = ClassFeature.FIND_ALL_CLASS_FEATURE_EXCEPT, query = "SELECT e FROM ClassFeature e WHERE e.id != :featId", lockMode = READ) })
-public class ClassFeature extends AbstractTimestampEntity implements DescriptiveEntity {
+public class ClassFeature
+        extends AbstractTimestampEntity
+        implements DescriptiveEntity, Cloneable {
 
     public static final String FIND_ALL_CLASS_FEATURE_EXCEPT          = "findAllClassFeatureExcept";
     public static final String FIND_ALL_CLASS_FEATURES_WITHOUT_PARENT = "findAllClassFeaturesWithoutParent";
@@ -62,6 +67,7 @@ public class ClassFeature extends AbstractTimestampEntity implements Descriptive
     }
 
     @NotNull
+    @Size(min = 1)
     @Column(name = "name", nullable = false)
     private String name;
 
@@ -82,15 +88,17 @@ public class ClassFeature extends AbstractTimestampEntity implements Descriptive
     @BatchFetch(value = BatchFetchType.JOIN)
     private List<ClassFeature> children;
 
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "nbUse")
-    Integer nbUse;
+    private Integer nbUse;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "restType")
     private RestType restType;
 
+    @Digits(integer = 1, fraction = 0)
     @Column(name = "pointCost")
-    Integer pointCost;
+    private Integer pointCost;
 
     @OneToOne
     @JoinFetch(JoinFetchType.OUTER)
@@ -123,6 +131,15 @@ public class ClassFeature extends AbstractTimestampEntity implements Descriptive
         this.name = name;
         this.description = description;
         this.usage = type;
+    }
+
+    @Override
+    public ClassFeature clone() {
+        try {
+            return (ClassFeature) super.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
     }
 
     public String getName() {

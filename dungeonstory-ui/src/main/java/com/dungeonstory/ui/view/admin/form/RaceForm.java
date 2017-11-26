@@ -5,8 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.vaadin.easyuploads.ImagePreviewField;
-import org.vaadin.viritin.fields.IntegerField;
-import org.vaadin.viritin.fields.MTextField;
 
 import com.dungeonstory.FormCheckBox;
 import com.dungeonstory.backend.data.ArmorType;
@@ -23,10 +21,13 @@ import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.backend.service.SkillDataService;
 import com.dungeonstory.backend.service.WeaponTypeDataService;
 import com.dungeonstory.ui.component.DSAbstractForm;
-import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.ui.component.EnumComboBox;
+import com.dungeonstory.ui.field.DSIntegerField;
+import com.dungeonstory.ui.field.IntegerField;
 import com.dungeonstory.ui.field.SubSetSelector;
 import com.dungeonstory.ui.layout.MultiColumnFormLayout;
+import com.vaadin.fluent.ui.FTextArea;
+import com.vaadin.fluent.ui.FTextField;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
@@ -90,9 +91,9 @@ public class RaceForm extends DSAbstractForm<Race> {
         VerticalLayout layout = new VerticalLayout();
         layout.setMargin(new MarginInfo(true, false));
 
-        name = new MTextField("Nom");
-        description = new DSTextArea("Description").withFullWidth().withRows(10);
-        traits = new DSTextArea("Traits").withFullWidth().withRows(10);
+        name = new FTextField("Nom");
+        description = new FTextArea("Description").withFullWidth().withRows(10);
+        traits = new FTextArea("Traits").withFullWidth().withRows(10);
 
         languages = new SubSetSelector<Language, Set<Language>>(Language.class);
         languages.setCaption("Langages de base");
@@ -104,20 +105,20 @@ public class RaceForm extends DSAbstractForm<Race> {
 
         extraLanguage = new FormCheckBox("Langage extra");
         size = new EnumComboBox<Size>(Size.class, "Type de grandeur");
-        speed = new IntegerField("Vitesse de déplacement en 1 round (en pieds)").withWidth(100, Unit.PIXELS);
+        speed = new DSIntegerField("Vitesse de déplacement en 1 round (en pieds)").withWidth(100, Unit.PIXELS);
         damageResistance = new ComboBox<>("Résistance au dommage", damageTypeService.findAll());
 
-        strModifier = new IntegerField("Modificateur de force");
-        dexModifier = new IntegerField("Modificateur de dextérité");
-        conModifier = new IntegerField("Modificateur de constitution");
-        intModifier = new IntegerField("Modificateur d'intelligence");
-        wisModifier = new IntegerField("Modificateur de sagesse");
-        chaModifier = new IntegerField("Modificateur de charisme");
+        strModifier = new DSIntegerField("Modificateur de force");
+        dexModifier = new DSIntegerField("Modificateur de dextérité");
+        conModifier = new DSIntegerField("Modificateur de constitution");
+        intModifier = new DSIntegerField("Modificateur d'intelligence");
+        wisModifier = new DSIntegerField("Modificateur de sagesse");
+        chaModifier = new DSIntegerField("Modificateur de charisme");
 
-        minAge = new IntegerField("Âge mimimum").withWidth(100, Unit.PIXELS);
-        maxAge = new IntegerField("Âge maximum").withWidth(100, Unit.PIXELS);
-        averageHeight = new MTextField("Taille moyenne (en pieds/pouce)").withWidth(100, Unit.PIXELS);
-        averageWeight = new IntegerField("Poids moyen (en lbs)").withWidth(100, Unit.PIXELS);
+        minAge = new DSIntegerField("Âge mimimum").withWidth(100, Unit.PIXELS);
+        maxAge = new DSIntegerField("Âge maximum").withWidth(100, Unit.PIXELS);
+        averageHeight = new FTextField("Taille moyenne (en pieds/pouce)").withWidth(100, Unit.PIXELS);
+        averageWeight = new DSIntegerField("Poids moyen (en lbs)").withWidth(100, Unit.PIXELS);
 
         savingThrowProficiencies = new SubSetSelector<>(Condition.class);
         savingThrowProficiencies.setCaption("Avantage au jet de sauvegarde contre");

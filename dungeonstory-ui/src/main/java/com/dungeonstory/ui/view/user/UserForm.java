@@ -1,6 +1,8 @@
 package com.dungeonstory.ui.view.user;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
 import com.dungeonstory.backend.data.AccessRole;
 import com.dungeonstory.backend.data.User;
@@ -41,6 +43,14 @@ public class UserForm extends AbstractForm<User> implements Translatable {
         layout.addComponents(username, name, email, role, status, created);
 
         return layout;
+    }
+
+    @Override
+    public void afterSetEntity() {
+        super.afterSetEntity();
+        created.setCaptionGenerator(dt -> {
+            return dt.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG, FormatStyle.SHORT));
+        });
     }
 
     @Override

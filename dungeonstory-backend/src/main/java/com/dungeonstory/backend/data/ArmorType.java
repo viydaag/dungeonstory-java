@@ -5,8 +5,11 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "ArmorType")
@@ -39,6 +42,7 @@ public class ArmorType extends AbstractTimestampEntity {
     }
 
     @NotNull
+    @Size(min = 1)
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
@@ -52,11 +56,13 @@ public class ArmorType extends AbstractTimestampEntity {
 
     @NotNull
     @Min(value = NO_MAX_DEX_BONUS)
+    @Digits(integer = 1, fraction = 0)
     @Column(name = "maxDexBonus", nullable = false)
     private int maxDexBonus = NO_MAX_DEX_BONUS;
 
     @NotNull
     @Min(value = 0)
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "baseArmorClass", nullable = false)
     private int baseArmorClass;
 
@@ -66,16 +72,19 @@ public class ArmorType extends AbstractTimestampEntity {
     // The minimum strength to be able to wear the armor.
     @NotNull
     @Min(value = MINIMUM_STRENGTH)
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "minStrength", nullable = false)
     private int minStrength = MINIMUM_STRENGTH;
 
     @NotNull
-    @Min(value = 0)
+    @DecimalMin("0.0")
+    @Digits(integer = 4, fraction = 1)
     @Column(name = "baseWeight", nullable = false)
-    private double baseWeight;
+    private Double baseWeight;
     
     @NotNull
     @Min(value = 1)
+    @Digits(integer = 9, fraction = 0)
     @Column(name = "basePrice", nullable = false)
     private int basePrice;
 
@@ -84,7 +93,7 @@ public class ArmorType extends AbstractTimestampEntity {
     }
 
     public ArmorType(String name, String description, ProficiencyType proficiencyType, int maxDexBonus,
-            int baseArmorClass, boolean stealthDisavantage, int minStrength, int baseWeight, int speed) {
+            int baseArmorClass, boolean stealthDisavantage, int minStrength, double baseWeight, int speed) {
         this();
         this.name = name;
         this.description = description;
@@ -136,11 +145,11 @@ public class ArmorType extends AbstractTimestampEntity {
         this.baseArmorClass = baseArmorClass;
     }
 
-    public double getBaseWeight() {
+    public Double getBaseWeight() {
         return baseWeight;
     }
 
-    public void setBaseWeight(double baseWeight) {
+    public void setBaseWeight(Double baseWeight) {
         this.baseWeight = baseWeight;
     }
 

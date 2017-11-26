@@ -18,8 +18,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.eclipse.persistence.annotations.BatchFetch;
 import org.eclipse.persistence.annotations.BatchFetchType;
@@ -56,6 +58,7 @@ public class DSClass extends AbstractTimestampEntity {
     }
 
     @NotNull
+    @Size(min = 1)
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
@@ -67,6 +70,7 @@ public class DSClass extends AbstractTimestampEntity {
 
     @NotNull
     @Min(value = 0)
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "lifePointPerLevel", nullable = false)
     private int lifePointPerLevel;
     
@@ -87,7 +91,6 @@ public class DSClass extends AbstractTimestampEntity {
     @JoinTable(name = "ClassSavingThrowProficiencies", joinColumns = {
         @JoinColumn(name = "classId", referencedColumnName = "id") }, 
             inverseJoinColumns = { @JoinColumn(name = "abilityId", referencedColumnName = "id") })
-    @PrivateOwned
     private Set<Ability> savingThrowProficiencies;
     
     @ElementCollection(targetClass = ArmorType.ProficiencyType.class)
@@ -114,6 +117,7 @@ public class DSClass extends AbstractTimestampEntity {
     private Set<ToolType> toolProficiencies;
     
     @Min(value = 0)
+    @Digits(integer = 1, fraction = 0)
     @Column(name = "nbChosenSkills")
     private int nbChosenSkills = 0;
 
@@ -158,6 +162,7 @@ public class DSClass extends AbstractTimestampEntity {
     
     @NotNull
     @Min(value = 0)
+    @Digits(integer = 3, fraction = 0)
     @Column(name = "startingGold", nullable = false)
     private int startingGold = 0;
 

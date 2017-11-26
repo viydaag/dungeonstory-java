@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "Alignment")
@@ -16,9 +17,11 @@ public class Alignment extends AbstractTimestampEntity {
     public static final String FIND_ALL_PLAYABLE = "findAllPlayable";
 
     @NotNull
+    @Size(min = 1)
     @Column(name = "name", unique = true)
     private String name;
     
+    @Size(max = 2)
     @Column(name = "abbreviation", length = 2, unique = true)
     private String abbreviation;
 

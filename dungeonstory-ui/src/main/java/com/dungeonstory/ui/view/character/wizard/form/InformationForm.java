@@ -3,9 +3,6 @@ package com.dungeonstory.ui.view.character.wizard.form;
 import java.util.EnumSet;
 import java.util.List;
 
-import org.vaadin.viritin.fields.IntegerField;
-import org.vaadin.viritin.fields.MTextField;
-
 import com.dungeonstory.backend.data.Alignment;
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.Character.Gender;
@@ -17,10 +14,11 @@ import com.dungeonstory.ui.component.AbstractForm;
 import com.dungeonstory.ui.component.DSImage;
 import com.dungeonstory.ui.component.ImageSelector;
 import com.dungeonstory.ui.factory.ImageFactory;
+import com.dungeonstory.ui.field.DSIntegerField;
+import com.dungeonstory.ui.field.IntegerField;
 import com.dungeonstory.ui.i18n.Messages;
 import com.vaadin.data.ValidationResult;
-import com.vaadin.data.Validator;
-import com.vaadin.data.ValueContext;
+import com.vaadin.fluent.ui.FTextField;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
@@ -65,43 +63,21 @@ public class InformationForm extends CharacterWizardStepForm<Character> implemen
         layout = new FormLayout();
         layout.setMargin(new MarginInfo(true, true));
 
-        name = new MTextField(messages.getMessage("informationStep.name.label")).withWidth("250px");
+        name = new FTextField(messages.getMessage("informationStep.name.label")).withWidth("250px");
         gender = new RadioButtonGroup<Gender>(messages.getMessage("informationStep.sex.label"), EnumSet.allOf(Gender.class));
-        age = new IntegerField(messages.getMessage("informationStep.age.label"));
-        weight = new IntegerField(messages.getMessage("informationStep.weight.label"));
+        age = new DSIntegerField(messages.getMessage("informationStep.age.label"));
+        weight = new DSIntegerField(messages.getMessage("informationStep.weight.label"));
         height = new TextField(messages.getMessage("informationStep.height.label"));
         alignment = new ComboBox<>(messages.getMessage("informationStep.alignment.label"), alignmentService.findAllPlayable());
-        //                .withWidth("250px");
         region = new ComboBox<>(messages.getMessage("informationStep.region.label"), regionService.findAllOrderBy("name", "ASC"));
-        //                .withWidth("250px");
-
-        getBinder().forField(age).withValidator(new Validator<Integer>() {
-
-            private static final long serialVersionUID = 6735679580321486585L;
-
-            @Override
-            public ValidationResult apply(Integer value, ValueContext context) {
-                int minAge = getEntity().getRace().getMinAge();
-                int maxAge = getEntity().getRace().getMaxAge();
-                if (value.intValue() < minAge || value.intValue() > maxAge) {
-                    return ValidationResult
-                            .error(messages.getMessage("informationStep.age.validator", minAge, maxAge, getEntity().getRace().getName()));
-                }
-                return ValidationResult.ok();
+        
+        getBinder().forMemberField(age).withValidator((value, context) -> {
+            int minAge = getEntity().getRace().getMinAge();
+            int maxAge = getEntity().getRace().getMaxAge();
+            if (value.intValue() < minAge || value.intValue() > maxAge) {
+                return ValidationResult.error(messages.getMessage("informationStep.age.validator", minAge, maxAge, getEntity().getRace().getName()));
             }
-
-            //            private static final long serialVersionUID = -2710504516977136307L;
-            //
-            //            @Override
-            //            public void validate(Object value) throws InvalidValueException {
-            //                Integer valueInt = (Integer) value;
-            //                int minAge = getEntity().getRace().getMinAge();
-            //                int maxAge = getEntity().getRace().getMaxAge();
-            //                if (valueInt.intValue() < minAge || valueInt.intValue() > maxAge) {
-            //                    throw new InvalidValueException(
-            //                            messages.getMessage("informationStep.age.validator", minAge, maxAge, getEntity().getRace().getName()));
-            //                }
-            //            }
+            return ValidationResult.ok();
         });
 
         gender.addValueChangeListener(event -> initImageSelector(event.getValue()));

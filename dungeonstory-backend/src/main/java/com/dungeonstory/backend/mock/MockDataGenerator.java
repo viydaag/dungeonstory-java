@@ -133,7 +133,7 @@ public class MockDataGenerator {
                         WeaponType.UsageType.valueOf(tab[4]), damageTypes.iterator().next());
                 type.setRangeType(WeaponType.RangeType.valueOf(tab[5]));
                 type.setOneHandBaseDamage(tab[6]);
-                type.setBaseWeight(Integer.parseInt(tab[7]));
+                type.setBaseWeight(Double.parseDouble(tab[7]));
                 types.add(type);
             }
         }

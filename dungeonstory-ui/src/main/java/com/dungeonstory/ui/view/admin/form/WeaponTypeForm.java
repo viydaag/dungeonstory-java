@@ -1,7 +1,5 @@
 package com.dungeonstory.ui.view.admin.form;
 
-import org.vaadin.viritin.fields.IntegerField;
-
 import com.dungeonstory.FormCheckBox;
 import com.dungeonstory.backend.data.DamageType;
 import com.dungeonstory.backend.data.WeaponType;
@@ -12,10 +10,13 @@ import com.dungeonstory.backend.data.WeaponType.SizeType;
 import com.dungeonstory.backend.data.WeaponType.UsageType;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSAbstractForm;
-import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.ui.component.EnumComboBox;
+import com.dungeonstory.ui.field.DSDoubleField;
+import com.dungeonstory.ui.field.DSIntegerField;
 import com.dungeonstory.ui.field.DoubleField;
+import com.dungeonstory.ui.field.IntegerField;
 import com.vaadin.event.selection.SingleSelectionEvent;
+import com.vaadin.fluent.ui.FTextArea;
 import com.vaadin.shared.Registration;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
@@ -59,7 +60,7 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
         FormLayout layout = new FormLayout();
 
         name = new TextField("Nom");
-        description = new DSTextArea("Description").withFullWidth();
+        description = new FTextArea("Description").withFullWidth();
         proficiencyType = new EnumComboBox<>(ProficiencyType.class, "Type de maitrise");
         sizeType = new EnumComboBox<>(SizeType.class, "Taille");
         handleType = new EnumComboBox<>(HandleType.class, "Type");
@@ -70,8 +71,8 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
         isReach = new FormCheckBox("Allonge");
         isFinesse = new FormCheckBox("Finesse (choix dextérité ou force)");
         isLoading = new FormCheckBox("Chargement requis");
-        baseWeight = new DoubleField("Poids de base (lbs)");
-        basePrice = new IntegerField("Prix de base");
+        baseWeight = new DSDoubleField("Poids de base (lbs)").withDigits(4).withFractions(1);
+        basePrice = new DSIntegerField("Prix de base");
 
         damageType = new ComboBox<DamageType>("Type de dommage", Services.getDamageTypeService().findAll());
 

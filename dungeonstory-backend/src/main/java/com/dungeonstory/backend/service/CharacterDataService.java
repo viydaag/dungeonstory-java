@@ -7,4 +7,6 @@ import com.dungeonstory.backend.data.DSClass;
 public interface CharacterDataService extends DataService<Character, Long> {
 
     public CharacterClass getAssignedClass(Character character, DSClass classe);
+
+    public void levelUp(Character character);
 }

@@ -14,6 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -32,6 +33,7 @@ public class Race extends AbstractTimestampEntity {
     }
 
     @NotNull
+    @javax.validation.constraints.Size(min = 1)
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
@@ -43,41 +45,49 @@ public class Race extends AbstractTimestampEntity {
 
     @NotNull
     @Min(value = 0)
+    @Digits(integer = 1, fraction = 0)
     @Column(name = "strModifier")
     private int strModifier = 0;
 
     @NotNull
     @Min(value = 0)
+    @Digits(integer = 1, fraction = 0)
     @Column(name = "dexModifier")
     private int dexModifier = 0;
 
     @NotNull
     @Min(value = 0)
+    @Digits(integer = 1, fraction = 0)
     @Column(name = "conModifier")
     private int conModifier = 0;
 
     @NotNull
     @Min(value = 0)
+    @Digits(integer = 1, fraction = 0)
     @Column(name = "intModifier")
     private int intModifier = 0;
 
     @NotNull
     @Min(value = 0)
+    @Digits(integer = 1, fraction = 0)
     @Column(name = "wisModifier")
     private int wisModifier = 0;
 
     @NotNull
     @Min(value = 0)
+    @Digits(integer = 1, fraction = 0)
     @Column(name = "chaModifier")
     private int chaModifier = 0;
 
     @NotNull
     @Min(value = 0)
+    @Digits(integer = 3, fraction = 0)
     @Column(name = "minAge")
     private int minAge = 0;
 
     @NotNull
     @Min(value = 0)
+    @Digits(integer = 4, fraction = 0)
     @Column(name = "maxAge")
     private int maxAge = 0;
     
@@ -93,11 +103,13 @@ public class Race extends AbstractTimestampEntity {
 
     @NotNull
     @Min(value = 0)
+    @Digits(integer = 3, fraction = 0)
     @Column(name = "averageWeight")
     private int averageWeight;
 
     @NotNull
     @Min(value = 0)
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "speed")
     private int speed = 0;
     

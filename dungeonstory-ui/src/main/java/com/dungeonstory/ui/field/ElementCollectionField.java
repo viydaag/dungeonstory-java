@@ -6,20 +6,21 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.vaadin.viritin.button.ConfirmButton;
-import org.vaadin.viritin.button.MButton;
-import org.vaadin.viritin.layouts.MGridLayout;
-
 import com.dungeonstory.ui.component.AbstractForm;
+import com.dungeonstory.ui.component.ConfirmButton;
 import com.dungeonstory.ui.field.listener.ElementAddedListener;
 import com.dungeonstory.ui.field.listener.ElementRemovedListener;
 import com.vaadin.data.Binder;
+import com.vaadin.fluent.ui.FButton;
+import com.vaadin.fluent.ui.FGridLayout;
+import com.vaadin.fluent.ui.FVerticalLayout;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 /**
@@ -34,21 +35,21 @@ import com.vaadin.ui.themes.ValoTheme;
  * must provide an Instantiator.
  * </ul>
  *
- * Elements in the edited collection are modified with BeanFieldGroup. Fields
+ * Elements in the edited collection are modified with Binder. Fields
  * should defined in a class. A simple usage example for editing
- * List&gt;Address&lt; adresses:
+ * List&gt;Address&lt; addresses:
  * <pre><code>
  *  public static class AddressRow {
- *      EnumSelect type = new EnumSelect();
- *      MTextField street = new MTextField();
- *      MTextField city = new MTextField();
- *      MTextField zipCode = new MTextField();
+ *      ComboBox type = new ComboBox();
+ *      TextField street = new TextField();
+ *      TextField city = new TextField();
+ *      TextField zipCode = new TextField();
  *  }
  *
  *  public static class PersonForm&lt;Person&gt; extends AbstractForm {
  *      private final ElementCollectionField&lt;Address&gt; addresses
  *              = new ElementCollectionField&lt;Address&gt;(Address.class,
- *                      AddressRow.class).withCaption("Addressess");
+ *                      AddressRow.class).withCaption("Addresses");
  *
  * </code></pre>
  *
@@ -76,11 +77,13 @@ public class ElementCollectionField<ET> extends AbstractElementCollection<ET, Li
 
     private static final long serialVersionUID = 8573373104105052804L;
 
+    // Visible items on the page = value + 1 (empty)
     List<ET> items = new ArrayList<>();
 
     boolean inited = false;
 
-    MGridLayout layout = new MGridLayout();
+    protected VerticalLayout mainLayout;
+    protected GridLayout     gridLayout;
 
     private boolean          visibleHeaders = true;
     private boolean          requireVerificationForRemoval;
@@ -93,6 +96,14 @@ public class ElementCollectionField<ET> extends AbstractElementCollection<ET, Li
     public ElementCollectionField(Class<ET> elementType, Instantiator<ET> i, Class<?> formType) {
         super(elementType, i, formType);
         items = new ArrayList<>();
+        mainLayout = new FVerticalLayout().withMargin(false);
+        gridLayout = new FGridLayout().withSpacing(true);
+    }
+
+    @Override
+    public void attach() {
+        super.attach();
+        ensureInited();
     }
 
     @Override
@@ -110,22 +121,15 @@ public class ElementCollectionField<ET> extends AbstractElementCollection<ET, Li
             } else {
                 c = (Component) binding.get().getField();
             }
-            layout.addComponent(c);
-            layout.setComponentAlignment(c, Alignment.MIDDLE_LEFT);
+            gridLayout.addComponent(c);
+            gridLayout.setComponentAlignment(c, Alignment.MIDDLE_LEFT);
         }
         if (getPopupEditor() != null) {
-            MButton b = new MButton(VaadinIcons.EDIT).withStyleName(ValoTheme.BUTTON_ICON_ONLY).withListener(new Button.ClickListener() {
-                private static final long serialVersionUID = 5019806363620874205L;
-
-                @Override
-                public void buttonClick(Button.ClickEvent event) {
-                    editInPopup(v);
-                }
-            });
-            layout.add(b);
+            FButton b = new FButton(VaadinIcons.EDIT).withStyleName(ValoTheme.BUTTON_ICON_ONLY).withClickListener(event -> editInPopup(v));
+            gridLayout.addComponent(b);
         }
         if (isAllowRemovingItems()) {
-            layout.add(createRemoveButton(v));
+            gridLayout.addComponent(createRemoveButton(v));
         }
         if (!isAllowEditItems()) {
             beanBinder.setReadOnly(true);
@@ -137,7 +141,7 @@ public class ElementCollectionField<ET> extends AbstractElementCollection<ET, Li
         if (requireVerificationForRemoval) {
             b = new ConfirmButton();
         } else {
-            b = new MButton();
+            b = new Button();
         }
         b.setIcon(VaadinIcons.TRASH);
         b.addStyleName(ValoTheme.BUTTON_ICON_ONLY);
@@ -158,19 +162,19 @@ public class ElementCollectionField<ET> extends AbstractElementCollection<ET, Li
         int index = itemsIdentityIndexOf(v);
         items.remove(index);
         int row = index + 1;
-        layout.removeRow(row);
+        gridLayout.removeRow(row);
     }
 
     @Override
-    public GridLayout getLayout() {
-        return layout;
+    public VerticalLayout getLayout() {
+        return mainLayout;
     }
 
     @Override
     public void setPersisted(ET v, boolean persisted) {
         int row = itemsIdentityIndexOf(v) + 1;
         if (isAllowRemovingItems()) {
-            Button c = (Button) layout.getComponent(layout.getColumns() - 1, row);
+            Button c = (Button) gridLayout.getComponent(gridLayout.getColumns() - 1, row);
             if (persisted) {
                 c.setDescription(getDeleteElementDescription());
             } else {
@@ -191,7 +195,9 @@ public class ElementCollectionField<ET> extends AbstractElementCollection<ET, Li
 
     private void ensureInited() {
         if (!inited) {
-            layout.setSpacing(true);
+            value = new ArrayList<>();
+            mainLayout.addComponent(statusLayout);
+            mainLayout.addComponent(gridLayout);
             int columns = getVisibleProperties().size();
             if (isAllowRemovingItems()) {
                 columns++;
@@ -199,16 +205,16 @@ public class ElementCollectionField<ET> extends AbstractElementCollection<ET, Li
             if (getPopupEditor() != null) {
                 columns++;
             }
-            layout.setColumns(columns);
+            gridLayout.setColumns(columns);
 
             if (visibleHeaders) {
                 for (Object property : getVisibleProperties()) {
                     Component header = createHeader(property);
-                    layout.addComponent(header);
+                    gridLayout.addComponent(header);
                 }
                 if (isAllowRemovingItems()) {
                     // leave last header slot empty, "actions" colunn
-                    layout.newLine();
+                    gridLayout.newLine();
                 }
             }
             inited = true;
@@ -247,10 +253,11 @@ public class ElementCollectionField<ET> extends AbstractElementCollection<ET, Li
     @Override
     public void clear() {
         if (inited) {
+            super.clear();
             items.clear();
             int rows = inited ? 1 : 0;
-            while (layout.getRows() > rows) {
-                layout.removeRow(rows);
+            while (gridLayout.getRows() > rows) {
+                gridLayout.removeRow(rows);
             }
         }
 
@@ -345,10 +352,10 @@ public class ElementCollectionField<ET> extends AbstractElementCollection<ET, Li
             if (index == -1) {
                 throw new IllegalArgumentException("The expanded property must available");
             }
-            layout.setColumnExpandRatio(index, 1);
+            gridLayout.setColumnExpandRatio(index, 1);
         }
-        if (layout.getWidth() == -1) {
-            layout.setWidth(100, Unit.PERCENTAGE);
+        if (gridLayout.getWidth() == -1) {
+            gridLayout.setWidth(100, Unit.PERCENTAGE);
         }
         // TODO should also make width of elements automatically 100%, both
         // existing and added, now obsolete config needed for row model

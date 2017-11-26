@@ -9,6 +9,9 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @IdClass(ShopEquipmentId.class)
@@ -19,22 +22,35 @@ public class ShopEquipment implements Serializable {
 
 	@Id
     @ManyToOne
-    @JoinColumn(name = "shopId")
+    @JoinColumn(name = "shopId", nullable = false)
     private Shop shop;
     
     @Id
+    @NotNull
     @ManyToOne
-    @JoinColumn(name = "equipmentId")
+    @JoinColumn(name = "equipmentId", nullable = false)
     private Equipment equipment;
     
+    @Digits(fraction = 0, integer = 9)
+    @Min(value = 1, message = "La quantité doit être au minimum 1")
     @Column(name = "quantity")
-    private int quantity;
+    private int quantity = 1;
     
+    @Digits(fraction = 0, integer = 9)
+    @Min(value = 0, message = "La valeur doit être positive")
     @Column(name = "unitPrice")
     private int unitPrice;
     
     public ShopEquipment() {
         super();
+    }
+
+    public ShopEquipment(Shop shop, Equipment equipment, int quantity, int unitPrice) {
+        super();
+        this.shop = shop;
+        this.equipment = equipment;
+        this.quantity = quantity;
+        this.unitPrice = unitPrice;
     }
 
     public Shop getShop() {
@@ -67,6 +83,14 @@ public class ShopEquipment implements Serializable {
 
     public void setUnitPrice(int unitPrice) {
         this.unitPrice = unitPrice;
+    }
+
+    public void addQuantity(int quantity) {
+        this.quantity += quantity;
+    }
+
+    public void substractQuantity(int quantity) {
+        this.quantity -= quantity;
     }
 
 }

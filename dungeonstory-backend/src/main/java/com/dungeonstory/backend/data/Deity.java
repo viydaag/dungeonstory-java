@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.eclipse.persistence.annotations.BatchFetch;
 import org.eclipse.persistence.annotations.BatchFetchType;
@@ -29,6 +30,7 @@ public class Deity extends AbstractTimestampEntity {
     private static final long serialVersionUID = -4390870225200515952L;
 
     @NotNull
+    @Size(min = 1)
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 

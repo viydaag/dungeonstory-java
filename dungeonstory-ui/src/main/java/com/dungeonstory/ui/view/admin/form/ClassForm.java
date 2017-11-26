@@ -9,9 +9,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.vaadin.viritin.fields.IntegerField;
-import org.vaadin.viritin.fields.MTextField;
-
 import com.dungeonstory.FormCheckBox;
 import com.dungeonstory.backend.data.Ability;
 import com.dungeonstory.backend.data.ArmorType;
@@ -40,8 +37,9 @@ import com.dungeonstory.backend.service.SkillDataService;
 import com.dungeonstory.backend.service.SpellDataService;
 import com.dungeonstory.backend.service.WeaponTypeDataService;
 import com.dungeonstory.ui.component.DSAbstractForm;
-import com.dungeonstory.ui.component.DSTextArea;
+import com.dungeonstory.ui.field.DSIntegerField;
 import com.dungeonstory.ui.field.ElementCollectionGrid;
+import com.dungeonstory.ui.field.IntegerField;
 import com.dungeonstory.ui.field.LevelBonusCollectionField;
 import com.dungeonstory.ui.field.LevelBonusCollectionField.ClassLevelBonusRow;
 import com.dungeonstory.ui.field.LevelSpellsCollectionField;
@@ -49,6 +47,9 @@ import com.dungeonstory.ui.field.LevelSpellsCollectionField.LevelSpellsRow;
 import com.dungeonstory.ui.field.SubSetSelector;
 import com.vaadin.data.HasValue.ValueChangeEvent;
 import com.vaadin.event.selection.SingleSelectionEvent;
+import com.vaadin.fluent.ui.FComboBox;
+import com.vaadin.fluent.ui.FTextArea;
+import com.vaadin.fluent.ui.FTextField;
 import com.vaadin.shared.Registration;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
@@ -59,13 +60,14 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.RadioButtonGroup;
 import com.vaadin.ui.TextField;
 
-public class ClassForm extends DSAbstractForm<DSClass> {
+public class ClassForm
+        extends DSAbstractForm<DSClass> {
 
     private static final long serialVersionUID = -4123881637907722632L;
 
     private TextField                                                                 name;
     private TextField                                                                 shortDescription;
-    private DSTextArea                                                                description;
+    private FTextArea                                                                 description;
     private IntegerField                                                              lifePointPerLevel;
     private IntegerField                                                              startingGold;
     private FormCheckBox                                                              isSpellCasting;
@@ -109,14 +111,14 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     private boolean init = false;
 
     public static class ClassLevelFeatureRow {
-        ComboBox<Level>        level      = new ComboBox<>();
-        ComboBox<ClassFeature> feature    = new ComboBox<>();
-        IntegerField           nbToChoose = new IntegerField();
+        FComboBox<Level>        level      = new FComboBox<Level>().withEmptySelectionAllowed(false).withWidth("75px");
+        FComboBox<ClassFeature> feature    = new FComboBox<ClassFeature>().withEmptySelectionAllowed(false).withWidth("100%");
+        IntegerField            nbToChoose = new DSIntegerField().withWidth("50px");
     }
 
     public static class ClassEquipmentRow {
-        ComboBox<Equipment> equipment = new ComboBox<>();
-        IntegerField        quantity  = new IntegerField();
+        FComboBox<Equipment> equipment = new FComboBox<Equipment>().withEmptySelectionAllowed(false).withWidth("100%");
+        IntegerField         quantity  = new DSIntegerField();
     }
 
     public ClassForm() {
@@ -141,11 +143,11 @@ public class ClassForm extends DSAbstractForm<DSClass> {
     protected Component createContent() {
         FormLayout layout = new FormLayout();
 
-        name = new MTextField("Nom");
-        shortDescription = new MTextField("Description courte").withWidth("80%");
-        description = new DSTextArea("Description").withWidth("80%").withRows(12);
-        lifePointPerLevel = new IntegerField("Points de vie par niveau");
-        startingGold = new IntegerField("Pièces d'or de départ");
+        name = new FTextField("Nom");
+        shortDescription = new FTextField("Description courte").withWidth("80%");
+        description = new FTextArea("Description").withWidth("80%").withRows(12);
+        lifePointPerLevel = new DSIntegerField("Points de vie par niveau");
+        startingGold = new DSIntegerField("Pièces d'or de départ");
         isSpellCasting = new FormCheckBox("Capacité à lancer des sorts");
         spellCastingAbility = new ComboBox<Ability>("Caractéristique de sort");
         List<Ability> allAbilities = abilityService.findAll();
@@ -174,15 +176,17 @@ public class ClassForm extends DSAbstractForm<DSClass> {
 
         addAllSimpleWeapons = new Button("Armes simples", event -> {
             Collection<WeaponType> weaponTypes = weaponTypeService.findAll();
-            Set<WeaponType> allSimple = weaponTypes.stream().filter(type -> type.getProficiencyType() == ProficiencyType.SIMPLE)
-                    .collect(Collectors.toSet());
+            Set<WeaponType> allSimple = weaponTypes.stream()
+                                                   .filter(type -> type.getProficiencyType() == ProficiencyType.SIMPLE)
+                                                   .collect(Collectors.toSet());
             allSimple.addAll(weaponProficiencies.getValue());
             weaponProficiencies.setValue(allSimple);
         });
         addAllMartialWeapons = new Button("Armes de guerre", event -> {
             Collection<WeaponType> weaponTypes = weaponTypeService.findAll();
-            Set<WeaponType> allMartial = weaponTypes.stream().filter(type -> type.getProficiencyType() == ProficiencyType.MARTIAL)
-                    .collect(Collectors.toSet());
+            Set<WeaponType> allMartial = weaponTypes.stream()
+                                                    .filter(type -> type.getProficiencyType() == ProficiencyType.MARTIAL)
+                                                    .collect(Collectors.toSet());
             allMartial.addAll(weaponProficiencies.getValue());
             weaponProficiencies.setValue(allMartial);
         });
@@ -205,7 +209,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         toolProficiencies.setWidth("50%");
         toolProficiencies.setValue(new HashSet<ToolType>()); // nothing selected
 
-        nbChosenSkills = new IntegerField("Nb de compétences à choisir");
+        nbChosenSkills = new DSIntegerField("Nb de compétences à choisir");
         baseSkills = new SubSetSelector<>(Skill.class);
         baseSkills.setCaption("Compétences de base");
         baseSkills.getGrid().addColumn(Skill::getName).setCaption("Compétence").setId("name");
@@ -235,16 +239,16 @@ public class ClassForm extends DSAbstractForm<DSClass> {
 
         HorizontalLayout checkboxLayout = new HorizontalLayout(martialArts, sorcery, rage, invocation, hunter, sneak, deity);
 
-        spellSlots = (LevelSpellsCollectionField<ClassSpellSlots>) new LevelSpellsCollectionField<ClassSpellSlots>(ClassSpellSlots.class)
-                .withCaption("Nombre de sorts").withEditorInstantiator(() -> {
+        spellSlots = (LevelSpellsCollectionField<ClassSpellSlots>) new LevelSpellsCollectionField<ClassSpellSlots>(ClassSpellSlots.class).withCaption(
+                "Nombre de sorts").withEditorInstantiator(() -> {
                     LevelSpellsRow row = new LevelSpellsRow();
                     row.level.setItems(allLevels);
                     return row;
                 });
 
-        List<ClassFeature> allClassFeatures = classFeatureService.findAllClassFeaturesWithoutChildren();
-        classFeatures = new ElementCollectionGrid<ClassLevelFeature>(ClassLevelFeature.class, ClassLevelFeatureRow.class)
-                .withCaption("Dons de classe").withEditorInstantiator(() -> {
+        List<ClassFeature> allClassFeatures = classFeatureService.findAllClassFeaturesWithoutParent();
+        classFeatures = new ElementCollectionGrid<ClassLevelFeature>(ClassLevelFeature.class, ClassLevelFeatureRow.class).withCaption(
+                "Dons de classe").withEditorInstantiator(() -> {
                     ClassLevelFeatureRow row = new ClassLevelFeatureRow();
                     row.level.setItems(allLevels);
                     row.feature.setItems(allClassFeatures);
@@ -253,7 +257,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
                     row.feature.addSelectionListener(selection -> {
                         if (selection.getValue() == null || selection.getValue().getChildren().isEmpty()) {
                             row.nbToChoose.setVisible(false);
-                            row.nbToChoose.setValue(1);
+                            row.nbToChoose.setValue(null);
                         } else {
                             row.nbToChoose.setVisible(true);
                         }
@@ -264,6 +268,7 @@ public class ClassForm extends DSAbstractForm<DSClass> {
         classFeatures.setPropertyHeader("feature", "Don");
         classFeatures.setPropertyHeader("nbToChoose", "Nb à choisir");
         classFeatures.setWidth("80%");
+        getBinder().forMemberField(classFeatures).withValidator((value, context) -> classFeatures.isValid());
 
         spells = new SubSetSelector<>(Spell.class);
         spells.setCaption("Sorts de classe");
@@ -285,14 +290,15 @@ public class ClassForm extends DSAbstractForm<DSClass> {
 
         List<Equipment> allEquipment = equipmentService.findAll();
         startingEquipment = new ElementCollectionGrid<>(ClassEquipment.class, ClassEquipmentRow.class).withCaption("Équipement de base")
-                .withEditorInstantiator(() -> {
-                    ClassEquipmentRow row = new ClassEquipmentRow();
-                    row.equipment.setItems(allEquipment);
-                    return row;
-                });
+                                                                                                      .withEditorInstantiator(() -> {
+                                                                                                          ClassEquipmentRow row = new ClassEquipmentRow();
+                                                                                                          row.equipment.setItems(allEquipment);
+                                                                                                          return row;
+                                                                                                      });
         startingEquipment.setPropertyHeader("equipment", "Équipement");
         startingEquipment.setPropertyHeader("quantity", "Quantité");
         startingEquipment.setWidth("80%");
+        getBinder().forMemberField(startingEquipment).withValidator((value, context) -> startingEquipment.isValid());
 
         layout.addComponent(name);
         layout.addComponent(shortDescription);
@@ -359,6 +365,9 @@ public class ClassForm extends DSAbstractForm<DSClass> {
             levelBonuses.clearForNew();
         }
         refreshLevelBonusCheckBoxVisibility();
+
+        classFeatures.clearStatusLabel();
+        startingEquipment.clearStatusLabel();
     }
 
     public void isSpellCastingChange(ValueChangeEvent<Boolean> event) {

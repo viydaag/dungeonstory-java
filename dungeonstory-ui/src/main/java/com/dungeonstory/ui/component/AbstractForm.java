@@ -2,10 +2,6 @@ package com.dungeonstory.ui.component;
 
 import java.io.Serializable;
 
-import org.vaadin.viritin.button.DeleteButton;
-import org.vaadin.viritin.button.MButton;
-import org.vaadin.viritin.button.PrimaryButton;
-
 import com.vaadin.data.BeanValidationBinder;
 import com.vaadin.data.Binder;
 import com.vaadin.shared.Registration;
@@ -48,6 +44,7 @@ public abstract class AbstractForm<T> extends CustomComponent {
     private boolean   isDoingOperation      = false;
     private boolean   hasChanges            = false;
     private boolean   bindWhenSettingEntity = false;
+    private boolean   binding               = true;
     private T         entity;
     private Window    popup;
     private Binder<T> binder;
@@ -89,7 +86,7 @@ public abstract class AbstractForm<T> extends CustomComponent {
     private void createBinder(Class<T> entityType) {
         binder = new BeanValidationBinder<>(entityType);
         binder.addValueChangeListener(e -> {
-            // binder.hasChanges is not really usefull so track it manually
+            // binder.hasChanges is not really useful so track it manually
             if (!settingBean) {
                 hasChanges = true;
             }
@@ -205,7 +202,9 @@ public abstract class AbstractForm<T> extends CustomComponent {
      * customize the binding.
      */
     protected void bind() {
-        binder.bindInstanceFields(this);
+        if (binding) {
+            binder.bindInstanceFields(this);
+        }
     }
 
     /**
@@ -247,6 +246,10 @@ public abstract class AbstractForm<T> extends CustomComponent {
         this.bindWhenSettingEntity = enabled;
     }
 
+    public void setBinding(boolean enabled) {
+        this.binding = enabled;
+    }
+
     /************* Save button ****************/
 
     public String getSaveCaption() {
@@ -255,6 +258,7 @@ public abstract class AbstractForm<T> extends CustomComponent {
 
     public void setSaveCaption(String saveCaption) {
         this.saveCaption = saveCaption;
+        getSaveButton().setCaption(getSaveCaption());
     }
 
     protected void adjustSaveButtonState() {
@@ -313,10 +317,13 @@ public abstract class AbstractForm<T> extends CustomComponent {
 
     public void setResetCaption(String resetCaption) {
         this.resetCaption = resetCaption;
+        getResetButton().setCaption(getResetCaption());
     }
 
     protected Button createResetButton() {
-        return new MButton(getResetCaption()).withVisible(false);
+        Button btn = new Button(getResetCaption());
+        btn.setVisible(false);
+        return btn;
     }
 
     public Button getResetButton() {
@@ -376,10 +383,13 @@ public abstract class AbstractForm<T> extends CustomComponent {
 
     public void setDeleteCaption(String deleteCaption) {
         this.deleteCaption = deleteCaption;
+        getDeleteButton().setCaption(getDeleteCaption());
     }
 
     protected Button createDeleteButton() {
-        return new DeleteButton(getDeleteCaption()).withVisible(false);
+        DeleteButton btn = new DeleteButton(getDeleteCaption());
+        btn.setVisible(false);
+        return btn;
     }
 
     public void setDeleteButton(final Button deleteButton) {
@@ -424,10 +434,13 @@ public abstract class AbstractForm<T> extends CustomComponent {
 
     public void setCancelCaption(String cancelCaption) {
         this.cancelCaption = cancelCaption;
+        getCancelButton().setCaption(getCancelCaption());
     }
 
     protected Button createCancelButton() {
-        return new MButton(getCancelCaption()).withVisible(false);
+        Button btn = new Button(getCancelCaption());
+        btn.setVisible(false);
+        return btn;
     }
 
     public Button getCancelButton() {

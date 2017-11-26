@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
@@ -21,6 +22,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -73,11 +75,13 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
 
     @NotNull
     @Min(value = 0)
+    @Digits(integer = 3, fraction = 0)
     @Column(name = "age", nullable = false)
     private int age;
 
     @NotNull
     @Min(value = 0)
+    @Digits(integer = 3, fraction = 0)
     @Column(name = "weight", nullable = false)
     private int weight;
 
@@ -105,50 +109,59 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
 
     @NotNull
     @Min(value = 0)
+    @Digits(integer = 9, fraction = 0)
     @Column(name = "experience", nullable = false)
     private long experience;
 
     @NotNull
     @Min(value = 0)
+    @Digits(integer = 3, fraction = 0)
     @Column(name = "lifePoints", nullable = false)
     private int lifePoints;
 
     @NotNull
     @Min(value = 10)
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "armorClass", nullable = false)
     private int armorClass;
 
     @NotNull
     @Min(value = 1)
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "strength", nullable = false)
     private int strength;
 
     @NotNull
     @Min(value = 1)
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "dexterity", nullable = false)
     private int dexterity;
 
     @NotNull
     @Min(value = 1)
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "constitution", nullable = false)
     private int constitution;
 
     @NotNull
     @Min(value = 1)
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "intelligence", nullable = false)
     private int intelligence;
 
     @NotNull
     @Min(value = 1)
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "wisdom", nullable = false)
     private int wisdom;
 
     @NotNull
     @Min(value = 1)
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "charisma", nullable = false)
     private int charisma;
 
-    @OneToOne(mappedBy = "character", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+    @OneToOne(mappedBy = "character", cascade = { CascadeType.PERSIST, CascadeType.REMOVE }, targetEntity = CharacterBackground.class)
     private CharacterBackground background;
 
     @NotNull
@@ -167,7 +180,7 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
     @OneToMany(mappedBy = "character")
     private List<Message> messages;
 
-    @OneToMany(mappedBy = "character", cascade = { CascadeType.ALL }, targetEntity = CharacterClass.class)
+    @OneToMany(mappedBy = "character", cascade = { CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE }, targetEntity = CharacterClass.class)
     @PrivateOwned
     private Set<CharacterClass> classes;
 
@@ -195,7 +208,6 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
     @JoinTable(name = "CharacterSavingThrowProficiencies", joinColumns = {
             @JoinColumn(name = "characterId", referencedColumnName = "id") }, inverseJoinColumns = {
                     @JoinColumn(name = "abilityId", referencedColumnName = "id") })
-    @PrivateOwned
     private Set<Ability> savingThrowProficiencies;
 
     @ElementCollection(targetClass = ToolType.class)
@@ -232,6 +244,11 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
     @Column(name = "image", nullable = false)
     private String image;
 
+    @Min(value = 0)
+    @Digits(integer = 12, fraction = 0)
+    @Column(name = "gold", nullable = false)
+    private long gold = 0;
+
     public Character() {
         super();
         classes = new HashSet<CharacterClass>();
@@ -252,7 +269,7 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
     public Character clone() {
         try {
             Character c = (Character) super.clone();
-            c.setClasses(new HashSet<CharacterClass>(c.getClasses()));
+            c.setClasses(c.getClasses().stream().map(CharacterClass::clone).collect(Collectors.toSet()));
             c.setArmorProficiencies(new HashSet<>(c.getArmorProficiencies()));
             c.setFavoredEnnemies(new ArrayList<>(c.getFavoredEnnemies()));
             c.setFavoredTerrains(new HashSet<>(c.getFavoredTerrains()));
@@ -541,5 +558,29 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public Adventure getAdventure() {
+        return adventure;
+    }
+
+    public void setAdventure(Adventure adventure) {
+        this.adventure = adventure;
+    }
+
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
+    }
+
+    public long getGold() {
+        return gold;
+    }
+
+    public void setGold(long gold) {
+        this.gold = gold;
     }
 }

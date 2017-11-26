@@ -27,8 +27,11 @@ public class ShopListView extends VerticalLayout implements View {
     private List<Shop> shopList;
 
     public ShopListView() {
-        grid = new DSGrid<>(Shop.class);
+        grid = new DSGrid<>();
         service = Services.getShopService();
+
+        grid.addColumn(Shop::getName);
+        grid.addColumn(Shop::getCity);
 
         grid.addSelectionListener(
                 selection -> {

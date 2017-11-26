@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,18 +22,19 @@ import javax.validation.constraints.NotNull;
 @Entity
 @IdClass(CharacterClassId.class)
 @Table(name = "CharacterClass")
-public class CharacterClass implements Serializable {
+public class CharacterClass
+        implements Serializable, Cloneable {
 
     private static final long serialVersionUID = -2633155753784402849L;
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "characterId", updatable = false)
+    @JoinColumn(name = "characterId", updatable = false, nullable = false)
     private Character character;
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "classId", updatable = false)
+    @JoinColumn(name = "classId", updatable = false, nullable = false)
     private DSClass classe;
 
     @NotNull
@@ -139,5 +141,16 @@ public class CharacterClass implements Serializable {
     @Override
     public String toString() {
         return classe.toString() + " (" + classLevel + ")";
+    }
+
+    @Override
+    public CharacterClass clone() {
+        try {
+            CharacterClass cc = (CharacterClass) super.clone();
+            cc.setClassFeatures(cc.getClassFeatures().stream().map(ClassFeature::clone).collect(Collectors.toSet()));
+            return cc;
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
     }
 }

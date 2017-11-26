@@ -1,5 +1,7 @@
 package com.dungeonstory.backend.data.util;
 
+import java.text.DecimalFormat;
+
 import com.dungeonstory.backend.data.Ability;
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.HasStats;
@@ -60,6 +62,11 @@ public final class ModifierUtil {
             score = stats.getCharisma();
         }
         return score;
+    }
+
+    public static String getScoreDifferenceString(int newNumber, int oldNumber) {
+        DecimalFormat format = new DecimalFormat("+#;-#");
+        return format.format(newNumber - oldNumber);
     }
 
 }

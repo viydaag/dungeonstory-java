@@ -26,7 +26,12 @@ public class MockCharacterRepository extends MockAbstractRepository<Character> {
     }
 
     public CharacterClass getAssignedClass(Character character, DSClass classe) {
-        return entities.get(character).getClasses().stream().filter(aClass -> aClass.getClasse().equals(classe)).findFirst().orElse(null);
+        return entities.get(character.getId())
+                       .getClasses()
+                       .stream()
+                       .filter(aClass -> aClass.getClasse().equals(classe))
+                       .findFirst()
+                       .orElse(null);
     }
 
 }

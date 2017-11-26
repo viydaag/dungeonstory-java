@@ -35,10 +35,16 @@ public class UserService extends AbstractDataService<User, Long> implements User
 
     @Override
     public void create(User entity) {
-        entity.setPassword(DigestUtils.md5Hex(entity.getPassword()));
+        entity.setPassword(DigestUtils.sha1Hex(entity.getPassword()));
         entity.setRole(AccessRole.PLAYER);
         entity.setStatus(UserStatus.WAITING_FOR_APPROBATION);
         super.create(entity);
+    }
+    
+    @Override
+    public User update(User entity) {
+        entity.setPassword(DigestUtils.sha1Hex(entity.getPassword()));
+        return super.update(entity);
     }
 
 }

@@ -13,13 +13,13 @@ import com.dungeonstory.backend.data.util.ClassUtil;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.AbstractForm;
 import com.dungeonstory.ui.component.DSLabel;
-import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.ui.converter.CollectionToStringListConverter.ListType;
 import com.dungeonstory.ui.converter.CollectionToStringListConverter.UnorderedListType;
 import com.dungeonstory.ui.converter.DescriptiveEntityCollectionToStringListConverter;
 import com.dungeonstory.ui.i18n.Messages;
 import com.dungeonstory.ui.layout.FormLayoutNoSpace;
 import com.vaadin.data.ValueContext;
+import com.vaadin.fluent.ui.FTextArea;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
@@ -39,7 +39,7 @@ public class ClassSpecChoiceForm extends CharacterWizardStepForm<CharacterClass>
     private ComboBox<Deity> deity;
     private Label           deityDescription;
 
-    private DSTextArea classDescription;
+    private FTextArea classDescription;
     private DSLabel    classFeaturesLabel;
     private DSLabel    classFeatures;
 
@@ -69,7 +69,7 @@ public class ClassSpecChoiceForm extends CharacterWizardStepForm<CharacterClass>
         classFieldsLayout.addComponents(classSpecialization, deity, deityDescription);
 
         VerticalLayout classDescriptionLayout = new VerticalLayout();
-        classDescription = new DSTextArea(messages.getMessage("classStep.class.description")).withFullWidth().withRows(10);
+        classDescription = new FTextArea(messages.getMessage("classStep.class.description")).withFullWidth().withRows(10);
 
         FormLayoutNoSpace classFeatureLabelLayout = new FormLayoutNoSpace();
         classFeaturesLabel = new DSLabel().withStyleName(ValoTheme.LABEL_H4);

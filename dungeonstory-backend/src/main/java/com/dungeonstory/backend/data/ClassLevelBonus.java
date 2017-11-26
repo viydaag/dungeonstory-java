@@ -9,6 +9,9 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.eclipse.persistence.annotations.JoinFetch;
@@ -28,6 +31,7 @@ public class ClassLevelBonus implements Serializable {
     private DSClass classe;
 
     @Id
+    @NotNull
     @ManyToOne
     @JoinFetch(JoinFetchType.INNER)
     @JoinColumn(name = "levelId")
@@ -48,18 +52,28 @@ public class ClassLevelBonus implements Serializable {
     @Column(name = "deity")
     private boolean deity;
 
+    @Min(value = 0)
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "kiPoints")
     private Integer kiPoints;
 
+    @Min(value = 0)
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "sorceryPoints")
     private Integer sorceryPoints;
 
+    @Min(value = 0)
+    @Digits(integer = 3, fraction = 0)
     @Column(name = "ragePoints")
     private Integer ragePoints;
 
+    @Min(value = 0)
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "rageDamageBonus")
     private Integer rageDamageBonus;
 
+    @Min(value = 0)
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "movementBonus")
     private Integer movementBonus;
 
@@ -71,9 +85,10 @@ public class ClassLevelBonus implements Serializable {
     @Column(name = "sneakAttackDamage")
     private String sneakAttackDamage;
 
+    @Min(value = 0)
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "invocationsKnown")
     private Integer invocationsKnown;
-
 
     public ClassLevelBonus() {
 

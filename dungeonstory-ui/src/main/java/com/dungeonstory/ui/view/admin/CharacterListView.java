@@ -6,12 +6,14 @@ import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.service.CharacterDataService;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSAbstractForm;
+import com.dungeonstory.ui.event.CharacterUpdatedEvent;
 import com.dungeonstory.ui.event.EventBus;
 import com.dungeonstory.ui.event.ViewAddedEvent;
 import com.dungeonstory.ui.event.ViewAddedEvent.ViewDestination;
 import com.dungeonstory.ui.event.ViewRemovedEvent;
 import com.dungeonstory.ui.util.ViewConfig;
 import com.dungeonstory.ui.view.AbstractCrudView;
+import com.dungeonstory.ui.view.admin.form.CharacterEditForm;
 import com.dungeonstory.ui.view.admin.grid.CharacterGrid;
 import com.dungeonstory.ui.view.admin.grid.DSGrid;
 import com.dungeonstory.ui.view.character.CharacterView;
@@ -26,7 +28,7 @@ public class CharacterListView extends AbstractCrudView<Character> {
 
     @Override
     public DSAbstractForm<Character> getForm() {
-        return null;
+        return new CharacterEditForm();
     }
 
     @Override
@@ -55,6 +57,12 @@ public class CharacterListView extends AbstractCrudView<Character> {
             });
         }));
 
+    }
+
+    @Override
+    public void entrySaved(Character entity) {
+        super.entrySaved(entity);
+        EventBus.post(new CharacterUpdatedEvent());
     }
 
 }

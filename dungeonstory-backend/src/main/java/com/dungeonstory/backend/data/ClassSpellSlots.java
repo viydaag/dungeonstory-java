@@ -7,6 +7,7 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 
 @Entity
@@ -25,46 +26,57 @@ public class ClassSpellSlots {
     private Level level;
 
     @Min(value = 0)
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "cantripsKnown")
     private Integer cantripsKnown;
 
     @Min(value = 0)
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "spellsKnown")
     private Integer spellsKnown;
 
     @Min(value = 0)
+    @Digits(integer = 1, fraction = 0)
     @Column(name = "spellSlots1")
     private Integer spellSlots1;
 
     @Min(value = 0)
+    @Digits(integer = 1, fraction = 0)
     @Column(name = "spellSlots2")
     private Integer spellSlots2;
 
     @Min(value = 0)
+    @Digits(integer = 1, fraction = 0)
     @Column(name = "spellSlots3")
     private Integer spellSlots3;
 
     @Min(value = 0)
+    @Digits(integer = 1, fraction = 0)
     @Column(name = "spellSlots4")
     private Integer spellSlots4;
 
     @Min(value = 0)
+    @Digits(integer = 1, fraction = 0)
     @Column(name = "spellSlots5")
     private Integer spellSlots5;
 
     @Min(value = 0)
+    @Digits(integer = 1, fraction = 0)
     @Column(name = "spellSlots6")
     private Integer spellSlots6;
 
     @Min(value = 0)
+    @Digits(integer = 1, fraction = 0)
     @Column(name = "spellSlots7")
     private Integer spellSlots7;
 
     @Min(value = 0)
+    @Digits(integer = 1, fraction = 0)
     @Column(name = "spellSlots8")
     private Integer spellSlots8;
 
     @Min(value = 0)
+    @Digits(integer = 1, fraction = 0)
     @Column(name = "spellSlots9")
     private Integer spellSlots9;
 

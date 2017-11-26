@@ -9,6 +9,9 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 import org.eclipse.persistence.annotations.JoinFetch;
 import org.eclipse.persistence.annotations.JoinFetchType;
@@ -23,15 +26,18 @@ public class ClassEquipment implements Serializable {
     @Id
     @ManyToOne
     @JoinFetch(JoinFetchType.INNER)
-    @JoinColumn(name = "classId")
+    @JoinColumn(name = "classId", nullable = false)
     private DSClass classe;
     
     @Id
+    @NotNull
     @ManyToOne
     @JoinFetch(JoinFetchType.INNER)
-    @JoinColumn(name = "equipmentId")
+    @JoinColumn(name = "equipmentId", nullable = false)
     private Equipment equipment;
     
+    @Min(value = 1)
+    @Digits(integer = 3, fraction = 0)
     @Column(name = "quantity")
     private int quantity;
     

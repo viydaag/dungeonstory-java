@@ -7,9 +7,12 @@ import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.eclipse.persistence.annotations.JoinFetch;
 import org.eclipse.persistence.annotations.JoinFetchType;
@@ -41,6 +44,7 @@ public class WeaponType extends AbstractTimestampEntity {
     }
 
     @NotNull
+    @Size(min = 1)
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
@@ -95,12 +99,14 @@ public class WeaponType extends AbstractTimestampEntity {
     private boolean isLoading;
 
     @NotNull
-    @Min(value = 0)
-    @Column(name = "baseWeight")
-    private double baseWeight;
+    @DecimalMin("0.0")
+    @Digits(integer = 4, fraction = 1)
+    @Column(name = "baseWeight", nullable = false)
+    private Double baseWeight;
     
     @NotNull
     @Min(value = 1)
+    @Digits(integer = 9, fraction = 0)
     @Column(name = "basePrice", nullable = false)
     private int basePrice;
 
@@ -229,11 +235,11 @@ public class WeaponType extends AbstractTimestampEntity {
         this.isLoading = isLoading;
     }
 
-    public double getBaseWeight() {
+    public Double getBaseWeight() {
         return baseWeight;
     }
 
-    public void setBaseWeight(double baseWeight) {
+    public void setBaseWeight(Double baseWeight) {
         this.baseWeight = baseWeight;
     }
 

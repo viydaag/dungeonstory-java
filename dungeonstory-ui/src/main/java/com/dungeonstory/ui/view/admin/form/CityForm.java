@@ -1,13 +1,12 @@
 package com.dungeonstory.ui.view.admin.form;
 
-import org.vaadin.viritin.fields.MTextField;
-
 import com.dungeonstory.backend.data.City;
 import com.dungeonstory.backend.data.Region;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSAbstractForm;
-import com.dungeonstory.ui.component.DSTextArea;
+import com.vaadin.fluent.ui.FTextArea;
+import com.vaadin.fluent.ui.FTextField;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
@@ -39,10 +38,10 @@ public class CityForm extends DSAbstractForm<City> {
     protected Component createContent() {
         FormLayout layout = new FormLayout();
 
-        name = new MTextField("Nom");
+        name = new FTextField("Nom");
         region = new ComboBox<Region>("Région", regionService.findAll());
-        shortDescription = new MTextField("Description courte");
-        description = new DSTextArea("Description").withFullWidth();
+        shortDescription = new FTextField("Description courte");
+        description = new FTextArea("Description").withFullWidth();
 
         layout.addComponent(name);
         layout.addComponent(region);

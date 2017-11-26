@@ -2,17 +2,16 @@ package com.dungeonstory.ui.field;
 
 import java.util.stream.IntStream;
 
-import org.vaadin.viritin.fields.IntegerField;
-
 import com.dungeonstory.backend.data.ClassLevelBonus;
 import com.dungeonstory.backend.data.Level;
 import com.vaadin.data.HasValue;
+import com.vaadin.fluent.ui.FComboBox;
 import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.TextField;
 
-public class LevelBonusCollectionField extends ElementCollectionField<ClassLevelBonus> {
+public class LevelBonusCollectionField
+        extends ElementCollectionField<ClassLevelBonus> {
 
     private static final long serialVersionUID = 2580712139242043824L;
 
@@ -33,20 +32,21 @@ public class LevelBonusCollectionField extends ElementCollectionField<ClassLevel
     private final int[] SNEAK_COLUMNS        = { 13 };
 
     public static class ClassLevelBonusRow {
-        public ComboBox<Level> level                      = new ComboBox<Level>();
-        public CheckBox        hasAbilityScoreImprovement = new CheckBox();
-        public CheckBox        chooseClassSpecialization  = new CheckBox();
-        public CheckBox        favoredEnemy               = new CheckBox();
-        public CheckBox        naturalExplorer            = new CheckBox();
-        public CheckBox        deity                      = new CheckBox();
-        public IntegerField    kiPoints                   = new IntegerField().withWidth("50px");
-        public TextField       martialArtsDamage          = new TextField();
-        public IntegerField    movementBonus              = new IntegerField().withWidth("50px");
-        public IntegerField    sorceryPoints              = new IntegerField().withWidth("50px");
-        public IntegerField    ragePoints                 = new IntegerField().withWidth("50px");
-        public IntegerField    rageDamageBonus            = new IntegerField().withWidth("50px");
-        public IntegerField    invocationsKnown           = new IntegerField().withWidth("50px");
-        public TextField       sneakAttackDamage          = new TextField();
+        public FComboBox<Level> level                      = new FComboBox<Level>().withEmptySelectionAllowed(false)
+                                                                                   .withWidth("75px");;
+        public CheckBox         hasAbilityScoreImprovement = new CheckBox();
+        public CheckBox         chooseClassSpecialization  = new CheckBox();
+        public CheckBox         favoredEnemy               = new CheckBox();
+        public CheckBox         naturalExplorer            = new CheckBox();
+        public CheckBox         deity                      = new CheckBox();
+        public IntegerField     kiPoints                   = new DSIntegerField().withWidth("50px");
+        public TextField        martialArtsDamage          = new TextField();
+        public IntegerField     movementBonus              = new DSIntegerField().withWidth("50px");
+        public IntegerField     sorceryPoints              = new DSIntegerField().withWidth("50px");
+        public IntegerField     ragePoints                 = new DSIntegerField().withWidth("50px");
+        public IntegerField     rageDamageBonus            = new DSIntegerField().withWidth("50px");
+        public IntegerField     invocationsKnown           = new DSIntegerField().withWidth("50px");
+        public TextField        sneakAttackDamage          = new TextField();
     }
 
     public LevelBonusCollectionField() {
@@ -65,7 +65,7 @@ public class LevelBonusCollectionField extends ElementCollectionField<ClassLevel
         setPropertyHeader("invocationsKnown", "Nb invocation");
         setPropertyHeader("sneakAttackDamage", "Dégâts attaque furtive");
         setPropertyHeader("deity", "Choix dieu");
-        getLayout().setHideEmptyRowsAndColumns(true);
+        gridLayout.setHideEmptyRowsAndColumns(true);
     }
 
     @Override
@@ -145,11 +145,11 @@ public class LevelBonusCollectionField extends ElementCollectionField<ClassLevel
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     private void refreshLevelBonusVisibility(boolean visible, int... columns) {
-        final int nbRows = getLayout().getRows();
-        final int nbColumns = getLayout().getColumns();
+        final int nbRows = gridLayout.getRows();
+        final int nbColumns = gridLayout.getColumns();
         for (int row = 0; row < nbRows; row++) {
             for (int column = 0; column < nbColumns; column++) {
-                Component c = getLayout().getComponent(column, row);
+                Component c = gridLayout.getComponent(column, row);
                 if (c != null) {
                     final int visibleColumn = column;
                     boolean match = IntStream.of(columns).anyMatch(x -> x == visibleColumn);

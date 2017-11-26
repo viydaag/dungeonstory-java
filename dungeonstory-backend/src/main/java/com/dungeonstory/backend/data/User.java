@@ -12,6 +12,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "User")
@@ -42,6 +43,7 @@ public class User extends AbstractTimestampEntity {
     };
 
     @NotNull
+    @Size(min = 1)
     @Column(name = "username", unique = true, nullable = false)
     private String username;
 
@@ -58,7 +60,7 @@ public class User extends AbstractTimestampEntity {
     private String name;
 
     @NotNull
-    @Pattern(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}$", message = "Doit suivre le pattern \"aaaa@domaine.xxx\"")
+    @Pattern(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}$", message = "Le courriel doit suivre le format \"aaaa@domaine.xxx\"")
     @Column(name = "email", nullable = false)
     private String email;
 

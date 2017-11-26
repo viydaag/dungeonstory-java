@@ -1,6 +1,8 @@
 package com.dungeonstory.ui.authentication;
 
 import java.io.Serializable;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.dungeonstory.backend.data.User;
 import com.dungeonstory.backend.service.Services;
@@ -8,7 +10,7 @@ import com.dungeonstory.ui.i18n.LanguageSelector;
 import com.dungeonstory.ui.i18n.Messages;
 import com.dungeonstory.ui.i18n.Translatable;
 import com.dungeonstory.ui.util.DSTheme;
-import com.vaadin.data.BeanValidationBinder;
+import com.vaadin.data.BindingValidationStatus;
 import com.vaadin.data.ValidationException;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.Page;
@@ -35,7 +37,7 @@ public class LoginScreen extends CssLayout implements Translatable {
 
     private TextField      username;
     private PasswordField  password;
-    private Button         login;
+    private Button         loginButton;
     private Button         forgotPassword;
     private LoginListener  loginListener;
     private AccessControl  accessControl;
@@ -88,38 +90,47 @@ public class LoginScreen extends CssLayout implements Translatable {
         loginForm.addStyleName(DSTheme.LOGIN_FORM);
         loginForm.setSizeUndefined();
         loginForm.setMargin(false);
+        loginForm.setId("loginForm");
 
         username = new TextField();
         username.setValue("admin");
-        loginForm.addComponent(username);
+        username.setId("username");
         username.setWidth(15, Unit.EM);
-        loginForm.addComponent(password = new PasswordField());
+        loginForm.addComponent(username);
+
+        password = new PasswordField();
+        password.setId("password");
         password.setWidth(15, Unit.EM);
+        loginForm.addComponent(password);
+
         CssLayout buttons = new CssLayout();
         buttons.setStyleName(DSTheme.LOGIN_BUTTON_LAYOUT);
         loginForm.addComponent(buttons);
 
-        login = new Button();
-        login.setDisableOnClick(true);
-        login.addClickListener(e -> {
+        loginButton = new Button();
+        loginButton.setId("login");
+        loginButton.setDisableOnClick(true);
+        loginButton.addClickListener(e -> {
             try {
                 login();
             } finally {
-                login.setEnabled(true);
+                loginButton.setEnabled(true);
             }
         });
-        buttons.addComponent(login);
+        buttons.addComponent(loginButton);
 
-        login.setClickShortcut(ShortcutAction.KeyCode.ENTER);
-        login.addStyleName(ValoTheme.BUTTON_FRIENDLY);
+        loginButton.setClickShortcut(ShortcutAction.KeyCode.ENTER);
+        loginButton.addStyleName(ValoTheme.BUTTON_FRIENDLY);
 
         forgotPassword = new Button();
+        forgotPassword.setId("forgotPassword");
         forgotPassword.addStyleName(ValoTheme.BUTTON_LINK);
         //        forgotPassword.addClickListener(e -> showNotification(new Notification("Hint: Try anything")));
 
         buttons.addComponent(forgotPassword);
 
         newUserButton = new Button();
+        newUserButton.setId("newUser");
         newUserButton.addClickListener(e -> {
             centeringLayout.removeAllComponents();
             centeringLayout.addComponent(newUserForm);
@@ -135,34 +146,30 @@ public class LoginScreen extends CssLayout implements Translatable {
 
         User user = new User();
 
-        //        BeanFieldGroup<User> binder = new BeanFieldGroup<User>(User.class);
-        //        binder.setItemDataSource(user);
-        //        binder.bindMemberFields(newUserForm);
-        //        binder.setBuffered(true);
-        BeanValidationBinder<User> binder = new BeanValidationBinder<>(User.class);
-        binder.bindInstanceFields(newUserForm);
-        binder.readBean(user);
+        newUserForm.getBinder().readBean(user);
 
         newUserFormSave = new Button();
+        newUserFormSave.setId("newUserFormSave");
         newUserFormSave.addStyleName(ValoTheme.BUTTON_FRIENDLY);
-        newUserFormCancel = new Button();
-
         newUserFormSave.addClickListener(event -> {
             try {
-                binder.writeBean(user);
+                newUserForm.getBinder().writeBean(user);
                 Services.getUserService().create(user);
+                newUserForm.clear();
                 showLoginForm();
-                //            } catch (CommitException e) {
-                //                Messages messages = Messages.getInstance();
-                //                showNotification(new Notification(messages.getMessage("newUserForm.notif.text"), Notification.Type.ERROR_MESSAGE));
-                ////                newUserForm.setValidationVisible(true);
             } catch (ValidationException e) {
                 Messages messages = Messages.getInstance();
-                showNotification(new Notification(messages.getMessage("newUserForm.notif.text"),
-                        Notification.Type.ERROR_MESSAGE));
+                String message = messages.getMessage("newUserForm.notif.text") + "\n\n";
+                message += newUserForm.getBinder().validate().getFieldValidationErrors().stream().map(BindingValidationStatus::getMessage)
+                        .filter(Optional::isPresent).map(Optional::get)
+                        .collect(Collectors.joining("\n"));
+                showNotification(new Notification(message, Notification.Type.ERROR_MESSAGE));
+
             }
         });
 
+        newUserFormCancel = new Button();
+        newUserFormCancel.setId("newUserFormCancel");
         newUserFormCancel.addClickListener(event -> {
             showLoginForm();
         });
@@ -223,7 +230,7 @@ public class LoginScreen extends CssLayout implements Translatable {
         username.setCaption(messages.getMessage("loginForm.textfield.user"));
         password.setCaption(messages.getMessage("loginForm.textfield.password"));
         password.setDescription(messages.getMessage("loginForm.textfield.password"));
-        login.setCaption(messages.getMessage("loginForm.button.login"));
+        loginButton.setCaption(messages.getMessage("loginForm.button.login"));
         forgotPassword.setCaption(messages.getMessage("loginForm.button.forgotpassword"));
         newUserButton.setCaption(messages.getMessage("loginScreen.button.newUser"));
         newUserFormSave.setCaption(messages.getMessage("button.send"));

@@ -1,10 +1,9 @@
 package com.dungeonstory.ui.view.admin.form;
 
-import org.vaadin.viritin.fields.MTextField;
-
 import com.dungeonstory.FormCheckBox;
 import com.dungeonstory.backend.data.Language;
 import com.dungeonstory.ui.component.DSAbstractForm;
+import com.vaadin.fluent.ui.FTextField;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextField;
@@ -30,8 +29,8 @@ public class LanguageForm extends DSAbstractForm<Language> {
     protected Component createContent() {
         FormLayout layout = new FormLayout();
 
-        name = new MTextField("Nom");
-        script = new MTextField("Alphabet");
+        name = new FTextField("Nom");
+        script = new FTextField("Alphabet");
         playable = new FormCheckBox("Jouable par un personnage");
 
         layout.addComponents(name, script, playable);

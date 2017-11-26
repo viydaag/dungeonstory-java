@@ -21,7 +21,6 @@ import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.AbstractForm;
 import com.dungeonstory.ui.component.DSLabel;
-import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.ui.converter.CollectionToStringConverter;
 import com.dungeonstory.ui.converter.CollectionToStringListConverter.ListType;
 import com.dungeonstory.ui.converter.CollectionToStringListConverter.UnorderedListType;
@@ -30,6 +29,7 @@ import com.dungeonstory.ui.field.SubSetSelector;
 import com.dungeonstory.ui.i18n.Messages;
 import com.dungeonstory.ui.layout.FormLayoutNoSpace;
 import com.vaadin.data.ValueContext;
+import com.vaadin.fluent.ui.FTextArea;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
@@ -57,7 +57,7 @@ public class ClassChoiceForm extends CharacterWizardStepForm<CharacterClass> imp
     private List<CreatureType> backupfavoredEnnemies;
     private Set<Terrain>       backupfavoredTerrains;
 
-    private DSTextArea classDescription;
+    private FTextArea classDescription;
     private DSLabel    proficienciesLabel;
     private DSLabel    armorProficiencies;
     private DSLabel    weaponProficiencies;
@@ -128,7 +128,7 @@ public class ClassChoiceForm extends CharacterWizardStepForm<CharacterClass> imp
         classFieldsLayout.addComponents(favoredEnnemies, favoredTerrains);
 
         VerticalLayout classDescriptionLayout = new VerticalLayout();
-        classDescription = new DSTextArea(messages.getMessage("classStep.class.description")).withFullWidth().withRows(10);
+        classDescription = new FTextArea(messages.getMessage("classStep.class.description")).withFullWidth().withRows(10);
 
         FormLayout properties = new FormLayout();
         proficienciesLabel = new DSLabel().withStyleName(ValoTheme.LABEL_H4);
@@ -158,7 +158,7 @@ public class ClassChoiceForm extends CharacterWizardStepForm<CharacterClass> imp
                 if (assignedClass == null) {
                     classSkills.setVisible(true);
                     classSkills.setCaption(messages.getMessage("classStep.proficientSkills.label") + " (" + chosenClass.getNbChosenSkills() + ")");
-                    classSkills.setItems(new ArrayList<Skill>(chosenClass.getBaseSkills()));
+                    classSkills.setItems(ClassUtil.getUnassignedClassSkills(character, chosenClass));
                     classSkills.setValue(new ArrayList<>());
                     classSkills.setLimit(chosenClass.getNbChosenSkills());
                 } else {
@@ -259,6 +259,7 @@ public class ClassChoiceForm extends CharacterWizardStepForm<CharacterClass> imp
         DSClass chosenClass = getChosenClass();
         CharacterClass chosenCharacterClass = null;
 
+        // Check if the chosen class is already assigned to the character
         CharacterClass assignedClass = ClassUtil.getCharacterClass(character, chosenClass);
 
         if (assignedClass != null) {
@@ -272,11 +273,19 @@ public class ClassChoiceForm extends CharacterWizardStepForm<CharacterClass> imp
             chosenCharacterClass = classe;
         }
 
-        character.getArmorProficiencies().addAll(chosenClass.getArmorProficiencies());
-        character.getWeaponProficiencies().addAll(chosenClass.getWeaponProficiencies());
+        // Only if it's a new class, the proficiencies are added
+        if (assignedClass == null) {
+            character.getArmorProficiencies().addAll(chosenClass.getArmorProficiencies());
+            character.getWeaponProficiencies().addAll(chosenClass.getWeaponProficiencies());
+            character.getSavingThrowProficiencies().addAll(chosenClass.getSavingThrowProficiencies());
+            //TODO : check rules for multi-classing
+        }
 
+        // Add class features for that level
         chosenCharacterClass.getClassFeatures().addAll(ClassUtil.getClassFeaturesForLevel(chosenClass, chosenCharacterClass.getClassLevel())
                 .filter(cf -> cf.getParent() == null).collect(Collectors.toList()));
+
+        // Remove class features that are replaced with new ones
         List<ClassFeature> featuresToRemove = new ArrayList<>();
         for (ClassFeature feature : chosenCharacterClass.getClassFeatures()) {
             if (feature.getReplacement() != null) {
@@ -285,8 +294,14 @@ public class ClassChoiceForm extends CharacterWizardStepForm<CharacterClass> imp
         }
         chosenCharacterClass.getClassFeatures().removeAll(featuresToRemove);
 
-        if (classSkills.getValue() != null) {
+        // Add skill proficiencies if new class
+        if (classSkills.getValue() != null && assignedClass == null) {
             character.getSkillProficiencies().addAll(classSkills.getValue());
+        }
+
+        // On character creation, give starting gold
+        if (character.getId() == null) {
+            character.setGold(chosenClass.getStartingGold());
         }
 
     }

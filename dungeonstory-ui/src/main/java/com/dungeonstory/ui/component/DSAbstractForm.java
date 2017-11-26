@@ -1,7 +1,5 @@
 package com.dungeonstory.ui.component;
 
-import org.vaadin.viritin.button.DeleteButton;
-
 import com.vaadin.icons.VaadinIcons;
 
 public abstract class DSAbstractForm<T> extends AbstractForm<T> {

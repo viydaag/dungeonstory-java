@@ -38,6 +38,7 @@ public class CharacterWizard extends Wizard implements WizardProgressListener {
     public final static String BACKGROUND    = "backgroundChoice";
     public final static String INFO          = "info";
     public final static String SUMMARY       = "summary";
+    public final static String DUMMY         = "dummy";
 
     public CharacterWizard() {
         super();
@@ -131,6 +132,14 @@ public class CharacterWizard extends Wizard implements WizardProgressListener {
         if (step instanceof CharacterWizardStep) {
             ((CharacterWizardStep<?>) step).afterActivateStep();
         }
+    }
+
+    public boolean isActive(String stepId) {
+        WizardStep step = idMap.get(stepId);
+        if (step == null) {
+            return false;
+        }
+        return super.isActive(step);
     }
 
 }

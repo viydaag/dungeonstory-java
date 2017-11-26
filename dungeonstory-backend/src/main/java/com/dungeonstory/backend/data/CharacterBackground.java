@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @IdClass(CharacterBackgroundId.class)
@@ -24,6 +25,7 @@ public class CharacterBackground implements Serializable {
     private Character character;
 
     @Id
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "backgroundId")
     private Background background;

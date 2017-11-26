@@ -3,7 +3,6 @@ package com.dungeonstory.backend.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Random;
 
@@ -86,7 +85,7 @@ public class TestCharacterService {
         equip.setCharacter(c);
         equip.setEquipment(EquipmentService.getInstance().read(2L));
         equip.setQuantity(1);
-        equip.setSellableValue(new BigDecimal(2));
+        equip.setSellableValue(2);
         c.getEquipment().add(equip);
 
         CharacterClass classe = new CharacterClass();

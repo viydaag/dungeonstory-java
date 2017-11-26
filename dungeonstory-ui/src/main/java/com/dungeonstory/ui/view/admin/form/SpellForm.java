@@ -5,9 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.vaadin.viritin.fields.IntegerField;
-import org.vaadin.viritin.fields.MTextField;
-
 import com.dungeonstory.FormCheckBox;
 import com.dungeonstory.backend.data.Ability;
 import com.dungeonstory.backend.data.Condition;
@@ -29,12 +26,15 @@ import com.dungeonstory.backend.data.SpellEffect.EffectType;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSAbstractForm;
-import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.ui.component.EnumComboBox;
+import com.dungeonstory.ui.field.DSIntegerField;
 import com.dungeonstory.ui.field.ElementCollectionField;
+import com.dungeonstory.ui.field.IntegerField;
 import com.dungeonstory.ui.field.SubSetSelector;
 import com.vaadin.data.HasValue.ValueChangeEvent;
 import com.vaadin.data.HasValue.ValueChangeListener;
+import com.vaadin.fluent.ui.FTextArea;
+import com.vaadin.fluent.ui.FTextField;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
@@ -94,7 +94,7 @@ public class SpellForm extends DSAbstractForm<Spell> {
         EnumComboBox<EffectType> effectType = new EnumComboBox<>(EffectType.class);
         TextField                damage     = new TextField();
         ComboBox<DamageType>     damageType = new ComboBox<DamageType>();
-        IntegerField             armorClass = new IntegerField().withWidth("100px");
+        IntegerField             armorClass = new DSIntegerField().withWidth("100px");
         EnumComboBox<Condition>  condition  = new EnumComboBox<>(Condition.class);
     }
 
@@ -102,9 +102,9 @@ public class SpellForm extends DSAbstractForm<Spell> {
     protected Component createContent() {
         FormLayout layout = new FormLayout();
 
-        name = new MTextField("Nom");
-        level = new IntegerField("Niveau");
-        description = new DSTextArea("Description").withFullWidth();
+        name = new FTextField("Nom");
+        level = new DSIntegerField("Niveau");
+        description = new FTextArea("Description").withFullWidth();
         school = new EnumComboBox<>(MagicSchool.class, "École de magie");
 
         componentTypes = new SubSetSelector<>(ComponentType.class);
@@ -135,12 +135,12 @@ public class SpellForm extends DSAbstractForm<Spell> {
         // CollectionListConverter<>()).bind("components");
 
         castingTime = new EnumComboBox<CastingTime>(CastingTime.class, "Type de temps d'incantation");
-        castingTimeValue = new IntegerField("Valeur de temps");
+        castingTimeValue = new DSIntegerField("Valeur de temps");
         castingTimeUnit = new EnumComboBox<TimeUnit>(TimeUnit.class, "Unité de temps");
         castingTime.addSelectionListener(event -> showCastingTime());
 
         duration = new EnumComboBox<DurationType>(DurationType.class, "Type de durée du sort");
-        durationValue = new IntegerField("Valeur de durée");
+        durationValue = new DSIntegerField("Valeur de durée");
         durationTimeUnit = new EnumComboBox<TimeUnit>(TimeUnit.class, "Unité de durée");
         duration.addSelectionListener(event -> showDuration());
 
@@ -149,7 +149,7 @@ public class SpellForm extends DSAbstractForm<Spell> {
         target.addSelectionListener(event -> showAreaOfEffect());
 
         range = new EnumComboBox<RangeType>(RangeType.class, "Portée du sort");
-        rangeValueInFeet = new IntegerField("Portée (en pieds)");
+        rangeValueInFeet = new DSIntegerField("Portée (en pieds)");
         range.addSelectionListener(event -> showRange());
 
         savingThrowAbility = new ComboBox<Ability>("Caractéristique de jet de sauvegarde", abilityService.findAll());

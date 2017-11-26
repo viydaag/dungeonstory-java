@@ -9,6 +9,7 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 
 /**
@@ -33,6 +34,7 @@ public class MonsterSkill implements Serializable {
     private Skill skill;
 
     @Min(value = 0)
+    @Digits(integer = 2, fraction = 0)
     @Column(name = "bonus")
     private Integer bonus;
 

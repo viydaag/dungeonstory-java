@@ -1,10 +1,8 @@
 package com.dungeonstory.ui.field;
 
-import org.vaadin.viritin.fields.IntegerField;
-
 import com.dungeonstory.backend.data.Level;
 import com.vaadin.data.HasValue;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.fluent.ui.FComboBox;
 import com.vaadin.ui.Component;
 
 public class LevelSpellsCollectionField<T> extends ElementCollectionField<T> {
@@ -14,18 +12,18 @@ public class LevelSpellsCollectionField<T> extends ElementCollectionField<T> {
     private boolean isKnownSpells = false;
 
     public static class LevelSpellsRow {
-        public ComboBox<Level> level         = new ComboBox<Level>();
-        public IntegerField    cantripsKnown = new IntegerField().withWidth("110px");
-        public IntegerField    spellsKnown   = new IntegerField().withWidth("110px");
-        public IntegerField    spellSlots1   = new IntegerField().withWidth("50px");
-        public IntegerField    spellSlots2   = new IntegerField().withWidth("50px");
-        public IntegerField    spellSlots3   = new IntegerField().withWidth("50px");
-        public IntegerField    spellSlots4   = new IntegerField().withWidth("50px");
-        public IntegerField    spellSlots5   = new IntegerField().withWidth("50px");
-        public IntegerField    spellSlots6   = new IntegerField().withWidth("50px");
-        public IntegerField    spellSlots7   = new IntegerField().withWidth("50px");
-        public IntegerField    spellSlots8   = new IntegerField().withWidth("50px");
-        public IntegerField    spellSlots9   = new IntegerField().withWidth("50px");
+        public FComboBox<Level> level         = new FComboBox<Level>().withEmptySelectionAllowed(false);
+        public IntegerField     cantripsKnown = new DSIntegerField().withWidth("110px");
+        public IntegerField     spellsKnown   = new DSIntegerField().withWidth("110px");
+        public IntegerField     spellSlots1   = new DSIntegerField().withWidth("50px");
+        public IntegerField     spellSlots2   = new DSIntegerField().withWidth("50px");
+        public IntegerField     spellSlots3   = new DSIntegerField().withWidth("50px");
+        public IntegerField     spellSlots4   = new DSIntegerField().withWidth("50px");
+        public IntegerField     spellSlots5   = new DSIntegerField().withWidth("50px");
+        public IntegerField     spellSlots6   = new DSIntegerField().withWidth("50px");
+        public IntegerField     spellSlots7   = new DSIntegerField().withWidth("50px");
+        public IntegerField     spellSlots8   = new DSIntegerField().withWidth("50px");
+        public IntegerField     spellSlots9   = new DSIntegerField().withWidth("50px");
     }
 
     public LevelSpellsCollectionField(Class<T> elementType) {
@@ -53,9 +51,9 @@ public class LevelSpellsCollectionField<T> extends ElementCollectionField<T> {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     private void refreshVisibility() {
         if (isVisible()) {
-            final int nbRows = getLayout().getRows();
+            final int nbRows = gridLayout.getRows();
             for (int row = 0; row < nbRows; row++) {
-                Component c = getLayout().getComponent(2, row);
+                Component c = gridLayout.getComponent(2, row);
                 if (c != null) {
                     if (c instanceof HasValue && !isKnownSpells) {
                         ((HasValue) c).setValue(((HasValue) c).getEmptyValue());

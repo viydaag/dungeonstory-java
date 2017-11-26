@@ -23,6 +23,7 @@ import com.dungeonstory.ui.converter.CollectionToStringConverter;
 import com.dungeonstory.ui.field.LabelField;
 import com.dungeonstory.ui.i18n.Messages;
 import com.vaadin.data.ValueContext;
+import com.vaadin.fluent.ui.FButton;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.VaadinService;
 import com.vaadin.shared.MouseEventDetails.MouseButton;
@@ -168,10 +169,7 @@ public class SpellChoiceForm extends CharacterWizardStepForm<CharacterClass> imp
                     }
 
                     for (Spell cantrip : knownCantrips) {
-                        Button button = new Button(cantrip.getName());
-                        button.setWidth("100%");
-                        button.setStyleName(ValoTheme.BUTTON_LARGE);
-                        button.setData(cantrip);
+                        FButton button = new FButton(cantrip.getName()).withFullWidth().withStyleName(ValoTheme.BUTTON_LARGE).withData(cantrip);
                         knownCantripLayout.addComponent(button);
                     }
 
@@ -236,10 +234,7 @@ public class SpellChoiceForm extends CharacterWizardStepForm<CharacterClass> imp
                         }
 
                         for (Spell spell : knownSpells) {
-                            Button button = new Button(spell.getName());
-                            button.setWidth("100%");
-                            button.setStyleName(ValoTheme.BUTTON_LARGE);
-                            button.setData(spell);
+                            Button button = new FButton(spell.getName()).withFullWidth().withStyleName(ValoTheme.BUTTON_LARGE).withData(spell);
                             knownSpellLayout.addComponent(button);
                         }
 
@@ -265,7 +260,6 @@ public class SpellChoiceForm extends CharacterWizardStepForm<CharacterClass> imp
                         } else {
                             panel.setSecondComponent(knownSpellLayout);
                         }
-
                     }
                 });
 

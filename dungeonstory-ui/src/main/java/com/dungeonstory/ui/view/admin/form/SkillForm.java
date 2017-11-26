@@ -1,12 +1,11 @@
 package com.dungeonstory.ui.view.admin.form;
 
-import org.vaadin.viritin.fields.MTextField;
-
 import com.dungeonstory.backend.data.Ability;
 import com.dungeonstory.backend.data.Skill;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSAbstractForm;
-import com.dungeonstory.ui.component.DSTextArea;
+import com.vaadin.fluent.ui.FTextArea;
+import com.vaadin.fluent.ui.FTextField;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
@@ -18,7 +17,7 @@ public class SkillForm extends DSAbstractForm<Skill> {
     private static final long serialVersionUID = -4123881637907722632L;
 
     private TextField         name;
-    private MTextField        shortDescription;
+    private FTextField        shortDescription;
     private TextArea          description;
     private ComboBox<Ability> keyAbility;
 
@@ -35,9 +34,9 @@ public class SkillForm extends DSAbstractForm<Skill> {
     protected Component createContent() {
         FormLayout layout = new FormLayout();
 
-        name = new MTextField("Nom");
-        shortDescription = new MTextField("Description courte").withFullWidth();
-        description = new DSTextArea("Description").withFullWidth();
+        name = new FTextField("Nom");
+        shortDescription = new FTextField("Description courte").withFullWidth();
+        description = new FTextArea("Description").withFullWidth();
         keyAbility = new ComboBox<Ability>("Attribut clé", Services.getAbilityService().findAll());
 
         layout.addComponent(name);

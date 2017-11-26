@@ -270,14 +270,13 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
 
     @Override
     public E update(E entity) {
-        EntityTransaction transac = entityManager.getTransaction();
-        transac.begin();
+        entityManager.getTransaction().begin();
         try {
             E result = entityManager.merge(entity);
-            transac.commit();
+            entityManager.getTransaction().commit();
             return result;
         } catch (Exception e) {
-            rollback(transac);
+            rollback(entityManager.getTransaction());
             throw e;
         }
     }

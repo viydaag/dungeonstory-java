@@ -7,8 +7,8 @@ import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.LanguageDataService;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.AbstractForm;
-import com.dungeonstory.ui.component.DSTextArea;
 import com.dungeonstory.ui.i18n.Messages;
+import com.vaadin.fluent.ui.FTextArea;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
@@ -24,8 +24,8 @@ public class RaceChoiceForm extends CharacterWizardStepForm<Character> implement
 
     ComboBox<Race>     race;
     ComboBox<Language> language;
-    private DSTextArea raceDescription;
-    private DSTextArea raceTraits;
+    private FTextArea raceDescription;
+    private FTextArea raceTraits;
 
     public RaceChoiceForm() {
         super(Character.class);
@@ -47,11 +47,12 @@ public class RaceChoiceForm extends CharacterWizardStepForm<Character> implement
         race.setEmptySelectionAllowed(false);
         language = new ComboBox<Language>(messages.getMessage("raceStep.extraLanguage.label"));
         language.setVisible(false);
+        language.addValueChangeListener(event -> adjustButtons());
         raceFieldsLayout.addComponents(race, language);
 
         VerticalLayout raceDescriptionLayout = new VerticalLayout();
-        raceDescription = new DSTextArea(messages.getMessage("raceStep.description.label")).withFullWidth().withRows(10);
-        raceTraits = new DSTextArea().withFullWidth().withRows(10);
+        raceDescription = new FTextArea(messages.getMessage("raceStep.description.label")).withFullWidth().withRows(10);
+        raceTraits = new FTextArea().withFullWidth().withRows(10);
 
         race.addValueChangeListener(event -> {
             Race chosenRace = event.getValue();
@@ -89,6 +90,18 @@ public class RaceChoiceForm extends CharacterWizardStepForm<Character> implement
             entity.getLanguages().add(language.getValue());
         }
         entity.getLanguages().addAll(race.getValue().getLanguages());
+    }
+
+    @Override
+    protected void adjustSaveButtonState() {
+        if (isBound()) {
+            boolean valid = getBinder().isValid();
+            boolean requiredFieldsFilled = true;
+            if (language.isVisible() && language.getValue() == null) {
+                requiredFieldsFilled = false;
+            }
+            getSaveButton().setEnabled(requiredFieldsFilled && valid);
+        }
     }
 
 }

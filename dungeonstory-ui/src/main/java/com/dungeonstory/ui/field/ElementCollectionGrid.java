@@ -1,21 +1,22 @@
 package com.dungeonstory.ui.field;
 
 import java.util.ArrayList;
-import java.util.IdentityHashMap;
 import java.util.List;
-
-import org.vaadin.viritin.button.MButton;
 
 import com.dungeonstory.ui.field.listener.ElementAddedListener;
 import com.dungeonstory.ui.field.listener.ElementRemovedListener;
+import com.dungeonstory.ui.i18n.Messages;
+import com.vaadin.data.Binder;
 import com.vaadin.data.provider.DataProvider;
 import com.vaadin.data.provider.ListDataProvider;
+import com.vaadin.fluent.ui.FButton;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.renderers.ButtonRenderer;
+import com.vaadin.ui.themes.ValoTheme;
 
 /**
  * A field suitable for editing collection of referenced objects tied to parent
@@ -29,21 +30,21 @@ import com.vaadin.ui.renderers.ButtonRenderer;
  * must provide an Instantiator.
  * </ul>
  *
- * Elements in the edited collection are modified with BeanFieldGroup. Fields
- * should defined in a class. A simple usage example for editing
- * List&gt;Address&lt; adresses:
+ * Elements in the edited collection are modified with Binder. Fields
+ * should be defined in a class. A simple usage example for editing
+ * List&gt;Address&lt; addresses:
  * <pre><code>
  *  public static class AddressRow {
- *      EnumSelect type = new EnumSelect();
- *      MTextField street = new MTextField();
- *      MTextField city = new MTextField();
- *      MTextField zipCode = new MTextField();
+ *      ComboBox type = new ComboBox();
+ *      TextField street = new FTextField();
+ *      TextField city = new FTextField();
+ *      TextField zipCode = new FTextField();
  *  }
  *
  *  public static class PersonForm&lt;Person&gt; extends AbstractForm {
  *      private final ElementCollectionGrid&lt;Address&gt; addresses
  *              = new ElementCollectionGrid&lt;Address&gt;(Address.class,
- *                      AddressRow.class).withCaption("Addressess");
+ *                      AddressRow.class).withCaption("Addresses");
  *
  * </code></pre>
  *
@@ -61,23 +62,9 @@ public class ElementCollectionGrid<ET> extends AbstractElementCollection<ET, Lis
 
     private static final long serialVersionUID = 3979170822301544331L;
 
-    //    private MTable<ET> table;
     private Grid<ET>             grid;
-    private List<ET>             items = new ArrayList<ET>();
     private ListDataProvider<ET> dataProvider;
     private Button               addButton;
-
-    //    private MButton addButton = new MButton(VaadinIcons.PLUS, new Button.ClickListener() {
-    //
-    //        private static final long serialVersionUID = 6115218255676556647L;
-    //
-    //        @Override
-    //        public void buttonClick(Button.ClickEvent event) {
-    //            addElement(createInstance());
-    //        }
-    //    });
-
-    private IdentityHashMap<ET, MButton> elementToDelButton = new IdentityHashMap<>();
 
     boolean inited = false;
 
@@ -88,11 +75,12 @@ public class ElementCollectionGrid<ET> extends AbstractElementCollection<ET, Lis
     private String disabledDeleteThisElementDescription = "Fill this row to add a new element, currently ignored";
 
     public ElementCollectionGrid(Class<ET> elementType, Class<?> formType) {
-        super(elementType, formType);
+        this(elementType, null, formType);
     }
 
     public ElementCollectionGrid(Class<ET> elementType, Instantiator<ET> i, Class<?> formType) {
         super(elementType, i, formType);
+        setShowStatusLabel(true);
     }
 
     @Override
@@ -104,14 +92,11 @@ public class ElementCollectionGrid<ET> extends AbstractElementCollection<ET, Lis
     @Override
     public void addInternalElement(final ET v) {
         ensureInited();
-        items.add(v);
         dataProvider.refreshAll();
     }
 
     @Override
     public void removeInternalElement(ET v) {
-        items.remove(v);
-        elementToDelButton.remove(v);
         dataProvider.refreshAll();
     }
 
@@ -138,104 +123,83 @@ public class ElementCollectionGrid<ET> extends AbstractElementCollection<ET, Lis
 
     private void ensureInited() {
         if (!inited) {
+            value = new ArrayList<ET>();
             layout.setMargin(false);
-            //            setHeight("300px");
+            layout.addComponent(statusLayout);
 
-            grid = new Grid<ET>(getElementType());
+            grid = new Grid<ET>();
             grid.setWidth(100, Unit.PERCENTAGE);
             grid.setHeightUndefined();
-            dataProvider = DataProvider.ofCollection(items);
+            
+            dataProvider = DataProvider.ofCollection(value);
             grid.setDataProvider(dataProvider);
 
             addButton = new Button(VaadinIcons.PLUS);
             addButton.addClickListener(click -> addElement(createInstance()));
 
-            grid.removeAllColumns();
-            //TODO : add component for each field column with Vaadin 8.1
+            //generate all columns with proper component
             for (String propertyName : getVisibleProperties()) {
-                grid.addColumn(propertyName).setCaption(getPropertyHeader(propertyName));
+                grid.addComponentColumn(pojo -> {
+                    Binder<ET> binder = getBinderFor(pojo);
+                    if (!isAllowEditItems()) {
+                        binder.setReadOnly(true);
+                    }
+                    Component component = (Component) binder.getBinding(propertyName).get().getField();
+                    if (component == null) {
+                        getComponentFor(pojo, propertyName);
+                    }
+                    return component;
+                }).setCaption(getPropertyHeader(propertyName));
+
+                grid.setRowHeight(40);
             }
 
-            //TODO : add better button component with icon with Vaadin 8.1
             if (isAllowRemovingItems()) {
-                grid.addColumn(entity -> "-", new ButtonRenderer<ET>(clickEvent -> removeElement(clickEvent.getItem()))).setCaption("")
-                        .setId("Remove");
+                grid.addComponentColumn(entity -> createDeleteButton(entity)).setWidth(75).setId("Remove");
             }
 
-            //            for (Object propertyId : getVisibleProperties()) {
-            //                grid.addGeneratedColumn(propertyId, new Table.ColumnGenerator() {
-            //
-            //                    private static final long serialVersionUID = 3637140096807147630L;
-            //
-            //                    @Override
-            //                    public Object generateCell(Table source, Object itemId, Object columnId) {
-            //                        Binder<ET> fg = getBinderFor((ET) itemId);
-            //                        if (!isAllowEditItems()) {
-            //                            fg.setReadOnly(true);
-            //                        }
-            //                        Component component = (Component) fg.getBinding((String) columnId).get().getField();
-            //                        if (component == null) {
-            //                            getComponentFor((ET) itemId, columnId.toString());
-            //                        }
-            //                        return component;
-            //                    }
-            //                });
-            //
-            //            }
-            //            ArrayList<Object> cols = new ArrayList<Object>(getVisibleProperties());
-
-            //            if (isAllowRemovingItems()) {
-            //                grid.addGeneratedColumn("__ACTIONS", new Table.ColumnGenerator() {
-            //
-            //                    private static final long serialVersionUID = 492486828008202547L;
-            //
-            //                    @Override
-            //                    public Object generateCell(Table source, final Object itemId, Object columnId) {
-            //
-            //                        MButton b = new MButton(VaadinIcons.TRASH).withListener(new Button.ClickListener() {
-            //
-            //                            private static final long serialVersionUID = -1257102620834362724L;
-            //
-            //                            @Override
-            //                            public void buttonClick(Button.ClickEvent event) {
-            //                                removeElement((ET) itemId);
-            //                            }
-            //                        }).withStyleName(ValoTheme.BUTTON_ICON_ONLY);
-            //                        b.setDescription(getDeleteElementDescription());
-            //
-            //                        if (getDeleteElementStyles() != null) {
-            //                            for (String style : getDeleteElementStyles()) {
-            //                                b.addStyleName(style);
-            //                            }
-            //                        }
-            //
-            //                        elementToDelButton.put((ET) itemId, b);
-            //                        return b;
-            //                    }
-            //                });
-            //                grid.setColumnHeader("__ACTIONS", "");
-            //                cols.add("__ACTIONS");
-            //            }
-
-            //            grid.setVisibleColumns(cols.toArray());
-            //            for (Object property : getVisibleProperties()) {
-            //                grid.setColumnHeader(property, getPropertyHeader(property.toString()));
-            //            }
             layout.addComponent(grid);
             if (isAllowNewItems()) {
                 layout.addComponent(addButton);
             }
+
             inited = true;
         }
+    }
+
+    protected FButton createDeleteButton(ET entity) {
+        FButton button = new FButton(VaadinIcons.TRASH).withClickListener(event -> removeElement(entity))
+                                                       .withStyleName(ValoTheme.BUTTON_ICON_ONLY)
+                                                       .withDescription(getDeleteElementDescription());
+
+        if (getDeleteElementStyles() != null) {
+            for (String style : getDeleteElementStyles()) {
+                button.addStyleName(style);
+            }
+        }
+
+        return button;
+    }
+
+    @Override
+    public void addElement(ET instance) {
+        super.addElement(instance);
+        grid.scrollToEnd();
     }
 
     @Override
     public void clear() {
         if (inited) {
-            items.clear();
-            elementToDelButton.clear();
+            super.clear();
             dataProvider.refreshAll();
         }
+    }
+    
+    @Override
+    protected boolean setValue(List<ET> value, boolean userOriginated) {
+        boolean result = super.setValue(value, userOriginated);
+        dataProvider.refreshAll();
+        return result;
     }
 
     public String getDisabledDeleteElementDescription() {
@@ -250,7 +214,7 @@ public class ElementCollectionGrid<ET> extends AbstractElementCollection<ET, Lis
         return deleteThisElementDescription;
     }
 
-    private String deleteThisElementDescription = "Delete this element";
+    private String deleteThisElementDescription = Messages.getInstance().getMessage("grid.button.delete.description");
 
     public void setDeleteThisElementDescription(String deleteThisElementDescription) {
         this.deleteThisElementDescription = deleteThisElementDescription;
@@ -266,7 +230,7 @@ public class ElementCollectionGrid<ET> extends AbstractElementCollection<ET, Lis
 
     @Override
     public void onElementAdded() {
-        // NOP
+        //nothing
     }
 
     @Override
@@ -325,7 +289,7 @@ public class ElementCollectionGrid<ET> extends AbstractElementCollection<ET, Lis
     @SuppressWarnings("unchecked")
     @Override
     protected Class<List<ET>> getContainerType() {
-        return (Class<List<ET>>) items.getClass();
+        return (Class<List<ET>>) value.getClass();
     }
 
 }
