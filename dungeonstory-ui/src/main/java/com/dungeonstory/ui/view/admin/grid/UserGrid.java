@@ -31,5 +31,7 @@ public class UserGrid extends DSGrid<User> {
         addColumn(User::getRole).setCaption("Role").setId("role").setEditorComponent(roleEditor, User::setRole);
         addColumn(User::getName).setCaption("Nom").setId("name");
         addColumn("email").setCaption("Courriel").setEditorComponent(new TextField());
+
+        setRowHeight(40);
     }
 }
