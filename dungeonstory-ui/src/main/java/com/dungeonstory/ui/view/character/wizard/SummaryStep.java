@@ -2,6 +2,7 @@ package com.dungeonstory.ui.view.character.wizard;
 
 import java.io.File;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -96,6 +97,18 @@ public class SummaryStep
             featureLayout.addComponent(classFeatureLabel);
         }
 
+        //Class specialization features
+        CharacterClass cc = ClassUtil.getCharacterClass(character, wizard.getChosenClass());
+        if (cc.getClassSpecialization() != null) {
+            List<ClassFeature> newClassSpecFeatures = ClassUtil.getClassFeaturesForLevel(cc.getClassSpecialization(),
+                    cc.getClassLevel());
+            if (!newClassSpecFeatures.isEmpty()) {
+                DSLabel classSpecFeatureLabel = new DSLabel(messages.getMessage("summaryStep.classSpecFeature.label"),
+                        collectionConverter.convertToPresentation(newClassSpecFeatures, new ValueContext()));
+                featureLayout.addComponent(classSpecFeatureLabel);
+            }
+        }
+
         if (featureLayout.getComponentCount() > 0) {
             layout.addComponent(featurePanel);
         }
@@ -125,10 +138,9 @@ public class SummaryStep
             DSLabel regionLabel = new DSLabel(messages.getMessage("summaryStep.region.label"), character.getRegion().toString());
             DSLabel backgroundLabel = new DSLabel(messages.getMessage("summaryStep.background.label"),
                     character.getBackground().getBackground().toString());
+            DSLabel goldLabel = new DSLabel(messages.getMessage("summaryStep.startingGold.label"), character.getGold());
             infoLayout.addComponents(image, nameLabel, genderLabel, ageLabel, weightLabel, heightLabel, alignmentLabel,
-                    regionLabel, backgroundLabel);
-
-            //TODO Starting gold
+                    regionLabel, backgroundLabel, goldLabel);
         }
     }
 
@@ -173,7 +185,7 @@ public class SummaryStep
             levelLayout.addComponent(lifePoints);
         } else {
             DSLabel lifePointsLabel = new DSLabel(messages.getMessage("summaryStep.lifePoint.label"),
-                    String.valueOf(nbLifePoints) + "(+" + difLifePoints + ")");
+                    String.valueOf(nbLifePoints) + " (+" + difLifePoints + ")");
             levelLayout.addComponent(lifePointsLabel);
         }
         character.setLifePoints(nbLifePoints);
