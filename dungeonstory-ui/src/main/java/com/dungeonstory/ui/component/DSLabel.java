@@ -62,4 +62,12 @@ public class DSLabel
         setWidth(100, Unit.PERCENTAGE);
     }
 
+    public void setValue(int value) {
+        super.setValue(String.valueOf(value));
+    }
+
+    public void setValue(Object value) {
+        super.setValue(value.toString());
+    }
+
 }
