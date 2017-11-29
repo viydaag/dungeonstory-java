@@ -77,6 +77,7 @@ public class ShopForm extends DSAbstractForm<Shop> {
         shopEquipments.setPropertyHeader("equipment", "Nom");
         shopEquipments.setPropertyHeader("quantity", "Quantité");
         shopEquipments.setPropertyHeader("unitPrice", "Prix à l'unité");
+        shopEquipments.setValue(new ArrayList<>());
 
         getBinder().forMemberField(shopEquipments).withValidator((value, context) -> shopEquipments.isValid()).withValidator(checkDuplicateItems());
 
