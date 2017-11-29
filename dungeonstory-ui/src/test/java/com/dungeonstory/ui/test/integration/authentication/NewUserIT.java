@@ -14,6 +14,8 @@ public class NewUserIT extends IntegrationTestBase {
 
     private LoginPageObject loginPO;
 
+    private static int random = getRandomNumberInRange(1, 100);
+
     @Override
     public void setUp() throws Exception {
         super.setUp();
@@ -29,7 +31,7 @@ public class NewUserIT extends IntegrationTestBase {
         NewUserPageObject newUserPO = loginPO.clickNewUser();
         assertTrue(newUserPO.isVisible());
 
-        newUserPO.enterInfo("test", "test", "test", "test@gmail.com");
+        newUserPO.enterInfo("test" + random, "test", "test", "test@gmail.com");
         newUserPO.submit();
 
         assertTrue(loginPO.isVisible());
@@ -58,7 +60,7 @@ public class NewUserIT extends IntegrationTestBase {
         NewUserPageObject newUserPO = loginPO.clickNewUser();
         assertTrue(newUserPO.isVisible());
 
-        newUserPO.enterInfo("test", "test", "", "test@gmail.com");
+        newUserPO.enterInfo("test" + random, "test", "", "test@gmail.com");
         newUserPO.submit();
 
         // Verify the notification
@@ -76,7 +78,7 @@ public class NewUserIT extends IntegrationTestBase {
         NewUserPageObject newUserPO = loginPO.clickNewUser();
         assertTrue(newUserPO.isVisible());
 
-        newUserPO.enterInfo("test", "", "test", "test@gmail.com");
+        newUserPO.enterInfo("test" + random, "", "test", "test@gmail.com");
         newUserPO.submit();
 
         // Verify the notification
@@ -92,7 +94,7 @@ public class NewUserIT extends IntegrationTestBase {
         NewUserPageObject newUserPO = loginPO.clickNewUser();
         assertTrue(newUserPO.isVisible());
 
-        newUserPO.enterInfo("test", "test", "test", "test");
+        newUserPO.enterInfo("test" + random, "test", "test", "test");
         newUserPO.submit();
 
         // Verify the notification
