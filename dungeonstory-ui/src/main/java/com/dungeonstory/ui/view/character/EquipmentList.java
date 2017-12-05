@@ -3,12 +3,17 @@ package com.dungeonstory.ui.view.character;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.dungeonstory.backend.data.Amulet;
 import com.dungeonstory.backend.data.Armor;
 import com.dungeonstory.backend.data.ArmorType;
+import com.dungeonstory.backend.data.Belt;
+import com.dungeonstory.backend.data.Boot;
+import com.dungeonstory.backend.data.Bracer;
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.CharacterEquipment;
 import com.dungeonstory.backend.data.Equipment.EquipmentType;
 import com.dungeonstory.backend.data.Helmet;
+import com.dungeonstory.backend.data.Ring;
 import com.dungeonstory.backend.data.Weapon;
 import com.dungeonstory.backend.data.WeaponType;
 import com.dungeonstory.backend.data.WeaponType.HandleType;
@@ -40,7 +45,15 @@ public class EquipmentList
 
     private ComboBox<WeaponType.HandleType> handleType;
 
-    public enum WeaponHand {
+    private ComboBox<Ring> ring1;
+
+    private ComboBox<Ring> ring2;
+
+    private ComboBox<Armor> shields;
+
+    private ComboBox<Armor> armors;
+
+    public enum Hand {
         MAIN, SECONDARY
     }
 
@@ -65,7 +78,16 @@ public class EquipmentList
                          .collect(Collectors.toList()));
         equipmentLayout.addComponent(helmets);
 
-        ComboBox<Armor> armors = new ComboBox<>("Armure",
+        ComboBox<Amulet> amulets = new ComboBox<>("Cou",
+                character.getEquipment()
+                         .stream()
+                         .filter(e -> e.getEquipment().getType() == EquipmentType.AMULET)
+                         .map(CharacterEquipment::getEquipment)
+                         .map(e -> (Amulet) e)
+                         .collect(Collectors.toList()));
+        equipmentLayout.addComponent(amulets);
+
+        armors = new ComboBox<>("Armure",
                 character.getEquipment()
                          .stream()
                          .filter(e -> e.getEquipment().getType() == EquipmentType.ARMOR)
@@ -75,6 +97,17 @@ public class EquipmentList
         armors.addValueChangeListener(event -> armorChanged(event.getValue()));
         equipmentLayout.addComponent(armors);
 
+        shields = new ComboBox<>("Bouclier",
+                character.getEquipment()
+                         .stream()
+                         .filter(e -> e.getEquipment().getType() == EquipmentType.ARMOR)
+                         .map(CharacterEquipment::getEquipment)
+                         .map(e -> (Armor) e)
+                         .filter(a -> a.getArmorType().getProficiencyType() == ArmorType.ProficiencyType.SHIELD)
+                         .collect(Collectors.toList()));
+        shields.addValueChangeListener(event -> shieldChanged(event.getValue()));
+        equipmentLayout.addComponent(shields);
+
         mainWeapons = new ComboBox<>("Arme principale",
                 character.getEquipment()
                          .stream()
@@ -82,7 +115,7 @@ public class EquipmentList
                          .map(CharacterEquipment::getEquipment)
                          .map(e -> (Weapon) e)
                          .collect(Collectors.toList()));
-        mainWeapons.addValueChangeListener(event -> weaponChanged(event.getValue(), WeaponHand.MAIN, event.isUserOriginated()));
+        mainWeapons.addValueChangeListener(event -> weaponChanged(event.getValue(), Hand.MAIN, event.isUserOriginated()));
         equipmentLayout.addComponent(mainWeapons);
 
         secondaryWeapons = new ComboBox<>("Arme secondaire (2e main)",
@@ -94,7 +127,7 @@ public class EquipmentList
                          .filter(w -> w.getWeaponType().getSizeType() == SizeType.LIGHT)
                          .collect(Collectors.toList()));
         secondaryWeapons.addValueChangeListener(
-                event -> weaponChanged(event.getValue(), WeaponHand.SECONDARY, event.isUserOriginated()));
+                event -> weaponChanged(event.getValue(), Hand.SECONDARY, event.isUserOriginated()));
         equipmentLayout.addComponent(secondaryWeapons);
 
         handleType = new ComboBox<>("Usage d'arme");
@@ -103,10 +136,62 @@ public class EquipmentList
         handleType.addValueChangeListener(this::manageVersatileWeapon);
         equipmentLayout.addComponent(handleType);
 
+        ComboBox<Bracer> bracers = new ComboBox<>("Gantelet",
+                character.getEquipment()
+                         .stream()
+                         .filter(e -> e.getEquipment().getType() == EquipmentType.BRACER)
+                         .map(CharacterEquipment::getEquipment)
+                         .map(e -> (Bracer) e)
+                         .collect(Collectors.toList()));
+        equipmentLayout.addComponent(bracers);
+
+        ring1 = new ComboBox<>("Anneau main droite",
+                character.getEquipment()
+                         .stream()
+                         .filter(e -> e.getEquipment().getType() == EquipmentType.RING)
+                         .map(CharacterEquipment::getEquipment)
+                         .map(e -> (Ring) e)
+                         .collect(Collectors.toList()));
+        ring1.addValueChangeListener(event -> ringChanged(event.getValue(), Hand.MAIN, event.isUserOriginated()));
+        equipmentLayout.addComponent(ring1);
+
+        ring2 = new ComboBox<>("Anneau main gauche",
+                character.getEquipment()
+                         .stream()
+                         .filter(e -> e.getEquipment().getType() == EquipmentType.RING)
+                         .map(CharacterEquipment::getEquipment)
+                         .map(e -> (Ring) e)
+                         .collect(Collectors.toList()));
+        ring2.addValueChangeListener(event -> ringChanged(event.getValue(), Hand.SECONDARY, event.isUserOriginated()));
+        equipmentLayout.addComponent(ring2);
+
+        ComboBox<Belt> belts = new ComboBox<>("Ceinturon",
+                character.getEquipment()
+                         .stream()
+                         .filter(e -> e.getEquipment().getType() == EquipmentType.BELT)
+                         .map(CharacterEquipment::getEquipment)
+                         .map(e -> (Belt) e)
+                         .collect(Collectors.toList()));
+        equipmentLayout.addComponent(belts);
+
+        ComboBox<Boot> boots = new ComboBox<>("Botte",
+                character.getEquipment()
+                         .stream()
+                         .filter(e -> e.getEquipment().getType() == EquipmentType.BOOT)
+                         .map(CharacterEquipment::getEquipment)
+                         .map(e -> (Boot) e)
+                         .collect(Collectors.toList()));
+        equipmentLayout.addComponent(boots);
+
         layout.addComponents(equipmentStatLayout, equipmentLayout);
         setCompositionRoot(layout);
 
         armorChanged(armors.getValue());
+    }
+
+    private void shieldChanged(Armor value) {
+        secondaryWeapons.setValue(null);
+        weaponChanged(null, Hand.SECONDARY, true);
     }
 
     private void armorChanged(Armor armor) {
@@ -126,7 +211,7 @@ public class EquipmentList
         acLabel.setValue(ac);
     }
 
-    private void weaponChanged(Weapon weapon, WeaponHand hand, boolean userOriginated) {
+    private void weaponChanged(Weapon weapon, Hand hand, boolean userOriginated) {
         if (userOriginated) {
 
             //manage handle
@@ -207,9 +292,8 @@ public class EquipmentList
      * @param weapon : the weapon changed
      * @param hand : main or secondary hand on which the weapon was changed
      */
-    private void manageOneHandWeapon(Weapon weapon, WeaponHand hand) {
+    private void manageOneHandWeapon(Weapon weapon, Hand hand) {
         secondaryWeapons.setReadOnly(false);
-
 
         boolean canUseSameWeapon = true;
         if (weapon != null) {
@@ -223,7 +307,7 @@ public class EquipmentList
                                                         .map(CharacterEquipment::getEquipment)
                                                         .map(e -> (Weapon) e);
 
-        if (hand == WeaponHand.MAIN) {
+        if (hand == Hand.MAIN) {
 
             //if a two-handed weapon was selected and the right hand changes for one-handed weapon, clear the left hand and make it available
             if (secondaryWeapons.getValue() != null
@@ -250,7 +334,7 @@ public class EquipmentList
                 secondaryWeapons.setValue(backup);
             }
 
-        } else if (hand == WeaponHand.SECONDARY) {
+        } else if (hand == Hand.SECONDARY) {
             Weapon backup = mainWeapons.getValue();
             mainWeapons.clear();
             if (canUseSameWeapon) {
@@ -265,19 +349,21 @@ public class EquipmentList
 
     /**
      * Manage two-hand weapon change.
+     * Set both hands with same weapon and clear shield.
      * @param weapon : the weapon changed
      * @param hand : main or secondary hand on which the weapon was changed
      */
-    private void manageTwoHandWeapon(Weapon weapon, WeaponHand hand) {
+    private void manageTwoHandWeapon(Weapon weapon, Hand hand) {
 
-        if (hand == WeaponHand.MAIN) {
+        if (hand == Hand.MAIN) {
             secondaryWeapons.setValue(weapon);
             secondaryWeapons.setReadOnly(true);
-        } else if (hand == WeaponHand.SECONDARY) {
+        } else if (hand == Hand.SECONDARY) {
             mainWeapons.setValue(weapon);
             secondaryWeapons.setReadOnly(true);
         }
-        //TODO remove shield as well
+        shields.clear();
+        shields.setReadOnly(true);
     }
 
     /**
@@ -288,13 +374,54 @@ public class EquipmentList
         if (event.isUserOriginated()) {
             switch (event.getValue()) {
                 case ONE_HANDED:
-                    manageOneHandWeapon(mainWeapons.getValue(), WeaponHand.MAIN);
+                    manageOneHandWeapon(mainWeapons.getValue(), Hand.MAIN);
                     break;
                 case TWO_HANDED:
-                    manageTwoHandWeapon(mainWeapons.getValue(), WeaponHand.MAIN);
+                    manageTwoHandWeapon(mainWeapons.getValue(), Hand.MAIN);
                 case VERSATILE:
                 default:
                     break;
+            }
+        }
+    }
+
+    private void ringChanged(Ring ring, Hand hand, boolean userOriginated) {
+        if (userOriginated) {
+            boolean canUseSameRing = true;
+            if (ring != null) {
+                canUseSameRing = character.getEquipment().stream().filter(e -> e.getEquipment().equals(ring)).anyMatch(
+                        e -> e.getQuantity() > 1);
+            }
+
+            Stream<Ring> availableRingStream = character.getEquipment()
+                                                        .stream()
+                                                        .filter(e -> e.getEquipment().getType() == EquipmentType.RING)
+                                                        .map(CharacterEquipment::getEquipment)
+                                                        .map(e -> (Ring) e);
+
+            if (hand == Hand.MAIN) {
+
+                Ring backup = ring2.getValue();
+                ring2.clear();
+                if (canUseSameRing) {
+                    ring2.setItems(availableRingStream.collect(Collectors.toList()));
+                } else {
+                    //reset items to remove the equipped ring from the other hand
+                    ring2.setItems(availableRingStream.filter(r -> !r.equals(ring)).collect(Collectors.toList()));
+                }
+                ring2.setValue(backup);
+
+            } else if (hand == Hand.SECONDARY) {
+
+                Ring backup = ring1.getValue();
+                ring1.clear();
+                if (canUseSameRing) {
+                    ring1.setItems(availableRingStream.collect(Collectors.toList()));
+                } else {
+                    //reset items to remove the equipped ring from the other hand
+                    ring1.setItems(availableRingStream.filter(r -> !r.equals(ring)).collect(Collectors.toList()));
+                }
+                ring1.setValue(backup);
             }
         }
     }
