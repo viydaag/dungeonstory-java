@@ -10,7 +10,7 @@ public final class Configuration {
     private final String LOG_AS_ADMIN = "logAsAdmin";
     
     private ResourceBundle conf;
-    private static Configuration instance = null;
+    private static Configuration instance;;
     
     public static synchronized Configuration getInstance() {
         if (instance == null) {

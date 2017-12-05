@@ -87,6 +87,7 @@ public abstract class Equipment extends AbstractTimestampEntity {
     @Column(name = "isSellable", nullable = false)
     private boolean isSellable = true;
     
+    @NotNull
     @Min(value = 1)
     @Digits(integer = 9, fraction = 0)
     @Column(name = "basePrice", nullable = false)

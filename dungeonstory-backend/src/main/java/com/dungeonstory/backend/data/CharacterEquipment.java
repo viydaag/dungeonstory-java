@@ -12,6 +12,9 @@ import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 
+import org.eclipse.persistence.annotations.JoinFetch;
+import org.eclipse.persistence.annotations.JoinFetchType;
+
 @Entity
 @IdClass(CharacterEquipmentId.class)
 @Table(name = "CharacterEquipment")
@@ -21,11 +24,13 @@ public class CharacterEquipment implements Serializable {
 
     @Id
     @ManyToOne
+    @JoinFetch(JoinFetchType.INNER)
     @JoinColumn(name = "characterId")
     private Character character;
 
     @Id
     @ManyToOne
+    @JoinFetch(JoinFetchType.INNER)
     @JoinColumn(name = "equipmentId")
     private Equipment equipment;
     

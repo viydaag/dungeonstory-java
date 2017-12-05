@@ -27,6 +27,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import org.eclipse.persistence.annotations.BatchFetch;
+import org.eclipse.persistence.annotations.BatchFetchType;
 import org.eclipse.persistence.annotations.JoinFetch;
 import org.eclipse.persistence.annotations.JoinFetchType;
 import org.eclipse.persistence.annotations.PrivateOwned;
@@ -217,6 +219,7 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
     private Set<ToolType> toolProficiencies;
 
     @OneToMany(mappedBy = "character", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+    @BatchFetch(value = BatchFetchType.JOIN)
     private List<CharacterEquipment> equipment;
 
     @ManyToMany

@@ -75,13 +75,13 @@ public class WeaponType extends AbstractTimestampEntity {
     @Enumerated(EnumType.STRING)
     private RangeType rangeType;
 
-    @Pattern(regexp = "\\d+d\\d+([\\+\\-]\\d+)*")
+    @Pattern(regexp = "^$|(\\d+d\\d+([\\+\\-]\\d+)*)")
     @Column(name = "oneHandBaseDamage")
-    private String oneHandBaseDamage;
+    private String oneHandBaseDamage = null;
 
-    @Pattern(regexp = "\\d+d\\d+([\\+\\-]\\d+)*")
+    @Pattern(regexp = "^$|(\\d+d\\d+([\\+\\-]\\d+)*)")
     @Column(name = "twoHandBaseDamage")
-    private String twoHandBaseDamage;
+    private String twoHandBaseDamage = null;
 
     @NotNull
     @ManyToOne
