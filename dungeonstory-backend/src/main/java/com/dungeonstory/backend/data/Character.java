@@ -19,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -37,7 +38,10 @@ import com.dungeonstory.backend.data.Tool.ToolType;
 
 @Entity
 @Table(name = "DSCharacter")
+@NamedQuery(name = Character.HAS_FEAT, query = "SELECT c FROM Character c JOIN c.feats f WHERE f.id = :featId AND c.id = :characterId")
 public class Character extends AbstractTimestampEntity implements Serializable, HasStats {
+
+    public static final String HAS_FEAT = "hasFeat";
 
     private static final long serialVersionUID = -967001655180847193L;
 

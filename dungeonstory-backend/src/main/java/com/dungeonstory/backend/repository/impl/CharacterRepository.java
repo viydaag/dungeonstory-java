@@ -49,4 +49,11 @@ public class CharacterRepository extends AbstractRepository<Character, Long> {
         }
     }
 
+    public boolean hasFeat(Long characterId, Long featId) {
+        TypedQuery<Character> query = entityManager.createNamedQuery(Character.HAS_FEAT, Character.class);
+        query.setParameter("characterId", characterId);
+        query.setParameter("featId", featId);
+        return !query.getResultList().isEmpty();
+    }
+
 }

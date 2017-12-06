@@ -1,6 +1,7 @@
 package com.dungeonstory.ui.view.character.wizard.form;
 
 import java.util.Arrays;
+import java.util.List;
 
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.Feat;
@@ -110,7 +111,8 @@ public class AbilityScoreUpdateForm
     @Override
     public void afterSetEntity() {
 
-        featChoice.setItems(featService.findAllUnassignedFeats(getEntity()));
+        List<Feat> availableFeats = featService.findAllUnassignedFeats(getEntity());
+        featChoice.setItems(availableFeats);
         featChoice.addValueChangeListener(event -> {
             if (event.getValue() != null) {
                 featDescription.setValue(event.getValue().getDescription());
