@@ -19,7 +19,7 @@ public class CharacterEditForm
 
     @Override
     public String toString() {
-        return "Caractéristique";
+        return "Personnages";
     }
 
     @Override
