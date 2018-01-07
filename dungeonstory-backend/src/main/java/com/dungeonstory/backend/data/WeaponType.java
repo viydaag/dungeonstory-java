@@ -118,6 +118,8 @@ public class WeaponType extends AbstractTimestampEntity {
 
     public WeaponType() {
         super();
+        baseWeight = 0.0;
+        basePrice = 1;
     }
 
     public WeaponType(String name, ProficiencyType proficiencyType, SizeType sizeType, HandleType handleType,
