@@ -3,8 +3,8 @@ package com.dungeonstory.ui.view.admin;
 import org.vaadin.dialogs.ConfirmDialog;
 
 import com.dungeonstory.backend.data.User;
-import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.Services;
+import com.dungeonstory.backend.service.UserDataService;
 import com.dungeonstory.ui.util.ViewConfig;
 import com.dungeonstory.ui.view.admin.grid.UserGrid;
 import com.vaadin.navigator.View;
@@ -21,7 +21,7 @@ public class UserListView extends VerticalLayout implements View {
     private Label    titre;
     private UserGrid grid;
 
-    private DataService<User, Long> service = Services.getUserService();
+    private UserDataService service = Services.getUserService();
 
     public UserListView() {
         grid = new UserGrid();
@@ -35,7 +35,7 @@ public class UserListView extends VerticalLayout implements View {
                 public void run() {
                     User user = clickEvent.getItem();
                     user.setPassword(user.getUsername());
-                    service.update(user);
+                    service.updatePassword(user);
                 }
             });
         }));

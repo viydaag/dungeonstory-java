@@ -40,7 +40,7 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
         entityManager = factory.createEntityManager();
     }
 
-    private void rollback(EntityTransaction transac) {
+    protected void rollback(EntityTransaction transac) {
         if (transac != null && transac.isActive()) {
             transac.rollback();
         }

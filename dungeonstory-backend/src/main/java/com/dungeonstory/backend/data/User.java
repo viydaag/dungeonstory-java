@@ -6,6 +6,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
@@ -16,12 +17,15 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "User")
-@NamedQuery(name = User.findByUsername, query = "SELECT u FROM User u WHERE u.username = :username")
-public class User extends AbstractTimestampEntity {
+@NamedQueries({ @NamedQuery(name = User.findByUsername, query = "SELECT u FROM User u WHERE u.username = :username"),
+        @NamedQuery(name = User.updatePassword, query = "Update User u SET u.password = :password WHERE u.id = :userId") })
+public class User
+        extends AbstractTimestampEntity {
 
     private static final long serialVersionUID = -8735932805533401960L;
 
     public static final String findByUsername = "User.findByUsername";
+    public static final String updatePassword = "User.updatePassword";
 
     public enum UserStatus {
         WAITING_FOR_APPROBATION("En attente"), ACTIVE("Actif"), INACTIVE("Désactivé");
@@ -56,10 +60,12 @@ public class User extends AbstractTimestampEntity {
     private AccessRole role;
 
     @NotNull
+    @Size(min = 1, max = 255)
     @Column(name = "name", nullable = false)
     private String name;
 
     @NotNull
+    @Size(min = 1, max = 255)
     @Pattern(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}$", message = "Le courriel doit suivre le format \"aaaa@domaine.xxx\"")
     @Column(name = "email", nullable = false)
     private String email;

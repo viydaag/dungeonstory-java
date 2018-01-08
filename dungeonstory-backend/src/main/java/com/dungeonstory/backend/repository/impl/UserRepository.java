@@ -30,4 +30,22 @@ public class UserRepository extends AbstractRepository<User, Long> {
         return user;
     }
 
+    public int updatePassword(Long userId, String password) {
+        int result = 0;
+        if (userId == null || password == null) {
+            throw new IllegalArgumentException("userId and password cannot be null while updating password");
+        }
+        TypedQuery<User> query = entityManager.createNamedQuery(User.updatePassword, User.class);
+        query = query.setParameter("password", password).setParameter("userId", userId);
+
+        try {
+            entityManager.getTransaction().begin();
+            result = query.executeUpdate();
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            rollback(entityManager.getTransaction());
+        }
+        return result;
+    }
+
 }

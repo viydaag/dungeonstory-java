@@ -5,7 +5,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
+import java.util.Random;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.Test;
 
 import com.dungeonstory.backend.data.User;
@@ -18,12 +20,13 @@ public class TestUserService {
     public void testMockUserService() {
         MockUserService service = MockUserService.getInstance();
 
+        User user1 = createDummyUser(service, "testUserService");
+
         Collection<User> allUsers = service.findAll();
         assertNotNull(allUsers);
         int size = allUsers.size();
         assertTrue(size > 0);
 
-        User user1 = allUsers.toArray(new User[0])[0];
         user1.setName("My Test Name");
         service.update(user1);
 
@@ -42,12 +45,13 @@ public class TestUserService {
     public void testUserService() throws Exception {
         UserService service = UserService.getInstance();
 
+        User user1 = createDummyUser(service, "testUserService");
+
         Collection<User> allUsers = service.findAll();
         assertNotNull(allUsers);
         int size = allUsers.size();
         assertTrue(size > 0);
 
-        User user1 = allUsers.toArray(new User[0])[0];
         user1.setName("My Test Name");
         service.update(user1);
 
@@ -60,6 +64,32 @@ public class TestUserService {
         assertEquals(size - 1, allUsers.size());
 
         System.out.println(allUsers);
+    }
+
+    @Test
+    public void testUpdatePassword() {
+
+        UserService service = UserService.getInstance();
+        User user = createDummyUser(service, "testUpdatePassword");
+
+        user.setPassword("updatedPassword");
+        User updated = service.updatePassword(user);
+
+        assertEquals(DigestUtils.sha1Hex("updatedPassword"), updated.getPassword());
+
+        service.delete(updated);
+    }
+
+    private User createDummyUser(UserDataService service, String name) {
+        User user = service.create();
+        Random r = new Random();
+        int n = r.ints(1, 100).findFirst().getAsInt();
+        user.setUsername(name + n);
+        user.setName(name);
+        user.setPassword(name);
+        user.setEmail(name + "@test.com");
+        service.create(user);
+        return user;
     }
 
 }
