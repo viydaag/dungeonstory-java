@@ -27,6 +27,7 @@ public class UserView extends VerticalLayout implements View, Translatable {
         form.setSavedHandler(this::save);
         form.setCancelHandler(this::cancel);
         editButton = new Button("Modifier", e -> form.showEditableFields(true));
+        editButton.setDisableOnClick(true);
         addComponents(editButton, form);
     }
 
@@ -48,10 +49,12 @@ public class UserView extends VerticalLayout implements View, Translatable {
         User updated = Services.getUserService().update(user);
         form.showEditableFields(false);
         form.setEntity(updated);
+        editButton.setEnabled(true);
     }
 
     private void cancel(User user) {
         form.showEditableFields(false);
+        editButton.setEnabled(true);
     }
 
 }

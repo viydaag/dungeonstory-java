@@ -58,12 +58,13 @@ public class UserForm
 
         getDeleteButton().setVisible(false);
 
+        adjustSaveButtonState();
+
         return layout;
     }
 
     @Override
     protected void bind() {
-        // TODO Auto-generated method stub
         super.bind();
 
         getBinder().forField(nameEdit).withValidator(new BeanValidator(User.class, "name")).bind(User::getName, User::setName);
