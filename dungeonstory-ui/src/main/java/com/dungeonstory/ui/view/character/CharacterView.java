@@ -48,7 +48,7 @@ public class CharacterView extends VerticalLayout implements View {
         infoForm.setEntity(character);
         tabsheet.addTab(infoForm, "Informations");
 
-        EquipmentList equipment = new EquipmentList(character);
+        EquipmentList2 equipment = new EquipmentList2(character);
         tabsheet.addTab(equipment, "Équipement");
 
         ProficiencyList proficiencies = new ProficiencyList(character);
