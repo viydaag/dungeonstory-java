@@ -1,8 +1,7 @@
 package com.dungeonstory.ui.view.character;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -10,6 +9,7 @@ import com.dungeonstory.backend.data.Armor;
 import com.dungeonstory.backend.data.ArmorType;
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.CharacterEquipment;
+import com.dungeonstory.backend.data.CharacterEquipment.EquipedType;
 import com.dungeonstory.backend.data.Equipment.EquipmentType;
 import com.dungeonstory.backend.data.Ring;
 import com.dungeonstory.backend.data.Weapon;
@@ -20,21 +20,25 @@ import com.dungeonstory.backend.data.WeaponType.SizeType;
 import com.dungeonstory.backend.data.WeaponType.UsageType;
 import com.dungeonstory.backend.data.util.ModifierUtil;
 import com.dungeonstory.backend.rules.Dice;
+import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSLabel;
 import com.vaadin.data.HasValue.ValueChangeEvent;
-import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.fluent.ui.FHorizontalLayout;
 import com.vaadin.shared.ui.dnd.DropEffect;
 import com.vaadin.shared.ui.dnd.EffectAllowed;
-import com.vaadin.ui.AbstractComponent;
+import com.vaadin.shared.ui.grid.DropMode;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Layout;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.components.grid.GridDragSource;
+import com.vaadin.ui.components.grid.GridDropTarget;
+import com.vaadin.ui.dnd.DragSourceExtension;
 import com.vaadin.ui.dnd.DropTargetExtension;
 
 public class EquipmentList2
@@ -62,6 +66,12 @@ public class EquipmentList2
 
     private Grid<CharacterEquipment> equipmentGrid;
 
+    private List<CharacterEquipment> equipmentList;
+
+    private CharacterEquipmentLayout equipedMainWeapon;
+    private CharacterEquipmentLayout equipedSecondaryWeapon;
+    private CharacterEquipmentLayout equipedTwoHandWeapon;
+
     public enum Hand {
         MAIN, SECONDARY
     }
@@ -77,23 +87,113 @@ public class EquipmentList2
         attackLabel = new DSLabel().withCaption("Attaque");
         HorizontalLayout equipmentStatLayout = new HorizontalLayout(acLabel, attackLabel);
 
-        equipmentGrid = new Grid<>("Équipement",
-                character.getEquipment()
-                         .stream()
-                         .collect(Collectors.toList()));
+        equipmentList = character.getEquipment().stream().filter(equip -> !equip.isEquiped()).collect(Collectors.toList());
+        equipmentGrid = new Grid<CharacterEquipment>("Équipement", equipmentList);
         equipmentGrid.addColumn(e -> e.getEquipment().getName());
-        equipmentGrid.addColumn(e -> e.getQuantity());
+        equipmentGrid.setWidth("100%");
 
         createDragSource(equipmentGrid);
+        createDropSource(equipmentGrid);
 
         layout.addComponents(equipmentStatLayout, equipmentGrid);
 
         VerticalLayout equipedLayout = new VerticalLayout();
 
-        VerticalLayout equipedArmor = new VerticalLayout();
+        //Armor
+        CharacterEquipmentLayout equipedArmor = new CharacterEquipmentLayout(EquipedType.ARMOR, new VerticalLayout(),
+                isArmor());
+        character.getEquipment()
+                 .stream()
+                 .filter(eq -> eq.isEquiped() && eq.getType() == EquipedType.ARMOR)
+                 .findFirst()
+                 .ifPresent(eq -> equipedArmor.setEquipment(eq));
 
+        createDropSource(equipedArmor);
+
+        Panel armorPanel = new Panel("Armure", equipedArmor);
+        equipedLayout.addComponent(armorPanel);
+
+        //Weapons
+        equipedMainWeapon = new CharacterEquipmentLayout(EquipedType.MAIN_WEAPON, new VerticalLayout(),
+                isOneHandMainWeapon());
+        equipedSecondaryWeapon = new CharacterEquipmentLayout(EquipedType.SECONDARY_WEAPON, new VerticalLayout(),
+                isOneHandSecondaryWeapon());
+        equipedTwoHandWeapon = new CharacterEquipmentLayout(EquipedType.TWO_HAND_WEAPON, new VerticalLayout(),
+                isTwoHandWeapon());
+        VerticalLayout equipedWeapons = new VerticalLayout(equipedMainWeapon, equipedSecondaryWeapon,
+                equipedTwoHandWeapon);
+        character.getEquipment()
+                 .stream()
+                 .filter(eq -> eq.isEquiped() && eq.getType() == EquipedType.MAIN_WEAPON)
+                 .findFirst()
+                 .ifPresent(eq -> equipedMainWeapon.setEquipment(eq));
+        character.getEquipment()
+                 .stream()
+                 .filter(eq -> eq.isEquiped() && eq.getType() == EquipedType.SECONDARY_WEAPON)
+                 .findFirst()
+                 .ifPresent(eq -> equipedSecondaryWeapon.setEquipment(eq));
+        character.getEquipment()
+                 .stream()
+                 .filter(eq -> eq.isEquiped() && eq.getType() == EquipedType.TWO_HAND_WEAPON)
+                 .findFirst()
+                 .ifPresent(eq -> equipedTwoHandWeapon.setEquipment(eq));
+
+        createDropSource(equipedMainWeapon);
+        createDropSource(equipedSecondaryWeapon);
+        createDropSource(equipedTwoHandWeapon);
+
+        Panel weaponPanel = new Panel("Armes", equipedWeapons);
+        equipedLayout.addComponent(weaponPanel);
+
+        hLayout.addComponents(layout, equipedLayout);
+        setCompositionRoot(hLayout);
+
+    }
+
+    private void createDropSource(Grid<CharacterEquipment> grid) {
+        GridDropTarget<CharacterEquipment> dropTarget = new GridDropTarget<>(grid, DropMode.BETWEEN);
+        dropTarget.setDropEffect(DropEffect.MOVE);
+
+        // do not show drop target between rows when grid has been sorted
+        //        dropTarget.setDropAllowedOnSortedGridRows(false);
+
+        dropTarget.addGridDropListener(event -> {
+            // Accepting dragged items from another Grid in the same UI
+            event.getDragSourceComponent().ifPresent(source -> {
+                if (source instanceof Label) {
+                    Label equipLabel = (Label) source;
+                    CharacterEquipment data = (CharacterEquipment) equipLabel.getData();
+
+                    //unequip the item
+                    character.getEquipment().stream().filter(eq -> eq.equals(data)).findFirst().ifPresent(eq -> eq.setType(null));
+
+                    // Calculate the target row's index
+                    //                    int index = equipmentList.size();
+                    //                    if (event.getDropTargetRow().isPresent()) {
+                    //                        index = equipmentList.indexOf(event.getDropTargetRow().get()) + (
+                    //                            event.getDropLocation() == DropLocation.BELOW ? 1 : 0);
+                    //                    }
+
+                    //remove label from its source layout
+                    CharacterEquipmentLayout container = equipLabel.findAncestor(CharacterEquipmentLayout.class);
+                    if (container != null) {
+                        container.removeEquipment();
+                    }
+
+                    // Add dragged items to the target Grid
+                    Services.getCharacterService().update(character);
+                    refreshEquipmentGrid();
+
+                    // Show the dropped data
+                    Notification.show("Dropped row data: " + event.getDataTransferText());
+                }
+            });
+        });
+    }
+
+    private void createDropSource(CharacterEquipmentLayout dropSource) {
         // make the layout accept drops
-        DropTargetExtension<VerticalLayout> dropTarget = new DropTargetExtension<>(equipedArmor);
+        DropTargetExtension<CharacterEquipmentLayout> dropTarget = new DropTargetExtension<>(dropSource);
 
         // the drop effect must match the allowed effect in the drag source for a successful drop
         dropTarget.setDropEffect(DropEffect.MOVE);
@@ -104,45 +204,106 @@ public class EquipmentList2
         // catch the drops
         dropTarget.addDropListener(event -> {
             // if the drag source is in the same UI as the target
-            Optional<AbstractComponent> theDragSource = event.getDragSourceComponent();
-            if (theDragSource.isPresent()) {
-                // move the label to the layout
-                event.getDragData()
-                     .ifPresent(data -> handleWearing(equipedArmor, EquipmentType.ARMOR,
-                             ((List<CharacterEquipment>) data).get(0)));
+            event.getDragSourceExtension().ifPresent(source -> {
+                if (source instanceof GridDragSource) {
+                    // move the grid row to a new label to the layout
+                    event.getDragData()
+                         .ifPresent(
+                                 data -> handleEquipmentChanged(dropSource, ((List<CharacterEquipment>) data).get(0)));
+                }
+                else {
+                    //from label -> exchange equipment
+                    event.getDragSourceComponent().ifPresent(dragSourceComponent -> {
+                        if (dragSourceComponent instanceof Label) {
+                        
+                            Label equipLabel = (Label) dragSourceComponent;
+                            CharacterEquipment newEquipment = (CharacterEquipment) equipLabel.getData();
+                            CharacterEquipment oldEquipment = dropSource.getEquipment();
+
+                            CharacterEquipmentLayout oldContainer = equipLabel.findAncestor(
+                                    CharacterEquipmentLayout.class);
+
+                            if ((oldContainer.getAcceptCriteria() == null
+                                    || oldContainer.getAcceptCriteria().test(oldEquipment))
+                                    && (dropSource.getAcceptCriteria() == null
+                                            || dropSource.getAcceptCriteria().test(newEquipment))) {
+
+                                if (oldContainer != null) {
+                                    oldContainer.setEquipment(oldEquipment);
+                                }
+
+                                dropSource.setEquipment(newEquipment);
+                            }
+
+                            Services.getCharacterService().update(character);
+                        }
+                    });
+                }
 
                 // handle possible server side drag data, if the drag source was in the same UI
                 //                event.getDragData().ifPresent(data -> handleMyDragData((MyObject) data));
-            }
+            });
+            
         });
-
-        Panel armorPanel = new Panel("Armure", equipedArmor);
-        equipedLayout.addComponent(armorPanel);
-
-        hLayout.addComponents(layout, equipedLayout);
-        setCompositionRoot(hLayout);
-
     }
 
-    private void handleWearing(VerticalLayout layout, EquipmentType type, CharacterEquipment data) {
-        if (type == data.getEquipment().getType()) {
-            layout.addComponent(new Label(data.getEquipment().getName()));
+    private void handleEquipmentChanged(CharacterEquipmentLayout layout, CharacterEquipment data) {
+        if (layout.getAcceptCriteria() == null || layout.getAcceptCriteria().test(data)) {
+            
+            if (layout.isEquiped()) {
+                CharacterEquipment oldEquip = layout.getEquipment();
+                character.getEquipment().stream().filter(eq -> eq.equals(oldEquip)).findFirst().ifPresent(eq -> eq.setType(null));
+            }
 
-            //substract 1 from available equipment
-            Collection<CharacterEquipment> currentEquipment = ((ListDataProvider<CharacterEquipment>) equipmentGrid.getDataProvider()).getItems();
-            currentEquipment.stream().filter(ce -> ce.equals(data)).findFirst().ifPresent(item -> {
-                item.substractQuantity(1);
-                if (item.getQuantity() <= 0) {
-                    currentEquipment.remove(item);
-                }
-            });
+            layout.setEquipment(data);
 
-            equipmentGrid.setItems(currentEquipment);
+            //            Label equipmentLabel = new Label(data.getEquipment().getName());
+            //            equipmentLabel.setData(data);
+            //            if (layout.getType().getName() != null) {
+            //                equipmentLabel.setCaption(layout.getType().getName());
+            //            }
+            //
+            //            if (limit == 1) {
+            //
+            //                if (layout.getComponentCount() > 0) {
+            //                    //replace equiped equipement
+            //                    Label old = (Label) layout.getComponent(0);
+            //                    CharacterEquipment oldEquip = (CharacterEquipment) old.getData();
+            //                    layout.replaceComponent(old, equipmentLabel);
+            //                    oldEquip.setType(null); //unequiped
+            //                    character.getEquipment().stream().filter(eq -> eq.equals(oldEquip)).findFirst().ifPresent(
+            //                            eq -> eq.setType(null));
+            //                } else {
+            //                    layout.addComponent(equipmentLabel);
+            //                }
+            //
+            //                data.setType(layout.getType());
+            //                createDragSource(equipmentLabel);
+            //            }
+
+            if (data.getEquipment().getType() == EquipmentType.ARMOR) {
+                armorChanged((Armor) data.getEquipment());
+            }
+
+            character.getEquipment().stream().filter(eq -> eq.equals(data)).findFirst().ifPresent(
+                    eq -> eq.setType(layout.getType()));
+            Services.getCharacterService().update(character);
+            refreshEquipmentGrid();
         }
     }
 
+    private void refreshEquipmentGrid() {
+        equipmentList.clear();
+        equipmentList.addAll(character.getEquipment()
+                                      .stream()
+                                      .filter(equip -> !equip.isEquiped())
+                                      .sorted((e1, e2) -> e1.getEquipment().getName().compareTo(e2.getEquipment().getName()))
+                                      .collect(Collectors.toList()));
+        equipmentGrid.getDataProvider().refreshAll();
+    }
+
     private void createDragSource(Grid<?> source) {
-        GridDragSource<?> dragSource = new GridDragSource(source);
+        GridDragSource<?> dragSource = new GridDragSource<>(source);
 
         // set allowed effects
         dragSource.setEffectAllowed(EffectAllowed.MOVE);
@@ -150,9 +311,19 @@ public class EquipmentList2
         dragSource.addGridDragStartListener(event -> dragSource.setDragData(event.getDraggedItems()));
         dragSource.addGridDragEndListener(event -> dragSource.setDragData(null));
     }
+    
+    private void createDragSource(Label label) {
+        DragSourceExtension<Label> dragSource = new DragSourceExtension<>(label);
+
+        // set allowed effects
+        dragSource.setEffectAllowed(EffectAllowed.MOVE);
+
+        dragSource.addDragStartListener(event -> dragSource.setDragData(label.getData()));
+        dragSource.addDragEndListener(event -> dragSource.setDragData(null));
+    }
 
     private void shieldChanged(Armor value) {
-        secondaryWeapons.setValue(null);
+        equipedSecondaryWeapon.removeEquipment();
         weaponChanged(null, Hand.SECONDARY, true);
     }
 
@@ -258,10 +429,10 @@ public class EquipmentList2
         secondaryWeapons.setReadOnly(false);
 
         boolean canUseSameWeapon = true;
-        if (weapon != null) {
-            canUseSameWeapon = character.getEquipment().stream().filter(e -> e.getEquipment().equals(weapon)).anyMatch(
-                    e -> e.getQuantity() > 1);
-        }
+        //        if (weapon != null) {
+        //            canUseSameWeapon = character.getEquipment().stream().filter(e -> e.getEquipment().equals(weapon)).anyMatch(
+        //                    e -> e.getQuantity() > 1);
+        //        }
 
         Stream<Weapon> availableWeaponStream = character.getEquipment()
                                                         .stream()
@@ -350,10 +521,10 @@ public class EquipmentList2
     private void ringChanged(Ring ring, Hand hand, boolean userOriginated) {
         if (userOriginated) {
             boolean canUseSameRing = true;
-            if (ring != null) {
-                canUseSameRing = character.getEquipment().stream().filter(e -> e.getEquipment().equals(ring)).anyMatch(
-                        e -> e.getQuantity() > 1);
-            }
+            //            if (ring != null) {
+            //                canUseSameRing = character.getEquipment().stream().filter(e -> e.getEquipment().equals(ring)).anyMatch(
+            //                        e -> e.getQuantity() > 1);
+            //            }
 
             Stream<Ring> availableRingStream = character.getEquipment()
                                                         .stream()
@@ -385,6 +556,101 @@ public class EquipmentList2
                 }
                 ring1.setValue(backup);
             }
+        }
+    }
+    
+    public static Predicate<CharacterEquipment> isOneHandMainWeapon() {
+        return ce -> {
+            if (ce.getEquipment().getType() == EquipmentType.WEAPON) {
+                Weapon w = (Weapon) ce.getEquipment();
+                return w.getWeaponType().getHandleType() == HandleType.ONE_HANDED
+                        || w.getWeaponType().getHandleType() == HandleType.VERSATILE;
+            }
+            return false;
+        };
+    }
+
+    public static Predicate<CharacterEquipment> isArmor() {
+        return ce -> ce.getEquipment().getType() == EquipmentType.ARMOR;
+    }
+
+    public static Predicate<CharacterEquipment> isOneHandSecondaryWeapon() {
+        return ce -> {
+            //TODO handle null ce
+            if (ce.getEquipment().getType() == EquipmentType.WEAPON) {
+                Weapon w = (Weapon) ce.getEquipment();
+                return w.getWeaponType().getSizeType() == SizeType.LIGHT //TODO : unless a special feat lets other weapon
+                        && (w.getWeaponType().getHandleType() == HandleType.ONE_HANDED
+                                || w.getWeaponType().getHandleType() == HandleType.VERSATILE);
+            }
+            return false;
+        };
+    }
+
+    public static Predicate<CharacterEquipment> isTwoHandWeapon() {
+        return ce -> {
+            if (ce.getEquipment().getType() == EquipmentType.WEAPON) {
+                Weapon w = (Weapon) ce.getEquipment();
+                return w.getWeaponType().getHandleType() == HandleType.TWO_HANDED;
+            }
+            return false;
+        };
+    }
+
+    class CharacterEquipmentLayout
+            extends CustomComponent {
+        
+        private static final long serialVersionUID = -6167944474147894309L;
+        private Layout             layout;
+        private EquipedType type;
+        private CharacterEquipment equipment;
+        private Label              equipmentLabel;
+        private Predicate<CharacterEquipment> acceptCriteria;
+
+        public CharacterEquipmentLayout(EquipedType type, Layout layout, Predicate<CharacterEquipment> acceptCriteria) {
+            this.type = type;
+            this.layout = layout;
+            this.acceptCriteria = acceptCriteria;
+            this.equipmentLabel = new Label();
+            if (type.getName() != null) {
+                this.equipmentLabel.setCaption(type.getName());
+            }
+            createDragSource(equipmentLabel);
+            this.layout.addComponent(equipmentLabel);
+            setCompositionRoot(layout);
+        }
+
+        public EquipedType getType() {
+            return type;
+        }
+
+        public CharacterEquipment getEquipment() {
+            return equipment;
+        }
+
+        public void setEquipment(CharacterEquipment data) {
+
+            equipmentLabel.setValue(data.getEquipment().getName());
+            equipmentLabel.setData(data);
+            if (type.getName() != null) {
+                equipmentLabel.setCaption(type.getName());
+            }
+
+            this.equipment = data;
+            this.equipment.setType(getType());
+        }
+        
+        public void removeEquipment() {
+            equipmentLabel.setValue("");
+            equipment = null;
+        }
+
+        public boolean isEquiped() {
+            return this.getEquipment() != null;
+        }
+
+        public Predicate<CharacterEquipment> getAcceptCriteria() {
+            return acceptCriteria;
         }
     }
 
