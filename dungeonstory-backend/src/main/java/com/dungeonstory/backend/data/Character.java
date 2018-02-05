@@ -222,9 +222,9 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
     @Column(name = "toolType", nullable = false)
     private Set<ToolType> toolProficiencies;
 
-    @OneToMany(mappedBy = "character", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
+    @OneToMany(mappedBy = "character", cascade = { CascadeType.ALL }, orphanRemoval = true)
     @BatchFetch(value = BatchFetchType.JOIN)
-    private List<CharacterEquipment> equipment;
+    private Set<CharacterEquipment> equipment;
 
     @ManyToMany
     @JoinTable(name = "CharacterFavoredEnnemy", joinColumns = {
@@ -261,7 +261,7 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
         classes = new HashSet<CharacterClass>();
         feats = new HashSet<Feat>();
         skillProficiencies = new HashSet<Skill>();
-        equipment = new ArrayList<CharacterEquipment>();
+        equipment = new HashSet<CharacterEquipment>();
         languages = new HashSet<Language>();
         favoredEnnemies = new ArrayList<CreatureType>();
         favoredTerrains = new HashSet<Terrain>();
@@ -451,11 +451,11 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
         this.toolProficiencies = toolProficiencies;
     }
 
-    public List<CharacterEquipment> getEquipment() {
+    public Set<CharacterEquipment> getEquipment() {
         return equipment;
     }
 
-    public void setEquipment(List<CharacterEquipment> equipment) {
+    public void setEquipment(Set<CharacterEquipment> equipment) {
         this.equipment = equipment;
     }
 

@@ -10,18 +10,13 @@ import com.dungeonstory.ui.authentication.CurrentUser;
 import com.dungeonstory.ui.component.DSLabel;
 import com.dungeonstory.ui.event.CharacterUpdatedEvent;
 import com.dungeonstory.ui.event.EventBus;
-import com.dungeonstory.ui.field.DSIntegerField;
-import com.dungeonstory.ui.field.IntegerField;
 import com.dungeonstory.ui.util.DSTheme;
 import com.vaadin.fluent.ui.FButton;
-import com.vaadin.icons.VaadinIcons;
 import com.vaadin.shared.MouseEventDetails.MouseButton;
 import com.vaadin.shared.Registration;
-import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
@@ -39,14 +34,14 @@ public class EquipmentItem
 
     private CharacterEquipment item;
 
-    private IntegerField sellQuantityField;
+    //    private IntegerField sellQuantityField;
     private Label        valueLabel;
-    private Label        totalValueLabel;
-    private Label        stockQuantityLabel;
+    //    private Label        totalValueLabel;
+    //    private Label        stockQuantityLabel;
 
     private Button sellButton;
-    private Button minusButton;
-    private Button plusButton;
+    //    private Button minusButton;
+    //    private Button plusButton;
 
 
 
@@ -60,21 +55,21 @@ public class EquipmentItem
         layout.setWidth(100, Unit.PERCENTAGE);
 
         Label itemName = new DSLabel(this.item.getEquipment().getName()).withStyleName(ValoTheme.LABEL_SMALL);
-        stockQuantityLabel = new DSLabel(String.valueOf(this.item.getQuantity())).withStyleName(DSTheme.TEXT_CENTER_ALIGNED,
-                ValoTheme.LABEL_SMALL);
-
-        sellQuantityField = new DSIntegerField().withValue(0).withWidth("50px").withStyleName(ValoTheme.TEXTFIELD_SMALL);
-        sellQuantityField.setAllowNegative(false);
-        sellQuantityField.addValueChangeListener(event -> {
-            adjustTotalValue();
-            checkSellButtonAvailibility();
-            adjustMinusButton();
-            adjustPlusButton();
-        });
+        //        stockQuantityLabel = new DSLabel(String.valueOf(this.item.getQuantity())).withStyleName(DSTheme.TEXT_CENTER_ALIGNED,
+        //                ValoTheme.LABEL_SMALL);
+        //
+        //        sellQuantityField = new DSIntegerField().withValue(0).withWidth("50px").withStyleName(ValoTheme.TEXTFIELD_SMALL);
+        //        sellQuantityField.setAllowNegative(false);
+        //        sellQuantityField.addValueChangeListener(event -> {
+        //            adjustTotalValue();
+        //            checkSellButtonAvailibility();
+        //            adjustMinusButton();
+        //            adjustPlusButton();
+        //        });
 
         valueLabel = new DSLabel(String.valueOf(this.item.getSellableValue())).withStyleName(DSTheme.TEXT_CENTER_ALIGNED,
                 ValoTheme.LABEL_SMALL);
-        totalValueLabel = new DSLabel().withStyleName(DSTheme.TEXT_CENTER_ALIGNED, ValoTheme.LABEL_SMALL);
+        //        totalValueLabel = new DSLabel().withStyleName(DSTheme.TEXT_CENTER_ALIGNED, ValoTheme.LABEL_SMALL);
 
         itemName.addContextClickListener(event -> {
             if (event != null && event.getButton() == MouseButton.RIGHT) {
@@ -82,48 +77,48 @@ public class EquipmentItem
             }
         });
 
-        minusButton = new FButton(VaadinIcons.MINUS).withStyleName(ValoTheme.BUTTON_SMALL);
-        minusButton.addClickListener(event -> {
-            substract(sellQuantityField, 1);
-            adjustTotalValue();
-            //            checkSellButtonAvailibility();
-            //            adjustMinusButton();
-            //            adjustPlusButton();
-        });
+        //        minusButton = new FButton(VaadinIcons.MINUS).withStyleName(ValoTheme.BUTTON_SMALL);
+        //        minusButton.addClickListener(event -> {
+        //            substract(sellQuantityField, 1);
+        //            adjustTotalValue();
+        //            //            checkSellButtonAvailibility();
+        //            //            adjustMinusButton();
+        //            //            adjustPlusButton();
+        //        });
 
-        plusButton = new FButton(VaadinIcons.PLUS).withStyleName(ValoTheme.BUTTON_SMALL);
-        plusButton.addClickListener(event -> {
-            add(sellQuantityField, 1);
-            adjustTotalValue();
-            //            checkSellButtonAvailibility();
-            //            adjustMinusButton();
-        });
+        //        plusButton = new FButton(VaadinIcons.PLUS).withStyleName(ValoTheme.BUTTON_SMALL);
+        //        plusButton.addClickListener(event -> {
+        //            add(sellQuantityField, 1);
+        //            adjustTotalValue();
+        //            //            checkSellButtonAvailibility();
+        //            //            adjustMinusButton();
+        //        });
 
         sellButton = new FButton("Vendre").withStyleName(ValoTheme.BUTTON_SMALL);
         sellButton.addClickListener(event -> {
-            int quantity = sellQuantityField.getValue();
-            ShopRules.sellItem(CurrentUser.get().getCharacter(), shop, item, quantity);
+            //            int quantity = sellQuantityField.getValue();
+            ShopRules.sellItem(CurrentUser.get().getCharacter(), shop, item);
             EventBus.post(new CharacterUpdatedEvent());
-            substract(stockQuantityLabel, quantity);
+            //            substract(stockQuantityLabel, quantity);
             fireEvent(new ItemSoldEvent(this, item));
         });
 
-        adjustTotalValue();
-        adjustMinusButton();
-        adjustPlusButton();
+        //        adjustTotalValue();
+        //        adjustMinusButton();
+        //        adjustPlusButton();
         checkSellButtonAvailibility();
 
-        CssLayout quantityLayout = new CssLayout(minusButton, sellQuantityField, plusButton);
-        quantityLayout.addStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
+        //        CssLayout quantityLayout = new CssLayout(minusButton, sellQuantityField, plusButton);
+        //        quantityLayout.addStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
 
         layout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-        layout.addComponents(valueLabel, itemName, stockQuantityLabel, quantityLayout, totalValueLabel, sellButton);
+        layout.addComponents(valueLabel, itemName, sellButton);
         layout.setComponentAlignment(sellButton, Alignment.MIDDLE_RIGHT);
         layout.setExpandRatio(itemName, 4);
         layout.setExpandRatio(valueLabel, 1);
-        layout.setExpandRatio(stockQuantityLabel, 1);
-        layout.setExpandRatio(quantityLayout, 0);
-        layout.setExpandRatio(totalValueLabel, 1);
+        //        layout.setExpandRatio(stockQuantityLabel, 1);
+        //        layout.setExpandRatio(quantityLayout, 0);
+        //        layout.setExpandRatio(totalValueLabel, 1);
         layout.setExpandRatio(sellButton, 0);
         panel.setContent(layout);
 
@@ -132,28 +127,28 @@ public class EquipmentItem
         //TODO : listener on user value changed for buyQuantityField 
     }
 
-    private void adjustTotalValue() {
-        if (sellQuantityField.getValue() != null) {
-            totalValueLabel.setValue(
-                    String.valueOf(calculateSellValue(sellQuantityField.getValue(), this.item.getSellableValue())));
-        } else {
-            totalValueLabel.setValue(String.valueOf(0));
-        }
-    }
+    //    private void adjustTotalValue() {
+    //        if (sellQuantityField.getValue() != null) {
+    //            totalValueLabel.setValue(
+    //                    String.valueOf(calculateSellValue(sellQuantityField.getValue(), this.item.getSellableValue())));
+    //        } else {
+    //            totalValueLabel.setValue(String.valueOf(0));
+    //        }
+    //    }
 
-    private void adjustMinusButton() {
-        minusButton.setEnabled(sellQuantityField.getValue() != null && sellQuantityField.getValue() > 0);
-    }
+    //    private void adjustMinusButton() {
+    //        minusButton.setEnabled(sellQuantityField.getValue() != null && sellQuantityField.getValue() > 0);
+    //    }
+    //
+    //    private void adjustPlusButton() {
+    //        plusButton.setEnabled(sellQuantityField.getValue() == null
+    //                || (stockQuantityLabel.getValue() != null && sellQuantityField.getValue() != null
+    //                        && sellQuantityField.getValue() <= Integer.parseInt(stockQuantityLabel.getValue())));
+    //    }
 
-    private void adjustPlusButton() {
-        plusButton.setEnabled(sellQuantityField.getValue() == null
-                || (stockQuantityLabel.getValue() != null && sellQuantityField.getValue() != null
-                        && sellQuantityField.getValue() <= Integer.parseInt(stockQuantityLabel.getValue())));
-    }
-
-    private int calculateSellValue(int sellQuantity, int value) {
-        return sellQuantity * value;
-    }
+    //    private int calculateSellValue(int sellQuantity, int value) {
+    //        return sellQuantity * value;
+    //    }
 
     private void showItemWindow() {
         //        Messages messages = Messages.getInstance();
@@ -176,31 +171,32 @@ public class EquipmentItem
     }
 
     private void checkSellButtonAvailibility() {
-        if (sellQuantityField.getValue() != null) {
-            int total = sellQuantityField.getValue() * Integer.parseInt(valueLabel.getValue());
-            sellButton.setEnabled(total > 0);
-        } else {
-            sellButton.setEnabled(false);
-        }
+        //        if (sellQuantityField.getValue() != null) {
+        //            int total = sellQuantityField.getValue() * Integer.parseInt(valueLabel.getValue());
+        //            sellButton.setEnabled(total > 0);
+        //        } else {
+        //            sellButton.setEnabled(false);
+        //        }
+        sellButton.setEnabled(this.item.getEquipment().getIsSellable());
     }
 
-    @SuppressWarnings("unchecked")
-    private void substract(Component c, int value) {
-        if (c instanceof AbstractField) {
-            ((AbstractField<Integer>) c).setValue(((AbstractField<Integer>) c).getValue() - value);
-        } else if (c instanceof Label) {
-            ((Label) c).setValue(String.valueOf(Integer.parseInt(((Label) c).getValue()) - value));
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    private void add(Component c, int value) {
-        if (c instanceof AbstractField) {
-            ((AbstractField<Integer>) c).setValue(((AbstractField<Integer>) c).getValue() + value);
-        } else if (c instanceof Label) {
-            ((Label) c).setValue(String.valueOf(Integer.parseInt(((Label) c).getValue()) + value));
-        }
-    }
+    //    @SuppressWarnings("unchecked")
+    //    private void substract(Component c, int value) {
+    //        if (c instanceof AbstractField) {
+    //            ((AbstractField<Integer>) c).setValue(((AbstractField<Integer>) c).getValue() - value);
+    //        } else if (c instanceof Label) {
+    //            ((Label) c).setValue(String.valueOf(Integer.parseInt(((Label) c).getValue()) - value));
+    //        }
+    //    }
+    //
+    //    @SuppressWarnings("unchecked")
+    //    private void add(Component c, int value) {
+    //        if (c instanceof AbstractField) {
+    //            ((AbstractField<Integer>) c).setValue(((AbstractField<Integer>) c).getValue() + value);
+    //        } else if (c instanceof Label) {
+    //            ((Label) c).setValue(String.valueOf(Integer.parseInt(((Label) c).getValue()) + value));
+    //        }
+    //    }
 
     public Registration addSellItemListener(SellItemListener listener) {
         return addListener(ItemSoldEvent.class, listener, SellItemListener.ITEM_SOLD_METHOD);

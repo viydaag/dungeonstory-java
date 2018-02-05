@@ -117,24 +117,24 @@ public class ShopView
         FHorizontalLayout sellHeaderLayout = new FHorizontalLayout().withDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
         Label itemName = new DSLabel("Item");
         Label stockQuantityLabel = new DSLabel("Stock").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
-        Label buyQuantityLabel = new DSLabel("Quantité vente").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
+        //        Label buyQuantityLabel = new DSLabel("Quantité vente").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
         Label unitPriceLabel = new DSLabel("Valeur unit.");
-        Label totalPriceLabel = new DSLabel("Valeur total").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
-        Label minusLabel = new DSLabel("").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
-        Label plusLabel = new DSLabel("").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
-        Label buyLabel = new DSLabel("").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
+        //        Label totalPriceLabel = new DSLabel("Valeur total").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
+        //        Label minusLabel = new DSLabel("").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
+        //        Label plusLabel = new DSLabel("").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
+        Label sellLabel = new DSLabel("").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
 
-        HorizontalLayout quantityLayout = new HorizontalLayout(minusLabel, buyQuantityLabel, plusLabel);
+        //        HorizontalLayout quantityLayout = new HorizontalLayout(minusLabel, buyQuantityLabel, plusLabel);
 
         sellHeaderLayout.setWidth(100, Unit.PERCENTAGE);
-        sellHeaderLayout.addComponents(unitPriceLabel, itemName, stockQuantityLabel, quantityLayout, totalPriceLabel, buyLabel);
-        sellHeaderLayout.setComponentAlignment(buyLabel, Alignment.MIDDLE_RIGHT);
+        sellHeaderLayout.addComponents(unitPriceLabel, itemName, stockQuantityLabel, sellLabel);
+        sellHeaderLayout.setComponentAlignment(sellLabel, Alignment.MIDDLE_RIGHT);
         sellHeaderLayout.setExpandRatio(itemName, 4);
         sellHeaderLayout.setExpandRatio(unitPriceLabel, 1);
         sellHeaderLayout.setExpandRatio(stockQuantityLabel, 1);
-        sellHeaderLayout.setExpandRatio(quantityLayout, 0);
-        sellHeaderLayout.setExpandRatio(totalPriceLabel, 1);
-        sellHeaderLayout.setExpandRatio(buyLabel, 2);
+        //        sellHeaderLayout.setExpandRatio(quantityLayout, 0);
+        //        sellHeaderLayout.setExpandRatio(totalPriceLabel, 1);
+        sellHeaderLayout.setExpandRatio(sellLabel, 2);
         sellHeaderPanel.setContent(sellHeaderLayout);
         sellLayout.addComponent(sellHeaderPanel);
 

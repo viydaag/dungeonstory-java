@@ -68,7 +68,7 @@ public class TestCharacterService {
         CharacterEquipment equip = new CharacterEquipment();
         equip.setCharacter(c);
         equip.setEquipment(EquipmentService.getInstance().read(2L));
-        equip.setQuantity(1);
+        //        equip.setQuantity(1);
         equip.setSellableValue(2);
         c.getEquipment().add(equip);
 
