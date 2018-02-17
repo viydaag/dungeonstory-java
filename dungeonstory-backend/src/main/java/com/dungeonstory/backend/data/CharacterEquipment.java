@@ -14,7 +14,6 @@ import org.eclipse.persistence.annotations.JoinFetch;
 import org.eclipse.persistence.annotations.JoinFetchType;
 
 @Entity
-//@IdClass(CharacterEquipmentId.class)
 @Table(name = "CharacterEquipment")
 public class CharacterEquipment
         extends AbstractTimestampEntity {
@@ -23,7 +22,8 @@ public class CharacterEquipment
 
     public enum EquipedType {
 
-        ARMOR(Armor.class, null),
+        ARMOR(Armor.class, "Armure"),
+        SHIELD(Armor.class, "Bouclier"),
         MAIN_WEAPON(Weapon.class, "Arme principale"),
         SECONDARY_WEAPON(Weapon.class, "Arme secondaire"),
         TWO_HAND_WEAPON(Weapon.class, "Arme à 2 mains"),
@@ -33,7 +33,7 @@ public class CharacterEquipment
         BRACER(Bracer.class, null),
         BOOT(Boot.class, null),
         BELT(Belt.class, null),
-        HELMET(Helmet.class, null),
+        HELMET(Helmet.class, "Heaume"),
         AMMUNITION(Ammunition.class, null);
 
         private Class<? extends Equipment> equipmentClass;
@@ -47,15 +47,18 @@ public class CharacterEquipment
         public String getName() {
             return name;
         }
+
+        public Class<? extends Equipment> getEquipmentClass() {
+            return equipmentClass;
+        }
+
     }
 
-    //    @Id
     @ManyToOne
     @JoinFetch(JoinFetchType.INNER)
     @JoinColumn(name = "characterId")
     private Character character;
 
-    //    @Id
     @ManyToOne
     @JoinFetch(JoinFetchType.INNER)
     @JoinColumn(name = "equipmentId")
@@ -64,11 +67,6 @@ public class CharacterEquipment
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = true)
     private EquipedType type;
-
-    //    @Min(value = 1)
-    //    @Digits(integer = 3, fraction = 0)
-    //    @Column(name = "quantity")
-    //    private int quantity;
 
     @Min(value = 0)
     @Digits(integer = 9, fraction = 0)
@@ -83,7 +81,6 @@ public class CharacterEquipment
         super();
         this.character = character;
         this.equipment = equipment;
-        //        this.quantity = quantity;
         this.sellableValue = sellableValue;
     }
 
@@ -102,14 +99,6 @@ public class CharacterEquipment
     public void setEquipment(Equipment equipment) {
         this.equipment = equipment;
     }
-
-    //    public int getQuantity() {
-    //        return quantity;
-    //    }
-    //
-    //    public void setQuantity(int quantity) {
-    //        this.quantity = quantity;
-    //    }
 
     public boolean isEquiped() {
         return this.type != null;
@@ -131,12 +120,9 @@ public class CharacterEquipment
         this.sellableValue = sellableValue;
     }
 
-    //    public void addQuantity(int quantity) {
-    //        this.quantity += quantity;
-    //    }
-    //
-    //    public void substractQuantity(int quantity) {
-    //        this.quantity -= quantity;
-    //    }
+    @Override
+    public String toString() {
+        return getId() + " - " + getEquipment().getName();
+    }
 
 }

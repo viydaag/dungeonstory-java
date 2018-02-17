@@ -277,7 +277,7 @@ public class EquipmentList
                 }
             }
 
-            attackDice.setExtra(modifier);
+            attackDice.addModifier(modifier);
             String value = attackDice.toString();
             if (attackDice2 != null) {
                 value += " / " + attackDice2.toString();
@@ -297,8 +297,8 @@ public class EquipmentList
 
         boolean canUseSameWeapon = true;
         if (weapon != null) {
-            canUseSameWeapon = character.getEquipment().stream().filter(e -> e.getEquipment().equals(weapon)).anyMatch(
-                    e -> e.getQuantity() > 1);
+//            canUseSameWeapon = character.getEquipment().stream().filter(e -> e.getEquipment().equals(weapon)).anyMatch(
+//                    e -> e.getQuantity() > 1);
         }
 
         Stream<Weapon> availableWeaponStream = character.getEquipment()
@@ -389,8 +389,8 @@ public class EquipmentList
         if (userOriginated) {
             boolean canUseSameRing = true;
             if (ring != null) {
-                canUseSameRing = character.getEquipment().stream().filter(e -> e.getEquipment().equals(ring)).anyMatch(
-                        e -> e.getQuantity() > 1);
+//                canUseSameRing = character.getEquipment().stream().filter(e -> e.getEquipment().equals(ring)).anyMatch(
+//                        e -> e.getQuantity() > 1);
             }
 
             Stream<Ring> availableRingStream = character.getEquipment()

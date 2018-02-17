@@ -338,5 +338,10 @@ $v-layout-spacing-horizontal: round($v-unit-size / 1.8) !default;
         -webkit-border-radius: 5px;
         box-shadow: 0 0 0 7px #cdcdcd;
     }
+    
+    //caption in bold
+    .v-caption-captionTextBold {
+	   font-weight: bold;
+	}
 
 }

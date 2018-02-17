@@ -31,4 +31,5 @@ public class DSTheme extends ValoTheme {
     public static final String TEXT_CENTER_ALIGNED = "centerAligned";
     public static final String TEXT_RIGHT_ALIGNED  = "rightAligned";
     public static final String TEXT_LEFT_ALIGNED   = "leftAligned";
+    public static final String CAPTION_BOLD        = "captionTextBold";
 }
