@@ -30,7 +30,7 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
 public class CharacterInfoForm
-        extends DSAbstractForm<Character> {
+        extends DSAbstractForm<Character> implements HasCharacter {
 
     private static final long serialVersionUID = 667927823059386253L;
 
@@ -183,6 +183,11 @@ public class CharacterInfoForm
         saveImageButton.setVisible(false);
         imageSelector.setVisible(false);
         changeImageButton.setVisible(true);
+    }
+
+    @Override
+    public void setCharacter(Character character) {
+        setEntity(character);
     }
 
 }

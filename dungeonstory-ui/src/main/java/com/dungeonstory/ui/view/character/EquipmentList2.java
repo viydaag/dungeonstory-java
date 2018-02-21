@@ -48,7 +48,7 @@ import com.vaadin.ui.components.grid.GridDropTarget;
 import com.vaadin.ui.dnd.DragSourceExtension;
 import com.vaadin.ui.dnd.DropTargetExtension;
 
-public class EquipmentList2 extends CustomComponent {
+public class EquipmentList2 extends CustomComponent implements HasCharacter {
 
     private static final long serialVersionUID = 2446586900699091062L;
 
@@ -299,7 +299,12 @@ public class EquipmentList2 extends CustomComponent {
     }
 
     private void updateCharacter() {
-        character = Services.getCharacterService().update(character);
+        this.character = Services.getCharacterService().update(this.character);
+    }
+    
+    @Override
+    public void setCharacter(Character character) {
+        this.character = character;
     }
 
     private void handleSpecific(CharacterEquipmentLayout layout, Equipment eq) {

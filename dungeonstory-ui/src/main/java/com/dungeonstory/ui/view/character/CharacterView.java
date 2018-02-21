@@ -58,6 +58,15 @@ public class CharacterView extends VerticalLayout implements View {
         tabsheet.addTab(features, "Dons");
 
         addComponent(tabsheet);
+        
+        //refresh character if it was updated in another tab
+        tabsheet.addSelectedTabChangeListener(tabEvent -> {
+            Character updatedCharacter = Services.getCharacterService().read(character.getId());
+            if (tabsheet.getSelectedTab() instanceof HasCharacter) {
+                HasCharacter tab = (HasCharacter) tabsheet.getSelectedTab();
+                tab.setCharacter(updatedCharacter);
+            }
+        });
 
     }
 
