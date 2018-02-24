@@ -11,6 +11,7 @@ import com.dungeonstory.backend.data.CharacterClass;
 import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.backend.data.Race;
 import com.dungeonstory.backend.data.Region;
+import com.dungeonstory.backend.data.enums.Ability2;
 import com.dungeonstory.backend.service.CharacterDataService;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.captionGenerator.ClassLevelCaptionGenerator;
@@ -113,12 +114,12 @@ public class CharacterInfoForm
         abilityPanel.setSizeUndefined();
         FormLayout abilityLayout = new FormLayout();
         abilityLayout.setMargin(true);
-        strength = new LabelField<>(messages.getMessage("ability.str.caption"));
-        dexterity = new LabelField<>(messages.getMessage("ability.dex.caption"));
-        constitution = new LabelField<>(messages.getMessage("ability.con.caption"));
-        intelligence = new LabelField<>(messages.getMessage("ability.int.caption"));
-        wisdom = new LabelField<>(messages.getMessage("ability.wis.caption"));
-        charisma = new LabelField<>(messages.getMessage("ability.cha.caption"));
+        strength = new LabelField<>(messages.getMessage(Ability2.STRENGTH.getNameKey()));
+        dexterity = new LabelField<>(messages.getMessage(Ability2.DEXTERITY.getNameKey()));
+        constitution = new LabelField<>(messages.getMessage(Ability2.CONSTITUTION.getNameKey()));
+        intelligence = new LabelField<>(messages.getMessage(Ability2.INTELLIGENCE.getNameKey()));
+        wisdom = new LabelField<>(messages.getMessage(Ability2.WISDOM.getNameKey()));
+        charisma = new LabelField<>(messages.getMessage(Ability2.CHARISMA.getNameKey()));
         abilityLayout.addComponents(strength, dexterity, constitution, intelligence, wisdom, charisma);
         abilityPanel.setContent(abilityLayout);
 

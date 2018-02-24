@@ -19,6 +19,7 @@ import com.dungeonstory.backend.data.MonsterSense;
 import com.dungeonstory.backend.data.MonsterSkill;
 import com.dungeonstory.backend.data.Skill;
 import com.dungeonstory.backend.data.WeaponType.UsageType;
+import com.dungeonstory.backend.data.enums.Ability2;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSAbstractForm;
 import com.dungeonstory.ui.component.EnumComboBox;
@@ -133,12 +134,12 @@ public class MonsterForm extends DSAbstractForm<Monster> {
         swimSpeed = new DSIntegerField("Vitesse de nage");
         climbSpeed = new DSIntegerField("Vitesse de grimpe");
 
-        strength = new DSIntegerField(messages.getMessage("ability.str.caption"));
-        dexterity = new DSIntegerField(messages.getMessage("ability.dex.caption"));
-        constitution = new DSIntegerField(messages.getMessage("ability.con.caption"));
-        intelligence = new DSIntegerField(messages.getMessage("ability.int.caption"));
-        wisdom = new DSIntegerField(messages.getMessage("ability.wis.caption"));
-        charisma = new DSIntegerField(messages.getMessage("ability.cha.caption"));
+        strength = new DSIntegerField(messages.getMessage(Ability2.STRENGTH.getNameKey()));
+        dexterity = new DSIntegerField(messages.getMessage(Ability2.DEXTERITY.getNameKey()));
+        constitution = new DSIntegerField(messages.getMessage(Ability2.CONSTITUTION.getNameKey()));
+        intelligence = new DSIntegerField(messages.getMessage(Ability2.INTELLIGENCE.getNameKey()));
+        wisdom = new DSIntegerField(messages.getMessage(Ability2.WISDOM.getNameKey()));
+        charisma = new DSIntegerField(messages.getMessage(Ability2.CHARISMA.getNameKey()));
         passivePerception = new DSIntegerField("Perception passive");
 
         challengeRating = new EnumComboBox<>(ChallengeRating.class, "Degré de difficulté");

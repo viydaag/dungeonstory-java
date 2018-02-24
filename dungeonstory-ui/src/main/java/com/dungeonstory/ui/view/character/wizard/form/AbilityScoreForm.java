@@ -2,6 +2,7 @@ package com.dungeonstory.ui.view.character.wizard.form;
 
 import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.data.Character;
+import com.dungeonstory.backend.data.enums.Ability2;
 import com.dungeonstory.ui.component.AbstractForm;
 import com.dungeonstory.ui.component.DSLabel;
 import com.dungeonstory.ui.field.DSIntegerField;
@@ -66,32 +67,32 @@ public abstract class AbilityScoreForm extends CharacterWizardStepForm<Character
         gridLayout.addComponent(new DSLabel(messages.getMessage("abilityScoreStep.score.label")), 1, 0);
 
         strength = new DSIntegerField().withWidth("50px");
-        strengthLabel = new DSLabel(messages.getMessage("ability.str.caption"));
+        strengthLabel = new DSLabel(messages.getMessage(Ability2.STRENGTH.getNameKey()));
         gridLayout.addComponent(strengthLabel, 0, 1);
         gridLayout.addComponent(strength, 1, 1);
 
         dexterity = new DSIntegerField().withWidth("50px");
-        dexterityLabel = new DSLabel(messages.getMessage("ability.dex.caption"));
+        dexterityLabel = new DSLabel(messages.getMessage(Ability2.DEXTERITY.getNameKey()));
         gridLayout.addComponent(dexterityLabel, 0, 2);
         gridLayout.addComponent(dexterity, 1, 2);
 
         constitution = new DSIntegerField().withWidth("50px");
-        constitutionLabel = new DSLabel(messages.getMessage("ability.con.caption"));
+        constitutionLabel = new DSLabel(messages.getMessage(Ability2.CONSTITUTION.getNameKey()));
         gridLayout.addComponent(constitutionLabel, 0, 3);
         gridLayout.addComponent(constitution, 1, 3);
 
         intelligence = new DSIntegerField().withWidth("50px");
-        intelligenceLabel = new DSLabel(messages.getMessage("ability.int.caption"));
+        intelligenceLabel = new DSLabel(messages.getMessage(Ability2.INTELLIGENCE.getNameKey()));
         gridLayout.addComponent(intelligenceLabel, 0, 4);
         gridLayout.addComponent(intelligence, 1, 4);
 
         wisdom = new DSIntegerField().withWidth("50px");
-        wisdoDSLabel = new DSLabel(messages.getMessage("ability.wis.caption"));
+        wisdoDSLabel = new DSLabel(messages.getMessage(Ability2.WISDOM.getNameKey()));
         gridLayout.addComponent(wisdoDSLabel, 0, 5);
         gridLayout.addComponent(wisdom, 1, 5);
 
         charisma = new DSIntegerField().withWidth("50px");
-        charismaLabel = new DSLabel(messages.getMessage("ability.cha.caption"));
+        charismaLabel = new DSLabel(messages.getMessage(Ability2.CHARISMA.getNameKey()));
         gridLayout.addComponent(charismaLabel, 0, 6);
         gridLayout.addComponent(charisma, 1, 6);
 

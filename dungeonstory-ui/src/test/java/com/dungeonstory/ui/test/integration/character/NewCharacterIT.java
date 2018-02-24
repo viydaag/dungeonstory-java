@@ -10,6 +10,7 @@ import java.util.Locale;
 import org.junit.Test;
 import org.openqa.selenium.support.PageFactory;
 
+import com.dungeonstory.backend.data.enums.Ability2;
 import com.dungeonstory.ui.i18n.Messages;
 import com.dungeonstory.ui.test.integration.IntegrationTestBase;
 import com.dungeonstory.ui.test.integration.authentication.LoginPageObject;
@@ -291,12 +292,12 @@ public class NewCharacterIT
         assertTrue(getText(classLabel).contains(BARBARE));
         assertEquals("14", getText(lifeLabel));
 
-        LabelElement strLabel = $(LabelElement.class).caption(messages.getMessage("ability.str.caption")).first();
-        LabelElement dexLabel = $(LabelElement.class).caption(messages.getMessage("ability.dex.caption")).first();
-        LabelElement conLabel = $(LabelElement.class).caption(messages.getMessage("ability.con.caption")).first();
-        LabelElement intLabel = $(LabelElement.class).caption(messages.getMessage("ability.int.caption")).first();
-        LabelElement wisLabel = $(LabelElement.class).caption(messages.getMessage("ability.wis.caption")).first();
-        LabelElement chaLabel = $(LabelElement.class).caption(messages.getMessage("ability.cha.caption")).first();
+        LabelElement strLabel = $(LabelElement.class).caption(messages.getMessage(Ability2.STRENGTH.getNameKey())).first();
+        LabelElement dexLabel = $(LabelElement.class).caption(messages.getMessage(Ability2.DEXTERITY.getNameKey())).first();
+        LabelElement conLabel = $(LabelElement.class).caption(messages.getMessage(Ability2.CONSTITUTION.getNameKey())).first();
+        LabelElement intLabel = $(LabelElement.class).caption(messages.getMessage(Ability2.INTELLIGENCE.getNameKey())).first();
+        LabelElement wisLabel = $(LabelElement.class).caption(messages.getMessage(Ability2.WISDOM.getNameKey())).first();
+        LabelElement chaLabel = $(LabelElement.class).caption(messages.getMessage(Ability2.CHARISMA.getNameKey())).first();
 
         assertEquals("16", getText(strLabel));
         assertEquals("16", getText(dexLabel));

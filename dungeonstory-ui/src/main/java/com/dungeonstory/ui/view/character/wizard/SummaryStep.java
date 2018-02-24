@@ -14,6 +14,7 @@ import com.dungeonstory.backend.data.ClassFeature;
 import com.dungeonstory.backend.data.Feat;
 import com.dungeonstory.backend.data.Skill;
 import com.dungeonstory.backend.data.WeaponType;
+import com.dungeonstory.backend.data.enums.Ability2;
 import com.dungeonstory.backend.data.util.ClassUtil;
 import com.dungeonstory.backend.data.util.ModifierUtil;
 import com.dungeonstory.ui.captionGenerator.ClassLevelCaptionGenerator;
@@ -201,48 +202,48 @@ public class SummaryStep
         FormLayout abilityLayout = new FFormLayout().withMargin(true);
         Panel abilityPanel = new Panel(messages.getMessage("summaryStep.ability.label"), abilityLayout);
         if (character.getId() == null) {
-            DSLabel strengthLabel = new DSLabel(messages.getMessage("ability.str.caption"),
+            DSLabel strengthLabel = new DSLabel(messages.getMessage(Ability2.STRENGTH.getNameKey()),
                     String.valueOf(character.getStrength()));
-            DSLabel dexterityLabel = new DSLabel(messages.getMessage("ability.dex.caption"),
+            DSLabel dexterityLabel = new DSLabel(messages.getMessage(Ability2.DEXTERITY.getNameKey()),
                     String.valueOf(character.getDexterity()));
-            DSLabel constitutionLabel = new DSLabel(messages.getMessage("ability.con.caption"),
+            DSLabel constitutionLabel = new DSLabel(messages.getMessage(Ability2.CONSTITUTION.getNameKey()),
                     String.valueOf(character.getConstitution()));
-            DSLabel intelligneceLabel = new DSLabel(messages.getMessage("ability.int.caption"),
+            DSLabel intelligneceLabel = new DSLabel(messages.getMessage(Ability2.INTELLIGENCE.getNameKey()),
                     String.valueOf(character.getIntelligence()));
-            DSLabel wisdoDSLabel = new DSLabel(messages.getMessage("ability.wis.caption"), String.valueOf(character.getWisdom()));
-            DSLabel charismaLabel = new DSLabel(messages.getMessage("ability.cha.caption"),
+            DSLabel wisdoDSLabel = new DSLabel(messages.getMessage(Ability2.WISDOM.getNameKey()), String.valueOf(character.getWisdom()));
+            DSLabel charismaLabel = new DSLabel(messages.getMessage(Ability2.CHARISMA.getNameKey()),
                     String.valueOf(character.getCharisma()));
             abilityLayout.addComponents(strengthLabel, dexterityLabel, constitutionLabel, intelligneceLabel, wisdoDSLabel,
                     charismaLabel);
             layout.addComponent(abilityPanel);
         } else {
             if (original.getStrength() != character.getStrength()) {
-                DSLabel strengthLabel = new DSLabel(messages.getMessage("ability.str.caption"),
+                DSLabel strengthLabel = new DSLabel(messages.getMessage(Ability2.STRENGTH.getNameKey()),
                         ModifierUtil.getScoreDifferenceString(character.getStrength(), original.getStrength()));
                 abilityLayout.addComponents(strengthLabel);
             }
             if (original.getDexterity() != character.getDexterity()) {
-                DSLabel dexterityLabel = new DSLabel(messages.getMessage("ability.dex.caption"),
+                DSLabel dexterityLabel = new DSLabel(messages.getMessage(Ability2.DEXTERITY.getNameKey()),
                         ModifierUtil.getScoreDifferenceString(character.getDexterity(), original.getDexterity()));
                 abilityLayout.addComponents(dexterityLabel);
             }
             if (original.getConstitution() != character.getConstitution()) {
-                DSLabel constitutionLabel = new DSLabel(messages.getMessage("ability.con.caption"),
+                DSLabel constitutionLabel = new DSLabel(messages.getMessage(Ability2.CONSTITUTION.getNameKey()),
                         ModifierUtil.getScoreDifferenceString(character.getConstitution(), original.getConstitution()));
                 abilityLayout.addComponents(constitutionLabel);
             }
             if (original.getIntelligence() != character.getIntelligence()) {
-                DSLabel intelligenceLabel = new DSLabel(messages.getMessage("ability.int.caption"),
+                DSLabel intelligenceLabel = new DSLabel(messages.getMessage(Ability2.INTELLIGENCE.getNameKey()),
                         ModifierUtil.getScoreDifferenceString(character.getIntelligence(), original.getIntelligence()));
                 abilityLayout.addComponents(intelligenceLabel);
             }
             if (original.getWisdom() != character.getWisdom()) {
-                DSLabel wisdomLabel = new DSLabel(messages.getMessage("ability.wis.caption"),
+                DSLabel wisdomLabel = new DSLabel(messages.getMessage(Ability2.WISDOM.getNameKey()),
                         ModifierUtil.getScoreDifferenceString(character.getWisdom(), original.getWisdom()));
                 abilityLayout.addComponents(wisdomLabel);
             }
             if (original.getCharisma() != character.getCharisma()) {
-                DSLabel charismaLabel = new DSLabel(messages.getMessage("ability.cha.caption"),
+                DSLabel charismaLabel = new DSLabel(messages.getMessage(Ability2.CHARISMA.getNameKey()),
                         ModifierUtil.getScoreDifferenceString(character.getCharisma(), original.getCharisma()));
                 abilityLayout.addComponents(charismaLabel);
             }
