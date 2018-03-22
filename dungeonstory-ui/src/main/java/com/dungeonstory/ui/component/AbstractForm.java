@@ -71,15 +71,7 @@ public abstract class AbstractForm<T> extends CustomComponent {
     private Registration cancelRegistration;
 
     public AbstractForm(Class<T> entityType) {
-        addAttachListener(new AttachListener() {
-
-            private static final long serialVersionUID = 3193438171004932112L;
-
-            @Override
-            public void attach(AttachEvent event) {
-                lazyInit();
-            }
-        });
+        addAttachListener(attachEvent -> lazyInit());
         createBinder(entityType);
     }
 

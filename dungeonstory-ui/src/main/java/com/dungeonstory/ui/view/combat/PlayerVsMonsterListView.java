@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
 
 import com.dungeonstory.backend.data.Monster;
-import com.dungeonstory.backend.data.enums.Ability2;
+import com.dungeonstory.backend.data.enums.Ability;
 import com.dungeonstory.backend.rules.Rules;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSLabel;
@@ -135,8 +135,8 @@ public class PlayerVsMonsterListView extends HorizontalLayout implements View {
             GridLayout statsLayout = new GridLayout(6, 2);
             statsLayout.setWidth(100, Unit.PERCENTAGE);
             int column = 0;
-            for (Ability2 ability : Ability2.values()) {
-                statsLayout.addComponent(new Label(messages.getMessage(ability.getAbbreviationKey()).toUpperCase()), column++, 0);
+            for (Ability ability : Ability.values()) {
+                statsLayout.addComponent(new Label(ability.getAbbreviation().toUpperCase()), column++, 0);
             }
             statsLayout.addComponent(new DSLabel(monster.getStrength()), 0, 1);
             statsLayout.addComponent(new DSLabel(monster.getDexterity()), 1, 1);

@@ -19,6 +19,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import com.dungeonstory.backend.data.enums.Language;
+
 import org.eclipse.persistence.annotations.PrivateOwned;
 
 @Entity
@@ -113,11 +115,10 @@ public class Race extends AbstractTimestampEntity {
     @Column(name = "speed")
     private int speed = 0;
     
-    @ManyToMany
-    @JoinTable(
-        name="RaceLanguage",
-        joinColumns={@JoinColumn(name="raceId", referencedColumnName="id")},
-        inverseJoinColumns={@JoinColumn(name="languageId", referencedColumnName="id")})
+    @ElementCollection(targetClass = Language.class)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "RaceLanguage", joinColumns = @JoinColumn(name = "raceId", nullable = false))
+    @Column(name = "language", nullable = false)
     private Set<Language> languages;
     
     @Column(name = "extraLanguage")

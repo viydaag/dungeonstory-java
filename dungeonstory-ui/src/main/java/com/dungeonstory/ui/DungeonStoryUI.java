@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 
 import com.dungeonstory.backend.Configuration;
+import com.dungeonstory.backend.Labels;
 import com.dungeonstory.ui.authentication.AccessControl;
 import com.dungeonstory.ui.authentication.BasicAccessControl;
 import com.dungeonstory.ui.authentication.CurrentUser;
@@ -126,6 +127,7 @@ public class DungeonStoryUI extends UI {
     @Override
     public void setLocale(Locale locale) {
         super.setLocale(locale);
+        Labels.getInstance(locale);
         updateMessageStrings(getContent());
     }
 

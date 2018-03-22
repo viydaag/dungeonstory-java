@@ -1,18 +1,14 @@
 package com.dungeonstory.backend.service.mock;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.dungeonstory.backend.data.Character;
-import com.dungeonstory.backend.data.Language;
 import com.dungeonstory.backend.data.Race;
-import com.dungeonstory.backend.repository.mock.MockLanguageRepository;
-import com.dungeonstory.backend.service.AbstractDataService;
+import com.dungeonstory.backend.data.enums.Language;
 import com.dungeonstory.backend.service.LanguageDataService;
 
-public class MockLanguageService extends AbstractDataService<Language, Long> implements LanguageDataService {
-
-    private static final long serialVersionUID = 3713358506919598497L;
+public class MockLanguageService implements LanguageDataService {
 
     private static MockLanguageService instance = null;
 
@@ -25,20 +21,18 @@ public class MockLanguageService extends AbstractDataService<Language, Long> imp
 
     private MockLanguageService() {
         super();
-        setEntityFactory(() -> new Language());
-        setRepository(new MockLanguageRepository());
     }
 
     @Override
-    public List<Language> getLanguagesNotInRace(Race race) {
+    public Set<Language> getLanguagesNotInRace(Race race) {
         // TODO Auto-generated method stub
-        return new ArrayList<>();
+        return new HashSet<>();
     }
 
     @Override
-    public List<Language> getUnassignedLanguages(Character character) {
+    public Set<Language> getUnassignedLanguages(Character character) {
         // TODO Auto-generated method stub
-        return new ArrayList<>();
+        return new HashSet<>();
     }
 
 }

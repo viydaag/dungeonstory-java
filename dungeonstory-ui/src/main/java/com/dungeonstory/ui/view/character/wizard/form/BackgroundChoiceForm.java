@@ -1,16 +1,17 @@
 package com.dungeonstory.ui.view.character.wizard.form;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.EnumSet;
+import java.util.Set;
 
 import com.dungeonstory.backend.data.Background;
 import com.dungeonstory.backend.data.Background.LanguageChoice;
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.CharacterBackground;
-import com.dungeonstory.backend.data.Language;
+import com.dungeonstory.backend.data.enums.Language;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.LanguageDataService;
 import com.dungeonstory.backend.service.Services;
+import com.dungeonstory.ui.captionGenerator.I18nEnumCaptionGenerator;
 import com.dungeonstory.ui.component.AbstractForm;
 import com.dungeonstory.ui.component.DSLabel;
 import com.dungeonstory.ui.converter.CollectionToStringConverter;
@@ -42,7 +43,7 @@ public class BackgroundChoiceForm
     private FTextArea                                ideals;
     private FTextArea                                purposes;
     private FTextArea                                flaws;
-    private SubSetSelector<Language, List<Language>> language;
+    private SubSetSelector<Language, Set<Language>> language;
 
     private FTextArea traitsSuggestion;
     private FTextArea idealsSuggestion;
@@ -76,7 +77,8 @@ public class BackgroundChoiceForm
         language.setCaption(messages.getMessage("backgroundStep.languages.label"));
         language.getGrid().addColumn(Language::getName).setCaption(messages.getMessage("backgroundStep.languages.table.column.name")).setId("name");
         language.getGrid().setColumnOrder("name");
-        language.setItems(new ArrayList<>());
+        language.setItems(EnumSet.noneOf(Language.class));
+        language.setCaptionGenerator(new I18nEnumCaptionGenerator<>());
         language.setVisible(false);
         language.addValueChangeListener(event -> adjustButtons());
 
@@ -110,7 +112,7 @@ public class BackgroundChoiceForm
                 if (chosenBackground.getAdditionalLanguage() != LanguageChoice.NONE) {
                     language.setVisible(true);
                     language.setItems(languageService.getUnassignedLanguages(character));
-                    language.setValue(new ArrayList<>());
+                    language.setValue(EnumSet.noneOf(Language.class));
                     language.setLimit(chosenBackground.getAdditionalLanguage().getNbLanguage());
                 } else {
                     language.clear();

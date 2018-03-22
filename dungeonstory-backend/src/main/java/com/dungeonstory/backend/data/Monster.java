@@ -23,6 +23,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.dungeonstory.backend.data.enums.Language;
+
 /**
  * Entity implementation class for Entity: Monster
  *
@@ -170,16 +172,16 @@ public class Monster extends AbstractTimestampEntity implements HasStats {
     @Column(name = "conditionName", nullable = false)
     private Set<Condition> conditionImmunities;
 
-    @ManyToMany
-    @JoinTable(name = "MonsterLanguage", joinColumns = {
-            @JoinColumn(name = "monsterId", referencedColumnName = "id") }, inverseJoinColumns = {
-                    @JoinColumn(name = "languageId", referencedColumnName = "id") })
+    @ElementCollection(targetClass = Language.class)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "MonsterLanguage", joinColumns = @JoinColumn(name = "monsterId", nullable = false))
+    @Column(name = "language", nullable = false)
     private Set<Language> languages;
 
-    @ManyToMany
-    @JoinTable(name = "MonsterSavingThrowProficiencies", joinColumns = {
-            @JoinColumn(name = "monsterId", referencedColumnName = "id") }, inverseJoinColumns = {
-                    @JoinColumn(name = "abilityId", referencedColumnName = "id") })
+    @ElementCollection(targetClass = Condition.class)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "MonsterSavingThrowProficiencies", joinColumns = @JoinColumn(name = "monsterId", nullable = false))
+    @Column(name = "ability", nullable = false)
     private Set<Ability> savingThrowProficiencies;
 
     @OneToMany(mappedBy = "monster", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })

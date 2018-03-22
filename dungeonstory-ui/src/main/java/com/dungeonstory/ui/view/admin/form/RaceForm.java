@@ -1,7 +1,7 @@
 package com.dungeonstory.ui.view.admin.form;
 
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.EnumSet;
 import java.util.Set;
 
 import org.vaadin.easyuploads.ImagePreviewField;
@@ -10,21 +10,22 @@ import com.dungeonstory.FormCheckBox;
 import com.dungeonstory.backend.data.ArmorType;
 import com.dungeonstory.backend.data.Condition;
 import com.dungeonstory.backend.data.DamageType;
-import com.dungeonstory.backend.data.Language;
 import com.dungeonstory.backend.data.Race;
 import com.dungeonstory.backend.data.Race.Size;
 import com.dungeonstory.backend.data.Skill;
 import com.dungeonstory.backend.data.WeaponType;
+import com.dungeonstory.backend.data.enums.Language;
 import com.dungeonstory.backend.service.DamageTypeDataService;
-import com.dungeonstory.backend.service.LanguageDataService;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.backend.service.SkillDataService;
 import com.dungeonstory.backend.service.WeaponTypeDataService;
+import com.dungeonstory.ui.captionGenerator.I18nEnumCaptionGenerator;
 import com.dungeonstory.ui.component.DSAbstractForm;
 import com.dungeonstory.ui.component.EnumComboBox;
 import com.dungeonstory.ui.field.DSIntegerField;
 import com.dungeonstory.ui.field.IntegerField;
 import com.dungeonstory.ui.field.SubSetSelector;
+import com.dungeonstory.ui.i18n.Messages;
 import com.dungeonstory.ui.layout.MultiColumnFormLayout;
 import com.vaadin.fluent.ui.FTextArea;
 import com.vaadin.fluent.ui.FTextField;
@@ -68,14 +69,12 @@ public class RaceForm extends DSAbstractForm<Race> {
     private ComboBox<DamageType>                                                      damageResistance;
     private ImagePreviewField                                                         image;
 
-    private LanguageDataService   languageService   = null;
     private SkillDataService      skillService      = null;
     private WeaponTypeDataService weaponTypeService = null;
     private DamageTypeDataService damageTypeService = null;
 
     public RaceForm() {
         super(Race.class);
-        languageService = Services.getLanguageService();
         skillService = Services.getSkillService();
         weaponTypeService = Services.getWeaponTypeService();
         damageTypeService = Services.getDamageTypeService();
@@ -99,8 +98,9 @@ public class RaceForm extends DSAbstractForm<Race> {
         languages.setCaption("Langages de base");
         languages.getGrid().addColumn(Language::getName).setCaption("Langage").setId("languages");
         languages.getGrid().setColumnOrder("languages");
-        languages.setItems(languageService.findAll());
-        languages.setValue(new HashSet<>()); // nothing selected
+        languages.setItems(EnumSet.allOf(Language.class));
+        languages.setValue(EnumSet.noneOf(Language.class)); // nothing selected
+        languages.setCaptionGenerator(new I18nEnumCaptionGenerator<>());
         languages.setWidth("50%");
 
         extraLanguage = new FormCheckBox("Langage extra");

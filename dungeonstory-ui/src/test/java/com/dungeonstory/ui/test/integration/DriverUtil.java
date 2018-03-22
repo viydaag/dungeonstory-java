@@ -54,6 +54,10 @@ public class DriverUtil {
 
                     if (chromeVersion <= 56) {
                         driverPath = "./lib/chromedriver-2.27.exe";
+                    } else if (chromeVersion >= 64 || chromeVersion <= 66) {
+                        driverPath = "./lib/chromedriver-2.37.exe";
+                        chromeOptions.addArguments("disable-extensions");
+                        chromeOptions.setExperimentalOption("useAutomationExtension", false);
                     } else {
                         driverPath = "./lib/chromedriver-2.31.exe";
                         chromeOptions.addArguments("disable-extensions");

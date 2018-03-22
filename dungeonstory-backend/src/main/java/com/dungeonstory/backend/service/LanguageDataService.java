@@ -1,15 +1,15 @@
 package com.dungeonstory.backend.service;
 
-import java.util.List;
+import java.util.Set;
 
 import com.dungeonstory.backend.data.Character;
-import com.dungeonstory.backend.data.Language;
 import com.dungeonstory.backend.data.Race;
+import com.dungeonstory.backend.data.enums.Language;
 
-public interface LanguageDataService extends DataService<Language, Long> {
+public interface LanguageDataService {
 
-    public List<Language> getLanguagesNotInRace(Race race);
+    public Set<Language> getLanguagesNotInRace(Race race);
 
-    public List<Language> getUnassignedLanguages(Character character);
+    public Set<Language> getUnassignedLanguages(Character character);
 
 }

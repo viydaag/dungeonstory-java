@@ -279,38 +279,38 @@ insert into racearmorproficiencies (raceId, proficiency) values (2,'MEDIUM');
 insert into racearmorproficiencies (raceId, proficiency) values (2,'LIGHT');
 
 /* RaceLanguage */
-INSERT INTO racelanguage (raceId, languageId) VALUES (1,1);
-INSERT INTO racelanguage (raceId, languageId) VALUES (2,1);
-INSERT INTO racelanguage (raceId, languageId) VALUES (3,1);
-INSERT INTO racelanguage (raceId, languageId) VALUES (5,1);
-INSERT INTO racelanguage (raceId, languageId) VALUES (6,1);
-INSERT INTO racelanguage (raceId, languageId) VALUES (7,1);
-INSERT INTO racelanguage (raceId, languageId) VALUES (8,1);
-INSERT INTO racelanguage (raceId, languageId) VALUES (9,1);
-INSERT INTO racelanguage (raceId, languageId) VALUES (10,1);
-INSERT INTO racelanguage (raceId, languageId) VALUES (11,1);
-INSERT INTO racelanguage (raceId, languageId) VALUES (12,1);
-INSERT INTO racelanguage (raceId, languageId) VALUES (13,1);
-INSERT INTO racelanguage (raceId, languageId) VALUES (14,1);
-INSERT INTO racelanguage (raceId, languageId) VALUES (15,1);
-INSERT INTO racelanguage (raceId, languageId) VALUES (16,1);
-INSERT INTO racelanguage (raceId, languageId) VALUES (1,2);
-INSERT INTO racelanguage (raceId, languageId) VALUES (2,2);
-INSERT INTO racelanguage (raceId, languageId) VALUES (3,3);
-INSERT INTO racelanguage (raceId, languageId) VALUES (5,3);
-INSERT INTO racelanguage (raceId, languageId) VALUES (6,3);
-INSERT INTO racelanguage (raceId, languageId) VALUES (10,3);
-INSERT INTO racelanguage (raceId, languageId) VALUES (15,3);
-INSERT INTO racelanguage (raceId, languageId) VALUES (12,5);
-INSERT INTO racelanguage (raceId, languageId) VALUES (13,5);
-INSERT INTO racelanguage (raceId, languageId) VALUES (14,5);
-INSERT INTO racelanguage (raceId, languageId) VALUES (7,7);
-INSERT INTO racelanguage (raceId, languageId) VALUES (8,7);
-INSERT INTO racelanguage (raceId, languageId) VALUES (11,8);
-INSERT INTO racelanguage (raceId, languageId) VALUES (14,12);
-INSERT INTO racelanguage (raceId, languageId) VALUES (15,12);
-INSERT INTO racelanguage (raceId, languageId) VALUES (16,13);
-INSERT INTO racelanguage (raceId, languageId) VALUES (6,15);
+INSERT INTO racelanguage (raceId, language) VALUES (1,'COMMON');
+INSERT INTO racelanguage (raceId, language) VALUES (2,'COMMON');
+INSERT INTO racelanguage (raceId, language) VALUES (3,'COMMON');
+INSERT INTO racelanguage (raceId, language) VALUES (5,'COMMON');
+INSERT INTO racelanguage (raceId, language) VALUES (6,'COMMON');
+INSERT INTO racelanguage (raceId, language) VALUES (7,'COMMON');
+INSERT INTO racelanguage (raceId, language) VALUES (8,'COMMON');
+INSERT INTO racelanguage (raceId, language) VALUES (9,'COMMON');
+INSERT INTO racelanguage (raceId, language) VALUES (10,'COMMON');
+INSERT INTO racelanguage (raceId, language) VALUES (11,'COMMON');
+INSERT INTO racelanguage (raceId, language) VALUES (12,'COMMON');
+INSERT INTO racelanguage (raceId, language) VALUES (13,'COMMON');
+INSERT INTO racelanguage (raceId, language) VALUES (14,'COMMON');
+INSERT INTO racelanguage (raceId, language) VALUES (15,'COMMON');
+INSERT INTO racelanguage (raceId, language) VALUES (16,'COMMON');
+INSERT INTO racelanguage (raceId, language) VALUES (1'DWARVISH');
+INSERT INTO racelanguage (raceId, language) VALUES (2'DWARVISH');
+INSERT INTO racelanguage (raceId, language) VALUES (3,'ELVISH');
+INSERT INTO racelanguage (raceId, language) VALUES (5,'ELVISH');
+INSERT INTO racelanguage (raceId, language) VALUES (6,'ELVISH');
+INSERT INTO racelanguage (raceId, language) VALUES (10,'ELVISH');
+INSERT INTO racelanguage (raceId, language) VALUES (15,'ELVISH');
+INSERT INTO racelanguage (raceId, language) VALUES (12,'GNOMISH');
+INSERT INTO racelanguage (raceId, language) VALUES (13,'GNOMISH');
+INSERT INTO racelanguage (raceId, language) VALUES (14,'GNOMISH');
+INSERT INTO racelanguage (raceId, language) VALUES (7,'HALFLING');
+INSERT INTO racelanguage (raceId, language) VALUES (8,'HALFLING');
+INSERT INTO racelanguage (raceId, language) VALUES (11,'ORC');
+INSERT INTO racelanguage (raceId, language) VALUES (14,'UNDERCOMMON');
+INSERT INTO racelanguage (raceId, language) VALUES (15,'UNDERCOMMON');
+INSERT INTO racelanguage (raceId, language) VALUES (16,'INFERNAL');
+INSERT INTO racelanguage (raceId, language) VALUES (6,'SYLVAN');
 
 /* RaceSavingThrowProficiency */
 INSERT INTO racesavingthrowproficiencies (raceId, conditionName) VALUES (1,'POISONED');
@@ -1890,6 +1890,6 @@ INSERT INTO MonsterSense (sense, distanceInFeet, monsterId, version, created, up
 INSERT INTO MonsterSkill (bonus, monsterId, skillId) VALUES (6, 1, 4);
 
 /* MonsterLanguage */
-INSERT INTO MonsterLanguage (languageId, monsterId) VALUES (1, 1);
-INSERT INTO MonsterLanguage (languageId, monsterId) VALUES (6, 1);
+INSERT INTO MonsterLanguage (language, monsterId) VALUES ('COMMON', 1);
+INSERT INTO MonsterLanguage (language, monsterId) VALUES ('GOBLIN', 1);
 

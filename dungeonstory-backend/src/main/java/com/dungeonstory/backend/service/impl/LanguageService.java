@@ -1,21 +1,16 @@
 package com.dungeonstory.backend.service.impl;
 
-import java.util.List;
+import java.util.EnumSet;
+import java.util.Set;
 
 import com.dungeonstory.backend.data.Character;
-import com.dungeonstory.backend.data.Language;
 import com.dungeonstory.backend.data.Race;
-import com.dungeonstory.backend.repository.impl.LanguageRepository;
-import com.dungeonstory.backend.service.AbstractDataService;
+import com.dungeonstory.backend.data.enums.Language;
 import com.dungeonstory.backend.service.LanguageDataService;
 
-public class LanguageService extends AbstractDataService<Language, Long> implements LanguageDataService {
+public class LanguageService implements LanguageDataService {
 
-    private static final long serialVersionUID = -8778708705346635028L;
-    
     private static LanguageService instance = null;
-
-    private LanguageRepository repo = new LanguageRepository();
 
     public static synchronized LanguageService getInstance() {
         if (instance == null) {
@@ -26,20 +21,16 @@ public class LanguageService extends AbstractDataService<Language, Long> impleme
 
     private LanguageService() {
         super();
-        setEntityFactory(() -> new Language());
-        setRepository(repo);
     }
 
     @Override
-    public List<Language> getLanguagesNotInRace(Race race) {
-        return repo.getLanguagesNotInRace(race);
+    public Set<Language> getLanguagesNotInRace(Race race) {
+        return EnumSet.complementOf(EnumSet.copyOf(race.getLanguages()));
     }
 
     @Override
-    public List<Language> getUnassignedLanguages(Character character) {
-        List<Language> unassignedLanguages = repo.getUnassignedLanguages(character);
-        unassignedLanguages.removeAll(character.getLanguages());
-        return unassignedLanguages;
+    public Set<Language> getUnassignedLanguages(Character character) {
+        return EnumSet.complementOf(EnumSet.copyOf(character.getLanguages()));
     }
 
 }

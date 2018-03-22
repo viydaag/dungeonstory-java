@@ -2,6 +2,7 @@ package com.dungeonstory.backend.data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -35,6 +36,7 @@ import org.eclipse.persistence.annotations.JoinFetchType;
 import org.eclipse.persistence.annotations.PrivateOwned;
 
 import com.dungeonstory.backend.data.Tool.ToolType;
+import com.dungeonstory.backend.data.enums.Language;
 
 @Entity
 @Table(name = "DSCharacter")
@@ -238,9 +240,10 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
     @Column(name = "terrain", nullable = false)
     private Set<Terrain> favoredTerrains;
 
-    @ManyToMany
-    @JoinTable(name = "CharacterLanguage", joinColumns = { @JoinColumn(name = "characterId", referencedColumnName = "id") }, inverseJoinColumns = {
-            @JoinColumn(name = "languageId", referencedColumnName = "id") })
+    @ElementCollection(targetClass = Language.class)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "CharacterLanguage", joinColumns = @JoinColumn(name = "characterId", nullable = false))
+    @Column(name = "language", nullable = false)
     private Set<Language> languages;
 
     @ManyToOne
@@ -262,7 +265,7 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
         feats = new HashSet<Feat>();
         skillProficiencies = new HashSet<Skill>();
         equipment = new HashSet<CharacterEquipment>();
-        languages = new HashSet<Language>();
+        languages = EnumSet.noneOf(Language.class);
         favoredEnnemies = new ArrayList<CreatureType>();
         favoredTerrains = new HashSet<Terrain>();
         armorProficiencies = new HashSet<>();
@@ -281,7 +284,7 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
             c.setFavoredEnnemies(new ArrayList<>(c.getFavoredEnnemies()));
             c.setFavoredTerrains(new HashSet<>(c.getFavoredTerrains()));
             c.setFeats(new HashSet<>(c.getFeats()));
-            c.setLanguages(new HashSet<>(c.getLanguages()));
+            c.setLanguages(EnumSet.copyOf(c.getLanguages()));
             c.setSavingThrowProficiencies(new HashSet<>(c.getSavingThrowProficiencies()));
             c.setSkillProficiencies(new HashSet<>(c.getSkillProficiencies()));
             c.setToolProficiencies(new HashSet<>(c.getToolProficiencies()));

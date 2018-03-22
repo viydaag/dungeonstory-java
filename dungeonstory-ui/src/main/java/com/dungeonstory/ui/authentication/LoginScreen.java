@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.dungeonstory.backend.Labels;
 import com.dungeonstory.backend.data.User;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.i18n.LanguageSelector;
@@ -199,6 +200,7 @@ public class LoginScreen extends CssLayout implements Translatable {
         loginInfoText.setWidth("270px");
         loginInformation.addComponent(loginInfoText);
         LanguageSelector language = new LanguageSelector();
+        language.addValueChangeListener(e -> Labels.getInstance(e.getValue()));
         loginInformation.addComponent(language);
         return loginInformation;
     }
