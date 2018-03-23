@@ -2,7 +2,7 @@ package com.dungeonstory.backend.data.util;
 
 import java.text.DecimalFormat;
 
-import com.dungeonstory.backend.data.Ability;
+import com.dungeonstory.backend.data.enums.Ability;
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.HasStats;
 import com.dungeonstory.backend.data.Monster;

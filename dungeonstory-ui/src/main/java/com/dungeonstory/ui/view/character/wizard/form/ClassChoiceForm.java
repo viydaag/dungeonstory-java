@@ -296,7 +296,8 @@ public class ClassChoiceForm extends CharacterWizardStepForm<CharacterClass> imp
 
         // Add skill proficiencies if new class
         if (classSkills.getValue() != null && assignedClass == null) {
-            character.getSkillProficiencies().addAll(classSkills.getValue());
+            //TODO replace with skill enum
+//            character.getSkillProficiencies().addAll(classSkills.getValue());
         }
 
         // On character creation, give starting gold

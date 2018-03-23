@@ -19,5 +19,10 @@ public enum Ability implements I18nEnum {
     public String getAbbreviation() {
         return Labels.getInstance().getMessage(getKey(name().substring(0, 3), "abbr"));
     }
+    
+    @Override
+    public String toString() {
+        return getName();
+    }
 
 }

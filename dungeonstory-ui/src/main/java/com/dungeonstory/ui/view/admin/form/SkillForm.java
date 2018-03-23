@@ -1,8 +1,9 @@
 package com.dungeonstory.ui.view.admin.form;
 
-import com.dungeonstory.backend.data.Ability;
+import java.util.EnumSet;
+
+import com.dungeonstory.backend.data.enums.Ability;
 import com.dungeonstory.backend.data.Skill;
-import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSAbstractForm;
 import com.vaadin.fluent.ui.FTextArea;
 import com.vaadin.fluent.ui.FTextField;
@@ -37,7 +38,7 @@ public class SkillForm extends DSAbstractForm<Skill> {
         name = new FTextField("Nom");
         shortDescription = new FTextField("Description courte").withFullWidth();
         description = new FTextArea("Description").withFullWidth();
-        keyAbility = new ComboBox<Ability>("Attribut clé", Services.getAbilityService().findAll());
+        keyAbility = new ComboBox<Ability>("Attribut clé", EnumSet.allOf(Ability.class));
 
         layout.addComponent(name);
         layout.addComponent(shortDescription);

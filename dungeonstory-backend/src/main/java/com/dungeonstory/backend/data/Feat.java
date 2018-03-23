@@ -21,6 +21,7 @@ import org.eclipse.persistence.annotations.JoinFetch;
 import org.eclipse.persistence.annotations.JoinFetchType;
 
 import com.dungeonstory.backend.repository.DescriptiveEntity;
+import com.dungeonstory.backend.data.enums.Ability;
 
 @Entity
 @Table(name = "Feat")
@@ -64,9 +65,11 @@ public class Feat extends AbstractTimestampEntity implements DescriptiveEntity {
     @Enumerated(EnumType.STRING)
     private ArmorType.ProficiencyType prerequisiteArmorProficiency;
 
-    @ManyToOne
-    @JoinFetch(JoinFetchType.OUTER)
-    @JoinColumn(name = "prerequisiteAbilityId")
+//    @ManyToOne
+//    @JoinFetch(JoinFetchType.OUTER)
+//    @JoinColumn(name = "prerequisiteAbilityId")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "prerequisiteAbility")
     private Ability prerequisiteAbility;
 
     @Column(name = "prerequisiteAbilityScore")

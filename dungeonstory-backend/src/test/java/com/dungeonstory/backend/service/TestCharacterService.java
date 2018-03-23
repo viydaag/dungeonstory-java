@@ -18,9 +18,9 @@ import com.dungeonstory.backend.data.CharacterEquipment;
 import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.data.Feat;
 import com.dungeonstory.backend.data.Feats;
+import com.dungeonstory.backend.data.enums.Background;
 import com.dungeonstory.backend.data.util.ClassUtil;
 import com.dungeonstory.backend.service.impl.AlignmentService;
-import com.dungeonstory.backend.service.impl.BackgroundService;
 import com.dungeonstory.backend.service.impl.CharacterService;
 import com.dungeonstory.backend.service.impl.ClassService;
 import com.dungeonstory.backend.service.impl.EquipmentService;
@@ -61,7 +61,7 @@ public class TestCharacterService {
         Character c = createDummyCharacter(service);
 
         CharacterBackground cBackground = new CharacterBackground();
-        cBackground.setBackground(BackgroundService.getInstance().read(1L));
+        cBackground.setBackground(Background.ACOLYTE);
         cBackground.setCharacter(c);
         c.setBackground(cBackground);
 

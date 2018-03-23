@@ -1,12 +1,10 @@
 package com.dungeonstory.ui.view.admin.form;
 
-import com.dungeonstory.backend.data.Ability;
 import com.dungeonstory.backend.data.ArmorType;
 import com.dungeonstory.backend.data.Feat;
 import com.dungeonstory.backend.data.Feat.FeatUsage;
 import com.dungeonstory.backend.data.Feat.PrerequisiteType;
-import com.dungeonstory.backend.service.AbilityDataService;
-import com.dungeonstory.backend.service.Services;
+import com.dungeonstory.backend.data.enums.Ability;
 import com.dungeonstory.ui.component.DSAbstractForm;
 import com.dungeonstory.ui.component.EnumComboBox;
 import com.dungeonstory.ui.field.DSIntegerField;
@@ -31,11 +29,8 @@ public class FeatForm
     private ComboBox<Ability>                       prerequisiteAbility;
     private IntegerField                            prerequisiteAbilityScore;
 
-    private AbilityDataService abilityService = null;
-
     public FeatForm() {
         super(Feat.class);
-        abilityService = Services.getAbilityService();
     }
 
     @Override
@@ -47,7 +42,7 @@ public class FeatForm
         usage = new EnumComboBox<FeatUsage>(FeatUsage.class, "Usage");
         prerequisiteType = new EnumComboBox<PrerequisiteType>(PrerequisiteType.class, "Type de prérequis");
         prerequisiteArmorProficiency = new EnumComboBox<>(ArmorType.ProficiencyType.class, "Maitrise d'armure prérequise");
-        prerequisiteAbility = new ComboBox<Ability>("Caractéristique prérequise", abilityService.findAll());
+        prerequisiteAbility = new EnumComboBox<Ability>(Ability.class, "Caractéristique prérequise");
         prerequisiteAbilityScore = new DSIntegerField("Score de caractéristique");
 
         prerequisiteType.addSelectionListener(event -> adjustTypeVisibility(event.getValue()));

@@ -3,7 +3,7 @@ package com.dungeonstory.backend.rules;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dungeonstory.backend.data.Ability;
+import com.dungeonstory.backend.data.enums.Ability;
 import com.dungeonstory.backend.data.Monster;
 import com.dungeonstory.backend.data.util.ModifierUtil;
 

@@ -1,6 +1,9 @@
 package com.dungeonstory.ui.view.admin.grid;
 
-import com.dungeonstory.backend.data.Ability;
+import java.util.EnumSet;
+
+import com.dungeonstory.backend.data.enums.Ability;
+import com.vaadin.data.provider.ListDataProvider;
 
 public class AbilityGrid extends DSGrid<Ability> {
 
@@ -10,6 +13,8 @@ public class AbilityGrid extends DSGrid<Ability> {
         super();
         addColumn(Ability::getName).setCaption("Nom").setId("name");
         addColumn(Ability::getAbbreviation).setCaption("Abbréviation").setId("abbreviation");
+        
+        setDataProvider(new ListDataProvider<>(EnumSet.allOf(Ability.class)));
     }
 
 }

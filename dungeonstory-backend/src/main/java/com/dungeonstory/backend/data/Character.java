@@ -36,7 +36,9 @@ import org.eclipse.persistence.annotations.JoinFetchType;
 import org.eclipse.persistence.annotations.PrivateOwned;
 
 import com.dungeonstory.backend.data.Tool.ToolType;
+import com.dungeonstory.backend.data.enums.Ability;
 import com.dungeonstory.backend.data.enums.Language;
+import com.dungeonstory.backend.data.enums.Skill;
 
 @Entity
 @Table(name = "DSCharacter")
@@ -197,8 +199,12 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
             @JoinColumn(name = "featId", referencedColumnName = "id") })
     private Set<Feat> feats;
 
-    @ManyToMany
-    @JoinTable(name = "CharacterProficientSkill", joinColumns = @JoinColumn(name = "characterId", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "skillId", referencedColumnName = "id"))
+//    @ManyToMany
+//    @JoinTable(name = "CharacterProficientSkill", joinColumns = @JoinColumn(name = "characterId", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "skillId", referencedColumnName = "id"))
+    @ElementCollection(targetClass = Skill.class)
+    @CollectionTable(name = "CharacterProficientSkill", joinColumns = @JoinColumn(name = "characterId", nullable = false))
+    @Column(name = "skill", nullable = false)
+    @Enumerated(EnumType.STRING)
     private Set<Skill> skillProficiencies;
 
     @ManyToMany
@@ -209,13 +215,16 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
     @CollectionTable(name = "CharacterArmorProficiencies", joinColumns = @JoinColumn(name = "characterId", nullable = false))
     @Column(name = "armorProficiency", nullable = false)
     @Enumerated(EnumType.STRING)
-    @PrivateOwned
     private Set<ArmorType.ProficiencyType> armorProficiencies;
 
-    @ManyToMany
-    @JoinTable(name = "CharacterSavingThrowProficiencies", joinColumns = {
-            @JoinColumn(name = "characterId", referencedColumnName = "id") }, inverseJoinColumns = {
-                    @JoinColumn(name = "abilityId", referencedColumnName = "id") })
+//    @ManyToMany
+//    @JoinTable(name = "CharacterSavingThrowProficiencies", joinColumns = {
+//            @JoinColumn(name = "characterId", referencedColumnName = "id") }, inverseJoinColumns = {
+//                    @JoinColumn(name = "abilityId", referencedColumnName = "id") })
+    @ElementCollection(targetClass = Ability.class)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "CharacterSavingThrowProficiencies", joinColumns = @JoinColumn(name = "characterId", nullable = false))
+    @Column(name = "ability", nullable = false)
     private Set<Ability> savingThrowProficiencies;
 
     @ElementCollection(targetClass = ToolType.class)

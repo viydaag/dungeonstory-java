@@ -11,14 +11,13 @@ import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.CharacterClass;
 import com.dungeonstory.backend.data.ClassFeature;
 import com.dungeonstory.backend.data.Feat;
-import com.dungeonstory.backend.data.Skill;
+import com.dungeonstory.backend.data.enums.Skill;
 import com.dungeonstory.backend.data.WeaponType;
 import com.dungeonstory.backend.data.enums.Ability;
 import com.dungeonstory.backend.data.enums.Language;
 import com.dungeonstory.backend.data.util.ClassUtil;
 import com.dungeonstory.backend.data.util.ModifierUtil;
 import com.dungeonstory.ui.captionGenerator.ClassLevelCaptionGenerator;
-import com.dungeonstory.ui.captionGenerator.I18nEnumCaptionGenerator;
 import com.dungeonstory.ui.component.DSLabel;
 import com.dungeonstory.ui.converter.CollectionGenericToStringConverter;
 import com.dungeonstory.ui.converter.CollectionToStringConverter;
@@ -167,8 +166,7 @@ public class SummaryStep extends CharacterWizardStep<Character> {
                 character.getLevel().toString());
         levelLayout.addComponent(levelLabel);
 
-        CollectionGenericToStringConverter<Language> languageConverter = new CollectionGenericToStringConverter<>(
-                new I18nEnumCaptionGenerator<>());
+        CollectionGenericToStringConverter<Language> languageConverter = new CollectionGenericToStringConverter<>();
 
         if (character.getId() == null) {
             DSLabel raceLabel = new DSLabel(messages.getMessage("summaryStep.race.label"),
@@ -293,7 +291,7 @@ public class SummaryStep extends CharacterWizardStep<Character> {
                     .stream()
                     .filter(wp -> !original.getWeaponProficiencies().contains(wp))
                     .collect(Collectors.toSet());
-            Set<com.dungeonstory.backend.data.Ability> gainedSavingThrowProficiencies = character
+            Set<Ability> gainedSavingThrowProficiencies = character
                     .getSavingThrowProficiencies()
                     .stream()
                     .filter(stp -> !original.getSavingThrowProficiencies().contains(stp))

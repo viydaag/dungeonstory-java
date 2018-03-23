@@ -1,6 +1,7 @@
 package com.dungeonstory.backend.data;
 
 import java.util.Set;
+import com.dungeonstory.backend.data.enums.Ability;
 
 public interface HasStats {
 

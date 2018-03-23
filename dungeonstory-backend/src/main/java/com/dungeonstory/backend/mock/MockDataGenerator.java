@@ -75,19 +75,6 @@ public class MockDataGenerator {
         return types;
     }
 
-    public static List<Skill> createSkills() {
-        List<Skill> skills = new ArrayList<Skill>();
-        Collection<Ability> abilities = MockAbilityService.getInstance().findAll();
-        for (String[] skill : storedSkills) {
-            Optional<Ability> ability = abilities.stream().filter(a -> a.getId().equals(Long.valueOf(skill[1])))
-                    .findFirst();
-            if (ability.isPresent()) {
-                skills.add(new Skill(skill[0], ability.get()));
-            }
-        }
-        return skills;
-    }
-
     public static List<Region> createRegions() {
         List<Region> regions = new ArrayList<Region>();
         for (String[] region : storedRegions) {

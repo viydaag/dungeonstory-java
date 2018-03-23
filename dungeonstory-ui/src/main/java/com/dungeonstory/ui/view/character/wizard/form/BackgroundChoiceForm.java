@@ -3,46 +3,41 @@ package com.dungeonstory.ui.view.character.wizard.form;
 import java.util.EnumSet;
 import java.util.Set;
 
-import com.dungeonstory.backend.data.Background;
-import com.dungeonstory.backend.data.Background.LanguageChoice;
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.CharacterBackground;
+import com.dungeonstory.backend.data.enums.Background;
 import com.dungeonstory.backend.data.enums.Language;
-import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.LanguageDataService;
 import com.dungeonstory.backend.service.Services;
-import com.dungeonstory.ui.captionGenerator.I18nEnumCaptionGenerator;
 import com.dungeonstory.ui.component.AbstractForm;
 import com.dungeonstory.ui.component.DSLabel;
+import com.dungeonstory.ui.component.EnumComboBox;
 import com.dungeonstory.ui.converter.CollectionToStringConverter;
 import com.dungeonstory.ui.field.SubSetSelector;
 import com.dungeonstory.ui.i18n.Messages;
 import com.vaadin.data.ValueContext;
 import com.vaadin.fluent.ui.FTextArea;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
-public class BackgroundChoiceForm
-        extends CharacterWizardStepForm<CharacterBackground>
+public class BackgroundChoiceForm extends CharacterWizardStepForm<CharacterBackground>
         implements AbstractForm.SavedHandler<CharacterBackground> {
 
     private static final long serialVersionUID = -8079455641743140814L;
 
-    private DataService<Background, Long> backgroundService;
-    private LanguageDataService           languageService;
+    private LanguageDataService languageService;
 
     private Character character;
 
-    private ComboBox<Background>                     background;
-    private FTextArea                                look;
-    private FTextArea                                traits;
-    private FTextArea                                ideals;
-    private FTextArea                                purposes;
-    private FTextArea                                flaws;
+    private EnumComboBox<Background>                background;
+    private FTextArea                               look;
+    private FTextArea                               traits;
+    private FTextArea                               ideals;
+    private FTextArea                               purposes;
+    private FTextArea                               flaws;
     private SubSetSelector<Language, Set<Language>> language;
 
     private FTextArea traitsSuggestion;
@@ -60,7 +55,6 @@ public class BackgroundChoiceForm
         this.character = character;
         setSavedHandler(this);
 
-        backgroundService = Services.getBackgroundService();
         languageService = Services.getLanguageService();
     }
 
@@ -72,13 +66,16 @@ public class BackgroundChoiceForm
         HorizontalLayout layout = new HorizontalLayout();
 
         VerticalLayout backgroundFieldsLayout = new VerticalLayout();
-        background = new ComboBox<Background>(messages.getMessage("backgroundStep.background.label"), backgroundService.findAll());
+        background = new EnumComboBox<Background>(Background.class,
+                messages.getMessage("backgroundStep.background.label"));
         language = new SubSetSelector<>(Language.class);
         language.setCaption(messages.getMessage("backgroundStep.languages.label"));
-        language.getGrid().addColumn(Language::getName).setCaption(messages.getMessage("backgroundStep.languages.table.column.name")).setId("name");
+        language.getGrid()
+                .addColumn(Language::getName)
+                .setCaption(messages.getMessage("backgroundStep.languages.table.column.name"))
+                .setId("name");
         language.getGrid().setColumnOrder("name");
         language.setItems(EnumSet.noneOf(Language.class));
-        language.setCaptionGenerator(new I18nEnumCaptionGenerator<>());
         language.setVisible(false);
         language.addValueChangeListener(event -> adjustButtons());
 
@@ -109,11 +106,11 @@ public class BackgroundChoiceForm
         background.addValueChangeListener(event -> {
             Background chosenBackground = event.getValue();
             if (chosenBackground != null) {
-                if (chosenBackground.getAdditionalLanguage() != LanguageChoice.NONE) {
+                if (chosenBackground.getNbAdditionalLanguage() > 0) {
                     language.setVisible(true);
                     language.setItems(languageService.getUnassignedLanguages(character));
                     language.setValue(EnumSet.noneOf(Language.class));
-                    language.setLimit(chosenBackground.getAdditionalLanguage().getNbLanguage());
+                    language.setLimit(chosenBackground.getNbAdditionalLanguage());
                 } else {
                     language.clear();
                     language.setVisible(false);
@@ -122,11 +119,13 @@ public class BackgroundChoiceForm
                 skillProficiencies.setVisible(true);
                 toolProficiencies.setVisible(true);
                 additionalLanguage.setVisible(true);
-                skillProficiencies.setValue(chosenBackground.getSkillProficiencies().isEmpty() ? messages.getMessage("backgroundStep.none.text")
+                skillProficiencies.setValue(chosenBackground.getSkillProficiencies().isEmpty()
+                        ? messages.getMessage("backgroundStep.none.text")
                         : collectionConverter.convertToPresentation(chosenBackground.getSkillProficiencies(), new ValueContext()));
-                toolProficiencies.setValue(chosenBackground.getToolProficiencies().isEmpty() ? messages.getMessage("backgroundStep.none.text")
+                toolProficiencies.setValue(chosenBackground.getToolProficiencies().isEmpty()
+                        ? messages.getMessage("backgroundStep.none.text")
                         : collectionConverter.convertToPresentation(chosenBackground.getToolProficiencies(), new ValueContext()));
-                additionalLanguage.setValue(String.valueOf(chosenBackground.getAdditionalLanguage().getNbLanguage()));
+                additionalLanguage.setValue(String.valueOf(chosenBackground.getNbAdditionalLanguage()));
                 traitsSuggestion.setValue(chosenBackground.getTraits());
                 idealsSuggestion.setValue(chosenBackground.getIdeals());
                 purposesSuggestion.setValue(chosenBackground.getPurposes());
@@ -177,7 +176,7 @@ public class BackgroundChoiceForm
             boolean valid = getBinder().isValid();
             boolean requiredFieldsFilled = true;
             if (background.getValue() != null && language.isVisible()
-                    && language.getValue().size() < background.getValue().getAdditionalLanguage().getNbLanguage()) {
+                    && language.getValue().size() < background.getValue().getNbAdditionalLanguage()) {
                 requiredFieldsFilled = false;
             }
             getSaveButton().setEnabled(requiredFieldsFilled && valid);

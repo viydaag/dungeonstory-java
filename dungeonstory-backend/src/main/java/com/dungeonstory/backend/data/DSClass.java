@@ -30,6 +30,7 @@ import org.eclipse.persistence.annotations.JoinFetchType;
 import org.eclipse.persistence.annotations.PrivateOwned;
 
 import com.dungeonstory.backend.data.Tool.ToolType;
+import com.dungeonstory.backend.data.enums.Ability;
 
 @Entity
 @Table(name = "Class")
@@ -86,11 +87,15 @@ public class DSClass extends AbstractTimestampEntity {
     @Enumerated(EnumType.STRING)
     private SpellCastingType spellCastingType;
 
-    @ManyToMany
-    @BatchFetch(value = BatchFetchType.JOIN)
-    @JoinTable(name = "ClassSavingThrowProficiencies", joinColumns = {
-        @JoinColumn(name = "classId", referencedColumnName = "id") }, 
-            inverseJoinColumns = { @JoinColumn(name = "abilityId", referencedColumnName = "id") })
+//    @ManyToMany
+//    @BatchFetch(value = BatchFetchType.JOIN)
+//    @JoinTable(name = "ClassSavingThrowProficiencies", joinColumns = {
+//        @JoinColumn(name = "classId", referencedColumnName = "id") }, 
+//            inverseJoinColumns = { @JoinColumn(name = "abilityId", referencedColumnName = "id") })
+    @ElementCollection(targetClass = Ability.class)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "ClassSavingThrowProficiencies", joinColumns = @JoinColumn(name = "classId", nullable = false))
+    @Column(name = "ability", nullable = false)
     private Set<Ability> savingThrowProficiencies;
     
     @ElementCollection(targetClass = ArmorType.ProficiencyType.class)

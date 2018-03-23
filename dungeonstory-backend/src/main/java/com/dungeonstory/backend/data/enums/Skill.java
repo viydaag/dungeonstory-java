@@ -41,5 +41,10 @@ public enum Skill implements I18nEnum {
     public Ability getKeyAbility() {
         return keyAbility;
     }
+    
+    @Override
+    public String toString() {
+        return getName();
+    }
 
 }

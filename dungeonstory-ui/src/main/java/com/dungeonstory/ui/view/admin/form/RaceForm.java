@@ -19,13 +19,11 @@ import com.dungeonstory.backend.service.DamageTypeDataService;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.backend.service.SkillDataService;
 import com.dungeonstory.backend.service.WeaponTypeDataService;
-import com.dungeonstory.ui.captionGenerator.I18nEnumCaptionGenerator;
 import com.dungeonstory.ui.component.DSAbstractForm;
 import com.dungeonstory.ui.component.EnumComboBox;
 import com.dungeonstory.ui.field.DSIntegerField;
 import com.dungeonstory.ui.field.IntegerField;
 import com.dungeonstory.ui.field.SubSetSelector;
-import com.dungeonstory.ui.i18n.Messages;
 import com.dungeonstory.ui.layout.MultiColumnFormLayout;
 import com.vaadin.fluent.ui.FTextArea;
 import com.vaadin.fluent.ui.FTextField;
@@ -100,7 +98,6 @@ public class RaceForm extends DSAbstractForm<Race> {
         languages.getGrid().setColumnOrder("languages");
         languages.setItems(EnumSet.allOf(Language.class));
         languages.setValue(EnumSet.noneOf(Language.class)); // nothing selected
-        languages.setCaptionGenerator(new I18nEnumCaptionGenerator<>());
         languages.setWidth("50%");
 
         extraLanguage = new FormCheckBox("Langage extra");

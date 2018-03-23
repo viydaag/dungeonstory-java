@@ -12,6 +12,7 @@ import org.openqa.selenium.support.PageFactory;
 
 import com.dungeonstory.backend.Labels;
 import com.dungeonstory.backend.data.enums.Ability;
+import com.dungeonstory.backend.data.enums.Background;
 import com.dungeonstory.backend.data.enums.Language;
 import com.dungeonstory.ui.i18n.Messages;
 import com.dungeonstory.ui.test.integration.IntegrationTestBase;
@@ -209,7 +210,7 @@ public class NewCharacterIT
         assertTrue(purposesTextArea.getValue().isEmpty());
         assertTrue(flawsTextArea.getValue().isEmpty());
 
-        newCharacterPO.chooseBackground(ACOLYTE);
+        newCharacterPO.chooseBackground(Background.ACOLYTE);
 
         assertFalse(traitsTextArea.getValue().isEmpty());
         assertFalse(idealsTextArea.getValue().isEmpty());

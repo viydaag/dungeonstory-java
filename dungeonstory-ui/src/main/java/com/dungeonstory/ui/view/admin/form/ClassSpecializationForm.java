@@ -68,7 +68,6 @@ public class ClassSpecializationForm extends DSAbstractForm<ClassSpecialization>
         super(ClassSpecialization.class);
         levelService = Services.getLevelService();
         classFeatureService = Services.getClassFeatureService();
-        abilityService = Services.getAbilityService();
         spellService = Services.getSpellService();
         classService = Services.getClassService();
     }

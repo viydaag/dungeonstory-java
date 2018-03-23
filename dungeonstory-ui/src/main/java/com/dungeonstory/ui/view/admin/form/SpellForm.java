@@ -82,7 +82,6 @@ public class SpellForm extends DSAbstractForm<Spell> {
         super(Spell.class);
         equipmentService = Services.getEquipmentService();
         damageTypeService = Services.getDamageTypeService();
-        abilityService = Services.getAbilityService();
     }
 
     @Override

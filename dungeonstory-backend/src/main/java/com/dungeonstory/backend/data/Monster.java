@@ -24,6 +24,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.dungeonstory.backend.data.enums.Language;
+import com.dungeonstory.backend.data.enums.Ability;
 
 /**
  * Entity implementation class for Entity: Monster
@@ -178,7 +179,7 @@ public class Monster extends AbstractTimestampEntity implements HasStats {
     @Column(name = "language", nullable = false)
     private Set<Language> languages;
 
-    @ElementCollection(targetClass = Condition.class)
+    @ElementCollection(targetClass = Ability.class)
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "MonsterSavingThrowProficiencies", joinColumns = @JoinColumn(name = "monsterId", nullable = false))
     @Column(name = "ability", nullable = false)

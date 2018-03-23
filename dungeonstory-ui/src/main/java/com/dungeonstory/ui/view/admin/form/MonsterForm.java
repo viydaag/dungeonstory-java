@@ -11,7 +11,6 @@ import com.dungeonstory.backend.data.Condition;
 import com.dungeonstory.backend.data.CreatureSize;
 import com.dungeonstory.backend.data.CreatureType;
 import com.dungeonstory.backend.data.DamageType;
-import com.dungeonstory.backend.data.enums.Language;
 import com.dungeonstory.backend.data.Monster;
 import com.dungeonstory.backend.data.MonsterAction;
 import com.dungeonstory.backend.data.MonsterSense;
@@ -19,8 +18,8 @@ import com.dungeonstory.backend.data.MonsterSkill;
 import com.dungeonstory.backend.data.Skill;
 import com.dungeonstory.backend.data.WeaponType.UsageType;
 import com.dungeonstory.backend.data.enums.Ability;
+import com.dungeonstory.backend.data.enums.Language;
 import com.dungeonstory.backend.service.Services;
-import com.dungeonstory.ui.captionGenerator.I18nEnumCaptionGenerator;
 import com.dungeonstory.ui.component.DSAbstractForm;
 import com.dungeonstory.ui.component.EnumComboBox;
 import com.dungeonstory.ui.field.DSIntegerField;
@@ -182,7 +181,6 @@ public class MonsterForm extends DSAbstractForm<Monster> {
         languages.getGrid().setColumnOrder("name");
         languages.setItems(EnumSet.allOf(Language.class));
         languages.setValue(EnumSet.noneOf(Language.class)); // nothing selected
-        languages.setCaptionGenerator(new I18nEnumCaptionGenerator<>());
         languages.setWidth("50%");
 
         savingThrowProficiencies = new SubSetSelector<>(Ability.class);
@@ -191,7 +189,6 @@ public class MonsterForm extends DSAbstractForm<Monster> {
         savingThrowProficiencies.getGrid().setColumnOrder("name");
         savingThrowProficiencies.setItems(EnumSet.allOf(Ability.class));
         savingThrowProficiencies.setValue(EnumSet.noneOf(Ability.class)); // nothing selected
-        savingThrowProficiencies.setCaptionGenerator(new I18nEnumCaptionGenerator<>());
         savingThrowProficiencies.setWidth("50%");
 
         List<Skill> allSkills = Services.getSkillService().findAll();

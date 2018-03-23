@@ -76,13 +76,6 @@ public abstract class Services {
         return AdventureService.getInstance();
     }
     
-    public static BackgroundDataService getBackgroundService() {
-        if (Configuration.getInstance().isMock()) {
-            return MockBackgroundService.getInstance();
-        }
-        return BackgroundService.getInstance();
-    }
-    
     public static SkillDataService getSkillService() {
         if (Configuration.getInstance().isMock()) {
             return MockSkillService.getInstance();
@@ -144,13 +137,6 @@ public abstract class Services {
             return MockDamageTypeService.getInstance();
         }
         return DamageTypeService.getInstance();
-    }
-
-    public static AbilityDataService getAbilityService() {
-        if (Configuration.getInstance().isMock()) {
-            return MockAbilityService.getInstance();
-        }
-        return AbilityService.getInstance();
     }
 
     public static CityDataService getCityService() {

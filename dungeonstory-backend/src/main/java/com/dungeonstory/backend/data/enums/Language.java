@@ -29,5 +29,10 @@ public enum Language implements I18nEnum {
     public String getScript() {
         return Labels.getInstance().getMessage(getKey(name(), "script"));
     }
+    
+    @Override
+    public String toString() {
+        return getName();
+    }
 
 }

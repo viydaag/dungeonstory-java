@@ -129,7 +129,6 @@ public class ClassForm
         classFeatureService = Services.getClassFeatureService();
         classSpecService = Services.getClassSpecializationService();
         weaponTypeService = Services.getWeaponTypeService();
-        abilityService = Services.getAbilityService();
         spellService = Services.getSpellService();
         equipmentService = Services.getEquipmentService();
     }

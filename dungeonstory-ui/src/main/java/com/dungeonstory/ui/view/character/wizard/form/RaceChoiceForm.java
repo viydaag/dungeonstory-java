@@ -1,12 +1,11 @@
 package com.dungeonstory.ui.view.character.wizard.form;
 
 import com.dungeonstory.backend.data.Character;
-import com.dungeonstory.backend.data.enums.Language;
 import com.dungeonstory.backend.data.Race;
+import com.dungeonstory.backend.data.enums.Language;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.LanguageDataService;
 import com.dungeonstory.backend.service.Services;
-import com.dungeonstory.ui.captionGenerator.I18nEnumCaptionGenerator;
 import com.dungeonstory.ui.component.AbstractForm;
 import com.dungeonstory.ui.i18n.Messages;
 import com.vaadin.fluent.ui.FTextArea;
@@ -48,7 +47,6 @@ public class RaceChoiceForm extends CharacterWizardStepForm<Character> implement
         race.setEmptySelectionAllowed(false);
         language = new ComboBox<Language>(messages.getMessage("raceStep.extraLanguage.label"));
         language.setVisible(false);
-        language.setItemCaptionGenerator(new I18nEnumCaptionGenerator<>());
         language.addValueChangeListener(event -> adjustButtons());
         raceFieldsLayout.addComponents(race, language);
 
