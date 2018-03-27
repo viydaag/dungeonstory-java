@@ -16,15 +16,13 @@ import com.dungeonstory.backend.data.CharacterBackground;
 import com.dungeonstory.backend.data.CharacterClass;
 import com.dungeonstory.backend.data.CharacterEquipment;
 import com.dungeonstory.backend.data.DSClass;
-import com.dungeonstory.backend.data.Feat;
-import com.dungeonstory.backend.data.Feats;
 import com.dungeonstory.backend.data.enums.Background;
+import com.dungeonstory.backend.data.enums.Feat;
 import com.dungeonstory.backend.data.util.ClassUtil;
 import com.dungeonstory.backend.service.impl.AlignmentService;
 import com.dungeonstory.backend.service.impl.CharacterService;
 import com.dungeonstory.backend.service.impl.ClassService;
 import com.dungeonstory.backend.service.impl.EquipmentService;
-import com.dungeonstory.backend.service.impl.FeatService;
 import com.dungeonstory.backend.service.impl.RaceService;
 import com.dungeonstory.backend.service.impl.RegionService;
 
@@ -108,14 +106,13 @@ public class TestCharacterService {
 
         Character c = createDummyCharacter(service);
 
-        Feat feat1 = FeatService.getInstance().read(Feats.ATHLETE.getId());
         HashSet<Feat> feats = new HashSet<>();
-        feats.add(feat1);
+        feats.add(Feat.ATHLETE);
         c.setFeats(feats);
 
         service.saveOrUpdate(c);
 
-        assertTrue(service.hasFeat(c, Feats.ATHLETE));
+        assertTrue(service.hasFeat(c, Feat.ATHLETE));
 
         service.delete(c);
 

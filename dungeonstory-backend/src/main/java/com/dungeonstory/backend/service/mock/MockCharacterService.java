@@ -3,8 +3,8 @@ package com.dungeonstory.backend.service.mock;
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.CharacterClass;
 import com.dungeonstory.backend.data.DSClass;
-import com.dungeonstory.backend.data.Feats;
 import com.dungeonstory.backend.data.Level;
+import com.dungeonstory.backend.data.enums.Feat;
 import com.dungeonstory.backend.factory.impl.CharacterFactory;
 import com.dungeonstory.backend.repository.mock.MockCharacterRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
@@ -42,8 +42,8 @@ public class MockCharacterService extends AbstractDataService<Character, Long> i
     }
 
     @Override
-    public boolean hasFeat(Character character, Feats feat) {
-        return character.getFeats().stream().anyMatch(f -> f.getId().equals(feat.getId()));
+    public boolean hasFeat(Character character, Feat feat) {
+        return character.getFeats().contains(feat);
     }
 
 }

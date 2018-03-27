@@ -6,6 +6,7 @@ import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.CharacterClass;
 import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.data.User;
+import com.dungeonstory.backend.data.enums.Feat;
 import com.dungeonstory.backend.repository.AbstractRepository;
 
 public class CharacterRepository extends AbstractRepository<Character, Long> {
@@ -49,10 +50,10 @@ public class CharacterRepository extends AbstractRepository<Character, Long> {
         }
     }
 
-    public boolean hasFeat(Long characterId, Long featId) {
+    public boolean hasFeat(Long characterId, Feat feat) {
         TypedQuery<Character> query = entityManager.createNamedQuery(Character.HAS_FEAT, Character.class);
         query.setParameter("characterId", characterId);
-        query.setParameter("featId", featId);
+        query.setParameter("feat", feat);
         return !query.getResultList().isEmpty();
     }
 

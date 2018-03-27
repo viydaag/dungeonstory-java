@@ -2,7 +2,7 @@ package com.dungeonstory.ui.view.character;
 
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.ClassFeature;
-import com.dungeonstory.backend.data.Feat;
+import com.dungeonstory.backend.data.enums.Feat;
 import com.dungeonstory.backend.data.util.ClassUtil;
 import com.dungeonstory.ui.component.DSLabel;
 import com.vaadin.fluent.ui.FHorizontalLayout;

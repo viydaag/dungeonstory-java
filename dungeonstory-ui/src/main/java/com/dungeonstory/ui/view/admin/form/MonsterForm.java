@@ -15,7 +15,7 @@ import com.dungeonstory.backend.data.Monster;
 import com.dungeonstory.backend.data.MonsterAction;
 import com.dungeonstory.backend.data.MonsterSense;
 import com.dungeonstory.backend.data.MonsterSkill;
-import com.dungeonstory.backend.data.Skill;
+import com.dungeonstory.backend.data.enums.Skill;
 import com.dungeonstory.backend.data.WeaponType.UsageType;
 import com.dungeonstory.backend.data.enums.Ability;
 import com.dungeonstory.backend.data.enums.Language;
@@ -78,8 +78,8 @@ public class MonsterForm extends DSAbstractForm<Monster> {
     private ElementCollectionGrid<MonsterAction>    attacks;
 
     public static class MonsterSkillRow {
-        ComboBox<Skill> skill = new ComboBox<>();
-        IntegerField    bonus = new DSIntegerField();
+        EnumComboBox<Skill> skill = new EnumComboBox<>(Skill.class);
+        IntegerField        bonus = new DSIntegerField();
     }
 
     public static class MonsterSenseRow {
@@ -191,7 +191,7 @@ public class MonsterForm extends DSAbstractForm<Monster> {
         savingThrowProficiencies.setValue(EnumSet.noneOf(Ability.class)); // nothing selected
         savingThrowProficiencies.setWidth("50%");
 
-        List<Skill> allSkills = Services.getSkillService().findAll();
+        Set<Skill> allSkills = EnumSet.allOf(Skill.class);
         skills = new ElementCollectionField<>(MonsterSkill.class, MonsterSkillRow.class)
                 .withCaption("Maitrises de compétence").withEditorInstantiator(() -> {
                     MonsterSkillRow row = new MonsterSkillRow();

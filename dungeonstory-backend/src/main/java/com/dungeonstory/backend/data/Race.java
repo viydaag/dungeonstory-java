@@ -20,6 +20,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import com.dungeonstory.backend.data.enums.Language;
+import com.dungeonstory.backend.data.enums.Skill;
 
 import org.eclipse.persistence.annotations.PrivateOwned;
 
@@ -144,10 +145,10 @@ public class Race extends AbstractTimestampEntity {
             inverseJoinColumns = { @JoinColumn(name = "weaponTypeId", referencedColumnName = "id") })
     private Set<WeaponType> weaponProficiencies;
 
-    @ManyToMany
-    @JoinTable(name = "RaceSkillProficiencies", joinColumns = {
-        @JoinColumn(name = "raceId", referencedColumnName = "id") }, 
-            inverseJoinColumns = { @JoinColumn(name = "skillId", referencedColumnName = "id") })
+    @ElementCollection(targetClass = Skill.class)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "RaceSkillProficiencies", joinColumns = @JoinColumn(name = "raceId", nullable = false))
+    @Column(name = "skill", nullable = false)
     private Set<Skill> skillProficiencies;
     
     @ManyToOne

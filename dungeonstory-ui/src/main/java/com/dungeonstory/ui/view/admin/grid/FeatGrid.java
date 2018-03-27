@@ -1,6 +1,9 @@
 package com.dungeonstory.ui.view.admin.grid;
 
-import com.dungeonstory.backend.data.Feat;
+import java.util.EnumSet;
+
+import com.dungeonstory.backend.data.enums.Feat;
+import com.vaadin.data.provider.ListDataProvider;
 
 public class FeatGrid extends DSGrid<Feat> {
 
@@ -10,6 +13,7 @@ public class FeatGrid extends DSGrid<Feat> {
         super();
         addColumn(Feat::getName).setCaption("Nom").setId("name");
         addColumn(Feat::getUsage).setCaption("Usage").setId("usage");
+        setDataProvider(new ListDataProvider<>(EnumSet.allOf(Feat.class)));
     }
 
 }

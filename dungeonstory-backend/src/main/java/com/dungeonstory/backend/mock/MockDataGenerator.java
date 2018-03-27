@@ -48,9 +48,6 @@ public class MockDataGenerator {
             { "Humain", "1", "1", "1", "1", "1", "1", "16", "60", "5'4\"", "150" },
             { "Elfe", "0", "1", "0", "1", "0", "0", "75", "800", "5'0\"", "90" } };
 
-    private static final String[][] storedFeats = new String[][] { { "feat1", "ACTION" }, { "feat2", "PASSIVE" },
-            { "feat3", "REACTION" } };
-
     public static List<Ability> createAbilities() {
         List<Ability> abilities = new ArrayList<Ability>();
         for (String[] ability : storedAbilities) {
@@ -160,14 +157,6 @@ public class MockDataGenerator {
             races.add(race);
         }
         return races;
-    }
-
-    public static List<Feat> createFeats() {
-        List<Feat> feats = new ArrayList<Feat>();
-        for (String[] tab : storedFeats) {
-            feats.add(new Feat(tab[0], "", Feat.FeatUsage.valueOf(tab[1])));
-        }
-        return feats;
     }
 
     public static List<Shop> createShops() {

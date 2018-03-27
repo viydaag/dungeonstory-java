@@ -10,7 +10,7 @@ import com.dungeonstory.backend.data.ArmorType.ProficiencyType;
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.CharacterClass;
 import com.dungeonstory.backend.data.ClassFeature;
-import com.dungeonstory.backend.data.Feat;
+import com.dungeonstory.backend.data.enums.Feat;
 import com.dungeonstory.backend.data.enums.Skill;
 import com.dungeonstory.backend.data.WeaponType;
 import com.dungeonstory.backend.data.enums.Ability;

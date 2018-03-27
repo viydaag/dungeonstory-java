@@ -7,6 +7,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
@@ -17,9 +19,9 @@ import javax.validation.constraints.Size;
 
 import org.eclipse.persistence.annotations.BatchFetch;
 import org.eclipse.persistence.annotations.BatchFetchType;
-import org.eclipse.persistence.annotations.JoinFetch;
-import org.eclipse.persistence.annotations.JoinFetchType;
 import org.eclipse.persistence.annotations.PrivateOwned;
+
+import com.dungeonstory.backend.data.enums.Ability;
 
 @Entity
 @Table(name = "ClassSpecialization")
@@ -46,9 +48,8 @@ public class ClassSpecialization extends AbstractTimestampEntity implements Seri
     @Column(name = "isSpellCasting")
     private boolean isSpellCasting = false;
 
-    @ManyToOne
-    @JoinFetch(JoinFetchType.OUTER)
-    @JoinColumn(name = "spellCastingAbilityId")
+    @Column(name = "spellCastingAbility")
+    @Enumerated(EnumType.STRING)
     private Ability spellCastingAbility;
 
     @OneToMany(mappedBy = "classSpec", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})

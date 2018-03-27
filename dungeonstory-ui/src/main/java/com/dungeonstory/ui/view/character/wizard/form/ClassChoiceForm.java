@@ -2,6 +2,7 @@ package com.dungeonstory.ui.view.character.wizard.form;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -14,8 +15,8 @@ import com.dungeonstory.backend.data.ClassFeature;
 import com.dungeonstory.backend.data.ClassLevelBonus;
 import com.dungeonstory.backend.data.CreatureType;
 import com.dungeonstory.backend.data.DSClass;
-import com.dungeonstory.backend.data.Skill;
 import com.dungeonstory.backend.data.Terrain;
+import com.dungeonstory.backend.data.enums.Skill;
 import com.dungeonstory.backend.data.util.ClassUtil;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.Services;
@@ -46,11 +47,10 @@ public class ClassChoiceForm extends CharacterWizardStepForm<CharacterClass> imp
     private Character character;
 
     private DataService<DSClass, Long>      classService;
-    private DataService<Skill, Long>        skillService;
     private DataService<CreatureType, Long> creatureTypeService;
 
-    private ComboBox<DSClass> classe;
-    private SubSetSelector<Skill, List<Skill>>               classSkills;
+    private ComboBox<DSClass>                                classe;
+    private SubSetSelector<Skill, Set<Skill>>                classSkills;
     private SubSetSelector<CreatureType, List<CreatureType>> favoredEnnemies;
     private SubSetSelector<Terrain, Set<Terrain>>            favoredTerrains;
 
@@ -72,7 +72,6 @@ public class ClassChoiceForm extends CharacterWizardStepForm<CharacterClass> imp
         setSavedHandler(this);
 
         classService = Services.getClassService();
-        skillService = Services.getSkillService();
         creatureTypeService = Services.getCreatureTypeService();
     }
 
@@ -103,7 +102,7 @@ public class ClassChoiceForm extends CharacterWizardStepForm<CharacterClass> imp
 
         classSkills = new SubSetSelector<>(Skill.class);
         classSkills.getGrid().addColumn(Skill::getName).setCaption(messages.getMessage("classStep.proficientSkills.table.column.name")).setId("name");
-        classSkills.setItems(skillService.findAll());
+        classSkills.setItems(EnumSet.allOf(Skill.class));
         classSkills.setVisible(false);
         classSkills.addValueChangeListener(event -> adjustButtons());
         classFieldsLayout.addComponents(classSkills);
@@ -159,7 +158,7 @@ public class ClassChoiceForm extends CharacterWizardStepForm<CharacterClass> imp
                     classSkills.setVisible(true);
                     classSkills.setCaption(messages.getMessage("classStep.proficientSkills.label") + " (" + chosenClass.getNbChosenSkills() + ")");
                     classSkills.setItems(ClassUtil.getUnassignedClassSkills(character, chosenClass));
-                    classSkills.setValue(new ArrayList<>());
+                    classSkills.setValue(EnumSet.noneOf(Skill.class));
                     classSkills.setLimit(chosenClass.getNbChosenSkills());
                 } else {
                     classLevel = assignedClass.getClassLevel() + 1;
@@ -296,8 +295,7 @@ public class ClassChoiceForm extends CharacterWizardStepForm<CharacterClass> imp
 
         // Add skill proficiencies if new class
         if (classSkills.getValue() != null && assignedClass == null) {
-            //TODO replace with skill enum
-//            character.getSkillProficiencies().addAll(classSkills.getValue());
+            character.getSkillProficiencies().addAll(classSkills.getValue());
         }
 
         // On character creation, give starting gold

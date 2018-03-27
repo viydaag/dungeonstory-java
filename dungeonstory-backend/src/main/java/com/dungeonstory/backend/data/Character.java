@@ -37,12 +37,13 @@ import org.eclipse.persistence.annotations.PrivateOwned;
 
 import com.dungeonstory.backend.data.Tool.ToolType;
 import com.dungeonstory.backend.data.enums.Ability;
+import com.dungeonstory.backend.data.enums.Feat;
 import com.dungeonstory.backend.data.enums.Language;
 import com.dungeonstory.backend.data.enums.Skill;
 
 @Entity
 @Table(name = "DSCharacter")
-@NamedQuery(name = Character.HAS_FEAT, query = "SELECT c FROM Character c JOIN c.feats f WHERE f.id = :featId AND c.id = :characterId")
+@NamedQuery(name = Character.HAS_FEAT, query = "SELECT c FROM Character c JOIN c.feats f WHERE c.id = :characterId AND f = :feat")
 public class Character extends AbstractTimestampEntity implements Serializable, HasStats {
 
     public static final String HAS_FEAT = "hasFeat";
@@ -194,13 +195,12 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
     @PrivateOwned
     private Set<CharacterClass> classes;
 
-    @ManyToMany
-    @JoinTable(name = "CharacterFeat", joinColumns = { @JoinColumn(name = "characterId", referencedColumnName = "id") }, inverseJoinColumns = {
-            @JoinColumn(name = "featId", referencedColumnName = "id") })
+    @ElementCollection(targetClass = Feat.class)
+    @CollectionTable(name = "CharacterFeat", joinColumns = @JoinColumn(name = "characterId", nullable = false))
+    @Column(name = "feat", nullable = false)
+    @Enumerated(EnumType.STRING)
     private Set<Feat> feats;
 
-//    @ManyToMany
-//    @JoinTable(name = "CharacterProficientSkill", joinColumns = @JoinColumn(name = "characterId", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "skillId", referencedColumnName = "id"))
     @ElementCollection(targetClass = Skill.class)
     @CollectionTable(name = "CharacterProficientSkill", joinColumns = @JoinColumn(name = "characterId", nullable = false))
     @Column(name = "skill", nullable = false)

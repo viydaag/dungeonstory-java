@@ -12,12 +12,11 @@ import com.dungeonstory.backend.data.Condition;
 import com.dungeonstory.backend.data.DamageType;
 import com.dungeonstory.backend.data.Race;
 import com.dungeonstory.backend.data.Race.Size;
-import com.dungeonstory.backend.data.Skill;
+import com.dungeonstory.backend.data.enums.Skill;
 import com.dungeonstory.backend.data.WeaponType;
 import com.dungeonstory.backend.data.enums.Language;
 import com.dungeonstory.backend.service.DamageTypeDataService;
 import com.dungeonstory.backend.service.Services;
-import com.dungeonstory.backend.service.SkillDataService;
 import com.dungeonstory.backend.service.WeaponTypeDataService;
 import com.dungeonstory.ui.component.DSAbstractForm;
 import com.dungeonstory.ui.component.EnumComboBox;
@@ -67,13 +66,11 @@ public class RaceForm extends DSAbstractForm<Race> {
     private ComboBox<DamageType>                                                      damageResistance;
     private ImagePreviewField                                                         image;
 
-    private SkillDataService      skillService      = null;
     private WeaponTypeDataService weaponTypeService = null;
     private DamageTypeDataService damageTypeService = null;
 
     public RaceForm() {
         super(Race.class);
-        skillService = Services.getSkillService();
         weaponTypeService = Services.getWeaponTypeService();
         damageTypeService = Services.getDamageTypeService();
     }
@@ -142,7 +139,7 @@ public class RaceForm extends DSAbstractForm<Race> {
         skillProficiencies.setCaption("Maitrise de compétence");
         skillProficiencies.getGrid().addColumn(Skill::getName).setCaption("Compétence").setId("name");
         skillProficiencies.getGrid().addColumn(Skill::getKeyAbility).setCaption("Caractéristique clé").setId("keyAbility.name");
-        skillProficiencies.setItems(skillService.findAll());
+        skillProficiencies.setItems(EnumSet.allOf(Skill.class));
         skillProficiencies.setWidth("80%");
         skillProficiencies.setValue(null); // nothing selected
 

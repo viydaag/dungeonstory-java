@@ -14,6 +14,7 @@ import com.dungeonstory.backend.Labels;
 import com.dungeonstory.backend.data.enums.Ability;
 import com.dungeonstory.backend.data.enums.Background;
 import com.dungeonstory.backend.data.enums.Language;
+import com.dungeonstory.backend.data.enums.Skill;
 import com.dungeonstory.ui.i18n.Messages;
 import com.dungeonstory.ui.test.integration.IntegrationTestBase;
 import com.dungeonstory.ui.test.integration.authentication.LoginPageObject;
@@ -103,10 +104,10 @@ public class NewCharacterIT
         assertNotNull(proficiencies);
 
         ComboBoxElement classSkills = $(CustomFieldElement.class).caption("Maitrises de compétence (2)").$(ComboBoxElement.class).first();
-        classSkills.selectByText("Athlétisme");
+        classSkills.selectByText(Skill.ATHLETICS.getName());
         GridElement classSkillsGrid = $(GridElement.class).first();
         assertEquals(1, classSkillsGrid.getRowCount());
-        assertEquals("Athlétisme", classSkillsGrid.getRow(0).getCell(1).getText());
+        assertEquals(Skill.ATHLETICS.getName(), classSkillsGrid.getRow(0).getCell(1).getText());
         assertFalse(nextButton.isEnabled());
 
         ButtonElement deleteSkillButton1 = $(VerticalLayoutElement.class).$(ButtonElement.class).first();
@@ -114,8 +115,8 @@ public class NewCharacterIT
         assertEquals(0, classSkillsGrid.getRowCount());
         assertFalse(nextButton.isEnabled());
 
-        classSkills.selectByText("Athlétisme");
-        classSkills.selectByText("Intimidation");
+        classSkills.selectByText(Skill.ATHLETICS.getName());
+        classSkills.selectByText(Skill.INTIMIDATION.getName());
         assertFalse(classSkills.isEnabled());
         assertTrue(nextButton.isEnabled());
 
@@ -316,8 +317,8 @@ public class NewCharacterIT
                                                                         .first();
         LabelElement skillProficiencyLabel = $(LabelElement.class).caption(messages.getMessage("summaryStep.proficiency.skill.label")).first();
 
-        assertTrue(getText(skillProficiencyLabel).contains("Athlétisme"));
-        assertTrue(getText(skillProficiencyLabel).contains("Intimidation"));
+        assertTrue(getText(skillProficiencyLabel).contains(Skill.ATHLETICS.getName()));
+        assertTrue(getText(skillProficiencyLabel).contains(Skill.INTIMIDATION.getName()));
 
         ImageElement summaryImage = $(ImageElement.class).caption("Image").first();
         String summaryImgSrc = getAttribute(summaryImage, "src").substring(getAttribute(summaryImage, "src").lastIndexOf('/'));

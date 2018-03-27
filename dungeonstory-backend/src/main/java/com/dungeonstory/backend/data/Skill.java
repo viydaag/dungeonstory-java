@@ -37,11 +37,11 @@ public class Skill extends AbstractTimestampEntity {
     @JoinColumn(name = "keyAbilityId", nullable = false)
     private Ability keyAbility;
 
-    @ManyToMany(mappedBy = "skillProficiencies")
-    private List<Character> characters;
+//    @ManyToMany(mappedBy = "skillProficiencies")
+//    private List<Character> characters;
 
-    @OneToMany(mappedBy = "skill")
-    private List<ClassSkill> classes;
+//    @OneToMany(mappedBy = "skill")
+//    private List<ClassSkill> classes;
 
     public Skill() {
         super();
@@ -85,21 +85,21 @@ public class Skill extends AbstractTimestampEntity {
         this.keyAbility = keyAbility;
     }
 
-    public List<Character> getCharacters() {
-        return characters;
-    }
+//    public List<Character> getCharacters() {
+//        return characters;
+//    }
+//
+//    public void setCharacters(List<Character> characters) {
+//        this.characters = characters;
+//    }
 
-    public void setCharacters(List<Character> characters) {
-        this.characters = characters;
-    }
-
-    public List<ClassSkill> getClasses() {
-        return classes;
-    }
-
-    public void setClasses(List<ClassSkill> classes) {
-        this.classes = classes;
-    }
+//    public List<ClassSkill> getClasses() {
+//        return classes;
+//    }
+//
+//    public void setClasses(List<ClassSkill> classes) {
+//        this.classes = classes;
+//    }
 
     @Override
     public String toString() {

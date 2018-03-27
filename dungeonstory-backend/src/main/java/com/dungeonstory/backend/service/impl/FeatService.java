@@ -1,23 +1,18 @@
 package com.dungeonstory.backend.service.impl;
 
-import java.util.List;
+import java.util.EnumSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.CharacterClass;
-import com.dungeonstory.backend.data.Feat;
+import com.dungeonstory.backend.data.enums.Feat;
 import com.dungeonstory.backend.data.util.ModifierUtil;
-import com.dungeonstory.backend.repository.impl.FeatRepository;
-import com.dungeonstory.backend.service.AbstractDataService;
 import com.dungeonstory.backend.service.FeatDataService;
 
-public class FeatService extends AbstractDataService<Feat, Long> implements FeatDataService {
-
-    private static final long serialVersionUID = -904004337605184211L;
+public class FeatService implements FeatDataService {
 
     private static FeatService instance = null;
-    private FeatRepository repository = null;
-
     public static synchronized FeatService getInstance() {
         if (instance == null) {
             instance = new FeatService();
@@ -25,23 +20,15 @@ public class FeatService extends AbstractDataService<Feat, Long> implements Feat
         return instance;
     }
 
-    private FeatService() {
-        super();
-        repository = new FeatRepository();
-        setEntityFactory(() -> new Feat());
-        setRepository(repository);
-    }
-
-
     @Override
-    public List<Feat> findAllFeatsExcept(Feat feat) {
-        return repository.findAllFeatsExcept(feat);
+    public Set<Feat> findAllFeatsExcept(Feat feat) {
+        return EnumSet.complementOf(EnumSet.of(feat));
     }
 
     @Override
-    public List<Feat> findAllUnassignedFeats(Character character) {
-        List<Feat> feats = repository.findAllUnassignedFeats(character);
-        return feats.stream().filter(feat -> isFeatAvailable(feat, character)).collect(Collectors.toList());
+    public Set<Feat> findAllUnassignedFeats(Character character) {
+        Set<Feat> feats = EnumSet.complementOf(EnumSet.copyOf(character.getFeats()));
+        return feats.stream().filter(feat -> isFeatAvailable(feat, character)).collect(Collectors.toSet());
     }
 
     /**
