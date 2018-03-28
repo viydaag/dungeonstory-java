@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.dungeonstory.FormCheckBox;
-import com.dungeonstory.backend.data.Ability;
 import com.dungeonstory.backend.data.Condition;
 import com.dungeonstory.backend.data.DamageType;
 import com.dungeonstory.backend.data.Equipment;
@@ -23,6 +22,7 @@ import com.dungeonstory.backend.data.Spell.TimeUnit;
 import com.dungeonstory.backend.data.SpellComponent;
 import com.dungeonstory.backend.data.SpellEffect;
 import com.dungeonstory.backend.data.SpellEffect.EffectType;
+import com.dungeonstory.backend.data.enums.Ability;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSAbstractForm;
@@ -76,7 +76,6 @@ public class SpellForm extends DSAbstractForm<Spell> {
 
     private DataService<Equipment, Long>  equipmentService  = null;
     private DataService<DamageType, Long> damageTypeService = null;
-    private DataService<Ability, Long>    abilityService    = null;
 
     public SpellForm() {
         super(Spell.class);
@@ -151,7 +150,7 @@ public class SpellForm extends DSAbstractForm<Spell> {
         rangeValueInFeet = new DSIntegerField("Portée (en pieds)");
         range.addSelectionListener(event -> showRange());
 
-        savingThrowAbility = new ComboBox<Ability>("Caractéristique de jet de sauvegarde", abilityService.findAll());
+        savingThrowAbility = new EnumComboBox<Ability>(Ability.class, "Caractéristique de jet de sauvegarde");
         attackRoll = new FormCheckBox("Nécessite un jet d'attaque");
         higherLevel = new FormCheckBox("Peut être lancé à plus haut niveau");
 

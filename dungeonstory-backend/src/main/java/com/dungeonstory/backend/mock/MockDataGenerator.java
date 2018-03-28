@@ -3,7 +3,6 @@ package com.dungeonstory.backend.mock;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 import com.dungeonstory.backend.data.*;
 import com.dungeonstory.backend.service.mock.*;
@@ -20,12 +19,6 @@ public class MockDataGenerator {
     private static final String storedDamageType[][] = new String[][] { { "Tranchant" }, { "Contandant" },
             { "Perçant" }, { "Feu" }, { "Froid" }, { "Acide" }, { "Électricité" }, { "Nécrotique" }, { "Force" },
             { "Magique" }, { "Radiant" }, };
-
-    private static final String storedSkills[][] = new String[][] { { "Athlétisme", "1" }, { "Acrobatie", "2" },
-            { "Vol à la tire", "2" }, { "Furtivité", "2" }, { "Arcane", "4" }, { "Histoire", "4" },
-            { "Investigation", "4" }, { "Nature", "4" }, { "Religion", "4" }, { "Manipulation des animaux", "5" },
-            { "Perspicacité", "5" }, { "Soin", "5" }, { "Perception", "5" }, { "Survie", "5" }, { "Tromperie", "6" },
-            { "Intimidation", "6" }, { "Performance", "6" }, { "Persuasion", "6" } };
 
     private static final Integer[][] storedLevels = new Integer[][] { { 1, 1000, 1 }, { 2, 2000, 2 } };
 
