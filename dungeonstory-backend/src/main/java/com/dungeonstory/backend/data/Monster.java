@@ -25,6 +25,9 @@ import javax.validation.constraints.Size;
 
 import com.dungeonstory.backend.data.enums.Language;
 import com.dungeonstory.backend.data.enums.Ability;
+import com.dungeonstory.backend.data.enums.ChallengeRating;
+import com.dungeonstory.backend.data.enums.Condition;
+import com.dungeonstory.backend.data.enums.CreatureSize;
 
 /**
  * Entity implementation class for Entity: Monster

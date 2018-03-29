@@ -19,6 +19,7 @@ import org.eclipse.persistence.annotations.JoinFetch;
 import org.eclipse.persistence.annotations.JoinFetchType;
 
 import com.dungeonstory.backend.data.WeaponType.UsageType;
+import com.dungeonstory.backend.data.enums.Condition;
 
 @Entity
 @Table(name = "MonsterAction")

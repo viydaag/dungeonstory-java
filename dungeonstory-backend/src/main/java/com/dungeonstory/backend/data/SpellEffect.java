@@ -10,6 +10,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import com.dungeonstory.backend.data.enums.Condition;
+
 @Entity
 @Table(name = "SpellEffect")
 public class SpellEffect extends AbstractTimestampEntity {

@@ -40,6 +40,7 @@ import com.dungeonstory.backend.data.enums.Ability;
 import com.dungeonstory.backend.data.enums.Feat;
 import com.dungeonstory.backend.data.enums.Language;
 import com.dungeonstory.backend.data.enums.Skill;
+import com.dungeonstory.backend.data.enums.Terrain;
 
 @Entity
 @Table(name = "DSCharacter")

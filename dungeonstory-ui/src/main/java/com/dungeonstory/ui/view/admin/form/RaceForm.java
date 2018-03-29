@@ -8,12 +8,12 @@ import org.vaadin.easyuploads.ImagePreviewField;
 
 import com.dungeonstory.FormCheckBox;
 import com.dungeonstory.backend.data.ArmorType;
-import com.dungeonstory.backend.data.Condition;
 import com.dungeonstory.backend.data.DamageType;
 import com.dungeonstory.backend.data.Race;
 import com.dungeonstory.backend.data.Race.Size;
 import com.dungeonstory.backend.data.enums.Skill;
 import com.dungeonstory.backend.data.WeaponType;
+import com.dungeonstory.backend.data.enums.Condition;
 import com.dungeonstory.backend.data.enums.Language;
 import com.dungeonstory.backend.service.DamageTypeDataService;
 import com.dungeonstory.backend.service.Services;

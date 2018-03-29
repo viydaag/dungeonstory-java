@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.dungeonstory.FormCheckBox;
-import com.dungeonstory.backend.data.Condition;
 import com.dungeonstory.backend.data.DamageType;
 import com.dungeonstory.backend.data.Equipment;
 import com.dungeonstory.backend.data.Equipment.EquipmentType;
@@ -23,6 +22,7 @@ import com.dungeonstory.backend.data.SpellComponent;
 import com.dungeonstory.backend.data.SpellEffect;
 import com.dungeonstory.backend.data.SpellEffect.EffectType;
 import com.dungeonstory.backend.data.enums.Ability;
+import com.dungeonstory.backend.data.enums.Condition;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSAbstractForm;
