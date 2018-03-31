@@ -1,5 +1,6 @@
 package com.dungeonstory.backend.data;
 
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,6 +23,7 @@ import javax.validation.constraints.Pattern;
 import com.dungeonstory.backend.data.enums.Condition;
 import com.dungeonstory.backend.data.enums.Language;
 import com.dungeonstory.backend.data.enums.Skill;
+import com.dungeonstory.backend.data.enums.DamageType;
 
 import org.eclipse.persistence.annotations.PrivateOwned;
 
@@ -152,9 +154,11 @@ public class Race extends AbstractTimestampEntity {
     @Column(name = "skill", nullable = false)
     private Set<Skill> skillProficiencies;
     
-    @ManyToOne
-    @JoinColumn(name = "damageTypeId")
-    private DamageType damageResistance;
+    @ElementCollection(targetClass = DamageType.class)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "RaceDamageResistance", joinColumns = @JoinColumn(name = "raceId", nullable = false))
+    @Column(name = "damageResistance", nullable = false)
+    private Set<DamageType> damageResistance;
     
     @Column(name = "image")
     private byte[] image;
@@ -166,6 +170,7 @@ public class Race extends AbstractTimestampEntity {
         armorProficiencies = new HashSet<ArmorType.ProficiencyType>();
         weaponProficiencies = new HashSet<WeaponType>();
         skillProficiencies = new HashSet<Skill>();
+        damageResistance = EnumSet.noneOf(DamageType.class);
     }
 
     public Race(String name) {
@@ -341,11 +346,11 @@ public class Race extends AbstractTimestampEntity {
         this.skillProficiencies = skillProficiencies;
     }
 
-    public DamageType getDamageResistance() {
+    public Set<DamageType> getDamageResistance() {
         return damageResistance;
     }
 
-    public void setDamageResistance(DamageType damageResistance) {
+    public void setDamageResistance(Set<DamageType> damageResistance) {
         this.damageResistance = damageResistance;
     }
 

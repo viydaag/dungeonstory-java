@@ -7,7 +7,7 @@ import com.dungeonstory.ui.converter.CollectionToStringConverter;
 import com.vaadin.data.ValueContext;
 import com.vaadin.data.provider.ListDataProvider;
 
-public class BackgroundGrid extends DSGrid<Background> {
+public class BackgroundGrid extends ReadOnlyGrid<Background> {
 
     private static final long serialVersionUID = 9205275025444235763L;
 

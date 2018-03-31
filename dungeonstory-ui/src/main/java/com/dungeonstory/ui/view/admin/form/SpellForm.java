@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.dungeonstory.FormCheckBox;
-import com.dungeonstory.backend.data.DamageType;
 import com.dungeonstory.backend.data.Equipment;
 import com.dungeonstory.backend.data.Equipment.EquipmentType;
 import com.dungeonstory.backend.data.Spell;
@@ -23,6 +22,7 @@ import com.dungeonstory.backend.data.SpellEffect;
 import com.dungeonstory.backend.data.SpellEffect.EffectType;
 import com.dungeonstory.backend.data.enums.Ability;
 import com.dungeonstory.backend.data.enums.Condition;
+import com.dungeonstory.backend.data.enums.DamageType;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSAbstractForm;
@@ -75,12 +75,10 @@ public class SpellForm extends DSAbstractForm<Spell> {
     private ElementCollectionField<SpellEffect> effects;
 
     private DataService<Equipment, Long>  equipmentService  = null;
-    private DataService<DamageType, Long> damageTypeService = null;
 
     public SpellForm() {
         super(Spell.class);
         equipmentService = Services.getEquipmentService();
-        damageTypeService = Services.getDamageTypeService();
     }
 
     @Override
@@ -91,7 +89,7 @@ public class SpellForm extends DSAbstractForm<Spell> {
     public static class SpellEffectRow {
         EnumComboBox<EffectType> effectType = new EnumComboBox<>(EffectType.class);
         TextField                damage     = new TextField();
-        ComboBox<DamageType>     damageType = new ComboBox<DamageType>();
+        EnumComboBox<DamageType> damageType = new EnumComboBox<>(DamageType.class);
         IntegerField             armorClass = new DSIntegerField().withWidth("100px");
         EnumComboBox<Condition>  condition  = new EnumComboBox<>(Condition.class);
     }
@@ -154,11 +152,9 @@ public class SpellForm extends DSAbstractForm<Spell> {
         attackRoll = new FormCheckBox("Nécessite un jet d'attaque");
         higherLevel = new FormCheckBox("Peut être lancé à plus haut niveau");
 
-        List<DamageType> allDamageTypes = damageTypeService.findAll();
         effects = new ElementCollectionField<SpellEffect>(SpellEffect.class, SpellEffectRow.class).withCaption("Effets")
                 .withEditorInstantiator(() -> {
                     SpellEffectRow row = new SpellEffectRow();
-                    row.damageType.setItems(allDamageTypes);
 
                     row.effectType.addValueChangeListener(new ValueChangeListener<EffectType>() {
 

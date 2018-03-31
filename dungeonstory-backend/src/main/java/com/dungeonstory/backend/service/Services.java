@@ -122,13 +122,6 @@ public abstract class Services {
         return ArmorTypeService.getInstance();
     }
 
-    public static DamageTypeDataService getDamageTypeService() {
-        if (Configuration.getInstance().isMock()) {
-            return MockDamageTypeService.getInstance();
-        }
-        return DamageTypeService.getInstance();
-    }
-
     public static CityDataService getCityService() {
         if (Configuration.getInstance().isMock()) {
             return MockCityService.getInstance();

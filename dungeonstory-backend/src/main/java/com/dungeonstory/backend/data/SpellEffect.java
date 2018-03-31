@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import com.dungeonstory.backend.data.enums.Condition;
+import com.dungeonstory.backend.data.enums.DamageType;
 
 @Entity
 @Table(name = "SpellEffect")
@@ -38,8 +39,10 @@ public class SpellEffect extends AbstractTimestampEntity {
     @Column(name = "damage")
     private String damage;                  //used in case of damage or cure
     
-    @ManyToOne
-    @JoinColumn(name = "damageTypeId")
+//    @ManyToOne
+//    @JoinColumn(name = "damageTypeId")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "damageType")
     private DamageType damageType;          //used in case of damage or resistance
     
     @Column(name = "armorClass")

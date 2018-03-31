@@ -3,6 +3,8 @@ package com.dungeonstory.backend.data;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -13,6 +15,8 @@ import javax.validation.constraints.Pattern;
 
 import org.eclipse.persistence.annotations.JoinFetch;
 import org.eclipse.persistence.annotations.JoinFetchType;
+
+import com.dungeonstory.backend.data.enums.DamageType;
 
 @Entity
 @DiscriminatorValue("WEAPON")
@@ -34,9 +38,11 @@ public class Weapon extends Equipment {
     @Column(name = "additionalDamage")
     private String additionalDamage;
 
-    @ManyToOne
-    @JoinFetch(JoinFetchType.OUTER)
-    @JoinColumn(name = "additionalDamageTypeId")
+//    @ManyToOne
+//    @JoinFetch(JoinFetchType.OUTER)
+//    @JoinColumn(name = "additionalDamageTypeId")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "additionalDamageType")
     private DamageType additionalDamageType;
 
     @Digits(integer = 2, fraction = 0)

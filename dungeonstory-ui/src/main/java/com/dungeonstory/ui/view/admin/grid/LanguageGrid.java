@@ -7,7 +7,7 @@ import com.vaadin.data.converter.StringToBooleanConverter;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.icons.VaadinIcons;
 
-public class LanguageGrid extends DSGrid<Language> {
+public class LanguageGrid extends ReadOnlyGrid<Language> {
 
     private static final long serialVersionUID = -8818716671121858460L;
 

@@ -8,14 +8,13 @@ import org.vaadin.easyuploads.ImagePreviewField;
 
 import com.dungeonstory.FormCheckBox;
 import com.dungeonstory.backend.data.ArmorType;
-import com.dungeonstory.backend.data.DamageType;
 import com.dungeonstory.backend.data.Race;
 import com.dungeonstory.backend.data.Race.Size;
-import com.dungeonstory.backend.data.enums.Skill;
 import com.dungeonstory.backend.data.WeaponType;
 import com.dungeonstory.backend.data.enums.Condition;
+import com.dungeonstory.backend.data.enums.DamageType;
 import com.dungeonstory.backend.data.enums.Language;
-import com.dungeonstory.backend.service.DamageTypeDataService;
+import com.dungeonstory.backend.data.enums.Skill;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.backend.service.WeaponTypeDataService;
 import com.dungeonstory.ui.component.DSAbstractForm;
@@ -27,7 +26,6 @@ import com.dungeonstory.ui.layout.MultiColumnFormLayout;
 import com.vaadin.fluent.ui.FTextArea;
 import com.vaadin.fluent.ui.FTextField;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextArea;
@@ -63,16 +61,14 @@ public class RaceForm extends DSAbstractForm<Race> {
     private SubSetSelector<ArmorType.ProficiencyType, Set<ArmorType.ProficiencyType>> armorProficiencies;
     private SubSetSelector<WeaponType, Set<WeaponType>>                               weaponProficiencies;
     private SubSetSelector<Skill, Set<Skill>>                                         skillProficiencies;
-    private ComboBox<DamageType>                                                      damageResistance;
+    private SubSetSelector<DamageType, Set<DamageType>>                               damageResistance;
     private ImagePreviewField                                                         image;
 
     private WeaponTypeDataService weaponTypeService = null;
-    private DamageTypeDataService damageTypeService = null;
 
     public RaceForm() {
         super(Race.class);
         weaponTypeService = Services.getWeaponTypeService();
-        damageTypeService = Services.getDamageTypeService();
     }
 
     @Override
@@ -100,7 +96,14 @@ public class RaceForm extends DSAbstractForm<Race> {
         extraLanguage = new FormCheckBox("Langage extra");
         size = new EnumComboBox<Size>(Size.class, "Type de grandeur");
         speed = new DSIntegerField("Vitesse de déplacement en 1 round (en pieds)").withWidth(100, Unit.PIXELS);
-        damageResistance = new ComboBox<>("Résistance au dommage", damageTypeService.findAll());
+        
+        damageResistance = new SubSetSelector<>(DamageType.class);
+        damageResistance.setCaption("Résistance aux dommages");
+        damageResistance.getGrid().addColumn(DamageType::getName).setCaption("Type").setId("damageType");
+        damageResistance.getGrid().setColumnOrder("damageType");
+        damageResistance.setItems(EnumSet.allOf(DamageType.class));
+        damageResistance.setValue(EnumSet.noneOf(DamageType.class)); // nothing selected
+        damageResistance.setWidth("50%");
 
         strModifier = new DSIntegerField("Modificateur de force");
         dexModifier = new DSIntegerField("Modificateur de dextérité");
@@ -138,7 +141,8 @@ public class RaceForm extends DSAbstractForm<Race> {
         skillProficiencies = new SubSetSelector<>(Skill.class);
         skillProficiencies.setCaption("Maitrise de compétence");
         skillProficiencies.getGrid().addColumn(Skill::getName).setCaption("Compétence").setId("name");
-        skillProficiencies.getGrid().addColumn(Skill::getKeyAbility).setCaption("Caractéristique clé").setId("keyAbility.name");
+        skillProficiencies.getGrid().addColumn(Skill::getKeyAbility).setCaption("Caractéristique clé").setId(
+                "keyAbility.name");
         skillProficiencies.setItems(EnumSet.allOf(Skill.class));
         skillProficiencies.setWidth("80%");
         skillProficiencies.setValue(null); // nothing selected
@@ -147,35 +151,16 @@ public class RaceForm extends DSAbstractForm<Race> {
         image.setCaption("Image");
         image.setButtonCaption("Choisir une image");
 
-//        layout.addComponent(name);
-//        layout.addComponent(description);
-//        layout.addComponent(traits);
-        
         FormLayout nameForm = new FormLayout();
         nameForm.addComponents(name, description, traits, size);
-        
-//        layout.addComponent(size);
-        
 
         MultiColumnFormLayout abilityForm = new MultiColumnFormLayout(2, "Modificateurs");
         abilityForm.addComponents(0, strModifier, dexModifier, conModifier);
         abilityForm.addComponents(1, intModifier, wisModifier, chaModifier);
-        
-//        layout.addComponent(strModifier);
-//        layout.addComponent(dexModifier);
-//        layout.addComponent(conModifier);
-//        layout.addComponent(intModifier);
-//        layout.addComponent(wisModifier);
-//        layout.addComponent(chaModifier);
 
         MultiColumnFormLayout infoForm = new MultiColumnFormLayout(2);
         infoForm.addComponents(0, averageHeight, averageWeight, speed);
         infoForm.addComponents(1, minAge, maxAge);
-//        layout.addComponent(minAge);
-//        layout.addComponent(maxAge);
-//        layout.addComponent(averageHeight);
-//        layout.addComponent(averageWeight);
-//        layout.addComponent(speed);
 
         FormLayout formLayout = new FormLayout();
         formLayout.addComponent(languages);
@@ -188,7 +173,7 @@ public class RaceForm extends DSAbstractForm<Race> {
         formLayout.addComponent(image);
 
         formLayout.addComponent(getToolbar());
-        
+
         layout.addComponents(nameForm, abilityForm, infoForm, formLayout);
 
         return layout;

@@ -2,23 +2,22 @@ package com.dungeonstory.ui.view.admin.form;
 
 import java.util.EnumSet;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import com.dungeonstory.backend.data.Alignment;
 import com.dungeonstory.backend.data.CreatureType;
-import com.dungeonstory.backend.data.DamageType;
 import com.dungeonstory.backend.data.Monster;
 import com.dungeonstory.backend.data.MonsterAction;
 import com.dungeonstory.backend.data.MonsterSense;
 import com.dungeonstory.backend.data.MonsterSkill;
-import com.dungeonstory.backend.data.enums.Skill;
 import com.dungeonstory.backend.data.WeaponType.UsageType;
 import com.dungeonstory.backend.data.enums.Ability;
 import com.dungeonstory.backend.data.enums.ChallengeRating;
 import com.dungeonstory.backend.data.enums.Condition;
 import com.dungeonstory.backend.data.enums.CreatureSize;
+import com.dungeonstory.backend.data.enums.DamageType;
 import com.dungeonstory.backend.data.enums.Language;
+import com.dungeonstory.backend.data.enums.Skill;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSAbstractForm;
 import com.dungeonstory.ui.component.EnumComboBox;
@@ -88,18 +87,18 @@ public class MonsterForm extends DSAbstractForm<Monster> {
     }
 
     public static class MonsterAttackRow {
-        TextField               name                   = new TextField();
-        EnumComboBox<UsageType> usageType              = new EnumComboBox<>(UsageType.class);
-        TextField               damage                 = new TextField();
-        ComboBox<DamageType>    damageType             = new ComboBox<>();
-        IntegerField            bonusToHit             = new DSIntegerField();
-        EnumComboBox<Condition> condition              = new EnumComboBox<>(Condition.class);
-        ComboBox<Ability>       savingThrowToCondition = new ComboBox<>();
-        TextField               extraDamage            = new TextField();
-        ComboBox<DamageType>    extraDamageType        = new ComboBox<>();
-        CheckBox                multiAttack            = new CheckBox();
-        IntegerField            multiAttackRank        = new DSIntegerField();
-        IntegerField            nbPerRound             = new DSIntegerField();
+        TextField                name                   = new TextField();
+        EnumComboBox<UsageType>  usageType              = new EnumComboBox<>(UsageType.class);
+        TextField                damage                 = new TextField();
+        EnumComboBox<DamageType> damageType             = new EnumComboBox<>(DamageType.class);
+        IntegerField             bonusToHit             = new DSIntegerField();
+        EnumComboBox<Condition>  condition              = new EnumComboBox<>(Condition.class);
+        EnumComboBox<Ability>    savingThrowToCondition = new EnumComboBox<>(Ability.class);
+        TextField                extraDamage            = new TextField();
+        EnumComboBox<DamageType> extraDamageType        = new EnumComboBox<>(DamageType.class);
+        CheckBox                 multiAttack            = new CheckBox();
+        IntegerField             multiAttackRank        = new DSIntegerField();
+        IntegerField             nbPerRound             = new DSIntegerField();
     }
 
     public MonsterForm() {
@@ -147,24 +146,24 @@ public class MonsterForm extends DSAbstractForm<Monster> {
         damageVulnerabilities.setCaption("Vulnérabilités aux types de dégâts");
         damageVulnerabilities.getGrid().addColumn(DamageType::getName).setCaption("Type de dégât").setId("name");
         damageVulnerabilities.getGrid().setColumnOrder("name");
-        damageVulnerabilities.setItems(Services.getDamageTypeService().findAll());
-        damageVulnerabilities.setValue(new HashSet<DamageType>()); // nothing selected
+        damageVulnerabilities.setItems(EnumSet.allOf(DamageType.class));
+        damageVulnerabilities.setValue(EnumSet.noneOf(DamageType.class)); // nothing selected
         damageVulnerabilities.setWidth("50%");
 
         damageResistances = new SubSetSelector<>(DamageType.class);
         damageResistances.setCaption("Résistances aux types de dégâts");
         damageResistances.getGrid().addColumn(DamageType::getName).setCaption("Type de dégât").setId("name");
         damageResistances.getGrid().setColumnOrder("name");
-        damageResistances.setItems(Services.getDamageTypeService().findAll());
-        damageResistances.setValue(new HashSet<DamageType>()); // nothing selected
+        damageResistances.setItems(EnumSet.allOf(DamageType.class));
+        damageResistances.setValue(EnumSet.noneOf(DamageType.class)); // nothing selected
         damageResistances.setWidth("50%");
 
         damageImmunities = new SubSetSelector<>(DamageType.class);
         damageImmunities.setCaption("Immunités aux types de dégâts");
         damageImmunities.getGrid().addColumn(DamageType::getName).setCaption("Type de dégât").setId("name");
         damageImmunities.getGrid().setColumnOrder("name");
-        damageImmunities.setItems(Services.getDamageTypeService().findAll());
-        damageImmunities.setValue(new HashSet<DamageType>()); // nothing selected
+        damageImmunities.setItems(EnumSet.allOf(DamageType.class));
+        damageImmunities.setValue(EnumSet.noneOf(DamageType.class)); // nothing selected
         damageImmunities.setWidth("50%");
 
         conditionImmunities = new SubSetSelector<>(Condition.class);
@@ -211,13 +210,12 @@ public class MonsterForm extends DSAbstractForm<Monster> {
         senses.setPropertyHeader("distanceInFeet", "Distance en pieds");
         senses.setWidth("80%");
 
-        List<DamageType> allDamageTypes = Services.getDamageTypeService().findAll();
         attacks = new ElementCollectionGrid<>(MonsterAction.class, MonsterAttackRow.class).withCaption("Actions")
                 .withEditorInstantiator(() -> {
                     MonsterAttackRow row = new MonsterAttackRow();
-                    row.damageType.setItems(allDamageTypes);
-                    row.extraDamageType.setItems(allDamageTypes);
-                    row.savingThrowToCondition.setItems(EnumSet.allOf(Ability.class));
+//                    row.damageType.setItems(EnumSet.allOf(DamageType.class));
+//                    row.extraDamageType.setItems(EnumSet.allOf(DamageType.class));
+//                    row.savingThrowToCondition.setItems(EnumSet.allOf(Ability.class));
                     return row;
                 });
         // attacks.setPropertyHeader("sense", "Sens");

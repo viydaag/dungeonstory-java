@@ -5,7 +5,7 @@ import java.util.EnumSet;
 import com.dungeonstory.backend.data.enums.Feat;
 import com.vaadin.data.provider.ListDataProvider;
 
-public class FeatGrid extends DSGrid<Feat> {
+public class FeatGrid extends ReadOnlyGrid<Feat> {
 
     private static final long serialVersionUID = -6577254670865533975L;
 

@@ -13,8 +13,6 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -23,11 +21,12 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.dungeonstory.backend.data.enums.Language;
 import com.dungeonstory.backend.data.enums.Ability;
 import com.dungeonstory.backend.data.enums.ChallengeRating;
 import com.dungeonstory.backend.data.enums.Condition;
 import com.dungeonstory.backend.data.enums.CreatureSize;
+import com.dungeonstory.backend.data.enums.DamageType;
+import com.dungeonstory.backend.data.enums.Language;
 
 /**
  * Entity implementation class for Entity: Monster
@@ -152,22 +151,34 @@ public class Monster extends AbstractTimestampEntity implements HasStats {
     @Column(name = "challengeRating", nullable = false)
     private ChallengeRating challengeRating;
 
-    @ManyToMany
-    @JoinTable(name = "MonsterDamageVulnerability", joinColumns = {
-            @JoinColumn(name = "monsterId", referencedColumnName = "id") }, inverseJoinColumns = {
-                    @JoinColumn(name = "damageTypeId", referencedColumnName = "id") })
+//    @ManyToMany
+//    @JoinTable(name = "MonsterDamageVulnerability", joinColumns = {
+//            @JoinColumn(name = "monsterId", referencedColumnName = "id") }, inverseJoinColumns = {
+//                    @JoinColumn(name = "damageTypeId", referencedColumnName = "id") })
+    @ElementCollection(targetClass = Language.class)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "MonsterDamageVulnerability", joinColumns = @JoinColumn(name = "monsterId", nullable = false))
+    @Column(name = "damageVulnerability", nullable = false)
     private Set<DamageType> damageVulnerabilities;
 
-    @ManyToMany
-    @JoinTable(name = "MonsterDamageResistance", joinColumns = {
-            @JoinColumn(name = "monsterId", referencedColumnName = "id") }, inverseJoinColumns = {
-                    @JoinColumn(name = "damageTypeId", referencedColumnName = "id") })
+//    @ManyToMany
+//    @JoinTable(name = "MonsterDamageResistance", joinColumns = {
+//            @JoinColumn(name = "monsterId", referencedColumnName = "id") }, inverseJoinColumns = {
+//                    @JoinColumn(name = "damageTypeId", referencedColumnName = "id") })
+    @ElementCollection(targetClass = Language.class)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "MonsterDamageResistance", joinColumns = @JoinColumn(name = "monsterId", nullable = false))
+    @Column(name = "damageResistance", nullable = false)
     private Set<DamageType> damageResistances;
 
-    @ManyToMany
-    @JoinTable(name = "MonsterDamageImmunity", joinColumns = {
-            @JoinColumn(name = "monsterId", referencedColumnName = "id") }, inverseJoinColumns = {
-                    @JoinColumn(name = "damageTypeId", referencedColumnName = "id") })
+//    @ManyToMany
+//    @JoinTable(name = "MonsterDamageImmunity", joinColumns = {
+//            @JoinColumn(name = "monsterId", referencedColumnName = "id") }, inverseJoinColumns = {
+//                    @JoinColumn(name = "damageTypeId", referencedColumnName = "id") })
+    @ElementCollection(targetClass = Language.class)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "MonsterDamageImmunity", joinColumns = @JoinColumn(name = "monsterId", nullable = false))
+    @Column(name = "damageImmunity", nullable = false)
     private Set<DamageType> damageImmunities;
 
     @ElementCollection(targetClass = Condition.class)

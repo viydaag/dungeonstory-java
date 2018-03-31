@@ -5,17 +5,15 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.junit.Test;
 
-import com.dungeonstory.backend.data.DamageType;
 import com.dungeonstory.backend.data.WeaponType;
 import com.dungeonstory.backend.data.WeaponType.HandleType;
 import com.dungeonstory.backend.data.WeaponType.ProficiencyType;
 import com.dungeonstory.backend.data.WeaponType.SizeType;
 import com.dungeonstory.backend.data.WeaponType.UsageType;
-import com.dungeonstory.backend.service.impl.DamageTypeService;
+import com.dungeonstory.backend.data.enums.DamageType;
 import com.dungeonstory.backend.service.impl.WeaponTypeService;
 import com.dungeonstory.backend.service.mock.MockWeaponTypeService;
 
@@ -48,14 +46,9 @@ public class TestWeaponTypeService {
     @Test
     public void testWeaponTypeService() throws Exception {
         WeaponTypeService service = WeaponTypeService.getInstance();
-        DamageTypeService dmService = DamageTypeService.getInstance();
 
-        dmService.create(new DamageType("un type de dommage"));
-        List<DamageType> findAll = dmService.findAll();
-        DamageType dm = findAll.get(findAll.size() - 1);
-        assertNotNull(dm);
         WeaponType newWt = new WeaponType("test weapon", ProficiencyType.SIMPLE, SizeType.MEDIUM, HandleType.TWO_HANDED,
-                UsageType.MELEE, dm);
+                UsageType.MELEE, DamageType.SLASHING);
         service.create(newWt);
 
         Collection<WeaponType> allWeaponTypes = service.findAll();

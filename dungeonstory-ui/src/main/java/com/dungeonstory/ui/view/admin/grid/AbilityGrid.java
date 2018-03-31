@@ -5,7 +5,7 @@ import java.util.EnumSet;
 import com.dungeonstory.backend.data.enums.Ability;
 import com.vaadin.data.provider.ListDataProvider;
 
-public class AbilityGrid extends DSGrid<Ability> {
+public class AbilityGrid extends ReadOnlyGrid<Ability> {
 
     private static final long serialVersionUID = 8060713315641761422L;
 

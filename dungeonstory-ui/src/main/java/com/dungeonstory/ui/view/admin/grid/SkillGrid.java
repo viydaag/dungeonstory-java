@@ -5,7 +5,7 @@ import java.util.EnumSet;
 import com.dungeonstory.backend.data.enums.Skill;
 import com.vaadin.data.provider.ListDataProvider;
 
-public class SkillGrid extends DSGrid<Skill> {
+public class SkillGrid extends ReadOnlyGrid<Skill> {
 
     private static final long serialVersionUID = 5108019895920968099L;
 

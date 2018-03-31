@@ -2,14 +2,13 @@ package com.dungeonstory.ui.view.admin.form;
 
 import com.dungeonstory.FormCheckBox;
 import com.dungeonstory.backend.data.ArmorType;
-import com.dungeonstory.backend.data.DamageType;
 import com.dungeonstory.backend.data.Equipment;
 import com.dungeonstory.backend.data.Equipment.EquipmentType;
 import com.dungeonstory.backend.data.Tool.ToolType;
 import com.dungeonstory.backend.data.WeaponType;
 import com.dungeonstory.backend.data.WeaponType.HandleType;
+import com.dungeonstory.backend.data.enums.DamageType;
 import com.dungeonstory.backend.service.ArmorTypeDataService;
-import com.dungeonstory.backend.service.DamageTypeDataService;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.backend.service.WeaponTypeDataService;
 import com.dungeonstory.ui.component.DSAbstractForm;
@@ -62,14 +61,12 @@ public class EquipmentForm<T extends Equipment>
 
     private ArmorTypeDataService  armorTypeService;
     private WeaponTypeDataService weaponTypeService;
-    private DamageTypeDataService damageTypeService;
 
     @SuppressWarnings("unchecked")
     public EquipmentForm() {
         super((Class<T>) Equipment.class);
         armorTypeService = Services.getArmorTypeService();
         weaponTypeService = Services.getWeaponTypeService();
-        damageTypeService = Services.getDamageTypeService();
         setBindWhenSettingEntity(true);
     }
 
@@ -99,7 +96,7 @@ public class EquipmentForm<T extends Equipment>
         oneHandDamage = new FTextField("Dommages à une main");
         twoHandDamage = new FTextField("Dommages à deux main");
         additionalDamage = new FTextField("Dommages additionnels");
-        additionalDamageType = new ComboBox<DamageType>("Type dommages additionnels", damageTypeService.findAll());
+        additionalDamageType = new EnumComboBox<>(DamageType.class, "Type dommages additionnels");
         magicalBonus = new DSIntegerField("Bonus magique");
 
         toolType = new EnumComboBox<ToolType>(ToolType.class, "Type d'outil");
