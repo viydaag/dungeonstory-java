@@ -3,7 +3,6 @@ package com.dungeonstory.backend.mock;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dungeonstory.backend.data.AccessRole;
 import com.dungeonstory.backend.data.Adventure;
 import com.dungeonstory.backend.data.ArmorType;
 import com.dungeonstory.backend.data.Background;
@@ -23,6 +22,7 @@ import com.dungeonstory.backend.data.Shop;
 import com.dungeonstory.backend.data.Temple;
 import com.dungeonstory.backend.data.User;
 import com.dungeonstory.backend.data.WeaponType;
+import com.dungeonstory.backend.data.enums.AccessRole;
 import com.dungeonstory.backend.data.enums.Alignment;
 import com.dungeonstory.backend.data.enums.DamageType;
 import com.dungeonstory.backend.service.mock.MockCityService;

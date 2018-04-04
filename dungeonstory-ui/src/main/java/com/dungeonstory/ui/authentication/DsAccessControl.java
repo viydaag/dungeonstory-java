@@ -2,8 +2,8 @@ package com.dungeonstory.ui.authentication;
 
 import javax.security.auth.login.LoginException;
 
-import com.dungeonstory.backend.data.AccessRole;
 import com.dungeonstory.backend.data.User;
+import com.dungeonstory.backend.data.enums.AccessRole;
 import com.dungeonstory.backend.service.impl.LoginService;
 
 /**

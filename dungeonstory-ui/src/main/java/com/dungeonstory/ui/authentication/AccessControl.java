@@ -2,7 +2,7 @@ package com.dungeonstory.ui.authentication;
 
 import java.io.Serializable;
 
-import com.dungeonstory.backend.data.AccessRole;
+import com.dungeonstory.backend.data.enums.AccessRole;
 
 /**
  * Simple interface for authentication and authorization checks.

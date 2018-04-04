@@ -1,7 +1,7 @@
 package com.dungeonstory.ui.view.admin.grid;
 
-import com.dungeonstory.backend.data.AccessRole;
 import com.dungeonstory.backend.data.User;
+import com.dungeonstory.backend.data.enums.AccessRole;
 import com.dungeonstory.ui.component.EnumComboBox;
 import com.dungeonstory.ui.i18n.Messages;
 import com.vaadin.data.BeanValidationBinder;

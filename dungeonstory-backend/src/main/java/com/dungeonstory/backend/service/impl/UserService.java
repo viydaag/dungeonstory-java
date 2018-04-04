@@ -2,9 +2,9 @@ package com.dungeonstory.backend.service.impl;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
-import com.dungeonstory.backend.data.AccessRole;
 import com.dungeonstory.backend.data.User;
 import com.dungeonstory.backend.data.User.UserStatus;
+import com.dungeonstory.backend.data.enums.AccessRole;
 import com.dungeonstory.backend.repository.impl.UserRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
 import com.dungeonstory.backend.service.UserDataService;

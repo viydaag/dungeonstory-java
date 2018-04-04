@@ -1,7 +1,7 @@
 package com.dungeonstory.backend.mock;
 
-import com.dungeonstory.backend.data.AccessRole;
 import com.dungeonstory.backend.data.User;
+import com.dungeonstory.backend.data.enums.AccessRole;
 
 public class MockUser extends User {
 

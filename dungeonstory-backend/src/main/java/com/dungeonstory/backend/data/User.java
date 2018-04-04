@@ -15,6 +15,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.dungeonstory.backend.data.enums.AccessRole;
+
 @Entity
 @Table(name = "User")
 @NamedQueries({ @NamedQuery(name = User.findByUsername, query = "SELECT u FROM User u WHERE u.username = :username"),

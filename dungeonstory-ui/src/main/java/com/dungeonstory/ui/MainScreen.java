@@ -2,8 +2,8 @@ package com.dungeonstory.ui;
 
 import java.util.HashMap;
 
-import com.dungeonstory.backend.data.AccessRole;
 import com.dungeonstory.backend.data.Character;
+import com.dungeonstory.backend.data.enums.AccessRole;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.authentication.CurrentUser;
 import com.dungeonstory.ui.event.CharacterCreatedEvent;
