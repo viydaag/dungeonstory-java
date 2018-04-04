@@ -4,15 +4,15 @@ import java.util.Set;
 
 import org.vaadin.easyuploads.ImagePreviewField;
 
-import com.dungeonstory.backend.data.Alignment;
 import com.dungeonstory.backend.data.ClassSpecialization;
 import com.dungeonstory.backend.data.Deity;
+import com.dungeonstory.backend.data.enums.Alignment;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSAbstractForm;
+import com.dungeonstory.ui.component.EnumComboBox;
 import com.dungeonstory.ui.field.SubSetSelector;
 import com.vaadin.fluent.ui.FTextArea;
 import com.vaadin.fluent.ui.FTextField;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.TextArea;
@@ -25,7 +25,7 @@ public class DeityForm extends DSAbstractForm<Deity> {
     private TextField                                                     name;
     private TextField                                                     shortDescription;
     private TextArea                                                      description;
-    private ComboBox<Alignment>                                           alignment;
+    private EnumComboBox<Alignment>                                       alignment;
     private SubSetSelector<ClassSpecialization, Set<ClassSpecialization>> domains;
     private TextField                                                     symbol;
     private ImagePreviewField                                             image;
@@ -47,7 +47,7 @@ public class DeityForm extends DSAbstractForm<Deity> {
         shortDescription = new FTextField("Description courte").withFullWidth();
         description = new FTextArea("Description").withFullWidth();
         symbol = new FTextField("Symbole").withWidth("50%");
-        alignment = new ComboBox<Alignment>("Alignement", Services.getAlignmentService().findAll());
+        alignment = new EnumComboBox<>(Alignment.class, "Alignement");
         alignment.setEmptySelectionAllowed(false);
 
         image = new ImagePreviewField();

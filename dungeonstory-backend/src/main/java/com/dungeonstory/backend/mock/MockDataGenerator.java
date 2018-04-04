@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.dungeonstory.backend.data.AccessRole;
 import com.dungeonstory.backend.data.Adventure;
-import com.dungeonstory.backend.data.Alignment;
 import com.dungeonstory.backend.data.ArmorType;
 import com.dungeonstory.backend.data.Background;
 import com.dungeonstory.backend.data.City;
@@ -24,8 +23,8 @@ import com.dungeonstory.backend.data.Shop;
 import com.dungeonstory.backend.data.Temple;
 import com.dungeonstory.backend.data.User;
 import com.dungeonstory.backend.data.WeaponType;
+import com.dungeonstory.backend.data.enums.Alignment;
 import com.dungeonstory.backend.data.enums.DamageType;
-import com.dungeonstory.backend.service.mock.MockAlignmentService;
 import com.dungeonstory.backend.service.mock.MockCityService;
 import com.dungeonstory.backend.service.mock.MockClassService;
 import com.dungeonstory.backend.service.mock.MockDeityService;
@@ -34,10 +33,6 @@ import com.dungeonstory.backend.service.mock.MockRegionService;
 import com.dungeonstory.backend.service.mock.MockUserService;
 
 public class MockDataGenerator {
-
-    private static final String storedAlignment[][] = new String[][] { { "Loyal Bon" }, { "Neutre Bon" },
-            { "Chaotique Bon" }, { "Loyal Neutre" }, { "Neutre strict" }, { "Chaotique Neutre" }, { "Loyal Mauvais" },
-            { "Neutre Mauvais" }, { "Chaotique Mauvais" } };
 
     private static final Integer[][] storedLevels = new Integer[][] { { 1, 1000, 1 }, { 2, 2000, 2 } };
 
@@ -60,14 +55,6 @@ public class MockDataGenerator {
             { "Humain", "1", "1", "1", "1", "1", "1", "16", "60", "5'4\"", "150" },
             { "Elfe", "0", "1", "0", "1", "0", "0", "75", "800", "5'0\"", "90" } };
 
-
-    public static List<Alignment> createAlignments() {
-        List<Alignment> alignments = new ArrayList<Alignment>();
-        for (String[] alignment : storedAlignment) {
-            alignments.add(new Alignment(alignment[0], "", "", true));
-        }
-        return alignments;
-    }
 
     public static List<Region> createRegions() {
         List<Region> regions = new ArrayList<Region>();
@@ -216,7 +203,7 @@ public class MockDataGenerator {
 
         Deity heaume = new Deity();
         heaume.setName("Heaume");
-        heaume.setAlignment(MockAlignmentService.getInstance().read(1L));
+        heaume.setAlignment(Alignment.LAWFUL_GOOD);
 
         deities.add(heaume);
         return deities;
@@ -262,7 +249,7 @@ public class MockDataGenerator {
     public static List<Inn> createInns() {
         ArrayList<Inn> inns = new ArrayList<>();
         
-        Inn inn = new Inn("Basamical", null);
+        Inn inn = new Inn("Brasamical", null);
         inns.add(inn);
 
         return inns;

@@ -14,9 +14,6 @@ public abstract class Services {
     }
 
     public static AlignmentDataService getAlignmentService() {
-        if (Configuration.getInstance().isMock()) {
-            return MockAlignmentService.getInstance();
-        }
         return AlignmentService.getInstance();
     }
 

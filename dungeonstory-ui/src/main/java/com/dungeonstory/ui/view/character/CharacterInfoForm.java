@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import com.dungeonstory.backend.data.Alignment;
+import com.dungeonstory.backend.data.enums.Alignment;
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.Character.Gender;
 import com.dungeonstory.backend.data.CharacterClass;

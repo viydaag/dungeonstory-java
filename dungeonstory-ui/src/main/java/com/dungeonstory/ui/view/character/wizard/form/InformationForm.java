@@ -3,7 +3,7 @@ package com.dungeonstory.ui.view.character.wizard.form;
 import java.util.EnumSet;
 import java.util.List;
 
-import com.dungeonstory.backend.data.Alignment;
+import com.dungeonstory.backend.data.enums.Alignment;
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.Character.Gender;
 import com.dungeonstory.backend.data.Region;

@@ -37,6 +37,7 @@ import org.eclipse.persistence.annotations.PrivateOwned;
 
 import com.dungeonstory.backend.data.Tool.ToolType;
 import com.dungeonstory.backend.data.enums.Ability;
+import com.dungeonstory.backend.data.enums.Alignment;
 import com.dungeonstory.backend.data.enums.Feat;
 import com.dungeonstory.backend.data.enums.Language;
 import com.dungeonstory.backend.data.enums.Skill;
@@ -177,8 +178,8 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
     private CharacterBackground background;
 
     @NotNull
-    @ManyToOne
-    @JoinColumn(name = "alignmentId", nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "alignment", nullable = false)
     private Alignment alignment;
 
     @ManyToOne

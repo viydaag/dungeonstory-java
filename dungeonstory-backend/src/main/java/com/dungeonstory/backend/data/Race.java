@@ -13,19 +13,18 @@ import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import org.eclipse.persistence.annotations.PrivateOwned;
+
 import com.dungeonstory.backend.data.enums.Condition;
+import com.dungeonstory.backend.data.enums.DamageType;
 import com.dungeonstory.backend.data.enums.Language;
 import com.dungeonstory.backend.data.enums.Skill;
-import com.dungeonstory.backend.data.enums.DamageType;
-
-import org.eclipse.persistence.annotations.PrivateOwned;
 
 @Entity
 @Table(name = "Race")

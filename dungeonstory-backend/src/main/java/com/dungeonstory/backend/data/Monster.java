@@ -22,6 +22,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.dungeonstory.backend.data.enums.Ability;
+import com.dungeonstory.backend.data.enums.Alignment;
 import com.dungeonstory.backend.data.enums.ChallengeRating;
 import com.dungeonstory.backend.data.enums.Condition;
 import com.dungeonstory.backend.data.enums.CreatureSize;
@@ -60,8 +61,8 @@ public class Monster extends AbstractTimestampEntity implements HasStats {
     private String tag;
 
     @NotNull
-    @ManyToOne
-    @JoinColumn(name = "alignmentId", nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "alignment", nullable = false)
     private Alignment alignment;
 
     @NotNull

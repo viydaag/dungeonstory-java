@@ -4,7 +4,7 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.dungeonstory.backend.data.Alignment;
+import com.dungeonstory.backend.data.enums.Alignment;
 import com.dungeonstory.backend.data.CreatureType;
 import com.dungeonstory.backend.data.Monster;
 import com.dungeonstory.backend.data.MonsterAction;
@@ -47,7 +47,7 @@ public class MonsterForm extends DSAbstractForm<Monster> {
     private EnumComboBox<CreatureSize> size;
     private ComboBox<CreatureType>     creatureType;
     private TextField                  tag;
-    private ComboBox<Alignment>        alignment;
+    private EnumComboBox<Alignment>    alignment;
     private IntegerField               armorClass;
     private IntegerField               hitPoints;
     private IntegerField               groundSpeed;
@@ -123,7 +123,7 @@ public class MonsterForm extends DSAbstractForm<Monster> {
         size = new EnumComboBox<>(CreatureSize.class, "Ordre de grandeur");
         creatureType = new ComboBox<>("Type", Services.getCreatureTypeService().findAll());
         tag = new TextField("tag");
-        alignment = new ComboBox<>("Alignement", Services.getAlignmentService().findAll());
+        alignment = new EnumComboBox<>(Alignment.class, "Alignement");
         armorClass = new DSIntegerField("Classe d'armure");
         hitPoints = new DSIntegerField("Points de vie");
         groundSpeed = new DSIntegerField("Vitesse au sol");

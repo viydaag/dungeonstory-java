@@ -6,10 +6,11 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -17,8 +18,8 @@ import javax.validation.constraints.Size;
 
 import org.eclipse.persistence.annotations.BatchFetch;
 import org.eclipse.persistence.annotations.BatchFetchType;
-import org.eclipse.persistence.annotations.JoinFetch;
-import org.eclipse.persistence.annotations.JoinFetchType;
+
+import com.dungeonstory.backend.data.enums.Alignment;
 
 @Entity
 @Table(name = "Deity")
@@ -41,9 +42,8 @@ public class Deity extends AbstractTimestampEntity {
     private String description;
 
     @NotNull
-    @ManyToOne
-    @JoinFetch(JoinFetchType.INNER)
-    @JoinColumn(name = "alignmentId")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "alignment", nullable = false)
     private Alignment alignment;
 
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
