@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
@@ -11,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
+
+import com.dungeonstory.backend.data.enums.Ability;
 
 @Entity
 @Table(name = "MonsterSavingThrow")
@@ -25,8 +29,8 @@ public class MonsterSavingThrow implements Serializable {
     private Monster monster;
 
     @Id
-    @ManyToOne
-    @JoinColumn(name = "abilityId")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "ability", nullable = false)
     private Ability ability;
 
     @Min(value = 0)

@@ -2,13 +2,15 @@ package com.dungeonstory.backend.data;
 
 import java.io.Serializable;
 
+import com.dungeonstory.backend.data.enums.Ability;
+
 public class MonsterSavingThrowId implements Serializable {
 
     private static final long serialVersionUID = 6565804563622879668L;
 
     private Long monster;
 
-    private Long ability;
+    private Ability ability;
 
     public MonsterSavingThrowId() {
 
@@ -22,11 +24,11 @@ public class MonsterSavingThrowId implements Serializable {
         this.monster = monster;
     }
 
-    public Long getAbility() {
+    public Ability getAbility() {
         return ability;
     }
 
-    public void setAbility(Long ability) {
+    public void setAbility(Ability ability) {
         this.ability = ability;
     }
 
@@ -41,31 +43,22 @@ public class MonsterSavingThrowId implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
+        if (this == obj)
             return true;
-        }
-        if (obj == null) {
+        if (obj == null)
             return false;
-        }
-        if (!(obj instanceof MonsterSavingThrowId)) {
+        if (getClass() != obj.getClass())
             return false;
-        }
         MonsterSavingThrowId other = (MonsterSavingThrowId) obj;
-        if (ability == null) {
-            if (other.ability != null) {
-                return false;
-            }
-        } else if (!ability.equals(other.ability)) {
+        if (ability != other.ability)
             return false;
-        }
         if (monster == null) {
-            if (other.monster != null) {
+            if (other.monster != null)
                 return false;
-            }
-        } else if (!monster.equals(other.monster)) {
+        } else if (!monster.equals(other.monster))
             return false;
-        }
         return true;
     }
+
 
 }
