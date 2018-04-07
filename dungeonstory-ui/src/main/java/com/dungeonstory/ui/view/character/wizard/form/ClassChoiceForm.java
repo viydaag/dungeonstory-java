@@ -161,6 +161,9 @@ public class ClassChoiceForm extends CharacterWizardStepForm<CharacterClass> imp
                     classSkills.setValue(EnumSet.noneOf(Skill.class));
                     classSkills.setLimit(chosenClass.getNbChosenSkills());
                 } else {
+                    classSkills.setVisible(false);
+                    classSkills.setItems(ClassUtil.getUnassignedClassSkills(character, chosenClass));
+                    classSkills.setValue(null);
                     classLevel = assignedClass.getClassLevel() + 1;
                 }
 

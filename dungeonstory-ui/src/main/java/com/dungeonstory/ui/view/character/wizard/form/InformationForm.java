@@ -18,6 +18,7 @@ import com.dungeonstory.ui.field.DSIntegerField;
 import com.dungeonstory.ui.field.IntegerField;
 import com.dungeonstory.ui.i18n.Messages;
 import com.vaadin.data.ValidationResult;
+import com.vaadin.fluent.ui.FComboBox;
 import com.vaadin.fluent.ui.FTextField;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.ComboBox;
@@ -68,7 +69,7 @@ public class InformationForm extends CharacterWizardStepForm<Character> implemen
         age = new DSIntegerField(messages.getMessage("informationStep.age.label"));
         weight = new DSIntegerField(messages.getMessage("informationStep.weight.label"));
         height = new TextField(messages.getMessage("informationStep.height.label"));
-        alignment = new ComboBox<>(messages.getMessage("informationStep.alignment.label"), alignmentService.findAllPlayable());
+        alignment = new FComboBox<>(messages.getMessage("informationStep.alignment.label"), alignmentService.findAllPlayable()).withEmptySelectionAllowed(false);
         region = new ComboBox<>(messages.getMessage("informationStep.region.label"), regionService.findAllOrderBy("name", "ASC"));
         
         getBinder().forMemberField(age).withValidator((value, context) -> {

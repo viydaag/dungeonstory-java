@@ -10,6 +10,7 @@ import com.dungeonstory.backend.data.ArmorType.ProficiencyType;
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.CharacterClass;
 import com.dungeonstory.backend.data.ClassFeature;
+import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.backend.data.enums.Feat;
 import com.dungeonstory.backend.data.enums.Skill;
 import com.dungeonstory.backend.data.WeaponType;
@@ -17,6 +18,8 @@ import com.dungeonstory.backend.data.enums.Ability;
 import com.dungeonstory.backend.data.enums.Language;
 import com.dungeonstory.backend.data.util.ClassUtil;
 import com.dungeonstory.backend.data.util.ModifierUtil;
+import com.dungeonstory.backend.rules.Rules;
+import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.captionGenerator.ClassLevelCaptionGenerator;
 import com.dungeonstory.ui.component.DSLabel;
 import com.dungeonstory.ui.converter.CollectionGenericToStringConverter;
@@ -162,8 +165,9 @@ public class SummaryStep extends CharacterWizardStep<Character> {
         Panel levelPanel = new Panel(messages.getMessage("summaryStep.level.label"), levelLayout);
         layout.addComponent(levelPanel);
 
+        Level levelUp = Services.getLevelService().read(character.getLevel().getId() + 1);
         DSLabel levelLabel = new DSLabel(messages.getMessage("summaryStep.level.label"),
-                character.getLevel().toString());
+                levelUp.toString());
         levelLayout.addComponent(levelLabel);
 
         CollectionGenericToStringConverter<Language> languageConverter = new CollectionGenericToStringConverter<>();
@@ -182,11 +186,7 @@ public class SummaryStep extends CharacterWizardStep<Character> {
                 classCollectionConverter.apply(character.getClasses()));
         levelLayout.addComponent(classesLabel);
 
-        int nbLifePoints = 0;
-        for (CharacterClass cc : character.getClasses()) {
-            nbLifePoints += (cc.getClassLevel() * (cc.getClasse().getLifePointPerLevel()
-                    + ModifierUtil.getAbilityModifier(character.getConstitution())));
-        }
+        int nbLifePoints = Rules.calculateCharacterLifePoints(character, levelUp.getId().intValue());
         int difLifePoints = nbLifePoints - original.getLifePoints();
 
         if (character.getId() == null) {
