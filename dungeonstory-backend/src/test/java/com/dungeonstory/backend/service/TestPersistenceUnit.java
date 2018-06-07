@@ -36,6 +36,7 @@ public class TestPersistenceUnit {
             // em.getTransaction().commit();
             //
             em.close();
+            factory.close();
         } catch (Exception e) {
             fail(e.getLocalizedMessage());
         }

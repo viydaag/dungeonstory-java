@@ -8,11 +8,12 @@ import java.util.Collection;
 
 import org.junit.Test;
 
+import com.dungeonstory.backend.TestWithBackend;
 import com.dungeonstory.backend.data.Region;
 import com.dungeonstory.backend.service.impl.RegionService;
 import com.dungeonstory.backend.service.mock.MockRegionService;
 
-public class TestRegionService {
+public class TestRegionService extends TestWithBackend {
 
     @Test
     public void testMockRegionService() {

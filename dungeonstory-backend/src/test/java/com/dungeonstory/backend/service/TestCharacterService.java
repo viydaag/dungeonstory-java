@@ -10,6 +10,7 @@ import java.util.Random;
 
 import org.junit.Test;
 
+import com.dungeonstory.backend.TestWithBackend;
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.Character.Gender;
 import com.dungeonstory.backend.data.CharacterBackground;
@@ -26,7 +27,7 @@ import com.dungeonstory.backend.service.impl.EquipmentService;
 import com.dungeonstory.backend.service.impl.RaceService;
 import com.dungeonstory.backend.service.impl.RegionService;
 
-public class TestCharacterService {
+public class TestCharacterService extends TestWithBackend {
 
     @Test
     public void testCharacterService() throws Exception {

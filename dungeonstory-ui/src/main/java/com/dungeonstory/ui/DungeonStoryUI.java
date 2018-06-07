@@ -2,11 +2,15 @@ package com.dungeonstory.ui;
 
 import java.util.Locale;
 
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebListener;
 import javax.servlet.annotation.WebServlet;
 
 import com.dungeonstory.backend.Configuration;
 import com.dungeonstory.backend.Labels;
+import com.dungeonstory.backend.repository.JPAService;
 import com.dungeonstory.ui.authentication.AccessControl;
 import com.dungeonstory.ui.authentication.BasicAccessControl;
 import com.dungeonstory.ui.authentication.CurrentUser;
@@ -151,6 +155,20 @@ public class DungeonStoryUI extends UI {
             super.servletInitialized();
 
             getService().setSystemMessagesProvider(new DSSystemMessagesProvider());
+        }
+    }
+    
+    @WebListener
+    public static class DungeonStoryUIContextListener implements ServletContextListener {
+
+        @Override
+        public void contextInitialized(ServletContextEvent sce) {
+            JPAService.init();
+        }
+
+        @Override
+        public void contextDestroyed(ServletContextEvent sce) {
+            JPAService.close();
         }
     }
 }

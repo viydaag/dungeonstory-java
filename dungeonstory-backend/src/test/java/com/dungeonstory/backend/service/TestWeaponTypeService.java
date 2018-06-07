@@ -8,6 +8,7 @@ import java.util.Collection;
 
 import org.junit.Test;
 
+import com.dungeonstory.backend.TestWithBackend;
 import com.dungeonstory.backend.data.WeaponType;
 import com.dungeonstory.backend.data.WeaponType.HandleType;
 import com.dungeonstory.backend.data.WeaponType.ProficiencyType;
@@ -17,7 +18,7 @@ import com.dungeonstory.backend.data.enums.DamageType;
 import com.dungeonstory.backend.service.impl.WeaponTypeService;
 import com.dungeonstory.backend.service.mock.MockWeaponTypeService;
 
-public class TestWeaponTypeService {
+public class TestWeaponTypeService extends TestWithBackend {
 
     @Test
     public void testMockWeaponTypeService() {

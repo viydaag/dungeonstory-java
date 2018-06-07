@@ -8,12 +8,13 @@ import java.util.Collection;
 
 import org.junit.Test;
 
+import com.dungeonstory.backend.TestWithBackend;
 import com.dungeonstory.backend.data.Race;
 import com.dungeonstory.backend.data.Race.Size;
 import com.dungeonstory.backend.service.impl.RaceService;
 import com.dungeonstory.backend.service.mock.MockRaceService;
 
-public class TestRaceService {
+public class TestRaceService extends TestWithBackend {
 
     @Test
     public void testMockRaceService() {

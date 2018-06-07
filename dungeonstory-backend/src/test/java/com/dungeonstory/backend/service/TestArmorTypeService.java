@@ -8,12 +8,13 @@ import java.util.Collection;
 
 import org.junit.Test;
 
+import com.dungeonstory.backend.TestWithBackend;
 import com.dungeonstory.backend.data.ArmorType;
 import com.dungeonstory.backend.data.ArmorType.ProficiencyType;
 import com.dungeonstory.backend.service.impl.ArmorTypeService;
 import com.dungeonstory.backend.service.mock.MockArmorTypeService;
 
-public class TestArmorTypeService {
+public class TestArmorTypeService extends TestWithBackend {
 
     @Test
     public void testMockArmorTypeService() {
@@ -43,8 +44,8 @@ public class TestArmorTypeService {
     public void testArmorTypeService() throws Exception {
         ArmorTypeService service = ArmorTypeService.getInstance();
 
-        ArmorType newArmorType = new ArmorType("test armure", "", ProficiencyType.LIGHT, ArmorType.NO_MAX_DEX_BONUS, 12, false, 1,
-                1, 1);
+        ArmorType newArmorType = new ArmorType("test armure", "", ProficiencyType.LIGHT, ArmorType.NO_MAX_DEX_BONUS, 12,
+                false, 1, 1, 1);
         service.create(newArmorType);
 
         Collection<ArmorType> allArmorTypes = service.findAll();

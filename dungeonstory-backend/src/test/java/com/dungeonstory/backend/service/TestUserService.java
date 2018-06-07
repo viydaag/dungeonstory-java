@@ -10,11 +10,12 @@ import java.util.Random;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.Test;
 
+import com.dungeonstory.backend.TestWithBackend;
 import com.dungeonstory.backend.data.User;
 import com.dungeonstory.backend.service.impl.UserService;
 import com.dungeonstory.backend.service.mock.MockUserService;
 
-public class TestUserService {
+public class TestUserService extends TestWithBackend {
 
     @Test
     public void testMockUserService() {

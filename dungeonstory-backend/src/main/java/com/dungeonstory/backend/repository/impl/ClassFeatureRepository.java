@@ -8,6 +8,7 @@ import javax.persistence.TypedQuery;
 
 import com.dungeonstory.backend.data.ClassFeature;
 import com.dungeonstory.backend.repository.AbstractRepository;
+import com.dungeonstory.backend.repository.JPAService;
 
 public class ClassFeatureRepository
         extends AbstractRepository<ClassFeature, Long> {
@@ -20,13 +21,13 @@ public class ClassFeatureRepository
     }
 
     public List<ClassFeature> findAllClassFeaturesWithoutParent() {
-        List<ClassFeature> result = new ArrayList<ClassFeature>();
-        entityManager.getTransaction().begin();
-        TypedQuery<ClassFeature> query = entityManager.createNamedQuery(ClassFeature.FIND_ALL_CLASS_FEATURES_WITHOUT_PARENT,
-                getEntityClass());
-        result = query.getResultList();
-        entityManager.getTransaction().commit();
-        return result;
+        return JPAService.getInTransaction(entityManager -> {
+            List<ClassFeature> result = new ArrayList<ClassFeature>();
+            TypedQuery<ClassFeature> query = entityManager.createNamedQuery(ClassFeature.FIND_ALL_CLASS_FEATURES_WITHOUT_PARENT,
+                    getEntityClass());
+            result = query.getResultList();
+            return result;
+        });
     }
 
     public List<ClassFeature> findAllClassFeaturesWithoutChildren() {
@@ -36,13 +37,13 @@ public class ClassFeatureRepository
 
     public List<ClassFeature> findAllClassFeatureExcept(ClassFeature feat) {
         List<ClassFeature> result = new ArrayList<ClassFeature>();
-        TypedQuery<ClassFeature> query = null;
         if (feat != null && feat.getId() != null) {
-            entityManager.getTransaction().begin();
-            query = entityManager.createNamedQuery(ClassFeature.FIND_ALL_CLASS_FEATURE_EXCEPT, getEntityClass());
-            query.setParameter("featId", feat.getId());
-            result = query.getResultList();
-            entityManager.getTransaction().commit();
+            result = JPAService.getInTransaction(entityManager -> {
+                TypedQuery<ClassFeature> query = entityManager
+                        .createNamedQuery(ClassFeature.FIND_ALL_CLASS_FEATURE_EXCEPT, getEntityClass());
+                query.setParameter("featId", feat.getId());
+                return query.getResultList();
+            });
         } else {
             result = findAll();
         }
