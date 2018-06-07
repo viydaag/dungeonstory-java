@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.support.PageFactory;
@@ -35,6 +36,7 @@ public class AlignmentIT extends IntegrationTestBase {
         loginPO.login("admin", "admin");
     }
 
+    @Ignore
     @Test
     public void testValidateFields() throws InterruptedException {
         $(ButtonElement.class).caption("Alignements").first().click();
