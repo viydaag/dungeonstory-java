@@ -45,7 +45,7 @@ public class CharacterService extends AbstractDataService<Character, Long> imple
 
     @Override
     public void levelUp(Character character) {
-        Level levelUp = LevelService.getInstance().read(character.getLevel().getId() + 1);
+        Level levelUp = LevelService.getInstance().getNextLevel(character.getLevel());
         character.setLevel(levelUp);
         update(character);
     }
@@ -53,6 +53,12 @@ public class CharacterService extends AbstractDataService<Character, Long> imple
     @Override
     public boolean hasFeat(Character character, Feat feat) {
         return repository.hasFeat(character.getId(), feat);
+    }
+
+    @Override
+    public boolean isAbleToLevelUp(Character character) {
+        return character.getExperience() >= character.getLevel().getMaxExperience()
+                && LevelService.getInstance().getNextLevel(character.getLevel()) != null;
     }
 
 }

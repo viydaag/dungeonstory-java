@@ -36,7 +36,7 @@ public class CharacterView extends VerticalLayout implements View {
         Services.getUserService().refresh(user);
         Character character = user.getCharacter();
 
-        if (character.getExperience() >= character.getLevel().getMaxExperience()) {
+        if (Services.getCharacterService().isAbleToLevelUp(character)) {
             FButton levelUpButton = new FButton("Niveau").withIcon(VaadinIcons.ARROW_UP)
                                                          .withStyleName(ValoTheme.BUTTON_LARGE)
                                                          .withStyleName(ValoTheme.BUTTON_FRIENDLY);

@@ -192,7 +192,6 @@ public class Spell extends AbstractTimestampEntity {
     @Column(name = "rangeValueInFeet")
     private Integer rangeValueInFeet;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "savingThrowAbility")
     private Ability savingThrowAbility;

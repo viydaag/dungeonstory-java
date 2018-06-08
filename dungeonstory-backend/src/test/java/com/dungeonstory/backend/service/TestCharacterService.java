@@ -1,6 +1,7 @@
 package com.dungeonstory.backend.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -17,6 +18,7 @@ import com.dungeonstory.backend.data.CharacterBackground;
 import com.dungeonstory.backend.data.CharacterClass;
 import com.dungeonstory.backend.data.CharacterEquipment;
 import com.dungeonstory.backend.data.DSClass;
+import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.backend.data.enums.Alignment;
 import com.dungeonstory.backend.data.enums.Background;
 import com.dungeonstory.backend.data.enums.Feat;
@@ -117,6 +119,55 @@ public class TestCharacterService extends TestWithBackend {
 
         service.delete(c);
 
+    }
+    
+    @Test
+    public void testIsNotAbleToLevelUpExperience() {
+        CharacterService service = CharacterService.getInstance();
+
+        Character c = createDummyCharacter(service);
+
+        c.setExperience(10);
+        c.setLevel(Services.getLevelService().read(1L));
+
+        service.saveOrUpdate(c);
+        
+        assertFalse(service.isAbleToLevelUp(c));
+
+        service.delete(c);
+    }
+    
+    @Test
+    public void testIsNotAbleToLevelUpMaxLevel() {
+        CharacterService service = CharacterService.getInstance();
+
+        Character c = createDummyCharacter(service);
+
+        c.setExperience(100000000);
+        c.setLevel(Services.getLevelService().read(20L));
+
+        service.saveOrUpdate(c);
+        
+        assertFalse(service.isAbleToLevelUp(c));
+
+        service.delete(c);
+    }
+    
+    @Test
+    public void testIsAbleToLevelUp() {
+        CharacterService service = CharacterService.getInstance();
+
+        Character c = createDummyCharacter(service);
+
+        Level level1 = Services.getLevelService().read(1L);
+        c.setExperience(level1.getMaxExperience() + 1);
+        c.setLevel(level1);
+
+        service.saveOrUpdate(c);
+        
+        assertTrue(service.isAbleToLevelUp(c));
+
+        service.delete(c);
     }
 
     private Character createDummyCharacter(CharacterService service) {

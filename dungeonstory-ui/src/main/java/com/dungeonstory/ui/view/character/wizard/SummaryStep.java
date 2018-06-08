@@ -165,9 +165,13 @@ public class SummaryStep extends CharacterWizardStep<Character> {
         Panel levelPanel = new Panel(messages.getMessage("summaryStep.level.label"), levelLayout);
         layout.addComponent(levelPanel);
 
-        Level levelUp = Services.getLevelService().read(character.getLevel().getId() + 1);
-        DSLabel levelLabel = new DSLabel(messages.getMessage("summaryStep.level.label"),
-                levelUp.toString());
+        Level levelUp = null;
+        if (character.getId() == null) {
+            levelUp = character.getLevel();
+        } else {
+            levelUp = Services.getLevelService().getNextLevel(character.getLevel());
+        }
+        DSLabel levelLabel = new DSLabel(messages.getMessage("summaryStep.level.label"), levelUp.toString());
         levelLayout.addComponent(levelLabel);
 
         CollectionGenericToStringConverter<Language> languageConverter = new CollectionGenericToStringConverter<>();

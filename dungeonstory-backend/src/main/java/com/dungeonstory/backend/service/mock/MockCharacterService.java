@@ -46,4 +46,10 @@ public class MockCharacterService extends AbstractDataService<Character, Long> i
         return character.getFeats().contains(feat);
     }
 
+    @Override
+    public boolean isAbleToLevelUp(Character character) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
 }

@@ -12,4 +12,6 @@ public interface CharacterDataService extends DataService<Character, Long> {
     public void levelUp(Character character);
 
     public boolean hasFeat(Character character, Feat feat);
+    
+    public boolean isAbleToLevelUp(Character character);
 }
