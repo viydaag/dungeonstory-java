@@ -13,7 +13,6 @@ import com.dungeonstory.backend.Labels;
 import com.dungeonstory.backend.repository.JPAService;
 import com.dungeonstory.ui.authentication.AccessControl;
 import com.dungeonstory.ui.authentication.BasicAccessControl;
-import com.dungeonstory.ui.authentication.CurrentUser;
 import com.dungeonstory.ui.authentication.DsAccessControl;
 import com.dungeonstory.ui.authentication.LoginScreen;
 import com.dungeonstory.ui.event.LogoutEvent;
@@ -31,6 +30,7 @@ import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.server.VaadinSession;
+import com.vaadin.shared.ui.ui.Transport;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HasComponents;
 import com.vaadin.ui.UI;
@@ -46,7 +46,7 @@ import com.vaadin.ui.themes.ValoTheme;
  */
 @Viewport("user-scalable=no,initial-scale=1.0")
 @Theme("dungeonstory")
-@Push
+@Push(transport = Transport.WEBSOCKET_XHR)
 public class DungeonStoryUI extends UI {
 
     private static final long serialVersionUID = -5249908238351407763L;
@@ -115,10 +115,7 @@ public class DungeonStoryUI extends UI {
 
     @Subscribe
     public void logout(LogoutEvent logoutEvent) {
-        CurrentUser.set(null);
-
-        VaadinSession.getCurrent().getSession().invalidate();
-        VaadinSession.getCurrent().close();
+        accessControl.signout();
 
         // if other ui are opened in different browsers or tabs, refresh them as well
         for (UI ui : VaadinSession.getCurrent().getUIs()) {

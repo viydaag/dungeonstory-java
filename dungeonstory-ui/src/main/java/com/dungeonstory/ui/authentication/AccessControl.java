@@ -17,7 +17,9 @@ public interface AccessControl extends Serializable {
         WAITING_FOR_APPROBATION
     }
 
-    public boolean signIn(String username, String password);
+    public boolean signIn(String username, String password, boolean rememberMe);
+    
+    public void signout();
 
     public boolean isUserSignedIn();
 

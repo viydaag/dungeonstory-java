@@ -18,6 +18,7 @@ import com.vaadin.server.Page;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.FormLayout;
@@ -38,6 +39,7 @@ public class LoginScreen extends CssLayout implements Translatable {
 
     private TextField      username;
     private PasswordField  password;
+    private CheckBox       rememberMe;
     private Button         loginButton;
     private Button         forgotPassword;
     private LoginListener  loginListener;
@@ -103,6 +105,10 @@ public class LoginScreen extends CssLayout implements Translatable {
         password.setId("password");
         password.setWidth(15, Unit.EM);
         loginForm.addComponent(password);
+        
+        rememberMe = new CheckBox();
+        HorizontalLayout rememberMeLayout = new HorizontalLayout(rememberMe);
+        loginForm.addComponent(rememberMeLayout);
 
         CssLayout buttons = new CssLayout();
         buttons.setStyleName(DSTheme.LOGIN_BUTTON_LAYOUT);
@@ -206,7 +212,7 @@ public class LoginScreen extends CssLayout implements Translatable {
     }
 
     private void login() {
-        if (accessControl.signIn(username.getValue(), password.getValue())) {
+        if (accessControl.signIn(username.getValue(), password.getValue(), rememberMe.getValue())) {
             loginListener.loginSuccessful();
         } else {
             Messages messages = Messages.getInstance();
@@ -232,6 +238,7 @@ public class LoginScreen extends CssLayout implements Translatable {
         username.setCaption(messages.getMessage("loginForm.textfield.user"));
         password.setCaption(messages.getMessage("loginForm.textfield.password"));
         password.setDescription(messages.getMessage("loginForm.textfield.password"));
+        rememberMe.setCaption(messages.getMessage("loginForm.checkbox.rememberMe"));
         loginButton.setCaption(messages.getMessage("loginForm.button.login"));
         forgotPassword.setCaption(messages.getMessage("loginForm.button.forgotpassword"));
         newUserButton.setCaption(messages.getMessage("loginScreen.button.newUser"));
