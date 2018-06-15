@@ -58,6 +58,7 @@ import com.google.common.eventbus.Subscribe;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.server.Resource;
+import com.vaadin.ui.Composite;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
@@ -68,7 +69,7 @@ import com.vaadin.ui.VerticalLayout;
  * 
  * 
  */
-public class MainScreen extends HorizontalLayout {
+public class MainScreen extends Composite {
 
     private static final long         serialVersionUID = -6331656609834870730L;
 
@@ -79,11 +80,6 @@ public class MainScreen extends HorizontalLayout {
     private HashMap<String, MenuItem> menuItems;
 
     public MainScreen(DungeonStoryUI ui) {
-
-        setStyleName(DSTheme.MAIN_LAYOUT);
-
-        setSizeFull();
-
         initLayout();
         setupNavigator();
 
@@ -91,6 +87,11 @@ public class MainScreen extends HorizontalLayout {
     }
 
     private void initLayout() {
+        
+        HorizontalLayout mainLayout = new HorizontalLayout();
+        mainLayout.setStyleName(DSTheme.MAIN_LAYOUT);
+        mainLayout.setSizeFull();
+        
         navBar = new NavBar();
 
         viewContainer = new VerticalLayout();
@@ -125,8 +126,10 @@ public class MainScreen extends HorizontalLayout {
 
         // Panel panel = new Panel(rightLayout);
 
-        addComponents(navBar, rightLayout);
-        setExpandRatio(rightLayout, 1);
+        mainLayout.addComponents(navBar, rightLayout);
+        mainLayout.setExpandRatio(rightLayout, 1);
+        
+        setCompositionRoot(mainLayout);
     }
 
     private void setupNavigator() {
