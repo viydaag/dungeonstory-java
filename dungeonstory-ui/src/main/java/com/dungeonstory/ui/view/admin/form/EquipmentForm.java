@@ -1,14 +1,13 @@
 package com.dungeonstory.ui.view.admin.form;
 
 import com.dungeonstory.FormCheckBox;
-import com.dungeonstory.backend.data.ArmorType;
 import com.dungeonstory.backend.data.Equipment;
 import com.dungeonstory.backend.data.Equipment.EquipmentType;
 import com.dungeonstory.backend.data.Tool.ToolType;
 import com.dungeonstory.backend.data.WeaponType;
 import com.dungeonstory.backend.data.WeaponType.HandleType;
+import com.dungeonstory.backend.data.enums.ArmorType;
 import com.dungeonstory.backend.data.enums.DamageType;
-import com.dungeonstory.backend.service.ArmorTypeDataService;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.backend.service.WeaponTypeDataService;
 import com.dungeonstory.ui.component.DSAbstractForm;
@@ -42,7 +41,7 @@ public class EquipmentForm<T extends Equipment>
     private IntegerField                basePrice;
 
     // Armor fields
-    private ComboBox<ArmorType> armorType;
+    private EnumComboBox<ArmorType> armorType;
     private IntegerField        armorClass;
     private IntegerField        magicalAcBonus;
 
@@ -59,13 +58,11 @@ public class EquipmentForm<T extends Equipment>
 
     private EquipmentType oldType = null;
 
-    private ArmorTypeDataService  armorTypeService;
     private WeaponTypeDataService weaponTypeService;
 
     @SuppressWarnings("unchecked")
     public EquipmentForm() {
         super((Class<T>) Equipment.class);
-        armorTypeService = Services.getArmorTypeService();
         weaponTypeService = Services.getWeaponTypeService();
         setBindWhenSettingEntity(true);
     }
@@ -88,7 +85,7 @@ public class EquipmentForm<T extends Equipment>
         isMagical = new FormCheckBox("Magique");
         basePrice = new DSIntegerField("Prix de base");
 
-        armorType = new ComboBox<ArmorType>("Type d'armure", armorTypeService.findAll());
+        armorType = new EnumComboBox<ArmorType>(ArmorType.class, "Type d'armure");
         armorClass = new DSIntegerField("Classe d'armure bonus");
         magicalAcBonus = new DSIntegerField("Classe d'armure magique bonus");
 

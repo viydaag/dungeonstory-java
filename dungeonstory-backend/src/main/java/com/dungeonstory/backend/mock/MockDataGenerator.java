@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.dungeonstory.backend.data.Adventure;
-import com.dungeonstory.backend.data.ArmorType;
 import com.dungeonstory.backend.data.Background;
 import com.dungeonstory.backend.data.City;
 import com.dungeonstory.backend.data.ClassFeature;
@@ -100,22 +99,6 @@ public class MockDataGenerator {
             type.setRangeType(WeaponType.RangeType.valueOf(tab[5]));
             type.setOneHandBaseDamage(tab[6]);
             type.setBaseWeight(Double.parseDouble(tab[7]));
-            types.add(type);
-        }
-        return types;
-    }
-
-    public static List<ArmorType> createArmorTypes() {
-        List<ArmorType> types = new ArrayList<ArmorType>();
-        for (String[] tab : storedArmorTypes) {
-            Integer maxDexBonus = tab[2] == null ? null : Integer.valueOf(tab[2]);
-            ArmorType.ProficiencyType armorProficiency = ArmorType.ProficiencyType.valueOf(tab[1]);
-            int armorClass = Integer.parseInt(tab[3]);
-            boolean stealthDisavantage = Boolean.parseBoolean(tab[4]);
-            int minStrength = Integer.parseInt(tab[5]);
-            int weight = Integer.parseInt(tab[6]);
-            ArmorType type = new ArmorType(tab[0], "", armorProficiency, maxDexBonus, armorClass, stealthDisavantage,
-                    minStrength, weight, 10);
             types.add(type);
         }
         return types;

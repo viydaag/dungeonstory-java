@@ -1,7 +1,6 @@
 package com.dungeonstory.backend.data.enums;
 
 import com.dungeonstory.backend.Labels;
-import com.dungeonstory.backend.data.ArmorType;
 import com.dungeonstory.backend.data.Character;
 
 public enum Feat implements I18nEnum, CharacterOperation {

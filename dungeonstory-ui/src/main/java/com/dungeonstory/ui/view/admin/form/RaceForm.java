@@ -7,10 +7,10 @@ import java.util.Set;
 import org.vaadin.easyuploads.ImagePreviewField;
 
 import com.dungeonstory.FormCheckBox;
-import com.dungeonstory.backend.data.ArmorType;
 import com.dungeonstory.backend.data.Race;
 import com.dungeonstory.backend.data.Race.Size;
 import com.dungeonstory.backend.data.WeaponType;
+import com.dungeonstory.backend.data.enums.ArmorType;
 import com.dungeonstory.backend.data.enums.Condition;
 import com.dungeonstory.backend.data.enums.DamageType;
 import com.dungeonstory.backend.data.enums.Language;

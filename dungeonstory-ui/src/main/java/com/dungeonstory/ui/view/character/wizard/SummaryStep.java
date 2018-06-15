@@ -6,16 +6,16 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.dungeonstory.backend.data.ArmorType.ProficiencyType;
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.CharacterClass;
 import com.dungeonstory.backend.data.ClassFeature;
 import com.dungeonstory.backend.data.Level;
-import com.dungeonstory.backend.data.enums.Feat;
-import com.dungeonstory.backend.data.enums.Skill;
 import com.dungeonstory.backend.data.WeaponType;
 import com.dungeonstory.backend.data.enums.Ability;
+import com.dungeonstory.backend.data.enums.ArmorType;
+import com.dungeonstory.backend.data.enums.Feat;
 import com.dungeonstory.backend.data.enums.Language;
+import com.dungeonstory.backend.data.enums.Skill;
 import com.dungeonstory.backend.data.util.ClassUtil;
 import com.dungeonstory.backend.data.util.ModifierUtil;
 import com.dungeonstory.backend.rules.Rules;
@@ -287,7 +287,7 @@ public class SummaryStep extends CharacterWizardStep<Character> {
             layout.addComponent(proficiencyPanel);
 
         } else {
-            Set<ProficiencyType> gainedArmorProficiencies = character.getArmorProficiencies()
+            Set<ArmorType.ProficiencyType> gainedArmorProficiencies = character.getArmorProficiencies()
                     .stream()
                     .filter(ap -> !original.getArmorProficiencies().contains(ap))
                     .collect(Collectors.toSet());

@@ -1,6 +1,7 @@
 package com.dungeonstory.backend.data;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -28,6 +29,7 @@ import org.eclipse.persistence.annotations.PrivateOwned;
 
 import com.dungeonstory.backend.data.Tool.ToolType;
 import com.dungeonstory.backend.data.enums.Ability;
+import com.dungeonstory.backend.data.enums.ArmorType;
 import com.dungeonstory.backend.data.enums.Skill;
 
 @Entity
@@ -95,7 +97,6 @@ public class DSClass extends AbstractTimestampEntity {
     @BatchFetch(value = BatchFetchType.JOIN)
     @Column(name = "proficiency", nullable = false)
     @Enumerated(EnumType.STRING)
-    @PrivateOwned
     private Set<ArmorType.ProficiencyType> armorProficiencies;
     
     @ManyToMany
@@ -164,7 +165,7 @@ public class DSClass extends AbstractTimestampEntity {
 
     public DSClass() {
         savingThrowProficiencies = new HashSet<Ability>();
-        armorProficiencies = new HashSet<ArmorType.ProficiencyType>();
+        armorProficiencies = EnumSet.noneOf(ArmorType.ProficiencyType.class);
         weaponProficiencies = new HashSet<WeaponType>();
         baseSkills = new HashSet<Skill>();
         levelBonuses = new ArrayList<ClassLevelBonus>();

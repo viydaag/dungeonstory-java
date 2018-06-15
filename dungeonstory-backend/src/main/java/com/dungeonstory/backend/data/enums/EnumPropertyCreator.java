@@ -11,10 +11,18 @@ public class EnumPropertyCreator {
             Class<?> enumClass = Class.forName(enumName);
             
             if (enumClass.isEnum()) {
+                String enclosingClassName = "";
+                if (enumClass.getEnclosingClass() != null) {
+                    enclosingClassName = enumClass.getEnclosingClass().getSimpleName().toLowerCase();
+                }
                 Object[] enumConstants = enumClass.getEnumConstants();
                 for (Object c : enumConstants) {
                     Enum<?> aEnum = (Enum<?>) c;
-                    System.out.println(enumClass.getSimpleName().toLowerCase() + "." + aEnum.name().toLowerCase() + "." + propertyName + "=");
+                    if (enclosingClassName.isEmpty()) {
+                        System.out.println(enumClass.getSimpleName().toLowerCase() + "." + aEnum.name().toLowerCase() + "." + propertyName + "=");
+                    } else {
+                        System.out.println(enclosingClassName + "." + enumClass.getSimpleName().toLowerCase() + "." + aEnum.name().toLowerCase() + "." + propertyName + "=");
+                    }
                 }
             }
         } catch (ClassNotFoundException e) {

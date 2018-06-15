@@ -10,7 +10,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.dungeonstory.FormCheckBox;
-import com.dungeonstory.backend.data.ArmorType;
 import com.dungeonstory.backend.data.ClassEquipment;
 import com.dungeonstory.backend.data.ClassFeature;
 import com.dungeonstory.backend.data.ClassLevelBonus;
@@ -26,6 +25,7 @@ import com.dungeonstory.backend.data.Tool.ToolType;
 import com.dungeonstory.backend.data.WeaponType;
 import com.dungeonstory.backend.data.WeaponType.ProficiencyType;
 import com.dungeonstory.backend.data.enums.Ability;
+import com.dungeonstory.backend.data.enums.ArmorType;
 import com.dungeonstory.backend.data.enums.Skill;
 import com.dungeonstory.backend.service.ClassFeatureDataService;
 import com.dungeonstory.backend.service.ClassSpecializationDataService;
@@ -165,7 +165,7 @@ public class ClassForm
         armorProficiencies.getGrid().addColumn(ArmorType.ProficiencyType::getName).setCaption("Maitrise").setId("name");
         armorProficiencies.getGrid().setColumnOrder("name");
         armorProficiencies.setItems(Arrays.asList(ArmorType.ProficiencyType.values()));
-        armorProficiencies.setValue(new HashSet<ArmorType.ProficiencyType>()); // nothing selected
+        armorProficiencies.setValue(EnumSet.noneOf(ArmorType.ProficiencyType.class)); // nothing selected
         armorProficiencies.setWidth("50%");
 
         addAllSimpleWeapons = new Button("Armes simples", event -> {

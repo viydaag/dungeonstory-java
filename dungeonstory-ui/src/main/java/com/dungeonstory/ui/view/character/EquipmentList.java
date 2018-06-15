@@ -5,7 +5,6 @@ import java.util.stream.Stream;
 
 import com.dungeonstory.backend.data.Amulet;
 import com.dungeonstory.backend.data.Armor;
-import com.dungeonstory.backend.data.ArmorType;
 import com.dungeonstory.backend.data.Belt;
 import com.dungeonstory.backend.data.Boot;
 import com.dungeonstory.backend.data.Bracer;
@@ -20,6 +19,7 @@ import com.dungeonstory.backend.data.WeaponType.HandleType;
 import com.dungeonstory.backend.data.WeaponType.RangeType;
 import com.dungeonstory.backend.data.WeaponType.SizeType;
 import com.dungeonstory.backend.data.WeaponType.UsageType;
+import com.dungeonstory.backend.data.enums.ArmorType;
 import com.dungeonstory.backend.data.util.ModifierUtil;
 import com.dungeonstory.backend.rules.Dice;
 import com.dungeonstory.ui.component.DSLabel;

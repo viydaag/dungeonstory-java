@@ -21,6 +21,7 @@ import javax.validation.constraints.Pattern;
 
 import org.eclipse.persistence.annotations.PrivateOwned;
 
+import com.dungeonstory.backend.data.enums.ArmorType;
 import com.dungeonstory.backend.data.enums.Condition;
 import com.dungeonstory.backend.data.enums.DamageType;
 import com.dungeonstory.backend.data.enums.Language;

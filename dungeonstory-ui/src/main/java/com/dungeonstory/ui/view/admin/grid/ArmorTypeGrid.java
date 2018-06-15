@@ -1,13 +1,16 @@
 package com.dungeonstory.ui.view.admin.grid;
 
-import com.dungeonstory.backend.data.ArmorType;
+import java.util.EnumSet;
+
+import com.dungeonstory.backend.data.enums.ArmorType;
 import com.dungeonstory.ui.renderer.ModifierRenderer;
 import com.vaadin.data.ValueContext;
 import com.vaadin.data.converter.StringToBooleanConverter;
+import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.renderers.HtmlRenderer;
 
-public class ArmorTypeGrid extends DSGrid<ArmorType> {
+public class ArmorTypeGrid extends ReadOnlyGrid<ArmorType> {
 
     private static final long serialVersionUID = -425928960446143041L;
 
@@ -34,7 +37,8 @@ public class ArmorTypeGrid extends DSGrid<ArmorType> {
         addColumn(armorType -> converter.convertToPresentation(armorType.getStealthDisavantage(), new ValueContext()), new HtmlRenderer())
                 .setCaption("Désavantage furtivité");
         addColumn(ArmorType::getMinStrength).setCaption("Force minimum").setId("minStrength");
-
+        
+        setDataProvider(new ListDataProvider<>(EnumSet.allOf(ArmorType.class)));
     }
 
 }

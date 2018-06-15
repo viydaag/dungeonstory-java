@@ -6,8 +6,6 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import com.dungeonstory.backend.data.Armor;
-import com.dungeonstory.backend.data.ArmorType;
-import com.dungeonstory.backend.data.ArmorType.ProficiencyType;
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.CharacterEquipment;
 import com.dungeonstory.backend.data.CharacterEquipment.EquipedType;
@@ -18,6 +16,8 @@ import com.dungeonstory.backend.data.WeaponType.HandleType;
 import com.dungeonstory.backend.data.WeaponType.RangeType;
 import com.dungeonstory.backend.data.WeaponType.SizeType;
 import com.dungeonstory.backend.data.WeaponType.UsageType;
+import com.dungeonstory.backend.data.enums.ArmorType;
+import com.dungeonstory.backend.data.enums.ArmorType.ProficiencyType;
 import com.dungeonstory.backend.data.util.ModifierUtil;
 import com.dungeonstory.backend.rules.Dice;
 import com.dungeonstory.backend.service.Services;

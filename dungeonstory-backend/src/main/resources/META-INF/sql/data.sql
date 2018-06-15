@@ -59,6 +59,7 @@ insert into level (id, maxExperience, proficiencyBonus, version, created, update
 insert into level (id, maxExperience, proficiencyBonus, version, created, updated) values (20, 999999, 6, 2, now(), now());
 
 /* Language */
+/*
 INSERT INTO language (id, name, script, playable, version, created, updated) VALUES (1,'Commun','Commun',1,1,'2016-11-28 11:37:38','2016-11-28 11:38:12');
 INSERT INTO language (id, name, script, playable, version, created, updated) VALUES (2,'Nain','Nain',1,1,'2016-11-28 11:37:38','2016-11-28 11:38:23');
 INSERT INTO language (id, name, script, playable, version, created, updated) VALUES (3,'Elfique','Elfique',1,1,'2016-11-28 11:37:38','2016-11-28 11:38:26');
@@ -74,6 +75,7 @@ INSERT INTO language (id, name, script, playable, version, created, updated) VAL
 INSERT INTO language (id, name, script, playable, version, created, updated) VALUES (13,'Infernal','Infernal',1,1,'2016-11-28 11:37:38','2016-11-28 11:38:55');
 INSERT INTO language (id, name, script, playable, version, created, updated) VALUES (14,'Primordial','Nain',1,1,'2016-11-28 11:37:38','2016-11-28 11:39:01');
 INSERT INTO language (id, name, script, playable, version, created, updated) VALUES (15,'Sylvestre','Elfique',1,1,'2016-11-28 11:37:38','2016-11-28 11:39:03');
+*/
 
 /* Region */
 INSERT INTO region (id, name, description, version, created, updated) VALUES (1,'Valbise', 'Valbise, la plus septentrionale des terres habitées par des humains, est composée de dix villes et villages peuplés d''anciens nomades, de barbares de la toundra, de rôdeurs, d''artisans, de pêcheurs des glaces, de nains vivant sous la glace et de marchands désirant acheter l''ivoire et les gemmes introuvables au sud. Les rennes, les ours polaires et les yétis y sont plus nombreux que les hommes. Les dragons blancs sont heureusement peu présents mais bien plus dangereux.',1,'2016-09-12 09:04:56','2016-09-12 09:04:56');
@@ -208,6 +210,7 @@ INSERT INTO deity (id, name, shortDescription, description, alignment, symbol, i
 INSERT INTO deity (id, name, shortDescription, description, alignment, symbol, image, version, created, updated) VALUES (62,'Solonor Thelandira','Dieu elfe de la chasse','Solonor Thelandira est toujours en chasse, et reste rarement au même endroit. Contrairement à d''autres chasseurs, le Grand Archer se contente de respecter la balance entre les espèces et de chasser les aberrations mauvaises, particulièrement les drows. C''est un dieu souvent penseur, pris entre les forces de la nature et de la civilisation, de l''instinct et de la connaissance, de la sauvagerie et de la domestication. Solonor est rarement en combat rapproché, préférant utiliser son arc et ses talents de traqueur.','CHAOTIC_GOOD','Une flèche',NULL,1,'2016-09-16 08:32:02','2016-09-16 08:32:02');
 
 /* ArmorType */
+/*
 INSERT INTO armortype (id, name, description, proficiencyType, maxDexBonus, baseArmorClass, stealthDisavantage, minStrength, baseWeight, basePrice, version, created, updated) VALUES (1,'Matelassé','L''armure matelassée se compose de couches matelassées de tissu et ouate.','LIGHT',-1,1,1,1,8,5,3,'2016-09-09 08:54:20','2016-09-09 08:59:28');
 INSERT INTO armortype (id, name, description, proficiencyType, maxDexBonus, baseArmorClass, stealthDisavantage, minStrength, baseWeight, basePrice, version, created, updated) VALUES (2,'Cuir','Le plastron et les épaules protecteurs de cette armure sont faits de cuir qui a été solidifié en étant bouilli dans de l''huile. Le reste de l''armure est constituée de matériaux plus doux et plus souples.','LIGHT',-1,1,0,1,10,10,3,'2016-09-09 08:54:20','2016-09-09 09:18:38');
 INSERT INTO armortype (id, name, description, proficiencyType, maxDexBonus, baseArmorClass, stealthDisavantage, minStrength, baseWeight, basePrice, version, created, updated) VALUES (3,'Clouté','Fabriqué à partir de cuir solide mais flexible, l''armure de cuir clouté est renforcée avec des rivets ou des crampons.','LIGHT',-1,2,0,1,13,45,3,'2016-09-09 08:54:20','2016-09-09 09:20:24');
@@ -221,6 +224,7 @@ INSERT INTO armortype (id, name, description, proficiencyType, maxDexBonus, base
 INSERT INTO armortype (id, name, description, proficiencyType, maxDexBonus, baseArmorClass, stealthDisavantage, minStrength, baseWeight, basePrice, version, created, updated) VALUES (11,'Éclisse','Cette armure est faite de bandes verticales étroites de métal riveté sur un support de cuir qui est porté sur un\nrembourrage en tissu. Une cotte de mailles flexible protège les articulations.','HEAVY',0,7,1,15,60,200,3,'2016-09-09 08:54:20','2016-09-09 09:37:14');
 INSERT INTO armortype (id, name, description, proficiencyType, maxDexBonus, baseArmorClass, stealthDisavantage, minStrength, baseWeight, basePrice, version, created, updated) VALUES (12,'Plate complète','L''armure de plate complète est formée de plaques de métal entremêlées pour couvrir l''ensemble du corps. Une armure de plate comprend gantelets, des bottes en cuir épais, un casque à visière et une épaisse couche de rembourrage sous l''armure. Boucles et sangles distribuent le poids sur le corps.','HEAVY',0,8,1,15,65,1500,3,'2016-09-09 08:54:20','2016-09-09 09:40:28');
 INSERT INTO armortype (id, name, description, proficiencyType, maxDexBonus, baseArmorClass, stealthDisavantage, minStrength, baseWeight, basePrice, version, created, updated) VALUES (13,'Bouclier','Un bouclier est fabriqué à partir de bois ou de métal et est utilisé avec une main. Porter un bouclier augmente votre classe d''armure de 2. Vous pouvez bénéficier d''un seul bouclier à la fois.','SHIELD',0,2,0,1,6,10,3,'2016-09-09 08:54:20','2016-09-09 09:42:17');
+*/
 
 /* WeaponType */
 INSERT INTO weapontype (id, name, description, proficiencyType, sizeType, handleType, usageType, rangeType, oneHandBaseDamage, twoHandBaseDamage, damageType, isReach, isFinesse, isLoading, baseWeight, basePrice, version, created, updated) VALUES (1,'Gourdin',NULL,'SIMPLE','LIGHT','ONE_HANDED','MELEE',NULL,'1d4',NULL,'BLUDGEONING',0,0,0,2,1,1,'2016-09-12 14:09:11','2016-09-12 14:09:11');
@@ -1060,18 +1064,18 @@ INSERT INTO tool (id, toolType) VALUES (34,'ARTISAN');
 INSERT INTO tool (id, toolType) VALUES (35,'ARTISAN');
 
 /* Armor */
-INSERT INTO armor (id, armorClass, magicalAcBonus, armorTypeId) VALUES (36,1,NULL,1);
-INSERT INTO armor (id, armorClass, magicalAcBonus, armorTypeId) VALUES (37,1,NULL,2);
-INSERT INTO armor (id, armorClass, magicalAcBonus, armorTypeId) VALUES (38,2,NULL,3);
-INSERT INTO armor (id, armorClass, magicalAcBonus, armorTypeId) VALUES (39,2,NULL,4);
-INSERT INTO armor (id, armorClass, magicalAcBonus, armorTypeId) VALUES (40,3,NULL,5);
-INSERT INTO armor (id, armorClass, magicalAcBonus, armorTypeId) VALUES (41,4,NULL,6);
-INSERT INTO armor (id, armorClass, magicalAcBonus, armorTypeId) VALUES (42,4,NULL,7);
-INSERT INTO armor (id, armorClass, magicalAcBonus, armorTypeId) VALUES (43,5,NULL,8);
-INSERT INTO armor (id, armorClass, magicalAcBonus, armorTypeId) VALUES (44,4,NULL,9);
-INSERT INTO armor (id, armorClass, magicalAcBonus, armorTypeId) VALUES (45,6,NULL,10);
-INSERT INTO armor (id, armorClass, magicalAcBonus, armorTypeId) VALUES (46,7,NULL,11);
-INSERT INTO armor (id, armorClass, magicalAcBonus, armorTypeId) VALUES (47,8,NULL,12);
+INSERT INTO armor (id, armorClass, magicalAcBonus, armorType) VALUES (36,1,NULL,'PADDED');
+INSERT INTO armor (id, armorClass, magicalAcBonus, armorType) VALUES (37,1,NULL,'LEATHER');
+INSERT INTO armor (id, armorClass, magicalAcBonus, armorType) VALUES (38,2,NULL,'STUDDED_LEATHER');
+INSERT INTO armor (id, armorClass, magicalAcBonus, armorType) VALUES (39,2,NULL,'HIDE');
+INSERT INTO armor (id, armorClass, magicalAcBonus, armorType) VALUES (40,3,NULL,'CHAIN_SHIRT');
+INSERT INTO armor (id, armorClass, magicalAcBonus, armorType) VALUES (41,4,NULL,'SCALE_MAIL');
+INSERT INTO armor (id, armorClass, magicalAcBonus, armorType) VALUES (42,4,NULL,'BREAST_PLATE');
+INSERT INTO armor (id, armorClass, magicalAcBonus, armorType) VALUES (43,5,NULL,'HALF_PLATE');
+INSERT INTO armor (id, armorClass, magicalAcBonus, armorType) VALUES (44,4,NULL,'RING_MAIL');
+INSERT INTO armor (id, armorClass, magicalAcBonus, armorType) VALUES (45,6,NULL,'CHAIN_MAIL');
+INSERT INTO armor (id, armorClass, magicalAcBonus, armorType) VALUES (46,7,NULL,'SPLINT');
+INSERT INTO armor (id, armorClass, magicalAcBonus, armorType) VALUES (47,8,NULL,'PLATE');
 
 /* Weapon */
 INSERT INTO weapon (id, additionalDamage, magicalBonus, oneHandDamage, twoHandDamage, additionalDamageType, weaponTypeId) VALUES (48,NULL,NULL,'1d4',NULL,NULL,1);
