@@ -1,14 +1,13 @@
 package com.dungeonstory.ui.view.admin.form;
 
 import com.dungeonstory.FormCheckBox;
-import com.dungeonstory.backend.data.DamageType;
 import com.dungeonstory.backend.data.WeaponType;
 import com.dungeonstory.backend.data.WeaponType.HandleType;
 import com.dungeonstory.backend.data.WeaponType.ProficiencyType;
 import com.dungeonstory.backend.data.WeaponType.RangeType;
 import com.dungeonstory.backend.data.WeaponType.SizeType;
 import com.dungeonstory.backend.data.WeaponType.UsageType;
-import com.dungeonstory.backend.service.Services;
+import com.dungeonstory.backend.data.enums.DamageType;
 import com.dungeonstory.ui.component.DSAbstractForm;
 import com.dungeonstory.ui.component.EnumComboBox;
 import com.dungeonstory.ui.field.DSDoubleField;
@@ -74,7 +73,7 @@ public class WeaponTypeForm extends DSAbstractForm<WeaponType> {
         baseWeight = new DSDoubleField("Poids de base (lbs)").withDigits(4).withFractions(1);
         basePrice = new DSIntegerField("Prix de base");
 
-        damageType = new ComboBox<DamageType>("Type de dommage", Services.getDamageTypeService().findAll());
+        damageType = new EnumComboBox<DamageType>(DamageType.class, "Type de dommage");
 
         handleType.addSelectionListener(this::handleTypeValueChange);
 

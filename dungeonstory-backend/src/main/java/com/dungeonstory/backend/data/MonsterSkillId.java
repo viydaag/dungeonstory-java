@@ -2,13 +2,15 @@ package com.dungeonstory.backend.data;
 
 import java.io.Serializable;
 
+import com.dungeonstory.backend.data.enums.Skill;
+
 public class MonsterSkillId implements Serializable {
     
     private static final long serialVersionUID = 4325306893401609721L;
 
     private Long monster;
 
-    private Long skill;
+    private Skill skill;
 
     public MonsterSkillId() {
         
@@ -22,11 +24,11 @@ public class MonsterSkillId implements Serializable {
         this.monster = monster;
     }
 
-    public Long getSkill() {
+    public Skill getSkill() {
         return skill;
     }
 
-    public void setSkill(Long skill) {
+    public void setSkill(Skill skill) {
         this.skill = skill;
     }
 
@@ -41,30 +43,23 @@ public class MonsterSkillId implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
+        if (this == obj)
             return true;
-        }
-        if (obj == null) {
+        if (obj == null)
             return false;
-        }
-        if (!(obj instanceof MonsterSkillId)) {
+        if (getClass() != obj.getClass())
             return false;
-        }
         MonsterSkillId other = (MonsterSkillId) obj;
         if (monster == null) {
-            if (other.monster != null) {
+            if (other.monster != null)
                 return false;
-            }
-        } else if (!monster.equals(other.monster)) {
+        } else if (!monster.equals(other.monster))
             return false;
-        }
         if (skill == null) {
-            if (other.skill != null) {
+            if (other.skill != null)
                 return false;
-            }
-        } else if (!skill.equals(other.skill)) {
+        } else if (!skill.equals(other.skill))
             return false;
-        }
         return true;
     }
 

@@ -1,32 +1,22 @@
 package com.dungeonstory.backend.data;
 
-import static javax.persistence.LockModeType.READ;
-
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.eclipse.persistence.annotations.JoinFetch;
-import org.eclipse.persistence.annotations.JoinFetchType;
-
+import com.dungeonstory.backend.data.enums.Ability;
+import com.dungeonstory.backend.data.enums.ArmorType;
 import com.dungeonstory.backend.repository.DescriptiveEntity;
 
 @Entity
 @Table(name = "Feat")
-@NamedQueries({
-        @NamedQuery(name = Feat.FIND_ALL_FEATS_EXCEPT, query = "SELECT e FROM Feat e WHERE e.id != :featId", lockMode = READ),
-        @NamedQuery(name = Feat.FIND_ALL_UNASSIGNED_FEATS, query = "SELECT e FROM Feat e WHERE e.id NOT IN (SELECT f.id FROM Character c JOIN c.feats f WHERE c.id = :characterId)", lockMode = READ)})
+//@NamedQueries({
+//        @NamedQuery(name = Feat.FIND_ALL_FEATS_EXCEPT, query = "SELECT e FROM Feat e WHERE e.id != :featId", lockMode = READ),
+//        @NamedQuery(name = Feat.FIND_ALL_UNASSIGNED_FEATS, query = "SELECT e FROM Feat e WHERE e.id NOT IN (SELECT f.id FROM Character c JOIN c.feats f WHERE c.id = :characterId)", lockMode = READ)})
 public class Feat extends AbstractTimestampEntity implements DescriptiveEntity {
 
     public static final String FIND_ALL_UNASSIGNED_FEATS              = "findAllUnassignedFeats";
@@ -64,16 +54,18 @@ public class Feat extends AbstractTimestampEntity implements DescriptiveEntity {
     @Enumerated(EnumType.STRING)
     private ArmorType.ProficiencyType prerequisiteArmorProficiency;
 
-    @ManyToOne
-    @JoinFetch(JoinFetchType.OUTER)
-    @JoinColumn(name = "prerequisiteAbilityId")
+//    @ManyToOne
+//    @JoinFetch(JoinFetchType.OUTER)
+//    @JoinColumn(name = "prerequisiteAbilityId")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "prerequisiteAbility")
     private Ability prerequisiteAbility;
 
     @Column(name = "prerequisiteAbilityScore")
     private Integer prerequisiteAbilityScore;
 
-    @ManyToMany(mappedBy = "feats")
-    private List<Character> characters;
+//    @ManyToMany(mappedBy = "feats")
+//    private List<Character> characters;
 
     public Feat() {
         super();
@@ -144,13 +136,13 @@ public class Feat extends AbstractTimestampEntity implements DescriptiveEntity {
         this.prerequisiteAbilityScore = prerequisiteAbilityScore;
     }
 
-    public List<Character> getCharacters() {
-        return characters;
-    }
-
-    public void setCharacters(List<Character> characters) {
-        this.characters = characters;
-    }
+//    public List<Character> getCharacters() {
+//        return characters;
+//    }
+//
+//    public void setCharacters(List<Character> characters) {
+//        this.characters = characters;
+//    }
 
     @Override
     public String toString() {

@@ -10,8 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -58,11 +56,11 @@ public class Background extends AbstractTimestampEntity {
     @Column(name = "flaws", columnDefinition = "TEXT")
     private String flaws;
     
-    @ManyToMany
-    @JoinTable(name = "BackgroundSkillProficiencies", joinColumns = {
-        @JoinColumn(name = "backgroundId", referencedColumnName = "id") }, 
-            inverseJoinColumns = { @JoinColumn(name = "skillId", referencedColumnName = "id") })
-    private Set<Skill> skillProficiencies;
+//    @ManyToMany
+//    @JoinTable(name = "BackgroundSkillProficiencies", joinColumns = {
+//        @JoinColumn(name = "backgroundId", referencedColumnName = "id") }, 
+//            inverseJoinColumns = { @JoinColumn(name = "skillId", referencedColumnName = "id") })
+//    private Set<Skill> skillProficiencies;
     
     @ElementCollection(targetClass = ToolType.class)
     @Enumerated(EnumType.STRING)
@@ -77,7 +75,7 @@ public class Background extends AbstractTimestampEntity {
     
     public Background() {
         super();
-        skillProficiencies = new HashSet<Skill>();
+//        skillProficiencies = new HashSet<Skill>();
         toolProficiencies = new HashSet<ToolType>();
     }
     
@@ -134,13 +132,13 @@ public class Background extends AbstractTimestampEntity {
         this.flaws = flaws;
     }
 
-    public Set<Skill> getSkillProficiencies() {
-        return skillProficiencies;
-    }
-
-    public void setSkillProficiencies(Set<Skill> skillProficiencies) {
-        this.skillProficiencies = skillProficiencies;
-    }
+//    public Set<Skill> getSkillProficiencies() {
+//        return skillProficiencies;
+//    }
+//
+//    public void setSkillProficiencies(Set<Skill> skillProficiencies) {
+//        this.skillProficiencies = skillProficiencies;
+//    }
 
     public Set<ToolType> getToolProficiencies() {
         return toolProficiencies;

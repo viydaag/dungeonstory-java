@@ -6,14 +6,11 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.ItemCaptionGenerator;
 import com.vaadin.ui.UI;
 
-
 public class LanguageSelector extends ComboBox<Locale> implements Translatable {
 
     private static final long serialVersionUID = -1706959924457092942L;
 
     public LanguageSelector() {
-        //        addItem(Locale.ENGLISH);
-        //        addItem(Locale.FRENCH);
         setItems(Locale.ENGLISH, Locale.CANADA_FRENCH);
         setEmptySelectionAllowed(false);
         setValue(Locale.CANADA_FRENCH);
@@ -27,9 +24,6 @@ public class LanguageSelector extends ComboBox<Locale> implements Translatable {
     @Override
     public void updateMessageStrings() {
         Messages messages = Messages.getInstance();
-        //        setValue(getLocale());
-//        setItemCaption(Locale.ENGLISH, messages.getMessage("languageSelector.en"));
-//        setItemCaption(Locale.FRENCH, messages.getMessage("languageSelector.fr"));
         setItemCaptionGenerator(new ItemCaptionGenerator<Locale>() {
             private static final long serialVersionUID = -1634395306396320788L;
 

@@ -29,23 +29,22 @@ public class Dice {
         }
     }
 
-    private int nbDice;
+    private final int nbDice;
 
-    private DiceType type;
+    private final DiceType type;
 
-    private Integer extra;
+    private int modifier = 0;
 
     private Random random = new Random();
 
     public Dice(int nbDice, DiceType type) {
-        setNbDice(nbDice);
-        setType(type);
+        this.nbDice = nbDice;
+        this.type = type;
     }
 
-    public Dice(int nbDice, DiceType type, Integer extra) {
-        setNbDice(nbDice);
-        setType(type);
-        setExtra(extra);
+    public Dice(int nbDice, DiceType type, Integer modifier) {
+        this(nbDice, type);
+        this.modifier = modifier;
     }
 
     public Dice(String dice) {
@@ -67,8 +66,8 @@ public class Dice {
                 System.out.println("Found value: " + m1.group(1));
                 System.out.println("Found value: " + m1.group(2));
             }
-            setNbDice(Integer.parseInt(m1.group(1)));
-            setType(DiceType.valueOf(m1.group(2).toUpperCase()));
+            this.nbDice = Integer.parseInt(m1.group(1));
+            this.type = DiceType.valueOf(m1.group(2).toUpperCase());
         } else if (m2.find()) {
             if (Configuration.getInstance().isDebug()) {
                 System.out.println("Found value: " + m2.group(0));
@@ -76,9 +75,9 @@ public class Dice {
                 System.out.println("Found value: " + m2.group(2));
                 System.out.println("Found value: " + m2.group(3));
             }
-            setNbDice(Integer.parseInt(m2.group(1)));
-            setType(DiceType.valueOf(m2.group(2).toUpperCase()));
-            setExtra(Integer.valueOf(m2.group(3)));
+            this.nbDice = Integer.parseInt(m2.group(1));
+            this.type = DiceType.valueOf(m2.group(2).toUpperCase());
+            this.modifier = Integer.valueOf(m2.group(3));
         } else {
             System.out.println("NO MATCH, Dé invalide " + dice);
             throw new IllegalArgumentException("Dé invalide " + dice);
@@ -88,8 +87,8 @@ public class Dice {
     public int roll() {
         IntStream intStream = random.ints(nbDice, 1, type.getDice() + 1);
         int result = intStream.sum();
-        if (extra != null) {
-            result += extra.intValue();
+        if (modifier != 0) {
+            result += modifier;
         }
         return result;
     }
@@ -98,35 +97,25 @@ public class Dice {
         return nbDice;
     }
 
-    public void setNbDice(int nbDice) {
-        this.nbDice = nbDice;
-    }
-
     public DiceType getType() {
         return type;
     }
 
-    public void setType(DiceType type) {
-        this.type = type;
+    public int getModifier() {
+        return modifier;
     }
-
-    public int getExtra() {
-        return extra;
-    }
-
-    public void setExtra(int extra) {
-        this.extra = extra;
+    
+    public void addModifier(int modifier) {
+        this.modifier += modifier;
     }
 
     @Override
     public String toString() {
         String result = nbDice + type.toString().toLowerCase();
-        if (extra != null) {
-            if (extra.intValue() > 0) {
-                result += "+" + String.valueOf(extra);
-            } else if (extra.intValue() < 0) {
-                result += String.valueOf(extra);
-            }
+        if (modifier > 0) {
+            result += "+" + String.valueOf(modifier);
+        } else if (modifier < 0) {
+            result += String.valueOf(modifier);
         }
         return result;
     }

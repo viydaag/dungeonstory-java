@@ -1,12 +1,13 @@
 package com.dungeonstory.ui.view.admin.grid;
 
-import com.dungeonstory.backend.data.Language;
-import com.vaadin.data.ValueContext;
-import com.vaadin.data.converter.StringToBooleanConverter;
-import com.vaadin.icons.VaadinIcons;
-import com.vaadin.ui.renderers.HtmlRenderer;
+import java.util.EnumSet;
 
-public class LanguageGrid extends DSGrid<Language> {
+import com.dungeonstory.backend.data.enums.Language;
+import com.vaadin.data.converter.StringToBooleanConverter;
+import com.vaadin.data.provider.ListDataProvider;
+import com.vaadin.icons.VaadinIcons;
+
+public class LanguageGrid extends ReadOnlyGrid<Language> {
 
     private static final long serialVersionUID = -8818716671121858460L;
 
@@ -16,7 +17,8 @@ public class LanguageGrid extends DSGrid<Language> {
                 VaadinIcons.CIRCLE_THIN.getHtml());
         addColumn(Language::getName).setCaption("Nom").setId("name");
         addColumn(Language::getScript).setCaption("Alphabet").setId("script");
-        addColumn(language -> converter.convertToPresentation(language.getPlayable(), new ValueContext()), new HtmlRenderer()).setCaption("Jouable");
+//        addColumn(language -> converter.convertToPresentation(language.getPlayable(), new ValueContext()), new HtmlRenderer()).setCaption("Jouable");
+        setDataProvider(new ListDataProvider<>(EnumSet.allOf(Language.class)));
     }
 
 }

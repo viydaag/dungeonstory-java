@@ -40,4 +40,9 @@ public class LevelService extends AbstractDataService<Level, Long> implements Le
         return level;
     }
 
+    @Override
+    public Level getNextLevel(Level level) {
+        return read(level.getId() + 1);
+    }
+
 }

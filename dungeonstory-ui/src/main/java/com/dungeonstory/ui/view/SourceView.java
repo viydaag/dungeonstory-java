@@ -6,22 +6,24 @@ import java.util.List;
 import com.dungeonstory.ui.util.DSTheme;
 import com.dungeonstory.ui.util.ViewConfig;
 import com.vaadin.navigator.View;
-import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.ExternalResource;
+import com.vaadin.ui.Composite;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Link;
 import com.vaadin.ui.VerticalLayout;
 
 @ViewConfig(uri = "sources", displayName = "Sources")
-public class SourceView extends VerticalLayout implements View {
+public class SourceView extends Composite implements View {
     
     private static final long serialVersionUID = 5443345955597338264L;
 
     public SourceView() {
 
+        VerticalLayout layout = new VerticalLayout();
+        
         Label caption = new Label("Sources");
         caption.addStyleName(DSTheme.LABEL_HUGE);
-        addComponents(caption);
+        layout.addComponents(caption);
 
         List<Link> linkList = new ArrayList<Link>();
 
@@ -35,13 +37,10 @@ public class SourceView extends VerticalLayout implements View {
 
         for (Link link : linkList) {
             link.setTargetName("_blank");
-            addComponent(link);
+            layout.addComponent(link);
         }
-    }
-
-    @Override
-    public void enter(ViewChangeEvent event) {
         
+        setCompositionRoot(layout);
     }
 
 }

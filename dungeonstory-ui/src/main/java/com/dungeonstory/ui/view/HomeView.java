@@ -6,33 +6,34 @@ import com.dungeonstory.ui.event.NavigationEvent;
 import com.dungeonstory.ui.util.DSTheme;
 import com.dungeonstory.ui.util.ViewConfig;
 import com.vaadin.navigator.View;
-import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Composite;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 @ViewConfig(uri = "", displayName = "Home")
-public class HomeView extends VerticalLayout implements View {
+public class HomeView extends Composite implements View {
 
-	private static final long serialVersionUID = 114267808090423646L;
+    private static final long serialVersionUID = 114267808090423646L;
 
-	public HomeView() {
+    public HomeView() {
+
+        VerticalLayout layout = new VerticalLayout();
+
         Label caption = new Label("Welcome, " + CurrentUser.get().getUsername());
 
         caption.addStyleName(DSTheme.LABEL_HUGE);
-        addComponents(caption);
+        layout.addComponents(caption);
 
         Button aboutViewButton = new Button("À propos", click -> EventBus.post(new NavigationEvent("about")));
         aboutViewButton.addStyleName(DSTheme.BUTTON_BORDERLESS);
-        addComponent(aboutViewButton);
+        layout.addComponent(aboutViewButton);
 
         Button sourceViewButton = new Button("Sources", click -> EventBus.post(new NavigationEvent("sources")));
         sourceViewButton.addStyleName(DSTheme.BUTTON_BORDERLESS);
-        addComponent(sourceViewButton);
+        layout.addComponent(sourceViewButton);
+
+        setCompositionRoot(layout);
     }
 
-    @Override
-    public void enter(ViewChangeListener.ViewChangeEvent event) {
-
-    }
 }

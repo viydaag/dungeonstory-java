@@ -71,15 +71,7 @@ public abstract class AbstractForm<T> extends CustomComponent {
     private Registration cancelRegistration;
 
     public AbstractForm(Class<T> entityType) {
-        addAttachListener(new AttachListener() {
-
-            private static final long serialVersionUID = 3193438171004932112L;
-
-            @Override
-            public void attach(AttachEvent event) {
-                lazyInit();
-            }
-        });
+        addAttachListener(attachEvent -> lazyInit());
         createBinder(entityType);
     }
 
@@ -92,11 +84,6 @@ public abstract class AbstractForm<T> extends CustomComponent {
             }
         });
         binder.addStatusChangeListener(e -> {
-            // TODO optimize this
-            // TODO see if explicitly calling writeBean would write also invalid
-            // values -> would make functionality more logical and easier for 
-            // users to do validation and error reporting
-
             // Eh, value change listener is called after status change listener, so
             // ensure flag is on...
             if (!settingBean) {

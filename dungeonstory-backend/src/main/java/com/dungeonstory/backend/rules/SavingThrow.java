@@ -1,6 +1,6 @@
 package com.dungeonstory.backend.rules;
 
-import com.dungeonstory.backend.data.Ability;
+import com.dungeonstory.backend.data.enums.Ability;
 
 public class SavingThrow {
     

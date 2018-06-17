@@ -6,6 +6,7 @@ import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.CharacterClass;
 import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.data.Level;
+import com.dungeonstory.backend.data.enums.Feat;
 import com.dungeonstory.backend.factory.impl.CharacterFactory;
 import com.dungeonstory.backend.repository.impl.CharacterRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
@@ -17,6 +18,8 @@ public class CharacterService extends AbstractDataService<Character, Long> imple
 
     private static CharacterService instance = null;
 
+    private CharacterRepository repository;
+
     public static synchronized CharacterService getInstance() {
         if (instance == null) {
             instance = new CharacterService();
@@ -27,13 +30,14 @@ public class CharacterService extends AbstractDataService<Character, Long> imple
     private CharacterService() {
         super();
         setEntityFactory(new CharacterFactory());
-        setRepository(new CharacterRepository());
+        repository = new CharacterRepository();
+        setRepository(repository);
     }
 
     @Override
     public CharacterClass getAssignedClass(Character character, DSClass classe) {
         try {
-            return ((CharacterRepository) entityRepository).getAssignedClass(character, classe);
+            return repository.getAssignedClass(character, classe);
         } catch (NoResultException e) {
             return null;
         }
@@ -41,9 +45,20 @@ public class CharacterService extends AbstractDataService<Character, Long> imple
 
     @Override
     public void levelUp(Character character) {
-        Level levelUp = LevelService.getInstance().read(character.getLevel().getId() + 1);
+        Level levelUp = LevelService.getInstance().getNextLevel(character.getLevel());
         character.setLevel(levelUp);
         update(character);
+    }
+
+    @Override
+    public boolean hasFeat(Character character, Feat feat) {
+        return repository.hasFeat(character.getId(), feat);
+    }
+
+    @Override
+    public boolean isAbleToLevelUp(Character character) {
+        return character.getExperience() >= character.getLevel().getMaxExperience()
+                && LevelService.getInstance().getNextLevel(character.getLevel()) != null;
     }
 
 }

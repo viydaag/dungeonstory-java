@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
+import com.dungeonstory.backend.data.enums.Background;
 import com.dungeonstory.ui.i18n.Messages;
 import com.vaadin.testbench.TestBenchTestCase;
 import com.vaadin.testbench.elements.ComboBoxElement;
@@ -53,9 +54,9 @@ public class NewCharacterPageObject extends TestBenchTestCase {
         classComboBox.selectByText(classe);
     }
 
-    public void chooseBackground(String background) {
+    public void chooseBackground(Background background) {
         ComboBoxElement backgroundComboBox = $(ComboBoxElement.class).caption(messages.getMessage("backgroundStep.background.label")).first();
-        backgroundComboBox.selectByText(background);
+        backgroundComboBox.selectByText(background.getName());
     }
 
     public void chooseBackgroundLanguage(String language) {

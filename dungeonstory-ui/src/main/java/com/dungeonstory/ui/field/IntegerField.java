@@ -30,6 +30,7 @@ public class IntegerField
         //        regexInputMask.extend(tf);
         InputMask numericInputMask = new InputMask(Alias.INTEGER);
         numericInputMask.setIntegerDigits(String.valueOf(digits));
+        numericInputMask.setAllowMinus(allowNegative);
         numericInputMask.extend(tf);
         return super.initContent();
     }

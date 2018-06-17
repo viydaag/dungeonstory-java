@@ -1,5 +1,6 @@
 package com.dungeonstory.backend.data;
 
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,7 +13,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
@@ -20,6 +20,12 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.eclipse.persistence.annotations.PrivateOwned;
+
+import com.dungeonstory.backend.data.enums.ArmorType;
+import com.dungeonstory.backend.data.enums.Condition;
+import com.dungeonstory.backend.data.enums.DamageType;
+import com.dungeonstory.backend.data.enums.Language;
+import com.dungeonstory.backend.data.enums.Skill;
 
 @Entity
 @Table(name = "Race")
@@ -113,11 +119,10 @@ public class Race extends AbstractTimestampEntity {
     @Column(name = "speed")
     private int speed = 0;
     
-    @ManyToMany
-    @JoinTable(
-        name="RaceLanguage",
-        joinColumns={@JoinColumn(name="raceId", referencedColumnName="id")},
-        inverseJoinColumns={@JoinColumn(name="languageId", referencedColumnName="id")})
+    @ElementCollection(targetClass = Language.class)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "RaceLanguage", joinColumns = @JoinColumn(name = "raceId", nullable = false))
+    @Column(name = "language", nullable = false)
     private Set<Language> languages;
     
     @Column(name = "extraLanguage")
@@ -143,15 +148,17 @@ public class Race extends AbstractTimestampEntity {
             inverseJoinColumns = { @JoinColumn(name = "weaponTypeId", referencedColumnName = "id") })
     private Set<WeaponType> weaponProficiencies;
 
-    @ManyToMany
-    @JoinTable(name = "RaceSkillProficiencies", joinColumns = {
-        @JoinColumn(name = "raceId", referencedColumnName = "id") }, 
-            inverseJoinColumns = { @JoinColumn(name = "skillId", referencedColumnName = "id") })
+    @ElementCollection(targetClass = Skill.class)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "RaceSkillProficiencies", joinColumns = @JoinColumn(name = "raceId", nullable = false))
+    @Column(name = "skill", nullable = false)
     private Set<Skill> skillProficiencies;
     
-    @ManyToOne
-    @JoinColumn(name = "damageTypeId")
-    private DamageType damageResistance;
+    @ElementCollection(targetClass = DamageType.class)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "RaceDamageResistance", joinColumns = @JoinColumn(name = "raceId", nullable = false))
+    @Column(name = "damageResistance", nullable = false)
+    private Set<DamageType> damageResistance;
     
     @Column(name = "image")
     private byte[] image;
@@ -163,6 +170,7 @@ public class Race extends AbstractTimestampEntity {
         armorProficiencies = new HashSet<ArmorType.ProficiencyType>();
         weaponProficiencies = new HashSet<WeaponType>();
         skillProficiencies = new HashSet<Skill>();
+        damageResistance = EnumSet.noneOf(DamageType.class);
     }
 
     public Race(String name) {
@@ -338,11 +346,11 @@ public class Race extends AbstractTimestampEntity {
         this.skillProficiencies = skillProficiencies;
     }
 
-    public DamageType getDamageResistance() {
+    public Set<DamageType> getDamageResistance() {
         return damageResistance;
     }
 
-    public void setDamageResistance(DamageType damageResistance) {
+    public void setDamageResistance(Set<DamageType> damageResistance) {
         this.damageResistance = damageResistance;
     }
 

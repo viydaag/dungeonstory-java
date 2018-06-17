@@ -4,6 +4,7 @@ import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.CharacterClass;
 import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.data.Level;
+import com.dungeonstory.backend.data.enums.Feat;
 import com.dungeonstory.backend.factory.impl.CharacterFactory;
 import com.dungeonstory.backend.repository.mock.MockCharacterRepository;
 import com.dungeonstory.backend.service.AbstractDataService;
@@ -38,6 +39,17 @@ public class MockCharacterService extends AbstractDataService<Character, Long> i
         Level levelUp = MockLevelService.getInstance().read(character.getLevel().getId() + 1);
         character.setLevel(levelUp);
         update(character);
+    }
+
+    @Override
+    public boolean hasFeat(Character character, Feat feat) {
+        return character.getFeats().contains(feat);
+    }
+
+    @Override
+    public boolean isAbleToLevelUp(Character character) {
+        // TODO Auto-generated method stub
+        return false;
     }
 
 }

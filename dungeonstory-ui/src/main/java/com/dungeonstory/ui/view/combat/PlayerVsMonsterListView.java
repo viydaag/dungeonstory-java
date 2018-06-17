@@ -1,16 +1,16 @@
 package com.dungeonstory.ui.view.combat;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.dungeonstory.backend.data.Ability;
 import com.dungeonstory.backend.data.Monster;
+import com.dungeonstory.backend.data.enums.Ability;
 import com.dungeonstory.backend.rules.Rules;
 import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.component.DSLabel;
 import com.dungeonstory.ui.converter.CollectionToStringConverter;
+import com.dungeonstory.ui.i18n.Messages;
 import com.dungeonstory.ui.util.ViewConfig;
 import com.vaadin.data.ValueContext;
 import com.vaadin.icons.VaadinIcons;
@@ -75,6 +75,7 @@ public class PlayerVsMonsterListView extends HorizontalLayout implements View {
     private void showMonsterInfo(Optional<Monster> selectedItem) {
         if (selectedItem.isPresent()) {
             Monster monster = selectedItem.get();
+            Messages messages = Messages.getInstance();
             
             Label nameLabel = new Label(monster.getName());
             nameLabel.addStyleName(ValoTheme.LABEL_H2);
@@ -133,17 +134,16 @@ public class PlayerVsMonsterListView extends HorizontalLayout implements View {
             
             GridLayout statsLayout = new GridLayout(6, 2);
             statsLayout.setWidth(100, Unit.PERCENTAGE);
-            List<Ability> abilities = Services.getAbilityService().findAll();
             int column = 0;
-            for (Ability ability : abilities) {
+            for (Ability ability : Ability.values()) {
                 statsLayout.addComponent(new Label(ability.getAbbreviation().toUpperCase()), column++, 0);
             }
             statsLayout.addComponent(new DSLabel(monster.getStrength()), 0, 1);
-            statsLayout.addComponent(new DSLabel(monster.getStrength()), 1, 1);
-            statsLayout.addComponent(new DSLabel(monster.getStrength()), 2, 1);
-            statsLayout.addComponent(new DSLabel(monster.getStrength()), 3, 1);
-            statsLayout.addComponent(new DSLabel(monster.getStrength()), 4, 1);
-            statsLayout.addComponent(new DSLabel(monster.getStrength()), 5, 1);
+            statsLayout.addComponent(new DSLabel(monster.getDexterity()), 1, 1);
+            statsLayout.addComponent(new DSLabel(monster.getConstitution()), 2, 1);
+            statsLayout.addComponent(new DSLabel(monster.getIntelligence()), 3, 1);
+            statsLayout.addComponent(new DSLabel(monster.getWisdom()), 4, 1);
+            statsLayout.addComponent(new DSLabel(monster.getCharisma()), 5, 1);
             infoLayout.addComponent(new Panel(statsLayout));
             
             FormLayout infoLayout3 = new FormLayout();

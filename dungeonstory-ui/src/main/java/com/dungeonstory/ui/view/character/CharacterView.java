@@ -36,7 +36,7 @@ public class CharacterView extends VerticalLayout implements View {
         Services.getUserService().refresh(user);
         Character character = user.getCharacter();
 
-        if (character.getExperience() >= character.getLevel().getMaxExperience()) {
+        if (Services.getCharacterService().isAbleToLevelUp(character)) {
             FButton levelUpButton = new FButton("Niveau").withIcon(VaadinIcons.ARROW_UP)
                                                          .withStyleName(ValoTheme.BUTTON_LARGE)
                                                          .withStyleName(ValoTheme.BUTTON_FRIENDLY);
@@ -48,8 +48,8 @@ public class CharacterView extends VerticalLayout implements View {
         infoForm.setEntity(character);
         tabsheet.addTab(infoForm, "Informations");
 
-//        EquipmentList equipment = new EquipmentList();
-//        tabsheet.addTab(equipment, "Équipement");
+        EquipmentList2 equipment = new EquipmentList2(character);
+        tabsheet.addTab(equipment, "Équipement");
 
         ProficiencyList proficiencies = new ProficiencyList(character);
         tabsheet.addTab(proficiencies, "Maitrises");
@@ -58,6 +58,15 @@ public class CharacterView extends VerticalLayout implements View {
         tabsheet.addTab(features, "Dons");
 
         addComponent(tabsheet);
+        
+        //refresh character if it was updated in another tab
+        tabsheet.addSelectedTabChangeListener(tabEvent -> {
+            Character updatedCharacter = Services.getCharacterService().read(character.getId());
+            if (tabsheet.getSelectedTab() instanceof HasCharacter) {
+                HasCharacter tab = (HasCharacter) tabsheet.getSelectedTab();
+                tab.setCharacter(updatedCharacter);
+            }
+        });
 
     }
 

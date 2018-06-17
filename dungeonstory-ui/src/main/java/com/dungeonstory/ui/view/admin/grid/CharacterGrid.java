@@ -16,8 +16,13 @@ public class CharacterGrid
         addColumn(Character::getName).setCaption("Nom").setId("name");
         addColumn(character -> {
             Level previousLevel = Services.getLevelService().read(character.getLevel().getId() - 1);
-            double progress = (double) (character.getExperience() - previousLevel.getMaxExperience())
-                    / (double) (character.getLevel().getMaxExperience() - previousLevel.getMaxExperience());
+            double progress = 0.0;
+            if (previousLevel == null) {
+                progress = (double) character.getExperience() / (double) character.getLevel().getMaxExperience();
+            } else {
+                progress = (double) (character.getExperience() - previousLevel.getMaxExperience())
+                        / (double) (character.getLevel().getMaxExperience() - previousLevel.getMaxExperience());
+            }
             return progress;
         }, new ProgressBarRenderer()).setCaption("Progrès").setId("progress");
 

@@ -2,6 +2,7 @@ package com.dungeonstory.backend.data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,6 +20,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -27,15 +29,27 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import org.eclipse.persistence.annotations.BatchFetch;
+import org.eclipse.persistence.annotations.BatchFetchType;
 import org.eclipse.persistence.annotations.JoinFetch;
 import org.eclipse.persistence.annotations.JoinFetchType;
 import org.eclipse.persistence.annotations.PrivateOwned;
 
 import com.dungeonstory.backend.data.Tool.ToolType;
+import com.dungeonstory.backend.data.enums.Ability;
+import com.dungeonstory.backend.data.enums.Alignment;
+import com.dungeonstory.backend.data.enums.ArmorType;
+import com.dungeonstory.backend.data.enums.Feat;
+import com.dungeonstory.backend.data.enums.Language;
+import com.dungeonstory.backend.data.enums.Skill;
+import com.dungeonstory.backend.data.enums.Terrain;
 
 @Entity
 @Table(name = "DSCharacter")
+@NamedQuery(name = Character.HAS_FEAT, query = "SELECT c FROM Character c JOIN c.feats f WHERE c.id = :characterId AND f = :feat")
 public class Character extends AbstractTimestampEntity implements Serializable, HasStats {
+
+    public static final String HAS_FEAT = "hasFeat";
 
     private static final long serialVersionUID = -967001655180847193L;
 
@@ -165,8 +179,8 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
     private CharacterBackground background;
 
     @NotNull
-    @ManyToOne
-    @JoinColumn(name = "alignmentId", nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "alignment", nullable = false)
     private Alignment alignment;
 
     @ManyToOne
@@ -184,13 +198,16 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
     @PrivateOwned
     private Set<CharacterClass> classes;
 
-    @ManyToMany
-    @JoinTable(name = "CharacterFeat", joinColumns = { @JoinColumn(name = "characterId", referencedColumnName = "id") }, inverseJoinColumns = {
-            @JoinColumn(name = "featId", referencedColumnName = "id") })
+    @ElementCollection(targetClass = Feat.class)
+    @CollectionTable(name = "CharacterFeat", joinColumns = @JoinColumn(name = "characterId", nullable = false))
+    @Column(name = "feat", nullable = false)
+    @Enumerated(EnumType.STRING)
     private Set<Feat> feats;
 
-    @ManyToMany
-    @JoinTable(name = "CharacterProficientSkill", joinColumns = @JoinColumn(name = "characterId", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "skillId", referencedColumnName = "id"))
+    @ElementCollection(targetClass = Skill.class)
+    @CollectionTable(name = "CharacterProficientSkill", joinColumns = @JoinColumn(name = "characterId", nullable = false))
+    @Column(name = "skill", nullable = false)
+    @Enumerated(EnumType.STRING)
     private Set<Skill> skillProficiencies;
 
     @ManyToMany
@@ -201,13 +218,16 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
     @CollectionTable(name = "CharacterArmorProficiencies", joinColumns = @JoinColumn(name = "characterId", nullable = false))
     @Column(name = "armorProficiency", nullable = false)
     @Enumerated(EnumType.STRING)
-    @PrivateOwned
     private Set<ArmorType.ProficiencyType> armorProficiencies;
 
-    @ManyToMany
-    @JoinTable(name = "CharacterSavingThrowProficiencies", joinColumns = {
-            @JoinColumn(name = "characterId", referencedColumnName = "id") }, inverseJoinColumns = {
-                    @JoinColumn(name = "abilityId", referencedColumnName = "id") })
+//    @ManyToMany
+//    @JoinTable(name = "CharacterSavingThrowProficiencies", joinColumns = {
+//            @JoinColumn(name = "characterId", referencedColumnName = "id") }, inverseJoinColumns = {
+//                    @JoinColumn(name = "abilityId", referencedColumnName = "id") })
+    @ElementCollection(targetClass = Ability.class)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "CharacterSavingThrowProficiencies", joinColumns = @JoinColumn(name = "characterId", nullable = false))
+    @Column(name = "ability", nullable = false)
     private Set<Ability> savingThrowProficiencies;
 
     @ElementCollection(targetClass = ToolType.class)
@@ -216,8 +236,9 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
     @Column(name = "toolType", nullable = false)
     private Set<ToolType> toolProficiencies;
 
-    @OneToMany(mappedBy = "character", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
-    private List<CharacterEquipment> equipment;
+    @OneToMany(mappedBy = "character", cascade = { CascadeType.ALL }, orphanRemoval = true)
+    @BatchFetch(value = BatchFetchType.JOIN)
+    private Set<CharacterEquipment> equipment;
 
     @ManyToMany
     @JoinTable(name = "CharacterFavoredEnnemy", joinColumns = {
@@ -231,9 +252,10 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
     @Column(name = "terrain", nullable = false)
     private Set<Terrain> favoredTerrains;
 
-    @ManyToMany
-    @JoinTable(name = "CharacterLanguage", joinColumns = { @JoinColumn(name = "characterId", referencedColumnName = "id") }, inverseJoinColumns = {
-            @JoinColumn(name = "languageId", referencedColumnName = "id") })
+    @ElementCollection(targetClass = Language.class)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "CharacterLanguage", joinColumns = @JoinColumn(name = "characterId", nullable = false))
+    @Column(name = "language", nullable = false)
     private Set<Language> languages;
 
     @ManyToOne
@@ -254,11 +276,11 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
         classes = new HashSet<CharacterClass>();
         feats = new HashSet<Feat>();
         skillProficiencies = new HashSet<Skill>();
-        equipment = new ArrayList<CharacterEquipment>();
-        languages = new HashSet<Language>();
+        equipment = new HashSet<CharacterEquipment>();
+        languages = EnumSet.noneOf(Language.class);
         favoredEnnemies = new ArrayList<CreatureType>();
         favoredTerrains = new HashSet<Terrain>();
-        armorProficiencies = new HashSet<>();
+        armorProficiencies = EnumSet.noneOf(ArmorType.ProficiencyType.class);
         weaponProficiencies = new HashSet<>();
         savingThrowProficiencies = new HashSet<>();
         skillProficiencies = new HashSet<>();
@@ -274,7 +296,7 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
             c.setFavoredEnnemies(new ArrayList<>(c.getFavoredEnnemies()));
             c.setFavoredTerrains(new HashSet<>(c.getFavoredTerrains()));
             c.setFeats(new HashSet<>(c.getFeats()));
-            c.setLanguages(new HashSet<>(c.getLanguages()));
+            c.setLanguages(EnumSet.copyOf(c.getLanguages()));
             c.setSavingThrowProficiencies(new HashSet<>(c.getSavingThrowProficiencies()));
             c.setSkillProficiencies(new HashSet<>(c.getSkillProficiencies()));
             c.setToolProficiencies(new HashSet<>(c.getToolProficiencies()));
@@ -444,11 +466,11 @@ public class Character extends AbstractTimestampEntity implements Serializable, 
         this.toolProficiencies = toolProficiencies;
     }
 
-    public List<CharacterEquipment> getEquipment() {
+    public Set<CharacterEquipment> getEquipment() {
         return equipment;
     }
 
-    public void setEquipment(List<CharacterEquipment> equipment) {
+    public void setEquipment(Set<CharacterEquipment> equipment) {
         this.equipment = equipment;
     }
 

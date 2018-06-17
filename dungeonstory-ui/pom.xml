@@ -11,6 +11,10 @@
     <artifactId>dungeonstory-ui</artifactId>
     <name>dungeonstory-ui</name>
     <packaging>war</packaging>
+    
+    <properties>
+		<vaadin.testbench.version>5.0-SNAPSHOT</vaadin.testbench.version>
+	</properties>
 
     <dependencies>
         <!-- Versions for these are configured in the parent POM -->
@@ -114,17 +118,17 @@
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-testbench</artifactId>
-            <version>5.0-SNAPSHOT</version>
+            <version>${vaadin.testbench.version}</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/lib/vaadin-testbench-5.0-SNAPSHOT.jar</systemPath>
+            <systemPath>${project.basedir}/lib/vaadin-testbench-${vaadin.testbench.version}.jar</systemPath>
         </dependency>
 
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-testbench-standalone</artifactId>
-            <version>5.0-SNAPSHOT</version>
+            <version>${vaadin.testbench.version}</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/lib/vaadin-testbench-standalone-5.0-SNAPSHOT.jar</systemPath>
+            <systemPath>${project.basedir}/lib/vaadin-testbench-standalone-${vaadin.testbench.version}.jar</systemPath>
         </dependency>
 
         <dependency>

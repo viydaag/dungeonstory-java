@@ -35,17 +35,22 @@ public class ShopRules {
             Services.getShopService().saveOrUpdate(shop);
 
             //add item to character
-            Optional<CharacterEquipment> equipOpt = character.getEquipment()
-                                                             .stream()
-                                                             .filter(equip -> equip.getEquipment().equals(item.getEquipment()))
-                                                             .findFirst();
-            if (equipOpt.isPresent()) {
-                equipOpt.get().setQuantity(equipOpt.get().getQuantity() + quantity);
-            } else {
+            for (int i = 0; i < quantity; i++) {
                 CharacterEquipment characterEquipment = new CharacterEquipment(character, item.getEquipment(), quantity,
                         (int) (item.getUnitPrice() * 0.8));
                 character.getEquipment().add(characterEquipment);
             }
+            //            Optional<CharacterEquipment> equipOpt = character.getEquipment()
+            //                                                             .stream()
+            //                                                             .filter(equip -> equip.getEquipment().equals(item.getEquipment()))
+            //                                                             .findFirst();
+            //            if (equipOpt.isPresent()) {
+            //                equipOpt.get().setQuantity(equipOpt.get().getQuantity() + quantity);
+            //            } else {
+            //                CharacterEquipment characterEquipment = new CharacterEquipment(character, item.getEquipment(), quantity,
+            //                        (int) (item.getUnitPrice() * 0.8));
+            //                character.getEquipment().add(characterEquipment);
+            //            }
             long price = item.getUnitPrice() * quantity;
             character.setGold(character.getGold() - price);
             Services.getCharacterService().saveOrUpdate(character);
@@ -53,7 +58,7 @@ public class ShopRules {
 
     }
 
-    public static void sellItem(Character character, Shop shop, CharacterEquipment item, int quantity) {
+    public static void sellItem(Character character, Shop shop, CharacterEquipment item) {//, int quantity) {
 
         CharacterEquipment characterEquipment = character.getEquipment()
                                                          .stream()
@@ -63,15 +68,17 @@ public class ShopRules {
         if (characterEquipment != null) {
 
             //remove item from character
-            if (characterEquipment.getQuantity() > quantity) {
-                characterEquipment.substractQuantity(quantity);
-            } else if (characterEquipment.getQuantity() == quantity) {
-                character.getEquipment().remove(characterEquipment);
-            } else {
-                return;
-            }
+            character.getEquipment().remove(characterEquipment);
 
-            long value = item.getSellableValue() * quantity;
+            //            if (characterEquipment.getQuantity() > quantity) {
+            //                characterEquipment.substractQuantity(quantity);
+            //            } else if (characterEquipment.getQuantity() == quantity) {
+            //                character.getEquipment().remove(characterEquipment);
+            //            } else {
+            //                return;
+            //            }
+
+            long value = item.getSellableValue();
             character.setGold(character.getGold() + value);
             Services.getCharacterService().saveOrUpdate(character);
 
@@ -81,9 +88,9 @@ public class ShopRules {
                                                    .filter(equip -> equip.getEquipment().equals(item.getEquipment()))
                                                    .findFirst();
             if (equipOpt.isPresent()) {
-                equipOpt.get().addQuantity(quantity);
+                equipOpt.get().addQuantity(1);
             } else {
-                ShopEquipment shopEquipment = new ShopEquipment(shop, item.getEquipment(), quantity,
+                ShopEquipment shopEquipment = new ShopEquipment(shop, item.getEquipment(), 1,
                         (int) (item.getSellableValue() * 1.2));
                 shop.getShopEquipments().add(shopEquipment);
             }

@@ -1,7 +1,6 @@
 package com.dungeonstory.ui.view.shop;
 
-import java.util.Iterator;
-
+import com.dungeonstory.backend.data.CharacterEquipment;
 import com.dungeonstory.backend.data.Shop;
 import com.dungeonstory.backend.data.ShopEquipment;
 import com.dungeonstory.backend.service.Services;
@@ -10,15 +9,15 @@ import com.dungeonstory.ui.component.DSLabel;
 import com.dungeonstory.ui.event.EventBus;
 import com.dungeonstory.ui.event.NavigationEvent;
 import com.dungeonstory.ui.util.DSTheme;
-import com.dungeonstory.ui.util.Refresher;
 import com.dungeonstory.ui.util.ViewConfig;
+import com.dungeonstory.ui.view.shop.EquipmentItem.ItemSoldEvent;
+import com.dungeonstory.ui.view.shop.ShopItem.ItemBoughtEvent;
 import com.vaadin.fluent.ui.FHorizontalLayout;
 import com.vaadin.fluent.ui.FVerticalLayout;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
@@ -27,7 +26,7 @@ import com.vaadin.ui.VerticalLayout;
 @ViewConfig(uri = ShopView.URI, displayName = "")
 public class ShopView
         extends VerticalLayout
-        implements View, Refresher {
+        implements View, EquipmentItem.SellItemListener, ShopItem.BuyItemListener {
 
     private static final long serialVersionUID = -1712432045147930397L;
 
@@ -35,13 +34,20 @@ public class ShopView
 
     private Shop shop;
 
+    private HorizontalLayout shopLayout;
+
     private VerticalLayout buyLayout;
+    private VerticalLayout sellLayout;
+
     private DSLabel        goldValue;
 
     public ShopView() {
         buyLayout = new FVerticalLayout().withMargin(false).withSpacing(false);
-        buyLayout.setWidth(50, Unit.PERCENTAGE);
+        sellLayout = new FVerticalLayout().withMargin(false).withSpacing(false);
+        //        buyLayout.setWidth(50, Unit.PERCENTAGE);
         setMargin(false);
+
+        shopLayout = new FHorizontalLayout(buyLayout, sellLayout).withWidth(100, Unit.PERCENTAGE);
     }
 
     @Override
@@ -65,13 +71,19 @@ public class ShopView
         }
         FHorizontalLayout goldLayout = new FHorizontalLayout(goldLabel, goldValue);
 
-        addComponents(backButton, shopName, goldLayout, buyLayout);
+        addComponents(backButton, shopName, goldLayout, shopLayout);
 
+        buildBuyPanel(gold);
+        buildSellPanel();
+
+    }
+
+    private void buildBuyPanel(long gold) {
         Panel buyHeaderPanel = new Panel();
         FHorizontalLayout buyHeaderLayout = new FHorizontalLayout().withDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
         Label itemName = new DSLabel("Item");
         Label stockQuantityLabel = new DSLabel("Stock").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
-        Label buyQuantityLabel = new DSLabel("Qte achat").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
+        Label buyQuantityLabel = new DSLabel("Quantité achat").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
         Label unitPriceLabel = new DSLabel("Prix unit.");
         Label totalPriceLabel = new DSLabel("Prix total").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
         Label minusLabel = new DSLabel("").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
@@ -93,25 +105,86 @@ public class ShopView
         buyLayout.addComponent(buyHeaderPanel);
 
         for (ShopEquipment shopEquipment : shop.getShopEquipments()) {
-            ShopItem item = new ShopItem(shopEquipment, gold, this);
+            ShopItem item = new ShopItem(shopEquipment, gold);
+            item.addBuyItemListener(this);
             buyLayout.addComponent(item);
         }
 
     }
 
-    @Override
-    public void refresh() {
-        Iterator<Component> iterator = buyLayout.iterator();
-        while (iterator.hasNext()) {
-            Component c = iterator.next();
-            if (c instanceof ShopItem) {
-                ShopItem item = (ShopItem) c;
-                long remainingGold = CurrentUser.get().getCharacter().getGold();
-                goldValue.setValue(String.valueOf(remainingGold));
-                item.refresh(remainingGold);
-            }
+    private void buildSellPanel() {
+        Panel sellHeaderPanel = new Panel();
+        FHorizontalLayout sellHeaderLayout = new FHorizontalLayout().withDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+        Label itemName = new DSLabel("Item");
+        Label stockQuantityLabel = new DSLabel("Stock").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
+        //        Label buyQuantityLabel = new DSLabel("Quantité vente").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
+        Label unitPriceLabel = new DSLabel("Valeur unit.");
+        //        Label totalPriceLabel = new DSLabel("Valeur total").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
+        //        Label minusLabel = new DSLabel("").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
+        //        Label plusLabel = new DSLabel("").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
+        Label sellLabel = new DSLabel("").withStyleName(DSTheme.TEXT_CENTER_ALIGNED);
+
+        //        HorizontalLayout quantityLayout = new HorizontalLayout(minusLabel, buyQuantityLabel, plusLabel);
+
+        sellHeaderLayout.setWidth(100, Unit.PERCENTAGE);
+        sellHeaderLayout.addComponents(unitPriceLabel, itemName, stockQuantityLabel, sellLabel);
+        sellHeaderLayout.setComponentAlignment(sellLabel, Alignment.MIDDLE_RIGHT);
+        sellHeaderLayout.setExpandRatio(itemName, 4);
+        sellHeaderLayout.setExpandRatio(unitPriceLabel, 1);
+        sellHeaderLayout.setExpandRatio(stockQuantityLabel, 1);
+        //        sellHeaderLayout.setExpandRatio(quantityLayout, 0);
+        //        sellHeaderLayout.setExpandRatio(totalPriceLabel, 1);
+        sellHeaderLayout.setExpandRatio(sellLabel, 2);
+        sellHeaderPanel.setContent(sellHeaderLayout);
+        sellLayout.addComponent(sellHeaderPanel);
+
+        for (CharacterEquipment equipment : CurrentUser.get().getCharacter().getEquipment()) {
+            EquipmentItem item = new EquipmentItem(equipment, shop);
+            item.addSellItemListener(this);
+            sellLayout.addComponent(item);
         }
 
+    }
+
+    //    @Override
+    //    public void refresh() {
+    //        //        Iterator<Component> iterator = buyLayout.iterator();
+    //        //        while (iterator.hasNext()) {
+    //        //            Component c = iterator.next();
+    //        //            if (c instanceof ShopItem) {
+    //        //                ShopItem item = (ShopItem) c;
+    //        //                long remainingGold = CurrentUser.get().getCharacter().getGold();
+    //        //                goldValue.setValue(String.valueOf(remainingGold));
+    //        //                item.refresh(remainingGold);
+    //        //            }
+    //        //        }
+    //        long remainingGold = CurrentUser.get().getCharacter().getGold();
+    //        goldValue.setValue(String.valueOf(remainingGold));
+    //
+    //        buyLayout.removeAllComponents();
+    //        buildBuyPanel(remainingGold);
+    //
+    //    }
+
+    @Override
+    public void itemSold(ItemSoldEvent event) {
+        refreshAllItems();
+    }
+
+    @Override
+    public void itemBought(ItemBoughtEvent event) {
+        refreshAllItems();
+    }
+
+    private void refreshAllItems() {
+        long remainingGold = CurrentUser.get().getCharacter().getGold();
+        goldValue.setValue(String.valueOf(remainingGold));
+
+        sellLayout.removeAllComponents();
+        buildSellPanel();
+
+        buyLayout.removeAllComponents();
+        buildBuyPanel(remainingGold);
     }
 
 }

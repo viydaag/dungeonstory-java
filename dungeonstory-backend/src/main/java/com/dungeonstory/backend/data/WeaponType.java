@@ -4,8 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
@@ -14,8 +12,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import org.eclipse.persistence.annotations.JoinFetch;
-import org.eclipse.persistence.annotations.JoinFetchType;
+import com.dungeonstory.backend.data.enums.DamageType;
 
 @Entity
 @Table(name = "WeaponType")
@@ -75,18 +72,21 @@ public class WeaponType extends AbstractTimestampEntity {
     @Enumerated(EnumType.STRING)
     private RangeType rangeType;
 
-    @Pattern(regexp = "\\d+d\\d+([\\+\\-]\\d+)*")
+    @Pattern(regexp = "^$|(\\d+d\\d+([\\+\\-]\\d+)*)")
     @Column(name = "oneHandBaseDamage")
-    private String oneHandBaseDamage;
+    private String oneHandBaseDamage = null;
 
-    @Pattern(regexp = "\\d+d\\d+([\\+\\-]\\d+)*")
+    @Pattern(regexp = "^$|(\\d+d\\d+([\\+\\-]\\d+)*)")
     @Column(name = "twoHandBaseDamage")
-    private String twoHandBaseDamage;
+    private String twoHandBaseDamage = null;
 
+//    @NotNull
+//    @ManyToOne
+//    @JoinFetch(JoinFetchType.INNER)
+//    @JoinColumn(name = "damageTypeId", nullable = false)
     @NotNull
-    @ManyToOne
-    @JoinFetch(JoinFetchType.INNER)
-    @JoinColumn(name = "damageTypeId", nullable = false)
+    @Column(name = "damageType", nullable = false)
+    @Enumerated(EnumType.STRING)
     private DamageType damageType;
 
     @Column(name = "isReach")
@@ -118,6 +118,8 @@ public class WeaponType extends AbstractTimestampEntity {
 
     public WeaponType() {
         super();
+        baseWeight = 0.0;
+        basePrice = 1;
     }
 
     public WeaponType(String name, ProficiencyType proficiencyType, SizeType sizeType, HandleType handleType,

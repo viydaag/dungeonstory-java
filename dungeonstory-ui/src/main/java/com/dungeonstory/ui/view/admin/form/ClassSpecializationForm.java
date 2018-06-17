@@ -1,9 +1,10 @@
 package com.dungeonstory.ui.view.admin.form;
 
+import java.util.EnumSet;
 import java.util.List;
 
 import com.dungeonstory.FormCheckBox;
-import com.dungeonstory.backend.data.Ability;
+import com.dungeonstory.backend.data.enums.Ability;
 import com.dungeonstory.backend.data.ClassFeature;
 import com.dungeonstory.backend.data.ClassSpecLevelFeature;
 import com.dungeonstory.backend.data.ClassSpecLevelSpell;
@@ -12,7 +13,6 @@ import com.dungeonstory.backend.data.ClassSpecializationSpellSlots;
 import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.backend.data.Spell;
-import com.dungeonstory.backend.service.AbilityDataService;
 import com.dungeonstory.backend.service.ClassDataService;
 import com.dungeonstory.backend.service.ClassFeatureDataService;
 import com.dungeonstory.backend.service.LevelDataService;
@@ -49,7 +49,6 @@ public class ClassSpecializationForm extends DSAbstractForm<ClassSpecialization>
 
     private LevelDataService        levelService        = null;
     private ClassFeatureDataService classFeatureService = null;
-    private AbilityDataService      abilityService      = null;
     private SpellDataService        spellService        = null;
     private ClassDataService        classService        = null;
 
@@ -68,7 +67,6 @@ public class ClassSpecializationForm extends DSAbstractForm<ClassSpecialization>
         super(ClassSpecialization.class);
         levelService = Services.getLevelService();
         classFeatureService = Services.getClassFeatureService();
-        abilityService = Services.getAbilityService();
         spellService = Services.getSpellService();
         classService = Services.getClassService();
     }
@@ -89,7 +87,7 @@ public class ClassSpecializationForm extends DSAbstractForm<ClassSpecialization>
 
         isSpellCasting = new FormCheckBox("Capacité à lancer des sorts");
         spellCastingAbility = new ComboBox<Ability>("Caractéristique de sort");
-        spellCastingAbility.setItems(abilityService.findAll());
+        spellCastingAbility.setItems(EnumSet.allOf(Ability.class));
         spellCastingAbility.setEmptySelectionAllowed(false);
         isSpellCasting.addValueChangeListener(this::isSpellCastingChange);
 

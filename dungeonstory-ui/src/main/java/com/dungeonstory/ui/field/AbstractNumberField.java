@@ -26,6 +26,8 @@ public abstract class AbstractNumberField<T extends Number>
     private boolean aggressive        = true;
     private boolean maskEnabled       = true;
     
+    protected boolean allowNegative = true;
+
     protected String parsingErrorMessage = "This is not a number";
 
     protected ValueChangeListener<String> vcl = new ValueChangeListener<String>() {
@@ -105,6 +107,10 @@ public abstract class AbstractNumberField<T extends Number>
         this.aggressive = aggressive;
     }
 
+    public void setAllowNegative(boolean allowNegative) {
+        this.allowNegative = allowNegative;
+    }
+
     @Override
     protected Component initContent() {
         return tf;
@@ -178,6 +184,18 @@ public abstract class AbstractNumberField<T extends Number>
     public void setReadOnly(boolean readOnly) {
         super.setReadOnly(readOnly);
         tf.setReadOnly(readOnly);
+    }
+
+    @Override
+    public void setStyleName(String style) {
+        super.setStyleName(style);
+        tf.setStyleName(style);
+    }
+
+    @Override
+    public void addStyleName(String style) {
+        super.addStyleName(style);
+        tf.addStyleName(style);
     }
 
 }

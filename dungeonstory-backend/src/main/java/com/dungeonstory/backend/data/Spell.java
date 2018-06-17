@@ -16,7 +16,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -26,9 +25,9 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.eclipse.persistence.annotations.JoinFetch;
-import org.eclipse.persistence.annotations.JoinFetchType;
 import org.eclipse.persistence.annotations.PrivateOwned;
+
+import com.dungeonstory.backend.data.enums.Ability;
 
 @Entity
 @Table(name = "Spell")
@@ -193,9 +192,8 @@ public class Spell extends AbstractTimestampEntity {
     @Column(name = "rangeValueInFeet")
     private Integer rangeValueInFeet;
 
-    @ManyToOne
-    @JoinFetch(JoinFetchType.OUTER)
-    @JoinColumn(name = "savingThrowAbilityId")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "savingThrowAbility")
     private Ability savingThrowAbility;
     
     @Column(name = "attackRoll")

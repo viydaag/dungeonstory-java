@@ -1,8 +1,11 @@
 package com.dungeonstory.ui.view.admin.grid;
 
-import com.dungeonstory.backend.data.Alignment;
+import java.util.EnumSet;
 
-public class AlignmentGrid extends DSGrid<Alignment> {
+import com.dungeonstory.backend.data.enums.Alignment;
+import com.vaadin.data.provider.ListDataProvider;
+
+public class AlignmentGrid extends ReadOnlyGrid<Alignment> {
 
     private static final long serialVersionUID = -6577254670865533975L;
 
@@ -10,7 +13,9 @@ public class AlignmentGrid extends DSGrid<Alignment> {
         super();
         addColumn(Alignment::getName).setCaption("Nom").setId("name");
         addColumn(Alignment::getAbbreviation).setCaption("Abbréviation").setId("abbreviation");
-        addColumn(Alignment::getShortDescription).setCaption("Description courte").setId("shortDescription");
+        addColumn(Alignment::getDescription).setCaption("Description").setId("description");
+        
+        setDataProvider(new ListDataProvider<>(EnumSet.allOf(Alignment.class)));
     }
 
 }

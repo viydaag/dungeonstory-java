@@ -29,4 +29,9 @@ public class MockUserService extends AbstractDataService<User, Long> implements 
         return ((MockUserRepository) entityRepository).findByUsername(username);
     }
 
+    @Override
+    public User updatePassword(User user) {
+        return ((MockUserRepository) entityRepository).update(user);
+    }
+
 }

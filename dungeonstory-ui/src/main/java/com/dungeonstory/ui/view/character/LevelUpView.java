@@ -1,6 +1,7 @@
 package com.dungeonstory.ui.view.character;
 
 import com.dungeonstory.backend.data.Character;
+import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.authentication.CurrentUser;
 import com.dungeonstory.ui.util.ViewConfig;
 import com.dungeonstory.ui.view.character.wizard.LevelUpCharacterWizard;
@@ -25,7 +26,7 @@ public class LevelUpView extends VerticalLayout implements View {
     @Override
     public void enter(ViewChangeEvent event) {
         Character character = CurrentUser.get().getCharacter();
-        if (character.getExperience() >= character.getLevel().getMaxExperience()) {
+        if (Services.getCharacterService().isAbleToLevelUp(character)) {
             LevelUpCharacterWizard wizard = new LevelUpCharacterWizard(character);
             addComponent(wizard);
             setComponentAlignment(wizard, Alignment.MIDDLE_CENTER);

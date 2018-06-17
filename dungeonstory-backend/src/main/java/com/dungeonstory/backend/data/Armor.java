@@ -3,23 +3,18 @@ package com.dungeonstory.backend.data;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
 
-import org.eclipse.persistence.annotations.JoinFetch;
-import org.eclipse.persistence.annotations.JoinFetchType;
+import com.dungeonstory.backend.data.enums.ArmorType;
 
 @Entity
 @DiscriminatorValue("ARMOR")
 @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
-//@AttributeOverrides({
-//    @AttributeOverride(name="created", column=@Column(name="created")),
-//    @AttributeOverride(name="updated", column=@Column(name="updated")),
-//    @AttributeOverride(name="version", column=@Column(name="version"))
-//})
 @Table(name = "Armor")
 public class Armor extends Equipment {
 
@@ -32,9 +27,9 @@ public class Armor extends Equipment {
     @Column(name = "magicalAcBonus")
     private Integer magicalAcBonus;
 
-    @ManyToOne
-    @JoinFetch(JoinFetchType.INNER)
-    @JoinColumn(name = "armorTypeId")
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "armorType", nullable = false)
     private ArmorType armorType;
 
     public Armor() {

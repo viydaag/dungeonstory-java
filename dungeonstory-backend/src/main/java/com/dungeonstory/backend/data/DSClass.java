@@ -1,6 +1,7 @@
 package com.dungeonstory.backend.data;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,7 +16,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
@@ -25,11 +25,12 @@ import javax.validation.constraints.Size;
 
 import org.eclipse.persistence.annotations.BatchFetch;
 import org.eclipse.persistence.annotations.BatchFetchType;
-import org.eclipse.persistence.annotations.JoinFetch;
-import org.eclipse.persistence.annotations.JoinFetchType;
 import org.eclipse.persistence.annotations.PrivateOwned;
 
 import com.dungeonstory.backend.data.Tool.ToolType;
+import com.dungeonstory.backend.data.enums.Ability;
+import com.dungeonstory.backend.data.enums.ArmorType;
+import com.dungeonstory.backend.data.enums.Skill;
 
 @Entity
 @Table(name = "Class")
@@ -77,20 +78,18 @@ public class DSClass extends AbstractTimestampEntity {
     @Column(name = "isSpellCasting")
     private boolean isSpellCasting;
     
-    @ManyToOne
-    @JoinFetch(JoinFetchType.OUTER)
-    @JoinColumn(name = "spellCastingAbilityId")
+    @Column(name = "spellCastingAbility")
+    @Enumerated(EnumType.STRING)
     private Ability spellCastingAbility;
 
     @Column(name = "spellCastingType")
     @Enumerated(EnumType.STRING)
     private SpellCastingType spellCastingType;
 
-    @ManyToMany
-    @BatchFetch(value = BatchFetchType.JOIN)
-    @JoinTable(name = "ClassSavingThrowProficiencies", joinColumns = {
-        @JoinColumn(name = "classId", referencedColumnName = "id") }, 
-            inverseJoinColumns = { @JoinColumn(name = "abilityId", referencedColumnName = "id") })
+    @ElementCollection(targetClass = Ability.class)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "ClassSavingThrowProficiencies", joinColumns = @JoinColumn(name = "classId", nullable = false))
+    @Column(name = "ability", nullable = false)
     private Set<Ability> savingThrowProficiencies;
     
     @ElementCollection(targetClass = ArmorType.ProficiencyType.class)
@@ -98,7 +97,6 @@ public class DSClass extends AbstractTimestampEntity {
     @BatchFetch(value = BatchFetchType.JOIN)
     @Column(name = "proficiency", nullable = false)
     @Enumerated(EnumType.STRING)
-    @PrivateOwned
     private Set<ArmorType.ProficiencyType> armorProficiencies;
     
     @ManyToMany
@@ -121,11 +119,10 @@ public class DSClass extends AbstractTimestampEntity {
     @Column(name = "nbChosenSkills")
     private int nbChosenSkills = 0;
 
-    @ManyToMany
-    @BatchFetch(value = BatchFetchType.JOIN)
-    @JoinTable(name = "ClassSkill", joinColumns = {
-        @JoinColumn(name = "classId", referencedColumnName = "id") }, 
-            inverseJoinColumns = { @JoinColumn(name = "skillId", referencedColumnName = "id") })
+    @ElementCollection(targetClass = Skill.class)
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "ClassSkill", joinColumns = @JoinColumn(name = "classId", nullable = false))
+    @Column(name = "skill", nullable = false)
     private Set<Skill> baseSkills;
 
     @OneToMany(mappedBy = "classe", cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
@@ -168,7 +165,7 @@ public class DSClass extends AbstractTimestampEntity {
 
     public DSClass() {
         savingThrowProficiencies = new HashSet<Ability>();
-        armorProficiencies = new HashSet<ArmorType.ProficiencyType>();
+        armorProficiencies = EnumSet.noneOf(ArmorType.ProficiencyType.class);
         weaponProficiencies = new HashSet<WeaponType>();
         baseSkills = new HashSet<Skill>();
         levelBonuses = new ArrayList<ClassLevelBonus>();

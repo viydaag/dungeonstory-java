@@ -1,6 +1,7 @@
 package com.dungeonstory.backend.data.util;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +19,7 @@ import com.dungeonstory.backend.data.ClassSpecialization;
 import com.dungeonstory.backend.data.ClassSpellSlots;
 import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.data.Level;
-import com.dungeonstory.backend.data.Skill;
+import com.dungeonstory.backend.data.enums.Skill;
 import com.dungeonstory.backend.service.Services;
 
 public class ClassUtil {
@@ -131,14 +132,14 @@ public class ClassUtil {
         return classLevelFeature;
     }
 
-    public static List<Skill> getUnassignedClassSkills(Character character, DSClass dsClass) {
+    public static Set<Skill> getUnassignedClassSkills(Character character, DSClass dsClass) {
         if (character == null) {
-            return new ArrayList<>(dsClass.getBaseSkills());
+            return EnumSet.copyOf(dsClass.getBaseSkills());
         }
-        List<Skill> skills = dsClass.getBaseSkills()
+        Set<Skill> skills = dsClass.getBaseSkills()
                                     .stream()
                                     .filter(skill -> !character.getSkillProficiencies().contains(skill))
-                                    .collect(Collectors.toList());
+                                    .collect(Collectors.toSet());
         return skills;
     }
 

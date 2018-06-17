@@ -6,18 +6,23 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.dungeonstory.backend.data.Ability;
-import com.dungeonstory.backend.data.ArmorType.ProficiencyType;
 import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.CharacterClass;
 import com.dungeonstory.backend.data.ClassFeature;
-import com.dungeonstory.backend.data.Feat;
-import com.dungeonstory.backend.data.Skill;
+import com.dungeonstory.backend.data.Level;
 import com.dungeonstory.backend.data.WeaponType;
+import com.dungeonstory.backend.data.enums.Ability;
+import com.dungeonstory.backend.data.enums.ArmorType;
+import com.dungeonstory.backend.data.enums.Feat;
+import com.dungeonstory.backend.data.enums.Language;
+import com.dungeonstory.backend.data.enums.Skill;
 import com.dungeonstory.backend.data.util.ClassUtil;
 import com.dungeonstory.backend.data.util.ModifierUtil;
+import com.dungeonstory.backend.rules.Rules;
+import com.dungeonstory.backend.service.Services;
 import com.dungeonstory.ui.captionGenerator.ClassLevelCaptionGenerator;
 import com.dungeonstory.ui.component.DSLabel;
+import com.dungeonstory.ui.converter.CollectionGenericToStringConverter;
 import com.dungeonstory.ui.converter.CollectionToStringConverter;
 import com.dungeonstory.ui.i18n.Messages;
 import com.dungeonstory.ui.util.DSConstant;
@@ -31,8 +36,7 @@ import com.vaadin.ui.Layout;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 
-public class SummaryStep
-        extends CharacterWizardStep<Character> {
+public class SummaryStep extends CharacterWizardStep<Character> {
 
     private static final long serialVersionUID = -8516216761141601232L;
 
@@ -88,8 +92,10 @@ public class SummaryStep
 
         //Class features
         Set<ClassFeature> assignedClassFeatures = ClassUtil.getAllCharacterClassFeatures(original);
-        Set<ClassFeature> newClassFeatures = ClassUtil.getClassFeaturesForLevel(wizard.getChosenClass(),
-                ClassUtil.getCharacterClass(character, wizard.getChosenClass()).getClassLevel()).collect(Collectors.toSet());
+        Set<ClassFeature> newClassFeatures = ClassUtil
+                .getClassFeaturesForLevel(wizard.getChosenClass(),
+                        ClassUtil.getCharacterClass(character, wizard.getChosenClass()).getClassLevel())
+                .collect(Collectors.toSet());
         newClassFeatures.removeAll(assignedClassFeatures);
         if (!newClassFeatures.isEmpty()) {
             DSLabel classFeatureLabel = new DSLabel(messages.getMessage("summaryStep.classFeature.label"),
@@ -129,13 +135,17 @@ public class SummaryStep
             FileResource resource = new FileResource(imageFile);
             Image image = new Image("Image", resource);
             DSLabel nameLabel = new DSLabel(messages.getMessage("summaryStep.name.label"), character.getName());
-            DSLabel genderLabel = new DSLabel(messages.getMessage("summaryStep.sex.label"), character.getGender().toString());
-            DSLabel ageLabel = new DSLabel(messages.getMessage("summaryStep.age.label"), String.valueOf(character.getAge()));
-            DSLabel weightLabel = new DSLabel(messages.getMessage("summaryStep.weight.label"), character.getWeight() + " lbs");
+            DSLabel genderLabel = new DSLabel(messages.getMessage("summaryStep.sex.label"),
+                    character.getGender().toString());
+            DSLabel ageLabel = new DSLabel(messages.getMessage("summaryStep.age.label"),
+                    String.valueOf(character.getAge()));
+            DSLabel weightLabel = new DSLabel(messages.getMessage("summaryStep.weight.label"),
+                    character.getWeight() + " lbs");
             DSLabel heightLabel = new DSLabel(messages.getMessage("summaryStep.height.label"), character.getHeight());
             DSLabel alignmentLabel = new DSLabel(messages.getMessage("summaryStep.alignment.label"),
                     character.getAlignment().toString());
-            DSLabel regionLabel = new DSLabel(messages.getMessage("summaryStep.region.label"), character.getRegion().toString());
+            DSLabel regionLabel = new DSLabel(messages.getMessage("summaryStep.region.label"),
+                    character.getRegion().toString());
             DSLabel backgroundLabel = new DSLabel(messages.getMessage("summaryStep.background.label"),
                     character.getBackground().getBackground().toString());
             DSLabel goldLabel = new DSLabel(messages.getMessage("summaryStep.startingGold.label"), character.getGold());
@@ -155,16 +165,23 @@ public class SummaryStep
         Panel levelPanel = new Panel(messages.getMessage("summaryStep.level.label"), levelLayout);
         layout.addComponent(levelPanel);
 
-        DSLabel levelLabel = new DSLabel(messages.getMessage("summaryStep.level.label"), character.getLevel().toString());
+        Level levelUp = null;
+        if (character.getId() == null) {
+            levelUp = character.getLevel();
+        } else {
+            levelUp = Services.getLevelService().getNextLevel(character.getLevel());
+        }
+        DSLabel levelLabel = new DSLabel(messages.getMessage("summaryStep.level.label"), levelUp.toString());
         levelLayout.addComponent(levelLabel);
 
-        CollectionToStringConverter collectionConverter = new CollectionToStringConverter();
+        CollectionGenericToStringConverter<Language> languageConverter = new CollectionGenericToStringConverter<>();
 
         if (character.getId() == null) {
-            DSLabel raceLabel = new DSLabel(messages.getMessage("summaryStep.race.label"), character.getRace().getName());
+            DSLabel raceLabel = new DSLabel(messages.getMessage("summaryStep.race.label"),
+                    character.getRace().getName());
             levelLayout.addComponent(raceLabel);
             DSLabel languagesLabel = new DSLabel(messages.getMessage("summaryStep.language.label"),
-                    collectionConverter.convertToPresentation(character.getLanguages(), new ValueContext()));
+                    languageConverter.convertToPresentation(character.getLanguages(), new ValueContext()));
             levelLayout.addComponent(languagesLabel);
         }
 
@@ -173,15 +190,12 @@ public class SummaryStep
                 classCollectionConverter.apply(character.getClasses()));
         levelLayout.addComponent(classesLabel);
 
-        int nbLifePoints = 0;
-        for (CharacterClass cc : character.getClasses()) {
-            nbLifePoints += (cc.getClassLevel()
-                    * (cc.getClasse().getLifePointPerLevel() + ModifierUtil.getAbilityModifier(character.getConstitution())));
-        }
+        int nbLifePoints = Rules.calculateCharacterLifePoints(character, levelUp.getId().intValue());
         int difLifePoints = nbLifePoints - original.getLifePoints();
 
         if (character.getId() == null) {
-            DSLabel lifePoints = new DSLabel(messages.getMessage("summaryStep.lifePoint.label"), String.valueOf(nbLifePoints));
+            DSLabel lifePoints = new DSLabel(messages.getMessage("summaryStep.lifePoint.label"),
+                    String.valueOf(nbLifePoints));
             levelLayout.addComponent(lifePoints);
         } else {
             DSLabel lifePointsLabel = new DSLabel(messages.getMessage("summaryStep.lifePoint.label"),
@@ -201,48 +215,43 @@ public class SummaryStep
         FormLayout abilityLayout = new FFormLayout().withMargin(true);
         Panel abilityPanel = new Panel(messages.getMessage("summaryStep.ability.label"), abilityLayout);
         if (character.getId() == null) {
-            DSLabel strengthLabel = new DSLabel(messages.getMessage("ability.str.caption"),
-                    String.valueOf(character.getStrength()));
-            DSLabel dexterityLabel = new DSLabel(messages.getMessage("ability.dex.caption"),
-                    String.valueOf(character.getDexterity()));
-            DSLabel constitutionLabel = new DSLabel(messages.getMessage("ability.con.caption"),
-                    String.valueOf(character.getConstitution()));
-            DSLabel intelligneceLabel = new DSLabel(messages.getMessage("ability.int.caption"),
-                    String.valueOf(character.getIntelligence()));
-            DSLabel wisdoDSLabel = new DSLabel(messages.getMessage("ability.wis.caption"), String.valueOf(character.getWisdom()));
-            DSLabel charismaLabel = new DSLabel(messages.getMessage("ability.cha.caption"),
-                    String.valueOf(character.getCharisma()));
-            abilityLayout.addComponents(strengthLabel, dexterityLabel, constitutionLabel, intelligneceLabel, wisdoDSLabel,
-                    charismaLabel);
+            DSLabel strengthLabel = new DSLabel(Ability.STRENGTH.getName(), String.valueOf(character.getStrength()));
+            DSLabel dexterityLabel = new DSLabel(Ability.DEXTERITY.getName(), String.valueOf(character.getDexterity()));
+            DSLabel constitutionLabel = new DSLabel(Ability.CONSTITUTION.getName(), String.valueOf(character.getConstitution()));
+            DSLabel intelligneceLabel = new DSLabel(Ability.INTELLIGENCE.getName(), String.valueOf(character.getIntelligence()));
+            DSLabel wisdoDSLabel = new DSLabel(Ability.WISDOM.getName(), String.valueOf(character.getWisdom()));
+            DSLabel charismaLabel = new DSLabel(Ability.CHARISMA.getName(), String.valueOf(character.getCharisma()));
+            abilityLayout.addComponents(strengthLabel, dexterityLabel, constitutionLabel, intelligneceLabel,
+                    wisdoDSLabel, charismaLabel);
             layout.addComponent(abilityPanel);
         } else {
             if (original.getStrength() != character.getStrength()) {
-                DSLabel strengthLabel = new DSLabel(messages.getMessage("ability.str.caption"),
+                DSLabel strengthLabel = new DSLabel(Ability.STRENGTH.getName(),
                         ModifierUtil.getScoreDifferenceString(character.getStrength(), original.getStrength()));
                 abilityLayout.addComponents(strengthLabel);
             }
             if (original.getDexterity() != character.getDexterity()) {
-                DSLabel dexterityLabel = new DSLabel(messages.getMessage("ability.dex.caption"),
+                DSLabel dexterityLabel = new DSLabel(Ability.DEXTERITY.getName(),
                         ModifierUtil.getScoreDifferenceString(character.getDexterity(), original.getDexterity()));
                 abilityLayout.addComponents(dexterityLabel);
             }
             if (original.getConstitution() != character.getConstitution()) {
-                DSLabel constitutionLabel = new DSLabel(messages.getMessage("ability.con.caption"),
+                DSLabel constitutionLabel = new DSLabel(Ability.CONSTITUTION.getName(),
                         ModifierUtil.getScoreDifferenceString(character.getConstitution(), original.getConstitution()));
                 abilityLayout.addComponents(constitutionLabel);
             }
             if (original.getIntelligence() != character.getIntelligence()) {
-                DSLabel intelligenceLabel = new DSLabel(messages.getMessage("ability.int.caption"),
+                DSLabel intelligenceLabel = new DSLabel(Ability.INTELLIGENCE.getName(),
                         ModifierUtil.getScoreDifferenceString(character.getIntelligence(), original.getIntelligence()));
                 abilityLayout.addComponents(intelligenceLabel);
             }
             if (original.getWisdom() != character.getWisdom()) {
-                DSLabel wisdomLabel = new DSLabel(messages.getMessage("ability.wis.caption"),
+                DSLabel wisdomLabel = new DSLabel(Ability.WISDOM.getName(),
                         ModifierUtil.getScoreDifferenceString(character.getWisdom(), original.getWisdom()));
                 abilityLayout.addComponents(wisdomLabel);
             }
             if (original.getCharisma() != character.getCharisma()) {
-                DSLabel charismaLabel = new DSLabel(messages.getMessage("ability.cha.caption"),
+                DSLabel charismaLabel = new DSLabel(Ability.CHARISMA.getName(),
                         ModifierUtil.getScoreDifferenceString(character.getCharisma(), original.getCharisma()));
                 abilityLayout.addComponents(charismaLabel);
             }
@@ -268,39 +277,42 @@ public class SummaryStep
                     collectionConverter.convertToPresentation(character.getArmorProficiencies(), new ValueContext()));
             DSLabel weaponProficienciesLabel = new DSLabel(messages.getMessage("summaryStep.proficiency.weapon.label"),
                     collectionConverter.convertToPresentation(character.getWeaponProficiencies(), new ValueContext()));
-            DSLabel savingThrowProficienciesLabel = new DSLabel(messages.getMessage("summaryStep.proficiency.savingThrow.label"),
-                    collectionConverter.convertToPresentation(character.getSavingThrowProficiencies(), new ValueContext()));
+            DSLabel savingThrowProficienciesLabel = new DSLabel(
+                    messages.getMessage("summaryStep.proficiency.savingThrow.label"), collectionConverter
+                            .convertToPresentation(character.getSavingThrowProficiencies(), new ValueContext()));
             DSLabel skillProficienciesLabel = new DSLabel(messages.getMessage("summaryStep.proficiency.skill.label"),
                     collectionConverter.convertToPresentation(character.getSkillProficiencies(), new ValueContext()));
-            proficiencyLayout.addComponents(armorProficienciesLabel, weaponProficienciesLabel, savingThrowProficienciesLabel,
-                    skillProficienciesLabel);
+            proficiencyLayout.addComponents(armorProficienciesLabel, weaponProficienciesLabel,
+                    savingThrowProficienciesLabel, skillProficienciesLabel);
             layout.addComponent(proficiencyPanel);
 
         } else {
-            Set<ProficiencyType> gainedArmorProficiencies = character.getArmorProficiencies()
-                                                                     .stream()
-                                                                     .filter(ap -> !original.getArmorProficiencies().contains(ap))
-                                                                     .collect(Collectors.toSet());
+            Set<ArmorType.ProficiencyType> gainedArmorProficiencies = character.getArmorProficiencies()
+                    .stream()
+                    .filter(ap -> !original.getArmorProficiencies().contains(ap))
+                    .collect(Collectors.toSet());
             Set<WeaponType> gainedWeaponProficiencies = character.getWeaponProficiencies()
-                                                                 .stream()
-                                                                 .filter(wp -> !original.getWeaponProficiencies().contains(wp))
-                                                                 .collect(Collectors.toSet());
-            Set<Ability> gainedSavingThrowProficiencies = character.getSavingThrowProficiencies()
-                                                                   .stream()
-                                                                   .filter(stp -> !original.getSavingThrowProficiencies()
-                                                                                           .contains(stp))
-                                                                   .collect(Collectors.toSet());
+                    .stream()
+                    .filter(wp -> !original.getWeaponProficiencies().contains(wp))
+                    .collect(Collectors.toSet());
+            Set<Ability> gainedSavingThrowProficiencies = character
+                    .getSavingThrowProficiencies()
+                    .stream()
+                    .filter(stp -> !original.getSavingThrowProficiencies().contains(stp))
+                    .collect(Collectors.toSet());
             Set<Skill> gainedSkillProficiencies = character.getSkillProficiencies()
-                                                           .stream()
-                                                           .filter(sp -> !original.getSkillProficiencies().contains(sp))
-                                                           .collect(Collectors.toSet());
+                    .stream()
+                    .filter(sp -> !original.getSkillProficiencies().contains(sp))
+                    .collect(Collectors.toSet());
             if (!gainedArmorProficiencies.isEmpty()) {
-                DSLabel armorProficienciesLabel = new DSLabel(messages.getMessage("summaryStep.proficiency.armor.label"),
+                DSLabel armorProficienciesLabel = new DSLabel(
+                        messages.getMessage("summaryStep.proficiency.armor.label"),
                         collectionConverter.convertToPresentation(gainedArmorProficiencies, new ValueContext()));
                 proficiencyLayout.addComponent(armorProficienciesLabel);
             }
             if (!gainedWeaponProficiencies.isEmpty()) {
-                DSLabel weaponProficienciesLabel = new DSLabel(messages.getMessage("summaryStep.proficiency.weapon.label"),
+                DSLabel weaponProficienciesLabel = new DSLabel(
+                        messages.getMessage("summaryStep.proficiency.weapon.label"),
                         collectionConverter.convertToPresentation(gainedWeaponProficiencies, new ValueContext()));
                 proficiencyLayout.addComponent(weaponProficienciesLabel);
             }
@@ -311,7 +323,8 @@ public class SummaryStep
                 proficiencyLayout.addComponent(savingThrowProficienciesLabel);
             }
             if (!gainedSkillProficiencies.isEmpty()) {
-                DSLabel skillProficienciesLabel = new DSLabel(messages.getMessage("summaryStep.proficiency.skill.label"),
+                DSLabel skillProficienciesLabel = new DSLabel(
+                        messages.getMessage("summaryStep.proficiency.skill.label"),
                         collectionConverter.convertToPresentation(gainedSkillProficiencies, new ValueContext()));
                 proficiencyLayout.addComponent(skillProficienciesLabel);
             }

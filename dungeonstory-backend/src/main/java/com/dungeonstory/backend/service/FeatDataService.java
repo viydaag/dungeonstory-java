@@ -1,14 +1,14 @@
 package com.dungeonstory.backend.service;
 
-import java.util.List;
+import java.util.Set;
 
 import com.dungeonstory.backend.data.Character;
-import com.dungeonstory.backend.data.Feat;
+import com.dungeonstory.backend.data.enums.Feat;
 
-public interface FeatDataService extends DataService<Feat, Long> {
+public interface FeatDataService {
 
-    public List<Feat> findAllFeatsExcept(Feat feat);
+    public Set<Feat> findAllFeatsExcept(Feat feat);
     
-    public List<Feat> findAllUnassignedFeats(Character character);
+    public Set<Feat> findAllUnassignedFeats(Character character);
 
 }

@@ -1,18 +1,16 @@
 package com.dungeonstory.backend.service.impl;
 
-import java.util.List;
+import java.util.EnumSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import com.dungeonstory.backend.data.Alignment;
-import com.dungeonstory.backend.repository.impl.AlignmentRepository;
-import com.dungeonstory.backend.service.AbstractDataService;
+import com.dungeonstory.backend.data.enums.Alignment;
 import com.dungeonstory.backend.service.AlignmentDataService;
 
-public class AlignmentService extends AbstractDataService<Alignment, Long> implements AlignmentDataService {
+public class AlignmentService implements AlignmentDataService {
 
-    private static final long serialVersionUID = 6724779422597105026L;
-
-    private static AlignmentService    instance = null;
-    private static AlignmentRepository repo;
+    private static AlignmentService instance = null;
 
     public static synchronized AlignmentService getInstance() {
         if (instance == null) {
@@ -23,14 +21,12 @@ public class AlignmentService extends AbstractDataService<Alignment, Long> imple
 
     private AlignmentService() {
         super();
-        setEntityFactory(() -> new Alignment());
-        repo = new AlignmentRepository();
-        setRepository(repo);
     }
 
     @Override
-    public List<Alignment> findAllPlayable() {
-        return repo.findAllPlayable();
+    public Set<Alignment> findAllPlayable() {
+        return Stream.of(Alignment.values()).filter(Alignment::isPlayable).collect(
+                Collectors.toCollection(() -> EnumSet.noneOf(Alignment.class)));
     }
 
 }

@@ -6,7 +6,9 @@ import com.dungeonstory.backend.data.Character;
 import com.dungeonstory.backend.data.CharacterClass;
 import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.data.User;
+import com.dungeonstory.backend.data.enums.Feat;
 import com.dungeonstory.backend.repository.AbstractRepository;
+import com.dungeonstory.backend.repository.JPAService;
 
 public class CharacterRepository extends AbstractRepository<Character, Long> {
 
@@ -18,13 +20,13 @@ public class CharacterRepository extends AbstractRepository<Character, Long> {
     }
 
     public CharacterClass getAssignedClass(Character character, DSClass classe) {
-        TypedQuery<CharacterClass> query = null;
-        query = entityManager.createQuery(
-                "SELECT e FROM CharacterClass e WHERE e.character = :character AND e.classe = :classe",
-                CharacterClass.class);
-        query.setParameter("character", character);
-        query.setParameter("classe", classe);
-        return query.getSingleResult();
+        return JPAService.getInTransaction(entityManager -> {
+            TypedQuery<CharacterClass> query = entityManager.createQuery(
+                    "SELECT e FROM CharacterClass e WHERE e.character = :character AND e.classe = :classe", CharacterClass.class);
+            query.setParameter("character", character);
+            query.setParameter("classe", classe);
+            return query.getSingleResult();
+        });
     }
     
     @Override
@@ -32,21 +34,26 @@ public class CharacterRepository extends AbstractRepository<Character, Long> {
         if (entity.getId() == null) {
             return;
         }
-        entityManager.getTransaction().begin();
-        try {
-            Character character = entityManager.getReference(getEntityClass(), entity.getId());
+        JPAService.executeInTransaction(em -> {
+            Character character = em.getReference(getEntityClass(), entity.getId());
             User user = character.getUser();
             if (user != null) {
                 user.setCharacter(null);
-                entityManager.merge(user);
+                em.merge(user);
             }
             character.setUser(null);
-            entityManager.remove(entityManager.merge(character));
-            entityManager.getTransaction().commit();
-        } catch (Exception e) {
-            entityManager.getTransaction().rollback();
-            throw e;
-        }
+            em.remove(em.merge(character));
+        });
+    }
+
+
+    public boolean hasFeat(Long characterId, Feat feat) {
+        return JPAService.getInTransaction(entityManager -> {
+            TypedQuery<Character> query = entityManager.createNamedQuery(Character.HAS_FEAT, Character.class);
+            query.setParameter("characterId", characterId);
+            query.setParameter("feat", feat);
+            return !query.getResultList().isEmpty();
+        });
     }
 
 }

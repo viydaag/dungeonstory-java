@@ -10,6 +10,11 @@ import java.util.Locale;
 import org.junit.Test;
 import org.openqa.selenium.support.PageFactory;
 
+import com.dungeonstory.backend.Labels;
+import com.dungeonstory.backend.data.enums.Ability;
+import com.dungeonstory.backend.data.enums.Background;
+import com.dungeonstory.backend.data.enums.Language;
+import com.dungeonstory.backend.data.enums.Skill;
 import com.dungeonstory.ui.i18n.Messages;
 import com.dungeonstory.ui.test.integration.IntegrationTestBase;
 import com.dungeonstory.ui.test.integration.authentication.LoginPageObject;
@@ -49,6 +54,7 @@ public class NewCharacterIT
         super.setUp();
 
         messages = Messages.getInstance(Locale.getDefault());
+        Labels.getInstance(Locale.getDefault());
 
         loginPO = PageFactory.initElements(getDriver(), LoginPageObject.class);
         loginPO.login("admin", "admin");
@@ -76,7 +82,7 @@ public class NewCharacterIT
         assertFalse(descriptionTextArea.getValue().isEmpty());
         assertFalse(nextButton.isEnabled());
 
-        newCharacterPO.chooseRaceLanguage("Elfique");
+        newCharacterPO.chooseRaceLanguage(Language.ELVISH.getName());
         assertTrue(nextButton.isEnabled());
 
         newCharacterPO.clickNext();
@@ -98,10 +104,10 @@ public class NewCharacterIT
         assertNotNull(proficiencies);
 
         ComboBoxElement classSkills = $(CustomFieldElement.class).caption("Maitrises de compétence (2)").$(ComboBoxElement.class).first();
-        classSkills.selectByText("Athlétisme");
+        classSkills.selectByText(Skill.ATHLETICS.getName());
         GridElement classSkillsGrid = $(GridElement.class).first();
         assertEquals(1, classSkillsGrid.getRowCount());
-        assertEquals("Athlétisme", classSkillsGrid.getRow(0).getCell(1).getText());
+        assertEquals(Skill.ATHLETICS.getName(), classSkillsGrid.getRow(0).getCell(1).getText());
         assertFalse(nextButton.isEnabled());
 
         ButtonElement deleteSkillButton1 = $(VerticalLayoutElement.class).$(ButtonElement.class).first();
@@ -109,8 +115,8 @@ public class NewCharacterIT
         assertEquals(0, classSkillsGrid.getRowCount());
         assertFalse(nextButton.isEnabled());
 
-        classSkills.selectByText("Athlétisme");
-        classSkills.selectByText("Intimidation");
+        classSkills.selectByText(Skill.ATHLETICS.getName());
+        classSkills.selectByText(Skill.INTIMIDATION.getName());
         assertFalse(classSkills.isEnabled());
         assertTrue(nextButton.isEnabled());
 
@@ -205,7 +211,7 @@ public class NewCharacterIT
         assertTrue(purposesTextArea.getValue().isEmpty());
         assertTrue(flawsTextArea.getValue().isEmpty());
 
-        newCharacterPO.chooseBackground(ACOLYTE);
+        newCharacterPO.chooseBackground(Background.ACOLYTE);
 
         assertFalse(traitsTextArea.getValue().isEmpty());
         assertFalse(idealsTextArea.getValue().isEmpty());
@@ -216,10 +222,10 @@ public class NewCharacterIT
         ComboBoxElement bgLanguageComboBox = $(CustomFieldElement.class).caption(messages.getMessage("backgroundStep.languages.label"))
                                                                         .$(ComboBoxElement.class)
                                                                         .first();
-        newCharacterPO.chooseBackgroundLanguage("Gobelin");
+        newCharacterPO.chooseBackgroundLanguage(Language.GOBLIN.getName());
         assertTrue(bgLanguageComboBox.isEnabled());
         assertFalse(nextButton.isEnabled());
-        newCharacterPO.chooseBackgroundLanguage("Halfelin");
+        newCharacterPO.chooseBackgroundLanguage(Language.HALFLING.getName());
         assertFalse(bgLanguageComboBox.isEnabled());
         assertTrue(nextButton.isEnabled());
 
@@ -284,19 +290,19 @@ public class NewCharacterIT
 
         assertEquals("1", getText(levelLabel));
         assertEquals(HUMAIN, getText(raceLabel));
-        assertTrue(getText(languageLabel).contains("Commun"));
-        assertTrue(getText(languageLabel).contains("Elfique"));
-        assertTrue(getText(languageLabel).contains("Gobelin"));
-        assertTrue(getText(languageLabel).contains("Halfelin"));
+        assertTrue(getText(languageLabel).contains(Language.COMMON.getName()));
+        assertTrue(getText(languageLabel).contains(Language.ELVISH.getName()));
+        assertTrue(getText(languageLabel).contains(Language.GOBLIN.getName()));
+        assertTrue(getText(languageLabel).contains(Language.HALFLING.getName()));
         assertTrue(getText(classLabel).contains(BARBARE));
         assertEquals("14", getText(lifeLabel));
 
-        LabelElement strLabel = $(LabelElement.class).caption(messages.getMessage("ability.str.caption")).first();
-        LabelElement dexLabel = $(LabelElement.class).caption(messages.getMessage("ability.dex.caption")).first();
-        LabelElement conLabel = $(LabelElement.class).caption(messages.getMessage("ability.con.caption")).first();
-        LabelElement intLabel = $(LabelElement.class).caption(messages.getMessage("ability.int.caption")).first();
-        LabelElement wisLabel = $(LabelElement.class).caption(messages.getMessage("ability.wis.caption")).first();
-        LabelElement chaLabel = $(LabelElement.class).caption(messages.getMessage("ability.cha.caption")).first();
+        LabelElement strLabel = $(LabelElement.class).caption(Ability.STRENGTH.getName()).first();
+        LabelElement dexLabel = $(LabelElement.class).caption(Ability.DEXTERITY.getName()).first();
+        LabelElement conLabel = $(LabelElement.class).caption(Ability.CONSTITUTION.getName()).first();
+        LabelElement intLabel = $(LabelElement.class).caption(Ability.INTELLIGENCE.getName()).first();
+        LabelElement wisLabel = $(LabelElement.class).caption(Ability.WISDOM.getName()).first();
+        LabelElement chaLabel = $(LabelElement.class).caption(Ability.CHARISMA.getName()).first();
 
         assertEquals("16", getText(strLabel));
         assertEquals("16", getText(dexLabel));
@@ -311,8 +317,8 @@ public class NewCharacterIT
                                                                         .first();
         LabelElement skillProficiencyLabel = $(LabelElement.class).caption(messages.getMessage("summaryStep.proficiency.skill.label")).first();
 
-        assertTrue(getText(skillProficiencyLabel).contains("Athlétisme"));
-        assertTrue(getText(skillProficiencyLabel).contains("Intimidation"));
+        assertTrue(getText(skillProficiencyLabel).contains(Skill.ATHLETICS.getName()));
+        assertTrue(getText(skillProficiencyLabel).contains(Skill.INTIMIDATION.getName()));
 
         ImageElement summaryImage = $(ImageElement.class).caption("Image").first();
         String summaryImgSrc = getAttribute(summaryImage, "src").substring(getAttribute(summaryImage, "src").lastIndexOf('/'));

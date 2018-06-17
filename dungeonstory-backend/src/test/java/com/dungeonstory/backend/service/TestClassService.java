@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.dungeonstory.backend.TestWithBackend;
 import com.dungeonstory.backend.data.ClassFeature;
 import com.dungeonstory.backend.data.ClassFeature.ClassFeatureUsage;
 import com.dungeonstory.backend.data.ClassLevelFeature;
@@ -20,8 +21,8 @@ import com.dungeonstory.backend.service.impl.ClassService;
 import com.dungeonstory.backend.service.impl.LevelService;
 import com.dungeonstory.backend.service.mock.MockClassService;
 
-public class TestClassService {
-
+public class TestClassService extends TestWithBackend {
+    
     @Test
     public void testMockClassService() {
         MockClassService service = MockClassService.getInstance();

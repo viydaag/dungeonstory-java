@@ -6,57 +6,52 @@ import java.util.HashSet;
 import java.util.List;
 
 import javax.persistence.EntityGraph;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.eclipse.persistence.config.QueryHints;
 
-import com.dungeonstory.backend.Configuration;
-
 public abstract class AbstractRepository<E extends Entity, K extends Serializable> implements Repository<E, K>, Serializable {
 
     private static final long serialVersionUID = 2825199262413194217L;
 
-    private static final String PERSISTENCE_UNIT_HSQL_NAME  = "dungeonstory-hsql2";
-    private static final String PERSISTENCE_UNIT_MYSQL_NAME = "dungeonstory-mysql";
-
-    protected static EntityManagerFactory factory;
-    protected static EntityManager        entityManager;
+//    private static final String PERSISTENCE_UNIT_HSQL_NAME  = "dungeonstory-hsql2";
+//    private static final String PERSISTENCE_UNIT_MYSQL_NAME = "dungeonstory-mysql";
+//
+//    protected static EntityManagerFactory factory;
+//    protected static EntityManager        entityManager;
 
     private String tableName;
 
     public AbstractRepository() {
         super();
-        if (Configuration.getInstance().getDatabaseType().equals("hsql")) {
-            factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_HSQL_NAME);
-        } else {
-            factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_MYSQL_NAME);
-        }
-
-        entityManager = factory.createEntityManager();
+//        if (Configuration.getInstance().getDatabaseType().equals("hsql")) {
+//            factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_HSQL_NAME);
+//        } else {
+//            factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_MYSQL_NAME);
+//        }
+//
+//        entityManager = factory.createEntityManager();
     }
 
-    private void rollback(EntityTransaction transac) {
-        if (transac != null && transac.isActive()) {
-            transac.rollback();
-        }
-    }
+//    protected void rollback(EntityTransaction transac) {
+//        if (transac != null && transac.isActive()) {
+//            transac.rollback();
+//        }
+//    }
 
     @Override
     public synchronized void create(E entity) {
-        EntityTransaction transac = entityManager.getTransaction();
-        transac.begin();
-        try {
-            entityManager.persist(entity);
-            transac.commit();
-        } catch (Exception e) {
-            rollback(transac);
-            throw e;
-        }
+//        EntityTransaction transac = entityManager.getTransaction();
+//        transac.begin();
+//        try {
+//            entityManager.persist(entity);
+//            transac.commit();
+//        } catch (Exception e) {
+//            rollback(transac);
+//            throw e;
+//        }
+        JPAService.executeInTransaction(em -> em.persist(entity));
     }
 
     /**
@@ -69,17 +64,21 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
         if (entity.getId() == null) {
             return;
         }
-        EntityTransaction transac = entityManager.getTransaction();
-        transac.begin();
-        try {
-            E entity2 = entityManager.getReference(getEntityClass(), entity.getId());
-            entityManager.remove(entity2);
-            transac.commit();
-        } catch (Exception e) {
-            rollback(transac);
-            throw e;
-        }
-
+//        EntityTransaction transac = entityManager.getTransaction();
+//        transac.begin();
+//        try {
+//            E entity2 = entityManager.getReference(getEntityClass(), entity.getId());
+//            entityManager.remove(entity2);
+//            transac.commit();
+//        } catch (Exception e) {
+//            rollback(transac);
+//            throw e;
+//        }
+        JPAService.executeInTransaction(em -> {
+            E entity2 = em.getReference(getEntityClass(), entity.getId());
+            em.remove(entity2);
+        });
+        
     }
 
     /**
@@ -93,17 +92,23 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
             return;
         }
 
-        EntityTransaction transac = entityManager.getTransaction();
-        transac.begin();
-        try {
-            Query query = entityManager.createQuery("DELETE FROM " + getTableName() + " o WHERE o.id = :id");
+//        EntityTransaction transac = entityManager.getTransaction();
+//        transac.begin();
+//        try {
+//            Query query = entityManager.createQuery("DELETE FROM " + getTableName() + " o WHERE o.id = :id");
+//            query.setParameter("id", key);
+//            query.executeUpdate();
+//            transac.commit();
+//        } catch (Exception e) {
+//            rollback(transac);
+//            throw e;
+//        }
+        
+        JPAService.executeInTransaction(em -> {
+            Query query = em.createQuery("DELETE FROM " + getTableName() + " o WHERE o.id = :id");
             query.setParameter("id", key);
             query.executeUpdate();
-            transac.commit();
-        } catch (Exception e) {
-            rollback(transac);
-            throw e;
-        }
+        });
     }
 
     private String getTableName() {
@@ -127,15 +132,17 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
 
     @Override
     public List<E> findAll() {
-        TypedQuery<E> query = entityManager.createQuery("SELECT o FROM " + getTableName() + " o", getEntityClass());
-        return query.getResultList();
+        return JPAService.getInTransaction(em -> {
+            TypedQuery<E> query = em.createQuery("SELECT o FROM " + getTableName() + " o", getEntityClass());
+            return query.getResultList();
+        });
     }
 
     @Override
     public List<E> findAllWithAttributes(String... attributes) {
         //        String sql = "SELECT o FROM " + getTableName() + " o";
 
-        EntityGraph<E> graph = entityManager.createEntityGraph(getEntityClass());
+        EntityGraph<E> graph = JPAService.get(entityManager -> entityManager.createEntityGraph(getEntityClass()));
         graph.addAttributeNodes(attributes);
 
         //        TypedQuery<E> query = entityManager.createQuery(sql, getEntityClass());
@@ -152,23 +159,29 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
         //        List<E> result = query.getResultList();
         List<E> result = findAllWithGraph(graph);
         return result;
+        
+        
     }
 
     @Override
     public List<E> findAllWithGraph(EntityGraph<E> graph) {
-        String sql = "SELECT o FROM " + getTableName() + " o";
-
-        TypedQuery<E> query = entityManager.createQuery(sql, getEntityClass());
-
-        query.setHint(QueryHints.JPA_LOAD_GRAPH, graph);
-        return query.getResultList();
+        return JPAService.getInTransaction(entityManager -> {
+            String sql = "SELECT o FROM " + getTableName() + " o";
+    
+            TypedQuery<E> query = entityManager.createQuery(sql, getEntityClass());
+    
+            query.setHint(QueryHints.JPA_LOAD_GRAPH, graph);
+            return query.getResultList();
+        });
     }
 
     @Override
     public List<E> findAllOrderBy(String[] orderColumn, String[] order) {
-        String orderQuery = getOrderQuery(orderColumn, order);
-        TypedQuery<E> query = entityManager.createQuery("SELECT o FROM " + getTableName() + " o ORDER BY " + orderQuery, getEntityClass());
-        return query.getResultList();
+        return JPAService.getInTransaction(entityManager -> {
+            String orderQuery = getOrderQuery(orderColumn, order);
+            TypedQuery<E> query = entityManager.createQuery("SELECT o FROM " + getTableName() + " o ORDER BY " + orderQuery, getEntityClass());
+            return query.getResultList();
+        });
     }
 
     private String getOrderQuery(String[] orderColumn, String[] order) {
@@ -185,64 +198,77 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
 
     @Override
     public List<E> findAllBy(String column, String value) {
-        TypedQuery<E> query = entityManager.createQuery("SELECT o FROM " + getTableName() + " o WHERE o." + column + " = :value", getEntityClass());
-        query.setParameter("value", value);
-        return query.getResultList();
+        return JPAService.getInTransaction(entityManager -> {
+            TypedQuery<E> query = entityManager.createQuery("SELECT o FROM " + getTableName() + " o WHERE o." + column + " = :value", getEntityClass());
+            query.setParameter("value", value);
+            return query.getResultList();
+        });
     }
 
     @Override
     public List<E> findAllByLike(String column, String value) {
-        TypedQuery<E> query = entityManager.createQuery("SELECT o FROM " + getTableName() + " o WHERE o." + column + " LIKE :value",
-                getEntityClass());
-        query.setParameter("value", "%" + value + "%");
-        return query.getResultList();
+        return JPAService.getInTransaction(entityManager -> {
+            TypedQuery<E> query = entityManager.createQuery("SELECT o FROM " + getTableName() + " o WHERE o." + column + " LIKE :value",
+                    getEntityClass());
+            query.setParameter("value", "%" + value + "%");
+            return query.getResultList();
+        });
     }
 
     @Override
     public List<E> findAllByLikePaged(String column, String value, int firstRow, int pageSize) {
-        TypedQuery<E> query = entityManager.createQuery("SELECT o FROM " + getTableName() + " o WHERE o." + column + " LIKE :value", getEntityClass())
-                .setFirstResult(firstRow).setMaxResults(pageSize);
-        query.setParameter("value", "%" + value + "%");
-        return query.getResultList();
+        return JPAService.getInTransaction(entityManager -> {
+            TypedQuery<E> query = entityManager.createQuery("SELECT o FROM " + getTableName() + " o WHERE o." + column + " LIKE :value", getEntityClass())
+                    .setFirstResult(firstRow).setMaxResults(pageSize);
+            query.setParameter("value", "%" + value + "%");
+            return query.getResultList();
+        });
     }
 
     @Override
     public List<E> findAllPaged(int firstRow, int pageSize) {
-        TypedQuery<E> query = entityManager.createQuery("SELECT o FROM " + getTableName() + " o", getEntityClass()).setFirstResult(firstRow)
-                .setMaxResults(pageSize);
-        return query.getResultList();
+        return JPAService.getInTransaction(entityManager -> {
+            TypedQuery<E> query = entityManager.createQuery("SELECT o FROM " + getTableName() + " o", getEntityClass()).setFirstResult(firstRow)
+                    .setMaxResults(pageSize);
+            return query.getResultList();
+        });
     }
 
     @Override
     public List<E> findAllPagedOrderBy(int firstRow, int pageSize, String[] orderColumn, String[] order) {
-        String orderQuery = getOrderQuery(orderColumn, order);
-        TypedQuery<E> query = entityManager.createQuery("SELECT o FROM " + getTableName() + " o ORDER BY " + orderQuery, getEntityClass())
-                .setFirstResult(firstRow).setMaxResults(pageSize);
-        return query.getResultList();
+        return JPAService.getInTransaction(entityManager -> {
+            String orderQuery = getOrderQuery(orderColumn, order);
+            TypedQuery<E> query = entityManager.createQuery("SELECT o FROM " + getTableName() + " o ORDER BY " + orderQuery, getEntityClass())
+                    .setFirstResult(firstRow).setMaxResults(pageSize);
+            return query.getResultList();
+        });
     }
 
     @Override
     public List<E> findAllByLikePagedOrderBy(String column, String value, int firstRow, int pageSize, String[] orderColumn, String[] order) {
-
-        String orderQuery = getOrderQuery(orderColumn, order);
-        TypedQuery<E> query = entityManager
-                .createQuery("SELECT o FROM " + getTableName() + " o WHERE o." + column + " LIKE :value ORDER BY " + orderQuery, getEntityClass())
-                .setFirstResult(firstRow).setMaxResults(pageSize);
-        query.setParameter("value", "%" + value + "%");
-        return query.getResultList();
+        return JPAService.getInTransaction(entityManager -> {
+            String orderQuery = getOrderQuery(orderColumn, order);
+            TypedQuery<E> query = entityManager
+                    .createQuery("SELECT o FROM " + getTableName() + " o WHERE o." + column + " LIKE :value ORDER BY " + orderQuery, getEntityClass())
+                    .setFirstResult(firstRow).setMaxResults(pageSize);
+            query.setParameter("value", "%" + value + "%");
+            return query.getResultList();
+        });
     }
 
     protected abstract Class<E> getEntityClass();
 
     @Override
     public E read(K key) {
-        E result = entityManager.find(getEntityClass(), key);
-        return result;
+        return JPAService.getInTransaction(entityManager -> {
+            E result = entityManager.find(getEntityClass(), key);
+            return result;
+        });
     }
 
     @Override
     public synchronized void refresh(E entity) {
-        entityManager.refresh(entity);
+        JPAService.executeInTransaction(entityManager -> entityManager.refresh(entity));
     }
 
     @Override
@@ -264,34 +290,36 @@ public abstract class AbstractRepository<E extends Entity, K extends Serializabl
         return resultSet;
     }
 
-    public void setEntityManager(EntityManager entityManager) {
-        AbstractRepository.entityManager = entityManager;
-    }
+//    public void setEntityManager(EntityManager entityManager) {
+//        AbstractRepository.entityManager = entityManager;
+//    }
 
     @Override
     public E update(E entity) {
-        entityManager.getTransaction().begin();
-        try {
-            E result = entityManager.merge(entity);
-            entityManager.getTransaction().commit();
-            return result;
-        } catch (Exception e) {
-            rollback(entityManager.getTransaction());
-            throw e;
-        }
+//        entityManager.getTransaction().begin();
+//        try {
+//            E result = entityManager.merge(entity);
+//            entityManager.getTransaction().commit();
+//            return result;
+//        } catch (Exception e) {
+//            rollback(entityManager.getTransaction());
+//            throw e;
+//        }
+        return JPAService.getInTransaction(entityManager -> entityManager.merge(entity));
     }
 
     @Override
     public long count() {
-        entityManager.getTransaction().begin();
-        Query q = entityManager.createQuery("SELECT count(o) FROM " + getTableName() + " o");
-        long count = (long) q.getSingleResult();
-        entityManager.getTransaction().commit();
-        return count;
+        //        entityManager.getTransaction().begin();
+        //        Query q = entityManager.createQuery("SELECT count(o) FROM " + getTableName() + " o");
+        //        long count = (long) q.getSingleResult();
+        //        entityManager.getTransaction().commit();
+        //        return count;
+        return JPAService.getInTransaction(entityManager -> {
+            Query q = entityManager.createQuery("SELECT count(o) FROM " + getTableName() + " o");
+            long count = (long) q.getSingleResult();
+            return count;
+        });
     }
-
-    public static EntityManager getEntityManager() {
-        return entityManager;
-    }
-
+    
 }

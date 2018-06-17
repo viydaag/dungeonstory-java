@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.support.PageFactory;
@@ -35,6 +36,7 @@ public class CrudIT extends IntegrationTestBase {
         loginPO.login("admin", "admin");
     }
 
+    @Ignore
     @Test
     public void test1New() throws InterruptedException {
         $(ButtonElement.class).caption("Caractéristiques").first().click();
@@ -80,6 +82,7 @@ public class CrudIT extends IntegrationTestBase {
         assertEquals("TI", newRow.getCell(1).getText());
     }
 
+    @Ignore
     @Test
     public void test2Update() throws InterruptedException {
         $(ButtonElement.class).caption("Caractéristiques").first().click();
@@ -137,6 +140,7 @@ public class CrudIT extends IntegrationTestBase {
         assertEquals("Testing update ability", descriptionTextArea.getValue());
     }
 
+    @Ignore
     @Test
     public void test3Reset() throws InterruptedException {
         $(ButtonElement.class).caption("Caractéristiques").first().click();
@@ -181,6 +185,7 @@ public class CrudIT extends IntegrationTestBase {
         assertTrue($(ButtonElement.class).id("crudDeleteButton").isEnabled());
     }
 
+    @Ignore
     @Test
     public void test4Cancel() throws InterruptedException {
         $(ButtonElement.class).caption("Caractéristiques").first().click();
@@ -239,6 +244,7 @@ public class CrudIT extends IntegrationTestBase {
         assertTrue($(ButtonElement.class).id("crudDeleteButton").isEnabled());
     }
 
+    @Ignore
     @Test
     public void test5Delete() throws InterruptedException {
         $(ButtonElement.class).caption("Caractéristiques").first().click();

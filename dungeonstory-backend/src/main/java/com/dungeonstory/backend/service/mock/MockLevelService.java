@@ -24,4 +24,10 @@ public class MockLevelService extends AbstractDataService<Level, Long> implement
         setRepository(new MockLevelRepository());
     }
 
+    @Override
+    public Level getNextLevel(Level level) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

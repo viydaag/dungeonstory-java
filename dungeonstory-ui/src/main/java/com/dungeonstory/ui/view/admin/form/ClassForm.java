@@ -10,8 +10,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.dungeonstory.FormCheckBox;
-import com.dungeonstory.backend.data.Ability;
-import com.dungeonstory.backend.data.ArmorType;
 import com.dungeonstory.backend.data.ClassEquipment;
 import com.dungeonstory.backend.data.ClassFeature;
 import com.dungeonstory.backend.data.ClassLevelBonus;
@@ -22,18 +20,18 @@ import com.dungeonstory.backend.data.DSClass;
 import com.dungeonstory.backend.data.DSClass.SpellCastingType;
 import com.dungeonstory.backend.data.Equipment;
 import com.dungeonstory.backend.data.Level;
-import com.dungeonstory.backend.data.Skill;
 import com.dungeonstory.backend.data.Spell;
 import com.dungeonstory.backend.data.Tool.ToolType;
 import com.dungeonstory.backend.data.WeaponType;
 import com.dungeonstory.backend.data.WeaponType.ProficiencyType;
-import com.dungeonstory.backend.service.AbilityDataService;
+import com.dungeonstory.backend.data.enums.Ability;
+import com.dungeonstory.backend.data.enums.ArmorType;
+import com.dungeonstory.backend.data.enums.Skill;
 import com.dungeonstory.backend.service.ClassFeatureDataService;
 import com.dungeonstory.backend.service.ClassSpecializationDataService;
 import com.dungeonstory.backend.service.EquipmentDataService;
 import com.dungeonstory.backend.service.LevelDataService;
 import com.dungeonstory.backend.service.Services;
-import com.dungeonstory.backend.service.SkillDataService;
 import com.dungeonstory.backend.service.SpellDataService;
 import com.dungeonstory.backend.service.WeaponTypeDataService;
 import com.dungeonstory.ui.component.DSAbstractForm;
@@ -99,12 +97,10 @@ public class ClassForm
     private CheckBox           deity;
     private List<Registration> checkBoxListeners;
 
-    private SkillDataService               skillService        = null;
     private LevelDataService               levelService        = null;
     private ClassFeatureDataService        classFeatureService = null;
     private ClassSpecializationDataService classSpecService    = null;
     private WeaponTypeDataService          weaponTypeService   = null;
-    private AbilityDataService             abilityService      = null;
     private SpellDataService               spellService        = null;
     private EquipmentDataService           equipmentService    = null;
 
@@ -124,12 +120,10 @@ public class ClassForm
     public ClassForm() {
         super(DSClass.class);
         checkBoxListeners = new ArrayList<>();
-        skillService = Services.getSkillService();
         levelService = Services.getLevelService();
         classFeatureService = Services.getClassFeatureService();
         classSpecService = Services.getClassSpecializationService();
         weaponTypeService = Services.getWeaponTypeService();
-        abilityService = Services.getAbilityService();
         spellService = Services.getSpellService();
         equipmentService = Services.getEquipmentService();
     }
@@ -150,7 +144,7 @@ public class ClassForm
         startingGold = new DSIntegerField("Pièces d'or de départ");
         isSpellCasting = new FormCheckBox("Capacité à lancer des sorts");
         spellCastingAbility = new ComboBox<Ability>("Caractéristique de sort");
-        List<Ability> allAbilities = abilityService.findAll();
+        Set<Ability> allAbilities = EnumSet.allOf(Ability.class);
         spellCastingAbility.setItems(allAbilities);
         spellCastingType = new RadioButtonGroup<SpellCastingType>("Sorts innés ou préparés");
         spellCastingType.setItems(EnumSet.allOf(SpellCastingType.class));
@@ -171,7 +165,7 @@ public class ClassForm
         armorProficiencies.getGrid().addColumn(ArmorType.ProficiencyType::getName).setCaption("Maitrise").setId("name");
         armorProficiencies.getGrid().setColumnOrder("name");
         armorProficiencies.setItems(Arrays.asList(ArmorType.ProficiencyType.values()));
-        armorProficiencies.setValue(new HashSet<ArmorType.ProficiencyType>()); // nothing selected
+        armorProficiencies.setValue(EnumSet.noneOf(ArmorType.ProficiencyType.class)); // nothing selected
         armorProficiencies.setWidth("50%");
 
         addAllSimpleWeapons = new Button("Armes simples", event -> {
@@ -215,7 +209,7 @@ public class ClassForm
         baseSkills.getGrid().addColumn(Skill::getName).setCaption("Compétence").setId("name");
         baseSkills.getGrid().addColumn(Skill::getKeyAbility).setCaption("Caractéristique clé").setId("keyAbility.name");
         baseSkills.getGrid().setColumnOrder("name", "keyAbility.name");
-        baseSkills.setItems(skillService.findAll());
+        baseSkills.setItems(EnumSet.allOf(Skill.class));
         baseSkills.setWidth("80%");
         baseSkills.setValue(new HashSet<Skill>()); // nothing selected
 

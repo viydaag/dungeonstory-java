@@ -15,10 +15,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import org.eclipse.persistence.annotations.JoinFetch;
-import org.eclipse.persistence.annotations.JoinFetchType;
-
 import com.dungeonstory.backend.data.WeaponType.UsageType;
+import com.dungeonstory.backend.data.enums.Ability;
+import com.dungeonstory.backend.data.enums.Condition;
+import com.dungeonstory.backend.data.enums.DamageType;
 
 @Entity
 @Table(name = "MonsterAction")
@@ -41,9 +41,12 @@ public class MonsterAction extends AbstractTimestampEntity implements Serializab
     @Column(name = "damage", nullable = false)
     private String damage;
 
+//    @NotNull
+//    @ManyToOne
+//    @JoinColumn(name = "damageTypeId", nullable = false)
     @NotNull
-    @ManyToOne
-    @JoinColumn(name = "damageTypeId", nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "damageType")
     private DamageType damageType;
 
     @Min(value = 0)
@@ -55,19 +58,23 @@ public class MonsterAction extends AbstractTimestampEntity implements Serializab
     @Column(name = "conditionName")
     private Condition condition;
 
-    @ManyToOne
-    @JoinFetch(JoinFetchType.OUTER)
-    @JoinColumn(name = "savingThrowAbilityId")
+//    @ManyToOne
+//    @JoinFetch(JoinFetchType.OUTER)
+//    @JoinColumn(name = "savingThrowAbilityId")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "savingThrowToCondition")
     private Ability savingThrowToCondition;
 
-    @NotNull
     @Pattern(regexp = "\\d+d\\d+([\\+\\-]\\d+)*")
     @Column(name = "extraDamage", nullable = false)
     private String extraDamage;
 
+//    @NotNull
+//    @ManyToOne
+//    @JoinColumn(name = "extraDamageTypeId", nullable = false)
     @NotNull
-    @ManyToOne
-    @JoinColumn(name = "extraDamageTypeId", nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "extraDamageType")
     private DamageType extraDamageType;
 
     @Column(name = "multiAttack")

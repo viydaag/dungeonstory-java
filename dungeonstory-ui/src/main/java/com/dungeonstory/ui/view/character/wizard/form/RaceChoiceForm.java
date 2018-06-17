@@ -1,8 +1,8 @@
 package com.dungeonstory.ui.view.character.wizard.form;
 
 import com.dungeonstory.backend.data.Character;
-import com.dungeonstory.backend.data.Language;
 import com.dungeonstory.backend.data.Race;
+import com.dungeonstory.backend.data.enums.Language;
 import com.dungeonstory.backend.service.DataService;
 import com.dungeonstory.backend.service.LanguageDataService;
 import com.dungeonstory.backend.service.Services;

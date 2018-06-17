@@ -1,14 +1,12 @@
 package com.dungeonstory.backend.repository;
 
-import java.util.List;
-
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.dungeonstory.backend.data.Spell;
+import com.dungeonstory.backend.TestWithBackend;
 import com.dungeonstory.backend.repository.impl.SpellRepository;
 
-public class SpellRepositoryTest {
+public class SpellRepositoryTest extends TestWithBackend {
 
     static SpellRepository repo;
 
@@ -25,7 +23,7 @@ public class SpellRepositoryTest {
 
     @Test
     public void findAllClassSpellsByLevelTest() {
-        List<Spell> spells = repo.findAllClassSpellsByLevel(0, 1L);
+        repo.findAllClassSpellsByLevel(0, 1L);
     }
 
     @Test

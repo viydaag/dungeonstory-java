@@ -289,6 +289,7 @@ public class ElementCollectionGrid<ET> extends AbstractElementCollection<ET, Lis
     @SuppressWarnings("unchecked")
     @Override
     protected Class<List<ET>> getContainerType() {
+        ensureInited();
         return (Class<List<ET>>) value.getClass();
     }
 

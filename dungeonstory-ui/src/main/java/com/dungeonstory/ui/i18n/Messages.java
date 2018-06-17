@@ -31,7 +31,9 @@ public final class Messages implements Serializable {
     }
 
     public static Messages getInstance(Locale locale) {
-        MESSAGES_MAP.putIfAbsent(locale, new Messages(locale));
+        synchronized(Messages.class) {
+            MESSAGES_MAP.putIfAbsent(locale, new Messages(locale));
+        }
         return MESSAGES_MAP.get(locale);
     }
 

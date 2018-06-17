@@ -397,7 +397,6 @@ public class ElementCollectionField<ET> extends AbstractElementCollection<ET, Li
                 public void onSave(ET entity) {
                     Binder<ET> beanBinder = getBinderFor(entity);
                     beanBinder.writeBeanIfValid(entity);
-                    // TODO refresh binding
                     popupEditor.getPopup().close();
                 }
             });

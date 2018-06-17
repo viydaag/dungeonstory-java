@@ -27,6 +27,5 @@ public class LoginService implements Serializable {
             throw new LoginException();
         }
         return user;
-        
     }
 }
